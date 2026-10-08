@@ -1,2 +1,2 @@
 # Security-Portfolio
-Collection of works over my career in the industry.
+A centralized collection of my works during my career.
