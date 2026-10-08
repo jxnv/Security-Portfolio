@@ -86,7 +86,7 @@
 
 ### The problem
 
-Your rule: *only the server has internet; the workstations gain no access of any kind.*
+*only the server has internet; the workstations gain no access of any kind.*
 LimaCharlie's sensor: *needs one outbound TCP/443 connection to a LimaCharlie domain, always.*
 
 These cannot both be 100% true. Documented facts that shape the options:
