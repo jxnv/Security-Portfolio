@@ -1,0 +1,11 @@
+# Title: File Encryption/Decryption Via Gpg4win From Suspicious Locations
+# ID: e1e0b7d7-e10b-4ee4-ac49-a4bda05d320d
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems), X__Junior (Nextron Systems)
+# Date: 2022-11-30
+# Tags: attack.execution
+# Description: Detects usage of Gpg4win to encrypt/decrypt files located in potentially suspicious locations.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((CommandLine contains "-passphrase") AND (((Image="*\\gpg.exe" OR Image="*\\gpg2.exe")) OR (Product equals "GNU Privacy Guard (GnuPG)") OR (Description equals "GnuPG’s OpenPGP tool")) AND ((CommandLine contains ":\\PerfLogs\\" OR CommandLine contains ":\\Temp\\" OR CommandLine contains ":\\Users\\Public\\" OR CommandLine contains ":\\Windows\\Temp\\" OR CommandLine contains "\\AppData\\Local\\Temp\\" OR CommandLine contains "\\AppData\\Roaming\\")))

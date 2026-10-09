@@ -1,0 +1,12 @@
+// Title: Suspicious Loading of Dbgcore/Dbghelp DLLs from Uncommon Location
+// ID: 416bc4a2-7217-4519-8dc7-c3271817f1d5
+// Status: experimental
+// Level: high
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-11-27
+// Tags: attack.credential-access, attack.defense-impairment, attack.t1003, attack.t1685
+// Description: Detects loading of dbgcore.dll or dbghelp.dll from uncommon locations such as user directories.
+// These DLLs contain the MiniDumpWriteDump function, which can be abused for credential dumping purposes or in some cases for evading EDR/AV detection by suspending processes.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((ImageLoaded endswithCIS "\\dbgcore.dll" OR ImageLoaded endswithCIS "\\dbghelp.dll")) AND ((src.process.image.path containsCIS ":\\Perflogs\\" OR src.process.image.path containsCIS ":\\Temp\\" OR src.process.image.path containsCIS ":\\Users\\Public\\" OR src.process.image.path containsCIS "\\$Recycle.Bin\\" OR src.process.image.path containsCIS "\\Contacts\\" OR src.process.image.path containsCIS "\\Documents\\" OR src.process.image.path containsCIS "\\Favorites\\" OR src.process.image.path containsCIS "\\Favourites\\" OR src.process.image.path containsCIS "\\inetpub\\wwwroot\\" OR src.process.image.path containsCIS "\\Music\\" OR src.process.image.path containsCIS "\\Pictures\\" OR src.process.image.path containsCIS "\\Start Menu\\Programs\\Startup\\" OR src.process.image.path containsCIS "\\Users\\Default\\" OR src.process.image.path containsCIS "\\Videos\\")))

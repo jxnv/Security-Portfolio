@@ -1,0 +1,12 @@
+// Title: Potential CommandLine Obfuscation Using Unicode Characters From Suspicious Image
+// ID: 584bca0f-3608-4402-80fd-4075ff6072e3
+// Status: test
+// Level: high
+// Author: frack113, Florian Roth (Nextron Systems), Josh Nickels
+// Date: 2024-09-02
+// Tags: attack.stealth, attack.t1027
+// Description: Detects potential commandline obfuscation using unicode characters.
+// Adversaries may attempt to make an executable or file difficult to discover or analyze by encrypting, encoding, or otherwise obfuscating its contents on the system or in transit.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(Image IENDSWITH "\\cmd.exe") OR where(Image IENDSWITH "\\cscript.exe") OR where(Image IENDSWITH "\\powershell.exe") OR where(Image IENDSWITH "\\powershell_ise.exe") OR where(Image IENDSWITH "\\pwsh.exe") OR where(Image IENDSWITH "\\wscript.exe")) AND (where(OriginalFileName = "Cmd.EXE") OR where(OriginalFileName = "cscript.exe") OR where(OriginalFileName = "PowerShell.EXE") OR where(OriginalFileName = "PowerShell_ISE.EXE") OR where(OriginalFileName = "pwsh.dll") OR where(OriginalFileName = "wscript.exe"))) AND ((where(CommandLine ICONTAINS "ˣ") OR where(CommandLine ICONTAINS "˪") OR where(CommandLine ICONTAINS "ˢ") OR where(CommandLine ICONTAINS "∕") OR where(CommandLine ICONTAINS "⁄") OR where(CommandLine ICONTAINS "―") OR where(CommandLine ICONTAINS "—") OR where(CommandLine ICONTAINS " ") OR where(CommandLine ICONTAINS "¯") OR where(CommandLine ICONTAINS "®") OR where(CommandLine ICONTAINS "¶") OR where(CommandLine ICONTAINS "⠀"))))

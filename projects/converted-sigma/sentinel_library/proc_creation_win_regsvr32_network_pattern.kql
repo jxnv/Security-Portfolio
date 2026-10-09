@@ -1,0 +1,11 @@
+// Title: Potentially Suspicious Regsvr32 HTTP/FTP Pattern
+// ID: 867356ee-9352-41c9-a8f2-1be690d78216
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems)
+// Date: 2023-05-24
+// Tags: attack.stealth, attack.t1218.010
+// Description: Detects regsvr32 execution to download/install/register new DLLs that are hosted on Web or FTP servers.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+DeviceProcessEvents | where (((ProcessCommandLine contains " /i" or ProcessCommandLine contains " -i")) and ((FolderPath endswith "\\regsvr32.exe") or (ProcessVersionInfoOriginalFileName == "REGSVR32.EXE")) and ((ProcessCommandLine contains "ftp" or ProcessCommandLine contains "http")))

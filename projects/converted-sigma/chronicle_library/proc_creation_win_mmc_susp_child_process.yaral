@@ -1,0 +1,23 @@
+// Title: MMC Spawning Windows Shell
+// ID: 05a2ab7e-ce11-4b63-86db-ab32e763e11d
+// Status: test
+// Level: high
+// Author: Karneades, Swisscom CSIRT
+// Date: 2019-08-05
+// Tags: attack.lateral-movement, attack.t1021.003
+// Description: Detects a Windows command line executable started from MMC
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 05a2ab7e_ce11_4b63_86db_ab32e763e11d {
+  meta:
+    title = "MMC Spawning Windows Shell"
+    description = "Detects a Windows command line executable started from MMC"
+    author = "Karneades, Swisscom CSIRT"
+    severity = "HIGH"
+
+  events:
+    (($e.principal.process.file.full_path = /.*\\mmc.exe$/ nocase) and ((($e.target.process.file.full_path = /.*\\cmd.exe$/ nocase or $e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase or $e.target.process.file.full_path = /.*\\wscript.exe$/ nocase or $e.target.process.file.full_path = /.*\\cscript.exe$/ nocase or $e.target.process.file.full_path = /.*\\sh.exe$/ nocase or $e.target.process.file.full_path = /.*\\bash.exe$/ nocase or $e.target.process.file.full_path = /.*\\reg.exe$/ nocase or $e.target.process.file.full_path = /.*\\regsvr32.exe$/ nocase)) or ($e.target.process.file.full_path = /.*\\BITSADMIN.*/ nocase)))
+
+  condition:
+    $e
+}

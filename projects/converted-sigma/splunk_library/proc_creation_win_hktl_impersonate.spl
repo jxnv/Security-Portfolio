@@ -1,0 +1,11 @@
+# Title: HackTool - Impersonate Execution
+# ID: cf0c254b-22f1-4b2b-8221-e137b3c0af94
+# Status: test
+# Level: medium
+# Author: Sai Prashanth Pulisetti @pulisettis
+# Date: 2022-12-21
+# Tags: attack.privilege-escalation, attack.stealth, attack.t1134.001, attack.t1134.003
+# Description: Detects execution of the Impersonate tool. Which can be used to manipulate tokens on a Windows computers remotely (PsExec/WmiExec) or interactively
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog (((process_exec="*impersonate.exe*") AND ((process_exec="* list *" OR process_exec="* exec *" OR process_exec="* adduser *"))) OR ((file_hash="*MD5=9520714AB576B0ED01D1513691377D01*" OR file_hash="*SHA256=E81CC96E2118DC4FBFE5BAD1604E0AC7681960143E2101E1A024D52264BB0A8A*" OR file_hash="*IMPHASH=0A358FFC1697B7A07D0E817AC740DF62*")))

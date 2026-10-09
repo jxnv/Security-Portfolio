@@ -1,0 +1,16 @@
+<!--
+  Title: Potential Persistence Via Powershell Search Order Hijacking - Task
+  ID: b66474aa-bd92-4333-a16c-298155b120df
+  Status: test
+  Level: high
+  Author: pH-T (Nextron Systems), Florian Roth (Nextron Systems)
+  Date: 2022-04-08
+  Description: Detects suspicious powershell execution via a schedule task where the command ends with an suspicious flags to hide the powershell instance instead of executeing scripts or commands. This could be a sign of persistence via PowerShell "Get-Variable" technique as seen being used in Colibri Loader
+-->
+
+<group name="sigma_converted,">
+  <rule id="100001" level="10">
+    <description>Potential Persistence Via Powershell Search Order Hijacking - Task</description>
+    <match>(ParentImage=\"C:\\\\WINDOWS\\\\System32\\\\svchost.exe\" AND (ParentCommandLine=\"*-k netsvcs*\" AND ParentCommandLine=\"*-s Sched</match>
+  </rule>
+</group>

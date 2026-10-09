@@ -1,0 +1,25 @@
+// Title: New TimeProviders Registered With Uncommon DLL Name
+// ID: e88a6ddc-74f7-463b-9b26-f69fc0d2ce85
+// Status: test
+// Level: high
+// Author: frack113
+// Date: 2022-06-19
+// Tags: attack.persistence, attack.privilege-escalation, attack.t1547.003
+// Description: Detects processes setting a new DLL in DllName in under HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\W32Time\TimeProvider.
+// Adversaries may abuse time providers to execute DLLs when the system boots.
+// The Windows Time service (W32Time) enables time synchronization across and within domains.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule e88a6ddc_74f7_463b_9b26_f69fc0d2ce85 {
+  meta:
+    title = "New TimeProviders Registered With Uncommon DLL Name"
+    description = "Detects processes setting a new DLL in DllName in under HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\W32Time\TimeProvider. Adversaries may abuse time providers to execute DLLs when the system boots. The Windows Time service (W32Time) enables time synchronization across and within domains."
+    author = "frack113"
+    severity = "HIGH"
+
+  events:
+    (($e.TargetObject = /.*\\Services\\W32Time\\TimeProviders.*/ nocase and $e.TargetObject = /.*\\DllName$/ nocase) and not((($e.Details = "%SystemRoot%\\System32\\vmictimeprovider.dll" or $e.Details = "%systemroot%\\system32\\w32time.dll" or $e.Details = "C:\\Windows\\SYSTEM32\\w32time.DLL"))))
+
+  condition:
+    $e
+}

@@ -1,0 +1,11 @@
+-- Title: Service Reload or Start - Linux
+-- ID: 2625cc59-0634-40d0-821e-cb67382a3dd7
+-- Status: test
+-- Level: low
+-- Author: Jakob Weinzettl, oscd.community, CheraghiMilad
+-- Date: 2019-09-23
+-- Tags: attack.privilege-escalation, attack.persistence, attack.t1543.002
+-- Description: Detects the start, reload or restart of a service.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM file WHERE (type = 'EXECVE' AND (a0 LIKE '%systemctl%' OR a0 LIKE '%service%') AND (a1 LIKE '%reload%' OR a1 LIKE '%start%'))

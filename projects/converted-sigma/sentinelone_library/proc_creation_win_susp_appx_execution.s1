@@ -1,0 +1,11 @@
+// Title: Potentially Suspicious Windows App Activity
+// ID: f91ed517-a6ba-471d-9910-b3b4a398c0f3
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-01-12
+// Tags: attack.stealth
+// Description: Detects potentially suspicious child process of applications launched from inside the WindowsApps directory. This could be a sign of a rogue ".appx" package installation/execution
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((src.process.parent.image.path containsCIS "C:\\Program Files\\WindowsApps\\") AND (((src.process.cmdline containsCIS "cmd /c" OR src.process.cmdline containsCIS "Invoke-" OR src.process.cmdline containsCIS "Base64")) OR ((src.process.image.path endswithCIS "\\cmd.exe" OR src.process.image.path endswithCIS "\\cscript.exe" OR src.process.image.path endswithCIS "\\mshta.exe" OR src.process.image.path endswithCIS "\\powershell.exe" OR src.process.image.path endswithCIS "\\powershell_ise.exe" OR src.process.image.path endswithCIS "\\pwsh.exe" OR src.process.image.path endswithCIS "\\regsvr32.exe" OR src.process.image.path endswithCIS "\\rundll32.exe" OR src.process.image.path endswithCIS "\\wscript.exe"))) AND NOT (((src.process.parent.image.path startswithCIS "C:\\Program Files\\WindowsApps\\Microsoft.SysinternalsSuite" AND src.process.image.path endswithCIS "\\cmd.exe") OR (src.process.parent.image.path containsCIS ":\\Program Files\\WindowsApps\\Microsoft.WindowsTerminal" AND src.process.parent.image.path endswithCIS "\\WindowsTerminal.exe" AND (src.process.image.path endswithCIS "\\powershell.exe" OR src.process.image.path endswithCIS "\\cmd.exe" OR src.process.image.path endswithCIS "\\pwsh.exe")))))

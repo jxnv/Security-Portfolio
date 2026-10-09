@@ -1,0 +1,23 @@
+// Title: Aruba Network Service Potential DLL Sideloading
+// ID: 90ae0469-0cee-4509-b67f-e5efcef040f7
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-01-22
+// Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.stealth, attack.t1574.001
+// Description: Detects potential DLL sideloading activity via the Aruba Networks Virtual Intranet Access "arubanetsvc.exe" process using DLL Search Order Hijacking
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 90ae0469_0cee_4509_b67f_e5efcef040f7 {
+  meta:
+    title = "Aruba Network Service Potential DLL Sideloading"
+    description = "Detects potential DLL sideloading activity via the Aruba Networks Virtual Intranet Access "arubanetsvc.exe" process using DLL Search Order Hijacking"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.file.full_path = /.*\\arubanetsvc.exe$/ nocase and ($e.ImageLoaded = /.*\\wtsapi32.dll$/ nocase or $e.ImageLoaded = /.*\\msvcr100.dll$/ nocase or $e.ImageLoaded = /.*\\msvcp100.dll$/ nocase or $e.ImageLoaded = /.*\\dbghelp.dll$/ nocase or $e.ImageLoaded = /.*\\dbgcore.dll$/ nocase or $e.ImageLoaded = /.*\\wininet.dll$/ nocase or $e.ImageLoaded = /.*\\iphlpapi.dll$/ nocase or $e.ImageLoaded = /.*\\version.dll$/ nocase or $e.ImageLoaded = /.*\\cryptsp.dll$/ nocase or $e.ImageLoaded = /.*\\cryptbase.dll$/ nocase or $e.ImageLoaded = /.*\\wldp.dll$/ nocase or $e.ImageLoaded = /.*\\profapi.dll$/ nocase or $e.ImageLoaded = /.*\\sspicli.dll$/ nocase or $e.ImageLoaded = /.*\\winsta.dll$/ nocase or $e.ImageLoaded = /.*\\dpapi.dll$/ nocase)) and not((($e.ImageLoaded = /^C:\\Windows\\System32\\.*/ nocase or $e.ImageLoaded = /^C:\\Windows\\SysWOW64\\.*/ nocase or $e.ImageLoaded = /^C:\\Windows\\WinSxS\\.*/ nocase))))
+
+  condition:
+    $e
+}

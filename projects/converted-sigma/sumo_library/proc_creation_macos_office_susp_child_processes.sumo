@@ -1,0 +1,11 @@
+// Title: Suspicious Microsoft Office Child Process - MacOS
+// ID: 69483748-1525-4a6c-95ca-90dc8d431b68
+// Status: test
+// Level: high
+// Author: Sohan G (D4rkCiph3r)
+// Date: 2023-01-31
+// Tags: attack.execution, attack.persistence, attack.t1059.002, attack.t1137.002, attack.t1204.002
+// Description: Detects suspicious child processes spawning from microsoft office suite applications such as word or excel. This could indicates malicious macro execution
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where ((ParentImage matches "*Microsoft Word*" or ParentImage matches "*Microsoft Excel*" or ParentImage matches "*Microsoft PowerPoint*" or ParentImage matches "*Microsoft OneNote*") and (Image matches "*/bash" or Image matches "*/curl" or Image matches "*/dash" or Image matches "*/fish" or Image matches "*/osacompile" or Image matches "*/osascript" or Image matches "*/sh" or Image matches "*/zsh" or Image matches "*/python" or Image matches "*/python3" or Image matches "*/wget"))

@@ -1,0 +1,19 @@
+# Title: Potential Direct Syscall of NtOpenProcess
+# ID: 3f3f3506-1895-401b-9cc3-e86b16e630d0
+# Status: test
+# Level: medium
+# Author: Christian Burkard (Nextron Systems), Tim Shelton (FP)
+# Date: 2021-07-28
+# Tags: attack.execution, attack.t1106
+# Description: Detects potential calls to NtOpenProcess directly from NTDLL.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Potential Direct Syscall of NtOpenProcess
+def rule(event):
+    # Detection Logic:
+    # ((CallTrace="UNKNOWN*") AND NOT ((((SourceImage="*:\\Program Files (x86)\\*" OR SourceImage="*:\\Program Files\\*" OR SourceImage="*:\\Windows\\System32\\*" OR SourceImage="*:\\Windows\\SysWOW64\\*" OR SourceImage="*:\\Windows\\WinSxS\\*") AND (TargetImage="*:\\Program Files (x86)\\*" OR TargetImage="*:\\Program Files\\*" OR TargetImage="*:\\Windows\\System32\\*" OR TargetImage="*:\\Windows\\SysWOW64\\*" OR TargetImage="*:\\Windows\\WinSxS\\*")) OR (Provider_Name="Microsoft-Windows-Kernel-Audit-API-Calls") OR (TargetImage="*vcredist_x64.exe" AND SourceImage="*vcredist_x64.exe"))) AND NOT (((SourceImage="*:\\Program Files\\Adobe\\Acrobat DC\\Acrobat\\*" AND SourceImage="*\\AcroCEF.exe" AND TargetImage="*:\\Program Files\\Adobe\\Acrobat DC\\Acrobat\\*" AND TargetImage="*\\AcroCEF.exe") OR (SourceImage="*AmazonSSMAgentSetup.exe" AND TargetImage="*AmazonSSMAgentSetup.exe") OR (SourceImage="*:\\Windows\\Explorer.EXE" AND TargetImage="*:\\Program Files\\Cylance\\Desktop\\CylanceUI.exe") OR (TargetImage="*\\AppData\\Local\\Discord\\*" AND TargetImage="*\\Discord.exe") OR (TargetImage="*\\Evernote\\Evernote.exe") OR (TargetImage="*\\AppData\\Local\\Microsoft\\Teams\\current\\Teams.exe" AND SourceImage="*\\AppData\\Local\\Microsoft\\Teams\\current\\Teams.exe") OR (TargetImage="*:\\Windows\\system32\\systeminfo.exe" AND SourceImage="*setup64.exe") OR (SourceImage="*\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe" AND TargetImage="*\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe") OR (SourceImage="*\\AppData\\Local\\yammerdesktop\\app-*" AND SourceImage="*\\Yammer.exe" AND TargetImage="*\\AppData\\Local\\yammerdesktop\\app-*" AND TargetImage="*\\Yammer.exe" AND GrantedAccess="0x1000"))))
+    return True
+
+def title(event):
+    return "Potential Direct Syscall of NtOpenProcess"
+

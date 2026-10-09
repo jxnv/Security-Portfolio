@@ -1,0 +1,11 @@
+// Title: Potential SysInternals ProcDump Evasion
+// ID: 79b06761-465f-4f88-9ef2-150e24d3d737
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-01-11
+// Tags: attack.stealth, attack.t1036, attack.t1003.001, attack.credential-access
+// Description: Detects uses of the SysInternals ProcDump utility in which ProcDump or its output get renamed, or a dump file is moved or copied to a different name
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where (((process.command_line like "*_copy procdump*" or process.command_line like "*_move procdump*")) or ((process.command_line like "*_copy *" and process.command_line like "*_.dmp *") and (process.command_line like "*_2.dmp*" or process.command_line like "*_lsass*" or process.command_line like "*_out.dmp*")) or ((process.command_line like "*_copy lsass.exe_*" or process.command_line like "*_move lsass.exe_*")))

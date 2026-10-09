@@ -1,0 +1,12 @@
+// Title: Python One-Liners with Base64 Decoding - Linux
+// ID: 55e862a8-dd9c-4651-807a-f21fcad56716
+// Status: experimental
+// Level: high
+// Author: Hugh Ryan (HueCodes), Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2026-03-09
+// Tags: attack.execution, attack.stealth, attack.t1059.006, attack.t1027.010
+// Description: Detects the use of Python's base64 decoding functions in command line executions on Linux systems.
+// Malicious scripts often use python one-liners to decode and execute base64-encoded payloads, which is a common technique for obfuscation and evasion.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE (((process.command_line LIKE "%import%" AND process.command_line LIKE "%base64%" AND process.command_line LIKE "% -c%") AND (process.command_line LIKE "%.decode%" OR process.command_line LIKE "%b16decode%" OR process.command_line LIKE "%b32decode%" OR process.command_line LIKE "%b32hexdecode%" OR process.command_line LIKE "%b64decode%" OR process.command_line LIKE "%b85decode%" OR process.command_line LIKE "%z85decode%")) AND (process.executable LIKE "%/python%"))

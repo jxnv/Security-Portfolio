@@ -1,0 +1,14 @@
+// Title: MSHTA Execution with Suspicious File Extensions
+// ID: cc7abbd0-762b-41e3-8a26-57ad50d2eea3
+// Status: test
+// Level: high
+// Author: Diego Perez (@darkquassar), Markus Neis, Swisscom (Improve Rule), Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2019-02-22
+// Tags: attack.stealth, attack.t1140, attack.t1218.005, attack.execution, attack.t1059.007, cve.2020-1599
+// Description: Detects execution of mshta.exe with file types that looks like they do not typically represent HTA (HTML Application) content,
+// such as .png, .jpg, .zip, .pdf, and others, which are often polyglots. MSHTA is a legitimate Windows utility for executing HTML Applications
+// containing VBScript or JScript. Threat actors often abuse this lolbin utility to download and
+// execute malicious scripts disguised as benign files or hosted under misleading extensions to evade detection.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where (((process.command_line like "*_.7z*" or process.command_line like "*_.avi*" or process.command_line like "*_.bat*" or process.command_line like "*_.bmp*" or process.command_line like "*_.conf*" or process.command_line like "*_.csv*" or process.command_line like "*_.dll*" or process.command_line like "*_.doc*" or process.command_line like "*_.gif*" or process.command_line like "*_.gz*" or process.command_line like "*_.ini*" or process.command_line like "*_.jpe*" or process.command_line like "*_.jpg*" or process.command_line like "*_.json*" or process.command_line like "*_.lnk*" or process.command_line like "*_.log*" or process.command_line like "*_.mkv*" or process.command_line like "*_.mp3*" or process.command_line like "*_.mp4*" or process.command_line like "*_.pdf*" or process.command_line like "*_.png*" or process.command_line like "*_.ppt*" or process.command_line like "*_.rar*" or process.command_line like "*_.rtf*" or process.command_line like "*_.svg*" or process.command_line like "*_.tar*" or process.command_line like "*_.tmp*" or process.command_line like "*_.txt*" or process.command_line like "*_.xls*" or process.command_line like "*_.xml*" or process.command_line like "*_.yaml*" or process.command_line like "*_.yml*" or process.command_line like "*_.zip*" or process.command_line like "*_vbscript*")) and ((process.executable endswith "\\mshta.exe") or (process.pe.original_file_name == "mshta.exe")))

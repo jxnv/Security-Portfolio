@@ -1,0 +1,19 @@
+# Title: New Outlook Macro Created
+# ID: 8c31f563-f9a7-450c-bfa8-35f8f32f1f61
+# Status: test
+# Level: medium
+# Author: @ScoubiMtl
+# Date: 2021-04-05
+# Tags: attack.privilege-escalation, attack.persistence, attack.command-and-control, attack.t1137, attack.t1008, attack.t1546
+# Description: Detects the creation of a macro file for Outlook.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: New Outlook Macro Created
+def rule(event):
+    # Detection Logic:
+    # (Image="*\\outlook.exe" AND TargetFilename="*\\Microsoft\\Outlook\\VbaProject.OTM")
+    return True
+
+def title(event):
+    return "New Outlook Macro Created"
+

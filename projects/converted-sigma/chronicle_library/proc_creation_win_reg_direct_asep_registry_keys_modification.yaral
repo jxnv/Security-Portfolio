@@ -1,0 +1,23 @@
+// Title: Direct Autorun Keys Modification
+// ID: 24357373-078f-44ed-9ac4-6d334a668a11
+// Status: test
+// Level: medium
+// Author: Victor Sergeev, Daniil Yugoslavskiy, oscd.community, Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2019-10-25
+// Tags: attack.privilege-escalation, attack.persistence, attack.t1547.001
+// Description: Detects direct modification of autostart extensibility point (ASEP) in registry using reg.exe.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 24357373_078f_44ed_9ac4_6d334a668a11 {
+  meta:
+    title = "Direct Autorun Keys Modification"
+    description = "Detects direct modification of autostart extensibility point (ASEP) in registry using reg.exe."
+    author = "Victor Sergeev, Daniil Yugoslavskiy, oscd.community, Swachchhanda Shrawan Poudel (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.process.command_line = /.*add.*/ nocase) and (($e.target.process.command_line = /.*\\software\\Microsoft\\Windows\\CurrentVersion\\Run.*/ nocase or $e.target.process.command_line = /.*\\software\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Run.*/ nocase or $e.target.process.command_line = /.*\\software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run.*/ nocase or $e.target.process.command_line = /.*\\software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\Userinit.*/ nocase or $e.target.process.command_line = /.*\\software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\Shell.*/ nocase or $e.target.process.command_line = /.*\\software\\Microsoft\\Windows NT\\CurrentVersion\\Windows.*/ nocase or $e.target.process.command_line = /.*\\system\\CurrentControlSet\\Control\\SafeBoot\\AlternateShell.*/ nocase)) and (($e.target.process.file.full_path = /.*\\reg.exe$/ nocase) or ($e.target.process.file.name = "reg.exe")))
+
+  condition:
+    $e
+}

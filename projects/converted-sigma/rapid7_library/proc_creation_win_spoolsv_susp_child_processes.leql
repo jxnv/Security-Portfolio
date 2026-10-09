@@ -1,0 +1,11 @@
+// Title: Suspicious Spool Service Child Process
+// ID: dcdbc940-0bff-46b2-95f3-2d73f848e33b
+// Status: test
+// Level: high
+// Author: Justin C. (@endisphotic), @dreadphones (detection), Thomas Patzke (Sigma rule)
+// Date: 2021-07-11
+// Tags: attack.execution, attack.t1203, attack.privilege-escalation, attack.t1068
+// Description: Detects suspicious print spool service (spoolsv.exe) child processes.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((where(ParentImage IENDSWITH "\\spoolsv.exe") AND (where(IntegrityLevel = "System") OR where(IntegrityLevel = "S-1-16-16384"))) AND (((where(Image IENDSWITH "\\gpupdate.exe") OR where(Image IENDSWITH "\\whoami.exe") OR where(Image IENDSWITH "\\nltest.exe") OR where(Image IENDSWITH "\\taskkill.exe") OR where(Image IENDSWITH "\\wmic.exe") OR where(Image IENDSWITH "\\taskmgr.exe") OR where(Image IENDSWITH "\\sc.exe") OR where(Image IENDSWITH "\\findstr.exe") OR where(Image IENDSWITH "\\curl.exe") OR where(Image IENDSWITH "\\wget.exe") OR where(Image IENDSWITH "\\certutil.exe") OR where(Image IENDSWITH "\\bitsadmin.exe") OR where(Image IENDSWITH "\\accesschk.exe") OR where(Image IENDSWITH "\\wevtutil.exe") OR where(Image IENDSWITH "\\bcdedit.exe") OR where(Image IENDSWITH "\\fsutil.exe") OR where(Image IENDSWITH "\\cipher.exe") OR where(Image IENDSWITH "\\schtasks.exe") OR where(Image IENDSWITH "\\write.exe") OR where(Image IENDSWITH "\\wuauclt.exe") OR where(Image IENDSWITH "\\systeminfo.exe") OR where(Image IENDSWITH "\\reg.exe") OR where(Image IENDSWITH "\\query.exe"))) OR (((where(Image IENDSWITH "\\net.exe") OR where(Image IENDSWITH "\\net1.exe"))) AND NOT ((where(CommandLine ICONTAINS "start")))) OR ((where(Image IENDSWITH "\\cmd.exe")) AND NOT (((where(CommandLine ICONTAINS ".spl") OR where(CommandLine ICONTAINS "route add") OR where(CommandLine ICONTAINS "program files"))))) OR ((where(Image IENDSWITH "\\netsh.exe")) AND NOT (((where(CommandLine ICONTAINS "add portopening") OR where(CommandLine ICONTAINS "rule name"))))) OR (((where(Image IENDSWITH "\\powershell.exe") OR where(Image IENDSWITH "\\pwsh.exe"))) AND NOT ((where(CommandLine ICONTAINS ".spl")))) OR ((where(CommandLine IENDSWITH "rundll32.exe")) AND ((where(Image IENDSWITH "\\rundll32.exe")) OR (where(OriginalFileName = "RUNDLL32.EXE"))))))

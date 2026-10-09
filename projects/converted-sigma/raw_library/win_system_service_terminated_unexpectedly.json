@@ -1,0 +1,34 @@
+{
+  "title": "Important Windows Service Terminated Unexpectedly",
+  "id": "56abae0c-6212-4b97-adc0-0b559bb950c3",
+  "status": "test",
+  "description": "Detects important or interesting Windows services that got terminated unexpectedly.",
+  "author": "Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2023-04-14",
+  "tags": [
+    "attack.stealth"
+  ],
+  "level": "high",
+  "logsource": {
+    "product": "windows",
+    "service": "system"
+  },
+  "detection": {
+    "selection_eid": {
+      "Provider_Name": "Service Control Manager",
+      "EventID": 7034
+    },
+    "selection_name": [
+      {
+        "param1|contains": "Message Queuing"
+      },
+      {
+        "Binary|contains": [
+          "4d0053004d005100",
+          "6d0073006d007100"
+        ]
+      }
+    ],
+    "condition": "all of selection_*"
+  }
+}

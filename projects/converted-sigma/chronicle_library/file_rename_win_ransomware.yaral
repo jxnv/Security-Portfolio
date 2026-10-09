@@ -1,0 +1,23 @@
+// Title: Suspicious Appended Extension
+// ID: e3f673b3-65d1-4d80-9146-466f8b63fa99
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-07-16
+// Tags: attack.impact, attack.t1486
+// Description: Detects file renames where the target filename uses an uncommon double extension. Could indicate potential ransomware activity renaming files and adding a custom extension to the encrypted files, such as ".jpg.crypted", ".docx.locky", etc.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule e3f673b3_65d1_4d80_9146_466f8b63fa99 {
+  meta:
+    title = "Suspicious Appended Extension"
+    description = "Detects file renames where the target filename uses an uncommon double extension. Could indicate potential ransomware activity renaming files and adding a custom extension to the encrypted files, such as ".jpg.crypted", ".docx.locky", etc."
+    author = "frack113"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.SourceFilename = /.*.doc$/ nocase or $e.SourceFilename = /.*.docx$/ nocase or $e.SourceFilename = /.*.jpeg$/ nocase or $e.SourceFilename = /.*.jpg$/ nocase or $e.SourceFilename = /.*.lnk$/ nocase or $e.SourceFilename = /.*.pdf$/ nocase or $e.SourceFilename = /.*.png$/ nocase or $e.SourceFilename = /.*.pst$/ nocase or $e.SourceFilename = /.*.rtf$/ nocase or $e.SourceFilename = /.*.xls$/ nocase or $e.SourceFilename = /.*.xlsx$/ nocase) and ($e.target.file.full_path = /.*.doc..*/ nocase or $e.target.file.full_path = /.*.docx..*/ nocase or $e.target.file.full_path = /.*.jpeg..*/ nocase or $e.target.file.full_path = /.*.jpg..*/ nocase or $e.target.file.full_path = /.*.lnk..*/ nocase or $e.target.file.full_path = /.*.pdf..*/ nocase or $e.target.file.full_path = /.*.png..*/ nocase or $e.target.file.full_path = /.*.pst..*/ nocase or $e.target.file.full_path = /.*.rtf..*/ nocase or $e.target.file.full_path = /.*.xls..*/ nocase or $e.target.file.full_path = /.*.xlsx..*/ nocase)) and not((($e.target.file.full_path = /.*.backup$/ nocase or $e.target.file.full_path = /.*.bak$/ nocase or $e.target.file.full_path = /.*.old$/ nocase or $e.target.file.full_path = /.*.orig$/ nocase or $e.target.file.full_path = /.*.temp$/ nocase or $e.target.file.full_path = /.*.tmp$/ nocase))) and not(($e.target.file.full_path = /.*:\\ProgramData\\Anaconda3\\.*/ nocase and $e.target.file.full_path = /.*.c~$/ nocase)))
+
+  condition:
+    $e
+}

@@ -1,0 +1,12 @@
+// Title: Legitimate Application Dropped Script
+// ID: 7d604714-e071-49ff-8726-edeb95a70679
+// Status: test
+// Level: high
+// Author: frack113, Florian Roth (Nextron Systems)
+// Date: 2022-08-21
+// Tags: attack.stealth, attack.t1218
+// Description: Detects LOLBINs and applications that should not legitimately drop script files to disk.
+// This may indicate malware staging or abuse of a trusted binary for script-based code execution.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+DeviceProcessEvents | where (((FolderPath endswith "\\eqnedt32.exe" or FolderPath endswith "\\wordpad.exe" or FolderPath endswith "\\wordview.exe" or FolderPath endswith "\\certutil.exe" or FolderPath endswith "\\certoc.exe" or FolderPath endswith "\\CertReq.exe" or FolderPath endswith "\\Desktopimgdownldr.exe" or FolderPath endswith "\\esentutl.exe" or FolderPath endswith "\\mshta.exe" or FolderPath endswith "\\AcroRd32.exe" or FolderPath endswith "\\RdrCEF.exe" or FolderPath endswith "\\hh.exe" or FolderPath endswith "\\finger.exe") and (FileName endswith ".bat" or FileName endswith ".chm" or FileName endswith ".csproj" or FileName endswith ".hta" or FileName endswith ".js" or FileName endswith ".jse" or FileName endswith ".proj" or FileName endswith ".ps1" or FileName endswith ".py" or FileName endswith ".scf" or FileName endswith ".vbe" or FileName endswith ".vbs" or FileName endswith ".wsf" or FileName endswith ".wsh")) and not((FolderPath endswith "\\mshta.exe" and FileName endswith ".hta")))

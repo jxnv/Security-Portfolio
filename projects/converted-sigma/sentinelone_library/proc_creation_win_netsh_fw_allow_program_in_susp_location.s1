@@ -1,0 +1,11 @@
+// Title: Suspicious Program Location Whitelisted In Firewall Via Netsh.EXE
+// ID: a35f5a72-f347-4e36-8895-9869b0d5fc6d
+// Status: test
+// Level: high
+// Author: Sander Wiebing, Jonhnathan Ribeiro, Daniil Yugoslavskiy, oscd.community
+// Date: 2020-05-25
+// Tags: attack.defense-impairment, attack.t1686.003
+// Description: Detects Netsh command execution that whitelists a program located in a suspicious location in the Windows Firewall
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((src.process.cmdline containsCIS "firewall" AND src.process.cmdline containsCIS "add" AND src.process.cmdline containsCIS "allowedprogram")) OR ((src.process.cmdline containsCIS "advfirewall" AND src.process.cmdline containsCIS "firewall" AND src.process.cmdline containsCIS "add" AND src.process.cmdline containsCIS "rule" AND src.process.cmdline containsCIS "action=allow" AND src.process.cmdline containsCIS "program="))) AND ((src.process.image.path endswithCIS "\\netsh.exe") OR (OriginalFileName = "netsh.exe")) AND ((src.process.cmdline containsCIS ":\\$Recycle.bin\\" OR src.process.cmdline containsCIS ":\\RECYCLER.BIN\\" OR src.process.cmdline containsCIS ":\\RECYCLERS.BIN\\" OR src.process.cmdline containsCIS ":\\SystemVolumeInformation\\" OR src.process.cmdline containsCIS ":\\Temp\\" OR src.process.cmdline containsCIS ":\\Users\\Default\\" OR src.process.cmdline containsCIS ":\\Users\\Desktop\\" OR src.process.cmdline containsCIS ":\\Users\\Public\\" OR src.process.cmdline containsCIS ":\\Windows\\addins\\" OR src.process.cmdline containsCIS ":\\Windows\\cursors\\" OR src.process.cmdline containsCIS ":\\Windows\\debug\\" OR src.process.cmdline containsCIS ":\\Windows\\drivers\\" OR src.process.cmdline containsCIS ":\\Windows\\fonts\\" OR src.process.cmdline containsCIS ":\\Windows\\help\\" OR src.process.cmdline containsCIS ":\\Windows\\system32\\tasks\\" OR src.process.cmdline containsCIS ":\\Windows\\Tasks\\" OR src.process.cmdline containsCIS ":\\Windows\\Temp\\" OR src.process.cmdline containsCIS "\\Downloads\\" OR src.process.cmdline containsCIS "\\Local Settings\\Temporary Internet Files\\" OR src.process.cmdline containsCIS "\\Temporary Internet Files\\Content.Outlook\\" OR src.process.cmdline containsCIS "%Public%\\" OR src.process.cmdline containsCIS "%TEMP%" OR src.process.cmdline containsCIS "%TMP%")))

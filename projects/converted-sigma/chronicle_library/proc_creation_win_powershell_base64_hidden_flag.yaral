@@ -1,0 +1,23 @@
+// Title: Malicious Base64 Encoded PowerShell Keywords in Command Lines
+// ID: f26c6093-6f14-4b12-800f-0fcb46f5ffd0
+// Status: test
+// Level: high
+// Author: John Lambert (rule)
+// Date: 2019-01-16
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects base64 encoded strings used in hidden malicious PowerShell command lines
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule f26c6093_6f14_4b12_800f_0fcb46f5ffd0 {
+  meta:
+    title = "Malicious Base64 Encoded PowerShell Keywords in Command Lines"
+    description = "Detects base64 encoded strings used in hidden malicious PowerShell command lines"
+    author = "John Lambert (rule)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*AGkAdABzAGEAZABtAGkAbgAgAC8AdAByAGEAbgBzAGYAZQByA.*/ nocase or $e.target.process.command_line = /.*aXRzYWRtaW4gL3RyYW5zZmVy.*/ nocase or $e.target.process.command_line = /.*IAaQB0AHMAYQBkAG0AaQBuACAALwB0AHIAYQBuAHMAZgBlAHIA.*/ nocase or $e.target.process.command_line = /.*JpdHNhZG1pbiAvdHJhbnNmZX.*/ nocase or $e.target.process.command_line = /.*YgBpAHQAcwBhAGQAbQBpAG4AIAAvAHQAcgBhAG4AcwBmAGUAcg.*/ nocase or $e.target.process.command_line = /.*Yml0c2FkbWluIC90cmFuc2Zlc.*/ nocase or $e.target.process.command_line = /.*AGMAaAB1AG4AawBfAHMAaQB6AGUA.*/ nocase or $e.target.process.command_line = /.*JABjAGgAdQBuAGsAXwBzAGkAegBlA.*/ nocase or $e.target.process.command_line = /.*JGNodW5rX3Npem.*/ nocase or $e.target.process.command_line = /.*QAYwBoAHUAbgBrAF8AcwBpAHoAZQ.*/ nocase or $e.target.process.command_line = /.*RjaHVua19zaXpl.*/ nocase or $e.target.process.command_line = /.*Y2h1bmtfc2l6Z.*/ nocase or $e.target.process.command_line = /.*AE8ALgBDAG8AbQBwAHIAZQBzAHMAaQBvAG4A.*/ nocase or $e.target.process.command_line = /.*kATwAuAEMAbwBtAHAAcgBlAHMAcwBpAG8Abg.*/ nocase or $e.target.process.command_line = /.*lPLkNvbXByZXNzaW9u.*/ nocase or $e.target.process.command_line = /.*SQBPAC4AQwBvAG0AcAByAGUAcwBzAGkAbwBuA.*/ nocase or $e.target.process.command_line = /.*SU8uQ29tcHJlc3Npb2.*/ nocase or $e.target.process.command_line = /.*Ty5Db21wcmVzc2lvb.*/ nocase or $e.target.process.command_line = /.*AE8ALgBNAGUAbQBvAHIAeQBTAHQAcgBlAGEAbQ.*/ nocase or $e.target.process.command_line = /.*kATwAuAE0AZQBtAG8AcgB5AFMAdAByAGUAYQBtA.*/ nocase or $e.target.process.command_line = /.*lPLk1lbW9yeVN0cmVhb.*/ nocase or $e.target.process.command_line = /.*SQBPAC4ATQBlAG0AbwByAHkAUwB0AHIAZQBhAG0A.*/ nocase or $e.target.process.command_line = /.*SU8uTWVtb3J5U3RyZWFt.*/ nocase or $e.target.process.command_line = /.*Ty5NZW1vcnlTdHJlYW.*/ nocase or $e.target.process.command_line = /.*4ARwBlAHQAQwBoAHUAbgBrA.*/ nocase or $e.target.process.command_line = /.*5HZXRDaHVua.*/ nocase or $e.target.process.command_line = /.*AEcAZQB0AEMAaAB1AG4Aaw.*/ nocase or $e.target.process.command_line = /.*LgBHAGUAdABDAGgAdQBuAGsA.*/ nocase or $e.target.process.command_line = /.*LkdldENodW5r.*/ nocase or $e.target.process.command_line = /.*R2V0Q2h1bm.*/ nocase or $e.target.process.command_line = /.*AEgAUgBFAEEARABfAEkATgBGAE8ANgA0A.*/ nocase or $e.target.process.command_line = /.*QASABSAEUAQQBEAF8ASQBOAEYATwA2ADQA.*/ nocase or $e.target.process.command_line = /.*RIUkVBRF9JTkZPNj.*/ nocase or $e.target.process.command_line = /.*SFJFQURfSU5GTzY0.*/ nocase or $e.target.process.command_line = /.*VABIAFIARQBBAEQAXwBJAE4ARgBPADYANA.*/ nocase or $e.target.process.command_line = /.*VEhSRUFEX0lORk82N.*/ nocase or $e.target.process.command_line = /.*AHIAZQBhAHQAZQBSAGUAbQBvAHQAZQBUAGgAcgBlAGEAZA.*/ nocase or $e.target.process.command_line = /.*cmVhdGVSZW1vdGVUaHJlYW.*/ nocase or $e.target.process.command_line = /.*MAcgBlAGEAdABlAFIAZQBtAG8AdABlAFQAaAByAGUAYQBkA.*/ nocase or $e.target.process.command_line = /.*NyZWF0ZVJlbW90ZVRocmVhZ.*/ nocase or $e.target.process.command_line = /.*Q3JlYXRlUmVtb3RlVGhyZWFk.*/ nocase or $e.target.process.command_line = /.*QwByAGUAYQB0AGUAUgBlAG0AbwB0AGUAVABoAHIAZQBhAGQA.*/ nocase or $e.target.process.command_line = /.*0AZQBtAG0AbwB2AGUA.*/ nocase or $e.target.process.command_line = /.*1lbW1vdm.*/ nocase or $e.target.process.command_line = /.*AGUAbQBtAG8AdgBlA.*/ nocase or $e.target.process.command_line = /.*bQBlAG0AbQBvAHYAZQ.*/ nocase or $e.target.process.command_line = /.*bWVtbW92Z.*/ nocase or $e.target.process.command_line = /.*ZW1tb3Zl.*/ nocase)) and ($e.target.process.command_line = /.* hidden .*/ nocase) and ((($e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase)) or (($e.target.process.file.name = "PowerShell.EXE" or $e.target.process.file.name = "pwsh.dll"))))
+
+  condition:
+    $e
+}

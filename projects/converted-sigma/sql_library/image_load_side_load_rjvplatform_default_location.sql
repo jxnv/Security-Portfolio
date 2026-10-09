@@ -1,0 +1,11 @@
+-- Title: Potential RjvPlatform.DLL Sideloading From Default Location
+-- ID: 259dda31-b7a3-444f-b7d8-17f96e8a7d0d
+-- Status: test
+-- Level: medium
+-- Author: X__Junior (Nextron Systems)
+-- Date: 2023-06-09
+-- Tags: attack.persistence, attack.privilege-escalation, attack.execution, attack.stealth, attack.t1574.001
+-- Description: Detects loading of "RjvPlatform.dll" by the "SystemResetPlatform.exe" binary which can be abused as a method of DLL side loading since the "$SysReset" directory isn't created by default.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE (Image = 'C:\\Windows\\System32\\SystemResetPlatform\\SystemResetPlatform.exe' AND ImageLoaded = 'C:\\$SysReset\\Framework\\Stack\\RjvPlatform.dll')

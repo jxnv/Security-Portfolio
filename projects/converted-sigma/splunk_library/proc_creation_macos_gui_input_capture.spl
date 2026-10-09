@@ -1,0 +1,11 @@
+# Title: GUI Input Capture - macOS
+# ID: 60f1ce20-484e-41bd-85f4-ac4afec2c541
+# Status: test
+# Level: low
+# Author: remotephone, oscd.community
+# Date: 2020-10-13
+# Tags: attack.collection, attack.credential-access, attack.t1056.002
+# Description: Detects attempts to use system dialog prompts to capture user credentials
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* (((process_exec="*-e*" AND process_exec="*display*" AND process_exec="*dialog*" AND process_exec="*answer*")) AND ((process_exec="*admin*" OR process_exec="*administrator*" OR process_exec="*authenticate*" OR process_exec="*authentication*" OR process_exec="*credentials*" OR process_exec="*pass*" OR process_exec="*password*" OR process_exec="*unlock*")) AND (process_path="*/osascript"))

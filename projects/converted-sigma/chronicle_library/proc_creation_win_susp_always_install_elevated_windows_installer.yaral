@@ -1,0 +1,23 @@
+// Title: Always Install Elevated Windows Installer
+// ID: cd951fdc-4b2f-47f5-ba99-a33bf61e3770
+// Status: test
+// Level: medium
+// Author: Teymur Kheirkhabarov (idea), Mangatas Tondang (rule), oscd.community
+// Date: 2020-10-13
+// Tags: attack.privilege-escalation, attack.t1548.002
+// Description: Detects Windows Installer service (msiexec.exe) trying to install MSI packages with SYSTEM privilege
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule cd951fdc_4b2f_47f5_ba99_a33bf61e3770 {
+  meta:
+    title = "Always Install Elevated Windows Installer"
+    description = "Detects Windows Installer service (msiexec.exe) trying to install MSI packages with SYSTEM privilege"
+    author = "Teymur Kheirkhabarov (idea), Mangatas Tondang (rule), oscd.community"
+    severity = "MEDIUM"
+
+  events:
+    (((($e.target.process.file.full_path = /.*\\Windows\\Installer\\.*/ nocase and $e.target.process.file.full_path = /.*msi.*/ nocase) and $e.target.process.file.full_path = /.*tmp$/ nocase) or ($e.target.process.file.full_path = /.*\\msiexec.exe$/ nocase and ($e.IntegrityLevel = "System" or $e.IntegrityLevel = "S-1-16-16384"))) and (($e.target.user.userid = /.*AUTHORI.*/ nocase or $e.target.user.userid = /.*AUTORI.*/ nocase)) and not(((($e.principal.process.file.full_path = /^C:\\Program Files\\Avast Software\\.*/ nocase or $e.principal.process.file.full_path = /^C:\\Program Files (x86)\\Avast Software\\.*/ nocase)) or ($e.principal.process.file.full_path = /^C:\\ProgramData\\Avira\\.*/ nocase) or (($e.principal.process.file.full_path = /^C:\\Program Files\\Google\\Update\\.*/ nocase or $e.principal.process.file.full_path = /^C:\\Program Files (x86)\\Google\\Update\\.*/ nocase)) or ($e.principal.process.file.full_path = "C:\\Windows\\System32\\services.exe") or (($e.target.process.command_line = /.*\\system32\\msiexec.exe /V$/ nocase) or ($e.principal.process.command_line = /.*\\system32\\msiexec.exe /V$/ nocase)) or ($e.principal.process.file.full_path = /^C:\\ProgramData\\Sophos\\.*/ nocase))))
+
+  condition:
+    $e
+}

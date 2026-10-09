@@ -1,0 +1,12 @@
+// Title: Potentially Suspicious Wuauclt Network Connection
+// ID: c649a6c7-cd8c-4a78-9c04-000fc76df954
+// Status: test
+// Level: medium
+// Author: Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research)
+// Date: 2020-10-12
+// Tags: attack.stealth, attack.t1218
+// Description: Detects the use of the Windows Update Client binary (wuauclt.exe) to proxy execute code and making network connections.
+// One could easily make the DLL spawn a new process and inject to it to proxy the network connection and bypass this rule.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+network where ((process.executable like "*_wuauclt*" and process.command_line like "*_ /RunHandlerComServer*") and not (((process.command_line == "") or (process.command_line == null) or ((cidrmatch("127.0.0.0/8", destination.ip) or cidrmatch("10.0.0.0/8", destination.ip) or cidrmatch("169.254.0.0/16", destination.ip) or cidrmatch("172.16.0.0/12", destination.ip) or cidrmatch("192.168.0.0/16", destination.ip) or cidrmatch("::1/128", destination.ip) or cidrmatch("fe80::/10", destination.ip) or cidrmatch("fc00::/7", destination.ip))) or ((cidrmatch("20.184.0.0/13", destination.ip) or cidrmatch("20.192.0.0/10", destination.ip) or cidrmatch("23.79.0.0/16", destination.ip) or cidrmatch("51.10.0.0/15", destination.ip) or cidrmatch("51.103.0.0/16", destination.ip) or cidrmatch("51.104.0.0/15", destination.ip) or cidrmatch("52.224.0.0/11", destination.ip))) or ((process.command_line like "*_:\\Windows\\UUS\\Packages\\Preview\\amd64\\updatedeploy.dll /ClassId*" or process.command_line like "*_:\\Windows\\UUS\\amd64\\UpdateDeploy.dll /ClassId*")) or ((process.command_line like "*_:\\Windows\\WinSxS\\*" and process.command_line like "*_\\UpdateDeploy.dll /ClassId *")))))

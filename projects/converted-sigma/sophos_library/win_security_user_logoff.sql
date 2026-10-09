@@ -1,0 +1,11 @@
+-- Title: User Logoff Event
+-- ID: 0badd08f-c6a3-4630-90d3-6875cca440be
+-- Status: test
+-- Level: informational
+-- Author: frack113
+-- Date: 2022-10-14
+-- Tags: attack.impact, attack.t1531
+-- Description: Detects a user log-off activity. Could be used for example to correlate information during forensic investigations
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE ((EventID = 4634 OR EventID = 4647))

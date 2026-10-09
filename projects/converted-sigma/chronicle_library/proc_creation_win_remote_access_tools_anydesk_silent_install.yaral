@@ -1,0 +1,23 @@
+// Title: Remote Access Tool - AnyDesk Silent Installation
+// ID: 114e7f1c-f137-48c8-8f54-3088c24ce4b9
+// Status: test
+// Level: high
+// Author: Ján Trenčanský
+// Date: 2021-08-06
+// Tags: attack.command-and-control, attack.t1219.002
+// Description: Detects AnyDesk Remote Desktop silent installation. Which can be used by attackers to gain remote access.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 114e7f1c_f137_48c8_8f54_3088c24ce4b9 {
+  meta:
+    title = "Remote Access Tool - AnyDesk Silent Installation"
+    description = "Detects AnyDesk Remote Desktop silent installation. Which can be used by attackers to gain remote access."
+    author = "Ján Trenčanský"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.command_line = /.*--install.*/ nocase and $e.target.process.command_line = /.*--start-with-win.*/ nocase and $e.target.process.command_line = /.*--silent.*/ nocase))
+
+  condition:
+    $e
+}

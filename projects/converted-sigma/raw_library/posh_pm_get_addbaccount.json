@@ -1,0 +1,28 @@
+{
+  "title": "Suspicious Get-ADDBAccount Usage",
+  "id": "b140afd9-474b-4072-958e-2ebb435abd68",
+  "status": "test",
+  "description": "Detects suspicious invocation of the Get-ADDBAccount script that reads from a ntds.dit file and may be used to get access to credentials without using any credential dumpers",
+  "author": "Florian Roth (Nextron Systems)",
+  "date": "2022-03-16",
+  "tags": [
+    "attack.credential-access",
+    "attack.t1003.003"
+  ],
+  "level": "high",
+  "logsource": {
+    "product": "windows",
+    "category": "ps_module",
+    "definition": "0ad03ef1-f21b-4a79-8ce8-e6900c54b65b"
+  },
+  "detection": {
+    "selection": {
+      "Payload|contains|all": [
+        "Get-ADDBAccount",
+        "BootKey ",
+        "DatabasePath "
+      ]
+    },
+    "condition": "selection"
+  }
+}

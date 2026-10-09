@@ -1,0 +1,11 @@
+-- Title: Suspicious Kernel Dump Using Dtrace
+-- ID: 7124aebe-4cd7-4ccb-8df0-6d6b93c96795
+-- Status: test
+-- Level: high
+-- Author: Florian Roth (Nextron Systems)
+-- Date: 2021-12-28
+-- Tags: attack.discovery, attack.t1082
+-- Description: Detects suspicious way to dump the kernel on Windows systems using dtrace.exe, which is available on Windows systems since Windows 10 19H1
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM processes WHERE (((CommandLine LIKE '%syscall:::return%' AND CommandLine LIKE '%lkd(%')) OR (Image="*\\dtrace.exe" AND CommandLine LIKE '%lkd(0)%'))

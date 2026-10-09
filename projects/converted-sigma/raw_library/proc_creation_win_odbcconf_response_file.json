@@ -1,0 +1,34 @@
+{
+  "title": "Response File Execution Via Odbcconf.EXE",
+  "id": "5f03babb-12db-4eec-8c82-7b4cb5580868",
+  "status": "test",
+  "description": "Detects execution of \"odbcconf\" with the \"-f\" flag in order to load a response file which might contain a malicious action.",
+  "author": "Kirill Kiryanov, Beyu Denis, Daniil Yugoslavskiy, oscd.community, Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2023-05-22",
+  "tags": [
+    "attack.stealth",
+    "attack.t1218.008"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_img": [
+      {
+        "Image|endswith": "\\odbcconf.exe"
+      },
+      {
+        "OriginalFileName": "odbcconf.exe"
+      }
+    ],
+    "selection_cli": {
+      "CommandLine|contains|windash": " -f "
+    },
+    "selection_rsp_ext": {
+      "CommandLine|contains": ".rsp"
+    },
+    "condition": "all of selection_*"
+  }
+}

@@ -1,0 +1,23 @@
+// Title: Renamed CURL.EXE Execution
+// ID: 7530cd3d-7671-43e3-b209-976966f6ea48
+// Status: test
+// Level: medium
+// Author: X__Junior (Nextron Systems)
+// Date: 2023-09-11
+// Tags: attack.execution, attack.stealth, attack.t1059, attack.t1202
+// Description: Detects the execution of a renamed "CURL.exe" binary based on the PE metadata fields
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 7530cd3d_7671_43e3_b209_976966f6ea48 {
+  meta:
+    title = "Renamed CURL.EXE Execution"
+    description = "Detects the execution of a renamed "CURL.exe" binary based on the PE metadata fields"
+    author = "X__Junior (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.file.name = "curl.exe") or ($e.Description = "The curl executable")) and not(($e.target.process.file.full_path = /.*\\curl.*/ nocase)))
+
+  condition:
+    $e
+}

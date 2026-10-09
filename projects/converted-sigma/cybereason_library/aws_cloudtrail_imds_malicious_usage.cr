@@ -1,0 +1,12 @@
+// Title: Malicious Usage Of IMDS Credentials Outside Of AWS Infrastructure
+// ID: 352a918a-34d8-4882-8470-44830c507aa3
+// Status: test
+// Level: high
+// Author: jamesc-grafana
+// Date: 2024-07-11
+// Tags: attack.privilege-escalation, attack.initial-access, attack.persistence, attack.stealth, attack.t1078, attack.t1078.002
+// Description: Detects when an instance identity has taken an action that isn't inside SSM.
+// This can indicate that a compromised EC2 instance is being used as a pivot point.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((userIdentity.arn=regex(".+:assumed-role/aws:.+")) AND NOT (((eventSource == "ssm.amazonaws.com") OR (eventName == "RegisterManagedInstance") OR (sourceIPAddress == "AWS Internal"))))

@@ -1,0 +1,26 @@
+{
+  "title": "Potential Lateral Movement via Windows Remote Shell",
+  "id": "79df3f68-dccb-48e9-9171-b75cbc37c51d",
+  "status": "experimental",
+  "description": "Detects a child process spawned by 'winrshost.exe', which suggests remote command execution through Windows Remote Shell (WinRs) and may indicate potential lateral movement activity.\n",
+  "author": "Liran Ravich",
+  "date": "2025-10-22",
+  "tags": [
+    "attack.lateral-movement",
+    "attack.t1021.006"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection": {
+      "ParentImage|endswith": "\\winrshost.exe"
+    },
+    "filter_main_conhost": {
+      "Image": "C:\\Windows\\System32\\conhost.exe"
+    },
+    "condition": "selection and not 1 of filter_main_*"
+  }
+}

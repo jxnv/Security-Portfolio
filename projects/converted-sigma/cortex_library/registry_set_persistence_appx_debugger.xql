@@ -1,0 +1,11 @@
+// Title: Potential Persistence Using DebugPath
+// ID: df4dc653-1029-47ba-8231-3c44238cc0ae
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-07-27
+// Tags: attack.privilege-escalation, attack.persistence, attack.t1546.015
+// Description: Detects potential persistence using Appx DebugPath
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter ((TargetObject contains "Classes\\ActivatableClasses\\Package\\Microsoft." and TargetObject endswith "\\DebugPath") or (TargetObject contains "\\Software\\Microsoft\\Windows\\CurrentVersion\\PackagedAppXDebug\\Microsoft." and TargetObject endswith "\\(Default)"))

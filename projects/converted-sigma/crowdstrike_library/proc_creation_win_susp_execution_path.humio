@@ -1,0 +1,11 @@
+// Title: Process Execution From A Potentially Suspicious Folder
+// ID: 3dfd06d2-eaf4-4532-9555-68aca59f57c4
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Tim Shelton
+// Date: 2019-01-16
+// Tags: attack.stealth, attack.t1036
+// Description: Detects a potentially suspicious execution from an uncommon folder.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((ImageFileName = /*:\\Perflogs\\*/i or ImageFileName = /*:\\Users\\All Users\\*/i or ImageFileName = /*:\\Users\\Default\\*/i or ImageFileName = /*:\\Users\\NetworkService\\*/i or ImageFileName = /*:\\Windows\\addins\\*/i or ImageFileName = /*:\\Windows\\debug\\*/i or ImageFileName = /*:\\Windows\\Fonts\\*/i or ImageFileName = /*:\\Windows\\Help\\*/i or ImageFileName = /*:\\Windows\\IME\\*/i or ImageFileName = /*:\\Windows\\Media\\*/i or ImageFileName = /*:\\Windows\\repair\\*/i or ImageFileName = /*:\\Windows\\security\\*/i or ImageFileName = /*:\\Windows\\System32\\Tasks\\*/i or ImageFileName = /*:\\Windows\\Tasks\\*/i or ImageFileName = /*$Recycle.bin*/i or ImageFileName = /*\\config\\systemprofile\\*/i or ImageFileName = /*\\Intel\\Logs\\*/i or ImageFileName = /*\\RSA\\MachineKeys\\*/i)) and not(((ImageFileName = /C:\\Windows\\SysWOW64\\config\\systemprofile\\Citrix\\UpdaterBinaries\\.*/i and ImageFileName = /.*\\CitrixReceiverUpdater.exe/i) or (ImageFileName = /C:\\Users\\Public\\IBM\\ClientSolutions\\Start_Programs\\.*/i))))

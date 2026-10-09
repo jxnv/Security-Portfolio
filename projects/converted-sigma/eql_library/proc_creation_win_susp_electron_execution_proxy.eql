@@ -1,0 +1,11 @@
+// Title: Potentially Suspicious Electron Application CommandLine
+// ID: 378a05d8-963c-46c9-bcce-13c7657eac99
+// Status: test
+// Level: medium
+// Author: frack113, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-09-05
+// Tags: attack.execution
+// Description: Detects potentially suspicious CommandLine of electron apps (teams, discord, slack, etc.). This could be a sign of abuse to proxy execution through a signed binary.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where (((process.command_line like "*_--browser-subprocess-path*" or process.command_line like "*_--gpu-launcher*" or process.command_line like "*_--renderer-cmd-prefix*" or process.command_line like "*_--utility-cmd-prefix*")) and (((process.executable endswith "\\chrome.exe" or process.executable endswith "\\code.exe" or process.executable endswith "\\discord.exe" or process.executable endswith "\\GitHubDesktop.exe" or process.executable endswith "\\keybase.exe" or process.executable endswith "\\msedge_proxy.exe" or process.executable endswith "\\msedge.exe" or process.executable endswith "\\msedgewebview2.exe" or process.executable endswith "\\msteams.exe" or process.executable endswith "\\slack.exe" or process.executable endswith "\\Teams.exe")) or ((process.pe.original_file_name == "chrome.exe" or process.pe.original_file_name == "code.exe" or process.pe.original_file_name == "discord.exe" or process.pe.original_file_name == "GitHubDesktop.exe" or process.pe.original_file_name == "keybase.exe" or process.pe.original_file_name == "msedge_proxy.exe" or process.pe.original_file_name == "msedge.exe" or process.pe.original_file_name == "msedgewebview2.exe" or process.pe.original_file_name == "msteams.exe" or process.pe.original_file_name == "slack.exe" or process.pe.original_file_name == "Teams.exe"))))

@@ -1,0 +1,24 @@
+// Title: Self Extracting Package Creation Via Iexpress.EXE From Potentially Suspicious Location
+// ID: b2b048b0-7857-4380-b0fb-d3f0ab820b71
+// Status: test
+// Level: high
+// Author: Joseliyo Sanchez, @Joseliyo_Jstnk, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2024-02-05
+// Tags: attack.stealth, attack.t1218
+// Description: Detects the use of iexpress.exe to create binaries via Self Extraction Directive (SED) files located in potentially suspicious locations.
+// This behavior has been observed in-the-wild by different threat actors.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule b2b048b0_7857_4380_b0fb_d3f0ab820b71 {
+  meta:
+    title = "Self Extracting Package Creation Via Iexpress.EXE From Potentially Suspicious Location"
+    description = "Detects the use of iexpress.exe to create binaries via Self Extraction Directive (SED) files located in potentially suspicious locations. This behavior has been observed in-the-wild by different threat actors."
+    author = "Joseliyo Sanchez, @Joseliyo_Jstnk, Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.command_line = /.* /n .*/ nocase) and (($e.target.process.file.full_path = /.*\\iexpress.exe$/ nocase) or ($e.target.process.file.name = "IEXPRESS.exe")) and (($e.target.process.command_line = /.*:\\ProgramData\\.*/ nocase or $e.target.process.command_line = /.*:\\Temp\\.*/ nocase or $e.target.process.command_line = /.*:\\Windows\\System32\\Tasks\\.*/ nocase or $e.target.process.command_line = /.*:\\Windows\\Tasks\\.*/ nocase or $e.target.process.command_line = /.*:\\Windows\\Temp\\.*/ nocase or $e.target.process.command_line = /.*\\AppData\\Local\\Temp\\.*/ nocase)))
+
+  condition:
+    $e
+}

@@ -1,0 +1,11 @@
+// Title: Suspicious Reg Add BitLocker
+// ID: 0e0255bf-2548-47b8-9582-c0955c9283f5
+// Status: test
+// Level: high
+// Author: frack113
+// Date: 2021-11-15
+// Tags: attack.impact, attack.t1486
+// Description: Detects suspicious addition to BitLocker related registry keys via the reg.exe utility
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((CommandLine contains "REG" AND CommandLine contains "ADD" AND CommandLine contains "\\SOFTWARE\\Policies\\Microsoft\\FVE" AND CommandLine contains "/v" AND CommandLine contains "/f") AND (CommandLine contains "EnableBDEWithNoTPM" OR CommandLine contains "UseAdvancedStartup" OR CommandLine contains "UseTPM" OR CommandLine contains "UseTPMKey" OR CommandLine contains "UseTPMKeyPIN" OR CommandLine contains "RecoveryKeyMessageSource" OR CommandLine contains "UseTPMPIN" OR CommandLine contains "RecoveryKeyMessage"))

@@ -1,0 +1,12 @@
+// Title: Suspicious Loading of Dbgcore/Dbghelp DLLs from Uncommon Location
+// ID: 416bc4a2-7217-4519-8dc7-c3271817f1d5
+// Status: experimental
+// Level: high
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-11-27
+// Tags: attack.credential-access, attack.defense-impairment, attack.t1003, attack.t1685
+// Description: Detects loading of dbgcore.dll or dbghelp.dll from uncommon locations such as user directories.
+// These DLLs contain the MiniDumpWriteDump function, which can be abused for credential dumping purposes or in some cases for evading EDR/AV detection by suspending processes.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where (((ImageLoaded matches "*\\dbgcore.dll" or ImageLoaded matches "*\\dbghelp.dll")) and ((Image matches "*:\\Perflogs\\*" or Image matches "*:\\Temp\\*" or Image matches "*:\\Users\\Public\\*" or Image matches "*\\$Recycle.Bin\\*" or Image matches "*\\Contacts\\*" or Image matches "*\\Documents\\*" or Image matches "*\\Favorites\\*" or Image matches "*\\Favourites\\*" or Image matches "*\\inetpub\\wwwroot\\*" or Image matches "*\\Music\\*" or Image matches "*\\Pictures\\*" or Image matches "*\\Start Menu\\Programs\\Startup\\*" or Image matches "*\\Users\\Default\\*" or Image matches "*\\Videos\\*")))

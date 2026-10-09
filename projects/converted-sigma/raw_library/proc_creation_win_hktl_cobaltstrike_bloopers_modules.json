@@ -1,0 +1,39 @@
+{
+  "title": "Operator Bloopers Cobalt Strike Modules",
+  "id": "4f154fb6-27d1-4813-a759-78b93e0b9c48",
+  "status": "test",
+  "description": "Detects Cobalt Strike module/commands accidentally entered in CMD shell",
+  "author": "_pete_0, TheDFIRReport",
+  "date": "2022-05-06",
+  "tags": [
+    "attack.execution",
+    "attack.t1059.003"
+  ],
+  "level": "high",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_img": [
+      {
+        "OriginalFileName": "Cmd.Exe"
+      },
+      {
+        "Image|endswith": "\\cmd.exe"
+      }
+    ],
+    "selection_cli": {
+      "CommandLine|contains": [
+        "Invoke-UserHunter",
+        "Invoke-ShareFinder",
+        "Invoke-Kerberoast",
+        "Invoke-SMBAutoBrute",
+        "Invoke-Nightmare",
+        "zerologon",
+        "av_query"
+      ]
+    },
+    "condition": "all of selection_*"
+  }
+}

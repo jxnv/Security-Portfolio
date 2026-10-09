@@ -1,0 +1,23 @@
+// Title: Powershell Defender Exclusion
+// ID: 17769c90-230e-488b-a463-e05c08e9d48f
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems)
+// Date: 2021-04-29
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects requests to exclude files, folders or processes from Antivirus scanning using PowerShell cmdlets
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 17769c90_230e_488b_a463_e05c08e9d48f {
+  meta:
+    title = "Powershell Defender Exclusion"
+    description = "Detects requests to exclude files, folders or processes from Antivirus scanning using PowerShell cmdlets"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.command_line = /.*Add-MpPreference .*/ nocase or $e.target.process.command_line = /.*Set-MpPreference .*/ nocase)) and (($e.target.process.command_line = /.* -ExclusionPath .*/ nocase or $e.target.process.command_line = /.* -ExclusionExtension .*/ nocase or $e.target.process.command_line = /.* -ExclusionProcess .*/ nocase or $e.target.process.command_line = /.* -ExclusionIpAddress .*/ nocase)))
+
+  condition:
+    $e
+}

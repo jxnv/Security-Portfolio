@@ -1,0 +1,70 @@
+{
+  "title": "LOL-Binary Copied From System Directory",
+  "id": "f5d19838-41b5-476c-98d8-ba8af4929ee2",
+  "status": "test",
+  "description": "Detects a suspicious copy operation that tries to copy a known LOLBIN from system (System32, SysWOW64, WinSxS) directories to another on disk in order to bypass detections based on locations.\n",
+  "author": "Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2023-08-29",
+  "tags": [
+    "attack.stealth",
+    "attack.t1036.003"
+  ],
+  "level": "high",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_tools_cmd": {
+      "Image|endswith": "\\cmd.exe",
+      "CommandLine|contains": "copy "
+    },
+    "selection_tools_pwsh": {
+      "Image|endswith": [
+        "\\powershell.exe",
+        "\\pwsh.exe"
+      ],
+      "CommandLine|contains": [
+        "copy-item",
+        " copy ",
+        "cpi ",
+        " cp "
+      ]
+    },
+    "selection_tools_other": [
+      {
+        "Image|endswith": [
+          "\\robocopy.exe",
+          "\\xcopy.exe"
+        ]
+      },
+      {
+        "OriginalFileName": [
+          "robocopy.exe",
+          "XCOPY.EXE"
+        ]
+      }
+    ],
+    "selection_target_path": {
+      "CommandLine|contains": [
+        "\\System32",
+        "\\SysWOW64",
+        "\\WinSxS"
+      ]
+    },
+    "selection_target_lolbin": {
+      "CommandLine|contains": [
+        "\\bitsadmin.exe",
+        "\\calc.exe",
+        "\\certutil.exe",
+        "\\cmdl32.exe",
+        "\\cscript.exe",
+        "\\mshta.exe",
+        "\\rundll32.exe",
+        "\\wscript.exe",
+        "\\ie4uinit.exe"
+      ]
+    },
+    "condition": "1 of selection_tools_* and all of selection_target_*"
+  }
+}

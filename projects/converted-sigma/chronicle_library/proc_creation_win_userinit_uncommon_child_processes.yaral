@@ -1,0 +1,23 @@
+// Title: Uncommon Userinit Child Process
+// ID: 0a98a10c-685d-4ab0-bddc-b6bdd1d48458
+// Status: test
+// Level: high
+// Author: Tom Ueltschi (@c_APT_ure), Tim Shelton
+// Date: 2019-01-12
+// Tags: attack.privilege-escalation, attack.t1037.001, attack.persistence
+// Description: Detects uncommon "userinit.exe" child processes, which could be a sign of uncommon shells or login scripts used for persistence.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 0a98a10c_685d_4ab0_bddc_b6bdd1d48458 {
+  meta:
+    title = "Uncommon Userinit Child Process"
+    description = "Detects uncommon "userinit.exe" child processes, which could be a sign of uncommon shells or login scripts used for persistence."
+    author = "Tom Ueltschi (@c_APT_ure), Tim Shelton"
+    severity = "HIGH"
+
+  events:
+    (($e.principal.process.file.full_path = /.*\\userinit.exe$/ nocase) and not(($e.target.process.file.full_path = /.*:\\WINDOWS\\explorer.exe$/ nocase)) and not(((($e.target.process.file.full_path = /.*:\\Program Files (x86)\\Citrix\\HDX\\bin\\cmstart.exe$/ nocase or $e.target.process.file.full_path = /.*:\\Program Files (x86)\\Citrix\\HDX\\bin\\icast.exe$/ nocase or $e.target.process.file.full_path = /.*:\\Program Files (x86)\\Citrix\\System32\\icast.exe$/ nocase or $e.target.process.file.full_path = /.*:\\Program Files\\Citrix\\HDX\\bin\\cmstart.exe$/ nocase or $e.target.process.file.full_path = /.*:\\Program Files\\Citrix\\HDX\\bin\\icast.exe$/ nocase or $e.target.process.file.full_path = /.*:\\Program Files\\Citrix\\System32\\icast.exe$/ nocase)) or (not ($e.target.process.file.full_path = /.*/)) or (($e.target.process.command_line = /.*netlogon.bat.*/ nocase or $e.target.process.command_line = /.*UsrLogon.cmd.*/ nocase)) or (($e.target.process.file.full_path = /.*:\\Windows\\System32\\proquota.exe$/ nocase or $e.target.process.file.full_path = /.*:\\Windows\\SysWOW64\\proquota.exe$/ nocase)) or ($e.target.process.command_line = "PowerShell.exe"))))
+
+  condition:
+    $e
+}

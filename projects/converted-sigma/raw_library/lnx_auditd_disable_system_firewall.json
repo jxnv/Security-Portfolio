@@ -1,0 +1,28 @@
+{
+  "title": "Disable System Firewall",
+  "id": "53059bc0-1472-438b-956a-7508a94a91f0",
+  "status": "test",
+  "description": "Detects disabling of system firewalls which could be used by adversaries to bypass controls that limit usage of the network.",
+  "author": "Pawel Mazur",
+  "date": "2022-01-22",
+  "tags": [
+    "attack.defense-impairment",
+    "attack.t1686"
+  ],
+  "level": "high",
+  "logsource": {
+    "product": "linux",
+    "service": "auditd"
+  },
+  "detection": {
+    "selection": {
+      "type": "SERVICE_STOP",
+      "unit": [
+        "firewalld",
+        "iptables",
+        "ufw"
+      ]
+    },
+    "condition": "selection"
+  }
+}

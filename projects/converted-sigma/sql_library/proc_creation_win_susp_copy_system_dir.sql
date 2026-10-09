@@ -1,0 +1,12 @@
+-- Title: Suspicious Copy From or To System Directory
+-- ID: fff9d2b7-e11c-4a69-93d3-40ef66189767
+-- Status: test
+-- Level: medium
+-- Author: Florian Roth (Nextron Systems), Markus Neis, Tim Shelton (HAWK.IO), Nasreddine Bencherchali (Nextron Systems)
+-- Date: 2020-07-03
+-- Tags: attack.stealth, attack.t1036.003
+-- Description: Detects a suspicious copy operation that tries to copy a program from system (System32, SysWOW64, WinSxS) directories to another on disk.
+-- Often used to move LOLBINs such as 'certutil' or 'desktopimgdownldr' to a different location with a different name in order to bypass detections based on locations.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE (((Image ILIKE '%\\cmd.exe' AND CommandLine ILIKE '%copy %') OR (((Image ILIKE '%\\robocopy.exe' OR Image ILIKE '%\\xcopy.exe')) OR ((OriginalFileName = 'robocopy.exe' OR OriginalFileName = 'XCOPY.EXE'))) OR ((Image ILIKE '%\\powershell.exe' OR Image ILIKE '%\\pwsh.exe') AND (CommandLine ILIKE '%copy-item%' OR CommandLine ILIKE '% copy %' OR CommandLine ILIKE '%cpi %' OR CommandLine ILIKE '% cp %'))) AND (REGEXP_LIKE(CommandLine, '\s['"]?C:\\Windows\\(?:System32|SysWOW64|WinSxS)')) AND NOT ((Image ILIKE '%\\cmd.exe' AND (CommandLine ILIKE '%/c copy%' AND CommandLine ILIKE '%\\Temp\\%' AND CommandLine ILIKE '%\\avira_system_speedup.exe%') AND (CommandLine ILIKE '%C:\\Program Files\\Avira\\%' OR CommandLine ILIKE '%C:\\Program Files (x86)\\Avira\\%'))))

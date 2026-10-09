@@ -1,0 +1,23 @@
+// Title: Suspicious Double Extension Files
+// ID: b4926b47-a9d7-434c-b3a0-adc3fa0bd13e
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems), frack113
+// Date: 2022-06-19
+// Tags: attack.stealth, attack.t1036.007
+// Description: Detects dropped files with double extensions, which is often used by malware as a method to abuse the fact that Windows hide default extensions by default.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule b4926b47_a9d7_434c_b3a0_adc3fa0bd13e {
+  meta:
+    title = "Suspicious Double Extension Files"
+    description = "Detects dropped files with double extensions, which is often used by malware as a method to abuse the fact that Windows hide default extensions by default."
+    author = "Nasreddine Bencherchali (Nextron Systems), frack113"
+    severity = "HIGH"
+
+  events:
+    (((($e.target.file.full_path = /.*.rar.exe$/ nocase or $e.target.file.full_path = /.*.zip.exe$/ nocase)) or (($e.target.file.full_path = /.*.exe$/ nocase or $e.target.file.full_path = /.*.iso$/ nocase or $e.target.file.full_path = /.*.rar$/ nocase or $e.target.file.full_path = /.*.svg$/ nocase or $e.target.file.full_path = /.*.zip$/ nocase) and ($e.target.file.full_path = /.*.doc..*/ nocase or $e.target.file.full_path = /.*.docx..*/ nocase or $e.target.file.full_path = /.*.gif..*/ nocase or $e.target.file.full_path = /.*.jpeg..*/ nocase or $e.target.file.full_path = /.*.jpg..*/ nocase or $e.target.file.full_path = /.*.mp3..*/ nocase or $e.target.file.full_path = /.*.mp4..*/ nocase or $e.target.file.full_path = /.*.pdf..*/ nocase or $e.target.file.full_path = /.*.png..*/ nocase or $e.target.file.full_path = /.*.ppt..*/ nocase or $e.target.file.full_path = /.*.pptx..*/ nocase or $e.target.file.full_path = /.*.rtf..*/ nocase or $e.target.file.full_path = /.*.svg..*/ nocase or $e.target.file.full_path = /.*.txt..*/ nocase or $e.target.file.full_path = /.*.xls..*/ nocase or $e.target.file.full_path = /.*.xlsx..*/ nocase))) and not(($e.target.file.full_path = /^/usr/share/icons/.*/ nocase)))
+
+  condition:
+    $e
+}

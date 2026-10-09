@@ -1,0 +1,11 @@
+// Title: Suspicious New Service Creation
+// ID: 17a1be64-8d88-40bf-b5ff-a4f7a50ebcc8
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-07-14
+// Tags: attack.persistence, attack.privilege-escalation, attack.t1543.003
+// Description: Detects creation of a new service via "sc" command or the powershell "new-service" cmdlet with suspicious binary paths
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((CommandLine: "*New-Service*" AND CommandLine: "*-BinaryPathName*")) OR (Image="*\\sc.exe" AND (CommandLine: "*create*" AND CommandLine: "*binPath=*"))) AND ((CommandLine: "*powershell*" OR CommandLine: "*mshta*" OR CommandLine: "*wscript*" OR CommandLine: "*cscript*" OR CommandLine: "*svchost*" OR CommandLine: "*dllhost*" OR CommandLine: "*cmd *" OR CommandLine: "*cmd.exe /c*" OR CommandLine: "*cmd.exe /k*" OR CommandLine: "*cmd.exe /r*" OR CommandLine: "*rundll32*" OR CommandLine: "*C:\\Users\\Public*" OR CommandLine: "*\\Downloads\\*" OR CommandLine: "*\\Desktop\\*" OR CommandLine: "*\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\*" OR CommandLine: "*C:\\Windows\\TEMP\\*" OR CommandLine: "*\\AppData\\Local\\Temp*")))

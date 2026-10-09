@@ -1,0 +1,19 @@
+# Title: Suspicious PowerShell Invocations - Specific
+# ID: ae7fbf8e-f3cb-49fd-8db4-5f3bed522c71
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems), Jonhnathan Ribeiro
+# Date: 2017-03-05
+# Tags: attack.execution, attack.t1059.001
+# Description: Detects suspicious PowerShell invocation command parameters
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Suspicious PowerShell Invocations - Specific
+def rule(event):
+    # Detection Logic:
+    # ((((ScriptBlockText="*-nop*" AND ScriptBlockText="* -w *" AND ScriptBlockText="*hidden*" AND ScriptBlockText="* -c *" AND ScriptBlockText="*[Convert]::FromBase64String*")) OR ((ScriptBlockText="* -w *" AND ScriptBlockText="*hidden*" AND ScriptBlockText="*-ep*" AND ScriptBlockText="*bypass*" AND ScriptBlockText="*-Enc*")) OR ((ScriptBlockText="* -w *" AND ScriptBlockText="*hidden*" AND ScriptBlockText="*-noni*" AND ScriptBlockText="*-nop*" AND ScriptBlockText="* -c *" AND ScriptBlockText="*iex*" AND ScriptBlockText="*New-Object*")) OR ((ScriptBlockText="*iex*" AND ScriptBlockText="*New-Object*" AND ScriptBlockText="*Net.WebClient*" AND ScriptBlockText="*.Download*")) OR ((ScriptBlockText="*powershell*" AND ScriptBlockText="*reg*" AND ScriptBlockText="*add*") AND (ScriptBlockText="*\\software\\microsoft\\windows\\currentversion\\run*" OR ScriptBlockText="*\\software\\wow6432node\\microsoft\\windows\\currentversion\\run*" OR ScriptBlockText="*\\software\\microsoft\\windows\\currentversion\\policies\\explorer\\run*")) OR ((ScriptBlockText="*bypass*" AND ScriptBlockText="*-noprofile*" AND ScriptBlockText="*-windowstyle*" AND ScriptBlockText="*hidden*" AND ScriptBlockText="*new-object*" AND ScriptBlockText="*system.net.webclient*" AND ScriptBlockText="*.download*"))) AND NOT (((ScriptBlockText="*(New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1*" OR ScriptBlockText="*(New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1')*" OR ScriptBlockText="*Write-ChocolateyWarning*"))))
+    return True
+
+def title(event):
+    return "Suspicious PowerShell Invocations - Specific"
+

@@ -1,0 +1,12 @@
+// Title: Antivirus - Hacktool Signature
+// ID: fa0c05b6-8ad3-468d-8231-c1cbccb64fba
+// Status: stable
+// Level: high
+// Author: Florian Roth (Nextron Systems), Arnim Rupp
+// Date: 2021-08-16
+// Tags: attack.execution, attack.t1204
+// Description: Detects a highly relevant Antivirus alert that reports a hack tool or other attack tool.
+// This event must not be ignored just because the AV has blocked the malware but investigate, how it came there in the first place.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter (((Signature startswith "ATK/" or Signature startswith "Exploit.Script.CVE" or Signature startswith "HKTL" or Signature startswith "HTOOL" or Signature startswith "PWS." or Signature startswith "PWSX" or Signature startswith "SecurityTool")) or ((Signature contains "Adfind" or Signature contains "BloodH" or Signature contains "BloodyAD" or Signature contains "Brutel" or Signature contains "BruteR" or Signature contains "Cobalt" or Signature contains "COBEACON" or Signature contains "Cometer" or Signature contains "DumpCreds" or Signature contains "EDRfreeze" or Signature contains "FastReverseProxy" or Signature contains "Hacktool" or Signature contains "Havoc" or Signature contains "Impacket" or Signature contains "Keylogger" or Signature contains "Koadic" or Signature contains "Mimikatz" or Signature contains "Nighthawk" or Signature contains "PentestPowerShell" or Signature contains "Potato" or Signature contains "PowerSploit" or Signature contains "PowerSSH" or Signature contains "PshlSpy" or Signature contains "PSWTool" or Signature contains "PWCrack" or Signature contains "PWDump" or Signature contains "Responder" or Signature contains "Rozena" or Signature contains "Rusthound" or Signature contains "Sbelt" or Signature contains "Seatbelt" or Signature contains "SecurityTool" or Signature contains "SharpDump" or Signature contains "SharpHound" or Signature contains "Shellcode" or Signature contains "Sliver" or Signature contains "Snaffler" or Signature contains "SOAPHound" or Signature contains "Splinter" or Signature contains "Stowaway" or Signature contains "Swrort" or Signature contains "Trojan.Hound" or Signature contains "TurtleLoader" or Signature contains "Undefend" or Signature contains "Undfnd")))

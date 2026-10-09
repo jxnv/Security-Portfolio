@@ -1,0 +1,23 @@
+// Title: Persistence Via New SIP Provider
+// ID: 5a2b21ee-6aaa-4234-ac9d-59a59edf90a1
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-07-21
+// Tags: attack.persistence, attack.defense-impairment, attack.t1553.003
+// Description: Detects when an attacker register a new SIP provider for persistence and defense evasion
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 5a2b21ee_6aaa_4234_ac9d_59a59edf90a1 {
+  meta:
+    title = "Persistence Via New SIP Provider"
+    description = "Detects when an attacker register a new SIP provider for persistence and defense evasion"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (((($e.TargetObject = /.*\\Dll.*/ nocase or $e.TargetObject = /.*\\$DLL.*/ nocase)) and (($e.TargetObject = /.*\\SOFTWARE\\Microsoft\\Cryptography\\Providers\\.*/ nocase or $e.TargetObject = /.*\\SOFTWARE\\Microsoft\\Cryptography\\OID\\EncodingType.*/ nocase or $e.TargetObject = /.*\\SOFTWARE\\WOW6432Node\\Microsoft\\Cryptography\\Providers\\.*/ nocase or $e.TargetObject = /.*\\SOFTWARE\\WOW6432Node\\Microsoft\\Cryptography\\OID\\EncodingType.*/ nocase))) and not(((($e.Details = "WINTRUST.DLL" or $e.Details = "mso.dll")) or ($e.target.process.file.full_path = "C:\\Windows\\System32\\poqexec.exe" and $e.TargetObject = /.*\\CryptSIPDll.*/ nocase and $e.Details = "C:\\Windows\\System32\\PsfSip.dll"))))
+
+  condition:
+    $e
+}

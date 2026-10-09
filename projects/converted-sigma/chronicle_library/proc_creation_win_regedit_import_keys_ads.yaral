@@ -1,0 +1,23 @@
+// Title: Imports Registry Key From an ADS
+// ID: 0b80ade5-6997-4b1d-99a1-71701778ea61
+// Status: test
+// Level: high
+// Author: Oddvar Moe, Sander Wiebing, oscd.community
+// Date: 2020-10-12
+// Tags: attack.persistence, attack.defense-impairment, attack.t1112
+// Description: Detects the import of a alternate datastream to the registry with regedit.exe.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 0b80ade5_6997_4b1d_99a1_71701778ea61 {
+  meta:
+    title = "Imports Registry Key From an ADS"
+    description = "Detects the import of a alternate datastream to the registry with regedit.exe."
+    author = "Oddvar Moe, Sander Wiebing, oscd.community"
+    severity = "HIGH"
+
+  events:
+    (((($e.target.process.command_line = /.* /i .*/ nocase or $e.target.process.command_line = /.*.reg.*/ nocase) and $e.target.process.command_line = /:[^ \\]/ nocase) and (($e.target.process.file.full_path = /.*\\regedit.exe$/ nocase) or ($e.target.process.file.name = "REGEDIT.EXE"))) and not((($e.target.process.command_line = /.* -e .*/ nocase or $e.target.process.command_line = /.* -a .*/ nocase or $e.target.process.command_line = /.* -c .*/ nocase))))
+
+  condition:
+    $e
+}

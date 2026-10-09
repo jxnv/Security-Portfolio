@@ -1,0 +1,11 @@
+// Title: File With Suspicious Extension Downloaded Via Bitsadmin
+// ID: 5b80a791-ad9b-4b75-bcc1-ad4e1e89c200
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-06-28
+// Tags: attack.persistence, attack.execution, attack.stealth, attack.t1197, attack.s0190, attack.t1036.003, attack.command-and-control, attack.t1105
+// Description: Detects usage of bitsadmin downloading a file with a suspicious extension
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((src.process.cmdline containsCIS ".7z" OR src.process.cmdline containsCIS ".asax" OR src.process.cmdline containsCIS ".ashx" OR src.process.cmdline containsCIS ".asmx" OR src.process.cmdline containsCIS ".asp" OR src.process.cmdline containsCIS ".aspx" OR src.process.cmdline containsCIS ".bat" OR src.process.cmdline containsCIS ".cfm" OR src.process.cmdline containsCIS ".cgi" OR src.process.cmdline containsCIS ".chm" OR src.process.cmdline containsCIS ".cmd" OR src.process.cmdline containsCIS ".dll" OR src.process.cmdline containsCIS ".gif" OR src.process.cmdline containsCIS ".jpeg" OR src.process.cmdline containsCIS ".jpg" OR src.process.cmdline containsCIS ".jsp" OR src.process.cmdline containsCIS ".jspx" OR src.process.cmdline containsCIS ".log" OR src.process.cmdline containsCIS ".png" OR src.process.cmdline containsCIS ".ps1" OR src.process.cmdline containsCIS ".psm1" OR src.process.cmdline containsCIS ".rar" OR src.process.cmdline containsCIS ".scf" OR src.process.cmdline containsCIS ".sct" OR src.process.cmdline containsCIS ".txt" OR src.process.cmdline containsCIS ".vbe" OR src.process.cmdline containsCIS ".vbs" OR src.process.cmdline containsCIS ".war" OR src.process.cmdline containsCIS ".wsf" OR src.process.cmdline containsCIS ".wsh" OR src.process.cmdline containsCIS ".xll" OR src.process.cmdline containsCIS ".zip")) AND ((src.process.cmdline containsCIS " /transfer " OR src.process.cmdline containsCIS " /create " OR src.process.cmdline containsCIS " /addfile ")) AND ((src.process.image.path endswithCIS "\\bitsadmin.exe") OR (OriginalFileName = "bitsadmin.exe")))

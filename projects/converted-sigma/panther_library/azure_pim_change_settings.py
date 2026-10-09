@@ -1,0 +1,19 @@
+# Title: Changes To PIM Settings
+# ID: db6c06c4-bf3b-421c-aa88-15672b88c743
+# Status: test
+# Level: high
+# Author: Mark Morowczynski '@markmorow', Yochana Henderson, '@Yochana-H'
+# Date: 2022-08-09
+# Tags: attack.initial-access, attack.privilege-escalation, attack.persistence, attack.stealth, attack.t1078.004
+# Description: Detects when changes are made to PIM roles
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Changes To PIM Settings
+def rule(event):
+    # Detection Logic:
+    # (properties.message="Update role setting in PIM")
+    return True
+
+def title(event):
+    return "Changes To PIM Settings"
+

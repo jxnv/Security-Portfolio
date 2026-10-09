@@ -1,0 +1,19 @@
+# Title: Powershell Install a DLL in System Directory
+# ID: 63bf8794-9917-45bc-88dd-e1b5abc0ecfd
+# Status: test
+# Level: high
+# Author: frack113, Nasreddine Bencherchali (Nextron Systems)
+# Date: 2021-12-27
+# Tags: attack.persistence, attack.credential-access, attack.defense-impairment, attack.t1556.002
+# Description: Uses PowerShell to install/copy a file into a system directory such as "System32" or "SysWOW64"
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Powershell Install a DLL in System Directory
+def rule(event):
+    # Detection Logic:
+    # (ScriptBlockText=regex("(Copy-Item|cpi) .{2,128} -Destination .{1,32}\\\\Windows\\\\(System32|SysWOW64)"))
+    return True
+
+def title(event):
+    return "Powershell Install a DLL in System Directory"
+

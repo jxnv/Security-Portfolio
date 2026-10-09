@@ -1,0 +1,19 @@
+# Title: PowerShell Get Clipboard
+# ID: 4cbd4f12-2e22-43e3-882f-bff3247ffb78
+# Status: test
+# Level: medium
+# Author: Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research)
+# Date: 2020-05-02
+# Tags: attack.collection, attack.t1115
+# Description: A General detection for the Get-Clipboard commands in PowerShell logs. This could be an adversary capturing clipboard contents.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: PowerShell Get Clipboard
+def rule(event):
+    # Detection Logic:
+    # (Payload="*Get-Clipboard*")
+    return True
+
+def title(event):
+    return "PowerShell Get Clipboard"
+

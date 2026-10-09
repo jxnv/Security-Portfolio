@@ -1,0 +1,14 @@
+// Title: Suspicious FileFix Execution Pattern
+// ID: b5b29e4e-31fa-4fdf-b058-296e7a1aa0c2
+// Status: experimental
+// Level: high
+// Author: 0xFustang, Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-11-24
+// Tags: attack.execution, attack.t1204.004
+// Description: Detects suspicious FileFix execution patterns where users are tricked into running malicious commands through browser file upload dialog manipulation.
+// This attack typically begins when users visit malicious websites impersonating legitimate services or news platforms,
+// which may display fake CAPTCHA challenges or direct instructions to open file explorer and paste clipboard content.
+// The clipboard content usually contains commands that download and execute malware, such as information stealing tools.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((ParentBaseFileName = /.*\\brave.exe/i or ParentBaseFileName = /.*\\chrome.exe/i or ParentBaseFileName = /.*\\firefox.exe/i or ParentBaseFileName = /.*\\msedge.exe/i) and CommandLine = /*#*/i) and (((CommandLine = /*account*/i or CommandLine = /*anti-bot*/i or CommandLine = /*botcheck*/i or CommandLine = /*captcha*/i or CommandLine = /*challenge*/i or CommandLine = /*confirmation*/i or CommandLine = /*fraud*/i or CommandLine = /*human*/i or CommandLine = /*identification*/i or CommandLine = /*identificator*/i or CommandLine = /*identity*/i or CommandLine = /*robot*/i or CommandLine = /*validation*/i or CommandLine = /*verification*/i or CommandLine = /*verify*/i)) or ((CommandLine = /*%comspec%*/i or CommandLine = /*bitsadmin*/i or CommandLine = /*certutil*/i or CommandLine = /*cmd*/i or CommandLine = /*cscript*/i or CommandLine = /*curl*/i or CommandLine = /*finger*/i or CommandLine = /*mshta*/i or CommandLine = /*powershell*/i or CommandLine = /*pwsh*/i or CommandLine = /*regsvr32*/i or CommandLine = /*rundll32*/i or CommandLine = /*schtasks*/i or CommandLine = /*wget*/i or CommandLine = /*wscript*/i))))

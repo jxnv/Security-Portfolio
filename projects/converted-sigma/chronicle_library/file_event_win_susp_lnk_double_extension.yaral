@@ -1,0 +1,23 @@
+// Title: Suspicious LNK Double Extension File Created
+// ID: 3215aa19-f060-4332-86d5-5602511f3ca8
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems), frack113
+// Date: 2022-11-07
+// Tags: attack.stealth, attack.t1036.007
+// Description: Detects the creation of files with an "LNK" as a second extension. This is sometimes used by malware as a method to abuse the fact that Windows hides the "LNK" extension by default.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 3215aa19_f060_4332_86d5_5602511f3ca8 {
+  meta:
+    title = "Suspicious LNK Double Extension File Created"
+    description = "Detects the creation of files with an "LNK" as a second extension. This is sometimes used by malware as a method to abuse the fact that Windows hides the "LNK" extension by default."
+    author = "Nasreddine Bencherchali (Nextron Systems), frack113"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.file.full_path = /.*.lnk$/ nocase and ($e.target.file.full_path = /.*.doc..*/ nocase or $e.target.file.full_path = /.*.docx..*/ nocase or $e.target.file.full_path = /.*.jpg..*/ nocase or $e.target.file.full_path = /.*.pdf..*/ nocase or $e.target.file.full_path = /.*.ppt..*/ nocase or $e.target.file.full_path = /.*.pptx..*/ nocase or $e.target.file.full_path = /.*.xls..*/ nocase or $e.target.file.full_path = /.*.xlsx..*/ nocase)) and not(($e.target.file.full_path = /.*\\AppData\\Roaming\\Microsoft\\Windows\\Recent\\.*/ nocase)) and not((($e.target.process.file.full_path = /.*\\excel.exe$/ nocase and $e.target.file.full_path = /.*\\AppData\\Roaming\\Microsoft\\Excel.*/ nocase) or ($e.target.process.file.full_path = /.*\\powerpnt.exe$/ nocase and $e.target.file.full_path = /.*\\AppData\\Roaming\\Microsoft\\PowerPoint.*/ nocase) or (($e.target.process.file.full_path = /.*\\excel.exe$/ nocase or $e.target.process.file.full_path = /.*\\powerpnt.exe$/ nocase or $e.target.process.file.full_path = /.*\\winword.exe$/ nocase) and $e.target.file.full_path = /.*\\AppData\\Roaming\\Microsoft\\Office\\Recent\\.*/ nocase) or ($e.target.process.file.full_path = /.*\\winword.exe$/ nocase and $e.target.file.full_path = /.*\\AppData\\Roaming\\Microsoft\\Word.*/ nocase))))
+
+  condition:
+    $e
+}

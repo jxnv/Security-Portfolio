@@ -1,0 +1,11 @@
+// Title: New RUN Key Pointing to Suspicious Folder
+// ID: 02ee49e2-e294-4d0f-9278-f5b3212fc588
+// Status: experimental
+// Level: high
+// Author: Florian Roth (Nextron Systems), Markus Neis, Sander Wiebing, Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2018-08-25
+// Tags: attack.privilege-escalation, attack.persistence, attack.t1547.001
+// Description: Detects suspicious new RUN key element pointing to an executable in a suspicious folder
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((TargetObject = /*\\Software\\Microsoft\\Windows\\CurrentVersion\\Run*/i or TargetObject = /*\\Software\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Run*/i or TargetObject = /*\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run*/i)) and (((Details = /*:\\Perflogs*/i or Details = /*:\\ProgramData'*/i or Details = /*:\\Windows\\Temp*/i or Details = /*:\\Temp*/i or Details = /*\\AppData\\Local\\Temp*/i or Details = /*\\AppData\\Roaming*/i or Details = /*:\\$Recycle.bin*/i or Details = /*:\\Users\\Default*/i or Details = /*:\\Users\\public*/i or Details = /*%temp%*/i or Details = /*%tmp%*/i or Details = /*%Public%*/i or Details = /*%AppData%*/i)) or ((Details = /*:\\Users\\*/i) and ((Details = /*\\Favorites*/i or Details = /*\\Favourites*/i or Details = /*\\Contacts*/i or Details = /*\\Music*/i or Details = /*\\Pictures*/i or Details = /*\\Documents*/i or Details = /*\\Photos*/i)))) and not((TargetObject = /*\\Microsoft\\Windows\\CurrentVersion\\RunOnce\\*/i and ImageFileName = /C:\\Windows\\SoftwareDistribution\\Download\\.*/i and (Details = /*rundll32.exe */i and Details = /*C:\\WINDOWS\\system32\\advpack.dll,DelNodeRunDLL32*/i) and (Details = /*\\AppData\\Local\\Temp\\*/i or Details = /*C:\\Windows\\Temp\\*/i))) and not(((ImageFileName = /.*C:\\Program Files\\Spotify\\Spotify.exe/i or ImageFileName = /.*C:\\Program Files (x86)\\Spotify\\Spotify.exe/i or ImageFileName = /.*\\AppData\\Roaming\\Spotify\\Spotify.exe/i) and TargetObject = /.*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\\Spotify/i and Details = /.*Spotify.exe --autostart --minimized/i)))

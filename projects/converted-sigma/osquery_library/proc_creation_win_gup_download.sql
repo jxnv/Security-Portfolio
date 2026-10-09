@@ -1,0 +1,11 @@
+-- Title: File Download Using Notepad++ GUP Utility
+-- ID: 44143844-0631-49ab-97a0-96387d6b2d7c
+-- Status: test
+-- Level: high
+-- Author: Nasreddine Bencherchali (Nextron Systems)
+-- Date: 2022-06-10
+-- Tags: attack.command-and-control, attack.t1105
+-- Description: Detects execution of the Notepad++ updater (gup) from a process other than Notepad++ to download files.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM processes WHERE ((((CommandLine LIKE '% -unzipTo %' AND CommandLine LIKE '%http%')) AND ((Image="*\\GUP.exe") OR (OriginalFileName = 'gup.exe'))) AND NOT ((ParentImage="*\\notepad++.exe")))

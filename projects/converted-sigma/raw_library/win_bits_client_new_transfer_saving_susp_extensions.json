@@ -1,0 +1,40 @@
+{
+  "title": "BITS Transfer Job Downloading File Potential Suspicious Extension",
+  "id": "b85e5894-9b19-4d86-8c87-a2f3b81f0521",
+  "status": "test",
+  "description": "Detects new BITS transfer job saving local files with potential suspicious extensions",
+  "author": "frack113",
+  "date": "2022-03-01",
+  "tags": [
+    "attack.persistence",
+    "attack.execution",
+    "attack.stealth",
+    "attack.t1197"
+  ],
+  "level": "medium",
+  "logsource": {
+    "product": "windows",
+    "service": "bits-client"
+  },
+  "detection": {
+    "selection": {
+      "EventID": 16403,
+      "LocalName|endswith": [
+        ".bat",
+        ".dll",
+        ".exe",
+        ".hta",
+        ".ps1",
+        ".psd1",
+        ".sh",
+        ".vbe",
+        ".vbs"
+      ]
+    },
+    "filter_optional_generic": {
+      "LocalName|contains": "\\AppData\\",
+      "RemoteName|contains": ".com"
+    },
+    "condition": "selection and not 1 of filter_optional_*"
+  }
+}

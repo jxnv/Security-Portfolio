@@ -1,0 +1,23 @@
+// Title: Potential Persistence Via Logon Scripts - CommandLine
+// ID: 21d856f9-9281-4ded-9377-51a1a6e2a432
+// Status: test
+// Level: high
+// Author: Tom Ueltschi (@c_APT_ure)
+// Date: 2019-01-12
+// Tags: attack.privilege-escalation, attack.persistence, attack.t1037.001
+// Description: Detects the addition of a new LogonScript to the registry value "UserInitMprLogonScript" for potential persistence
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 21d856f9_9281_4ded_9377_51a1a6e2a432 {
+  meta:
+    title = "Potential Persistence Via Logon Scripts - CommandLine"
+    description = "Detects the addition of a new LogonScript to the registry value "UserInitMprLogonScript" for potential persistence"
+    author = "Tom Ueltschi (@c_APT_ure)"
+    severity = "HIGH"
+
+  events:
+    ($e.target.process.command_line = /.*UserInitMprLogonScript.*/ nocase)
+
+  condition:
+    $e
+}

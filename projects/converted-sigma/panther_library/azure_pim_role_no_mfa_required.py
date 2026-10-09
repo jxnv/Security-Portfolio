@@ -1,0 +1,19 @@
+# Title: Roles Activation Doesn't Require MFA
+# ID: 94a66f46-5b64-46ce-80b2-75dcbe627cc0
+# Status: test
+# Level: high
+# Author: Mark Morowczynski '@markmorow', Gloria Lee, '@gleeiamglo'
+# Date: 2023-09-14
+# Tags: attack.initial-access, attack.stealth, attack.t1078, attack.persistence, attack.privilege-escalation
+# Description: Identifies when a privilege role can be activated without performing mfa.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Roles Activation Doesn't Require MFA
+def rule(event):
+    # Detection Logic:
+    # (riskEventType="noMfaOnRoleActivationAlertIncident")
+    return True
+
+def title(event):
+    return "Roles Activation Doesn't Require MFA"
+

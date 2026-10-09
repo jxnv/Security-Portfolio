@@ -1,0 +1,22 @@
+# Title: Suspicious PowerShell Parameter Substring
+# ID: 36210e0d-5b19-485d-a087-c096088885f0
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems), Daniel Bohannon (idea), Roberto Rodriguez (Fix)
+# Date: 2019-01-16
+# Tags: attack.execution, attack.t1059.001
+# Description: Detects suspicious PowerShell invocation with a parameter substring
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# LimaCharlie Detection & Response Rule
+# Name: Suspicious PowerShell Parameter Substring
+detect:
+  event: process_creation
+  op: and
+  rules:
+    # Filter logic:
+    # ((Image="*\\powershell.exe" OR Image="*\\pwsh.exe") AND (CommandLine="* -windowstyle h *" OR CommandLine="* -windowstyl h*" OR CommandLine="* -windowsty h*" OR CommandLine="* -windowst h*" OR CommandLine="* -windows h*" OR CommandLine="* -windo h*" OR CommandLine="* -wind h*" OR CommandLine="* -win h*" OR CommandLine="* -wi h*" OR CommandLine="* -win h *" OR CommandLine="* -win hi *" OR CommandLine="* -win hid *" OR CommandLine="* -win hidd *" OR CommandLine="* -win hidde *" OR CommandLine="* -NoPr *" OR CommandLine="* -NoPro *" OR CommandLine="* -NoProf *" OR CommandLine="* -NoProfi *" OR CommandLine="* -NoProfil *" OR CommandLine="* -nonin *" OR CommandLine="* -nonint *" OR CommandLine="* -noninte *" OR CommandLine="* -noninter *" OR CommandLine="* -nonintera *" OR CommandLine="* -noninterac *" OR CommandLine="* -noninteract *" OR CommandLine="* -noninteracti *" OR CommandLine="* -noninteractiv *" OR CommandLine="* -ec *" OR CommandLine="* -encodedComman *" OR CommandLine="* -encodedComma *" OR CommandLine="* -encodedComm *" OR CommandLine="* -encodedCom *" OR CommandLine="* -encodedCo *" OR CommandLine="* -encodedC *" OR CommandLine="* -encoded *" OR CommandLine="* -encode *" OR CommandLine="* -encod *" OR CommandLine="* -enco *" OR CommandLine="* -en *" OR CommandLine="* -executionpolic *" OR CommandLine="* -executionpoli *" OR CommandLine="* -executionpol *" OR CommandLine="* -executionpo *" OR CommandLine="* -executionp *" OR CommandLine="* -execution bypass*" OR CommandLine="* -executio bypass*" OR CommandLine="* -executi bypass*" OR CommandLine="* -execut bypass*" OR CommandLine="* -execu bypass*" OR CommandLine="* -exec bypass*" OR CommandLine="* -exe bypass*" OR CommandLine="* -ex bypass*" OR CommandLine="* -ep bypass*" OR CommandLine="* /windowstyle h *" OR CommandLine="* /windowstyl h*" OR CommandLine="* /windowsty h*" OR CommandLine="* /windowst h*" OR CommandLine="* /windows h*" OR CommandLine="* /windo h*" OR CommandLine="* /wind h*" OR CommandLine="* /win h*" OR CommandLine="* /wi h*" OR CommandLine="* /win h *" OR CommandLine="* /win hi *" OR CommandLine="* /win hid *" OR CommandLine="* /win hidd *" OR CommandLine="* /win hidde *" OR CommandLine="* /NoPr *" OR CommandLine="* /NoPro *" OR CommandLine="* /NoProf *" OR CommandLine="* /NoProfi *" OR CommandLine="* /NoProfil *" OR CommandLine="* /nonin *" OR CommandLine="* /nonint *" OR CommandLine="* /noninte *" OR CommandLine="* /noninter *" OR CommandLine="* /nonintera *" OR CommandLine="* /noninterac *" OR CommandLine="* /noninteract *" OR CommandLine="* /noninteracti *" OR CommandLine="* /noninteractiv *" OR CommandLine="* /ec *" OR CommandLine="* /encodedComman *" OR CommandLine="* /encodedComma *" OR CommandLine="* /encodedComm *" OR CommandLine="* /encodedCom *" OR CommandLine="* /encodedCo *" OR CommandLine="* /encodedC *" OR CommandLine="* /encoded *" OR CommandLine="* /encode *" OR CommandLine="* /encod *" OR CommandLine="* /enco *" OR CommandLine="* /en *" OR CommandLine="* /executionpolic *" OR CommandLine="* /executionpoli *" OR CommandLine="* /executionpol *" OR CommandLine="* /executionpo *" OR CommandLine="* /executionp *" OR CommandLine="* /execution bypass*" OR CommandLine="* /executio bypass*" OR CommandLine="* /executi bypass*" OR CommandLine="* /execut bypass*" OR CommandLine="* /execu bypass*" OR CommandLine="* /exec bypass*" OR CommandLine="* /exe bypass*" OR CommandLine="* /ex bypass*" OR CommandLine="* /ep bypass*"))
+respond:
+  - action: report
+    name: Suspicious PowerShell Parameter Substring
+

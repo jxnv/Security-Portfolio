@@ -1,0 +1,23 @@
+// Title: CobaltStrike Named Pipe
+// ID: d5601f8c-b26f-4ab0-9035-69e11a8d4ad2
+// Status: test
+// Level: critical
+// Author: Florian Roth (Nextron Systems), Wojciech Lesicki
+// Date: 2021-05-25
+// Tags: attack.privilege-escalation, attack.stealth, attack.t1055
+// Description: Detects the creation of a named pipe as used by CobaltStrike
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule d5601f8c_b26f_4ab0_9035_69e11a8d4ad2 {
+  meta:
+    title = "CobaltStrike Named Pipe"
+    description = "Detects the creation of a named pipe as used by CobaltStrike"
+    author = "Florian Roth (Nextron Systems), Wojciech Lesicki"
+    severity = "CRITICAL"
+
+  events:
+    ((($e.PipeName = /.*\\MSSE-.*/ nocase and $e.PipeName = /.*-server.*/ nocase)) or ($e.PipeName = /^\\interprocess_.*/ nocase) or ($e.PipeName = /^\\lsarpc_.*/ nocase) or ($e.PipeName = /^\\mojo_.*/ nocase) or ($e.PipeName = /^\\msagent_.*/ nocase) or ($e.PipeName = /^\\netlogon_.*/ nocase) or ($e.PipeName = /^\\postex_.*/ nocase) or ($e.PipeName = /^\\samr_.*/ nocase) or ($e.PipeName = /^\\srvsvc_.*/ nocase) or ($e.PipeName = /^\\status_.*/ nocase) or ($e.PipeName = /^\\wkssvc_.*/ nocase))
+
+  condition:
+    $e
+}

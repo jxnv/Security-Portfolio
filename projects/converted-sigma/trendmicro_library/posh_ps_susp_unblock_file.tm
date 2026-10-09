@@ -1,0 +1,11 @@
+// Title: Suspicious Unblock-File
+// ID: 5947497f-1aa4-41dd-9693-c9848d58727d
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-02-01
+// Tags: attack.defense-impairment, attack.t1553.005
+// Description: Remove the Zone.Identifier alternate data stream which identifies the file as downloaded from the internet.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((ScriptBlockText: "*Unblock-File *" AND ScriptBlockText: "*-Path *"))

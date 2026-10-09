@@ -1,0 +1,11 @@
+# Title: Suspicious PowerShell Invocations - Specific - ProcessCreation
+# ID: 536e2947-3729-478c-9903-745aaffe60d2
+# Status: test
+# Level: medium
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2023-01-05
+# Tags: attack.stealth
+# Description: Detects suspicious PowerShell invocation command parameters
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((((CommandLine CONTAIN "-nop" AND CommandLine CONTAIN " -w " AND CommandLine CONTAIN "hidden" AND CommandLine CONTAIN " -c " AND CommandLine CONTAIN "[Convert]::FromBase64String")) OR ((CommandLine CONTAIN " -w " AND CommandLine CONTAIN "hidden" AND CommandLine CONTAIN "-ep" AND CommandLine CONTAIN "bypass" AND CommandLine CONTAIN "-Enc")) OR ((CommandLine CONTAIN " -w " AND CommandLine CONTAIN "hidden" AND CommandLine CONTAIN "-noni" AND CommandLine CONTAIN "-nop" AND CommandLine CONTAIN " -c " AND CommandLine CONTAIN "iex" AND CommandLine CONTAIN "New-Object")) OR ((CommandLine CONTAIN "iex" AND CommandLine CONTAIN "New-Object" AND CommandLine CONTAIN "Net.WebClient" AND CommandLine CONTAIN ".Download")) OR ((CommandLine CONTAIN "powershell" AND CommandLine CONTAIN "reg" AND CommandLine CONTAIN "add" AND CommandLine CONTAIN "\\software\\")) OR ((CommandLine CONTAIN "bypass" AND CommandLine CONTAIN "-noprofile" AND CommandLine CONTAIN "-windowstyle" AND CommandLine CONTAIN "hidden" AND CommandLine CONTAIN "new-object" AND CommandLine CONTAIN "system.net.webclient" AND CommandLine CONTAIN ".download"))) AND NOT (((CommandLine CONTAIN "(New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1" OR CommandLine CONTAIN "Write-ChocolateyWarning"))))

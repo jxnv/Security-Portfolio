@@ -1,0 +1,11 @@
+-- Title: Hidden User Creation
+-- ID: b22a5b36-2431-493a-8be1-0bae56c28ef3
+-- Status: test
+-- Level: medium
+-- Author: Daniil Yugoslavskiy, oscd.community
+-- Date: 2020-10-10
+-- Tags: attack.stealth, attack.t1564.002
+-- Description: Detects creation of a hidden user account on macOS (UserID < 500) or with IsHidden option
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM processes WHERE (((Image="*/dscl" AND CommandLine LIKE '%create%') AND (CommandLine LIKE '%UniqueID%' AND CommandLine=regex("([0-9]|[1-9][0-9]|[1-4][0-9]{2})"))) OR ((Image="*/dscl" AND CommandLine LIKE '%create%') AND ((CommandLine LIKE '%IsHidden%') AND ((CommandLine LIKE '%true%' OR CommandLine LIKE '%yes%' OR CommandLine LIKE '%1%')))))

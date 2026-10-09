@@ -1,0 +1,11 @@
+-- Title: Whoami.EXE Execution Anomaly
+-- ID: 8de1cbe8-d6f5-496d-8237-5f44a721c7a0
+-- Status: test
+-- Level: medium
+-- Author: Florian Roth (Nextron Systems)
+-- Date: 2021-08-12
+-- Tags: attack.discovery, attack.t1033, car.2016-03-001
+-- Description: Detects the execution of whoami.exe with suspicious parent processes.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE (((Image ILIKE '%\\whoami.exe') OR (OriginalFileName = 'whoami.exe')) AND NOT ((((ParentImage ILIKE '%\\cmd.exe' OR ParentImage ILIKE '%\\powershell_ise.exe' OR ParentImage ILIKE '%\\powershell.exe' OR ParentImage ILIKE '%\\pwsh.exe')) OR ((ParentImage = '' OR ParentImage = '-')) OR (ParentImage IS NULL))) AND NOT ((ParentImage ILIKE '%:\\Program Files\\Microsoft Monitoring Agent\\Agent\\MonitoringHost.exe')))

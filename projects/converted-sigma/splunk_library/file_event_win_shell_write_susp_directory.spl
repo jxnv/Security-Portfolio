@@ -1,0 +1,11 @@
+# Title: Windows Shell/Scripting Application File Write to Suspicious Folder
+# ID: 1277f594-a7d1-4f28-a2d3-73af5cbeab43
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems)
+# Date: 2021-11-20
+# Tags: attack.execution, attack.t1059
+# Description: Detects Windows shells and scripting applications that write files to suspicious folders
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog (((process_path="*\\bash.exe" OR process_path="*\\cmd.exe" OR process_path="*\\cscript.exe" OR process_path="*\\msbuild.exe" OR process_path="*\\powershell.exe" OR process_path="*\\pwsh.exe" OR process_path="*\\sh.exe" OR process_path="*\\wscript.exe") AND (file_name="C:\\PerfLogs\\*" OR file_name="C:\\Users\\Public\\*")) OR ((process_path="*\\certutil.exe" OR process_path="*\\forfiles.exe" OR process_path="*\\mshta.exe" OR process_path="*\\schtasks.exe" OR process_path="*\\scriptrunner.exe" OR process_path="*\\wmic.exe") AND (file_name="*C:\\PerfLogs\\*" OR file_name="*C:\\Users\\Public\\*" OR file_name="*C:\\Windows\\Temp\\*")))

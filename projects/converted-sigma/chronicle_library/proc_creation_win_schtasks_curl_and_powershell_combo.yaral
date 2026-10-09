@@ -1,0 +1,24 @@
+// Title: Scheduled Task Creation with Curl and PowerShell Execution Combo
+// ID: 1d174d38-8fda-4081-a9b6-56d9763c0cd8
+// Status: experimental
+// Level: medium
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-02-05
+// Tags: attack.privilege-escalation, attack.execution, attack.persistence, attack.stealth, attack.t1053.005, attack.t1218, attack.command-and-control, attack.t1105
+// Description: Detects the creation of a scheduled task using schtasks.exe, potentially in combination with curl for downloading payloads and PowerShell for executing them.
+// This facilitates executing malicious payloads or connecting with C&C server persistently without dropping the malware sample on the host.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 1d174d38_8fda_4081_a9b6_56d9763c0cd8 {
+  meta:
+    title = "Scheduled Task Creation with Curl and PowerShell Execution Combo"
+    description = "Detects the creation of a scheduled task using schtasks.exe, potentially in combination with curl for downloading payloads and PowerShell for executing them. This facilitates executing malicious payloads or connecting with C&C server persistently without dropping the malware sample on the host."
+    author = "Swachchhanda Shrawan Poudel (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.command_line = /.*curl .*/ nocase and $e.target.process.command_line = /.*http.*/ nocase and $e.target.process.command_line = /.*-o.*/ nocase)) and ($e.target.process.file.full_path = /.*\\schtasks.exe$/ nocase and $e.target.process.command_line = /.* /create .*/ nocase) and ($e.target.process.command_line = /.*powershell.*/ nocase))
+
+  condition:
+    $e
+}

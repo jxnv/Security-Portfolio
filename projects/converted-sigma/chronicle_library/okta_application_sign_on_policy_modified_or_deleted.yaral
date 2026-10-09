@@ -1,0 +1,23 @@
+// Title: Okta Application Sign-On Policy Modified or Deleted
+// ID: 8f668cc4-c18e-45fe-ad00-624a981cf88a
+// Status: test
+// Level: medium
+// Author: Austin Songer @austinsonger
+// Date: 2021-09-12
+// Tags: attack.impact
+// Description: Detects when an application Sign-on Policy is modified or deleted.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 8f668cc4_c18e_45fe_ad00_624a981cf88a {
+  meta:
+    title = "Okta Application Sign-On Policy Modified or Deleted"
+    description = "Detects when an application Sign-on Policy is modified or deleted."
+    author = "Austin Songer @austinsonger"
+    severity = "MEDIUM"
+
+  events:
+    (($e.eventType = "application.policy.sign_on.update" or $e.eventType = "application.policy.sign_on.rule.delete"))
+
+  condition:
+    $e
+}

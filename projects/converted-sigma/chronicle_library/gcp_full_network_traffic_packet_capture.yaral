@@ -1,0 +1,23 @@
+// Title: Google Full Network Traffic Packet Capture
+// ID: 980a7598-1e7f-4962-9372-2d754c930d0e
+// Status: test
+// Level: medium
+// Author: Austin Songer @austinsonger
+// Date: 2021-08-13
+// Tags: attack.collection, attack.t1074
+// Description: Identifies potential full network packet capture in gcp. This feature can potentially be abused to read sensitive data from unencrypted internal traffic.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 980a7598_1e7f_4962_9372_2d754c930d0e {
+  meta:
+    title = "Google Full Network Traffic Packet Capture"
+    description = "Identifies potential full network packet capture in gcp. This feature can potentially be abused to read sensitive data from unencrypted internal traffic."
+    author = "Austin Songer @austinsonger"
+    severity = "MEDIUM"
+
+  events:
+    (($e.gcp.audit.method_name = "v*.Compute.PacketMirrorings.Get" or $e.gcp.audit.method_name = "v*.Compute.PacketMirrorings.Delete" or $e.gcp.audit.method_name = "v*.Compute.PacketMirrorings.Insert" or $e.gcp.audit.method_name = "v*.Compute.PacketMirrorings.Patch" or $e.gcp.audit.method_name = "v*.Compute.PacketMirrorings.List" or $e.gcp.audit.method_name = "v*.Compute.PacketMirrorings.aggregatedList"))
+
+  condition:
+    $e
+}

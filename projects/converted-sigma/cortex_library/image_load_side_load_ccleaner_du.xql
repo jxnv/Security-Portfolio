@@ -1,0 +1,11 @@
+// Title: Potential CCleanerDU.DLL Sideloading
+// ID: 1fbc0671-5596-4e17-8682-f020a0b995dc
+// Status: test
+// Level: medium
+// Author: X__Junior (Nextron Systems)
+// Date: 2023-07-13
+// Tags: attack.persistence, attack.privilege-escalation, attack.execution, attack.stealth, attack.t1574.001
+// Description: Detects potential DLL sideloading of "CCleanerDU.dll"
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter ((ImageLoaded endswith "\\CCleanerDU.dll") and not (((action_process_image_path startswith "C:\\Program Files\\CCleaner\\" or action_process_image_path startswith "C:\\Program Files (x86)\\CCleaner\\") and (action_process_image_path endswith "\\CCleaner.exe" or action_process_image_path endswith "\\CCleaner64.exe"))))

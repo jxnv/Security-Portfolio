@@ -1,0 +1,23 @@
+// Title: PowerShell AppLocker Policy Discovery Via Get-AppLockerPolicy
+// ID: f14b1e99-5e53-4598-98dc-6f20ad7b35e0
+// Status: experimental
+// Level: low
+// Author: Tom3306
+// Date: 2026-08-19
+// Tags: attack.discovery, attack.t1518.001
+// Description: Detects AppLocker policy enumeration attempts via PowerShell using the Get-AppLockerPolicy cmdlet and an policy scope of either Effective, LDAP, or Local.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule f14b1e99_5e53_4598_98dc_6f20ad7b35e0 {
+  meta:
+    title = "PowerShell AppLocker Policy Discovery Via Get-AppLockerPolicy"
+    description = "Detects AppLocker policy enumeration attempts via PowerShell using the Get-AppLockerPolicy cmdlet and an policy scope of either Effective, LDAP, or Local."
+    author = "Tom3306"
+    severity = "LOW"
+
+  events:
+    (($e.target.process.command_line = /.*Get-AppLockerPolicy.*/ nocase) and (($e.target.process.command_line = /.* -Effective.*/ nocase or $e.target.process.command_line = /.* -Ldap .*/ nocase or $e.target.process.command_line = /.* -Local.*/ nocase)) and ((($e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase)) or (($e.target.process.file.name = "PowerShell.EXE" or $e.target.process.file.name = "pwsh.dll"))))
+
+  condition:
+    $e
+}

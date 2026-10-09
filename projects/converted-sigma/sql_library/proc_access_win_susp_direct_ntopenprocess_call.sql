@@ -1,0 +1,11 @@
+-- Title: Potential Direct Syscall of NtOpenProcess
+-- ID: 3f3f3506-1895-401b-9cc3-e86b16e630d0
+-- Status: test
+-- Level: medium
+-- Author: Christian Burkard (Nextron Systems), Tim Shelton (FP)
+-- Date: 2021-07-28
+-- Tags: attack.execution, attack.t1106
+-- Description: Detects potential calls to NtOpenProcess directly from NTDLL.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE ((CallTrace ILIKE 'UNKNOWN%') AND NOT ((((SourceImage ILIKE '%:\\Program Files (x86)\\%' OR SourceImage ILIKE '%:\\Program Files\\%' OR SourceImage ILIKE '%:\\Windows\\System32\\%' OR SourceImage ILIKE '%:\\Windows\\SysWOW64\\%' OR SourceImage ILIKE '%:\\Windows\\WinSxS\\%') AND (TargetImage ILIKE '%:\\Program Files (x86)\\%' OR TargetImage ILIKE '%:\\Program Files\\%' OR TargetImage ILIKE '%:\\Windows\\System32\\%' OR TargetImage ILIKE '%:\\Windows\\SysWOW64\\%' OR TargetImage ILIKE '%:\\Windows\\WinSxS\\%')) OR (Provider_Name = 'Microsoft-Windows-Kernel-Audit-API-Calls') OR (TargetImage ILIKE '%vcredist_x64.exe' AND SourceImage ILIKE '%vcredist_x64.exe'))) AND NOT (((SourceImage ILIKE '%:\\Program Files\\Adobe\\Acrobat DC\\Acrobat\\%' AND SourceImage ILIKE '%\\AcroCEF.exe' AND TargetImage ILIKE '%:\\Program Files\\Adobe\\Acrobat DC\\Acrobat\\%' AND TargetImage ILIKE '%\\AcroCEF.exe') OR (SourceImage ILIKE '%AmazonSSMAgentSetup.exe' AND TargetImage ILIKE '%AmazonSSMAgentSetup.exe') OR (SourceImage ILIKE '%:\\Windows\\Explorer.EXE' AND TargetImage ILIKE '%:\\Program Files\\Cylance\\Desktop\\CylanceUI.exe') OR (TargetImage ILIKE '%\\AppData\\Local\\Discord\\%' AND TargetImage ILIKE '%\\Discord.exe') OR (TargetImage ILIKE '%\\Evernote\\Evernote.exe') OR (TargetImage ILIKE '%\\AppData\\Local\\Microsoft\\Teams\\current\\Teams.exe' AND SourceImage ILIKE '%\\AppData\\Local\\Microsoft\\Teams\\current\\Teams.exe') OR (TargetImage ILIKE '%:\\Windows\\system32\\systeminfo.exe' AND SourceImage ILIKE '%setup64.exe') OR (SourceImage ILIKE '%\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe' AND TargetImage ILIKE '%\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe') OR (SourceImage ILIKE '%\\AppData\\Local\\yammerdesktop\\app-%' AND SourceImage ILIKE '%\\Yammer.exe' AND TargetImage ILIKE '%\\AppData\\Local\\yammerdesktop\\app-%' AND TargetImage ILIKE '%\\Yammer.exe' AND GrantedAccess = '0x1000'))))

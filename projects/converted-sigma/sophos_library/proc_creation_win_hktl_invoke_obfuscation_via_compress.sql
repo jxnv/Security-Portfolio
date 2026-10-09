@@ -1,0 +1,11 @@
+-- Title: Invoke-Obfuscation COMPRESS OBFUSCATION
+-- ID: 7eedcc9d-9fdb-4d94-9c54-474e8affc0c7
+-- Status: test
+-- Level: medium
+-- Author: Timur Zinniatullin, oscd.community
+-- Date: 2020-10-18
+-- Tags: attack.stealth, attack.t1027, attack.execution, attack.t1059.001
+-- Description: Detects Obfuscated Powershell via COMPRESS OBFUSCATION
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE ((CommandLine ILIKE '%new-object%' AND CommandLine ILIKE '%text.encoding]::ascii%') AND (CommandLine ILIKE '%system.io.compression.deflatestream%' OR CommandLine ILIKE '%system.io.streamreader%' OR CommandLine ILIKE '%readtoend(%'))

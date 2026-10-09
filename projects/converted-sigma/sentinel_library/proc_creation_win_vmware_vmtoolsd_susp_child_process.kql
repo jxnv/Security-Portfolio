@@ -1,0 +1,11 @@
+// Title: VMToolsd Suspicious Child Process
+// ID: 5687f942-867b-4578-ade7-1e341c46e99a
+// Status: test
+// Level: high
+// Author: bohops, Bhabesh Raj
+// Date: 2021-10-08
+// Tags: attack.execution, attack.persistence, attack.t1059
+// Description: Detects suspicious child process creations of VMware Tools process which may indicate persistence setup
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+DeviceProcessEvents | where (((((FolderPath endswith "\\cmd.exe" or FolderPath endswith "\\cscript.exe" or FolderPath endswith "\\mshta.exe" or FolderPath endswith "\\powershell.exe" or FolderPath endswith "\\pwsh.exe" or FolderPath endswith "\\regsvr32.exe" or FolderPath endswith "\\rundll32.exe" or FolderPath endswith "\\wscript.exe")) or ((ProcessVersionInfoOriginalFileName == "Cmd.Exe" or ProcessVersionInfoOriginalFileName == "cscript.exe" or ProcessVersionInfoOriginalFileName == "MSHTA.EXE" or ProcessVersionInfoOriginalFileName == "PowerShell.EXE" or ProcessVersionInfoOriginalFileName == "pwsh.dll" or ProcessVersionInfoOriginalFileName == "REGSVR32.EXE" or ProcessVersionInfoOriginalFileName == "RUNDLL32.EXE" or ProcessVersionInfoOriginalFileName == "wscript.exe"))) and (InitiatingProcessFolderPath endswith "\\vmtoolsd.exe")) and not(((FolderPath endswith "\\cmd.exe" and ProcessCommandLine == "") or (FolderPath endswith "\\cmd.exe" and (isempty(ProcessCommandLine) or isnull(ProcessCommandLine))) or (FolderPath endswith "\\cmd.exe" and (ProcessCommandLine contains "\\VMware\\VMware Tools\\poweron-vm-default.bat" or ProcessCommandLine contains "\\VMware\\VMware Tools\\poweroff-vm-default.bat" or ProcessCommandLine contains "\\VMware\\VMware Tools\\resume-vm-default.bat" or ProcessCommandLine contains "\\VMware\\VMware Tools\\suspend-vm-default.bat")))))

@@ -1,0 +1,13 @@
+// Title: Antivirus - Web Shell Detection Signature
+// ID: fdf135a2-9241-4f96-a114-bb404948f736
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Arnim Rupp
+// Date: 2018-09-09
+// Tags: attack.persistence, attack.t1505.003
+// Description: Detects a highly relevant Antivirus alert that reports a web shell.
+// It's highly recommended to tune this rule to the specific strings used by your anti virus solution by downloading a big WebShell repository from e.g. github and checking the matches.
+// This event must not be ignored just because the AV has blocked the malware but investigate, how it came there in the first place.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+from siem.events where (((Signature="ASP.*" OR Signature="IIS/BackDoor*" OR Signature="JAVA/Backdoor*" OR Signature="JSP.*" OR Signature="Perl.*" OR Signature="PHP.*" OR Signature="Troj/ASP*" OR Signature="Troj/JSP*" OR Signature="Troj/PHP*" OR Signature="VBS/Uxor*")) OR ((contains(Signature, "ASP_") OR contains(Signature, "ASP:") OR contains(Signature, "ASP.Agent") OR contains(Signature, "ASP/") OR contains(Signature, "Aspdoor") OR contains(Signature, "ASPXSpy") OR contains(Signature, "Backdoor.ASP") OR contains(Signature, "Backdoor.Java") OR contains(Signature, "Backdoor.JSP") OR contains(Signature, "Backdoor.PHP") OR contains(Signature, "Backdoor.VBS") OR contains(Signature, "Backdoor/ASP") OR contains(Signature, "Backdoor/Java") OR contains(Signature, "Backdoor/JSP") OR contains(Signature, "Backdoor/PHP") OR contains(Signature, "Backdoor/VBS") OR contains(Signature, "C99shell") OR contains(Signature, "Chopper") OR contains(Signature, "filebrowser") OR contains(Signature, "JSP_") OR contains(Signature, "JSP:") OR contains(Signature, "JSP.Agent") OR contains(Signature, "JSP/") OR contains(Signature, "Perl:") OR contains(Signature, "Perl/") OR contains(Signature, "PHP_") OR contains(Signature, "PHP:") OR contains(Signature, "PHP.Agent") OR contains(Signature, "PHP/") OR contains(Signature, "PHPShell") OR contains(Signature, "PShlSpy") OR contains(Signature, "SinoChoper") OR contains(Signature, "Trojan.ASP") OR contains(Signature, "Trojan.JSP") OR contains(Signature, "Trojan.PHP") OR contains(Signature, "Trojan.VBS") OR contains(Signature, "VBS.Agent") OR contains(Signature, "VBS/Agent") OR contains(Signature, "Webshell"))))

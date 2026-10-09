@@ -1,0 +1,24 @@
+// Title: Potential PowerShell Execution Via DLL
+// ID: 6812a10b-60ea-420c-832f-dfcc33b646ba
+// Status: test
+// Level: high
+// Author: Markus Neis, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2018-08-25
+// Tags: attack.stealth, attack.t1218.011
+// Description: Detects potential PowerShell execution from a DLL instead of the usual PowerShell process as seen used in PowerShdll.
+// This detection assumes that PowerShell commands are passed via the CommandLine.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 6812a10b_60ea_420c_832f_dfcc33b646ba {
+  meta:
+    title = "Potential PowerShell Execution Via DLL"
+    description = "Detects potential PowerShell execution from a DLL instead of the usual PowerShell process as seen used in PowerShdll. This detection assumes that PowerShell commands are passed via the CommandLine."
+    author = "Markus Neis, Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*Default.GetString.*/ nocase or $e.target.process.command_line = /.*DownloadString.*/ nocase or $e.target.process.command_line = /.*FromBase64String.*/ nocase or $e.target.process.command_line = /.*ICM .*/ nocase or $e.target.process.command_line = /.*IEX .*/ nocase or $e.target.process.command_line = /.*Invoke-Command.*/ nocase or $e.target.process.command_line = /.*Invoke-Expression.*/ nocase)) and ((($e.target.process.file.full_path = /.*\\InstallUtil.exe$/ nocase or $e.target.process.file.full_path = /.*\\RegAsm.exe$/ nocase or $e.target.process.file.full_path = /.*\\RegSvcs.exe$/ nocase or $e.target.process.file.full_path = /.*\\regsvr32.exe$/ nocase or $e.target.process.file.full_path = /.*\\rundll32.exe$/ nocase)) or (($e.target.process.file.name = "InstallUtil.exe" or $e.target.process.file.name = "RegAsm.exe" or $e.target.process.file.name = "RegSvcs.exe" or $e.target.process.file.name = "REGSVR32.EXE" or $e.target.process.file.name = "RUNDLL32.EXE"))))
+
+  condition:
+    $e
+}

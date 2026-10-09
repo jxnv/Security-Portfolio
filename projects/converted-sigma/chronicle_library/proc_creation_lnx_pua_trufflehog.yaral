@@ -1,0 +1,25 @@
+// Title: PUA - TruffleHog Execution - Linux
+// ID: d7a650c4-226c-451e-948f-cc490db506aa
+// Status: experimental
+// Level: medium
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-09-24
+// Tags: attack.discovery, attack.credential-access, attack.t1083, attack.t1552.001
+// Description: Detects execution of TruffleHog, a tool used to search for secrets in different platforms like Git, Jira, Slack, SharePoint, etc. that could be used maliciously.
+// While it is a legitimate tool, intended for use in CI pipelines and security assessments,
+// It was observed in the Shai-Hulud malware campaign targeting npm packages to steal sensitive information.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule d7a650c4_226c_451e_948f_cc490db506aa {
+  meta:
+    title = "PUA - TruffleHog Execution - Linux"
+    description = "Detects execution of TruffleHog, a tool used to search for secrets in different platforms like Git, Jira, Slack, SharePoint, etc. that could be used maliciously. While it is a legitimate tool, intended for use in CI pipelines and security assessments, It was observed in the Shai-Hulud malware campaign targeting npm packages to steal sensitive information."
+    author = "Swachchhanda Shrawan Poudel (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.process.file.full_path = /.*/trufflehog$/ nocase) or ((($e.target.process.command_line = /.* docker --image .*/ nocase or $e.target.process.command_line = /.* Git .*/ nocase or $e.target.process.command_line = /.* GitHub .*/ nocase or $e.target.process.command_line = /.* Jira .*/ nocase or $e.target.process.command_line = /.* Slack .*/ nocase or $e.target.process.command_line = /.* Confluence .*/ nocase or $e.target.process.command_line = /.* SharePoint .*/ nocase or $e.target.process.command_line = /.* s3 .*/ nocase or $e.target.process.command_line = /.* gcs .*/ nocase)) and ($e.target.process.command_line = /.* --results=verified.*/ nocase)))
+
+  condition:
+    $e
+}

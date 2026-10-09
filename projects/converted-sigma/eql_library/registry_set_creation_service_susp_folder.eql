@@ -1,0 +1,11 @@
+// Title: Service Binary in Suspicious Folder
+// ID: a07f0359-4c90-4dc4-a681-8ffea40b4f47
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), frack113
+// Date: 2022-05-02
+// Tags: attack.persistence, attack.defense-impairment, attack.t1112
+// Description: Detect the creation of a service with a service binary located in a suspicious directory
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+registry where (((registry.path startswith "HKLM\\System\\CurrentControlSet\\Services\\" and registry.path endswith "\\ImagePath" and (registry.data.strings like "*_\\Users\\Public\\*" or registry.data.strings like "*_\\Perflogs\\*" or registry.data.strings like "*_\\ADMIN$\\*" or registry.data.strings like "*_\\Temp\\*")) or (registry.path startswith "HKLM\\System\\CurrentControlSet\\Services\\" and registry.path endswith "\\Start" and (process.executable like "*_\\Users\\Public\\*" or process.executable like "*_\\Perflogs\\*" or process.executable like "*_\\ADMIN$\\*" or process.executable like "*_\\Temp\\*") and (registry.data.strings == "DWORD (0x00000000)" or registry.data.strings == "DWORD (0x00000001)" or registry.data.strings == "DWORD (0x00000002)"))) and not ((((process.executable like "*_\\Common Files\\*" and process.executable like "*_\\Temp\\*")) or (registry.path endswith "\\CurrentControlSet\\Services\\MBAMInstallerService\\ImagePath" and registry.data.strings endswith "\\AppData\\Local\\Temp\\MBAMInstallerService.exe\"" and process.executable == "C:\\Windows\\system32\\services.exe"))))

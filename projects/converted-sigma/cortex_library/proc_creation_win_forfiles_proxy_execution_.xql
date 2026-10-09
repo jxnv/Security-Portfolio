@@ -1,0 +1,13 @@
+// Title: Forfiles Command Execution
+// ID: 9aa5106d-bce3-4b13-86df-3a20f1d5cf0b
+// Status: test
+// Level: medium
+// Author: Tim Rauch, Elastic, E.M. Anhaus (originally from Atomic Blue Detections, Endgame), oscd.community
+// Date: 2022-06-14
+// Tags: attack.execution, attack.t1059
+// Description: Detects the execution of "forfiles" with the "/c" flag.
+// While this is an expected behavior of the tool, it can be abused in order to proxy execution through it with any binary.
+// Can be used to bypass application whitelisting.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter ((action_process_image_command_line contains " -c ") and ((action_process_image_path endswith "\\forfiles.exe") or (action_process_image_name = "forfiles.exe")))

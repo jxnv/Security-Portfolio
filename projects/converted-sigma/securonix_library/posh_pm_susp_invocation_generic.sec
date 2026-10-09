@@ -1,0 +1,11 @@
+// Title: Suspicious PowerShell Invocations - Generic - PowerShell Module
+// ID: bbb80e91-5746-4fbe-8898-122e2cafdbf4
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2017-03-12
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects suspicious PowerShell invocation command parameters
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((ContextInfo CONTAINS " -enc " OR ContextInfo CONTAINS " -EncodedCommand " OR ContextInfo CONTAINS " -ec ")) AND ((ContextInfo CONTAINS " -w hidden " OR ContextInfo CONTAINS " -window hidden " OR ContextInfo CONTAINS " -windowstyle hidden " OR ContextInfo CONTAINS " -w 1 ")) AND ((ContextInfo CONTAINS " -noni " OR ContextInfo CONTAINS " -noninteractive ")))

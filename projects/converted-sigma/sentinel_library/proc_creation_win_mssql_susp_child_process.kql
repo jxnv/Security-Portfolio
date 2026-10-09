@@ -1,0 +1,11 @@
+// Title: Suspicious Child Process Of SQL Server
+// ID: 869b9ca7-9ea2-4a5a-8325-e80e62f75445
+// Status: test
+// Level: high
+// Author: FPT.EagleEye Team, wagga
+// Date: 2020-12-11
+// Tags: attack.t1505.003, attack.t1190, attack.initial-access, attack.persistence, attack.privilege-escalation
+// Description: Detects suspicious child processes of the SQLServer process. This could indicate potential RCE or SQL Injection.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+DeviceProcessEvents | where ((InitiatingProcessFolderPath endswith "\\sqlservr.exe" and (FolderPath endswith "\\bash.exe" or FolderPath endswith "\\bitsadmin.exe" or FolderPath endswith "\\cmd.exe" or FolderPath endswith "\\netstat.exe" or FolderPath endswith "\\nltest.exe" or FolderPath endswith "\\ping.exe" or FolderPath endswith "\\powershell.exe" or FolderPath endswith "\\pwsh.exe" or FolderPath endswith "\\regsvr32.exe" or FolderPath endswith "\\rundll32.exe" or FolderPath endswith "\\sh.exe" or FolderPath endswith "\\systeminfo.exe" or FolderPath endswith "\\tasklist.exe" or FolderPath endswith "\\wsl.exe")) and not((InitiatingProcessFolderPath startswith "C:\\Program Files\\Microsoft SQL Server\\" and InitiatingProcessFolderPath endswith "DATEV_DBENGINE\\MSSQL\\Binn\\sqlservr.exe" and FolderPath == "C:\\Windows\\System32\\cmd.exe" and ProcessCommandLine startswith "\"C:\\Windows\\system32\\cmd.exe\" ")))

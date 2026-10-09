@@ -1,0 +1,13 @@
+// Title: Kubernetes Potential Enumeration Activity
+// ID: 597a7e84-187d-458b-9e4f-2f5a0e676711
+// Status: experimental
+// Level: medium
+// Author: uniqu3-us3r
+// Date: 2026-04-28
+// Tags: attack.execution, attack.discovery, attack.t1609, attack.t1613
+// Description: Detects potential Kubernetes enumeration or attack activity via the audit log.
+// This includes the execution of common shells, utilities, or specialized tools like 'Rakkess' (access_matrix) and 'TruffleHog' via Kubernetes API requests.
+// Attackers use these methods to perform reconnaissance (enumeration), secret harvesting, or execute code (exec) within a cluster.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where ((responseStatus.code = "ALLOW") and (((requestURI matches "*%2fbin%2fash*" or requestURI matches "*%2fbin%2fbash*" or requestURI matches "*%2fbin%2fbusybox*" or requestURI matches "*%2fbin%2fdash*" or requestURI matches "*%2fbin%2fsh*" or requestURI matches "*%2fbin%2fzsh*" or requestURI matches "*/bin/ash*" or requestURI matches "*/bin/bash*" or requestURI matches "*/bin/busybox*" or requestURI matches "*/bin/dash*" or requestURI matches "*/bin/sh*" or requestURI matches "*/bin/zsh*" or requestURI matches "*%2fusr%2fbin%2fcurl*" or requestURI matches "*%2fusr%2fbin%2fkubectl*" or requestURI matches "*%2fusr%2fbin%2fperl*" or requestURI matches "*%2fusr%2fbin%2fpython*" or requestURI matches "*%2fusr%2fbin%2fwget*" or requestURI matches "*/usr/bin/curl*" or requestURI matches "*/usr/bin/kubectl*" or requestURI matches "*/usr/bin/perl*" or requestURI matches "*/usr/bin/python*" or requestURI matches "*/usr/bin/wget*")) or ((userAgent matches "*access_matrix*" or userAgent matches "*trufflehog*" or userAgent matches "*azurehound*" or userAgent matches "*micro-scanner*"))))

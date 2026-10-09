@@ -1,0 +1,19 @@
+# Title: Okta Identity Provider Created
+# ID: 969c7590-8c19-4797-8c1b-23155de6e7ac
+# Status: test
+# Level: medium
+# Author: kelnage
+# Date: 2023-09-07
+# Tags: attack.privilege-escalation, attack.persistence, attack.t1098.001
+# Description: Detects when a new identity provider is created for Okta.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Okta Identity Provider Created
+def rule(event):
+    # Detection Logic:
+    # (eventType="system.idp.lifecycle.create")
+    return True
+
+def title(event):
+    return "Okta Identity Provider Created"
+

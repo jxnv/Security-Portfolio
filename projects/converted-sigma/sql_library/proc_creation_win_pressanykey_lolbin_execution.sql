@@ -1,0 +1,11 @@
+-- Title: Visual Studio NodejsTools PressAnyKey Arbitrary Binary Execution
+-- ID: a20391f8-76fb-437b-abc0-dba2df1952c6
+-- Status: test
+-- Level: medium
+-- Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+-- Date: 2022-01-11
+-- Tags: attack.execution, attack.stealth, attack.t1218
+-- Description: Detects child processes of Microsoft.NodejsTools.PressAnyKey.exe that can be used to execute any other binary
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE (ParentImage ILIKE '%\\Microsoft.NodejsTools.PressAnyKey.exe')

@@ -1,0 +1,11 @@
+// Title: Potential File Extension Spoofing Using Right-to-Left Override
+// ID: 979baf41-ca44-4540-9d0c-4fcef3b5a3a4
+// Status: test
+// Level: high
+// Author: Jonathan Peters (Nextron Systems), Florian Roth (Nextron Systems), Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2024-11-17
+// Tags: attack.execution, attack.stealth, attack.t1036.002
+// Description: Detects suspicious filenames that contain a right-to-left override character and a potentially spoofed file extensions.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((TargetFilename contains "3pm." OR TargetFilename contains "4pm." OR TargetFilename contains "cod." OR TargetFilename contains "fdp." OR TargetFilename contains "ftr." OR TargetFilename contains "gepj." OR TargetFilename contains "gnp." OR TargetFilename contains "gpj." OR TargetFilename contains "ism." OR TargetFilename contains "lmth." OR TargetFilename contains "nls." OR TargetFilename contains "piz." OR TargetFilename contains "slx." OR TargetFilename contains "tdo." OR TargetFilename contains "vsc." OR TargetFilename contains "vwm." OR TargetFilename contains "xcod." OR TargetFilename contains "xslx." OR TargetFilename contains "xtpp.")) AND ((TargetFilename contains "\\u202e" OR TargetFilename contains "[U+202E]" OR TargetFilename contains "‮")))

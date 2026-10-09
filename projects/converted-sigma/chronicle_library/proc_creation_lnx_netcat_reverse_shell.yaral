@@ -1,0 +1,23 @@
+// Title: Potential Netcat Reverse Shell Execution
+// ID: 7f734ed0-4f47-46c0-837f-6ee62505abd9
+// Status: test
+// Level: high
+// Author: @d4ns4n_, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-04-07
+// Tags: attack.execution, attack.t1059
+// Description: Detects execution of netcat with the "-e" or "-c" flags followed by common shells, which are commonly used to spawn reverse shells.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 7f734ed0_4f47_46c0_837f_6ee62505abd9 {
+  meta:
+    title = "Potential Netcat Reverse Shell Execution"
+    description = "Detects execution of netcat with the "-e" or "-c" flags followed by common shells, which are commonly used to spawn reverse shells."
+    author = "@d4ns4n_, Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.* -c .*/ nocase or $e.target.process.command_line = /.* -e .*/ nocase)) and (($e.target.process.file.full_path = /.*/nc.openbsd$/ nocase or $e.target.process.file.full_path = /.*/nc.traditional$/ nocase or $e.target.process.file.full_path = /.*/nc$/ nocase or $e.target.process.file.full_path = /.*/ncat$/ nocase or $e.target.process.file.full_path = /.*/netcat.openbsd$/ nocase or $e.target.process.file.full_path = /.*/netcat.traditional$/ nocase or $e.target.process.file.full_path = /.*/netcat$/ nocase)) and (($e.target.process.command_line = /.* ash.*/ nocase or $e.target.process.command_line = /.* bash.*/ nocase or $e.target.process.command_line = /.* bsh.*/ nocase or $e.target.process.command_line = /.* csh.*/ nocase or $e.target.process.command_line = /.* ksh.*/ nocase or $e.target.process.command_line = /.* pdksh.*/ nocase or $e.target.process.command_line = /.* sh.*/ nocase or $e.target.process.command_line = /.* tcsh.*/ nocase or $e.target.process.command_line = /.*/bin/ash.*/ nocase or $e.target.process.command_line = /.*/bin/bash.*/ nocase or $e.target.process.command_line = /.*/bin/bsh.*/ nocase or $e.target.process.command_line = /.*/bin/csh.*/ nocase or $e.target.process.command_line = /.*/bin/ksh.*/ nocase or $e.target.process.command_line = /.*/bin/pdksh.*/ nocase or $e.target.process.command_line = /.*/bin/sh.*/ nocase or $e.target.process.command_line = /.*/bin/tcsh.*/ nocase or $e.target.process.command_line = /.*/bin/zsh.*/ nocase or $e.target.process.command_line = /.*$IFSash.*/ nocase or $e.target.process.command_line = /.*$IFSbash.*/ nocase or $e.target.process.command_line = /.*$IFSbsh.*/ nocase or $e.target.process.command_line = /.*$IFScsh.*/ nocase or $e.target.process.command_line = /.*$IFSksh.*/ nocase or $e.target.process.command_line = /.*$IFSpdksh.*/ nocase or $e.target.process.command_line = /.*$IFSsh.*/ nocase or $e.target.process.command_line = /.*$IFStcsh.*/ nocase or $e.target.process.command_line = /.*$IFSzsh.*/ nocase)))
+
+  condition:
+    $e
+}

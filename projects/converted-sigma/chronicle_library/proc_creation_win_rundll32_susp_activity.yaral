@@ -1,0 +1,23 @@
+// Title: Potentially Suspicious Rundll32 Activity
+// ID: e593cf51-88db-4ee1-b920-37e89012a3c9
+// Status: test
+// Level: medium
+// Author: juju4, Jonhnathan Ribeiro, oscd.community, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2019-01-16
+// Tags: attack.stealth, attack.t1218.011
+// Description: Detects suspicious execution of rundll32, with specific calls to some DLLs with known LOLBIN functionalities
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule e593cf51_88db_4ee1_b920_37e89012a3c9 {
+  meta:
+    title = "Potentially Suspicious Rundll32 Activity"
+    description = "Detects suspicious execution of rundll32, with specific calls to some DLLs with known LOLBIN functionalities"
+    author = "juju4, Jonhnathan Ribeiro, oscd.community, Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (((($e.target.process.command_line = /.*javascript:.*/ nocase and $e.target.process.command_line = /.*.RegisterXLL.*/ nocase)) or (($e.target.process.command_line = /.*url.dll.*/ nocase and $e.target.process.command_line = /.*OpenURL.*/ nocase)) or (($e.target.process.command_line = /.*url.dll.*/ nocase and $e.target.process.command_line = /.*OpenURLA.*/ nocase)) or (($e.target.process.command_line = /.*url.dll.*/ nocase and $e.target.process.command_line = /.*FileProtocolHandler.*/ nocase)) or (($e.target.process.command_line = /.*zipfldr.dll.*/ nocase and $e.target.process.command_line = /.*RouteTheCall.*/ nocase)) or (($e.target.process.command_line = /.*shell32.dll.*/ nocase and $e.target.process.command_line = /.*Control_RunDLL.*/ nocase)) or (($e.target.process.command_line = /.*shell32.dll.*/ nocase and $e.target.process.command_line = /.*ShellExec_RunDLL.*/ nocase)) or (($e.target.process.command_line = /.*mshtml.dll.*/ nocase and $e.target.process.command_line = /.*PrintHTML.*/ nocase)) or (($e.target.process.command_line = /.*advpack.dll.*/ nocase and $e.target.process.command_line = /.*LaunchINFSection.*/ nocase)) or (($e.target.process.command_line = /.*advpack.dll.*/ nocase and $e.target.process.command_line = /.*RegisterOCX.*/ nocase)) or (($e.target.process.command_line = /.*ieadvpack.dll.*/ nocase and $e.target.process.command_line = /.*LaunchINFSection.*/ nocase)) or (($e.target.process.command_line = /.*ieadvpack.dll.*/ nocase and $e.target.process.command_line = /.*RegisterOCX.*/ nocase)) or (($e.target.process.command_line = /.*ieframe.dll.*/ nocase and $e.target.process.command_line = /.*OpenURL.*/ nocase)) or (($e.target.process.command_line = /.*shdocvw.dll.*/ nocase and $e.target.process.command_line = /.*OpenURL.*/ nocase)) or (($e.target.process.command_line = /.*syssetup.dll.*/ nocase and $e.target.process.command_line = /.*SetupInfObjectInstallAction.*/ nocase)) or (($e.target.process.command_line = /.*setupapi.dll.*/ nocase and $e.target.process.command_line = /.*InstallHinfSection.*/ nocase)) or (($e.target.process.command_line = /.*pcwutl.dll.*/ nocase and $e.target.process.command_line = /.*LaunchApplication.*/ nocase)) or (($e.target.process.command_line = /.*dfshim.dll.*/ nocase and $e.target.process.command_line = /.*ShOpenVerbApplication.*/ nocase)) or (($e.target.process.command_line = /.*dfshim.dll.*/ nocase and $e.target.process.command_line = /.*ShOpenVerbShortcut.*/ nocase)) or (($e.target.process.command_line = /.*scrobj.dll.*/ nocase and $e.target.process.command_line = /.*GenerateTypeLib.*/ nocase and $e.target.process.command_line = /.*http.*/ nocase)) or (($e.target.process.command_line = /.*shimgvw.dll.*/ nocase and $e.target.process.command_line = /.*ImageView_Fullscreen.*/ nocase and $e.target.process.command_line = /.*http.*/ nocase)) or (($e.target.process.command_line = /.*comsvcs.dll.*/ nocase and $e.target.process.command_line = /.*MiniDump.*/ nocase))) and not((($e.principal.process.file.full_path = "C:\\Windows\\System32\\control.exe" and $e.principal.process.command_line = /.*.cpl.*/ nocase and ($e.target.process.command_line = /.*Shell32.dll.*/ nocase and $e.target.process.command_line = /.*Control_RunDLL.*/ nocase and $e.target.process.command_line = /.*.cpl.*/ nocase)) or ($e.target.process.command_line = /.*shell32.dll,Control_RunDLL desk.cpl,screensaver,@screensaver.*/ nocase) or ($e.principal.process.file.full_path = "C:\\Windows\\System32\\control.exe" and $e.target.process.command_line = /^\"C:\\Windows\\system32\\rundll32.exe\" Shell32.dll,Control_RunDLL \"C:\\Windows\\System32\\.*/ nocase and $e.target.process.command_line = /.*.cpl\",$/ nocase))))
+
+  condition:
+    $e
+}

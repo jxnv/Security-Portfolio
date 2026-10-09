@@ -1,0 +1,11 @@
+# Title: Syslog Clearing or Removal Via System Utilities
+# ID: 3fcc9b35-39e4-44c0-a2ad-9e82b6902b31
+# Status: test
+# Level: high
+# Author: Max Altgelt (Nextron Systems), Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research), MSTIC
+# Date: 2021-10-15
+# Tags: attack.defense-impairment, attack.t1685.006
+# Description: Detects specific commands commonly used to remove or empty the syslog. Which is a technique often used by attacker as a method to hide their tracks
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((cmdline:*/var/log/syslog*) AND ((process_name:*/cp AND cmdline:*/dev/null*) OR (process_name:*/ln AND (cmdline:*/dev/null * AND cmdline:*/var/log/syslog*) AND (cmdline:*-sf * OR cmdline:*-sfn * OR cmdline:*-sfT *)) OR (process_name:*/mv) OR (process_name:*/rm AND (cmdline:* -r * OR cmdline:* -f * OR cmdline:* -rf * OR cmdline:*/var/log/syslog*)) OR (process_name:*/shred AND cmdline:*-u *) OR (process_name:*/truncate AND (cmdline:*0 * AND cmdline:*/var/log/syslog*) AND (cmdline:*-s * OR cmdline:*-c * OR cmdline:*--size*)) OR (process_name:*/unlink))) OR (((cmdline:*journalctl --vacuum* OR cmdline:*journalctl --rotate*)) OR ((cmdline:* > /var/log/syslog* OR cmdline:* >/var/log/syslog* OR cmdline:* >| /var/log/syslog* OR cmdline:*: > /var/log/syslog* OR cmdline:*:> /var/log/syslog* OR cmdline:*:>/var/log/syslog* OR cmdline:*>|/var/log/syslog*))))

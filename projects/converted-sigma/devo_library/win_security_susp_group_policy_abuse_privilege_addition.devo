@@ -1,0 +1,11 @@
+// Title: Group Policy Abuse for Privilege Addition
+// ID: 1c480e10-7ee1-46d4-8ed2-85f9789e3ce4
+// Status: test
+// Level: medium
+// Author: Elastic, Josh Nickels, Marius Rothenbücher
+// Date: 2024-09-04
+// Tags: attack.privilege-escalation, attack.defense-impairment, attack.t1484.001
+// Description: Detects the first occurrence of a modification to Group Policy Object Attributes to add privileges to user accounts or use them to add users as local admins.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+from siem.events where (EventID == "5136" AND AttributeLDAPDisplayName == "gPCMachineExtensionNames" AND (contains(AttributeValue, "827D319E-6EAC-11D2-A4EA-00C04F79F83A") OR contains(AttributeValue, "803E14A0-B4FB-11D0-A0D0-00A0C90F574B")))

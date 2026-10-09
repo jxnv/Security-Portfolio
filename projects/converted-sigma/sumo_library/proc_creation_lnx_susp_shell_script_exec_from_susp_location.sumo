@@ -1,0 +1,11 @@
+// Title: Execution Of Script Located In Potentially Suspicious Directory
+// ID: 30bcce26-51c5-49f2-99c8-7b59e3af36c7
+// Status: test
+// Level: medium
+// Author: Joseliyo Sanchez, @Joseliyo_Jstnk
+// Date: 2023-06-02
+// Tags: attack.execution
+// Description: Detects executions of scripts located in potentially suspicious locations such as "/tmp" via a shell such as "bash", "sh", etc.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where ((CommandLine matches "* -c *") and ((Image matches "*/bash" or Image matches "*/csh" or Image matches "*/dash" or Image matches "*/fish" or Image matches "*/ksh" or Image matches "*/sh" or Image matches "*/zsh")) and (CommandLine matches "*/tmp/*"))

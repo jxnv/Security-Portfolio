@@ -1,0 +1,24 @@
+// Title: HackTool - SharpDPAPI Execution
+// ID: c7d33b50-f690-4b51-8cfb-0fb912a31e57
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2024-06-26
+// Tags: attack.privilege-escalation, attack.stealth, attack.t1134.001, attack.t1134.003
+// Description: Detects the execution of the SharpDPAPI tool based on CommandLine flags and PE metadata.
+// SharpDPAPI is a C# port of some DPAPI functionality from the Mimikatz project.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule c7d33b50_f690_4b51_8cfb_0fb912a31e57 {
+  meta:
+    title = "HackTool - SharpDPAPI Execution"
+    description = "Detects the execution of the SharpDPAPI tool based on CommandLine flags and PE metadata. SharpDPAPI is a C# port of some DPAPI functionality from the Mimikatz project."
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.file.full_path = /.*\\SharpDPAPI.exe$/ nocase) or ($e.target.process.file.name = "SharpDPAPI.exe")) or ((($e.target.process.command_line = /.* backupkey .*/ nocase or $e.target.process.command_line = /.* blob .*/ nocase or $e.target.process.command_line = /.* certificates .*/ nocase or $e.target.process.command_line = /.* credentials .*/ nocase or $e.target.process.command_line = /.* keepass .*/ nocase or $e.target.process.command_line = /.* masterkeys .*/ nocase or $e.target.process.command_line = /.* rdg .*/ nocase or $e.target.process.command_line = /.* vaults .*/ nocase)) and ((($e.target.process.command_line = /.* /file:.*/ nocase or $e.target.process.command_line = /.* /machine.*/ nocase or $e.target.process.command_line = /.* /mkfile:.*/ nocase or $e.target.process.command_line = /.* /password:.*/ nocase or $e.target.process.command_line = /.* /pvk:.*/ nocase or $e.target.process.command_line = /.* /server:.*/ nocase or $e.target.process.command_line = /.* /target:.*/ nocase or $e.target.process.command_line = /.* /unprotect.*/ nocase)) or (($e.target.process.command_line = /.* {.*/ nocase and $e.target.process.command_line = /.*}:.*/ nocase)))))
+
+  condition:
+    $e
+}

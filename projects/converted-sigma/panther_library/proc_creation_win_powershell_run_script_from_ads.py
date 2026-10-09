@@ -1,0 +1,19 @@
+# Title: Run PowerShell Script from ADS
+# ID: 45a594aa-1fbd-4972-a809-ff5a99dd81b8
+# Status: test
+# Level: high
+# Author: Sergey Soldatov, Kaspersky Lab, oscd.community
+# Date: 2019-10-30
+# Tags: attack.stealth, attack.t1564.004
+# Description: Detects PowerShell script execution from Alternate Data Stream (ADS)
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Run PowerShell Script from ADS
+def rule(event):
+    # Detection Logic:
+    # ((ParentImage="*\\powershell.exe" OR ParentImage="*\\pwsh.exe") AND (Image="*\\powershell.exe" OR Image="*\\pwsh.exe") AND (CommandLine="*Get-Content*" AND CommandLine="*-Stream*"))
+    return True
+
+def title(event):
+    return "Run PowerShell Script from ADS"
+

@@ -1,0 +1,13 @@
+# Title: Load Of RstrtMgr.DLL By An Uncommon Process
+# ID: 3669afd2-9891-4534-a626-e5cf03810a61
+# Status: test
+# Level: low
+# Author: Luc Génaux
+# Date: 2023-11-28
+# Tags: attack.impact, attack.defense-impairment, attack.t1486, attack.t1685
+# Description: Detects the load of RstrtMgr DLL (Restart Manager) by an uncommon process.
+# This library has been used during ransomware campaigns to kill processes that would prevent file encryption by locking them (e.g. Conti ransomware, Cactus ransomware). It has also recently been seen used by the BiBi wiper for Windows.
+# It could also be used for anti-analysis purposes by shut downing specific processes.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((ImageLoaded:*\\RstrtMgr.dll) OR (OriginalFileName:"RstrtMgr.dll")) AND -(((process_name:C:\\Windows\\Temp\\*) OR ((process_name:C:\\$WINDOWS.~BT\\* OR process_name:C:\\$WinREAgent\\* OR process_name:C:\\Program Files (x86)\\* OR process_name:C:\\Program Files\\* OR process_name:C:\\ProgramData\\* OR process_name:C:\\Windows\\explorer.exe* OR process_name:C:\\Windows\\SoftwareDistribution\\* OR process_name:C:\\Windows\\SysNative\\* OR process_name:C:\\Windows\\System32\\* OR process_name:C:\\Windows\\SysWOW64\\* OR process_name:C:\\Windows\\WinSxS\\* OR process_name:C:\\WUDownloadCache\\*)) OR (process_name:C:\\Users\\* AND (process_name:*\\AppData\\Local\\Temp\\is-* AND process_name:*.tmp\\*) AND process_name:*.tmp))) AND -(((process_name:C:\\Users\\* AND (process_name:*\\AppData\\Local\\Microsoft\\OneDrive\\OneDrive.exe OR process_name:*\\AppData\\Local\\Microsoft\\OneDrive\\OneDriveStandaloneUpdater.exe)) OR (process_name:C:\\Users\\* AND process_name:*\\AppData\\Local\\Microsoft\\OneDrive\\* AND process_name:*\\OneDrive.Sync.Service.exe))))

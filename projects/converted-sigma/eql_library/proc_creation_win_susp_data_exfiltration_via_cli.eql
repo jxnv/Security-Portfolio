@@ -1,0 +1,11 @@
+// Title: Potential Data Exfiltration Activity Via CommandLine Tools
+// ID: 7d1aaf3d-4304-425c-b7c3-162055e0b3ab
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-02
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects the use of various CLI utilities exfiltrating data via web requests
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where ((((process.executable endswith "\\powershell_ise.exe" or process.executable endswith "\\powershell.exe" or process.executable endswith "\\pwsh.exe" or process.executable endswith "\\cmd.exe") and (process.command_line like "*_curl *" or process.command_line like "*_Invoke-RestMethod*" or process.command_line like "*_Invoke-WebRequest*" or process.command_line like "*_irm *" or process.command_line like "*_iwr *" or process.command_line like "*_wget *") and (process.command_line like "*_ -ur*" and process.command_line like "*_ -me*" and process.command_line like "*_ -b*" and process.command_line like "*_ POST *")) or ((process.executable endswith "\\curl.exe" and process.command_line like "*_--ur*") and ((process.command_line like "*_ -d *" or process.command_line like "*_ --data *"))) or (process.executable endswith "\\wget.exe" and (process.command_line like "*_--post-data*" or process.command_line like "*_--post-file*"))) and (((process.command_line regex "net\\s+view" or process.command_line regex "sc\\s+query")) or ((process.command_line like "*_Get-Content*" or process.command_line like "*_GetBytes*" or process.command_line like "*_hostname*" or process.command_line like "*_ifconfig*" or process.command_line like "*_ipconfig*" or process.command_line like "*_netstat*" or process.command_line like "*_nltest*" or process.command_line like "*_qprocess*" or process.command_line like "*_systeminfo*" or process.command_line like "*_tasklist*" or process.command_line like "*_ToBase64String*" or process.command_line like "*_whoami*")) or ((process.command_line like "*_type *" and process.command_line like "*_ > *" and process.command_line like "*_ C:\\*"))))

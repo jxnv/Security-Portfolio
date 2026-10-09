@@ -1,0 +1,13 @@
+-- Title: Linux Setuid Capability Set on a Binary via Setcap Utility
+-- ID: ed447910-bc30-4575-a598-3a2e49516a7a
+-- Status: experimental
+-- Level: low
+-- Author: Luc Génaux
+-- Date: 2026-01-24
+-- Tags: attack.privilege-escalation, attack.persistence, attack.t1548, attack.t1554
+-- Description: Detects the use of the 'setcap' utility to set the 'setuid' capability (cap_setuid) on a binary file.
+-- This capability allows a non privileged process to make arbitrary manipulations of user IDs (UIDs), including setting its current UID to a value that would otherwise be restricted (i.e. UID 0, the root user).
+-- This behavior can be used by adversaries to backdoor a binary in order to escalate privileges again in the future if needed.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE (Image ILIKE '%/setcap' AND CommandLine ILIKE '%cap_setuid%')

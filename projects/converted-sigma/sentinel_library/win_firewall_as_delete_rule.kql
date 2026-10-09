@@ -1,0 +1,11 @@
+// Title: A Rule Has Been Deleted From The Windows Firewall Exception List
+// ID: c187c075-bb3e-4c62-b4fa-beae0ffc211f
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-02-19
+// Tags: attack.defense-impairment, attack.t1686.003
+// Description: Detects when a single rules or all of the rules have been deleted from the Windows Defender Firewall
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+DeviceProcessEvents | where (((EventID == 2006 or EventID == 2052)) and not(((ModifyingApplication == "") or ((ModifyingApplication startswith "C:\\Program Files (x86)\\" or ModifyingApplication startswith "C:\\Program Files\\" or ModifyingApplication startswith "C:\\Windows\\WinSxS\\")) or ((isempty(ModifyingApplication) or isnull(ModifyingApplication))) or (ModifyingApplication == "C:\\Windows\\System32\\svchost.exe"))) and not((ModifyingApplication startswith "C:\\ProgramData\\Microsoft\\Windows Defender\\Platform\\" and ModifyingApplication endswith "\\MsMpEng.exe")))

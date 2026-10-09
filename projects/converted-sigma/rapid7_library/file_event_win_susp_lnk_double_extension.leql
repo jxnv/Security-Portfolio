@@ -1,0 +1,11 @@
+// Title: Suspicious LNK Double Extension File Created
+// ID: 3215aa19-f060-4332-86d5-5602511f3ca8
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems), frack113
+// Date: 2022-11-07
+// Tags: attack.stealth, attack.t1036.007
+// Description: Detects the creation of files with an "LNK" as a second extension. This is sometimes used by malware as a method to abuse the fact that Windows hides the "LNK" extension by default.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((where(TargetFilename IENDSWITH ".lnk") AND (where(TargetFilename ICONTAINS ".doc.") OR where(TargetFilename ICONTAINS ".docx.") OR where(TargetFilename ICONTAINS ".jpg.") OR where(TargetFilename ICONTAINS ".pdf.") OR where(TargetFilename ICONTAINS ".ppt.") OR where(TargetFilename ICONTAINS ".pptx.") OR where(TargetFilename ICONTAINS ".xls.") OR where(TargetFilename ICONTAINS ".xlsx."))) AND NOT ((where(TargetFilename ICONTAINS "\\AppData\\Roaming\\Microsoft\\Windows\\Recent\\"))) AND NOT (((where(Image IENDSWITH "\\excel.exe") AND where(TargetFilename ICONTAINS "\\AppData\\Roaming\\Microsoft\\Excel")) OR (where(Image IENDSWITH "\\powerpnt.exe") AND where(TargetFilename ICONTAINS "\\AppData\\Roaming\\Microsoft\\PowerPoint")) OR ((where(Image IENDSWITH "\\excel.exe") OR where(Image IENDSWITH "\\powerpnt.exe") OR where(Image IENDSWITH "\\winword.exe")) AND where(TargetFilename ICONTAINS "\\AppData\\Roaming\\Microsoft\\Office\\Recent\\")) OR (where(Image IENDSWITH "\\winword.exe") AND where(TargetFilename ICONTAINS "\\AppData\\Roaming\\Microsoft\\Word")))))

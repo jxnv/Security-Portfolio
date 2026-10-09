@@ -1,0 +1,39 @@
+{
+  "title": "CodePage Modification Via MODE.COM To Russian Language",
+  "id": "12fbff88-16b5-4b42-9754-cd001a789fb3",
+  "status": "test",
+  "description": "Detects a CodePage modification using the \"mode.com\" utility to Russian language.\nThis behavior has been used by threat actors behind Dharma ransomware.\n",
+  "author": "Joseliyo Sanchez, @Joseliyo_Jstnk",
+  "date": "2024-01-17",
+  "tags": [
+    "attack.stealth",
+    "attack.t1036"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_img": [
+      {
+        "Image|endswith": "\\mode.com"
+      },
+      {
+        "OriginalFileName": "MODE.COM"
+      }
+    ],
+    "selection_cli": {
+      "CommandLine|contains|all": [
+        " con ",
+        " cp ",
+        " select="
+      ],
+      "CommandLine|endswith": [
+        "=1251",
+        "=866"
+      ]
+    },
+    "condition": "all of selection_*"
+  }
+}

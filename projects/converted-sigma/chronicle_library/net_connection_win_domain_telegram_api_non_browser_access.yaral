@@ -1,0 +1,23 @@
+// Title: Suspicious Non-Browser Network Communication With Telegram API
+// ID: c3dbbc9f-ef1d-470a-a90a-d343448d5875
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-05-19
+// Tags: attack.command-and-control, attack.exfiltration, attack.t1102, attack.t1567, attack.t1105
+// Description: Detects an a non-browser process interacting with the Telegram API which could indicate use of a covert C2
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule c3dbbc9f_ef1d_470a_a90a_d343448d5875 {
+  meta:
+    title = "Suspicious Non-Browser Network Communication With Telegram API"
+    description = "Detects an a non-browser process interacting with the Telegram API which could indicate use of a covert C2"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.DestinationHostname = /.*api.telegram.org.*/ nocase) and not((($e.target.process.file.full_path = /.*\\brave.exe$/ nocase) or (($e.target.process.file.full_path = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe" or $e.target.process.file.full_path = "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe")) or (($e.target.process.file.full_path = /^C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\.*/ nocase) or ($e.target.process.file.full_path = /.*\\WindowsApps\\MicrosoftEdge.exe$/ nocase) or (($e.target.process.file.full_path = "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe" or $e.target.process.file.full_path = "C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe"))) or (($e.target.process.file.full_path = /^C:\\Program Files (x86)\\Microsoft\\EdgeCore\\.*/ nocase or $e.target.process.file.full_path = /^C:\\Program Files\\Microsoft\\EdgeCore\\.*/ nocase) and ($e.target.process.file.full_path = /.*\\msedge.exe$/ nocase or $e.target.process.file.full_path = /.*\\msedgewebview2.exe$/ nocase)) or (($e.target.process.file.full_path = "C:\\Program Files\\Mozilla Firefox\\firefox.exe" or $e.target.process.file.full_path = "C:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe")) or (($e.target.process.file.full_path = "C:\\Program Files (x86)\\Internet Explorer\\iexplore.exe" or $e.target.process.file.full_path = "C:\\Program Files\\Internet Explorer\\iexplore.exe")) or ($e.target.process.file.full_path = /.*\\maxthon.exe$/ nocase) or ($e.target.process.file.full_path = /.*\\opera.exe$/ nocase) or ($e.target.process.file.full_path = /.*\\safari.exe$/ nocase) or ($e.target.process.file.full_path = /.*\\seamonkey.exe$/ nocase) or ($e.target.process.file.full_path = /.*\\vivaldi.exe$/ nocase) or ($e.target.process.file.full_path = /.*\\whale.exe$/ nocase))))
+
+  condition:
+    $e
+}

@@ -1,0 +1,11 @@
+-- Title: Print History File Contents
+-- ID: d7821ff1-4527-4e33-9f84-d0d57fa2fb66
+-- Status: test
+-- Level: medium
+-- Author: Florian Roth (Nextron Systems)
+-- Date: 2022-06-20
+-- Tags: attack.reconnaissance, attack.t1592.004
+-- Description: Detects events in which someone prints the contents of history files to the commandline or redirects it to a file for reconnaissance
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM events WHERE (((Image ILIKE '%/cat' OR Image ILIKE '%/head' OR Image ILIKE '%/tail' OR Image ILIKE '%/more')) AND (((CommandLine ILIKE '%/.bash_history%' OR CommandLine ILIKE '%/.zsh_history%')) OR ((CommandLine ILIKE '%_history' OR CommandLine ILIKE '%.history' OR CommandLine ILIKE '%zhistory'))))

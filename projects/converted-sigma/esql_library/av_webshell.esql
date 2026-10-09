@@ -1,0 +1,13 @@
+// Title: Antivirus - Web Shell Detection Signature
+// ID: fdf135a2-9241-4f96-a114-bb404948f736
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Arnim Rupp
+// Date: 2018-09-09
+// Tags: attack.persistence, attack.t1505.003
+// Description: Detects a highly relevant Antivirus alert that reports a web shell.
+// It's highly recommended to tune this rule to the specific strings used by your anti virus solution by downloading a big WebShell repository from e.g. github and checking the matches.
+// This event must not be ignored just because the AV has blocked the malware but investigate, how it came there in the first place.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE (((Signature LIKE "ASP.%" OR Signature LIKE "IIS/BackDoor%" OR Signature LIKE "JAVA/Backdoor%" OR Signature LIKE "JSP.%" OR Signature LIKE "Perl.%" OR Signature LIKE "PHP.%" OR Signature LIKE "Troj/ASP%" OR Signature LIKE "Troj/JSP%" OR Signature LIKE "Troj/PHP%" OR Signature LIKE "VBS/Uxor%")) OR ((Signature LIKE "%ASP_%" OR Signature LIKE "%ASP:%" OR Signature LIKE "%ASP.Agent%" OR Signature LIKE "%ASP/%" OR Signature LIKE "%Aspdoor%" OR Signature LIKE "%ASPXSpy%" OR Signature LIKE "%Backdoor.ASP%" OR Signature LIKE "%Backdoor.Java%" OR Signature LIKE "%Backdoor.JSP%" OR Signature LIKE "%Backdoor.PHP%" OR Signature LIKE "%Backdoor.VBS%" OR Signature LIKE "%Backdoor/ASP%" OR Signature LIKE "%Backdoor/Java%" OR Signature LIKE "%Backdoor/JSP%" OR Signature LIKE "%Backdoor/PHP%" OR Signature LIKE "%Backdoor/VBS%" OR Signature LIKE "%C99shell%" OR Signature LIKE "%Chopper%" OR Signature LIKE "%filebrowser%" OR Signature LIKE "%JSP_%" OR Signature LIKE "%JSP:%" OR Signature LIKE "%JSP.Agent%" OR Signature LIKE "%JSP/%" OR Signature LIKE "%Perl:%" OR Signature LIKE "%Perl/%" OR Signature LIKE "%PHP_%" OR Signature LIKE "%PHP:%" OR Signature LIKE "%PHP.Agent%" OR Signature LIKE "%PHP/%" OR Signature LIKE "%PHPShell%" OR Signature LIKE "%PShlSpy%" OR Signature LIKE "%SinoChoper%" OR Signature LIKE "%Trojan.ASP%" OR Signature LIKE "%Trojan.JSP%" OR Signature LIKE "%Trojan.PHP%" OR Signature LIKE "%Trojan.VBS%" OR Signature LIKE "%VBS.Agent%" OR Signature LIKE "%VBS/Agent%" OR Signature LIKE "%Webshell%")))

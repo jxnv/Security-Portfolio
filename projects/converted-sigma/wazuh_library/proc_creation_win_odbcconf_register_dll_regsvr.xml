@@ -1,0 +1,16 @@
+<!--
+  Title: New DLL Registered Via Odbcconf.EXE
+  ID: 9f0a8bf3-a65b-440a-8c1e-5cb1547c8e70
+  Status: test
+  Level: medium
+  Author: Kirill Kiryanov, Beyu Denis, Daniil Yugoslavskiy, oscd.community, Nasreddine Bencherchali (Nextron Systems)
+  Date: 2023-05-22
+  Description: Detects execution of "odbcconf" with "REGSVR" in order to register a new DLL (equivalent to running regsvr32). Attackers abuse this to install and run malicious DLLs.
+-->
+
+<group name="sigma_converted,">
+  <rule id="100001" level="5">
+    <description>New DLL Registered Via Odbcconf.EXE</description>
+    <match>(((CommandLine=\"*REGSVR *\" AND CommandLine=\"*.dll*\")) AND ((Image=\"*\\\\odbcconf.exe\") OR (OriginalFileName=\"odbcconf.exe\"</match>
+  </rule>
+</group>

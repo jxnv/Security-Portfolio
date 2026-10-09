@@ -1,0 +1,12 @@
+-- Title: Binary Padding - Linux
+-- ID: c52a914f-3d8b-4b2a-bb75-b3991e75f8ba
+-- Status: test
+-- Level: high
+-- Author: Igor Fits, oscd.community
+-- Date: 2020-10-13
+-- Tags: attack.stealth, attack.t1027.001
+-- Description: Adversaries may use binary padding to add junk data and change the on-disk representation of malware.
+-- This rule detect using dd and truncate to add a junk data to file.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE ((type = 'EXECVE') AND ((( = 'truncate' AND  = '-s')) OR ((( = 'dd' AND  = 'if=')) AND NOT (("of=")))))

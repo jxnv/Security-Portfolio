@@ -1,0 +1,23 @@
+// Title: Suspicious Login Activity Classified By Google
+// ID: 38360161-76c4-4283-842e-efcf997dafc8
+// Status: experimental
+// Level: medium
+// Author: Tom Kluter
+// Date: 2026-04-28
+// Tags: attack.initial-access, attack.privilege-escalation, attack.persistence, attack.stealth, attack.t1078.004
+// Description: Detects Google Workspace login activity that's classified as suspicious by Google.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 38360161_76c4_4283_842e_efcf997dafc8 {
+  meta:
+    title = "Suspicious Login Activity Classified By Google"
+    description = "Detects Google Workspace login activity that's classified as suspicious by Google."
+    author = "Tom Kluter"
+    severity = "MEDIUM"
+
+  events:
+    ($e.protoPayload.serviceName = "login.googleapis.com" and ($e.protoPayload.metadata.event.eventName = "suspicious_login_less_secure_app" or $e.protoPayload.metadata.event.eventName = "suspicious_login" or $e.protoPayload.metadata.event.eventName = "suspicious_programmatic_login"))
+
+  condition:
+    $e
+}

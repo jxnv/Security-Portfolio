@@ -1,0 +1,23 @@
+// Title: Impacket PsExec Execution
+// ID: 32d56ea1-417f-44ff-822b-882873f5f43b
+// Status: test
+// Level: high
+// Author: Bhabesh Raj
+// Date: 2020-12-14
+// Tags: attack.lateral-movement, attack.t1021.002
+// Description: Detects execution of Impacket's psexec.py.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 32d56ea1_417f_44ff_822b_882873f5f43b {
+  meta:
+    title = "Impacket PsExec Execution"
+    description = "Detects execution of Impacket's psexec.py."
+    author = "Bhabesh Raj"
+    severity = "HIGH"
+
+  events:
+    ($e.EventID = 5145 and $e.ShareName = "\\\\\\\\\\*\\\\IPC$" and ($e.RelativeTargetName = /.*RemCom_stdin.*/ nocase or $e.RelativeTargetName = /.*RemCom_stdout.*/ nocase or $e.RelativeTargetName = /.*RemCom_stderr.*/ nocase))
+
+  condition:
+    $e
+}

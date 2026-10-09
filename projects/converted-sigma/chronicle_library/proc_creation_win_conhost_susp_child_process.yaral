@@ -1,0 +1,23 @@
+// Title: Uncommon Child Process Of Conhost.EXE
+// ID: 7dc2dedd-7603-461a-bc13-15803d132355
+// Status: test
+// Level: medium
+// Author: omkar72
+// Date: 2020-10-25
+// Tags: attack.stealth, attack.t1202
+// Description: Detects uncommon "conhost" child processes. This could be a sign of "conhost" usage as a LOLBIN or potential process injection activity.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 7dc2dedd_7603_461a_bc13_15803d132355 {
+  meta:
+    title = "Uncommon Child Process Of Conhost.EXE"
+    description = "Detects uncommon "conhost" child processes. This could be a sign of "conhost" usage as a LOLBIN or potential process injection activity."
+    author = "omkar72"
+    severity = "MEDIUM"
+
+  events:
+    (($e.principal.process.file.full_path = /.*\\conhost.exe$/ nocase) and not((($e.target.process.file.full_path = /.*:\\Windows\\System32\\conhost.exe$/ nocase) or ($e.target.process.file.full_path = "") or (not ($e.target.process.file.full_path = /.*/)))) and not(($e.Provider_Name = "SystemTraceProvider-Process")))
+
+  condition:
+    $e
+}

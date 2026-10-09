@@ -1,0 +1,11 @@
+# Title: Potentially Suspicious NTFS Symlink Behavior Modification
+# ID: c0b2768a-dd06-4671-8339-b16ca8d1f27f
+# Status: test
+# Level: medium
+# Author: frack113, The DFIR Report
+# Date: 2022-03-02
+# Tags: attack.execution, attack.defense-impairment, attack.t1059, attack.t1222.001
+# Description: Detects the modification of NTFS symbolic link behavior using fsutil, which could be used to enable remote to local or remote to remote symlinks for potential attacks.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog (((process_exec="*fsutil*" AND process_exec="*behavior*" AND process_exec="*set*" AND process_exec="*SymlinkEvaluation*")) AND (((process_path="*\\cmd.exe" OR process_path="*\\powershell.exe" OR process_path="*\\pwsh.exe")) OR ((process_name="Cmd.Exe" OR process_name="PowerShell.EXE" OR process_name="pwsh.dll"))) AND ((process_exec="*R2L:1*" OR process_exec="*R2R:1*" OR process_exec="*L2L:1*")))

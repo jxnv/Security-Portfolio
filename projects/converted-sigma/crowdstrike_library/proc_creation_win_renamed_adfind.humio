@@ -1,0 +1,11 @@
+// Title: Renamed AdFind Execution
+// ID: df55196f-f105-44d3-a675-e9dfb6cc2f2b
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-08-21
+// Tags: attack.discovery, attack.t1018, attack.t1087.002, attack.t1482, attack.t1069.002
+// Description: Detects the use of a renamed Adfind.exe. AdFind continues to be seen across majority of breaches. It is used to domain trust discovery to plan out subsequent steps in the attack chain.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((CommandLine = /*domainlist*/i or CommandLine = /*trustdmp*/i or CommandLine = /*dcmodes*/i or CommandLine = /*adinfo*/i or CommandLine = /* dclist */i or CommandLine = /*computer_pwdnotreqd*/i or CommandLine = /*objectcategory=*/i or CommandLine = /*-subnets -f*/i or CommandLine = /*name=\"Domain Admins\"*/i or CommandLine = /*-sc u:*/i or CommandLine = /*domainncs*/i or CommandLine = /*dompol*/i or CommandLine = /* oudmp */i or CommandLine = /*subnetdmp*/i or CommandLine = /*gpodmp*/i or CommandLine = /*fspdmp*/i or CommandLine = /*users_noexpire*/i or CommandLine = /*computers_active*/i or CommandLine = /*computers_pwdnotreqd*/i)) or ((Hashes = /*IMPHASH=BCA5675746D13A1F246E2DA3C2217492*/i or Hashes = /*IMPHASH=53E117A96057EAF19C41380D0E87F1C2*/i or Hashes = /*IMPHASH=d144de8117df2beceaba2201ad304764*/i or Hashes = /*IMPHASH=12ce1c0f3f5837ecc18a3782408fa975*/i or Hashes = /*IMPHASH=4fbf3f084fbbb2470b80b2013134df35*/i or Hashes = /*IMPHASH=49b639b4acbecc49d72a01f357aa4930*/i or Hashes = /*IMPHASH=680dad9e300346e05a85023965867201*/i or Hashes = /*IMPHASH=21aa085d54992511b9f115355e468782*/i)) or (OriginalFilename = "AdFind.exe")) and not((ImageFileName = /.*\\AdFind.exe/i)))

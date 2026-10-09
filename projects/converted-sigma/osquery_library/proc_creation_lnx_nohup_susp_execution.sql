@@ -1,0 +1,11 @@
+-- Title: Suspicious Nohup Execution
+-- ID: 457df417-8b9d-4912-85f3-9dbda39c3645
+-- Status: test
+-- Level: high
+-- Author: Joseliyo Sanchez, @Joseliyo_Jstnk
+-- Date: 2023-06-02
+-- Tags: attack.execution
+-- Description: Detects execution of binaries located in potentially suspicious locations via "nohup"
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM processes WHERE (Image="*/nohup" AND CommandLine LIKE '%/tmp/%')

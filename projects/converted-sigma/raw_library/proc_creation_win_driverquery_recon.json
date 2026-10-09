@@ -1,0 +1,45 @@
+{
+  "title": "Potential Recon Activity Using DriverQuery.EXE",
+  "id": "9fc3072c-dc8f-4bf7-b231-18950000fadd",
+  "status": "test",
+  "description": "Detect usage of the \"driverquery\" utility to perform reconnaissance on installed drivers",
+  "author": "Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2023-01-19",
+  "tags": [
+    "attack.discovery"
+  ],
+  "level": "high",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_img": [
+      {
+        "Image|endswith": "driverquery.exe"
+      },
+      {
+        "OriginalFileName": "drvqry.exe"
+      }
+    ],
+    "selection_parent": [
+      {
+        "ParentImage|endswith": [
+          "\\cscript.exe",
+          "\\mshta.exe",
+          "\\regsvr32.exe",
+          "\\rundll32.exe",
+          "\\wscript.exe"
+        ]
+      },
+      {
+        "ParentImage|contains": [
+          "\\AppData\\Local\\",
+          "\\Users\\Public\\",
+          "\\Windows\\Temp\\"
+        ]
+      }
+    ],
+    "condition": "all of selection_*"
+  }
+}

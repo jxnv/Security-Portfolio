@@ -1,0 +1,23 @@
+// Title: Suspicious Remote Child Process From Outlook
+// ID: e212d415-0e93-435f-9e1a-f29005bb4723
+// Status: test
+// Level: high
+// Author: Markus Neis, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2018-12-27
+// Tags: attack.execution, attack.stealth, attack.t1059, attack.t1202
+// Description: Detects a suspicious child process spawning from Outlook where the image is located in a remote location (SMB/WebDav shares).
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule e212d415_0e93_435f_9e1a_f29005bb4723 {
+  meta:
+    title = "Suspicious Remote Child Process From Outlook"
+    description = "Detects a suspicious child process spawning from Outlook where the image is located in a remote location (SMB/WebDav shares)."
+    author = "Markus Neis, Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ($e.principal.process.file.full_path = /.*\\outlook.exe$/ nocase and $e.target.process.file.full_path = /^\\\\\\\\.*/ nocase)
+
+  condition:
+    $e
+}

@@ -1,0 +1,11 @@
+-- Title: First Time Seen Remote Named Pipe - Zeek
+-- ID: 021310d9-30a6-480a-84b7-eaa69aeb92bb
+-- Status: test
+-- Level: high
+-- Author: Samir Bousseaden, @neu5ron, Tim Shelton
+-- Date: 2020-04-02
+-- Tags: attack.lateral-movement, attack.t1021.002
+-- Description: This detection excludes known namped pipes accessible remotely and notify on newly observed ones, may help to detect lateral movement and remote exec using named pipes
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM events WHERE ((path = '\\\\\\\\\\*\\\\IPC$') AND NOT ((TEXT SEARCH 'samr' OR TEXT SEARCH 'lsarpc' OR TEXT SEARCH 'winreg' OR TEXT SEARCH 'netlogon' OR TEXT SEARCH 'srvsvc' OR TEXT SEARCH 'protected_storage' OR TEXT SEARCH 'wkssvc' OR TEXT SEARCH 'browser' OR TEXT SEARCH 'netdfs' OR TEXT SEARCH 'svcctl' OR TEXT SEARCH 'spoolss' OR TEXT SEARCH 'ntsvcs' OR TEXT SEARCH 'LSM_API_service' OR TEXT SEARCH 'HydraLsPipe' OR TEXT SEARCH 'TermSrv_API_service' OR TEXT SEARCH 'MsFteWds')))

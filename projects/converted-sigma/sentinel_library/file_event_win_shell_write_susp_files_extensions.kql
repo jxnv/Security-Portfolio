@@ -1,0 +1,11 @@
+// Title: Windows Binaries Write Suspicious Extensions
+// ID: b8fd0e93-ff58-4cbd-8f48-1c114e342e62
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-12
+// Tags: attack.stealth, attack.t1036
+// Description: Detects Windows executables that write files with suspicious extensions
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+DeviceProcessEvents | where ((((FolderPath endswith "\\csrss.exe" or FolderPath endswith "\\lsass.exe" or FolderPath endswith "\\RuntimeBroker.exe" or FolderPath endswith "\\sihost.exe" or FolderPath endswith "\\smss.exe" or FolderPath endswith "\\wininit.exe" or FolderPath endswith "\\winlogon.exe") and (FileName endswith ".bat" or FileName endswith ".dll" or FileName endswith ".exe" or FileName endswith ".hta" or FileName endswith ".iso" or FileName endswith ".ps1" or FileName endswith ".txt" or FileName endswith ".vbe" or FileName endswith ".vbs")) or ((FolderPath endswith "\\dllhost.exe" or FolderPath endswith "\\rundll32.exe" or FolderPath endswith "\\svchost.exe") and (FileName endswith ".bat" or FileName endswith ".hta" or FileName endswith ".iso" or FileName endswith ".ps1" or FileName endswith ".vbe" or FileName endswith ".vbs"))) and not(((FolderPath == "C:\\Windows\\System32\\dllhost.exe" and (FileName contains ":\\Users\\" and FileName contains "\\AppData\\Local\\Temp\\__PSScriptPolicyTest_") and FileName endswith ".ps1") or (FolderPath == "C:\\Windows\\system32\\svchost.exe" and (FileName contains "C:\\Program Files\\WindowsApps\\Clipchamp" and FileName contains ".ps1")) or ((FolderPath == "C:\\Windows\\system32\\svchost.exe" or FolderPath == "C:\\Windows\\SysWOW64\\svchost.exe") and (FileName startswith "C:\\Program Files\\WindowsApps\\Microsoft.PowerShellPreview" or FileName startswith "C:\\Program Files (x86)\\WindowsApps\\Microsoft.PowerShellPreview") and FileName endswith ".ps1") or (FolderPath == "C:\\Windows\\system32\\svchost.exe" and (FileName contains "C:\\Windows\\System32\\GroupPolicy\\DataStore\\" and FileName contains "\\sysvol\\" and FileName contains "\\Policies\\" and FileName contains "\\Machine\\Scripts\\Startup\\") and (FileName endswith ".ps1" or FileName endswith ".bat")))))

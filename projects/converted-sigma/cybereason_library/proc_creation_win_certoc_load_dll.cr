@@ -1,0 +1,11 @@
+// Title: DLL Loaded via CertOC.EXE
+// ID: 242301bc-f92f-4476-8718-78004a6efd9f
+// Status: test
+// Level: medium
+// Author: Austin Songer @austinsonger
+// Date: 2021-10-23
+// Tags: attack.stealth, attack.t1218
+// Description: Detects when a user installs certificates by using CertOC.exe to loads the target DLL file.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((CommandLine contains " -LoadDLL ") AND ((Image="*\\certoc.exe") OR (OriginalFileName == "CertOC.exe")))

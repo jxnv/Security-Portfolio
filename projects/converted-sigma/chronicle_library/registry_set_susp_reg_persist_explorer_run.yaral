@@ -1,0 +1,23 @@
+// Title: Registry Persistence via Explorer Run Key
+// ID: b7916c2a-fa2f-4795-9477-32b731f70f11
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), oscd.community
+// Date: 2018-07-18
+// Tags: attack.privilege-escalation, attack.persistence, attack.t1547.001
+// Description: Detects a possible persistence mechanism using RUN key for Windows Explorer and pointing to a suspicious folder
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule b7916c2a_fa2f_4795_9477_32b731f70f11 {
+  meta:
+    title = "Registry Persistence via Explorer Run Key"
+    description = "Detects a possible persistence mechanism using RUN key for Windows Explorer and pointing to a suspicious folder"
+    author = "Florian Roth (Nextron Systems), oscd.community"
+    severity = "HIGH"
+
+  events:
+    ($e.TargetObject = /.*\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run$/ nocase and ($e.Details = /.*:\\$Recycle.bin\\.*/ nocase or $e.Details = /.*:\\ProgramData\\.*/ nocase or $e.Details = /.*:\\Temp\\.*/ nocase or $e.Details = /.*:\\Users\\Default\\.*/ nocase or $e.Details = /.*:\\Users\\Public\\.*/ nocase or $e.Details = /.*:\\Windows\\Temp\\.*/ nocase or $e.Details = /.*\\AppData\\Local\\Temp\\.*/ nocase))
+
+  condition:
+    $e
+}

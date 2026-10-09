@@ -1,0 +1,23 @@
+// Title: SysKey Registry Keys Access
+// ID: 9a4ff3b8-6187-4fd2-8e8b-e0eae1129495
+// Status: test
+// Level: high
+// Author: Roberto Rodriguez @Cyb3rWard0g
+// Date: 2019-08-12
+// Tags: attack.discovery, attack.t1012
+// Description: Detects handle requests and access operations to specific registry keys to calculate the SysKey
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 9a4ff3b8_6187_4fd2_8e8b_e0eae1129495 {
+  meta:
+    title = "SysKey Registry Keys Access"
+    description = "Detects handle requests and access operations to specific registry keys to calculate the SysKey"
+    author = "Roberto Rodriguez @Cyb3rWard0g"
+    severity = "HIGH"
+
+  events:
+    (($e.EventID = 4656 or $e.EventID = 4663) and $e.ObjectType = "key" and ($e.ObjectName = /.*lsa\\JD$/ nocase or $e.ObjectName = /.*lsa\\GBG$/ nocase or $e.ObjectName = /.*lsa\\Skew1$/ nocase or $e.ObjectName = /.*lsa\\Data$/ nocase))
+
+  condition:
+    $e
+}

@@ -1,0 +1,11 @@
+# Title: Suspicious Schtasks Schedule Type With High Privileges
+# ID: 7a02e22e-b885-4404-b38b-1ddc7e65258a
+# Status: test
+# Level: medium
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-08-31
+# Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.t1053.005
+# Description: Detects scheduled task creations or modification to be run with high privileges on a suspicious schedule type
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog (((process_path="*\\schtasks.exe") OR (process_name="schtasks.exe")) AND ((process_exec="*NT AUT*" OR process_exec="* SYSTEM*" OR process_exec="*HIGHEST*")) AND ((process_exec="* ONLOGON *" OR process_exec="* ONSTART *" OR process_exec="* ONCE *" OR process_exec="* ONIDLE *")))

@@ -1,0 +1,19 @@
+# Title: CrashControl CrashDump Disabled
+# ID: 2ff692c2-4594-41ec-8fcb-46587de769e0
+# Status: test
+# Level: medium
+# Author: Tobias Michalski (Nextron Systems)
+# Date: 2022-02-24
+# Tags: attack.persistence, attack.stealth, attack.defense-impairment, attack.t1564, attack.t1112
+# Description: Detects disabling the CrashDump per registry (as used by HermeticWiper)
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: CrashControl CrashDump Disabled
+def rule(event):
+    # Detection Logic:
+    # (TargetObject="*SYSTEM\\CurrentControlSet\\Control\\CrashControl*" AND Details="DWORD (0x00000000)")
+    return True
+
+def title(event):
+    return "CrashControl CrashDump Disabled"
+

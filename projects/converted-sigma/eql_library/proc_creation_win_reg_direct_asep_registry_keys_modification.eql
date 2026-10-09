@@ -1,0 +1,11 @@
+// Title: Direct Autorun Keys Modification
+// ID: 24357373-078f-44ed-9ac4-6d334a668a11
+// Status: test
+// Level: medium
+// Author: Victor Sergeev, Daniil Yugoslavskiy, oscd.community, Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2019-10-25
+// Tags: attack.privilege-escalation, attack.persistence, attack.t1547.001
+// Description: Detects direct modification of autostart extensibility point (ASEP) in registry using reg.exe.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where ((process.command_line like "*_add*") and ((process.command_line like "*_\\software\\Microsoft\\Windows\\CurrentVersion\\Run*" or process.command_line like "*_\\software\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Run*" or process.command_line like "*_\\software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run*" or process.command_line like "*_\\software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\Userinit*" or process.command_line like "*_\\software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\Shell*" or process.command_line like "*_\\software\\Microsoft\\Windows NT\\CurrentVersion\\Windows*" or process.command_line like "*_\\system\\CurrentControlSet\\Control\\SafeBoot\\AlternateShell*")) and ((process.executable endswith "\\reg.exe") or (process.pe.original_file_name == "reg.exe")))

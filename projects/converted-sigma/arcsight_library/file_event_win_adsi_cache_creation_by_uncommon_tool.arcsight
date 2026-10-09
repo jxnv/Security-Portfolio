@@ -1,0 +1,11 @@
+// Title: ADSI-Cache File Creation By Uncommon Tool
+// ID: 75bf09fa-1dd7-4d18-9af9-dd9e492562eb
+// Status: test
+// Level: medium
+// Author: xknow @xknow_infosec, Tim Shelton
+// Date: 2019-03-24
+// Tags: attack.t1001.003, attack.command-and-control
+// Description: Detects the creation of an "Active Directory Schema Cache File" (.sch) file by an uncommon tool.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((TargetFilename CONTAINS "\\Local\\Microsoft\\Windows\\SchCache\\" AND TargetFilename ENDSWITH ".sch") AND NOT (((((Image ENDSWITH ":\\Program Files\\Cylance\\Desktop\\CylanceSvc.exe" OR Image ENDSWITH ":\\Windows\\CCM\\CcmExec.exe" OR Image ENDSWITH ":\\windows\\system32\\dllhost.exe" OR Image ENDSWITH ":\\Windows\\system32\\dsac.exe" OR Image ENDSWITH ":\\Windows\\system32\\efsui.exe" OR Image ENDSWITH ":\\windows\\system32\\mmc.exe" OR Image ENDSWITH ":\\windows\\system32\\svchost.exe" OR Image ENDSWITH ":\\Windows\\System32\\wbem\\WmiPrvSE.exe" OR Image ENDSWITH ":\\windows\\system32\\WindowsPowerShell\\v1.0\\powershell.exe")) OR ((Image CONTAINS ":\\Windows\\ccmsetup\\autoupgrade\\ccmsetup" OR Image CONTAINS ":\\Program Files\\SentinelOne\\Sentinel Agent"))) OR ((Image CONTAINS ":\\Program Files\\" AND Image CONTAINS "\\Microsoft Office") AND Image ENDSWITH "\\OUTLOOK.EXE"))) AND NOT (((Image ENDSWITH ":\\Program Files\\Citrix\\Receiver StoreFront\\Services\\DefaultDomainServices\\Citrix.DeliveryServices.DomainServices.ServiceHost.exe") OR (Image ENDSWITH "\\LANDesk\\LDCLient\\ldapwhoami.exe"))))

@@ -1,0 +1,11 @@
+-- Title: Suspicious Activity in Shell Commands
+-- ID: 2aa1440c-9ae9-4d92-84a7-a9e5f5e31695
+-- Status: test
+-- Level: high
+-- Author: Florian Roth (Nextron Systems)
+-- Date: 2017-08-21
+-- Tags: attack.execution, attack.t1059.004
+-- Description: Detects suspicious shell commands used in various exploit codes (see references)
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM events WHERE (TEXT SEARCH 'wget * - http* | perl' OR TEXT SEARCH 'wget * - http* | sh' OR TEXT SEARCH 'wget * - http* | bash' OR TEXT SEARCH 'python -m SimpleHTTPServer' OR TEXT SEARCH '-m http.server' OR TEXT SEARCH 'import pty; pty.spawn*' OR TEXT SEARCH 'socat exec:*' OR TEXT SEARCH 'socat -O /tmp/*' OR TEXT SEARCH 'socat tcp-connect*' OR TEXT SEARCH '*echo binary >>*' OR TEXT SEARCH '*wget *; chmod +x*' OR TEXT SEARCH '*wget *; chmod 777 *' OR TEXT SEARCH '*cd /tmp || cd /var/run || cd /mnt*' OR TEXT SEARCH '*stop;service iptables stop;*' OR TEXT SEARCH '*stop;SuSEfirewall2 stop;*' OR TEXT SEARCH 'chmod 777 2020*' OR TEXT SEARCH '*>>/etc/rc.local' OR TEXT SEARCH '*base64 -d /tmp/*' OR TEXT SEARCH '* | base64 -d *' OR TEXT SEARCH '*/chmod u+s *' OR TEXT SEARCH '*chmod +s /tmp/*' OR TEXT SEARCH '*chmod u+s /tmp/*' OR TEXT SEARCH '* /tmp/haxhax*' OR TEXT SEARCH '* /tmp/ns_sploit*' OR TEXT SEARCH 'nc -l -p *' OR TEXT SEARCH 'cp /bin/ksh *' OR TEXT SEARCH 'cp /bin/sh *' OR TEXT SEARCH '* /tmp/*.b64 *' OR TEXT SEARCH '*/tmp/ysocereal.jar*' OR TEXT SEARCH '*/tmp/x *' OR TEXT SEARCH '*; chmod +x /tmp/*' OR TEXT SEARCH '*;chmod +x /tmp/*')

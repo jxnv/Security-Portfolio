@@ -1,0 +1,23 @@
+// Title: HackTool - SecurityXploded Execution
+// ID: 7679d464-4f74-45e2-9e01-ac66c5eb041a
+// Status: stable
+// Level: critical
+// Author: Florian Roth (Nextron Systems)
+// Date: 2018-12-19
+// Tags: attack.credential-access, attack.t1555
+// Description: Detects the execution of SecurityXploded Tools
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 7679d464_4f74_45e2_9e01_ac66c5eb041a {
+  meta:
+    title = "HackTool - SecurityXploded Execution"
+    description = "Detects the execution of SecurityXploded Tools"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "CRITICAL"
+
+  events:
+    (($e.Company = "SecurityXploded") or ($e.target.process.file.full_path = /.*PasswordDump.exe$/ nocase) or ($e.target.process.file.name = /.*PasswordDump.exe$/ nocase))
+
+  condition:
+    $e
+}

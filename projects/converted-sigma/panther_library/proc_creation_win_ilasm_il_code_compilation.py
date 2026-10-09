@@ -1,0 +1,19 @@
+# Title: C# IL Code Compilation Via Ilasm.EXE
+# ID: 850d55f9-6eeb-4492-ad69-a72338f65ba4
+# Status: test
+# Level: medium
+# Author: frack113, Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-05-07
+# Tags: attack.execution, attack.stealth, attack.t1127
+# Description: Detects the use of "Ilasm.EXE" in order to compile C# intermediate (IL) code to EXE or DLL.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: C# IL Code Compilation Via Ilasm.EXE
+def rule(event):
+    # Detection Logic:
+    # (((CommandLine="* /dll*" OR CommandLine="* /exe*")) AND ((Image="*\\ilasm.exe") OR (OriginalFileName="ilasm.exe")))
+    return True
+
+def title(event):
+    return "C# IL Code Compilation Via Ilasm.EXE"
+

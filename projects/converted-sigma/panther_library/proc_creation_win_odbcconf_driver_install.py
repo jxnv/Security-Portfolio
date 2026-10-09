@@ -1,0 +1,19 @@
+# Title: Driver/DLL Installation Via Odbcconf.EXE
+# ID: 3f5491e2-8db8-496b-9e95-1029fce852d4
+# Status: test
+# Level: medium
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2023-05-22
+# Tags: attack.stealth, attack.t1218.008
+# Description: Detects execution of "odbcconf" with "INSTALLDRIVER" which installs a new ODBC driver. Attackers abuse this to install and run malicious DLLs.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Driver/DLL Installation Via Odbcconf.EXE
+def rule(event):
+    # Detection Logic:
+    # (((CommandLine="*INSTALLDRIVER *" AND CommandLine="*.dll*")) AND ((Image="*\\odbcconf.exe") OR (OriginalFileName="odbcconf.exe")))
+    return True
+
+def title(event):
+    return "Driver/DLL Installation Via Odbcconf.EXE"
+

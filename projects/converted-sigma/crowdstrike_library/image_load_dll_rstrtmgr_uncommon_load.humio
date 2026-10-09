@@ -1,0 +1,13 @@
+// Title: Load Of RstrtMgr.DLL By An Uncommon Process
+// ID: 3669afd2-9891-4534-a626-e5cf03810a61
+// Status: test
+// Level: low
+// Author: Luc Génaux
+// Date: 2023-11-28
+// Tags: attack.impact, attack.defense-impairment, attack.t1486, attack.t1685
+// Description: Detects the load of RstrtMgr DLL (Restart Manager) by an uncommon process.
+// This library has been used during ransomware campaigns to kill processes that would prevent file encryption by locking them (e.g. Conti ransomware, Cactus ransomware). It has also recently been seen used by the BiBi wiper for Windows.
+// It could also be used for anti-analysis purposes by shut downing specific processes.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((ImageLoaded = /.*\\RstrtMgr.dll/i) or (OriginalFilename = "RstrtMgr.dll")) and not(((ImageFileName = /C:\\Windows\\Temp\\.*/i) or ((ImageFileName = /C:\\$WINDOWS.~BT\\.*/i or ImageFileName = /C:\\$WinREAgent\\.*/i or ImageFileName = /C:\\Program Files (x86)\\.*/i or ImageFileName = /C:\\Program Files\\.*/i or ImageFileName = /C:\\ProgramData\\.*/i or ImageFileName = /C:\\Windows\\explorer.exe.*/i or ImageFileName = /C:\\Windows\\SoftwareDistribution\\.*/i or ImageFileName = /C:\\Windows\\SysNative\\.*/i or ImageFileName = /C:\\Windows\\System32\\.*/i or ImageFileName = /C:\\Windows\\SysWOW64\\.*/i or ImageFileName = /C:\\Windows\\WinSxS\\.*/i or ImageFileName = /C:\\WUDownloadCache\\.*/i)) or (ImageFileName = /C:\\Users\\.*/i and (ImageFileName = /*\\AppData\\Local\\Temp\\is-*/i and ImageFileName = /*.tmp\\*/i) and ImageFileName = /.*.tmp/i))) and not(((ImageFileName = /C:\\Users\\.*/i and (ImageFileName = /.*\\AppData\\Local\\Microsoft\\OneDrive\\OneDrive.exe/i or ImageFileName = /.*\\AppData\\Local\\Microsoft\\OneDrive\\OneDriveStandaloneUpdater.exe/i)) or (ImageFileName = /C:\\Users\\.*/i and ImageFileName = /*\\AppData\\Local\\Microsoft\\OneDrive\\*/i and ImageFileName = /.*\\OneDrive.Sync.Service.exe/i))))

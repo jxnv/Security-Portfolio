@@ -1,0 +1,11 @@
+// Title: Windows Binaries Write Suspicious Extensions
+// ID: b8fd0e93-ff58-4cbd-8f48-1c114e342e62
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-12
+// Tags: attack.stealth, attack.t1036
+// Description: Detects Windows executables that write files with suspicious extensions
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((Image ENDSWITH "\\csrss.exe" OR Image ENDSWITH "\\lsass.exe" OR Image ENDSWITH "\\RuntimeBroker.exe" OR Image ENDSWITH "\\sihost.exe" OR Image ENDSWITH "\\smss.exe" OR Image ENDSWITH "\\wininit.exe" OR Image ENDSWITH "\\winlogon.exe") AND (TargetFilename ENDSWITH ".bat" OR TargetFilename ENDSWITH ".dll" OR TargetFilename ENDSWITH ".exe" OR TargetFilename ENDSWITH ".hta" OR TargetFilename ENDSWITH ".iso" OR TargetFilename ENDSWITH ".ps1" OR TargetFilename ENDSWITH ".txt" OR TargetFilename ENDSWITH ".vbe" OR TargetFilename ENDSWITH ".vbs")) OR ((Image ENDSWITH "\\dllhost.exe" OR Image ENDSWITH "\\rundll32.exe" OR Image ENDSWITH "\\svchost.exe") AND (TargetFilename ENDSWITH ".bat" OR TargetFilename ENDSWITH ".hta" OR TargetFilename ENDSWITH ".iso" OR TargetFilename ENDSWITH ".ps1" OR TargetFilename ENDSWITH ".vbe" OR TargetFilename ENDSWITH ".vbs"))) AND NOT (((Image EQ "C:\\Windows\\System32\\dllhost.exe" AND (TargetFilename CONTAINS ":\\Users\\" AND TargetFilename CONTAINS "\\AppData\\Local\\Temp\\__PSScriptPolicyTest_") AND TargetFilename ENDSWITH ".ps1") OR (Image EQ "C:\\Windows\\system32\\svchost.exe" AND (TargetFilename CONTAINS "C:\\Program Files\\WindowsApps\\Clipchamp" AND TargetFilename CONTAINS ".ps1")) OR ((Image EQ "C:\\Windows\\system32\\svchost.exe" OR Image EQ "C:\\Windows\\SysWOW64\\svchost.exe") AND (TargetFilename STARTSWITH "C:\\Program Files\\WindowsApps\\Microsoft.PowerShellPreview" OR TargetFilename STARTSWITH "C:\\Program Files (x86)\\WindowsApps\\Microsoft.PowerShellPreview") AND TargetFilename ENDSWITH ".ps1") OR (Image EQ "C:\\Windows\\system32\\svchost.exe" AND (TargetFilename CONTAINS "C:\\Windows\\System32\\GroupPolicy\\DataStore\\" AND TargetFilename CONTAINS "\\sysvol\\" AND TargetFilename CONTAINS "\\Policies\\" AND TargetFilename CONTAINS "\\Machine\\Scripts\\Startup\\") AND (TargetFilename ENDSWITH ".ps1" OR TargetFilename ENDSWITH ".bat")))))

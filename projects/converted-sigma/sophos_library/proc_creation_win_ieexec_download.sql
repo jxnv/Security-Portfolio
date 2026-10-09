@@ -1,0 +1,11 @@
+-- Title: File Download And Execution Via IEExec.EXE
+-- ID: 9801abb8-e297-4dbf-9fbd-57dde0e830ad
+-- Status: test
+-- Level: high
+-- Author: Nasreddine Bencherchali (Nextron Systems)
+-- Date: 2022-05-16
+-- Tags: attack.command-and-control, attack.t1105
+-- Description: Detects execution of the IEExec utility to download and execute files
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE (((CommandLine ILIKE '%http://%' OR CommandLine ILIKE '%https://%')) AND ((Image ILIKE '%\\IEExec.exe') OR (OriginalFileName = 'IEExec.exe')))

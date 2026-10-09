@@ -1,0 +1,41 @@
+{
+  "title": "Sensitive File Recovery From Backup Via Wbadmin.EXE",
+  "id": "84972c80-251c-4c3a-9079-4f00aad93938",
+  "status": "test",
+  "description": "Detects the dump of highly sensitive files such as \"NTDS.DIT\" and \"SECURITY\" hive.\nAttackers can leverage the \"wbadmin\" utility in order to dump sensitive files that might contain credential or sensitive information.\n",
+  "author": "Nasreddine Bencherchali (Nextron Systems), frack113",
+  "date": "2024-05-10",
+  "tags": [
+    "attack.credential-access",
+    "attack.t1003.003"
+  ],
+  "level": "high",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_img": [
+      {
+        "Image|endswith": "\\wbadmin.exe"
+      },
+      {
+        "OriginalFileName": "WBADMIN.EXE"
+      }
+    ],
+    "selection_backup": {
+      "CommandLine|contains|all": [
+        " recovery",
+        "recoveryTarget",
+        "itemtype:File"
+      ],
+      "CommandLine|contains": [
+        "\\config\\SAM",
+        "\\config\\SECURITY",
+        "\\config\\SYSTEM",
+        "\\Windows\\NTDS\\NTDS.dit"
+      ]
+    },
+    "condition": "all of selection_*"
+  }
+}

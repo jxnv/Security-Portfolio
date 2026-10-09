@@ -1,0 +1,23 @@
+// Title: Potentially Suspicious Child Processes Spawned by ConHost
+// ID: dfa03a09-8b92-4d83-8e74-f72839b1c407
+// Status: experimental
+// Level: high
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-02-05
+// Tags: attack.stealth, attack.t1202, attack.t1218
+// Description: Detects suspicious child processes related to Windows Shell utilities spawned by `conhost.exe`, which could indicate malicious activity using trusted system components.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule dfa03a09_8b92_4d83_8e74_f72839b1c407 {
+  meta:
+    title = "Potentially Suspicious Child Processes Spawned by ConHost"
+    description = "Detects suspicious child processes related to Windows Shell utilities spawned by `conhost.exe`, which could indicate malicious activity using trusted system components."
+    author = "Swachchhanda Shrawan Poudel (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (((($e.target.process.file.full_path = /.*\\cmd.exe$/ nocase or $e.target.process.file.full_path = /.*\\cscript.exe$/ nocase or $e.target.process.file.full_path = /.*\\mshta.exe$/ nocase or $e.target.process.file.full_path = /.*\\powershell_ise.exe$/ nocase or $e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase or $e.target.process.file.full_path = /.*\\regsvr32.exe$/ nocase or $e.target.process.file.full_path = /.*\\wscript.exe$/ nocase)) or (($e.target.process.file.name = "cmd.exe" or $e.target.process.file.name = "cscript.exe" or $e.target.process.file.name = "mshta.exe" or $e.target.process.file.name = "powershell_ise.exe" or $e.target.process.file.name = "powershell.exe" or $e.target.process.file.name = "pwsh.dll" or $e.target.process.file.name = "regsvr32.exe" or $e.target.process.file.name = "wscript.exe"))) and ($e.principal.process.file.full_path = /.*\\conhost.exe$/ nocase))
+
+  condition:
+    $e
+}

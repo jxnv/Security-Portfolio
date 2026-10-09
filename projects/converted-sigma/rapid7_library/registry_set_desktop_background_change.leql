@@ -1,0 +1,12 @@
+// Title: Potentially Suspicious Desktop Background Change Via Registry
+// ID: 85b88e05-dadc-430b-8a9e-53ff1cd30aae
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems), Stephen Lincoln @slincoln-aiq (AttackIQ)
+// Date: 2023-12-21
+// Tags: attack.persistence, attack.impact, attack.defense-impairment, attack.t1112, attack.t1491.001
+// Description: Detects registry value settings that would replace the user's desktop background.
+// This is a common technique used by malware to change the desktop background to a ransom note or other image.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(TargetObject ICONTAINS "Control Panel\\Desktop") OR where(TargetObject ICONTAINS "CurrentVersion\\Policies\\ActiveDesktop") OR where(TargetObject ICONTAINS "CurrentVersion\\Policies\\System"))) AND ((where(TargetObject IENDSWITH "NoChangingWallpaper") AND where(Details = "DWORD (0x00000001)")) OR (where(TargetObject IENDSWITH "\\Wallpaper")) OR (where(TargetObject IENDSWITH "\\WallpaperStyle") AND where(Details = "2"))) AND NOT (((where(TargetObject IENDSWITH "\\Control Panel\\Desktop\\Wallpaper") AND where(Details = "(Empty)")) OR (where(Image IENDSWITH "C:\\Windows\\Explorer.EXE")) OR (where(Image IENDSWITH "\\svchost.exe")))) AND NOT (((where(Image = "C:\\Program Files\\Amazon\\EC2Launch\\EC2Launch.exe") OR where(Image = "C:\\Program Files (x86)\\Amazon\\EC2Launch\\EC2Launch.exe")) AND where(TargetObject IENDSWITH "\\Control Panel\\Desktop\\Wallpaper"))))

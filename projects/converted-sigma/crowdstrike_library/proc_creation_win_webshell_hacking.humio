@@ -1,0 +1,11 @@
+// Title: Webshell Hacking Activity Patterns
+// ID: 4ebc877f-4612-45cb-b3a5-8e3834db36c9
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-03-17
+// Tags: attack.persistence, attack.discovery, attack.t1505.003, attack.t1018, attack.t1033, attack.t1087
+// Description: Detects certain parent child patterns found in cases in which a web shell is used to perform certain credential dumping or exfiltration activities on a compromised system
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((ParentBaseFileName = /.*\\java.exe/i or ParentBaseFileName = /.*\\javaw.exe/i) and (ParentBaseFileName = /*-tomcat-*/i or ParentBaseFileName = /*\\tomcat*/i)) or ((ParentBaseFileName = /.*\\java.exe/i or ParentBaseFileName = /.*\\javaw.exe/i) and (CommandLine = /*catalina.jar*/i or CommandLine = /*CATALINA_HOME*/i)) or ((ParentBaseFileName = /.*\\caddy.exe/i or ParentBaseFileName = /.*\\httpd.exe/i or ParentBaseFileName = /.*\\nginx.exe/i or ParentBaseFileName = /.*\\php-cgi.exe/i or ParentBaseFileName = /.*\\w3wp.exe/i or ParentBaseFileName = /.*\\ws_tomcatservice.exe/i))) and (((CommandLine = /*rundll32*/i and CommandLine = /*comsvcs*/i)) or ((CommandLine = /* -hp*/i and CommandLine = /* a */i and CommandLine = /* -m*/i)) or ((CommandLine = /*net*/i and CommandLine = /* user */i and CommandLine = /* /add*/i)) or ((CommandLine = /*net*/i and CommandLine = /* localgroup */i and CommandLine = /* administrators */i and CommandLine = /*/add*/i)) or ((ImageFileName = /.*\\ntdsutil.exe/i or ImageFileName = /.*\\ldifde.exe/i or ImageFileName = /.*\\adfind.exe/i or ImageFileName = /.*\\procdump.exe/i or ImageFileName = /.*\\Nanodump.exe/i or ImageFileName = /.*\\vssadmin.exe/i or ImageFileName = /.*\\fsutil.exe/i)) or ((CommandLine = /* -decode */i or CommandLine = /* -NoP */i or CommandLine = /* -W Hidden */i or CommandLine = /* /decode */i or CommandLine = /* /ticket:*/i or CommandLine = /* sekurlsa*/i or CommandLine = /*.dmp full*/i or CommandLine = /*.downloadfile(*/i or CommandLine = /*.downloadstring(*/i or CommandLine = /*FromBase64String*/i or CommandLine = /*process call create*/i or CommandLine = /*reg save */i or CommandLine = /*whoami /priv*/i))))

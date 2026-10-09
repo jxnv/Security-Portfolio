@@ -1,0 +1,11 @@
+// Title: Suspicious Reconnaissance Activity Using Get-LocalGroupMember Cmdlet
+// ID: c8a180d6-47a3-4345-a609-53f9c3d834fc
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-10-10
+// Tags: attack.discovery, attack.t1087.001
+// Description: Detects suspicious reconnaissance command line activity on Windows systems using the PowerShell Get-LocalGroupMember Cmdlet
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE ((process.command_line LIKE "%Get-LocalGroupMember %") AND ((process.command_line LIKE "%domain admins%" OR process.command_line LIKE "% administrator%" OR process.command_line LIKE "% administrateur%" OR process.command_line LIKE "%enterprise admins%" OR process.command_line LIKE "%Exchange Trusted Subsystem%" OR process.command_line LIKE "%Remote Desktop Users%" OR process.command_line LIKE "%Utilisateurs du Bureau à distance%" OR process.command_line LIKE "%Usuarios de escritorio remoto%")))

@@ -1,0 +1,11 @@
+// Title: New Netsh Helper DLL Registered From A Suspicious Location
+// ID: e7b18879-676e-4a0e-ae18-27039185a8e7
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-11-28
+// Tags: attack.privilege-escalation, attack.persistence, attack.t1546.007
+// Description: Detects changes to the Netsh registry key to add a new DLL value that is located on a suspicious location. This change might be an indication of a potential persistence attempt by adding a malicious Netsh helper
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((TargetObject contains "\\SOFTWARE\\Microsoft\\NetSh") AND (((Details contains ":\\Perflogs\\" OR Details contains ":\\Users\\Public\\" OR Details contains ":\\Windows\\Temp\\" OR Details contains "\\AppData\\Local\\Temp\\" OR Details contains "\\Temporary Internet")) OR (((Details contains ":\\Users\\" AND Details contains "\\Favorites\\")) OR ((Details contains ":\\Users\\" AND Details contains "\\Favourites\\")) OR ((Details contains ":\\Users\\" AND Details contains "\\Contacts\\")) OR ((Details contains ":\\Users\\" AND Details contains "\\Pictures\\")))))

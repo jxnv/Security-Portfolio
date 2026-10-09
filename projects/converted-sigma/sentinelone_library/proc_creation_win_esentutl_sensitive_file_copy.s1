@@ -1,0 +1,11 @@
+// Title: Copying Sensitive Files with Credential Data
+// ID: e7be6119-fc37-43f0-ad4f-1f3f99be2f9f
+// Status: test
+// Level: high
+// Author: Teymur Kheirkhabarov, Daniil Yugoslavskiy, oscd.community
+// Date: 2019-10-22
+// Tags: attack.credential-access, attack.t1003.002, attack.t1003.003, car.2013-07-001, attack.s0404
+// Description: Files with well-known filenames (sensitive files with credential data) copying
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((src.process.cmdline containsCIS "vss" OR src.process.cmdline containsCIS " /m " OR src.process.cmdline containsCIS " /y ")) AND ((src.process.image.path endswithCIS "\\esentutl.exe") OR (OriginalFileName = "\\esentutl.exe"))) OR ((src.process.cmdline containsCIS "\\config\\RegBack\\sam" OR src.process.cmdline containsCIS "\\config\\RegBack\\security" OR src.process.cmdline containsCIS "\\config\\RegBack\\system" OR src.process.cmdline containsCIS "\\config\\sam" OR src.process.cmdline containsCIS "\\config\\security" OR src.process.cmdline containsCIS "\\config\\system " OR src.process.cmdline containsCIS "\\repair\\sam" OR src.process.cmdline containsCIS "\\repair\\security" OR src.process.cmdline containsCIS "\\repair\\system" OR src.process.cmdline containsCIS "\\windows\\ntds\\ntds.dit")))

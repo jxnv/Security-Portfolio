@@ -1,0 +1,11 @@
+// Title: SQLite Chromium Profile Data DB Access
+// ID: 24c77512-782b-448a-8950-eddb0785fc71
+// Status: test
+// Level: high
+// Author: TropChaud
+// Date: 2022-12-19
+// Tags: attack.credential-access, attack.t1539, attack.t1555.003, attack.collection, attack.t1005
+// Description: Detect usage of the "sqlite" binary to query databases in Chromium-based browsers for potential data stealing.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where (((process.command_line like "%\\User Data\\%" OR process.command_line like "%\\Opera Software\\%" OR process.command_line like "%\\ChromiumViewer\\%")) AND ((process.command_line like "%Login Data%" OR process.command_line like "%Cookies%" OR process.command_line like "%Web Data%" OR process.command_line like "%History%" OR process.command_line like "%Bookmarks%")) AND ((Product = "SQLite") OR ((process.executable="*\\sqlite.exe" OR process.executable="*\\sqlite3.exe"))))

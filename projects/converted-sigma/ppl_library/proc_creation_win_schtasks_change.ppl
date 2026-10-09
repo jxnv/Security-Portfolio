@@ -1,0 +1,13 @@
+// Title: Suspicious Modification Of Scheduled Tasks
+// ID: 1c0e41cd-21bb-4433-9acc-4a2cd6367b9b
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-07-28
+// Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.t1053.005
+// Description: Detects when an attacker tries to modify an already existing scheduled tasks to run from a suspicious location
+// Attackers can create a simple looking task in order to avoid detection on creation as it's often the most focused on
+// Instead they modify the task after creation to include their malicious payload
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where ((process.executable="*\\schtasks.exe" AND (process.command_line like "% /Change %" AND process.command_line like "% /TN %")) AND ((process.command_line like "%regsvr32%" OR process.command_line like "%rundll32%" OR process.command_line like "%cmd /c %" OR process.command_line like "%cmd /k %" OR process.command_line like "%cmd /r %" OR process.command_line like "%cmd.exe /c %" OR process.command_line like "%cmd.exe /k %" OR process.command_line like "%cmd.exe /r %" OR process.command_line like "%powershell%" OR process.command_line like "%mshta%" OR process.command_line like "%wscript%" OR process.command_line like "%cscript%" OR process.command_line like "%certutil%" OR process.command_line like "%bitsadmin%" OR process.command_line like "%bash.exe%" OR process.command_line like "%bash %" OR process.command_line like "%scrcons%" OR process.command_line like "%wmic %" OR process.command_line like "%wmic.exe%" OR process.command_line like "%forfiles%" OR process.command_line like "%scriptrunner%" OR process.command_line like "%hh.exe%" OR process.command_line like "%hh %")) AND ((process.command_line like "%\\AppData\\Local\\Temp%" OR process.command_line like "%\\AppData\\Roaming\\%" OR process.command_line like "%\\Users\\Public\\%" OR process.command_line like "%\\WINDOWS\\Temp\\%" OR process.command_line like "%\\Desktop\\%" OR process.command_line like "%\\Downloads\\%" OR process.command_line like "%\\Temporary Internet%" OR process.command_line like "%C:\\ProgramData\\%" OR process.command_line like "%C:\\Perflogs\\%" OR process.command_line like "%%ProgramData%%" OR process.command_line like "%%appdata%%" OR process.command_line like "%%comspec%%" OR process.command_line like "%%localappdata%%")))

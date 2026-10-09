@@ -1,0 +1,23 @@
+// Title: Shell Process Spawned by Java.EXE
+// ID: dff1e1cc-d3fd-47c8-bfc2-aeb878a754c0
+// Status: test
+// Level: medium
+// Author: Andreas Hunkeler (@Karneades), Nasreddine Bencherchali
+// Date: 2021-12-17
+// Tags: attack.initial-access, attack.persistence, attack.privilege-escalation
+// Description: Detects shell spawned from Java host process, which could be a sign of exploitation (e.g. log4j exploitation)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule dff1e1cc_d3fd_47c8_bfc2_aeb878a754c0 {
+  meta:
+    title = "Shell Process Spawned by Java.EXE"
+    description = "Detects shell spawned from Java host process, which could be a sign of exploitation (e.g. log4j exploitation)"
+    author = "Andreas Hunkeler (@Karneades), Nasreddine Bencherchali"
+    severity = "MEDIUM"
+
+  events:
+    (($e.principal.process.file.full_path = /.*\\java.exe$/ nocase and ($e.target.process.file.full_path = /.*\\bash.exe$/ nocase or $e.target.process.file.full_path = /.*\\cmd.exe$/ nocase or $e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase)) and not(($e.principal.process.file.full_path = /.*build.*/ nocase and $e.target.process.command_line = /.*build.*/ nocase)))
+
+  condition:
+    $e
+}

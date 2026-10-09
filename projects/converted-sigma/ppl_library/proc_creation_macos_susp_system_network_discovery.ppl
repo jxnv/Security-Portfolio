@@ -1,0 +1,11 @@
+// Title: System Network Discovery - macOS
+// ID: 58800443-f9fc-4d55-ae0c-98a3966dfb97
+// Status: test
+// Level: informational
+// Author: remotephone, oscd.community
+// Date: 2020-10-06
+// Tags: attack.discovery, attack.t1016
+// Description: Detects enumeration of local network configuration
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where ((((process.executable="*/arp" OR process.executable="*/ifconfig" OR process.executable="*/netstat" OR process.executable="*/networksetup" OR process.executable="*/socketfilterfw")) OR (process.executable = "/usr/bin/defaults" AND (process.command_line like "%/Library/Preferences/com.apple.alf%" AND process.command_line like "%read%"))) AND NOT ((process.parent.executable="*/wifivelocityd")))

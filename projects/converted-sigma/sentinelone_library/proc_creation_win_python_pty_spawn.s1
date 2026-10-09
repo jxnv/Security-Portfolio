@@ -1,0 +1,11 @@
+// Title: Python Spawning Pretty TTY on Windows
+// ID: 480e7e51-e797-47e3-8d72-ebfce65b6d8d
+// Status: test
+// Level: high
+// Author: Nextron Systems
+// Date: 2022-06-03
+// Tags: attack.execution, attack.t1059
+// Description: Detects python spawning a pretty tty
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((src.process.image.path endswithCIS "python.exe" OR src.process.image.path endswithCIS "python3.exe" OR src.process.image.path endswithCIS "python2.exe")) AND (((src.process.cmdline containsCIS "import pty" AND src.process.cmdline containsCIS ".spawn(")) OR (src.process.cmdline containsCIS "from pty import spawn")))

@@ -1,0 +1,30 @@
+{
+  "title": "Suspicious Use of /dev/tcp",
+  "id": "6cc5fceb-9a71-4c23-aeeb-963abe0b279c",
+  "status": "test",
+  "description": "Detects suspicious command with /dev/tcp",
+  "author": "frack113",
+  "date": "2021-12-10",
+  "tags": [
+    "attack.reconnaissance"
+  ],
+  "level": "medium",
+  "logsource": {
+    "product": "linux"
+  },
+  "detection": {
+    "keywords": [
+      "cat </dev/tcp/",
+      "exec 3<>/dev/tcp/",
+      "echo >/dev/tcp/",
+      "bash -i >& /dev/tcp/",
+      "sh -i >& /dev/udp/",
+      "0<&196;exec 196<>/dev/tcp/",
+      "exec 5<>/dev/tcp/",
+      "(sh)0>/dev/tcp/",
+      "bash -c 'bash -i >& /dev/tcp/",
+      "echo -e '#!/bin/bash\\nbash -i >& /dev/tcp/"
+    ],
+    "condition": "keywords"
+  }
+}

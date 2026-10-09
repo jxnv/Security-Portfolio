@@ -1,0 +1,19 @@
+# Title: PowerShell Web Access Installation - PsScript
+# ID: 5f9c7f1a-7c21-4c39-b2f3-8d8006e0e51f
+# Status: test
+# Level: high
+# Author: Michael Haag
+# Date: 2024-09-03
+# Tags: attack.persistence, attack.execution, attack.t1059.001
+# Description: Detects the installation and configuration of PowerShell Web Access, which could be used for remote access and potential abuse
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: PowerShell Web Access Installation - PsScript
+def rule(event):
+    # Detection Logic:
+    # (((ScriptBlockText="*Add-PswaAuthorizationRule*" AND ScriptBlockText="*-UserName **" AND ScriptBlockText="*-ComputerName **")) OR (ScriptBlockText="*Install-PswaWebApplication*") OR (ScriptBlockText="*Install-WindowsFeature WindowsPowerShellWebAccess*"))
+    return True
+
+def title(event):
+    return "PowerShell Web Access Installation - PsScript"
+

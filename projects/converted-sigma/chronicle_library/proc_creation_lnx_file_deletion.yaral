@@ -1,0 +1,23 @@
+// Title: File Deletion
+// ID: 30aed7b6-d2c1-4eaf-9382-b6bc43e50c57
+// Status: stable
+// Level: informational
+// Author: Ömer Günal, oscd.community
+// Date: 2020-10-07
+// Tags: attack.stealth, attack.t1070.004
+// Description: Detects file deletion using "rm", "shred" or "unlink" commands which are used often by adversaries to delete files left behind by the actions of their intrusion activity
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 30aed7b6_d2c1_4eaf_9382_b6bc43e50c57 {
+  meta:
+    title = "File Deletion"
+    description = "Detects file deletion using "rm", "shred" or "unlink" commands which are used often by adversaries to delete files left behind by the actions of their intrusion activity"
+    author = "Ömer Günal, oscd.community"
+    severity = "INFORMATIONAL"
+
+  events:
+    (($e.target.process.file.full_path = /.*/rm$/ nocase or $e.target.process.file.full_path = /.*/shred$/ nocase or $e.target.process.file.full_path = /.*/unlink$/ nocase))
+
+  condition:
+    $e
+}

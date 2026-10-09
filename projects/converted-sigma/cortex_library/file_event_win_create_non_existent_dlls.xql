@@ -1,0 +1,13 @@
+// Title: Creation Of Non-Existent System DLL
+// ID: df6ecb8b-7822-4f4b-b412-08f524b4576c
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems), fornotes
+// Date: 2022-12-01
+// Tags: attack.persistence, attack.privilege-escalation, attack.execution, attack.stealth, attack.t1574.001
+// Description: Detects creation of specific system DLL files that are  usually not present on the system (or at least not in system directories) but may be loaded by legitimate processes.
+// Phantom DLL hijacking involves placing malicious DLLs with names of non-existent system binaries in locations where legitimate applications may search for them, leading to execution of the malicious DLLs.
+// Thus, the creation of such DLLs may indicate preparation for phantom DLL hijacking attacks.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter ((action_file_path endswith ":\\Windows\\System32\\axeonoffhelper.dll" or action_file_path endswith ":\\Windows\\System32\\cdpsgshims.dll" or action_file_path endswith ":\\Windows\\System32\\oci.dll" or action_file_path endswith ":\\Windows\\System32\\offdmpsvc.dll" or action_file_path endswith ":\\Windows\\System32\\shellchromeapi.dll" or action_file_path endswith ":\\Windows\\System32\\TSMSISrv.dll" or action_file_path endswith ":\\Windows\\System32\\TSVIPSrv.dll" or action_file_path endswith ":\\Windows\\System32\\wbem\\wbemcomn.dll" or action_file_path endswith ":\\Windows\\System32\\WLBSCTRL.dll" or action_file_path endswith ":\\Windows\\System32\\wow64log.dll" or action_file_path endswith ":\\Windows\\System32\\WptsExtensions.dll" or action_file_path endswith "\\SprintCSP.dll"))

@@ -1,0 +1,11 @@
+// Title: Uncommon One Time Only Scheduled Task At 00:00
+// ID: 970823b7-273b-460a-8afc-3a6811998529
+// Status: test
+// Level: high
+// Author: pH-T (Nextron Systems)
+// Date: 2022-07-15
+// Tags: attack.execution, attack.persistence, attack.privilege-escalation, attack.t1053.005
+// Description: Detects scheduled task creation events that include suspicious actions, and is run once at 00:00
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((CommandLine CONTAINS "wscript" OR CommandLine CONTAINS "vbscript" OR CommandLine CONTAINS "cscript" OR CommandLine CONTAINS "wmic " OR CommandLine CONTAINS "wmic.exe" OR CommandLine CONTAINS "regsvr32.exe" OR CommandLine CONTAINS "powershell" OR CommandLine CONTAINS "\\AppData\\")) AND ((Image CONTAINS "\\schtasks.exe") OR (OriginalFileName EQ "schtasks.exe")) AND ((CommandLine CONTAINS "once" AND CommandLine CONTAINS "00:00")))

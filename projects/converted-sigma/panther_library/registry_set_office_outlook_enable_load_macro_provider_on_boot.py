@@ -1,0 +1,19 @@
+# Title: Potential Persistence Via Outlook LoadMacroProviderOnBoot Setting
+# ID: 396ae3eb-4174-4b9b-880e-dc0364d78a19
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2021-04-05
+# Tags: attack.privilege-escalation, attack.persistence, attack.command-and-control, attack.t1137, attack.t1008, attack.t1546
+# Description: Detects the modification of Outlook setting "LoadMacroProviderOnBoot" which if enabled allows the automatic loading of any configured VBA project/module
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Potential Persistence Via Outlook LoadMacroProviderOnBoot Setting
+def rule(event):
+    # Detection Logic:
+    # (TargetObject="*\\Outlook\\LoadMacroProviderOnBoot" AND Details="*0x00000001*")
+    return True
+
+def title(event):
+    return "Potential Persistence Via Outlook LoadMacroProviderOnBoot Setting"
+

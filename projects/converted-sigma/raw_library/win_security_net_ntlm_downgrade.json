@@ -1,0 +1,36 @@
+{
+  "title": "NetNTLM Downgrade Attack",
+  "id": "d3abac66-f11c-4ed0-8acb-50cc29c97eed",
+  "status": "test",
+  "description": "Detects NetNTLM downgrade attack",
+  "author": "Florian Roth (Nextron Systems), wagga",
+  "date": "2018-03-20",
+  "tags": [
+    "attack.persistence",
+    "attack.defense-impairment",
+    "attack.t1685",
+    "attack.t1112"
+  ],
+  "level": "high",
+  "logsource": {
+    "product": "windows",
+    "service": "security",
+    "definition": "Requirements: Audit Policy : Object Access > Audit Registry (Success)"
+  },
+  "detection": {
+    "selection": {
+      "EventID": 4657,
+      "ObjectName|contains|all": [
+        "\\REGISTRY\\MACHINE\\SYSTEM",
+        "ControlSet",
+        "\\Control\\Lsa"
+      ],
+      "ObjectValueName": [
+        "LmCompatibilityLevel",
+        "NtlmMinClientSec",
+        "RestrictSendingNTLMTraffic"
+      ]
+    },
+    "condition": "selection"
+  }
+}

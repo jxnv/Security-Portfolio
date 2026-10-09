@@ -1,0 +1,11 @@
+// Title: Suspicious Curl.EXE Download
+// ID: e218595b-bbe7-4ee5-8a96-f32a24ad3468
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2020-07-03
+// Tags: attack.command-and-control, attack.t1105
+// Description: Detects a suspicious curl process start on Windows and outputs the requested document to a local file
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((ImageFileName = /.*\\curl.exe/i) or (Product = "The curl executable")) and (((CommandLine = /.*.dll/i or CommandLine = /.*.gif/i or CommandLine = /.*.jpeg/i or CommandLine = /.*.jpg/i or CommandLine = /.*.png/i or CommandLine = /.*.temp/i or CommandLine = /.*.tmp/i or CommandLine = /.*.txt/i or CommandLine = /.*.vbe/i or CommandLine = /.*.vbs/i)) or ((CommandLine = /*%AppData%*/i or CommandLine = /*%Public%*/i or CommandLine = /*%Temp%*/i or CommandLine = /*%tmp%*/i or CommandLine = /*\\AppData\\*/i or CommandLine = /*\\Desktop\\*/i or CommandLine = /*\\Temp\\*/i or CommandLine = /*\\Users\\Public\\*/i or CommandLine = /*C:\\PerfLogs\\*/i or CommandLine = /*C:\\ProgramData\\*/i or CommandLine = /*C:\\Windows\\Temp\\*/i))) and not((ParentBaseFileName = "C:\\Program Files\\Git\\usr\\bin\\sh.exe" and ImageFileName = "C:\\Program Files\\Git\\mingw64\\bin\\curl.exe" and (CommandLine = /*--silent --show-error --output */i and CommandLine = /*gfw-httpget-*/i and CommandLine = /*AppData*/i))))

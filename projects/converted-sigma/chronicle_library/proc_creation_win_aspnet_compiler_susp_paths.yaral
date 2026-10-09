@@ -1,0 +1,23 @@
+// Title: Potentially Suspicious ASP.NET Compilation Via AspNetCompiler
+// ID: 9f50fe98-fe5c-4a2d-86c7-fad7f63ed622
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-08-14
+// Tags: attack.execution, attack.stealth, attack.t1127
+// Description: Detects execution of "aspnet_compiler.exe" with potentially suspicious paths for compilation.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 9f50fe98_fe5c_4a2d_86c7_fad7f63ed622 {
+  meta:
+    title = "Potentially Suspicious ASP.NET Compilation Via AspNetCompiler"
+    description = "Detects execution of "aspnet_compiler.exe" with potentially suspicious paths for compilation."
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.file.full_path = /.*:\\Windows\\Microsoft.NET\\Framework\\.*/ nocase or $e.target.process.file.full_path = /.*:\\Windows\\Microsoft.NET\\Framework64\\.*/ nocase or $e.target.process.file.full_path = /.*:\\Windows\\Microsoft.NET\\FrameworkArm\\.*/ nocase or $e.target.process.file.full_path = /.*:\\Windows\\Microsoft.NET\\FrameworkArm64\\.*/ nocase) and $e.target.process.file.full_path = /.*\\aspnet_compiler.exe$/ nocase and ($e.target.process.command_line = /.*\\Users\\Public\\.*/ nocase or $e.target.process.command_line = /.*\\AppData\\Local\\Temp\\.*/ nocase or $e.target.process.command_line = /.*\\AppData\\Local\\Roaming\\.*/ nocase or $e.target.process.command_line = /.*:\\Temp\\.*/ nocase or $e.target.process.command_line = /.*:\\Windows\\Temp\\.*/ nocase or $e.target.process.command_line = /.*:\\Windows\\System32\\Tasks\\.*/ nocase or $e.target.process.command_line = /.*:\\Windows\\Tasks\\.*/ nocase))
+
+  condition:
+    $e
+}

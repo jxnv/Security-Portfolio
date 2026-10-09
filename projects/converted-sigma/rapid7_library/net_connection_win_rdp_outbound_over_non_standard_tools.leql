@@ -1,0 +1,12 @@
+// Title: Outbound RDP Connections Over Non-Standard Tools
+// ID: ed74fe75-7594-4b4b-ae38-e38e3fd2eb23
+// Status: test
+// Level: high
+// Author: Markus Neis
+// Date: 2019-05-15
+// Tags: attack.lateral-movement, attack.t1021.001, car.2013-07-002
+// Description: Detects Non-Standard tools initiating a connection over port 3389 indicating possible lateral movement.
+// An initial baseline is required before using this utility to exclude third party RDP tooling that you might use.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((where(DestinationPort = "3389") AND where(Initiated = "true")) AND NOT (((where(Image = "C:\\Windows\\System32\\mstsc.exe") OR where(Image = "C:\\Windows\\SysWOW64\\mstsc.exe")))) AND NOT ((((where(Image IENDSWITH "\\Avast Software\\Avast\\AvastSvc.exe") OR where(Image IENDSWITH "\\Avast\\AvastSvc.exe"))) OR (where(Image = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe")) OR (where(Image = "C:\\Windows\\System32\\dns.exe") AND where(SourcePort = "53") AND where(Protocol = "udp")) OR (where(Image = "")) OR (where(Image = "C:\\Program Files\\Mozilla Firefox\\firefox.exe")) OR (NOT Image=*) OR (where(Image IENDSWITH "\\Ranger\\SentinelRanger.exe")) OR (where(Image ISTARTSWITH "C:\\Program Files\\SplunkUniversalForwarder\\bin\\")) OR (where(Image IENDSWITH "\\RDCMan.exe")) OR ((where(Image IENDSWITH "\\FSAssessment.exe") OR where(Image IENDSWITH "\\FSDiscovery.exe") OR where(Image IENDSWITH "\\MobaRTE.exe") OR where(Image IENDSWITH "\\mRemote.exe") OR where(Image IENDSWITH "\\mRemoteNG.exe") OR where(Image IENDSWITH "\\Passwordstate.exe") OR where(Image IENDSWITH "\\RemoteDesktopManager.exe") OR where(Image IENDSWITH "\\RemoteDesktopManager64.exe") OR where(Image IENDSWITH "\\RemoteDesktopManagerFree.exe") OR where(Image IENDSWITH "\\RSSensor.exe") OR where(Image IENDSWITH "\\RTS2App.exe") OR where(Image IENDSWITH "\\RTSApp.exe") OR where(Image IENDSWITH "\\spiceworks-finder.exe") OR where(Image IENDSWITH "\\Terminals.exe") OR where(Image IENDSWITH "\\ws_TunnelService.exe"))) OR ((where(Image IENDSWITH "\\thor.exe") OR where(Image IENDSWITH "\\thor64.exe"))) OR ((where(Image = "C:\\Program Files\\TSplus\\Java\\bin\\HTML5service.exe") OR where(Image = "C:\\Program Files (x86)\\TSplus\\Java\\bin\\HTML5service.exe"))) OR (where(Image = "<unknown process>")))))

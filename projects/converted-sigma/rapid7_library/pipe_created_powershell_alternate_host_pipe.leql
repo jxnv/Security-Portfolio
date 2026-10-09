@@ -1,0 +1,11 @@
+// Title: Alternate PowerShell Hosts Pipe
+// ID: 58cb02d5-78ce-4692-b3e1-dce850aae41a
+// Status: test
+// Level: medium
+// Author: Roberto Rodriguez @Cyb3rWard0g, Tim Shelton
+// Date: 2019-09-12
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects alternate PowerShell hosts potentially bypassing detections looking for powershell.exe
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((where(PipeName ISTARTSWITH "\\PSHost")) AND NOT (((((where(Image ICONTAINS ":\\Program Files\\PowerShell\\7-preview\\pwsh.exe") OR where(Image ICONTAINS ":\\Program Files\\PowerShell\\7\\pwsh.exe") OR where(Image ICONTAINS ":\\Windows\\system32\\dsac.exe") OR where(Image ICONTAINS ":\\Windows\\system32\\inetsrv\\w3wp.exe") OR where(Image ICONTAINS ":\\Windows\\System32\\sdiagnhost.exe") OR where(Image ICONTAINS ":\\Windows\\system32\\ServerManager.exe") OR where(Image ICONTAINS ":\\Windows\\system32\\wbem\\wmiprvse.exe") OR where(Image ICONTAINS ":\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell_ise.exe") OR where(Image ICONTAINS ":\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe") OR where(Image ICONTAINS ":\\Windows\\System32\\wsmprovhost.exe") OR where(Image ICONTAINS ":\\Windows\\SysWOW64\\WindowsPowerShell\\v1.0\\powershell_ise.exe") OR where(Image ICONTAINS ":\\Windows\\SysWOW64\\WindowsPowerShell\\v1.0\\powershell.exe"))) OR ((where(Image ICONTAINS "C:\\Program Files\\WindowsApps\\Microsoft.PowerShellPreview") AND where(Image ICONTAINS "\\pwsh.exe"))) OR ((where(Image ICONTAINS "\\AppData\\Local\\Microsoft\\WindowsApps\\Microsoft.PowerShellPreview") AND where(Image ICONTAINS "\\pwsh.exe")))) OR (NOT Image=*))) AND NOT (((where(Image ISTARTSWITH "C:\\Program Files\\AzureConnectedMachineAgent\\GCArcService") AND where(Image IENDSWITH "\\GC\\gc_worker.exe")) OR (where(Image ISTARTSWITH "C:\\Program Files\\Citrix\\")) OR (where(Image ISTARTSWITH "C:\\Program Files\\Microsoft\\Exchange Server\\")) OR ((where(Image ISTARTSWITH "C:\\Program Files (x86)\\") OR where(Image ISTARTSWITH "C:\\Program Files\\")) AND where(Image ICONTAINS "\\Microsoft SQL Server\\") AND where(Image IENDSWITH "\\Tools\\Binn\\SQLPS.exe")))))

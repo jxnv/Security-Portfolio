@@ -1,0 +1,20 @@
+# Title: Potential Okta Password in AlternateID Field
+# ID: 91b76b84-8589-47aa-9605-c837583b82a9
+# Status: test
+# Level: high
+# Author: kelnage
+# Date: 2023-04-03
+# Tags: attack.credential-access, attack.t1552
+# Description: Detects when a user has potentially entered their password into the
+# username field, which will cause the password to be retained in log files.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Potential Okta Password in AlternateID Field
+def rule(event):
+    # Detection Logic:
+    # ((legacyEventType="core.user_auth.login_failed") AND NOT ((actor.alternateId=regex("(^0oa.*|[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,10})"))))
+    return True
+
+def title(event):
+    return "Potential Okta Password in AlternateID Field"
+

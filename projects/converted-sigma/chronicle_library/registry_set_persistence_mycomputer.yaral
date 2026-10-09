@@ -1,0 +1,23 @@
+// Title: Potential Persistence Via MyComputer Registry Keys
+// ID: 8fbe98a8-8f9d-44f8-aa71-8c572e29ef06
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-09
+// Tags: attack.persistence
+// Description: Detects modification to the "Default" value of the "MyComputer" key and subkeys to point to a custom binary that will be launched whenever the associated action is executed (see reference section for example)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 8fbe98a8_8f9d_44f8_aa71_8c572e29ef06 {
+  meta:
+    title = "Potential Persistence Via MyComputer Registry Keys"
+    description = "Detects modification to the "Default" value of the "MyComputer" key and subkeys to point to a custom binary that will be launched whenever the associated action is executed (see reference section for example)"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ($e.TargetObject = /.*\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MyComputer.*/ nocase and $e.TargetObject = /.*(Default)$/ nocase)
+
+  condition:
+    $e
+}

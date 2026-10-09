@@ -1,0 +1,23 @@
+// Title: New Module Module Added To IIS Server
+// ID: dd857d3e-0c6e-457b-9b48-e82ae7f86bd7
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2024-10-06
+// Tags: attack.persistence, attack.defense-impairment, attack.t1685.001, attack.t1505.004
+// Description: Detects the addition of a new module to an IIS server.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule dd857d3e_0c6e_457b_9b48_e82ae7f86bd7 {
+  meta:
+    title = "New Module Module Added To IIS Server"
+    description = "Detects the addition of a new module to an IIS server."
+    author = "frack113"
+    severity = "MEDIUM"
+
+  events:
+    (($e.EventID = 29 and $e.Configuration = /.*/system.webServer/modules/add.*/ nocase) and not(((($e.NewValue = "AnonymousAuthenticationModule" or $e.NewValue = "CustomErrorModule" or $e.NewValue = "DefaultDocumentModule" or $e.NewValue = "DirectoryListingModule" or $e.NewValue = "FileCacheModule" or $e.NewValue = "HttpCacheModule" or $e.NewValue = "HttpLoggingModule" or $e.NewValue = "ProtocolSupportModule" or $e.NewValue = "RequestFilteringModule" or $e.NewValue = "StaticCompressionModule" or $e.NewValue = "StaticFileModule" or $e.NewValue = "TokenCacheModule" or $e.NewValue = "UriCacheModule")) or ($e.NewValue = ""))))
+
+  condition:
+    $e
+}

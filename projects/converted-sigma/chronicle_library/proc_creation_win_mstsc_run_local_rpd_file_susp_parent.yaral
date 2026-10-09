@@ -1,0 +1,23 @@
+// Title: Mstsc.EXE Execution From Uncommon Parent
+// ID: ff3b6b39-e765-42f9-bb2c-ea6761e0e0f6
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-04-18
+// Tags: attack.lateral-movement
+// Description: Detects potential RDP connection via Mstsc using a local ".rdp" file located in suspicious locations.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule ff3b6b39_e765_42f9_bb2c_ea6761e0e0f6 {
+  meta:
+    title = "Mstsc.EXE Execution From Uncommon Parent"
+    description = "Detects potential RDP connection via Mstsc using a local ".rdp" file located in suspicious locations."
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.file.full_path = /.*\\mstsc.exe$/ nocase) or ($e.target.process.file.name = "mstsc.exe")) and (($e.principal.process.file.full_path = /.*\\brave.exe$/ nocase or $e.principal.process.file.full_path = /.*\\CCleanerBrowser.exe$/ nocase or $e.principal.process.file.full_path = /.*\\chrome.exe$/ nocase or $e.principal.process.file.full_path = /.*\\chromium.exe$/ nocase or $e.principal.process.file.full_path = /.*\\firefox.exe$/ nocase or $e.principal.process.file.full_path = /.*\\iexplore.exe$/ nocase or $e.principal.process.file.full_path = /.*\\microsoftedge.exe$/ nocase or $e.principal.process.file.full_path = /.*\\msedge.exe$/ nocase or $e.principal.process.file.full_path = /.*\\opera.exe$/ nocase or $e.principal.process.file.full_path = /.*\\vivaldi.exe$/ nocase or $e.principal.process.file.full_path = /.*\\whale.exe$/ nocase or $e.principal.process.file.full_path = /.*\\outlook.exe$/ nocase)))
+
+  condition:
+    $e
+}

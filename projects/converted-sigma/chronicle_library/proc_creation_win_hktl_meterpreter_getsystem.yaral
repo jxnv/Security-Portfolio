@@ -1,0 +1,23 @@
+// Title: Potential Meterpreter/CobaltStrike Activity
+// ID: 15619216-e993-4721-b590-4c520615a67d
+// Status: test
+// Level: high
+// Author: Teymur Kheirkhabarov, Ecco, Florian Roth
+// Date: 2019-10-26
+// Tags: attack.privilege-escalation, attack.stealth, attack.t1134.001, attack.t1134.002
+// Description: Detects the use of getsystem Meterpreter/Cobalt Strike command by detecting a specific service starting
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 15619216_e993_4721_b590_4c520615a67d {
+  meta:
+    title = "Potential Meterpreter/CobaltStrike Activity"
+    description = "Detects the use of getsystem Meterpreter/Cobalt Strike command by detecting a specific service starting"
+    author = "Teymur Kheirkhabarov, Ecco, Florian Roth"
+    severity = "HIGH"
+
+  events:
+    (($e.principal.process.file.full_path = /.*\\services.exe$/ nocase) and ((($e.target.process.command_line = /.*/c.*/ nocase and $e.target.process.command_line = /.*echo.*/ nocase and $e.target.process.command_line = /.*\\pipe\\.*/ nocase) and ($e.target.process.command_line = /.*cmd.*/ nocase or $e.target.process.command_line = /.*%COMSPEC%.*/ nocase)) or (($e.target.process.command_line = /.*rundll32.*/ nocase and $e.target.process.command_line = /.*.dll,a.*/ nocase and $e.target.process.command_line = /.*/p:.*/ nocase))) and not(($e.target.process.command_line = /.*MpCmdRun.*/ nocase)))
+
+  condition:
+    $e
+}

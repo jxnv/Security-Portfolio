@@ -1,0 +1,12 @@
+// Title: Vim GTFOBin Abuse - Linux
+// ID: 7ab8f73a-fcff-428b-84aa-6a5ff7877dea
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems), Luc Génaux
+// Date: 2022-12-28
+// Tags: attack.execution, attack.discovery, attack.t1059, attack.t1083
+// Description: Detects the use of "vim" and it's siblings commands to execute a shell or proxy commands.
+// Such behavior may be associated with privilege escalation, unauthorized command execution, or to break out from restricted environments.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where (((process.command_line like "*_:!/*" or process.command_line like "*_:!$*" or process.command_line like "*_:!..*" or process.command_line like "*_:lua *" or process.command_line like "*_:py *" or process.command_line like "*_:shell*" or process.command_line like "*_/bin/bash*" or process.command_line like "*_/bin/dash*" or process.command_line like "*_/bin/fish*" or process.command_line like "*_/bin/sh*" or process.command_line like "*_/bin/csh*" or process.command_line like "*_/bin/ksh*" or process.command_line like "*_/bin/zsh*" or process.command_line like "*_/bin/tmux*")) and ((process.executable endswith "/rvim" or process.executable endswith "/vi" or process.executable endswith "/vim" or process.executable endswith "/vimdiff") and (process.command_line like "*_ --cmd *" or process.command_line like "*_ -c*")))

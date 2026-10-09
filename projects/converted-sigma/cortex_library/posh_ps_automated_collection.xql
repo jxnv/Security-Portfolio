@@ -1,0 +1,11 @@
+// Title: Automated Collection Command PowerShell
+// ID: c1dda054-d638-4c16-afc8-53e007f3fbc5
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2021-07-28
+// Tags: attack.collection, attack.t1119
+// Description: Once established within a system or network, an adversary may use automated techniques for collecting internal data.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter (((ScriptBlockText contains "Get-ChildItem" and ScriptBlockText contains " -Recurse " and ScriptBlockText contains " -Include ")) and ((ScriptBlockText contains ".doc" or ScriptBlockText contains ".docx" or ScriptBlockText contains ".xls" or ScriptBlockText contains ".xlsx" or ScriptBlockText contains ".ppt" or ScriptBlockText contains ".pptx" or ScriptBlockText contains ".rtf" or ScriptBlockText contains ".pdf" or ScriptBlockText contains ".txt")))

@@ -1,0 +1,23 @@
+// Title: VolumeShadowCopy Symlink Creation Via Mklink
+// ID: 40b19fa6-d835-400c-b301-41f3a2baacaf
+// Status: stable
+// Level: high
+// Author: Teymur Kheirkhabarov, oscd.community
+// Date: 2019-10-22
+// Tags: attack.credential-access, attack.t1003.002, attack.t1003.003
+// Description: Shadow Copies storage symbolic link creation using operating systems utilities
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 40b19fa6_d835_400c_b301_41f3a2baacaf {
+  meta:
+    title = "VolumeShadowCopy Symlink Creation Via Mklink"
+    description = "Shadow Copies storage symbolic link creation using operating systems utilities"
+    author = "Teymur Kheirkhabarov, oscd.community"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.command_line = /.*mklink.*/ nocase and $e.target.process.command_line = /.*HarddiskVolumeShadowCopy.*/ nocase))
+
+  condition:
+    $e
+}

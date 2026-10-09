@@ -1,0 +1,23 @@
+// Title: Remote Task Creation via ATSVC Named Pipe - Zeek
+// ID: dde85b37-40cd-4a94-b00c-0b8794f956b5
+// Status: test
+// Level: medium
+// Author: Samir Bousseaden, @neu5rn
+// Date: 2020-04-03
+// Tags: attack.privilege-escalation, attack.execution, attack.lateral-movement, attack.persistence, car.2013-05-004, car.2015-04-001, attack.t1053.002
+// Description: Detects remote task creation via at.exe or API interacting with ATSVC namedpipe
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule dde85b37_40cd_4a94_b00c_0b8794f956b5 {
+  meta:
+    title = "Remote Task Creation via ATSVC Named Pipe - Zeek"
+    description = "Detects remote task creation via at.exe or API interacting with ATSVC namedpipe"
+    author = "Samir Bousseaden, @neu5rn"
+    severity = "MEDIUM"
+
+  events:
+    ($e.path = "\\\\\\*\\IPC$" and $e.name = "atsvc")
+
+  condition:
+    $e
+}

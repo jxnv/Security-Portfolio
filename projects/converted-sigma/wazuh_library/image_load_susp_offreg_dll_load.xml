@@ -1,0 +1,16 @@
+<!--
+  Title: Potentially Suspicious Image Load of Offreg.dll
+  ID: c9e5f013-4a6f-4d8c-9b0e-f7a4c3d26e95
+  Status: experimental
+  Level: medium
+  Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+  Date: 2026-07-23
+  Description: Detects potentially suspicious loading of the Offline Registry Library (offreg.dll). Offreg.dll enables direct read/write access to offline registry hives without invoking the Windows Registry API, bypassing its associated audit logging and telemetry. Attackers may abuse this to stealthily modify registry hives while evading detection mechanisms that rely on standard registry event logs.
+-->
+
+<group name="sigma_converted,">
+  <rule id="100001" level="5">
+    <description>Potentially Suspicious Image Load of Offreg.dll</description>
+    <match>((ImageLoaded=\"*\\\\offreg.dll\") AND NOT (((Image=\"C:\\\\Users\\\\*\" AND Image=\"*\\\\AppData\\\\Local\\\\Programs\\\\*\") OR (Image=\"C:</match>
+  </rule>
+</group>

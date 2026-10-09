@@ -1,0 +1,11 @@
+// Title: ESXi System Information Discovery Via ESXCLI
+// ID: e80273e1-9faf-40bc-bd85-dbaff104c4e9
+// Status: test
+// Level: medium
+// Author: Cedric Maurugeon
+// Date: 2023-09-04
+// Tags: attack.discovery, attack.execution, attack.t1033, attack.t1007, attack.t1059.012
+// Description: Detects execution of the "esxcli" command with the "system" flag in order to retrieve information about the different component of the system. Such as accounts, modules, NTP, etc.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((CommandLine: "* get*" OR CommandLine: "* list*")) AND (Image="*/esxcli" AND CommandLine: "*system*"))

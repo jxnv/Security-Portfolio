@@ -1,0 +1,23 @@
+// Title: PowerShell WMI Win32_Product Install MSI
+// ID: 91109523-17f0-4248-a800-f81d9e7c081d
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-04-24
+// Tags: attack.stealth, attack.t1218.007
+// Description: Detects the execution of an MSI file using PowerShell and the WMI Win32_Product class
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 91109523_17f0_4248_a800_f81d9e7c081d {
+  meta:
+    title = "PowerShell WMI Win32_Product Install MSI"
+    description = "Detects the execution of an MSI file using PowerShell and the WMI Win32_Product class"
+    author = "frack113"
+    severity = "MEDIUM"
+
+  events:
+    (($e.ScriptBlockText = /.*Invoke-CimMethod .*/ nocase and $e.ScriptBlockText = /.*-ClassName .*/ nocase and $e.ScriptBlockText = /.*Win32_Product .*/ nocase and $e.ScriptBlockText = /.*-MethodName .*/ nocase and $e.ScriptBlockText = /.*.msi.*/ nocase))
+
+  condition:
+    $e
+}

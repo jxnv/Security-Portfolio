@@ -1,0 +1,11 @@
+// Title: SQLite Firefox Profile Data DB Access
+// ID: 4833155a-4053-4c9c-a997-777fcea0baa7
+// Status: test
+// Level: high
+// Author: frack113
+// Date: 2022-04-08
+// Tags: attack.credential-access, attack.t1539, attack.collection, attack.t1005
+// Description: Detect usage of the "sqlite" binary to query databases in Firefox and other Gecko-based browsers for potential data stealing.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter (((action_process_image_command_line contains "cookies.sqlite" or action_process_image_command_line contains "places.sqlite")) and ((Product = "SQLite") or ((action_process_image_path endswith "\\sqlite.exe" or action_process_image_path endswith "\\sqlite3.exe"))))

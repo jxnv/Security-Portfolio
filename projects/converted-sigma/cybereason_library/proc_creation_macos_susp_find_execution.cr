@@ -1,0 +1,11 @@
+// Title: Potential Discovery Activity Using Find - MacOS
+// ID: 85de3a19-b675-4a51-bfc6-b11a5186c971
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-12-28
+// Tags: attack.discovery, attack.t1083
+// Description: Detects usage of "find" binary in a suspicious manner to perform discovery
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(Image="*/find" AND (CommandLine contains "-perm -4000" OR CommandLine contains "-perm -2000" OR CommandLine contains "-perm 0777" OR CommandLine contains "-perm -222" OR CommandLine contains "-perm -o w" OR CommandLine contains "-perm -o x" OR CommandLine contains "-perm -u=s" OR CommandLine contains "-perm -g=s"))

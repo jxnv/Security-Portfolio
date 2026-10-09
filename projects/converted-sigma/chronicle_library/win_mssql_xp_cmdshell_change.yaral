@@ -1,0 +1,23 @@
+// Title: MSSQL XPCmdshell Option Change
+// ID: d08dd86f-681e-4a00-a92c-1db218754417
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-07-12
+// Tags: attack.execution
+// Description: Detects when the MSSQL "xp_cmdshell" stored procedure setting is changed.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule d08dd86f_681e_4a00_a92c_1db218754417 {
+  meta:
+    title = "MSSQL XPCmdshell Option Change"
+    description = "Detects when the MSSQL "xp_cmdshell" stored procedure setting is changed."
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ($e.Provider_Name = /.*MSSQL.*/ nocase and $e.EventID = 15457 and $e.Data = /.*xp_cmdshell.*/ nocase)
+
+  condition:
+    $e
+}

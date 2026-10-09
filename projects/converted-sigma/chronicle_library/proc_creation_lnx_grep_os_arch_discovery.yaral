@@ -1,0 +1,23 @@
+// Title: OS Architecture Discovery Via Grep
+// ID: d27ab432-2199-483f-a297-03633c05bae6
+// Status: test
+// Level: low
+// Author: Joseliyo Sanchez, @Joseliyo_Jstnk
+// Date: 2023-06-02
+// Tags: attack.discovery, attack.t1082
+// Description: Detects the use of grep to identify information about the operating system architecture. Often combined beforehand with the execution of "uname" or "cat /proc/cpuinfo"
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule d27ab432_2199_483f_a297_03633c05bae6 {
+  meta:
+    title = "OS Architecture Discovery Via Grep"
+    description = "Detects the use of grep to identify information about the operating system architecture. Often combined beforehand with the execution of "uname" or "cat /proc/cpuinfo""
+    author = "Joseliyo Sanchez, @Joseliyo_Jstnk"
+    severity = "LOW"
+
+  events:
+    ((($e.target.process.command_line = /.*aarch64$/ nocase or $e.target.process.command_line = /.*arm$/ nocase or $e.target.process.command_line = /.*i386$/ nocase or $e.target.process.command_line = /.*i686$/ nocase or $e.target.process.command_line = /.*mips$/ nocase or $e.target.process.command_line = /.*x86_64$/ nocase)) and ($e.target.process.file.full_path = /.*/grep$/ nocase))
+
+  condition:
+    $e
+}

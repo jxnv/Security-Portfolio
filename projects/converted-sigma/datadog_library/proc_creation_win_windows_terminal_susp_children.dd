@@ -1,0 +1,11 @@
+# Title: Suspicious WindowsTerminal Child Processes
+# ID: 8de89e52-f6e1-4b5b-afd1-41ecfa300d48
+# Status: test
+# Level: medium
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-07-25
+# Tags: attack.execution, attack.persistence
+# Description: Detects suspicious children spawned via the Windows Terminal application which could be a sign of persistence via WindowsTerminal (see references section)
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((((@ParentImage:*\\WindowsTerminal.exe OR @ParentImage:*\\wt.exe)) AND (((@Image:*\\rundll32.exe OR @Image:*\\regsvr32.exe OR @Image:*\\certutil.exe OR @Image:*\\cscript.exe OR @Image:*\\wscript.exe OR @Image:*\\csc.exe)) OR ((@Image:*C:\\Users\\Public\\* OR @Image:*\\Downloads\\* OR @Image:*\\Desktop\\* OR @Image:*\\AppData\\Local\\Temp\\* OR @Image:*\\Windows\\TEMP\\*)) OR ((@CommandLine:* iex * OR @CommandLine:* icm* OR @CommandLine:*Invoke-* OR @CommandLine:*Import-Module * OR @CommandLine:*ipmo * OR @CommandLine:*DownloadString(* OR @CommandLine:* /c * OR @CommandLine:* /k * OR @CommandLine:* /r *)))) AND -((((@CommandLine:*Import-Module* AND @CommandLine:*Microsoft.VisualStudio.DevShell.dll* AND @CommandLine:*Enter-VsDevShell*)) OR ((@CommandLine:*\\AppData\\Local\\Packages\\Microsoft.WindowsTerminal_* AND @CommandLine:*\\LocalState\\settings.json*)) OR ((@CommandLine:*C:\\Program Files\\Microsoft Visual Studio\\* AND @CommandLine:*\\Common7\\Tools\\VsDevCmd.bat*)))))

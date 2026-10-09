@@ -1,0 +1,23 @@
+// Title: Potential Privilege Escalation Using Symlink Between Osk and Cmd
+// ID: e9b61244-893f-427c-b287-3e708f321c6b
+// Status: test
+// Level: high
+// Author: frack113
+// Date: 2022-12-11
+// Tags: attack.privilege-escalation, attack.persistence, attack.t1546.008
+// Description: Detects the creation of a symbolic link between "cmd.exe" and the accessibility on-screen keyboard binary (osk.exe) using "mklink". This technique provides an elevated command prompt to the user from the login screen without the need to log in.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule e9b61244_893f_427c_b287_3e708f321c6b {
+  meta:
+    title = "Potential Privilege Escalation Using Symlink Between Osk and Cmd"
+    description = "Detects the creation of a symbolic link between "cmd.exe" and the accessibility on-screen keyboard binary (osk.exe) using "mklink". This technique provides an elevated command prompt to the user from the login screen without the need to log in."
+    author = "frack113"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*mklink.*/ nocase and $e.target.process.command_line = /.*\\osk.exe.*/ nocase and $e.target.process.command_line = /.*\\cmd.exe.*/ nocase)) and (($e.target.process.file.full_path = /.*\\cmd.exe$/ nocase) or ($e.target.process.file.name = "Cmd.Exe")))
+
+  condition:
+    $e
+}

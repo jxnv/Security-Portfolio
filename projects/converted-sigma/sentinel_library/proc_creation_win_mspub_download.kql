@@ -1,0 +1,11 @@
+// Title: Arbitrary File Download Via MSPUB.EXE
+// ID: 3b3c7f55-f771-4dd6-8a6e-08d057a17caf
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-19
+// Tags: attack.execution, attack.stealth, attack.t1218
+// Description: Detects usage of "MSPUB" (Microsoft Publisher) to download arbitrary files
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+DeviceProcessEvents | where (((ProcessCommandLine contains "ftp://" or ProcessCommandLine contains "http://" or ProcessCommandLine contains "https://")) and ((FolderPath endswith "\\MSPUB.exe") or (ProcessVersionInfoOriginalFileName == "MSPUB.exe")))

@@ -1,0 +1,11 @@
+// Title: Logging Configuration Changes on Linux Host
+// ID: c830f15d-6f6e-430f-8074-6f73d6807841
+// Status: test
+// Level: high
+// Author: Mikhail Larin, oscd.community
+// Date: 2019-10-25
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detect changes of syslog daemons configuration files
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter (type = "PATH" and (name = "/etc/syslog.conf" or name = "/etc/rsyslog.conf" or name = "/etc/syslog-ng/syslog-ng.conf"))

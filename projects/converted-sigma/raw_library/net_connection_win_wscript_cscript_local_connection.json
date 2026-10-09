@@ -1,0 +1,37 @@
+{
+  "title": "Local Network Connection Initiated By Script Interpreter",
+  "id": "08249dc0-a28d-4555-8ba5-9255a198e08c",
+  "status": "test",
+  "description": "Detects a script interpreter (Wscript/Cscript) initiating a local network connection to download or execute a script hosted on a shared folder.\n",
+  "author": "frack113",
+  "date": "2022-08-28",
+  "tags": [
+    "attack.command-and-control",
+    "attack.t1105"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "network_connection",
+    "product": "windows"
+  },
+  "detection": {
+    "selection": {
+      "Initiated": "true",
+      "Image|endswith": [
+        "\\wscript.exe",
+        "\\cscript.exe"
+      ],
+      "DestinationIp|cidr": [
+        "127.0.0.0/8",
+        "10.0.0.0/8",
+        "172.16.0.0/12",
+        "192.168.0.0/16",
+        "169.254.0.0/16",
+        "::1/128",
+        "fe80::/10",
+        "fc00::/7"
+      ]
+    },
+    "condition": "selection"
+  }
+}

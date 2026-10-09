@@ -1,0 +1,19 @@
+# Title: Microsoft Defender Blocked from Loading Unsigned DLL
+# ID: 0b0ea3cc-99c8-4730-9c53-45deee2a4c86
+# Status: test
+# Level: high
+# Author: Bhabesh Raj
+# Date: 2022-08-02
+# Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.stealth, attack.t1574.001
+# Description: Detects Code Integrity (CI) engine blocking Microsoft Defender's processes (MpCmdRun and NisSrv) from loading unsigned DLLs which may be an attempt to sideload arbitrary DLL
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Microsoft Defender Blocked from Loading Unsigned DLL
+def rule(event):
+    # Detection Logic:
+    # ((EventID="11" OR EventID="12") AND (ProcessPath="*\\MpCmdRun.exe" OR ProcessPath="*\\NisSrv.exe"))
+    return True
+
+def title(event):
+    return "Microsoft Defender Blocked from Loading Unsigned DLL"
+

@@ -1,0 +1,23 @@
+// Title: User State Changed From Guest To Member
+// ID: 8dee7a0d-43fd-4b3c-8cd1-605e189d195e
+// Status: test
+// Level: medium
+// Author: MikeDuddington, '@dudders1'
+// Date: 2022-06-30
+// Tags: attack.persistence, attack.privilege-escalation, attack.initial-access, attack.stealth, attack.t1078.004
+// Description: Detects the change of user type from "Guest" to "Member" for potential elevation of privilege.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 8dee7a0d_43fd_4b3c_8cd1_605e189d195e {
+  meta:
+    title = "User State Changed From Guest To Member"
+    description = "Detects the change of user type from "Guest" to "Member" for potential elevation of privilege."
+    author = "MikeDuddington, '@dudders1'"
+    severity = "MEDIUM"
+
+  events:
+    ($e.Category = "UserManagement" and $e.OperationName = "Update user" and $e.properties.message = "\"displayName\":\"UserType\",\"oldValue\":\"[\\\"Guest\\\"]\",\"newValue\":\"[\\\"Member\\\"]\"")
+
+  condition:
+    $e
+}

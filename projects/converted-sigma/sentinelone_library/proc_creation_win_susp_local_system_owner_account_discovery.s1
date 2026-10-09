@@ -1,0 +1,11 @@
+// Title: Local Accounts Discovery
+// ID: 502b42de-4306-40b4-9596-6f590c81f073
+// Status: test
+// Level: low
+// Author: Timur Zinniatullin, Daniil Yugoslavskiy, oscd.community
+// Date: 2019-10-21
+// Tags: attack.discovery, attack.t1033, attack.t1087.001
+// Description: Local accounts, System Owner/User discovery using operating systems utilities
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((src.process.image.path endswithCIS "\\cmd.exe" AND (src.process.cmdline containsCIS " /c" AND src.process.cmdline containsCIS "dir " AND src.process.cmdline containsCIS "\\Users\\")) AND NOT ((src.process.cmdline containsCIS " rmdir "))) OR (((src.process.image.path endswithCIS "\\net.exe" OR src.process.image.path endswithCIS "\\net1.exe") AND src.process.cmdline containsCIS "user") AND NOT (((src.process.cmdline containsCIS "/domain" OR src.process.cmdline containsCIS "/add" OR src.process.cmdline containsCIS "/delete" OR src.process.cmdline containsCIS "/active" OR src.process.cmdline containsCIS "/expires" OR src.process.cmdline containsCIS "/passwordreq" OR src.process.cmdline containsCIS "/scriptpath" OR src.process.cmdline containsCIS "/times" OR src.process.cmdline containsCIS "/workstations")))) OR ((src.process.image.path endswithCIS "\\cmdkey.exe" AND src.process.cmdline containsCIS " /l") OR (((src.process.image.path endswithCIS "\\whoami.exe" OR src.process.image.path endswithCIS "\\quser.exe" OR src.process.image.path endswithCIS "\\qwinsta.exe")) OR ((OriginalFileName = "whoami.exe" OR OriginalFileName = "quser.exe" OR OriginalFileName = "qwinsta.exe"))) OR (src.process.image.path endswithCIS "\\wmic.exe" AND (src.process.cmdline containsCIS "useraccount" AND src.process.cmdline containsCIS "get"))))

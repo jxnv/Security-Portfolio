@@ -1,0 +1,30 @@
+{
+  "title": "Path To Screensaver Binary Modified",
+  "id": "67a6c006-3fbe-46a7-9074-2ba3b82c3000",
+  "status": "test",
+  "description": "Detects value modification of registry key containing path to binary used as screensaver.",
+  "author": "Bartlomiej Czyz @bczyz1, oscd.community",
+  "date": "2020-10-11",
+  "tags": [
+    "attack.persistence",
+    "attack.privilege-escalation",
+    "attack.t1546.002"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "registry_event",
+    "product": "windows"
+  },
+  "detection": {
+    "selection": {
+      "TargetObject|endswith": "\\Control Panel\\Desktop\\SCRNSAVE.EXE"
+    },
+    "filter": {
+      "Image|endswith": [
+        "\\rundll32.exe",
+        "\\explorer.exe"
+      ]
+    },
+    "condition": "selection and not filter"
+  }
+}

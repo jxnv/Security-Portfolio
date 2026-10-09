@@ -1,0 +1,11 @@
+// Title: Suspicious Execution of Powershell with Base64
+// ID: fb843269-508c-4b76-8b8d-88679db22ce7
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-01-02
+// Tags: attack.execution, attack.t1059.001
+// Description: Commandline to launch powershell with a base64 payload
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((ImageFileName = /.*\\powershell.exe/i or ImageFileName = /.*\\pwsh.exe/i) and (CommandLine = /* -e */i or CommandLine = /* -en */i or CommandLine = /* -enc */i or CommandLine = /* -enco*/i or CommandLine = /* -ec */i)) and not((((ParentBaseFileName = /*C:\\Packages\\Plugins\\Microsoft.GuestConfiguration.ConfigurationforWindows\\*/i or ParentBaseFileName = /*\\gc_worker.exe*/i)) or (CommandLine = /* -Encoding */i))))

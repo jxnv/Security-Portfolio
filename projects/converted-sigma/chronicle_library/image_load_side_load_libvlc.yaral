@@ -1,0 +1,23 @@
+// Title: Potential Libvlc.DLL Sideloading
+// ID: bf9808c4-d24f-44a2-8398-b65227d406b6
+// Status: test
+// Level: medium
+// Author: X__Junior
+// Date: 2023-04-17
+// Tags: attack.persistence, attack.privilege-escalation, attack.execution, attack.stealth, attack.t1574.001
+// Description: Detects potential DLL sideloading of "libvlc.dll", a DLL that is legitimately used by "VLC.exe"
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule bf9808c4_d24f_44a2_8398_b65227d406b6 {
+  meta:
+    title = "Potential Libvlc.DLL Sideloading"
+    description = "Detects potential DLL sideloading of "libvlc.dll", a DLL that is legitimately used by "VLC.exe""
+    author = "X__Junior"
+    severity = "MEDIUM"
+
+  events:
+    (($e.ImageLoaded = /.*\\libvlc.dll$/ nocase) and not((($e.ImageLoaded = /^C:\\Program Files (x86)\\VideoLAN\\VLC\\.*/ nocase or $e.ImageLoaded = /^C:\\Program Files\\VideoLAN\\VLC\\.*/ nocase))))
+
+  condition:
+    $e
+}

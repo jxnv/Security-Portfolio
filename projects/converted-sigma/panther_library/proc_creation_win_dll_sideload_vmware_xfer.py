@@ -1,0 +1,19 @@
+# Title: DLL Sideloading by VMware Xfer Utility
+# ID: ebea773c-a8f1-42ad-a856-00cb221966e8
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-08-02
+# Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.stealth, attack.t1574.001
+# Description: Detects execution of VMware Xfer utility (VMwareXferlogs.exe) from the non-default directory which may be an attempt to sideload arbitrary DLL
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: DLL Sideloading by VMware Xfer Utility
+def rule(event):
+    # Detection Logic:
+    # ((Image="*\\VMwareXferlogs.exe") AND NOT ((Image="C:\\Program Files\\VMware\\*")))
+    return True
+
+def title(event):
+    return "DLL Sideloading by VMware Xfer Utility"
+

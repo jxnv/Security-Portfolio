@@ -1,0 +1,11 @@
+// Title: KrbRelayUp Service Installation
+// ID: e97d9903-53b2-41fc-8cb9-889ed4093e80
+// Status: test
+// Level: high
+// Author: Sittikorn S, Tim Shelton
+// Date: 2022-05-11
+// Tags: attack.persistence, attack.privilege-escalation, attack.t1543
+// Description: Detects service creation from KrbRelayUp tool used for privilege escalation in Windows domain environments where LDAP signing is not enforced (the default settings)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter (EventID = 7045 and ServiceName = "KrbSCM")

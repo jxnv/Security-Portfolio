@@ -1,0 +1,11 @@
+// Title: Potential Data Exfiltration Activity Via CommandLine Tools
+// ID: 7d1aaf3d-4304-425c-b7c3-162055e0b3ab
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-02
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects the use of various CLI utilities exfiltrating data via web requests
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((ImageFileName = /.*\\powershell_ise.exe/i or ImageFileName = /.*\\powershell.exe/i or ImageFileName = /.*\\pwsh.exe/i or ImageFileName = /.*\\cmd.exe/i) and (CommandLine = /*curl */i or CommandLine = /*Invoke-RestMethod*/i or CommandLine = /*Invoke-WebRequest*/i or CommandLine = /*irm */i or CommandLine = /*iwr */i or CommandLine = /*wget */i) and (CommandLine = /* -ur*/i and CommandLine = /* -me*/i and CommandLine = /* -b*/i and CommandLine = /* POST */i)) or ((ImageFileName = /.*\\curl.exe/i and CommandLine = /*--ur*/i) and ((CommandLine = /* -d */i or CommandLine = /* --data */i))) or (ImageFileName = /.*\\wget.exe/i and (CommandLine = /*--post-data*/i or CommandLine = /*--post-file*/i))) and (((CommandLine =~ /net\s+view/i or CommandLine =~ /sc\s+query/i)) or ((CommandLine = /*Get-Content*/i or CommandLine = /*GetBytes*/i or CommandLine = /*hostname*/i or CommandLine = /*ifconfig*/i or CommandLine = /*ipconfig*/i or CommandLine = /*netstat*/i or CommandLine = /*nltest*/i or CommandLine = /*qprocess*/i or CommandLine = /*systeminfo*/i or CommandLine = /*tasklist*/i or CommandLine = /*ToBase64String*/i or CommandLine = /*whoami*/i)) or ((CommandLine = /*type */i and CommandLine = /* > */i and CommandLine = /* C:\\*/i))))

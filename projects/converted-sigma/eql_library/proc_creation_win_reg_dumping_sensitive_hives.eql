@@ -1,0 +1,11 @@
+// Title: Dumping of Sensitive Hives Via Reg.EXE
+// ID: fd877b94-9bb5-4191-bb25-d79cbd93c167
+// Status: test
+// Level: high
+// Author: Teymur Kheirkhabarov, Endgame, JHasenbusch, Daniil Yugoslavskiy, oscd.community, frack113
+// Date: 2019-10-22
+// Tags: attack.credential-access, attack.t1003.002, attack.t1003.004, attack.t1003.005, car.2013-07-001
+// Description: Detects the usage of "reg.exe" in order to dump sensitive registry hives. This includes SAM, SYSTEM and SECURITY hives.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where (((process.command_line like "*_ save *" or process.command_line like "*_ export *" or process.command_line like "*_ ˢave *" or process.command_line like "*_ eˣport *")) and ((process.command_line like "*_\\system*" or process.command_line like "*_\\sam*" or process.command_line like "*_\\security*" or process.command_line like "*_\\ˢystem*" or process.command_line like "*_\\syˢtem*" or process.command_line like "*_\\ˢyˢtem*" or process.command_line like "*_\\ˢam*" or process.command_line like "*_\\ˢecurity*")) and ((process.command_line like "*_hklm*" or process.command_line like "*_hk˪m*" or process.command_line like "*_hkey_local_machine*" or process.command_line like "*_hkey_˪ocal_machine*" or process.command_line like "*_hkey_loca˪_machine*" or process.command_line like "*_hkey_˪oca˪_machine*")) and ((process.executable endswith "\\reg.exe") or (process.pe.original_file_name == "reg.exe")))

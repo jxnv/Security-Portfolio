@@ -1,0 +1,29 @@
+{
+  "title": "Telegram API Access",
+  "id": "b494b165-6634-483d-8c47-2026a6c52372",
+  "status": "test",
+  "description": "Detects suspicious requests to Telegram API without the usual Telegram User-Agent",
+  "author": "Florian Roth (Nextron Systems)",
+  "date": "2018-06-05",
+  "tags": [
+    "attack.command-and-control",
+    "attack.t1071.001",
+    "attack.t1102.002"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "proxy"
+  },
+  "detection": {
+    "selection": {
+      "cs-host": "api.telegram.org"
+    },
+    "filter": {
+      "c-useragent|contains": [
+        "Telegram",
+        "Bot"
+      ]
+    },
+    "condition": "selection and not filter"
+  }
+}

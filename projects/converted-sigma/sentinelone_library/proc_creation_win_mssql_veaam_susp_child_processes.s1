@@ -1,0 +1,11 @@
+// Title: Suspicious Child Process Of Veeam Dabatase
+// ID: d55b793d-f847-4eea-b59a-5ab09908ac90
+// Status: test
+// Level: critical
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-05-04
+// Tags: attack.initial-access, attack.persistence, attack.privilege-escalation
+// Description: Detects suspicious child processes of the Veeam service process. This could indicate potential RCE or SQL Injection.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((src.process.parent.image.path endswithCIS "\\sqlservr.exe" AND src.process.parent.cmdline containsCIS "VEEAMSQL") AND (((src.process.image.path endswithCIS "\\cmd.exe" OR src.process.image.path endswithCIS "\\powershell.exe" OR src.process.image.path endswithCIS "\\pwsh.exe" OR src.process.image.path endswithCIS "\\wsl.exe" OR src.process.image.path endswithCIS "\\wt.exe") AND (src.process.cmdline containsCIS "-ex " OR src.process.cmdline containsCIS "bypass" OR src.process.cmdline containsCIS "cscript" OR src.process.cmdline containsCIS "DownloadString" OR src.process.cmdline containsCIS "http://" OR src.process.cmdline containsCIS "https://" OR src.process.cmdline containsCIS "mshta" OR src.process.cmdline containsCIS "regsvr32" OR src.process.cmdline containsCIS "rundll32" OR src.process.cmdline containsCIS "wscript" OR src.process.cmdline containsCIS "copy ")) OR ((src.process.image.path endswithCIS "\\net.exe" OR src.process.image.path endswithCIS "\\net1.exe" OR src.process.image.path endswithCIS "\\netstat.exe" OR src.process.image.path endswithCIS "\\nltest.exe" OR src.process.image.path endswithCIS "\\ping.exe" OR src.process.image.path endswithCIS "\\tasklist.exe" OR src.process.image.path endswithCIS "\\whoami.exe"))))

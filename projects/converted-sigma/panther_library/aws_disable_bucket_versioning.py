@@ -1,0 +1,19 @@
+# Title: AWS S3 Bucket Versioning Disable
+# ID: a136ac98-b2bc-4189-a14d-f0d0388e57a7
+# Status: test
+# Level: medium
+# Author: Sean Johnstone | Unit 42
+# Date: 2023-10-28
+# Tags: attack.impact, attack.t1490
+# Description: Detects when S3 bucket versioning is disabled. Threat actors use this technique during AWS ransomware incidents prior to deleting S3 objects.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: AWS S3 Bucket Versioning Disable
+def rule(event):
+    # Detection Logic:
+    # (eventSource="s3.amazonaws.com" AND eventName="PutBucketVersioning" AND requestParameters="*Suspended*")
+    return True
+
+def title(event):
+    return "AWS S3 Bucket Versioning Disable"
+

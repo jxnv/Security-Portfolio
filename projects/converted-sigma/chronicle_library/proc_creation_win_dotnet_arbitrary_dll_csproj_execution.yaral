@@ -1,0 +1,23 @@
+// Title: Arbitrary DLL or Csproj Code Execution Via Dotnet.EXE
+// ID: d80d5c81-04ba-45b4-84e4-92eba40e0ad3
+// Status: test
+// Level: medium
+// Author: Beyu Denis, oscd.community
+// Date: 2020-10-18
+// Tags: attack.stealth, attack.t1218
+// Description: Detects execution of arbitrary DLLs or unsigned code via a ".csproj" files via Dotnet.EXE.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule d80d5c81_04ba_45b4_84e4_92eba40e0ad3 {
+  meta:
+    title = "Arbitrary DLL or Csproj Code Execution Via Dotnet.EXE"
+    description = "Detects execution of arbitrary DLLs or unsigned code via a ".csproj" files via Dotnet.EXE."
+    author = "Beyu Denis, oscd.community"
+    severity = "MEDIUM"
+
+  events:
+    (((($e.target.process.command_line = /.*.csproj$/ nocase or $e.target.process.command_line = /.*.csproj\"$/ nocase or $e.target.process.command_line = /.*.dll$/ nocase or $e.target.process.command_line = /.*.dll\"$/ nocase or $e.target.process.command_line = /.*.csproj'$/ nocase or $e.target.process.command_line = /.*.dll'$/ nocase)) and (($e.target.process.file.full_path = /.*\\dotnet.exe$/ nocase) or ($e.target.process.file.name = ".NET Host"))) and not((($e.principal.process.file.full_path = "C:\\Program Files (x86)\\Notepad++\\notepad++.exe" or $e.principal.process.file.full_path = "C:\\Program Files\\Notepad++\\notepad++.exe") and ($e.target.process.command_line = /.*C:\\ProgramData\\CSScriptNpp\\.*/ nocase and $e.target.process.command_line = /.*-cscs_path:.*/ nocase and $e.target.process.command_line = /.*\\cs-script\\cscs.dll.*/ nocase))))
+
+  condition:
+    $e
+}

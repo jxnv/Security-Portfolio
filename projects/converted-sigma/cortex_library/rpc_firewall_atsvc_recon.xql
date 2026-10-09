@@ -1,0 +1,11 @@
+// Title: Remote Schedule Task Recon via AtScv
+// ID: f177f2bc-5f3e-4453-b599-57eefce9a59c
+// Status: test
+// Level: high
+// Author: Sagie Dulce, Dekel Paz
+// Date: 2022-01-01
+// Tags: attack.discovery
+// Description: Detects remote RPC calls to read information about scheduled tasks via AtScv
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter ((EventLog = "RPCFW" and EventID = 3 and InterfaceUuid = "1ff70682-0a51-30e8-076d-740be8cee98b") and not (((OpNum = 0 or OpNum = 1))))

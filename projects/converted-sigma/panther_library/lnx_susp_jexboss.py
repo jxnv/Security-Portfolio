@@ -1,0 +1,19 @@
+# Title: JexBoss Command Sequence
+# ID: 8ec2c8b4-557a-4121-b87c-5dfb3a602fae
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems)
+# Date: 2017-08-24
+# Tags: attack.execution, attack.t1059.004
+# Description: Detects suspicious command sequence that JexBoss
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: JexBoss Command Sequence
+def rule(event):
+    # Detection Logic:
+    # ((="bash -c /bin/bash" AND ="&/dev/tcp/"))
+    return True
+
+def title(event):
+    return "JexBoss Command Sequence"
+

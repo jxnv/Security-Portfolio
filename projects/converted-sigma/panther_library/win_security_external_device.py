@@ -1,0 +1,19 @@
+# Title: External Disk Drive Or USB Storage Device Was Recognized By The System
+# ID: f69a87ea-955e-4fb4-adb2-bb9fd6685632
+# Status: test
+# Level: low
+# Author: Keith Wright
+# Date: 2019-11-20
+# Tags: attack.t1091, attack.t1200, attack.lateral-movement, attack.initial-access
+# Description: Detects external disk drives or plugged-in USB devices.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: External Disk Drive Or USB Storage Device Was Recognized By The System
+def rule(event):
+    # Detection Logic:
+    # ((EventID="6416") AND ((ClassName="DiskDrive") OR (DeviceDescription="USB Mass Storage Device")))
+    return True
+
+def title(event):
+    return "External Disk Drive Or USB Storage Device Was Recognized By The System"
+

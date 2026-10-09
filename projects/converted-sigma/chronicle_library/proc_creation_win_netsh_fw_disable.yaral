@@ -1,0 +1,23 @@
+// Title: Firewall Disabled via Netsh.EXE
+// ID: 57c4bf16-227f-4394-8ec7-1b745ee061c3
+// Status: test
+// Level: medium
+// Author: Fatih Sirin
+// Date: 2019-11-01
+// Tags: attack.defense-impairment, attack.t1686.003, attack.s0108
+// Description: Detects netsh commands that turns off the Windows firewall
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 57c4bf16_227f_4394_8ec7_1b745ee061c3 {
+  meta:
+    title = "Firewall Disabled via Netsh.EXE"
+    description = "Detects netsh commands that turns off the Windows firewall"
+    author = "Fatih Sirin"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.file.full_path = /.*\\netsh.exe$/ nocase) or ($e.target.process.file.name = "netsh.exe")) and ((($e.target.process.command_line = /.*firewall.*/ nocase and $e.target.process.command_line = /.*set.*/ nocase and $e.target.process.command_line = /.*opmode.*/ nocase and $e.target.process.command_line = /.*disable.*/ nocase)) or (($e.target.process.command_line = /.*advfirewall.*/ nocase and $e.target.process.command_line = /.*set.*/ nocase and $e.target.process.command_line = /.*state.*/ nocase and $e.target.process.command_line = /.*off.*/ nocase))))
+
+  condition:
+    $e
+}

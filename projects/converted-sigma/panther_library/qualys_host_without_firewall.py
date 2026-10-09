@@ -1,0 +1,18 @@
+# Title: Host Without Firewall
+# ID: 6b2066c8-3dc7-4db7-9db0-6cc1d7b0dde9
+# Status: experimental
+# Level: low
+# Author: Alexandr Yampolskyi, SOC Prime
+# Date: 2019-03-19
+# Description: Host Without Firewall. Alert means not complied. Sigma for Qualys vulnerability scanner. Scan type - Vulnerability Management.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Host Without Firewall
+def rule(event):
+    # Detection Logic:
+    # (event.category="Security Policy" AND host.scan.vuln_name="*Firewall Product Not Detected*")
+    return True
+
+def title(event):
+    return "Host Without Firewall"
+

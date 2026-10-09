@@ -1,0 +1,23 @@
+// Title: System Shutdown/Reboot - Linux
+// ID: 4cb57c2f-1f29-41f8-893d-8bed8e1c1d2f
+// Status: test
+// Level: informational
+// Author: Igor Fits, oscd.community
+// Date: 2020-10-15
+// Tags: attack.impact, attack.t1529
+// Description: Adversaries may shutdown/reboot systems to interrupt access to, or aid in the destruction of, those systems.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 4cb57c2f_1f29_41f8_893d_8bed8e1c1d2f {
+  meta:
+    title = "System Shutdown/Reboot - Linux"
+    description = "Adversaries may shutdown/reboot systems to interrupt access to, or aid in the destruction of, those systems."
+    author = "Igor Fits, oscd.community"
+    severity = "INFORMATIONAL"
+
+  events:
+    (($e.type = "EXECVE") and (("shutdown" or "reboot" or "halt" or "poweroff") or (("init" or "telinit") and ("0" or "6"))))
+
+  condition:
+    $e
+}

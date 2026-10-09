@@ -1,0 +1,11 @@
+# Title: Metasploit Or Impacket Service Installation Via SMB PsExec
+# ID: 6fb63b40-e02a-403e-9ffd-3bcc1d749442
+# Status: test
+# Level: high
+# Author: Bartlomiej Czyz, Relativity
+# Date: 2021-01-21
+# Tags: attack.lateral-movement, attack.t1021.002, attack.t1570, attack.execution, attack.t1569.002
+# Description: Detects usage of Metasploit SMB PsExec (exploit/windows/smb/psexec) and Impacket psexec.py by triggering on specific service installation
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((EventID equals "4697" AND ServiceFileName=regex("^%systemroot%\\\\[a-zA-Z]{8}\\.exe$") AND ServiceName=regex("(^[a-zA-Z]{4}$)|(^[a-zA-Z]{8}$)|(^[a-zA-Z]{16}$)") AND ServiceStartType equals "3" AND ServiceType equals "0x10") AND NOT ((ServiceName equals "PSEXESVC")))

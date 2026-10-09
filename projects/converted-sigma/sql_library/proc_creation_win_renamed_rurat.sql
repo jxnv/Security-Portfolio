@@ -1,0 +1,11 @@
+-- Title: Renamed Remote Utilities RAT (RURAT) Execution
+-- ID: 9ef27c24-4903-4192-881a-3adde7ff92a5
+-- Status: test
+-- Level: medium
+-- Author: Nasreddine Bencherchali (Nextron Systems)
+-- Date: 2022-09-19
+-- Tags: attack.collection, attack.command-and-control, attack.discovery, attack.stealth, attack.s0592
+-- Description: Detects execution of renamed Remote Utilities (RURAT) via Product PE header field
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE ((Product = 'Remote Utilities') AND NOT (((Image ILIKE '%\\rutserv.exe' OR Image ILIKE '%\\rfusclient.exe'))))

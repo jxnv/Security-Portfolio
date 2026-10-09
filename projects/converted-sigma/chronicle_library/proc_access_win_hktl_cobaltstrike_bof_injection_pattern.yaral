@@ -1,0 +1,23 @@
+// Title: HackTool - CobaltStrike BOF Injection Pattern
+// ID: 09706624-b7f6-455d-9d02-adee024cee1d
+// Status: test
+// Level: high
+// Author: Christian Burkard (Nextron Systems)
+// Date: 2021-08-04
+// Tags: attack.execution, attack.defense-impairment, attack.t1106, attack.t1685
+// Description: Detects a typical pattern of a CobaltStrike BOF which inject into other processes
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 09706624_b7f6_455d_9d02_adee024cee1d {
+  meta:
+    title = "HackTool - CobaltStrike BOF Injection Pattern"
+    description = "Detects a typical pattern of a CobaltStrike BOF which inject into other processes"
+    author = "Christian Burkard (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ($e.CallTrace = /^C:\\Windows\\SYSTEM32\\ntdll\.dll\+[a-z0-9]{4,6}\|C:\\Windows\\System32\\KERNELBASE\.dll\+[a-z0-9]{4,6}\|UNKNOWN\([A-Z0-9]{16}\)$/ nocase and ($e.GrantedAccess = "0x1028" or $e.GrantedAccess = "0x1fffff"))
+
+  condition:
+    $e
+}

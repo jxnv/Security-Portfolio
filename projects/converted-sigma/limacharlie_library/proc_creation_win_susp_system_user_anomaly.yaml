@@ -1,0 +1,22 @@
+# Title: Suspicious SYSTEM User Process Creation
+# ID: 2617e7ed-adb7-40ba-b0f3-8f9945fe6c09
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems), David ANDRE (additional keywords)
+# Date: 2021-12-20
+# Tags: attack.credential-access, attack.privilege-escalation, attack.stealth, attack.t1134, attack.t1003, attack.t1027
+# Description: Detects a suspicious process creation as SYSTEM user (suspicious program or command line parameter)
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# LimaCharlie Detection & Response Rule
+# Name: Suspicious SYSTEM User Process Creation
+detect:
+  event: process_creation
+  op: and
+  rules:
+    # Filter logic:
+    # ((((IntegrityLevel="System" OR IntegrityLevel="S-1-16-16384") AND (User="*AUTHORI*" OR User="*AUTORI*")) AND (((Image="*\\calc.exe" OR Image="*\\cscript.exe" OR Image="*\\forfiles.exe" OR Image="*\\hh.exe" OR Image="*\\mshta.exe" OR Image="*\\ping.exe" OR Image="*\\wscript.exe")) OR (CommandLine=regex("net\\s+user\\s+")) OR ((CommandLine="* -NoP *" OR CommandLine="* -W Hidden *" OR CommandLine="* -decode *" OR CommandLine="* /decode *" OR CommandLine="* /urlcache *" OR CommandLine="* -urlcache *" OR CommandLine="* -e* JAB*" OR CommandLine="* -e* SUVYI*" OR CommandLine="* -e* SQBFAFgA*" OR CommandLine="* -e* aWV4I*" OR CommandLine="* -e* IAB*" OR CommandLine="* -e* PAA*" OR CommandLine="* -e* aQBlAHgA*" OR CommandLine="*vssadmin delete shadows*" OR CommandLine="*reg SAVE HKLM*" OR CommandLine="* -ma *" OR CommandLine="*Microsoft\\Windows\\CurrentVersion\\Run*" OR CommandLine="*.downloadstring(*" OR CommandLine="*.downloadfile(*" OR CommandLine="* /ticket:*" OR CommandLine="*dpapi::*" OR CommandLine="*event::clear*" OR CommandLine="*event::drop*" OR CommandLine="*id::modify*" OR CommandLine="*kerberos::*" OR CommandLine="*lsadump::*" OR CommandLine="*misc::*" OR CommandLine="*privilege::*" OR CommandLine="*rpc::*" OR CommandLine="*sekurlsa::*" OR CommandLine="*sid::*" OR CommandLine="*token::*" OR CommandLine="*vault::cred*" OR CommandLine="*vault::list*" OR CommandLine="* p::d *" OR CommandLine="*;iex(*" OR CommandLine="*MiniDump*")))) AND NOT (((ParentImage="*:\\Packages\\Plugins\\Microsoft.GuestConfiguration.ConfigurationforWindows\\*") OR ((ParentImage="*:\\Program Files (x86)\\Java\\*" OR ParentImage="*:\\Program Files\\Java\\*") AND ParentImage="*\\bin\\javaws.exe" AND (Image="*:\\Program Files (x86)\\Java\\*" OR Image="*:\\Program Files\\Java\\*") AND Image="*\\bin\\jp2launcher.exe" AND CommandLine="* -ma *") OR ((CommandLine="*ping*" AND CommandLine="*127.0.0.1*" AND CommandLine="* -n *")) OR (Image="*\\PING.EXE" AND ParentCommandLine="*\\DismFoDInstall.cmd*"))))
+respond:
+  - action: report
+    name: Suspicious SYSTEM User Process Creation
+

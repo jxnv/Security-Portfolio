@@ -1,0 +1,11 @@
+# Title: Suspicious Process Patterns NTDS.DIT Exfil
+# ID: 8bc64091-6875-4881-aaf9-7bd25b5dda08
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems)
+# Date: 2022-03-11
+# Tags: attack.credential-access, attack.t1003.003
+# Description: Detects suspicious process patterns used in NTDS.DIT exfiltration
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((((CommandLine CONTAIN "ac i ntds" AND CommandLine CONTAIN "create full")) OR ((CommandLine CONTAIN "/c copy " AND CommandLine CONTAIN "\\windows\\ntds\\ntds.dit")) OR ((CommandLine CONTAIN "activate instance ntds" AND CommandLine CONTAIN "create full")) OR ((CommandLine CONTAIN "powershell" AND CommandLine CONTAIN "ntds.dit")) OR (((Image="*\\NTDSDump.exe" OR Image="*\\NTDSDumpEx.exe")) OR ((CommandLine CONTAIN "ntds.dit" AND CommandLine CONTAIN "system.hiv")) OR (CommandLine CONTAIN "NTDSgrab.ps1"))) OR ((((ParentImage CONTAIN "\\apache" OR ParentImage CONTAIN "\\tomcat" OR ParentImage CONTAIN "\\AppData\\" OR ParentImage CONTAIN "\\Temp\\" OR ParentImage CONTAIN "\\Public\\" OR ParentImage CONTAIN "\\PerfLogs\\")) OR ((Image CONTAIN "\\apache" OR Image CONTAIN "\\tomcat" OR Image CONTAIN "\\AppData\\" OR Image CONTAIN "\\Temp\\" OR Image CONTAIN "\\Public\\" OR Image CONTAIN "\\PerfLogs\\"))) AND (CommandLine CONTAIN "ntds.dit")))

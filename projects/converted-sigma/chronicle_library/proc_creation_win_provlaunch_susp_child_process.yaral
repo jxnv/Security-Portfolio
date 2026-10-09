@@ -1,0 +1,23 @@
+// Title: Suspicious Provlaunch.EXE Child Process
+// ID: f9999590-1f94-4a34-a91e-951e47bedefd
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-08-08
+// Tags: attack.stealth, attack.t1218
+// Description: Detects suspicious child processes of "provlaunch.exe" which might indicate potential abuse to proxy execution.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule f9999590_1f94_4a34_a91e_951e47bedefd {
+  meta:
+    title = "Suspicious Provlaunch.EXE Child Process"
+    description = "Detects suspicious child processes of "provlaunch.exe" which might indicate potential abuse to proxy execution."
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (((($e.target.process.file.full_path = /.*\\calc.exe$/ nocase or $e.target.process.file.full_path = /.*\\cmd.exe$/ nocase or $e.target.process.file.full_path = /.*\\cscript.exe$/ nocase or $e.target.process.file.full_path = /.*\\mshta.exe$/ nocase or $e.target.process.file.full_path = /.*\\notepad.exe$/ nocase or $e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase or $e.target.process.file.full_path = /.*\\regsvr32.exe$/ nocase or $e.target.process.file.full_path = /.*\\rundll32.exe$/ nocase or $e.target.process.file.full_path = /.*\\wscript.exe$/ nocase)) or (($e.target.process.file.full_path = /.*:\\PerfLogs\\.*/ nocase or $e.target.process.file.full_path = /.*:\\Temp\\.*/ nocase or $e.target.process.file.full_path = /.*:\\Users\\Public\\.*/ nocase or $e.target.process.file.full_path = /.*\\AppData\\Temp\\.*/ nocase or $e.target.process.file.full_path = /.*\\Windows\\System32\\Tasks\\.*/ nocase or $e.target.process.file.full_path = /.*\\Windows\\Tasks\\.*/ nocase or $e.target.process.file.full_path = /.*\\Windows\\Temp\\.*/ nocase))) and ($e.principal.process.file.full_path = /.*\\provlaunch.exe$/ nocase))
+
+  condition:
+    $e
+}

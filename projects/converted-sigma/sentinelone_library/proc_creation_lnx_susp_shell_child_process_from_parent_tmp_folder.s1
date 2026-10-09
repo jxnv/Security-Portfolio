@@ -1,0 +1,11 @@
+// Title: Shell Execution Of Process Located In Tmp Directory
+// ID: 2fade0b6-7423-4835-9d4f-335b39b83867
+// Status: test
+// Level: high
+// Author: Joseliyo Sanchez, @Joseliyo_Jstnk
+// Date: 2023-06-02
+// Tags: attack.execution
+// Description: Detects execution of shells from a parent process located in a temporary (/tmp) directory
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(src.process.parent.image.path startswithCIS "/tmp/" AND (src.process.image.path endswithCIS "/bash" OR src.process.image.path endswithCIS "/csh" OR src.process.image.path endswithCIS "/dash" OR src.process.image.path endswithCIS "/fish" OR src.process.image.path endswithCIS "/ksh" OR src.process.image.path endswithCIS "/sh" OR src.process.image.path endswithCIS "/zsh"))

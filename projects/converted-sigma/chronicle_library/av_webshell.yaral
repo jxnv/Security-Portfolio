@@ -1,0 +1,25 @@
+// Title: Antivirus - Web Shell Detection Signature
+// ID: fdf135a2-9241-4f96-a114-bb404948f736
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Arnim Rupp
+// Date: 2018-09-09
+// Tags: attack.persistence, attack.t1505.003
+// Description: Detects a highly relevant Antivirus alert that reports a web shell.
+// It's highly recommended to tune this rule to the specific strings used by your anti virus solution by downloading a big WebShell repository from e.g. github and checking the matches.
+// This event must not be ignored just because the AV has blocked the malware but investigate, how it came there in the first place.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule fdf135a2_9241_4f96_a114_bb404948f736 {
+  meta:
+    title = "Antivirus - Web Shell Detection Signature"
+    description = "Detects a highly relevant Antivirus alert that reports a web shell. It's highly recommended to tune this rule to the specific strings used by your anti virus solution by downloading a big WebShell repository from e.g. github and checking the matches. This event must not be ignored just because the AV has blocked the malware but investigate, how it came there in the first place."
+    author = "Florian Roth (Nextron Systems), Arnim Rupp"
+    severity = "HIGH"
+
+  events:
+    ((($e.Signature = /^ASP..*/ nocase or $e.Signature = /^IIS/BackDoor.*/ nocase or $e.Signature = /^JAVA/Backdoor.*/ nocase or $e.Signature = /^JSP..*/ nocase or $e.Signature = /^Perl..*/ nocase or $e.Signature = /^PHP..*/ nocase or $e.Signature = /^Troj/ASP.*/ nocase or $e.Signature = /^Troj/JSP.*/ nocase or $e.Signature = /^Troj/PHP.*/ nocase or $e.Signature = /^VBS/Uxor.*/ nocase)) or (($e.Signature = /.*ASP_.*/ nocase or $e.Signature = /.*ASP:.*/ nocase or $e.Signature = /.*ASP.Agent.*/ nocase or $e.Signature = /.*ASP/.*/ nocase or $e.Signature = /.*Aspdoor.*/ nocase or $e.Signature = /.*ASPXSpy.*/ nocase or $e.Signature = /.*Backdoor.ASP.*/ nocase or $e.Signature = /.*Backdoor.Java.*/ nocase or $e.Signature = /.*Backdoor.JSP.*/ nocase or $e.Signature = /.*Backdoor.PHP.*/ nocase or $e.Signature = /.*Backdoor.VBS.*/ nocase or $e.Signature = /.*Backdoor/ASP.*/ nocase or $e.Signature = /.*Backdoor/Java.*/ nocase or $e.Signature = /.*Backdoor/JSP.*/ nocase or $e.Signature = /.*Backdoor/PHP.*/ nocase or $e.Signature = /.*Backdoor/VBS.*/ nocase or $e.Signature = /.*C99shell.*/ nocase or $e.Signature = /.*Chopper.*/ nocase or $e.Signature = /.*filebrowser.*/ nocase or $e.Signature = /.*JSP_.*/ nocase or $e.Signature = /.*JSP:.*/ nocase or $e.Signature = /.*JSP.Agent.*/ nocase or $e.Signature = /.*JSP/.*/ nocase or $e.Signature = /.*Perl:.*/ nocase or $e.Signature = /.*Perl/.*/ nocase or $e.Signature = /.*PHP_.*/ nocase or $e.Signature = /.*PHP:.*/ nocase or $e.Signature = /.*PHP.Agent.*/ nocase or $e.Signature = /.*PHP/.*/ nocase or $e.Signature = /.*PHPShell.*/ nocase or $e.Signature = /.*PShlSpy.*/ nocase or $e.Signature = /.*SinoChoper.*/ nocase or $e.Signature = /.*Trojan.ASP.*/ nocase or $e.Signature = /.*Trojan.JSP.*/ nocase or $e.Signature = /.*Trojan.PHP.*/ nocase or $e.Signature = /.*Trojan.VBS.*/ nocase or $e.Signature = /.*VBS.Agent.*/ nocase or $e.Signature = /.*VBS/Agent.*/ nocase or $e.Signature = /.*Webshell.*/ nocase)))
+
+  condition:
+    $e
+}

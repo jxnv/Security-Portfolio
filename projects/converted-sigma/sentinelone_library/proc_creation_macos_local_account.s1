@@ -1,0 +1,12 @@
+// Title: Local System Accounts Discovery - MacOs
+// ID: ddf36b67-e872-4507-ab2e-46bda21b842c
+// Status: test
+// Level: low
+// Author: Alejandro Ortuno, oscd.community
+// Date: 2020-10-08
+// Tags: attack.discovery, attack.t1087.001
+// Description: Detects enumeration of local system accounts on MacOS systems.
+// This can be used by attackers to identify accounts for lateral movement or privilege escalation.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((src.process.image.path endswithCIS "/dscacheutil" AND (src.process.cmdline containsCIS "-q" AND src.process.cmdline containsCIS "user")) OR (src.process.image.path endswithCIS "/dscl" AND (src.process.cmdline containsCIS "list" AND src.process.cmdline containsCIS "/users")) OR (src.process.image.path endswithCIS "/ls" AND (src.process.cmdline endswithCIS "/Users" OR src.process.cmdline endswithCIS "/Users'" OR src.process.cmdline endswithCIS "/Users\"")) OR (src.process.image.path endswithCIS "/id") OR ((src.process.image.path endswithCIS "/who" OR src.process.image.path endswithCIS "/w" OR src.process.image.path endswithCIS "/users" OR src.process.image.path endswithCIS "/last")) OR ((src.process.image.path endswithCIS "/defaults" OR src.process.image.path endswithCIS "/plutil") AND src.process.cmdline containsCIS "com.apple.loginwindow") OR (src.process.image.path endswithCIS "/lsof" AND src.process.cmdline containsCIS "-u") OR ((src.process.image.path endswithCIS "/cat" OR src.process.image.path endswithCIS "/awk" OR src.process.image.path endswithCIS "/grep") AND (src.process.cmdline containsCIS "/etc/passwd" OR src.process.cmdline containsCIS "/etc/sudoers")) OR (src.process.cmdline containsCIS "'*:0:'"))

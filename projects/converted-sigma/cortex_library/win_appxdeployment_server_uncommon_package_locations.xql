@@ -1,0 +1,11 @@
+// Title: AppX Located in Uncommon Directory Added to Deployment Pipeline
+// ID: c977cb50-3dff-4a9f-b873-9290f56132f1
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-01-11
+// Tags: attack.stealth
+// Description: Detects an appx package that was added to the pipeline of the "to be processed" packages that is located in uncommon locations.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter ((EventID = 854) and not ((((Path contains ":/Program%20Files" or Path contains ":/Windows/System32/" or Path contains ":\\Program Files (x86)\\" or Path contains ":\\Program Files\\" or Path contains ":\\Windows\\ImmersiveControlPanel\\" or Path contains ":\\Windows\\PrintDialog\\" or Path contains ":\\Windows\\SystemApps\\" or Path contains "AppData/Local/Temp/WinGet/Microsoft.Winget.Source" or Path contains "x-windowsupdate://")) or ((Path contains "https://installer.teams.static.microsoft/" or Path contains "https://res.cdn.office.net" or Path contains "https://statics.teams.cdn.live.net/" or Path contains "https://statics.teams.cdn.office.net/" or Path contains "microsoft.com")))) and not (((Path contains "AppData\\Local\\Microsoft\\OneDrive\\") or ((Path contains "AppData/Local/Temp/WinGet/Microsoft.Winget.Source" or Path contains "AppData\\Local\\Temp\\WinGet\\Microsoft.Winget.Source")) or (Path contains "x-windowsupdate://"))))

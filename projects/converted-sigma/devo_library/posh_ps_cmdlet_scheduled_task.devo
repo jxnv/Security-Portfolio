@@ -1,0 +1,11 @@
+// Title: Powershell Create Scheduled Task
+// ID: 363eccc0-279a-4ccf-a3ab-24c2e63b11fb
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2021-12-28
+// Tags: attack.privilege-escalation, attack.execution, attack.persistence, attack.t1053.005
+// Description: Adversaries may abuse the Windows Task Scheduler to perform task scheduling for initial or recurring execution of malicious code
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+from siem.events where ((((contains(ScriptBlockText, "Invoke-CimMethod") AND contains(ScriptBlockText, "-ClassName") AND contains(ScriptBlockText, "PS_ScheduledTask") AND contains(ScriptBlockText, "-NameSpace") AND contains(ScriptBlockText, "Root\\Microsoft\\Windows\\TaskScheduler"))) OR ((contains(ScriptBlockText, "New-ScheduledTaskAction") OR contains(ScriptBlockText, "New-ScheduledTaskTrigger") OR contains(ScriptBlockText, "New-ScheduledTaskPrincipal") OR contains(ScriptBlockText, "New-ScheduledTaskSettingsSet") OR contains(ScriptBlockText, "New-ScheduledTask") OR contains(ScriptBlockText, "Register-ScheduledTask")))) AND NOT (((contains(ScriptBlockText, "Microsoft.PowerShell.Core\\Export-ModuleMember") AND contains(ScriptBlockText, "Microsoft.Management.Infrastructure.CimInstance") AND contains(ScriptBlockText, "__cmdletization_methodParameter")))))

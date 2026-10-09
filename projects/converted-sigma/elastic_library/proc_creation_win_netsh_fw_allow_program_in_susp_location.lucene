@@ -1,0 +1,11 @@
+# Title: Suspicious Program Location Whitelisted In Firewall Via Netsh.EXE
+# ID: a35f5a72-f347-4e36-8895-9869b0d5fc6d
+# Status: test
+# Level: high
+# Author: Sander Wiebing, Jonhnathan Ribeiro, Daniil Yugoslavskiy, oscd.community
+# Date: 2020-05-25
+# Tags: attack.defense-impairment, attack.t1686.003
+# Description: Detects Netsh command execution that whitelists a program located in a suspicious location in the Windows Firewall
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((((process.command_line:*firewall* AND process.command_line:*add* AND process.command_line:*allowedprogram*)) OR ((process.command_line:*advfirewall* AND process.command_line:*firewall* AND process.command_line:*add* AND process.command_line:*rule* AND process.command_line:*action=allow* AND process.command_line:*program=*))) AND ((process.executable:*\\netsh.exe) OR (process.pe.original_file_name:"netsh.exe")) AND ((process.command_line:*:\\$Recycle.bin\\* OR process.command_line:*:\\RECYCLER.BIN\\* OR process.command_line:*:\\RECYCLERS.BIN\\* OR process.command_line:*:\\SystemVolumeInformation\\* OR process.command_line:*:\\Temp\\* OR process.command_line:*:\\Users\\Default\\* OR process.command_line:*:\\Users\\Desktop\\* OR process.command_line:*:\\Users\\Public\\* OR process.command_line:*:\\Windows\\addins\\* OR process.command_line:*:\\Windows\\cursors\\* OR process.command_line:*:\\Windows\\debug\\* OR process.command_line:*:\\Windows\\drivers\\* OR process.command_line:*:\\Windows\\fonts\\* OR process.command_line:*:\\Windows\\help\\* OR process.command_line:*:\\Windows\\system32\\tasks\\* OR process.command_line:*:\\Windows\\Tasks\\* OR process.command_line:*:\\Windows\\Temp\\* OR process.command_line:*\\Downloads\\* OR process.command_line:*\\Local Settings\\Temporary Internet Files\\* OR process.command_line:*\\Temporary Internet Files\\Content.Outlook\\* OR process.command_line:*%Public%\\* OR process.command_line:*%TEMP%* OR process.command_line:*%TMP%*)))

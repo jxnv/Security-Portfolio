@@ -1,0 +1,35 @@
+{
+  "title": "Modify Group Policy Settings - ScriptBlockLogging",
+  "id": "b7216a7d-687e-4c8d-82b1-3080b2ad961f",
+  "status": "test",
+  "description": "Detect malicious GPO modifications can be used to implement many other malicious behaviors.",
+  "author": "frack113",
+  "date": "2022-08-19",
+  "tags": [
+    "attack.privilege-escalation",
+    "attack.defense-impairment",
+    "attack.t1484.001"
+  ],
+  "level": "medium",
+  "logsource": {
+    "product": "windows",
+    "category": "ps_script",
+    "definition": "Requirements: Script Block Logging must be enabled"
+  },
+  "detection": {
+    "selection_path": {
+      "ScriptBlockText|contains": "\\SOFTWARE\\Policies\\Microsoft\\Windows\\System"
+    },
+    "selection_key": {
+      "ScriptBlockText|contains": [
+        "GroupPolicyRefreshTimeDC",
+        "GroupPolicyRefreshTimeOffsetDC",
+        "GroupPolicyRefreshTime",
+        "GroupPolicyRefreshTimeOffset",
+        "EnableSmartScreen",
+        "ShellSmartScreenLevel"
+      ]
+    },
+    "condition": "all of selection_*"
+  }
+}

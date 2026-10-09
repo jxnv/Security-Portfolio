@@ -1,0 +1,71 @@
+{
+  "title": "Query Tor Onion Address - DNS Client",
+  "id": "8384bd26-bde6-4da9-8e5d-4174a7a47ca2",
+  "status": "test",
+  "description": "Detects DNS resolution of an .onion address related to Tor routing networks",
+  "author": "Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2022-02-20",
+  "tags": [
+    "attack.command-and-control",
+    "attack.t1090.003"
+  ],
+  "level": "high",
+  "logsource": {
+    "product": "windows",
+    "service": "dns-client",
+    "definition": "Requirements: Microsoft-Windows-DNS Client Events/Operational Event Log must be enabled/collected in order to receive the events."
+  },
+  "detection": {
+    "selection": {
+      "EventID": 3008,
+      "QueryName|endswith": [
+        ".hiddenservice.net",
+        ".onion.ca",
+        ".onion.cab",
+        ".onion.casa",
+        ".onion.city",
+        ".onion.direct",
+        ".onion.dog",
+        ".onion.glass",
+        ".onion.gq",
+        ".onion.guide",
+        ".onion.in.net",
+        ".onion.ink",
+        ".onion.it",
+        ".onion.link",
+        ".onion.lt",
+        ".onion.lu",
+        ".onion.ly",
+        ".onion.mn",
+        ".onion.network",
+        ".onion.nu",
+        ".onion.pet",
+        ".onion.plus",
+        ".onion.pt",
+        ".onion.pw",
+        ".onion.rip",
+        ".onion.sh",
+        ".onion.si",
+        ".onion.to",
+        ".onion.top",
+        ".onion.ws",
+        ".onion",
+        ".s1.tor-gateways.de",
+        ".s2.tor-gateways.de",
+        ".s3.tor-gateways.de",
+        ".s4.tor-gateways.de",
+        ".s5.tor-gateways.de",
+        ".t2w.pw",
+        ".tor2web.ae.org",
+        ".tor2web.blutmagie.de",
+        ".tor2web.com",
+        ".tor2web.fi",
+        ".tor2web.io",
+        ".tor2web.org",
+        ".tor2web.xyz",
+        ".torlink.co"
+      ]
+    },
+    "condition": "selection"
+  }
+}

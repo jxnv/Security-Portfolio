@@ -1,0 +1,23 @@
+// Title: Wget Creating Files in Tmp Directory
+// ID: 35a05c60-9012-49b6-a11f-6bab741c9f74
+// Status: test
+// Level: medium
+// Author: Joseliyo Sanchez, @Joseliyo_Jstnk
+// Date: 2023-06-02
+// Tags: attack.command-and-control, attack.t1105
+// Description: Detects the use of wget to download content in a temporary directory such as "/tmp" or "/var/tmp"
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 35a05c60_9012_49b6_a11f_6bab741c9f74 {
+  meta:
+    title = "Wget Creating Files in Tmp Directory"
+    description = "Detects the use of wget to download content in a temporary directory such as "/tmp" or "/var/tmp""
+    author = "Joseliyo Sanchez, @Joseliyo_Jstnk"
+    severity = "MEDIUM"
+
+  events:
+    ($e.target.process.file.full_path = /.*/wget$/ nocase and ($e.target.file.full_path = /^/tmp/.*/ nocase or $e.target.file.full_path = /^/var/tmp/.*/ nocase))
+
+  condition:
+    $e
+}

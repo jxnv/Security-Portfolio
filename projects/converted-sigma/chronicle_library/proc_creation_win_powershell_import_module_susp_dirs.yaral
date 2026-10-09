@@ -1,0 +1,23 @@
+// Title: Import PowerShell Modules From Suspicious Directories - ProcCreation
+// ID: c31364f7-8be6-4b77-8483-dd2b5a7b69a3
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-01-10
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects powershell scripts that import modules from suspicious directories
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule c31364f7_8be6_4b77_8483_dd2b5a7b69a3 {
+  meta:
+    title = "Import PowerShell Modules From Suspicious Directories - ProcCreation"
+    description = "Detects powershell scripts that import modules from suspicious directories"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.process.command_line = /.*Import-Module \"$Env:Temp\\.*/ nocase or $e.target.process.command_line = /.*Import-Module '$Env:Temp\\.*/ nocase or $e.target.process.command_line = /.*Import-Module $Env:Temp\\.*/ nocase or $e.target.process.command_line = /.*Import-Module \"$Env:Appdata\\.*/ nocase or $e.target.process.command_line = /.*Import-Module '$Env:Appdata\\.*/ nocase or $e.target.process.command_line = /.*Import-Module $Env:Appdata\\.*/ nocase or $e.target.process.command_line = /.*Import-Module C:\\Users\\Public\\.*/ nocase or $e.target.process.command_line = /.*ipmo \"$Env:Temp\\.*/ nocase or $e.target.process.command_line = /.*ipmo '$Env:Temp\\.*/ nocase or $e.target.process.command_line = /.*ipmo $Env:Temp\\.*/ nocase or $e.target.process.command_line = /.*ipmo \"$Env:Appdata\\.*/ nocase or $e.target.process.command_line = /.*ipmo '$Env:Appdata\\.*/ nocase or $e.target.process.command_line = /.*ipmo $Env:Appdata\\.*/ nocase or $e.target.process.command_line = /.*ipmo C:\\Users\\Public\\.*/ nocase))
+
+  condition:
+    $e
+}

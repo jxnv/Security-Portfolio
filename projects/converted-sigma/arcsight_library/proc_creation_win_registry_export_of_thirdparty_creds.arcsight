@@ -1,0 +1,12 @@
+// Title: Registry Export of Third-Party Credentials
+// ID: cc1abf27-78a3-4ac5-a51c-f3070b1d8e40
+// Status: experimental
+// Level: high
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-05-22
+// Tags: attack.credential-access, attack.t1552.002
+// Description: Detects the use of reg.exe to export registry paths associated with third-party credentials.
+// Credential stealers have been known to use this technique to extract sensitive information from the registry.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((CommandLine CONTAINS "\\Software\\Aerofox\\Foxmail\\V3.1" OR CommandLine CONTAINS "\\Software\\Aerofox\\FoxmailPreview" OR CommandLine CONTAINS "\\Software\\DownloadManager\\Passwords" OR CommandLine CONTAINS "\\Software\\FTPWare\\COREFTP\\Sites" OR CommandLine CONTAINS "\\Software\\IncrediMail\\Identities" OR CommandLine CONTAINS "\\Software\\Martin Prikryl\\WinSCP 2\\Sessions" OR CommandLine CONTAINS "\\Software\\Mobatek\\MobaXterm" OR CommandLine CONTAINS "\\Software\\OpenSSH\\Agent\\Keys" OR CommandLine CONTAINS "\\Software\\OpenVPN-GUI\\configs" OR CommandLine CONTAINS "\\Software\\ORL\\WinVNC3\\Password" OR CommandLine CONTAINS "\\Software\\Qualcomm\\Eudora\\CommandLine" OR CommandLine CONTAINS "\\Software\\RealVNC\\WinVNC4" OR CommandLine CONTAINS "\\Software\\RimArts\\B2\\Settings" OR CommandLine CONTAINS "\\Software\\SimonTatham\\PuTTY\\Sessions" OR CommandLine CONTAINS "\\Software\\SimonTatham\\PuTTY\\SshHostKeys" OR CommandLine CONTAINS "\\Software\\Sota\\FFFTP" OR CommandLine CONTAINS "\\Software\\TightVNC\\Server" OR CommandLine CONTAINS "\\Software\\WOW6432Node\\Radmin\\v3.0\\Server\\Parameters\\Radmin")) AND ((CommandLine CONTAINS "save" OR CommandLine CONTAINS "export")) AND ((Image ENDSWITH "\\reg.exe") OR (OriginalFileName EQ "reg.exe")))

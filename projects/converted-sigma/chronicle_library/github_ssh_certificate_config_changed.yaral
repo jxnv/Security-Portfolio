@@ -1,0 +1,23 @@
+// Title: Github SSH Certificate Configuration Changed
+// ID: 2f575940-d85e-4ddc-af13-17dad6f1a0ef
+// Status: test
+// Level: medium
+// Author: Romain Gaillard (@romain-gaillard)
+// Date: 2024-07-29
+// Tags: attack.initial-access, attack.persistence, attack.privilege-escalation, attack.stealth, attack.t1078.004
+// Description: Detects when changes are made to the SSH certificate configuration of the organization.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 2f575940_d85e_4ddc_af13_17dad6f1a0ef {
+  meta:
+    title = "Github SSH Certificate Configuration Changed"
+    description = "Detects when changes are made to the SSH certificate configuration of the organization."
+    author = "Romain Gaillard (@romain-gaillard)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.action = "ssh_certificate_authority.create" or $e.action = "ssh_certificate_requirement.disable"))
+
+  condition:
+    $e
+}

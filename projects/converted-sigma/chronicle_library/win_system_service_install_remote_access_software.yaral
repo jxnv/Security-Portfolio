@@ -1,0 +1,23 @@
+// Title: Remote Access Tool Services Have Been Installed - System
+// ID: 1a31b18a-f00c-4061-9900-f735b96c99fc
+// Status: test
+// Level: medium
+// Author: Connor Martin, Nasreddine Bencherchali
+// Date: 2022-12-23
+// Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.t1543.003, attack.t1569.002
+// Description: Detects service installation of different remote access tools software. These software are often abused by threat actors to perform
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 1a31b18a_f00c_4061_9900_f735b96c99fc {
+  meta:
+    title = "Remote Access Tool Services Have Been Installed - System"
+    description = "Detects service installation of different remote access tools software. These software are often abused by threat actors to perform"
+    author = "Connor Martin, Nasreddine Bencherchali"
+    severity = "MEDIUM"
+
+  events:
+    ($e.Provider_Name = "Service Control Manager" and ($e.EventID = 7045 or $e.EventID = 7036) and ($e.ServiceName = /.*AmmyyAdmin.*/ nocase or $e.ServiceName = /.*Atera.*/ nocase or $e.ServiceName = /.*BASupportExpressSrvcUpdater.*/ nocase or $e.ServiceName = /.*BASupportExpressStandaloneService.*/ nocase or $e.ServiceName = /.*chromoting.*/ nocase or $e.ServiceName = /.*GoToAssist.*/ nocase or $e.ServiceName = /.*GoToMyPC.*/ nocase or $e.ServiceName = /.*jumpcloud.*/ nocase or $e.ServiceName = /.*LMIGuardianSvc.*/ nocase or $e.ServiceName = /.*LogMeIn.*/ nocase or $e.ServiceName = /.*monblanking.*/ nocase or $e.ServiceName = /.*Parsec.*/ nocase or $e.ServiceName = /.*RManService.*/ nocase or $e.ServiceName = /.*RPCPerformanceService.*/ nocase or $e.ServiceName = /.*RPCService.*/ nocase or $e.ServiceName = /.*SplashtopRemoteService.*/ nocase or $e.ServiceName = /.*SSUService.*/ nocase or $e.ServiceName = /.*TeamViewer.*/ nocase or $e.ServiceName = /.*TightVNC.*/ nocase or $e.ServiceName = /.*vncserver.*/ nocase or $e.ServiceName = /.*Zoho.*/ nocase))
+
+  condition:
+    $e
+}

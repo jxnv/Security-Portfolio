@@ -1,0 +1,11 @@
+// Title: Potentially Suspicious Cabinet File Expansion
+// ID: 9f107a84-532c-41af-b005-8d12a607639f
+// Status: test
+// Level: medium
+// Author: Bhabesh Raj, X__Junior (Nextron Systems)
+// Date: 2021-07-30
+// Tags: attack.stealth, attack.t1218
+// Description: Detects the expansion or decompression of cabinet files from potentially suspicious or uncommon locations, e.g. seen in Iranian MeteorExpress related attacks
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where ((process.executable endswith "\\expand.exe" and (process.command_line like "*_-F:*" or process.command_line like "*_/F:*")) and (((process.command_line like "*_:\\Perflogs\\*" or process.command_line like "*_:\\ProgramData*" or process.command_line like "*_:\\Users\\Public\\*" or process.command_line like "*_:\\Windows\\Temp\\*" or process.command_line like "*_\\Admin$\\*" or process.command_line like "*_\\AppData\\Local\\Temp\\*" or process.command_line like "*_\\AppData\\Roaming\\*" or process.command_line like "*_\\C$\\*" or process.command_line like "*_\\Temporary Internet*")) or (((process.command_line like "*_:\\Users\\*" and process.command_line like "*_\\Favorites\\*")) or ((process.command_line like "*_:\\Users\\*" and process.command_line like "*_\\Favourites\\*")) or ((process.command_line like "*_:\\Users\\*" and process.command_line like "*_\\Contacts\\*")))) and not ((process.parent.executable == "C:\\Program Files (x86)\\Dell\\UpdateService\\ServiceShell.exe" and process.command_line like "*_C:\\ProgramData\\Dell\\UpdateService\\Temp\\*")))

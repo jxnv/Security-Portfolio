@@ -1,0 +1,13 @@
+// Title: Potentially Suspicious Mofcomp Execution
+// ID: 1dd05363-104e-4b4a-b963-196a534b03a1
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-07-12
+// Tags: attack.stealth, attack.t1218
+// Description: Detects execution of the "mofcomp" utility as a child of a suspicious shell or script running utility or by having a suspicious path in the commandline.
+// The "mofcomp" utility parses a file containing MOF statements and adds the classes and class instances defined in the file to the WMI repository.
+// Attackers abuse this utility to install malicious MOF scripts
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+DeviceProcessEvents | where (((((InitiatingProcessFolderPath endswith "\\cmd.exe" or InitiatingProcessFolderPath endswith "\\powershell.exe" or InitiatingProcessFolderPath endswith "\\pwsh.exe" or InitiatingProcessFolderPath endswith "\\wsl.exe" or InitiatingProcessFolderPath endswith "\\wscript.exe" or InitiatingProcessFolderPath endswith "\\cscript.exe")) or ((ProcessCommandLine contains "\\AppData\\Local\\Temp" or ProcessCommandLine contains "\\Contacts\\" or ProcessCommandLine contains "\\Favorites\\" or ProcessCommandLine contains "\\Favourites\\" or ProcessCommandLine contains "\\Music\\" or ProcessCommandLine contains "\\Pictures\\" or ProcessCommandLine contains "\\Users\\Public\\" or ProcessCommandLine contains "\\Videos\\" or ProcessCommandLine contains "\\WINDOWS\\Temp\\" or ProcessCommandLine contains "%appdata%" or ProcessCommandLine contains "%temp%" or ProcessCommandLine contains "%tmp%"))) and ((FolderPath endswith "\\mofcomp.exe") or (ProcessVersionInfoOriginalFileName == "mofcomp.exe"))) and not(((InitiatingProcessCommandLine endswith "\\InstallUtil.exe /Uninstall C:\\Windows\\CCM\\Microsoft.ConfigurationManager.SVProvider.dll" and InitiatingProcessFolderPath endswith "\\InstallUtil.exe" and (ProcessCommandLine contains "C:\\Windows\\TEMP" and ProcessCommandLine contains ".tmp")) or (InitiatingProcessFolderPath == "C:\\Windows\\System32\\wbem\\WmiPrvSE.exe" and ProcessCommandLine contains "C:\\Windows\\TEMP\\" and ProcessCommandLine endswith ".mof"))) and not(((isempty(InitiatingProcessCommandLine) or isnull(InitiatingProcessCommandLine)))))

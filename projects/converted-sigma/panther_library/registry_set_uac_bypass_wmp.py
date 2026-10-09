@@ -1,0 +1,19 @@
+# Title: UAC Bypass Using Windows Media Player - Registry
+# ID: 5f9db380-ea57-4d1e-beab-8a2d33397e93
+# Status: test
+# Level: high
+# Author: Christian Burkard (Nextron Systems)
+# Date: 2021-08-23
+# Tags: attack.privilege-escalation, attack.t1548.002
+# Description: Detects the pattern of UAC Bypass using Windows Media Player osksupport.dll (UACMe 32)
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: UAC Bypass Using Windows Media Player - Registry
+def rule(event):
+    # Detection Logic:
+    # (TargetObject="*\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\AppCompatFlags\\Compatibility Assistant\\Store\\C:\\Program Files\\Windows Media Player\\osk.exe" AND Details="Binary Data")
+    return True
+
+def title(event):
+    return "UAC Bypass Using Windows Media Player - Registry"
+

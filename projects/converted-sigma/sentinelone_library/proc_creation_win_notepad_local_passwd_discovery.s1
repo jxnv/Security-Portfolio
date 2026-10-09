@@ -1,0 +1,11 @@
+// Title: Notepad Password Files Discovery
+// ID: 3b4e950b-a3ea-44d3-877e-432071990709
+// Status: experimental
+// Level: low
+// Author: The DFIR Report
+// Date: 2025-02-21
+// Tags: attack.discovery, attack.t1083
+// Description: Detects the execution of Notepad to open a file that has the string "password" which may indicate unauthorized access to credentials or suspicious activity.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(src.process.parent.image.path endswithCIS "\\explorer.exe" AND src.process.image.path endswithCIS "\\notepad.exe" AND (src.process.cmdline endswithCIS "password*.txt" OR src.process.cmdline endswithCIS "password*.csv" OR src.process.cmdline endswithCIS "password*.doc" OR src.process.cmdline endswithCIS "password*.xls"))

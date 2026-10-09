@@ -1,0 +1,19 @@
+# Title: Suspicious LSASS Access Via MalSecLogon
+# ID: 472159c5-31b9-4f56-b794-b766faa8b0a7
+# Status: test
+# Level: high
+# Author: Samir Bousseaden (original elastic rule), Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-06-29
+# Tags: attack.credential-access, attack.t1003.001
+# Description: Detects suspicious access to LSASS handle via a call trace to "seclogon.dll" with a suspicious access right.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Suspicious LSASS Access Via MalSecLogon
+def rule(event):
+    # Detection Logic:
+    # (TargetImage="*\\lsass.exe" AND SourceImage="*\\svchost.exe" AND GrantedAccess="0x14c0" AND CallTrace="*seclogon.dll*")
+    return True
+
+def title(event):
+    return "Suspicious LSASS Access Via MalSecLogon"
+

@@ -1,0 +1,33 @@
+{
+  "title": "Important Windows Eventlog Cleared",
+  "id": "100ef69e-3327-481c-8e5c-6d80d9507556",
+  "status": "test",
+  "description": "Detects the clearing of one of the Windows Core Eventlogs. e.g. caused by \"wevtutil cl\" command execution",
+  "author": "Florian Roth (Nextron Systems), Tim Shelton, Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2022-05-17",
+  "tags": [
+    "attack.defense-impairment",
+    "attack.t1685.005",
+    "car.2016-04-002"
+  ],
+  "level": "high",
+  "logsource": {
+    "product": "windows",
+    "service": "system"
+  },
+  "detection": {
+    "selection": {
+      "EventID": 104,
+      "Provider_Name": "Microsoft-Windows-Eventlog",
+      "Channel": [
+        "Microsoft-Windows-PowerShell/Operational",
+        "Microsoft-Windows-Sysmon/Operational",
+        "PowerShellCore/Operational",
+        "Security",
+        "System",
+        "Windows PowerShell"
+      ]
+    },
+    "condition": "selection"
+  }
+}

@@ -1,0 +1,23 @@
+// Title: Service Installation with Suspicious Folder Pattern
+// ID: 1b2ae822-6fe1-43ba-aa7c-d1a3b3d1d5f2
+// Status: test
+// Level: high
+// Author: pH-T (Nextron Systems)
+// Date: 2022-03-18
+// Tags: attack.persistence, attack.privilege-escalation, car.2013-09-005, attack.t1543.003
+// Description: Detects service installation with suspicious folder patterns
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 1b2ae822_6fe1_43ba_aa7c_d1a3b3d1d5f2 {
+  meta:
+    title = "Service Installation with Suspicious Folder Pattern"
+    description = "Detects service installation with suspicious folder patterns"
+    author = "pH-T (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.Provider_Name = "Service Control Manager" and $e.EventID = 7045) and (($e.ImagePath = /^[Cc]:\\[Pp]rogram[Dd]ata\\.{1,9}\.exe/ nocase) or ($e.ImagePath = /^[Cc]:\\.{1,9}\.exe/ nocase)))
+
+  condition:
+    $e
+}

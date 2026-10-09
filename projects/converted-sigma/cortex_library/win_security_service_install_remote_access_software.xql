@@ -1,0 +1,11 @@
+// Title: Remote Access Tool Services Have Been Installed - Security
+// ID: c8b00925-926c-47e3-beea-298fd563728e
+// Status: test
+// Level: medium
+// Author: Connor Martin, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-12-23
+// Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.t1543.003, attack.t1569.002
+// Description: Detects service installation of different remote access tools software. These software are often abused by threat actors to perform
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter (EventID = 4697 and (ServiceName contains "AmmyyAdmin" or ServiceName contains "AnyDesk" or ServiceName contains "Atera" or ServiceName contains "BASupportExpressSrvcUpdater" or ServiceName contains "BASupportExpressStandaloneService" or ServiceName contains "chromoting" or ServiceName contains "GoToAssist" or ServiceName contains "GoToMyPC" or ServiceName contains "jumpcloud" or ServiceName contains "LMIGuardianSvc" or ServiceName contains "LogMeIn" or ServiceName contains "monblanking" or ServiceName contains "Parsec" or ServiceName contains "RManService" or ServiceName contains "RPCPerformanceService" or ServiceName contains "RPCService" or ServiceName contains "SplashtopRemoteService" or ServiceName contains "SSUService" or ServiceName contains "TeamViewer" or ServiceName contains "TightVNC" or ServiceName contains "vncserver" or ServiceName contains "Zoho"))

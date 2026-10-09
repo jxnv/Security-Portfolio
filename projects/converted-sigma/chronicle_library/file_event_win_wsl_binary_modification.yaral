@@ -1,0 +1,24 @@
+// Title: Potential WSL Binary Modification from Installed Location
+// ID: 2f400434-01e1-416b-b52c-bb5bfbb9eb78
+// Status: experimental
+// Level: medium
+// Author: Liran Ravich, Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2026-05-05
+// Tags: attack.stealth, attack.t1036.005, attack.t1218
+// Description: Detects the modification of the wsl.exe binary from its installed location.
+// Attackers can replace the legitimate wsl.exe binary with a malicious payload in its place, which is then executed when the user runs WSL, acting as a proxy execution and defense evasion technique.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 2f400434_01e1_416b_b52c_bb5bfbb9eb78 {
+  meta:
+    title = "Potential WSL Binary Modification from Installed Location"
+    description = "Detects the modification of the wsl.exe binary from its installed location. Attackers can replace the legitimate wsl.exe binary with a malicious payload in its place, which is then executed when the user runs WSL, acting as a proxy execution and defense evasion technique."
+    author = "Liran Ravich, Swachchhanda Shrawan Poudel (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.file.full_path = /.*\\wsl.exe$/ nocase) and ((($e.target.file.full_path = /.*:\\Program files\\wsl\\.*/ nocase or $e.target.file.full_path = /.*:\\Program files\\WindowsApps\\MicrosoftCorporationII.WindowsSubsystemForLinux_.*/ nocase)) or (($e.target.file.full_path = /.*:\\Users\\.*/ nocase and $e.target.file.full_path = /.*\\AppData\\Local\\Microsoft\\WindowsApps\\.*/ nocase)))) and not(((($e.target.process.file.full_path = "C:\\Windows\\System32\\msiexec.exe" or $e.target.process.file.full_path = "C:\\Windows\\SysWOW64\\msiexec.exe")) or ($e.target.process.file.full_path = "C:\\Windows\\System32\\svchost.exe" and $e.target.file.full_path = /.*\\WindowsApps\\.*/ nocase))))
+
+  condition:
+    $e
+}

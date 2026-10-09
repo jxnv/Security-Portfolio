@@ -1,0 +1,11 @@
+# Title: Suspicious Command Patterns In Scheduled Task Creation
+# ID: f2c64357-b1d2-41b7-849f-34d2682c0fad
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems)
+# Date: 2022-02-23
+# Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.t1053.005
+# Description: Detects scheduled task creation using "schtasks" that contain potentially suspicious or uncommon commands
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((Image="*\\schtasks.exe" AND CommandLine="*/Create *") AND ((((CommandLine="*/sc minute *" OR CommandLine="*/ru system *")) AND ((CommandLine="*cmd /c*" OR CommandLine="*cmd /k*" OR CommandLine="*cmd /r*" OR CommandLine="*cmd.exe /c *" OR CommandLine="*cmd.exe /k *" OR CommandLine="*cmd.exe /r *"))) OR ((CommandLine="* -decode *" OR CommandLine="* -enc *" OR CommandLine="* -w hidden *" OR CommandLine="* bypass *" OR CommandLine="* IEX*" OR CommandLine="*.DownloadData*" OR CommandLine="*.DownloadFile*" OR CommandLine="*.DownloadString*" OR CommandLine="*/c start /min *" OR CommandLine="*FromBase64String*" OR CommandLine="*mshta http*" OR CommandLine="*mshta.exe http*")) OR (((CommandLine="*:\\ProgramData\\*" OR CommandLine="*:\\Temp\\*" OR CommandLine="*:\\Tmp\\*" OR CommandLine="*:\\Users\\Public\\*" OR CommandLine="*:\\Windows\\Temp\\*" OR CommandLine="*\\AppData\\*" OR CommandLine="*%AppData%*" OR CommandLine="*%Temp%*" OR CommandLine="*%tmp%*")) AND ((CommandLine="*cscript*" OR CommandLine="*curl*" OR CommandLine="*wscript*")))))

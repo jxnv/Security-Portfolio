@@ -1,0 +1,11 @@
+# Title: Suspicious SYSTEM User Process Creation
+# ID: 2617e7ed-adb7-40ba-b0f3-8f9945fe6c09
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems), David ANDRE (additional keywords)
+# Date: 2021-12-20
+# Tags: attack.credential-access, attack.privilege-escalation, attack.stealth, attack.t1134, attack.t1003, attack.t1027
+# Description: Detects a suspicious process creation as SYSTEM user (suspicious program or command line parameter)
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((((IntegrityLevel:"System" OR IntegrityLevel:"S-1-16-16384") AND (username:*AUTHORI* OR username:*AUTORI*)) AND (((process_name:*\\calc.exe OR process_name:*\\cscript.exe OR process_name:*\\forfiles.exe OR process_name:*\\hh.exe OR process_name:*\\mshta.exe OR process_name:*\\ping.exe OR process_name:*\\wscript.exe)) OR (cmdline=regex("net\\s+user\\s+")) OR ((cmdline:* -NoP * OR cmdline:* -W Hidden * OR cmdline:* -decode * OR cmdline:* /decode * OR cmdline:* /urlcache * OR cmdline:* -urlcache * OR cmdline:* -e* JAB* OR cmdline:* -e* SUVYI* OR cmdline:* -e* SQBFAFgA* OR cmdline:* -e* aWV4I* OR cmdline:* -e* IAB* OR cmdline:* -e* PAA* OR cmdline:* -e* aQBlAHgA* OR cmdline:*vssadmin delete shadows* OR cmdline:*reg SAVE HKLM* OR cmdline:* -ma * OR cmdline:*Microsoft\\Windows\\CurrentVersion\\Run* OR cmdline:*.downloadstring(* OR cmdline:*.downloadfile(* OR cmdline:* /ticket:* OR cmdline:*dpapi::* OR cmdline:*event::clear* OR cmdline:*event::drop* OR cmdline:*id::modify* OR cmdline:*kerberos::* OR cmdline:*lsadump::* OR cmdline:*misc::* OR cmdline:*privilege::* OR cmdline:*rpc::* OR cmdline:*sekurlsa::* OR cmdline:*sid::* OR cmdline:*token::* OR cmdline:*vault::cred* OR cmdline:*vault::list* OR cmdline:* p::d * OR cmdline:*;iex(* OR cmdline:*MiniDump*)))) AND -(((parent_name:*:\\Packages\\Plugins\\Microsoft.GuestConfiguration.ConfigurationforWindows\\*) OR ((parent_name:*:\\Program Files (x86)\\Java\\* OR parent_name:*:\\Program Files\\Java\\*) AND parent_name:*\\bin\\javaws.exe AND (process_name:*:\\Program Files (x86)\\Java\\* OR process_name:*:\\Program Files\\Java\\*) AND process_name:*\\bin\\jp2launcher.exe AND cmdline:* -ma *) OR ((cmdline:*ping* AND cmdline:*127.0.0.1* AND cmdline:* -n *)) OR (process_name:*\\PING.EXE AND ParentCommandLine:*\\DismFoDInstall.cmd*))))

@@ -1,0 +1,13 @@
+// Title: AD Groups Or Users Enumeration Using PowerShell - ScriptBlock
+// ID: 88f0884b-331d-403d-a3a1-b668cf035603
+// Status: test
+// Level: low
+// Author: frack113
+// Date: 2021-12-15
+// Tags: attack.discovery, attack.t1069.001
+// Description: Adversaries may attempt to find domain-level groups and permission settings.
+// The knowledge of domain-level permission groups can help adversaries determine which groups exist and which users belong to a particular group.
+// Adversaries may use this information to determine which users have elevated permissions, such as domain administrators.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+from siem.events where ((contains(ScriptBlockText, "get-ADPrincipalGroupMembership")) OR ((contains(ScriptBlockText, "get-aduser") AND contains(ScriptBlockText, "-f ") AND contains(ScriptBlockText, "-pr ") AND contains(ScriptBlockText, "DoesNotRequirePreAuth"))))

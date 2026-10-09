@@ -1,0 +1,23 @@
+// Title: Windows Update Error
+// ID: 13cfeb75-9e33-4d04-b0f7-ab8faaa95a59
+// Status: stable
+// Level: informational
+// Author: frack113
+// Date: 2021-12-04
+// Tags: attack.impact, attack.resource-development, attack.t1584
+// Description: Detects Windows update errors including installation failures and connection issues. Defenders should observe this in case critical update KBs aren't installed.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 13cfeb75_9e33_4d04_b0f7_ab8faaa95a59 {
+  meta:
+    title = "Windows Update Error"
+    description = "Detects Windows update errors including installation failures and connection issues. Defenders should observe this in case critical update KBs aren't installed."
+    author = "frack113"
+    severity = "INFORMATIONAL"
+
+  events:
+    ($e.Provider_Name = "Microsoft-Windows-WindowsUpdateClient" and ($e.EventID = 16 or $e.EventID = 20 or $e.EventID = 24 or $e.EventID = 213 or $e.EventID = 217))
+
+  condition:
+    $e
+}

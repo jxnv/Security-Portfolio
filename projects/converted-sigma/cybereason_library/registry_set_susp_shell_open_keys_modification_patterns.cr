@@ -1,0 +1,13 @@
+// Title: Suspicious Shell Open Command Registry Modification
+// ID: 9e8894c0-0ae0-11ef-9d85-1f2942bec57c
+// Status: experimental
+// Level: medium
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2026-01-24
+// Tags: attack.privilege-escalation, attack.persistence, attack.t1548.002, attack.t1546.001
+// Description: Detects modifications to shell open registry keys that point to suspicious locations typically used by malware for persistence.
+// Generally, modifications to the `*\shell\open\command` registry key can indicate an attempt to change the default action for opening files,
+// and various UAC bypass or persistence techniques involve modifying these keys to execute malicious scripts or binaries.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(TargetObject contains "\\shell\\open\\command\\" AND (Details contains "\\$Recycle.Bin\\" OR Details contains "\\AppData\\Local\\Temp\\" OR Details contains "\\Contacts\\" OR Details contains "\\Music\\" OR Details contains "\\PerfLogs\\" OR Details contains "\\Photos\\" OR Details contains "\\Pictures\\" OR Details contains "\\Users\\Public\\" OR Details contains "\\Videos\\" OR Details contains "\\Windows\\Temp\\" OR Details contains "%AppData%" OR Details contains "%LocalAppData%" OR Details contains "%Temp%" OR Details contains "%tmp%"))

@@ -1,0 +1,11 @@
+// Title: Use Short Name Path in Image
+// ID: a96970af-f126-420d-90e1-d37bf25e50e1
+// Status: test
+// Level: medium
+// Author: frack113, Nasreddine Bencherchali
+// Date: 2022-08-07
+// Tags: attack.stealth, attack.t1564.004
+// Description: Detect use of the Windows 8.3 short name. Which could be used as a method to avoid Image detection
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((ImageFileName = /*~1\\*/i or ImageFileName = /*~2\\*/i)) and not(((((ImageFileName = /*\\AppData\\*/i and ImageFileName = /*\\Temp\\*/i)) or ((ImageFileName = /.*~1\\unzip.exe/i or ImageFileName = /.*~1\\7zG.exe/i))) or ((ParentBaseFileName = "C:\\Windows\\System32\\Dism.exe" or ParentBaseFileName = "C:\\Windows\\System32\\cleanmgr.exe")))) and not((((Product = "InstallShield (R)") or (Description = "InstallShield (R) Setup Engine") or (Company = "InstallShield Software Corporation")) or (ParentBaseFileName = /.*\\thor\\thor64.exe/i) or (ParentBaseFileName = /.*\\WebEx\\WebexHost.exe/i))))

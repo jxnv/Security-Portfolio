@@ -1,0 +1,23 @@
+// Title: Google Workspace Application Removed
+// ID: ee2803f0-71c8-4831-b48b-a1fc57601ee4
+// Status: test
+// Level: medium
+// Author: Austin Songer
+// Date: 2021-08-26
+// Tags: attack.impact
+// Description: Detects when an an application is removed from Google Workspace.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule ee2803f0_71c8_4831_b48b_a1fc57601ee4 {
+  meta:
+    title = "Google Workspace Application Removed"
+    description = "Detects when an an application is removed from Google Workspace."
+    author = "Austin Songer"
+    severity = "MEDIUM"
+
+  events:
+    ($e.eventService = "admin.googleapis.com" and ($e.eventName = "REMOVE_APPLICATION" or $e.eventName = "REMOVE_APPLICATION_FROM_WHITELIST"))
+
+  condition:
+    $e
+}

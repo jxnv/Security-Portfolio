@@ -1,0 +1,11 @@
+// Title: New Root or CA or AuthRoot Certificate to Store
+// ID: d223b46b-5621-4037-88fe-fda32eead684
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-04-04
+// Tags: attack.impact, attack.t1490
+// Description: Detects the addition of new root, CA or AuthRoot certificates to the Windows registry
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where ((TargetObject matches "*\\SOFTWARE\\Microsoft\\SystemCertificates\\Root\\Certificates\\*" or TargetObject matches "*\\SOFTWARE\\Policies\\Microsoft\\SystemCertificates\\Root\\Certificates\\*" or TargetObject matches "*\\SOFTWARE\\Microsoft\\EnterpriseCertificates\\Root\\Certificates\\*" or TargetObject matches "*\\SOFTWARE\\Microsoft\\SystemCertificates\\CA\\Certificates\\*" or TargetObject matches "*\\SOFTWARE\\Policies\\Microsoft\\SystemCertificates\\CA\\Certificates\\*" or TargetObject matches "*\\SOFTWARE\\Microsoft\\EnterpriseCertificates\\CA\\Certificates\\*" or TargetObject matches "*\\SOFTWARE\\Microsoft\\SystemCertificates\\AuthRoot\\Certificates\\*" or TargetObject matches "*\\SOFTWARE\\Policies\\Microsoft\\SystemCertificates\\AuthRoot\\Certificates\\*" or TargetObject matches "*\\SOFTWARE\\Microsoft\\EnterpriseCertificates\\AuthRoot\\Certificates\\*") and TargetObject matches "*\\Blob" and Details = "Binary Data")

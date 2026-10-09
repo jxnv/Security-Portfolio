@@ -1,0 +1,11 @@
+// Title: Verclsid.exe Runs COM Object
+// ID: d06be4b9-8045-428b-a567-740a26d9db25
+// Status: test
+// Level: medium
+// Author: Victor Sergeev, oscd.community
+// Date: 2020-10-09
+// Tags: attack.stealth, attack.t1218
+// Description: Detects when verclsid.exe is used to run COM object via GUID
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where ((((process.command_line like "*_/S*" and process.command_line like "*_/C*")) and ((process.executable endswith "\\verclsid.exe") or (process.pe.original_file_name == "verclsid.exe"))) and not ((process.parent.executable endswith "C:\\Windows\\System32\\RuntimeBroker.exe" and (process.command_line like "*_verclsid.exe\" /S /C {*" and process.command_line like "*_} /I {*"))))

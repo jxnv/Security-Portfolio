@@ -1,0 +1,11 @@
+// Title: File Download Via Bitsadmin To A Suspicious Target Folder
+// ID: 2ddef153-167b-4e89-86b6-757a9e65dcac
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-06-28
+// Tags: attack.persistence, attack.execution, attack.stealth, attack.t1197, attack.s0190, attack.t1036.003, attack.command-and-control, attack.t1105
+// Description: Detects usage of bitsadmin downloading a file to a suspicious target folder
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where (((CommandLine matches "* /transfer *" or CommandLine matches "* /create *" or CommandLine matches "* /addfile *")) and ((CommandLine matches "*:\\Perflogs*" or CommandLine matches "*:\\ProgramData\\*" or CommandLine matches "*:\\Temp\\*" or CommandLine matches "*:\\Users\\Public\\*" or CommandLine matches "*:\\Windows\\*" or CommandLine matches "*\\$Recycle.Bin\\*" or CommandLine matches "*\\AppData\\Local\\*" or CommandLine matches "*\\AppData\\Roaming\\*" or CommandLine matches "*\\Contacts\\*" or CommandLine matches "*\\Desktop\\*" or CommandLine matches "*\\Favorites\\*" or CommandLine matches "*\\Favourites\\*" or CommandLine matches "*\\inetpub\\wwwroot\\*" or CommandLine matches "*\\Music\\*" or CommandLine matches "*\\Pictures\\*" or CommandLine matches "*\\Start Menu\\Programs\\Startup\\*" or CommandLine matches "*\\Users\\Default\\*" or CommandLine matches "*\\Videos\\*" or CommandLine matches "*%ProgramData%*" or CommandLine matches "*%public%*" or CommandLine matches "*%temp%*" or CommandLine matches "*%tmp%*")) and ((Image matches "*\\bitsadmin.exe") or (OriginalFileName = "bitsadmin.exe")))

@@ -1,0 +1,21 @@
+# Title: Suspicious Modification Of Scheduled Tasks
+# ID: 1c0e41cd-21bb-4433-9acc-4a2cd6367b9b
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-07-28
+# Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.t1053.005
+# Description: Detects when an attacker tries to modify an already existing scheduled tasks to run from a suspicious location
+# Attackers can create a simple looking task in order to avoid detection on creation as it's often the most focused on
+# Instead they modify the task after creation to include their malicious payload
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Suspicious Modification Of Scheduled Tasks
+def rule(event):
+    # Detection Logic:
+    # ((Image="*\\schtasks.exe" AND (CommandLine="* /Change *" AND CommandLine="* /TN *")) AND ((CommandLine="*regsvr32*" OR CommandLine="*rundll32*" OR CommandLine="*cmd /c *" OR CommandLine="*cmd /k *" OR CommandLine="*cmd /r *" OR CommandLine="*cmd.exe /c *" OR CommandLine="*cmd.exe /k *" OR CommandLine="*cmd.exe /r *" OR CommandLine="*powershell*" OR CommandLine="*mshta*" OR CommandLine="*wscript*" OR CommandLine="*cscript*" OR CommandLine="*certutil*" OR CommandLine="*bitsadmin*" OR CommandLine="*bash.exe*" OR CommandLine="*bash *" OR CommandLine="*scrcons*" OR CommandLine="*wmic *" OR CommandLine="*wmic.exe*" OR CommandLine="*forfiles*" OR CommandLine="*scriptrunner*" OR CommandLine="*hh.exe*" OR CommandLine="*hh *")) AND ((CommandLine="*\\AppData\\Local\\Temp*" OR CommandLine="*\\AppData\\Roaming\\*" OR CommandLine="*\\Users\\Public\\*" OR CommandLine="*\\WINDOWS\\Temp\\*" OR CommandLine="*\\Desktop\\*" OR CommandLine="*\\Downloads\\*" OR CommandLine="*\\Temporary Internet*" OR CommandLine="*C:\\ProgramData\\*" OR CommandLine="*C:\\Perflogs\\*" OR CommandLine="*%ProgramData%*" OR CommandLine="*%appdata%*" OR CommandLine="*%comspec%*" OR CommandLine="*%localappdata%*")))
+    return True
+
+def title(event):
+    return "Suspicious Modification Of Scheduled Tasks"
+

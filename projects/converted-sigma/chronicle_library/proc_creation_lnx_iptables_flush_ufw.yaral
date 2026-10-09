@@ -1,0 +1,23 @@
+// Title: Flush Iptables Ufw Chain
+// ID: 3be619f4-d9ec-4ea8-a173-18fdd01996ab
+// Status: test
+// Level: medium
+// Author: Joseliyo Sanchez, @Joseliyo_Jstnk
+// Date: 2023-01-18
+// Tags: attack.defense-impairment, attack.t1686
+// Description: Detect use of iptables to flush all firewall rules, tables and chains and allow all network traffic
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 3be619f4_d9ec_4ea8_a173_18fdd01996ab {
+  meta:
+    title = "Flush Iptables Ufw Chain"
+    description = "Detect use of iptables to flush all firewall rules, tables and chains and allow all network traffic"
+    author = "Joseliyo Sanchez, @Joseliyo_Jstnk"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.file.full_path = /.*/iptables$/ nocase or $e.target.process.file.full_path = /.*/xtables-legacy-multi$/ nocase or $e.target.process.file.full_path = /.*/iptables-legacy-multi$/ nocase or $e.target.process.file.full_path = /.*/ip6tables$/ nocase or $e.target.process.file.full_path = /.*/ip6tables-legacy-multi$/ nocase)) and (($e.target.process.command_line = /.*-F.*/ nocase or $e.target.process.command_line = /.*-Z.*/ nocase or $e.target.process.command_line = /.*-X.*/ nocase)) and (($e.target.process.command_line = /.*ufw-logging-deny.*/ nocase or $e.target.process.command_line = /.*ufw-logging-allow.*/ nocase or $e.target.process.command_line = /.*ufw6-logging-deny.*/ nocase or $e.target.process.command_line = /.*ufw6-logging-allow.*/ nocase)))
+
+  condition:
+    $e
+}

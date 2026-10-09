@@ -1,0 +1,19 @@
+# Title: PowerShell ADRecon Execution
+# ID: bf72941a-cba0-41ea-b18c-9aca3925690d
+# Status: test
+# Level: high
+# Author: Bhabesh Raj
+# Date: 2021-07-16
+# Tags: attack.discovery, attack.execution, attack.t1059.001
+# Description: Detects execution of ADRecon.ps1 for AD reconnaissance which has been reported to be actively used by FIN7
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: PowerShell ADRecon Execution
+def rule(event):
+    # Detection Logic:
+    # ((ScriptBlockText="*Function Get-ADRExcelComOb*" OR ScriptBlockText="*Get-ADRGPO*" OR ScriptBlockText="*Get-ADRDomainController*" OR ScriptBlockText="*ADRecon-Report.xlsx*"))
+    return True
+
+def title(event):
+    return "PowerShell ADRecon Execution"
+

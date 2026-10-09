@@ -1,0 +1,24 @@
+// Title: Security Tools Keyword Lookup Via Findstr.EXE
+// ID: 4fe074b4-b833-4081-8f24-7dcfeca72b42
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems), frack113
+// Date: 2023-10-20
+// Tags: attack.discovery, attack.t1518.001
+// Description: Detects execution of "findstr" to search for common names of security tools. Attackers often pipe the results of recon commands such as "tasklist" or "whoami" to "findstr" in order to filter out the results.
+// This detection focuses on the keywords that the attacker might use as a filter.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 4fe074b4_b833_4081_8f24_7dcfeca72b42 {
+  meta:
+    title = "Security Tools Keyword Lookup Via Findstr.EXE"
+    description = "Detects execution of "findstr" to search for common names of security tools. Attackers often pipe the results of recon commands such as "tasklist" or "whoami" to "findstr" in order to filter out the results. This detection focuses on the keywords that the attacker might use as a filter."
+    author = "Nasreddine Bencherchali (Nextron Systems), frack113"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.command_line = /.* avira$/ nocase or $e.target.process.command_line = /.* avira\"$/ nocase or $e.target.process.command_line = /.* cb$/ nocase or $e.target.process.command_line = /.* cb\"$/ nocase or $e.target.process.command_line = /.* cylance$/ nocase or $e.target.process.command_line = /.* cylance\"$/ nocase or $e.target.process.command_line = /.* defender$/ nocase or $e.target.process.command_line = /.* defender\"$/ nocase or $e.target.process.command_line = /.* kaspersky$/ nocase or $e.target.process.command_line = /.* kaspersky\"$/ nocase or $e.target.process.command_line = /.* kes$/ nocase or $e.target.process.command_line = /.* kes\"$/ nocase or $e.target.process.command_line = /.* mc$/ nocase or $e.target.process.command_line = /.* mc\"$/ nocase or $e.target.process.command_line = /.* sec$/ nocase or $e.target.process.command_line = /.* sec\"$/ nocase or $e.target.process.command_line = /.* sentinel$/ nocase or $e.target.process.command_line = /.* sentinel\"$/ nocase or $e.target.process.command_line = /.* symantec$/ nocase or $e.target.process.command_line = /.* symantec\"$/ nocase or $e.target.process.command_line = /.* virus$/ nocase or $e.target.process.command_line = /.* virus\"$/ nocase)) and ((($e.target.process.file.full_path = /.*\\find.exe$/ nocase or $e.target.process.file.full_path = /.*\\findstr.exe$/ nocase)) or (($e.target.process.file.name = "FIND.EXE" or $e.target.process.file.name = "FINDSTR.EXE"))))
+
+  condition:
+    $e
+}

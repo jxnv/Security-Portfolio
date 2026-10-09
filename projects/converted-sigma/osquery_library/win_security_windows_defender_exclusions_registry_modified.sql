@@ -1,0 +1,11 @@
+-- Title: Windows Defender Exclusion List Modified
+-- ID: 46a68649-f218-4f86-aea1-16a759d81820
+-- Status: test
+-- Level: medium
+-- Author: @BarryShooshooga
+-- Date: 2019-10-26
+-- Tags: attack.defense-impairment, attack.t1685
+-- Description: Detects modifications to the Windows Defender exclusion registry key. This could indicate a potentially suspicious or even malicious activity by an attacker trying to add a new exclusion in order to bypass security.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM file WHERE (EventID = '4657' AND ObjectName LIKE '%\\Microsoft\\Windows Defender\\Exclusions\\%')

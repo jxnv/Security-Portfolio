@@ -1,0 +1,23 @@
+// Title: HackTool - DiagTrackEoP Default Named Pipe
+// ID: 1f7025a6-e747-4130-aac4-961eb47015f1
+// Status: test
+// Level: critical
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-03
+// Tags: attack.privilege-escalation
+// Description: Detects creation of default named pipe used by the DiagTrackEoP POC, a tool that abuses "SeImpersonate" privilege.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 1f7025a6_e747_4130_aac4_961eb47015f1 {
+  meta:
+    title = "HackTool - DiagTrackEoP Default Named Pipe"
+    description = "Detects creation of default named pipe used by the DiagTrackEoP POC, a tool that abuses "SeImpersonate" privilege."
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "CRITICAL"
+
+  events:
+    ($e.PipeName = /.*thisispipe.*/ nocase)
+
+  condition:
+    $e
+}

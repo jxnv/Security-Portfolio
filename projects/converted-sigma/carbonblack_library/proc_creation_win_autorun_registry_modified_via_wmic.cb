@@ -1,0 +1,11 @@
+# Title: Suspicious Autorun Registry Modified via WMI
+# ID: c80e66d8-1780-48a9-b412-46663fd21ac0
+# Status: experimental
+# Level: high
+# Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+# Date: 2025-02-17
+# Tags: attack.privilege-escalation, attack.execution, attack.persistence, attack.t1547.001, attack.t1047
+# Description: Detects suspicious activity where the WMIC process is used to create an autorun registry entry via reg.exe, which is often indicative of persistence mechanisms employed by malware.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((((cmdline:*reg* AND cmdline:* add *) AND (cmdline:*\\Software\\Microsoft\\Windows\\CurrentVersion\\Run* OR cmdline:*\\Software\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Run* OR cmdline:*\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run*)) AND ((process_name:*\\wmic.exe) OR (OriginalFileName:"wmic.exe") OR (parent_name:*\\wmiprvse.exe))) AND (((cmdline:*:\\Perflogs* OR cmdline:*:\\ProgramData'* OR cmdline:*:\\Windows\\Temp* OR cmdline:*:\\Temp* OR cmdline:*\\AppData\\Local\\Temp* OR cmdline:*\\AppData\\Roaming* OR cmdline:*:\\$Recycle.bin* OR cmdline:*:\\Users\\Default* OR cmdline:*:\\Users\\public* OR cmdline:*%temp%* OR cmdline:*%tmp%* OR cmdline:*%Public%* OR cmdline:*%AppData%*)) OR ((cmdline:*:\\Users\\*) AND ((cmdline:*\\Favorites* OR cmdline:*\\Favourites* OR cmdline:*\\Contacts* OR cmdline:*\\Music* OR cmdline:*\\Pictures* OR cmdline:*\\Documents* OR cmdline:*\\Photos*)))))

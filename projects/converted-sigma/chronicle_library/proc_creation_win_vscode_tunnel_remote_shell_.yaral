@@ -1,0 +1,23 @@
+// Title: Visual Studio Code Tunnel Shell Execution
+// ID: f4a623c2-4ef5-4c33-b811-0642f702c9f1
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-10-25
+// Tags: attack.command-and-control, attack.t1071.001
+// Description: Detects the execution of a shell (powershell, bash, wsl...) via Visual Studio Code tunnel. Attackers can abuse this functionality to establish a C2 channel and execute arbitrary commands on the system.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule f4a623c2_4ef5_4c33_b811_0642f702c9f1 {
+  meta:
+    title = "Visual Studio Code Tunnel Shell Execution"
+    description = "Detects the execution of a shell (powershell, bash, wsl...) via Visual Studio Code tunnel. Attackers can abuse this functionality to establish a C2 channel and execute arbitrary commands on the system."
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.principal.process.file.full_path = /.*\\servers\\Stable-.*/ nocase and $e.principal.process.file.full_path = /.*\\server\\node.exe$/ nocase and $e.principal.process.command_line = /.*.vscode-server.*/ nocase) and ((($e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase) and $e.target.process.command_line = /.*\\terminal\\browser\\media\\shellIntegration.ps1.*/ nocase) or (($e.target.process.file.full_path = /.*\\wsl.exe$/ nocase or $e.target.process.file.full_path = /.*\\bash.exe$/ nocase))))
+
+  condition:
+    $e
+}

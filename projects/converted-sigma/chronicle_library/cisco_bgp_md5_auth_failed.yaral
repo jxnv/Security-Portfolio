@@ -1,0 +1,23 @@
+// Title: Cisco BGP Authentication Failures
+// ID: 56fa3cd6-f8d6-4520-a8c7-607292971886
+// Status: test
+// Level: low
+// Author: Tim Brown
+// Date: 2023-01-09
+// Tags: attack.initial-access, attack.persistence, attack.privilege-escalation, attack.credential-access, attack.collection, attack.stealth, attack.t1078, attack.t1110, attack.t1557
+// Description: Detects BGP failures which may be indicative of brute force attacks to manipulate routing
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 56fa3cd6_f8d6_4520_a8c7_607292971886 {
+  meta:
+    title = "Cisco BGP Authentication Failures"
+    description = "Detects BGP failures which may be indicative of brute force attacks to manipulate routing"
+    author = "Tim Brown"
+    severity = "LOW"
+
+  events:
+    (($e. = ":179" and $e. = "IP-TCP-3-BADAUTH"))
+
+  condition:
+    $e
+}

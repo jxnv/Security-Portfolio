@@ -1,0 +1,19 @@
+# Title: Potential appverifUI.DLL Sideloading
+# ID: ee6cea48-c5b6-4304-a332-10fc6446f484
+# Status: test
+# Level: high
+# Author: X__Junior (Nextron Systems)
+# Date: 2023-06-20
+# Tags: attack.persistence, attack.privilege-escalation, attack.execution, attack.stealth, attack.t1574.001
+# Description: Detects potential DLL sideloading of "appverifUI.dll"
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Potential appverifUI.DLL Sideloading
+def rule(event):
+    # Detection Logic:
+    # ((ImageLoaded="*\\appverifUI.dll") AND NOT (((Image="C:\\Windows\\SysWOW64\\appverif.exe" OR Image="C:\\Windows\\System32\\appverif.exe") AND (ImageLoaded="C:\\Windows\\System32\\*" OR ImageLoaded="C:\\Windows\\SysWOW64\\*" OR ImageLoaded="C:\\Windows\\WinSxS\\*"))))
+    return True
+
+def title(event):
+    return "Potential appverifUI.DLL Sideloading"
+

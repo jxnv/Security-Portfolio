@@ -1,0 +1,19 @@
+# Title: Data Exfiltration to Unsanctioned Apps
+# ID: 2b669496-d215-47d8-bd9a-f4a45bf07cda
+# Status: test
+# Level: medium
+# Author: Austin Songer @austinsonger
+# Date: 2021-08-23
+# Tags: attack.exfiltration, attack.t1537
+# Description: Detects when a Microsoft Cloud App Security reported when a user or IP address uses an app that is not sanctioned to perform an activity that resembles an attempt to exfiltrate information from your organization.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Data Exfiltration to Unsanctioned Apps
+def rule(event):
+    # Detection Logic:
+    # (eventSource="SecurityComplianceCenter" AND eventName="Data exfiltration to unsanctioned apps" AND status="success")
+    return True
+
+def title(event):
+    return "Data Exfiltration to Unsanctioned Apps"
+

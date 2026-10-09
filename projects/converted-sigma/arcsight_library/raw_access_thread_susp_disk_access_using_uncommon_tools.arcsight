@@ -1,0 +1,11 @@
+// Title: Potential Defense Evasion Via Raw Disk Access By Uncommon Tools
+// ID: db809f10-56ce-4420-8c86-d6a7d793c79c
+// Status: test
+// Level: low
+// Author: Teymur Kheirkhabarov, oscd.community
+// Date: 2019-10-22
+// Tags: attack.stealth, attack.t1006
+// Description: Detects raw disk access using uncommon tools or tools that are located in suspicious locations (heavy filtering is required), which could indicate possible defense evasion attempts
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(NOT (((Device CONTAINS "floppy") OR ((Image STARTSWITH "C:\\$WINDOWS.~BT\\" OR Image STARTSWITH "C:\\Program Files (x86)\\" OR Image STARTSWITH "C:\\Program Files\\" OR Image STARTSWITH "C:\\Windows\\CCM\\" OR Image STARTSWITH "C:\\Windows\\explorer.exe" OR Image STARTSWITH "C:\\Windows\\servicing\\" OR Image STARTSWITH "C:\\Windows\\SoftwareDistribution\\" OR Image STARTSWITH "C:\\Windows\\System32\\" OR Image STARTSWITH "C:\\Windows\\SystemApps\\" OR Image STARTSWITH "C:\\Windows\\SysWOW64\\" OR Image STARTSWITH "C:\\Windows\\uus\\" OR Image STARTSWITH "C:\\Windows\\WinSxS\\")) OR (Image STARTSWITH "C:\\Users\\" AND (Image CONTAINS "\\AppData\\" AND Image CONTAINS "\\Microsoft\\")) OR (NOT Image=*) OR (Image STARTSWITH "C:\\Windows\\Temp\\" AND (Image ENDSWITH "\\Executables\\SSDUpdate.exe" OR Image ENDSWITH "\\HostMetadata\\NVMEHostmetadata.exe")) OR ((Image EQ "Registry" OR Image EQ "System")) OR (Image EQ "C:\\Windows\\ImmersiveControlPanel\\SystemSettings.exe") OR (Image STARTSWITH "C:\\$WinREAgent\\Scratch\\") OR (Image STARTSWITH "C:\\ProgramData\\Microsoft\\Windows Defender\\Platform\\" AND (Image ENDSWITH "\\MsMpEng.exe" OR Image ENDSWITH "\\MpDefenderCoreService.exe")))) AND NOT (((Image STARTSWITH "C:\\Users\\" AND Image CONTAINS "\\AppData\\Local\\Keybase\\upd.exe") OR (Image STARTSWITH "C:\\Users\\" AND Image CONTAINS "\\AppData\\Local\\GitHubDesktop\\app-" AND Image ENDSWITH "\\resources\\app\\git\\mingw64\\bin\\git.exe") OR (Image STARTSWITH "C:\\Windows\\Temp\\asgard2-agent\\" AND Image ENDSWITH "\\thor.exe"))))

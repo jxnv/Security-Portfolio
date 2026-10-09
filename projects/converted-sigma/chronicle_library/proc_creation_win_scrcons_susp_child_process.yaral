@@ -1,0 +1,23 @@
+// Title: Script Event Consumer Spawning Process
+// ID: f6d1dd2f-b8ce-40ca-bc23-062efb686b34
+// Status: test
+// Level: high
+// Author: Sittikorn S
+// Date: 2021-06-21
+// Tags: attack.execution, attack.t1047
+// Description: Detects a suspicious child process of Script Event Consumer (scrcons.exe).
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule f6d1dd2f_b8ce_40ca_bc23_062efb686b34 {
+  meta:
+    title = "Script Event Consumer Spawning Process"
+    description = "Detects a suspicious child process of Script Event Consumer (scrcons.exe)."
+    author = "Sittikorn S"
+    severity = "HIGH"
+
+  events:
+    ($e.principal.process.file.full_path = /.*\\scrcons.exe$/ nocase and ($e.target.process.file.full_path = /.*\\svchost.exe$/ nocase or $e.target.process.file.full_path = /.*\\dllhost.exe$/ nocase or $e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase or $e.target.process.file.full_path = /.*\\wscript.exe$/ nocase or $e.target.process.file.full_path = /.*\\cscript.exe$/ nocase or $e.target.process.file.full_path = /.*\\schtasks.exe$/ nocase or $e.target.process.file.full_path = /.*\\regsvr32.exe$/ nocase or $e.target.process.file.full_path = /.*\\mshta.exe$/ nocase or $e.target.process.file.full_path = /.*\\rundll32.exe$/ nocase or $e.target.process.file.full_path = /.*\\msiexec.exe$/ nocase or $e.target.process.file.full_path = /.*\\msbuild.exe$/ nocase))
+
+  condition:
+    $e
+}

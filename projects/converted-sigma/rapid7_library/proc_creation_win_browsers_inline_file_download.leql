@@ -1,0 +1,11 @@
+// Title: File Download From Browser Process Via Inline URL
+// ID: 94771a71-ba41-4b6e-a757-b531372eaab6
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-01-11
+// Tags: attack.command-and-control, attack.t1105
+// Description: Detects execution of a browser process with a URL argument pointing to a file with a potentially interesting extension. This can be abused to download arbitrary files or to hide from the user for example by launching the browser in a minimized state.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((where(CommandLine IENDSWITH ".7z") OR where(CommandLine IENDSWITH ".dat") OR where(CommandLine IENDSWITH ".dll") OR where(CommandLine IENDSWITH ".exe") OR where(CommandLine IENDSWITH ".hta") OR where(CommandLine IENDSWITH ".ps1") OR where(CommandLine IENDSWITH ".psm1") OR where(CommandLine IENDSWITH ".txt") OR where(CommandLine IENDSWITH ".vbe") OR where(CommandLine IENDSWITH ".vbs") OR where(CommandLine IENDSWITH ".zip"))) OR ((where(CommandLine ICONTAINS ".7z\"") OR where(CommandLine ICONTAINS ".dat\"") OR where(CommandLine ICONTAINS ".dll\"") OR where(CommandLine ICONTAINS ".hta\"") OR where(CommandLine ICONTAINS ".ps1\"") OR where(CommandLine ICONTAINS ".psm1\"") OR where(CommandLine ICONTAINS ".txt\"") OR where(CommandLine ICONTAINS ".vbe\"") OR where(CommandLine ICONTAINS ".vbs\"") OR where(CommandLine ICONTAINS ".zip\"")))) AND (where(CommandLine ICONTAINS "http")) AND ((where(Image IENDSWITH "\\brave.exe") OR where(Image IENDSWITH "\\chrome.exe") OR where(Image IENDSWITH "\\msedge.exe") OR where(Image IENDSWITH "\\opera.exe") OR where(Image IENDSWITH "\\vivaldi.exe"))))

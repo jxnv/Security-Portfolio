@@ -1,0 +1,28 @@
+{
+  "title": "Google Cloud Firewall Modified or Deleted",
+  "id": "fe513c69-734c-4d4a-8548-ac5f609be82b",
+  "status": "test",
+  "description": "Detects  when a firewall rule is modified or deleted in Google Cloud Platform (GCP).",
+  "author": "Austin Songer @austinsonger",
+  "date": "2021-08-13",
+  "tags": [
+    "attack.defense-impairment",
+    "attack.t1685"
+  ],
+  "level": "medium",
+  "logsource": {
+    "product": "gcp",
+    "service": "gcp.audit"
+  },
+  "detection": {
+    "selection": {
+      "gcp.audit.method_name": [
+        "v*.Compute.Firewalls.Delete",
+        "v*.Compute.Firewalls.Patch",
+        "v*.Compute.Firewalls.Update",
+        "v*.Compute.Firewalls.Insert"
+      ]
+    },
+    "condition": "selection"
+  }
+}

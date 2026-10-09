@@ -1,0 +1,23 @@
+// Title: UAC Bypass WSReset
+// ID: 89a9a0e0-f61a-42e5-8957-b1479565a658
+// Status: test
+// Level: high
+// Author: Christian Burkard (Nextron Systems)
+// Date: 2021-08-23
+// Tags: attack.privilege-escalation, attack.t1548.002
+// Description: Detects the pattern of UAC Bypass via WSReset usable by default sysmon-config
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 89a9a0e0_f61a_42e5_8957_b1479565a658 {
+  meta:
+    title = "UAC Bypass WSReset"
+    description = "Detects the pattern of UAC Bypass via WSReset usable by default sysmon-config"
+    author = "Christian Burkard (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ($e.target.process.file.full_path = /.*\\wsreset.exe$/ nocase and ($e.IntegrityLevel = "High" or $e.IntegrityLevel = "System" or $e.IntegrityLevel = "S-1-16-16384" or $e.IntegrityLevel = "S-1-16-12288"))
+
+  condition:
+    $e
+}

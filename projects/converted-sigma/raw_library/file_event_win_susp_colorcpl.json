@@ -1,0 +1,31 @@
+{
+  "title": "Suspicious Creation with Colorcpl",
+  "id": "e15b518d-b4ce-4410-a9cd-501f23ce4a18",
+  "status": "test",
+  "description": "Once executed, colorcpl.exe will copy the arbitrary file to c:\\windows\\system32\\spool\\drivers\\color\\",
+  "author": "frack113",
+  "date": "2022-01-21",
+  "tags": [
+    "attack.stealth",
+    "attack.t1564"
+  ],
+  "level": "high",
+  "logsource": {
+    "product": "windows",
+    "category": "file_event"
+  },
+  "detection": {
+    "selection": {
+      "Image|endswith": "\\colorcpl.exe"
+    },
+    "filter_ext": {
+      "TargetFilename|endswith": [
+        ".icm",
+        ".gmmp",
+        ".cdmp",
+        ".camp"
+      ]
+    },
+    "condition": "selection and not 1 of filter_*"
+  }
+}

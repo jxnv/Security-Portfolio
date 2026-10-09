@@ -1,0 +1,11 @@
+// Title: WMIC Remote Command Execution
+// ID: 7773b877-5abb-4a3e-b9c9-fd0369b59b00
+// Status: test
+// Level: medium
+// Author: frack113, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-02-14
+// Tags: attack.execution, attack.t1047
+// Description: Detects the execution of WMIC to query information on a remote system
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((where(CommandLine ICONTAINS "/node:") OR where(CommandLine ICONTAINS "-node:"))) AND ((where(Image IENDSWITH "\\WMIC.exe")) OR (where(OriginalFileName = "wmic.exe")))) AND NOT (((where(CommandLine ICONTAINS "localhost") OR where(CommandLine ICONTAINS "127.0.0.1")))))

@@ -1,0 +1,27 @@
+{
+  "title": "Invoke-Obfuscation Via Use Clip - Security",
+  "id": "1a0a2ff1-611b-4dac-8216-8a7b47c618a6",
+  "status": "test",
+  "description": "Detects Obfuscated Powershell via use Clip.exe in Scripts",
+  "author": "Nikita Nazarov, oscd.community",
+  "date": "2020-10-09",
+  "tags": [
+    "attack.stealth",
+    "attack.t1027",
+    "attack.execution",
+    "attack.t1059.001"
+  ],
+  "level": "high",
+  "logsource": {
+    "product": "windows",
+    "service": "security",
+    "definition": "The 'System Security Extension' audit subcategory need to be enabled to log the EID 4697"
+  },
+  "detection": {
+    "selection": {
+      "EventID": 4697,
+      "ServiceFileName|contains": "(Clipboard|i"
+    },
+    "condition": "selection"
+  }
+}

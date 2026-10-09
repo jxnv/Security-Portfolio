@@ -1,0 +1,11 @@
+// Title: Elevated System Shell Spawned From Uncommon Parent Location
+// ID: 178e615d-e666-498b-9630-9ed363038101
+// Status: test
+// Level: medium
+// Author: frack113, Tim Shelton (update fp)
+// Date: 2022-12-05
+// Tags: attack.privilege-escalation, attack.execution, attack.t1059
+// Description: Detects when a shell program such as the Windows command prompt or PowerShell is launched with system privileges from a uncommon parent location.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((((src.process.image.path endswithCIS "\\powershell.exe" OR src.process.image.path endswithCIS "\\powershell_ise.exe" OR src.process.image.path endswithCIS "\\pwsh.exe" OR src.process.image.path endswithCIS "\\cmd.exe")) OR ((OriginalFileName = "PowerShell.EXE" OR OriginalFileName = "powershell_ise.EXE" OR OriginalFileName = "pwsh.dll" OR OriginalFileName = "Cmd.Exe"))) AND ((src.process.user containsCIS "AUTHORI" OR src.process.user containsCIS "AUTORI") AND LogonId = "0x3e7")) AND NOT ((((src.process.parent.image.path containsCIS ":\\Program Files (x86)\\" OR src.process.parent.image.path containsCIS ":\\Program Files\\" OR src.process.parent.image.path containsCIS ":\\ProgramData\\" OR src.process.parent.image.path containsCIS ":\\Windows\\System32\\" OR src.process.parent.image.path containsCIS ":\\Windows\\SysWOW64\\" OR src.process.parent.image.path containsCIS ":\\Windows\\Temp\\" OR src.process.parent.image.path containsCIS ":\\Windows\\WinSxS\\")) OR ((src.process.parent.image.path = "" OR src.process.parent.image.path = "-")) OR (src.process.parent.image.path is null))) AND NOT (((src.process.cmdline containsCIS ":\\WINDOWS\\system32\\cmd.exe /c \"" AND CurrentDirectory containsCIS ":\\WINDOWS\\Temp\\asgard2-agent\\") OR (src.process.parent.image.path containsCIS ":\\IBM\\SpectrumProtect\\webserver\\scripts\\" AND src.process.cmdline containsCIS ":\\IBM\\SpectrumProtect\\webserver\\scripts\\") OR (src.process.parent.image.path endswithCIS ":\\ManageEngine\\ADManager Plus\\pgsql\\bin\\postgres.exe" AND src.process.image.path endswithCIS "\\cmd.exe"))))

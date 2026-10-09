@@ -1,0 +1,11 @@
+// Title: HackTool - SOAPHound Execution
+// ID: e92a4287-e072-4a40-9739-370c106bb750
+// Status: test
+// Level: high
+// Author: @kostastsale
+// Date: 2024-01-26
+// Tags: attack.discovery, attack.t1087
+// Description: Detects the execution of SOAPHound, a .NET tool for collecting Active Directory data, using specific command-line arguments that may indicate an attempt to extract sensitive AD information.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(CommandLine ICONTAINS " --buildcache ") OR where(CommandLine ICONTAINS " --bhdump ") OR where(CommandLine ICONTAINS " --certdump ") OR where(CommandLine ICONTAINS " --dnsdump "))) AND ((where(CommandLine ICONTAINS " -c ") OR where(CommandLine ICONTAINS " --cachefilename ") OR where(CommandLine ICONTAINS " -o ") OR where(CommandLine ICONTAINS " --outputdirectory"))))

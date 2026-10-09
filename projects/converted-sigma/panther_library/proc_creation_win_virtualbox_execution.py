@@ -1,0 +1,19 @@
+# Title: Virtualbox Driver Installation or Starting of VMs
+# ID: bab049ca-7471-4828-9024-38279a4c04da
+# Status: test
+# Level: low
+# Author: Janantha Marasinghe
+# Date: 2020-09-26
+# Tags: attack.stealth, attack.t1564.006, attack.t1564
+# Description: Adversaries can carry out malicious operations using a virtual instance to avoid detection. This rule is built to detect the registration of the Virtualbox driver or start of a Virtualbox VM.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Virtualbox Driver Installation or Starting of VMs
+def rule(event):
+    # Detection Logic:
+    # (((CommandLine="*VBoxRT.dll,RTR3Init*" OR CommandLine="*VBoxC.dll*" OR CommandLine="*VBoxDrv.sys*")) OR ((CommandLine="*startvm*" OR CommandLine="*controlvm*")))
+    return True
+
+def title(event):
+    return "Virtualbox Driver Installation or Starting of VMs"
+

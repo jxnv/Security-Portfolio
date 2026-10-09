@@ -1,0 +1,23 @@
+// Title: Malicious PowerShell Keywords
+// ID: f62176f3-8128-4faa-bf6c-83261322e5eb
+// Status: test
+// Level: medium
+// Author: Sean Metcalf (source), Florian Roth (Nextron Systems)
+// Date: 2017-03-05
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects keywords from well-known PowerShell exploitation frameworks
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule f62176f3_8128_4faa_bf6c_83261322e5eb {
+  meta:
+    title = "Malicious PowerShell Keywords"
+    description = "Detects keywords from well-known PowerShell exploitation frameworks"
+    author = "Sean Metcalf (source), Florian Roth (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.ScriptBlockText = /.*AdjustTokenPrivileges.*/ nocase or $e.ScriptBlockText = /.*IMAGE_NT_OPTIONAL_HDR64_MAGIC.*/ nocase or $e.ScriptBlockText = /.*Metasploit.*/ nocase or $e.ScriptBlockText = /.*Microsoft.Win32.UnsafeNativeMethods.*/ nocase or $e.ScriptBlockText = /.*Mimikatz.*/ nocase or $e.ScriptBlockText = /.*MiniDumpWriteDump.*/ nocase or $e.ScriptBlockText = /.*PAGE_EXECUTE_READ.*/ nocase or $e.ScriptBlockText = /.*ReadProcessMemory.Invoke.*/ nocase or $e.ScriptBlockText = /.*SE_PRIVILEGE_ENABLED.*/ nocase or $e.ScriptBlockText = /.*SECURITY_DELEGATION.*/ nocase or $e.ScriptBlockText = /.*TOKEN_ADJUST_PRIVILEGES.*/ nocase or $e.ScriptBlockText = /.*TOKEN_ALL_ACCESS.*/ nocase or $e.ScriptBlockText = /.*TOKEN_ASSIGN_PRIMARY.*/ nocase or $e.ScriptBlockText = /.*TOKEN_DUPLICATE.*/ nocase or $e.ScriptBlockText = /.*TOKEN_ELEVATION.*/ nocase or $e.ScriptBlockText = /.*TOKEN_IMPERSONATE.*/ nocase or $e.ScriptBlockText = /.*TOKEN_INFORMATION_CLASS.*/ nocase or $e.ScriptBlockText = /.*TOKEN_PRIVILEGES.*/ nocase or $e.ScriptBlockText = /.*TOKEN_QUERY.*/ nocase))
+
+  condition:
+    $e
+}

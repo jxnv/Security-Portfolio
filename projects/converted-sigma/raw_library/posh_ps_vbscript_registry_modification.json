@@ -1,0 +1,30 @@
+{
+  "title": "Registry Modification Attempt Via VBScript - PowerShell",
+  "id": "2a0a169d-cc66-43ce-9ae2-6e678e54e46a",
+  "status": "experimental",
+  "description": "Detects attempts to modify the registry using VBScript's CreateObject(\"Wscript.shell\") and RegWrite methods embedded within PowerShell scripts or commands.\nThreat actors commonly embed VBScript code within PowerShell to perform registry modifications, attempting to evade detection that monitors for direct registry access through traditional tools.\nThis technique can be used for persistence, defense evasion, and privilege escalation by modifying registry keys without using regedit.exe, reg.exe, or PowerShell's native registry cmdlets.\n",
+  "author": "Swachchhanda Shrawan Poudel (Nextron Systems)",
+  "date": "2025-08-13",
+  "tags": [
+    "attack.persistence",
+    "attack.execution",
+    "attack.defense-impairment",
+    "attack.t1112",
+    "attack.t1059.005"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "ps_script",
+    "product": "windows"
+  },
+  "detection": {
+    "selection": {
+      "ScriptBlockText|contains|all": [
+        "CreateObject",
+        "Wscript.shell",
+        ".RegWrite"
+      ]
+    },
+    "condition": "selection"
+  }
+}

@@ -1,0 +1,13 @@
+// Title: Suspicious Volume Shadow Copy VSS_PS.dll Load
+// ID: 333cdbe8-27bb-4246-bf82-b41a0dca4b70
+// Status: test
+// Level: high
+// Author: Markus Neis, @markus_neis
+// Date: 2021-07-07
+// Tags: attack.impact, attack.t1490
+// Description: Detects the image load of vss_ps.dll by uncommon executables. This DLL is used by the Volume Shadow Copy Service (VSS) to manage shadow copies of files and volumes.
+// It is often abused by attackers to delete or manipulate shadow copies, which can hinder forensic investigations and data recovery efforts.
+// The fact that it is loaded by processes that are not typically associated with VSS operations can indicate suspicious activity.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+any where ((ImageLoaded endswith "\\vss_ps.dll") and not (((process.executable == null) or (process.executable startswith "C:\\Windows\\" and (process.executable endswith "\\clussvc.exe" or process.executable endswith "\\dismhost.exe" or process.executable endswith "\\dllhost.exe" or process.executable endswith "\\inetsrv\\appcmd.exe" or process.executable endswith "\\inetsrv\\iissetup.exe" or process.executable endswith "\\msiexec.exe" or process.executable endswith "\\rundll32.exe" or process.executable endswith "\\searchindexer.exe" or process.executable endswith "\\srtasks.exe" or process.executable endswith "\\svchost.exe" or process.executable endswith "\\System32\\SystemPropertiesAdvanced.exe" or process.executable endswith "\\taskhostw.exe" or process.executable endswith "\\thor.exe" or process.executable endswith "\\thor64.exe" or process.executable endswith "\\tiworker.exe" or process.executable endswith "\\vssvc.exe" or process.executable endswith "\\vssadmin.exe" or process.executable endswith "\\WmiPrvSE.exe" or process.executable endswith "\\wsmprovhost.exe")) or (process.command_line startswith "C:\\$WinREAgent\\Scratch\\" and process.command_line like "*_\\dismhost.exe {*"))) and not (((process.executable startswith "C:\\Program Files\\" or process.executable startswith "C:\\Program Files (x86)\\"))))

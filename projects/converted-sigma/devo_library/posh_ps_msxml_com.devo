@@ -1,0 +1,13 @@
+// Title: Powershell MsXml COM Object
+// ID: 78aa1347-1517-4454-9982-b338d6df8343
+// Status: test
+// Level: medium
+// Author: frack113, MatilJ
+// Date: 2022-01-19
+// Tags: attack.execution, attack.t1059.001
+// Description: Adversaries may abuse PowerShell commands and scripts for execution.
+// PowerShell is a powerful interactive command-line interface and scripting environment included in the Windows operating system. (Citation: TechNet PowerShell)
+// Adversaries can use PowerShell to perform a number of actions, including discovery of information and execution of code
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+from siem.events where ((contains(ScriptBlockText, "New-Object") AND contains(ScriptBlockText, "-ComObject") AND contains(ScriptBlockText, "MsXml2.") AND contains(ScriptBlockText, "XmlHttp")))

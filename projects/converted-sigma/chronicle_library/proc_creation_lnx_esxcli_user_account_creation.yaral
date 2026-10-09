@@ -1,0 +1,23 @@
+// Title: ESXi Account Creation Via ESXCLI
+// ID: b28e4eb3-8bbc-4f0c-819f-edfe8e2f25db
+// Status: test
+// Level: medium
+// Author: Cedric Maurugeon
+// Date: 2023-08-22
+// Tags: attack.persistence, attack.execution, attack.t1136, attack.t1059.012
+// Description: Detects user account creation on ESXi system via esxcli
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule b28e4eb3_8bbc_4f0c_819f_edfe8e2f25db {
+  meta:
+    title = "ESXi Account Creation Via ESXCLI"
+    description = "Detects user account creation on ESXi system via esxcli"
+    author = "Cedric Maurugeon"
+    severity = "MEDIUM"
+
+  events:
+    ($e.target.process.file.full_path = /.*/esxcli$/ nocase and ($e.target.process.command_line = /.*system .*/ nocase and $e.target.process.command_line = /.*account .*/ nocase and $e.target.process.command_line = /.*add .*/ nocase))
+
+  condition:
+    $e
+}

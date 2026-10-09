@@ -1,0 +1,11 @@
+-- Title: Potential Malicious AppX Package Installation Attempts
+-- ID: 09d3b48b-be17-47f5-bf4e-94e7e75d09ce
+-- Status: test
+-- Level: medium
+-- Author: Nasreddine Bencherchali (Nextron Systems)
+-- Date: 2023-01-11
+-- Tags: attack.stealth
+-- Description: Detects potential installation or installation attempts of known malicious appx packages
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE ((EventID = 400 OR EventID = 401) AND PackageFullName ILIKE '%3669e262-ec02-4e9d-bcb4-3d008b4afac9%')

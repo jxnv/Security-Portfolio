@@ -1,0 +1,11 @@
+// Title: Potential CommandLine Path Traversal Via Cmd.EXE
+// ID: 087790e3-3287-436c-bccf-cbd0184a7db1
+// Status: test
+// Level: high
+// Author: xknow @xknow_infosec, Tim Shelton
+// Date: 2020-06-11
+// Tags: attack.execution, attack.t1059.003
+// Description: Detects potential path traversal attempt via cmd.exe. Could indicate possible command/argument confusion/hijacking
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where (((((ParentCommandLine matches "*/c*" or ParentCommandLine matches "*/k*" or ParentCommandLine matches "*/r*")) or ((CommandLine matches "*/c*" or CommandLine matches "*/k*" or CommandLine matches "*/r*"))) and ((ParentImage matches "*\\cmd.exe") or (Image matches "*\\cmd.exe") or (OriginalFileName = "cmd.exe")) and ((ParentCommandLine = "/../../") or (CommandLine matches "*/../../*"))) and !((CommandLine matches "*\\Tasktop\\keycloak\\bin\\/../../jre\\bin\\java*")))

@@ -1,0 +1,11 @@
+// Title: Suspicious WindowsTerminal Child Processes
+// ID: 8de89e52-f6e1-4b5b-afd1-41ecfa300d48
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-07-25
+// Tags: attack.execution, attack.persistence
+// Description: Detects suspicious children spawned via the Windows Terminal application which could be a sign of persistence via WindowsTerminal (see references section)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where ((((process.parent.executable endswith "\\WindowsTerminal.exe" or process.parent.executable endswith "\\wt.exe")) and (((process.executable endswith "\\rundll32.exe" or process.executable endswith "\\regsvr32.exe" or process.executable endswith "\\certutil.exe" or process.executable endswith "\\cscript.exe" or process.executable endswith "\\wscript.exe" or process.executable endswith "\\csc.exe")) or ((process.executable like "*_C:\\Users\\Public\\*" or process.executable like "*_\\Downloads\\*" or process.executable like "*_\\Desktop\\*" or process.executable like "*_\\AppData\\Local\\Temp\\*" or process.executable like "*_\\Windows\\TEMP\\*")) or ((process.command_line like "*_ iex *" or process.command_line like "*_ icm*" or process.command_line like "*_Invoke-*" or process.command_line like "*_Import-Module *" or process.command_line like "*_ipmo *" or process.command_line like "*_DownloadString(*" or process.command_line like "*_ /c *" or process.command_line like "*_ /k *" or process.command_line like "*_ /r *")))) and not ((((process.command_line like "*_Import-Module*" and process.command_line like "*_Microsoft.VisualStudio.DevShell.dll*" and process.command_line like "*_Enter-VsDevShell*")) or ((process.command_line like "*_\\AppData\\Local\\Packages\\Microsoft.WindowsTerminal_*" and process.command_line like "*_\\LocalState\\settings.json*")) or ((process.command_line like "*_C:\\Program Files\\Microsoft Visual Studio\\*" and process.command_line like "*_\\Common7\\Tools\\VsDevCmd.bat*")))))

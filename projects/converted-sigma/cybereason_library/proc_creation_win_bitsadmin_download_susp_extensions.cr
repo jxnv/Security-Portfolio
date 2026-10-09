@@ -1,0 +1,11 @@
+// Title: File With Suspicious Extension Downloaded Via Bitsadmin
+// ID: 5b80a791-ad9b-4b75-bcc1-ad4e1e89c200
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-06-28
+// Tags: attack.persistence, attack.execution, attack.stealth, attack.t1197, attack.s0190, attack.t1036.003, attack.command-and-control, attack.t1105
+// Description: Detects usage of bitsadmin downloading a file with a suspicious extension
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((CommandLine contains ".7z" OR CommandLine contains ".asax" OR CommandLine contains ".ashx" OR CommandLine contains ".asmx" OR CommandLine contains ".asp" OR CommandLine contains ".aspx" OR CommandLine contains ".bat" OR CommandLine contains ".cfm" OR CommandLine contains ".cgi" OR CommandLine contains ".chm" OR CommandLine contains ".cmd" OR CommandLine contains ".dll" OR CommandLine contains ".gif" OR CommandLine contains ".jpeg" OR CommandLine contains ".jpg" OR CommandLine contains ".jsp" OR CommandLine contains ".jspx" OR CommandLine contains ".log" OR CommandLine contains ".png" OR CommandLine contains ".ps1" OR CommandLine contains ".psm1" OR CommandLine contains ".rar" OR CommandLine contains ".scf" OR CommandLine contains ".sct" OR CommandLine contains ".txt" OR CommandLine contains ".vbe" OR CommandLine contains ".vbs" OR CommandLine contains ".war" OR CommandLine contains ".wsf" OR CommandLine contains ".wsh" OR CommandLine contains ".xll" OR CommandLine contains ".zip")) AND ((CommandLine contains " /transfer " OR CommandLine contains " /create " OR CommandLine contains " /addfile ")) AND ((Image="*\\bitsadmin.exe") OR (OriginalFileName == "bitsadmin.exe")))

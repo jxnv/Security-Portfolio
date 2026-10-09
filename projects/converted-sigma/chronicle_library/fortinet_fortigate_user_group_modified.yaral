@@ -1,0 +1,24 @@
+// Title: FortiGate - User Group Modified
+// ID: 69ffc84e-8b1a-4024-8351-e018f66b8275
+// Status: experimental
+// Level: medium
+// Author: Marco Pedrinazzi (@pedrinazziM) (InTheCyber)
+// Date: 2025-11-01
+// Tags: attack.persistence, attack.privilege-escalation
+// Description: Detects the modification of a user group on a Fortinet FortiGate Firewall.
+// The group could be used to grant VPN access to a network.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 69ffc84e_8b1a_4024_8351_e018f66b8275 {
+  meta:
+    title = "FortiGate - User Group Modified"
+    description = "Detects the modification of a user group on a Fortinet FortiGate Firewall. The group could be used to grant VPN access to a network."
+    author = "Marco Pedrinazzi (@pedrinazziM) (InTheCyber)"
+    severity = "MEDIUM"
+
+  events:
+    ($e.action = "Edit" and $e.cfgpath = "user.group")
+
+  condition:
+    $e
+}

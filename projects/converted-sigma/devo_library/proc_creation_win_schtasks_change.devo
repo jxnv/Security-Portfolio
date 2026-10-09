@@ -1,0 +1,13 @@
+// Title: Suspicious Modification Of Scheduled Tasks
+// ID: 1c0e41cd-21bb-4433-9acc-4a2cd6367b9b
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-07-28
+// Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.t1053.005
+// Description: Detects when an attacker tries to modify an already existing scheduled tasks to run from a suspicious location
+// Attackers can create a simple looking task in order to avoid detection on creation as it's often the most focused on
+// Instead they modify the task after creation to include their malicious payload
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+from siem.events where ((Image="*\\schtasks.exe" AND (contains(CommandLine, " /Change ") AND contains(CommandLine, " /TN "))) AND ((contains(CommandLine, "regsvr32") OR contains(CommandLine, "rundll32") OR contains(CommandLine, "cmd /c ") OR contains(CommandLine, "cmd /k ") OR contains(CommandLine, "cmd /r ") OR contains(CommandLine, "cmd.exe /c ") OR contains(CommandLine, "cmd.exe /k ") OR contains(CommandLine, "cmd.exe /r ") OR contains(CommandLine, "powershell") OR contains(CommandLine, "mshta") OR contains(CommandLine, "wscript") OR contains(CommandLine, "cscript") OR contains(CommandLine, "certutil") OR contains(CommandLine, "bitsadmin") OR contains(CommandLine, "bash.exe") OR contains(CommandLine, "bash ") OR contains(CommandLine, "scrcons") OR contains(CommandLine, "wmic ") OR contains(CommandLine, "wmic.exe") OR contains(CommandLine, "forfiles") OR contains(CommandLine, "scriptrunner") OR contains(CommandLine, "hh.exe") OR contains(CommandLine, "hh "))) AND ((contains(CommandLine, "\\AppData\\Local\\Temp") OR contains(CommandLine, "\\AppData\\Roaming\\") OR contains(CommandLine, "\\Users\\Public\\") OR contains(CommandLine, "\\WINDOWS\\Temp\\") OR contains(CommandLine, "\\Desktop\\") OR contains(CommandLine, "\\Downloads\\") OR contains(CommandLine, "\\Temporary Internet") OR contains(CommandLine, "C:\\ProgramData\\") OR contains(CommandLine, "C:\\Perflogs\\") OR contains(CommandLine, "%ProgramData%") OR contains(CommandLine, "%appdata%") OR contains(CommandLine, "%comspec%") OR contains(CommandLine, "%localappdata%"))))

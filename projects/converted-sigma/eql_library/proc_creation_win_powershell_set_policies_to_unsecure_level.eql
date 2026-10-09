@@ -1,0 +1,11 @@
+// Title: Change PowerShell Policies to an Insecure Level
+// ID: 87e3c4e8-a6a8-4ad9-bb4f-46e7ff99a180
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2021-11-01
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects changing the PowerShell script execution policy to a potentially insecure level using the "-ExecutionPolicy" flag.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where (((((process.pe.original_file_name == "powershell_ise.exe" or process.pe.original_file_name == "PowerShell.EXE" or process.pe.original_file_name == "pwsh.dll")) or ((process.executable endswith "\\powershell_ise.exe" or process.executable endswith "\\powershell.exe" or process.executable endswith "\\pwsh.exe"))) and ((process.command_line like "*_Bypass*" or process.command_line like "*_Unrestricted*")) and ((process.command_line like "*_-executionpolicy *" or process.command_line like "*_ -ep *" or process.command_line like "*_ -exec *"))) and not (((process.parent.executable == "C:\\Windows\\SysWOW64\\msiexec.exe" or process.parent.executable == "C:\\Windows\\System32\\msiexec.exe") and (process.command_line like "*_-NoProfile -ExecutionPolicy Bypass -File \"C:\\Program Files\\PowerShell\\7\\*" or process.command_line like "*_-NoProfile -ExecutionPolicy Bypass -File \"C:\\Program Files (x86)\\PowerShell\\7\\*"))) and not (((process.parent.executable like "*_C:\\Program Files\\Avast Software\\Avast\\*" or process.parent.executable like "*_C:\\Program Files (x86)\\Avast Software\\Avast\\*" or process.parent.executable like "*_\\instup.exe*") and (process.command_line like "*_-ExecutionPolicy ByPass -File \"C:\\Program Files\\Avast Software\\Avast*" or process.command_line like "*_-ExecutionPolicy ByPass -File \"C:\\Program Files (x86)\\Avast Software\\Avast\\*"))))

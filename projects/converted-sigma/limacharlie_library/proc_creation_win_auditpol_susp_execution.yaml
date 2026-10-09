@@ -1,0 +1,23 @@
+# Title: Audit Policy Tampering Via Auditpol
+# ID: 0a13e132-651d-11eb-ae93-0242ac130002
+# Status: test
+# Level: high
+# Author: Janantha Marasinghe (https://github.com/blueteam0ps)
+# Date: 2021-02-02
+# Tags: attack.defense-impairment, attack.t1685.001
+# Description: Threat actors can use auditpol binary to change audit policy configuration to impair detection capability.
+# This can be carried out by selectively disabling/removing certain audit policies as well as restoring a custom policy owned by the threat actor.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# LimaCharlie Detection & Response Rule
+# Name: Audit Policy Tampering Via Auditpol
+detect:
+  event: process_creation
+  op: and
+  rules:
+    # Filter logic:
+    # (((CommandLine="*disable*" OR CommandLine="*clear*" OR CommandLine="*remove*" OR CommandLine="*restore*")) AND ((Image="*\\auditpol.exe") OR (OriginalFileName="AUDITPOL.EXE")))
+respond:
+  - action: report
+    name: Audit Policy Tampering Via Auditpol
+

@@ -1,0 +1,22 @@
+# Title: Processes Accessing the Microphone and Webcam
+# ID: 8cd538a4-62d5-4e83-810b-12d41e428d6e
+# Status: test
+# Level: medium
+# Author: Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research)
+# Date: 2020-06-07
+# Tags: attack.collection, attack.t1123
+# Description: Potential adversaries accessing the microphone and webcam in an endpoint.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# LimaCharlie Detection & Response Rule
+# Name: Processes Accessing the Microphone and Webcam
+detect:
+  event: NEW_PROCESS
+  op: and
+  rules:
+    # Filter logic:
+    # ((EventID="4657" OR EventID="4656" OR EventID="4663") AND (ObjectName="*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\CapabilityAccessManager\\ConsentStore\\microphone\\NonPackaged*" OR ObjectName="*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\CapabilityAccessManager\\ConsentStore\\webcam\\NonPackaged*"))
+respond:
+  - action: report
+    name: Processes Accessing the Microphone and Webcam
+

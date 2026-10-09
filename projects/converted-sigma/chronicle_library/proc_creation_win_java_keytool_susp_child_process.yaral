@@ -1,0 +1,23 @@
+// Title: Suspicious Shells Spawn by Java Utility Keytool
+// ID: 90fb5e62-ca1f-4e22-b42e-cc521874c938
+// Status: test
+// Level: high
+// Author: Andreas Hunkeler (@Karneades)
+// Date: 2021-12-22
+// Tags: attack.initial-access, attack.persistence, attack.privilege-escalation
+// Description: Detects suspicious shell spawn from Java utility keytool process (e.g. adselfservice plus exploitation)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 90fb5e62_ca1f_4e22_b42e_cc521874c938 {
+  meta:
+    title = "Suspicious Shells Spawn by Java Utility Keytool"
+    description = "Detects suspicious shell spawn from Java utility keytool process (e.g. adselfservice plus exploitation)"
+    author = "Andreas Hunkeler (@Karneades)"
+    severity = "HIGH"
+
+  events:
+    ($e.principal.process.file.full_path = /.*\\keytool.exe$/ nocase and ($e.target.process.file.full_path = /.*\\cmd.exe$/ nocase or $e.target.process.file.full_path = /.*\\sh.exe$/ nocase or $e.target.process.file.full_path = /.*\\bash.exe$/ nocase or $e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase or $e.target.process.file.full_path = /.*\\schtasks.exe$/ nocase or $e.target.process.file.full_path = /.*\\certutil.exe$/ nocase or $e.target.process.file.full_path = /.*\\whoami.exe$/ nocase or $e.target.process.file.full_path = /.*\\bitsadmin.exe$/ nocase or $e.target.process.file.full_path = /.*\\wscript.exe$/ nocase or $e.target.process.file.full_path = /.*\\cscript.exe$/ nocase or $e.target.process.file.full_path = /.*\\scrcons.exe$/ nocase or $e.target.process.file.full_path = /.*\\regsvr32.exe$/ nocase or $e.target.process.file.full_path = /.*\\hh.exe$/ nocase or $e.target.process.file.full_path = /.*\\wmic.exe$/ nocase or $e.target.process.file.full_path = /.*\\mshta.exe$/ nocase or $e.target.process.file.full_path = /.*\\rundll32.exe$/ nocase or $e.target.process.file.full_path = /.*\\forfiles.exe$/ nocase or $e.target.process.file.full_path = /.*\\scriptrunner.exe$/ nocase or $e.target.process.file.full_path = /.*\\mftrace.exe$/ nocase or $e.target.process.file.full_path = /.*\\AppVLP.exe$/ nocase or $e.target.process.file.full_path = /.*\\systeminfo.exe$/ nocase or $e.target.process.file.full_path = /.*\\reg.exe$/ nocase or $e.target.process.file.full_path = /.*\\query.exe$/ nocase))
+
+  condition:
+    $e
+}

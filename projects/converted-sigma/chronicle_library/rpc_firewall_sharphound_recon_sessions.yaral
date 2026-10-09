@@ -1,0 +1,23 @@
+// Title: SharpHound Recon Sessions
+// ID: 6d580420-ff3f-4e0e-b6b0-41b90c787e28
+// Status: test
+// Level: high
+// Author: Sagie Dulce, Dekel Paz
+// Date: 2022-01-01
+// Tags: attack.discovery, attack.t1033
+// Description: Detects remote RPC calls useb by SharpHound to map remote connections and local group membership.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 6d580420_ff3f_4e0e_b6b0_41b90c787e28 {
+  meta:
+    title = "SharpHound Recon Sessions"
+    description = "Detects remote RPC calls useb by SharpHound to map remote connections and local group membership."
+    author = "Sagie Dulce, Dekel Paz"
+    severity = "HIGH"
+
+  events:
+    ($e.EventLog = "RPCFW" and $e.EventID = 3 and $e.InterfaceUuid = "4b324fc8-1670-01d3-1278-5a47bf6ee188" and $e.OpNum = 12)
+
+  condition:
+    $e
+}

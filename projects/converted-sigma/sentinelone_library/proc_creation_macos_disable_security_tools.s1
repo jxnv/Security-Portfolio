@@ -1,0 +1,11 @@
+// Title: Disable Security Tools
+// ID: ff39f1a6-84ac-476f-a1af-37fcdf53d7c0
+// Status: test
+// Level: medium
+// Author: Daniil Yugoslavskiy, oscd.community
+// Date: 2020-10-19
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects disabling security tools
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((src.process.image.path = "/bin/launchctl" AND src.process.cmdline containsCIS "unload") AND ((src.process.cmdline containsCIS "com.objective-see.lulu.plist" OR src.process.cmdline containsCIS "com.objective-see.blockblock.plist" OR src.process.cmdline containsCIS "com.google.santad.plist" OR src.process.cmdline containsCIS "com.carbonblack.defense.daemon.plist" OR src.process.cmdline containsCIS "com.carbonblack.daemon.plist" OR src.process.cmdline containsCIS "at.obdev.littlesnitchd.plist" OR src.process.cmdline containsCIS "com.tenablesecurity.nessusagent.plist" OR src.process.cmdline containsCIS "com.opendns.osx.RoamingClientConfigUpdater.plist" OR src.process.cmdline containsCIS "com.crowdstrike.falcond.plist" OR src.process.cmdline containsCIS "com.crowdstrike.userdaemon.plist" OR src.process.cmdline containsCIS "osquery" OR src.process.cmdline containsCIS "filebeat" OR src.process.cmdline containsCIS "auditbeat" OR src.process.cmdline containsCIS "packetbeat" OR src.process.cmdline containsCIS "td-agent"))) OR (src.process.image.path = "/usr/sbin/spctl" AND src.process.cmdline containsCIS "disable"))

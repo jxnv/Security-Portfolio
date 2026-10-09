@@ -1,0 +1,23 @@
+// Title: Automated Collection Command Prompt
+// ID: f576a613-2392-4067-9d1a-9345fb58d8d1
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2021-07-28
+// Tags: attack.collection, attack.t1119, attack.credential-access, attack.t1552.001
+// Description: Once established within a system or network, an adversary may use automated techniques for collecting internal data.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule f576a613_2392_4067_9d1a_9345fb58d8d1 {
+  meta:
+    title = "Automated Collection Command Prompt"
+    description = "Once established within a system or network, an adversary may use automated techniques for collecting internal data."
+    author = "frack113"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.command_line = /.*.doc.*/ nocase or $e.target.process.command_line = /.*.docx.*/ nocase or $e.target.process.command_line = /.*.xls.*/ nocase or $e.target.process.command_line = /.*.xlsx.*/ nocase or $e.target.process.command_line = /.*.ppt.*/ nocase or $e.target.process.command_line = /.*.pptx.*/ nocase or $e.target.process.command_line = /.*.rtf.*/ nocase or $e.target.process.command_line = /.*.pdf.*/ nocase or $e.target.process.command_line = /.*.txt.*/ nocase)) and ((($e.target.process.command_line = /.*dir .*/ nocase and $e.target.process.command_line = /.* /b .*/ nocase and $e.target.process.command_line = /.* /s .*/ nocase)) or ($e.target.process.file.name = "FINDSTR.EXE" and ($e.target.process.command_line = /.* /e .*/ nocase or $e.target.process.command_line = /.* /si .*/ nocase))))
+
+  condition:
+    $e
+}

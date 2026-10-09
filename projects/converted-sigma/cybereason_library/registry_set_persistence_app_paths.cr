@@ -1,0 +1,14 @@
+// Title: Potential Persistence Via App Paths Default Property
+// ID: 707e097c-e20f-4f67-8807-1f72ff4500d6
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-10
+// Tags: attack.privilege-escalation, attack.persistence, attack.t1546.012
+// Description: Detects changes to the "Default" property for keys located in the \Software\Microsoft\Windows\CurrentVersion\App Paths\ registry. Which might be used as a method of persistence
+// The entries found under App Paths are used primarily for the following purposes.
+// First, to map an application's executable file name to that file's fully qualified path.
+// Second, to prepend information to the PATH environment variable on a per-application, per-process basis.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(TargetObject contains "\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths" AND (TargetObject="*(Default)" OR TargetObject="*Path") AND (Details contains "\\Users\\Public" OR Details contains "\\AppData\\Local\\Temp\\" OR Details contains "\\Windows\\Temp\\" OR Details contains "\\Desktop\\" OR Details contains "\\Downloads\\" OR Details contains "%temp%" OR Details contains "%tmp%" OR Details contains "iex" OR Details contains "Invoke-" OR Details contains "rundll32" OR Details contains "regsvr32" OR Details contains "mshta" OR Details contains "cscript" OR Details contains "wscript" OR Details contains ".bat" OR Details contains ".hta" OR Details contains ".dll" OR Details contains ".ps1"))

@@ -1,0 +1,23 @@
+// Title: Uncommon Microsoft Office Trusted Location Added
+// ID: f742bde7-9528-42e5-bd82-84f51a8387d2
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-06-21
+// Tags: attack.persistence, attack.defense-impairment, attack.t1112
+// Description: Detects changes to registry keys related to "Trusted Location" of Microsoft Office where the path is set to something uncommon. Attackers might add additional trusted locations to avoid macro security restrictions.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule f742bde7_9528_42e5_bd82_84f51a8387d2 {
+  meta:
+    title = "Uncommon Microsoft Office Trusted Location Added"
+    description = "Detects changes to registry keys related to "Trusted Location" of Microsoft Office where the path is set to something uncommon. Attackers might add additional trusted locations to avoid macro security restrictions."
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.TargetObject = /.*Security\\Trusted Locations\\Location.*/ nocase and $e.TargetObject = /.*\\Path$/ nocase) and not(((($e.target.process.file.full_path = /.*:\\Program Files\\Microsoft Office\\.*/ nocase or $e.target.process.file.full_path = /.*:\\Program Files (x86)\\Microsoft Office\\.*/ nocase)) or ($e.target.process.file.full_path = /.*:\\Program Files\\Common Files\\Microsoft Shared\\ClickToRun\\.*/ nocase and $e.target.process.file.full_path = /.*\\OfficeClickToRun.exe$/ nocase))) and not((($e.Details = /.*%APPDATA%\\Microsoft\\Templates.*/ nocase or $e.Details = /.*%%APPDATA%%\\Microsoft\\Templates.*/ nocase or $e.Details = /.*%APPDATA%\\Microsoft\\Word\\Startup.*/ nocase or $e.Details = /.*%%APPDATA%%\\Microsoft\\Word\\Startup.*/ nocase or $e.Details = /.*:\\Program Files (x86)\\Microsoft Office\\root\\Templates\\.*/ nocase or $e.Details = /.*:\\Program Files\\Microsoft Office (x86)\\Templates.*/ nocase or $e.Details = /.*:\\Program Files\\Microsoft Office\\root\\Templates\\.*/ nocase or $e.Details = /.*:\\Program Files\\Microsoft Office\\Templates\\.*/ nocase))))
+
+  condition:
+    $e
+}

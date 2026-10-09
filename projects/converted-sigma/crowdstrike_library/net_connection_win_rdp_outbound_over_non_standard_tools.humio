@@ -1,0 +1,12 @@
+// Title: Outbound RDP Connections Over Non-Standard Tools
+// ID: ed74fe75-7594-4b4b-ae38-e38e3fd2eb23
+// Status: test
+// Level: high
+// Author: Markus Neis
+// Date: 2019-05-15
+// Tags: attack.lateral-movement, attack.t1021.001, car.2013-07-002
+// Description: Detects Non-Standard tools initiating a connection over port 3389 indicating possible lateral movement.
+// An initial baseline is required before using this utility to exclude third party RDP tooling that you might use.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((DestinationPort = 3389 and Initiated = "true") and not(((ImageFileName = "C:\\Windows\\System32\\mstsc.exe" or ImageFileName = "C:\\Windows\\SysWOW64\\mstsc.exe"))) and not((((ImageFileName = /.*\\Avast Software\\Avast\\AvastSvc.exe/i or ImageFileName = /.*\\Avast\\AvastSvc.exe/i)) or (ImageFileName = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe") or (ImageFileName = "C:\\Windows\\System32\\dns.exe" and SourcePort = 53 and Protocol = "udp") or (ImageFileName = "") or (ImageFileName = "C:\\Program Files\\Mozilla Firefox\\firefox.exe") or (not(ImageFileName = *)) or (ImageFileName = /.*\\Ranger\\SentinelRanger.exe/i) or (ImageFileName = /C:\\Program Files\\SplunkUniversalForwarder\\bin\\.*/i) or (ImageFileName = /.*\\RDCMan.exe/i) or ((ImageFileName = /.*\\FSAssessment.exe/i or ImageFileName = /.*\\FSDiscovery.exe/i or ImageFileName = /.*\\MobaRTE.exe/i or ImageFileName = /.*\\mRemote.exe/i or ImageFileName = /.*\\mRemoteNG.exe/i or ImageFileName = /.*\\Passwordstate.exe/i or ImageFileName = /.*\\RemoteDesktopManager.exe/i or ImageFileName = /.*\\RemoteDesktopManager64.exe/i or ImageFileName = /.*\\RemoteDesktopManagerFree.exe/i or ImageFileName = /.*\\RSSensor.exe/i or ImageFileName = /.*\\RTS2App.exe/i or ImageFileName = /.*\\RTSApp.exe/i or ImageFileName = /.*\\spiceworks-finder.exe/i or ImageFileName = /.*\\Terminals.exe/i or ImageFileName = /.*\\ws_TunnelService.exe/i)) or ((ImageFileName = /.*\\thor.exe/i or ImageFileName = /.*\\thor64.exe/i)) or ((ImageFileName = "C:\\Program Files\\TSplus\\Java\\bin\\HTML5service.exe" or ImageFileName = "C:\\Program Files (x86)\\TSplus\\Java\\bin\\HTML5service.exe")) or (ImageFileName = "<unknown process>"))))

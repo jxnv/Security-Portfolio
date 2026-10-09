@@ -1,0 +1,11 @@
+// Title: Potential Defense Evasion Via Binary Rename
+// ID: 36480ae1-a1cb-4eaa-a0d6-29801d7e9142
+// Status: test
+// Level: medium
+// Author: Matthew Green @mgreen27, Ecco, James Pemberton @4A616D6573, oscd.community, Andreas Hunkeler (@Karneades)
+// Date: 2019-06-15
+// Tags: attack.stealth, attack.t1036.003
+// Description: Detects the execution of a renamed binary often used by attackers or malware leveraging new Sysmon OriginalFileName datapoint.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((OriginalFilename = "Cmd.Exe" or OriginalFilename = "CONHOST.EXE" or OriginalFilename = "7z.exe" or OriginalFilename = "7za.exe" or OriginalFilename = "7zr.exe" or OriginalFilename = "WinRAR.exe" or OriginalFilename = "wevtutil.exe" or OriginalFilename = "net.exe" or OriginalFilename = "net1.exe" or OriginalFilename = "netsh.exe" or OriginalFilename = "InstallUtil.exe")) and not(((ImageFileName = /.*\\cmd.exe/i or ImageFileName = /.*\\conhost.exe/i or ImageFileName = /.*\\7z.exe/i or ImageFileName = /.*\\7za.exe/i or ImageFileName = /.*\\7zr.exe/i or ImageFileName = /.*\\WinRAR.exe/i or ImageFileName = /.*\\wevtutil.exe/i or ImageFileName = /.*\\net.exe/i or ImageFileName = /.*\\net1.exe/i or ImageFileName = /.*\\netsh.exe/i or ImageFileName = /.*\\InstallUtil.exe/i))))

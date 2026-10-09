@@ -1,0 +1,32 @@
+{
+  "title": "PetitPotam Suspicious Kerberos TGT Request",
+  "id": "6a53d871-682d-40b6-83e0-b7c1a6c4e3a5",
+  "status": "test",
+  "description": "Detect suspicious Kerberos TGT requests.\nOnce an attacer obtains a computer certificate by abusing Active Directory Certificate Services in combination with PetitPotam, the next step would be to leverage the certificate for malicious purposes.\nOne way of doing this is to request a Kerberos Ticket Granting Ticket using a tool like Rubeus.\nThis request will generate a 4768 event with some unusual fields depending on the environment.\nThis analytic will require tuning, we recommend filtering Account_Name to the Domain Controller computer accounts.\n",
+  "author": "Mauricio Velazco, Michael Haag",
+  "date": "2021-09-02",
+  "tags": [
+    "attack.credential-access",
+    "attack.t1187"
+  ],
+  "level": "high",
+  "logsource": {
+    "product": "windows",
+    "service": "security",
+    "definition": "The advanced audit policy setting \"Account Logon > Kerberos Authentication Service\" must be configured for Success/Failure"
+  },
+  "detection": {
+    "selection": {
+      "EventID": 4768,
+      "TargetUserName|endswith": "$",
+      "CertThumbprint|contains": "*"
+    },
+    "filter_local": {
+      "IpAddress": "::1"
+    },
+    "filter_thumbprint": {
+      "CertThumbprint": ""
+    },
+    "condition": "selection and not 1 of filter_*"
+  }
+}

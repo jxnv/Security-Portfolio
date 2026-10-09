@@ -1,0 +1,11 @@
+// Title: Unsigned Mfdetours.DLL Sideloading
+// ID: 948a0953-f287-4806-bbcb-3b2e396df89f
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-08-11
+// Tags: attack.persistence, attack.privilege-escalation, attack.execution, attack.stealth, attack.t1574.001
+// Description: Detects DLL sideloading of unsigned "mfdetours.dll". Executing "mftrace.exe" can be abused to attach to an arbitrary process and force load any DLL named "mfdetours.dll" from the current directory of execution.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter ((ImageLoaded endswith "\\mfdetours.dll") and not ((ImageLoaded contains ":\\Program Files (x86)\\Windows Kits\\10\\bin\\" and SignatureStatus = "Valid")))

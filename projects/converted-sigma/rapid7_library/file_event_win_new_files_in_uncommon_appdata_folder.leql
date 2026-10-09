@@ -1,0 +1,11 @@
+// Title: Suspicious File Creation In Uncommon AppData Folder
+// ID: d7b50671-d1ad-4871-aa60-5aa5b331fe04
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-05
+// Tags: attack.execution, attack.stealth
+// Description: Detects the creation of suspicious files and folders inside the user's AppData folder but not inside any of the common and well known directories (Local, Romaing, LocalLow). This method could be used as a method to bypass detection who exclude the AppData folder in fear of FPs
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((where(TargetFilename ISTARTSWITH "C:\\Users\\") AND where(TargetFilename ICONTAINS "\\AppData\\") AND (where(TargetFilename IENDSWITH ".bat") OR where(TargetFilename IENDSWITH ".cmd") OR where(TargetFilename IENDSWITH ".cpl") OR where(TargetFilename IENDSWITH ".dll") OR where(TargetFilename IENDSWITH ".exe") OR where(TargetFilename IENDSWITH ".hta") OR where(TargetFilename IENDSWITH ".iso") OR where(TargetFilename IENDSWITH ".lnk") OR where(TargetFilename IENDSWITH ".msi") OR where(TargetFilename IENDSWITH ".ps1") OR where(TargetFilename IENDSWITH ".psm1") OR where(TargetFilename IENDSWITH ".scr") OR where(TargetFilename IENDSWITH ".vbe") OR where(TargetFilename IENDSWITH ".vbs"))) AND NOT ((where(TargetFilename ISTARTSWITH "C:\\Users\\") AND (where(TargetFilename ICONTAINS "\\AppData\\Local\\") OR where(TargetFilename ICONTAINS "\\AppData\\LocalLow\\") OR where(TargetFilename ICONTAINS "\\AppData\\Roaming\\")))))

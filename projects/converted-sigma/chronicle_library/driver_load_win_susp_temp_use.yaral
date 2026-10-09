@@ -1,0 +1,23 @@
+// Title: Driver Load From A Temporary Directory
+// ID: 2c4523d5-d481-4ed0-8ec3-7fbf0cb41a75
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2017-02-12
+// Tags: attack.persistence, attack.privilege-escalation, attack.t1543.003
+// Description: Detects a driver load from a temporary directory
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 2c4523d5_d481_4ed0_8ec3_7fbf0cb41a75 {
+  meta:
+    title = "Driver Load From A Temporary Directory"
+    description = "Detects a driver load from a temporary directory"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ($e.ImageLoaded = /.*\\Temp\\.*/ nocase)
+
+  condition:
+    $e
+}

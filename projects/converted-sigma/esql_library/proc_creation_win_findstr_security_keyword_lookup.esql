@@ -1,0 +1,12 @@
+// Title: Security Tools Keyword Lookup Via Findstr.EXE
+// ID: 4fe074b4-b833-4081-8f24-7dcfeca72b42
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems), frack113
+// Date: 2023-10-20
+// Tags: attack.discovery, attack.t1518.001
+// Description: Detects execution of "findstr" to search for common names of security tools. Attackers often pipe the results of recon commands such as "tasklist" or "whoami" to "findstr" in order to filter out the results.
+// This detection focuses on the keywords that the attacker might use as a filter.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE (((process.command_line LIKE "% avira" OR process.command_line LIKE "% avira\"" OR process.command_line LIKE "% cb" OR process.command_line LIKE "% cb\"" OR process.command_line LIKE "% cylance" OR process.command_line LIKE "% cylance\"" OR process.command_line LIKE "% defender" OR process.command_line LIKE "% defender\"" OR process.command_line LIKE "% kaspersky" OR process.command_line LIKE "% kaspersky\"" OR process.command_line LIKE "% kes" OR process.command_line LIKE "% kes\"" OR process.command_line LIKE "% mc" OR process.command_line LIKE "% mc\"" OR process.command_line LIKE "% sec" OR process.command_line LIKE "% sec\"" OR process.command_line LIKE "% sentinel" OR process.command_line LIKE "% sentinel\"" OR process.command_line LIKE "% symantec" OR process.command_line LIKE "% symantec\"" OR process.command_line LIKE "% virus" OR process.command_line LIKE "% virus\"")) AND (((process.executable LIKE "%\\find.exe" OR process.executable LIKE "%\\findstr.exe")) OR ((process.pe.original_file_name == "FIND.EXE" OR process.pe.original_file_name == "FINDSTR.EXE"))))

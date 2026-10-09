@@ -1,0 +1,11 @@
+// Title: File Download From Browser Process Via Inline URL
+// ID: 94771a71-ba41-4b6e-a757-b531372eaab6
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-01-11
+// Tags: attack.command-and-control, attack.t1105
+// Description: Detects execution of a browser process with a URL argument pointing to a file with a potentially interesting extension. This can be abused to download arbitrary files or to hide from the user for example by launching the browser in a minimized state.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((CommandLine ENDSWITH ".7z" OR CommandLine ENDSWITH ".dat" OR CommandLine ENDSWITH ".dll" OR CommandLine ENDSWITH ".exe" OR CommandLine ENDSWITH ".hta" OR CommandLine ENDSWITH ".ps1" OR CommandLine ENDSWITH ".psm1" OR CommandLine ENDSWITH ".txt" OR CommandLine ENDSWITH ".vbe" OR CommandLine ENDSWITH ".vbs" OR CommandLine ENDSWITH ".zip")) OR ((CommandLine CONTAINS ".7z\"" OR CommandLine CONTAINS ".dat\"" OR CommandLine CONTAINS ".dll\"" OR CommandLine CONTAINS ".hta\"" OR CommandLine CONTAINS ".ps1\"" OR CommandLine CONTAINS ".psm1\"" OR CommandLine CONTAINS ".txt\"" OR CommandLine CONTAINS ".vbe\"" OR CommandLine CONTAINS ".vbs\"" OR CommandLine CONTAINS ".zip\""))) AND (CommandLine CONTAINS "http") AND ((Image ENDSWITH "\\brave.exe" OR Image ENDSWITH "\\chrome.exe" OR Image ENDSWITH "\\msedge.exe" OR Image ENDSWITH "\\opera.exe" OR Image ENDSWITH "\\vivaldi.exe")))

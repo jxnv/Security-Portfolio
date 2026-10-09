@@ -1,0 +1,23 @@
+// Title: Suspicious Encoded PowerShell Command Line
+// ID: ca2092a1-c273-4878-9b4b-0d60115bf5ea
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Markus Neis, Jonhnathan Ribeiro, Daniil Yugoslavskiy, Anton Kutepov, oscd.community
+// Date: 2018-09-03
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects suspicious powershell process starts with base64 encoded commands (e.g. Emotet)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule ca2092a1_c273_4878_9b4b_0d60115bf5ea {
+  meta:
+    title = "Suspicious Encoded PowerShell Command Line"
+    description = "Detects suspicious powershell process starts with base64 encoded commands (e.g. Emotet)"
+    author = "Florian Roth (Nextron Systems), Markus Neis, Jonhnathan Ribeiro, Daniil Yugoslavskiy, Anton Kutepov, oscd.community"
+    severity = "HIGH"
+
+  events:
+    (((($e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase)) or (($e.target.process.file.name = "PowerShell.EXE" or $e.target.process.file.name = "pwsh.dll"))) and (((($e.target.process.command_line = /.* JAB.*/ nocase or $e.target.process.command_line = /.* SUVYI.*/ nocase or $e.target.process.command_line = /.* SQBFAFgA.*/ nocase or $e.target.process.command_line = /.* aQBlAHgA.*/ nocase or $e.target.process.command_line = /.* aWV4I.*/ nocase or $e.target.process.command_line = /.* IAA.*/ nocase or $e.target.process.command_line = /.* IAB.*/ nocase or $e.target.process.command_line = /.* UwB.*/ nocase or $e.target.process.command_line = /.* cwB.*/ nocase)) and ($e.target.process.command_line = /.* -e.*/ nocase)) or (($e.target.process.command_line = /.*.exe -ENCOD .*/ nocase or $e.target.process.command_line = /.* BA^J e-.*/ nocase))) and not(($e.target.process.command_line = /.* -ExecutionPolicy remotesigned .*/ nocase)))
+
+  condition:
+    $e
+}

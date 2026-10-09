@@ -1,0 +1,23 @@
+// Title: Potential Secure Deletion with SDelete
+// ID: 39a80702-d7ca-4a83-b776-525b1f86a36d
+// Status: test
+// Level: medium
+// Author: Thomas Patzke
+// Date: 2017-06-14
+// Tags: attack.impact, attack.stealth, attack.defense-impairment, attack.t1070.004, attack.t1027.005, attack.t1485, attack.t1553.002, attack.s0195
+// Description: Detects files that have extensions commonly seen while SDelete is used to wipe files.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 39a80702_d7ca_4a83_b776_525b1f86a36d {
+  meta:
+    title = "Potential Secure Deletion with SDelete"
+    description = "Detects files that have extensions commonly seen while SDelete is used to wipe files."
+    author = "Thomas Patzke"
+    severity = "MEDIUM"
+
+  events:
+    (($e.EventID = 4656 or $e.EventID = 4663 or $e.EventID = 4658) and ($e.ObjectName = /.*.AAA$/ nocase or $e.ObjectName = /.*.ZZZ$/ nocase))
+
+  condition:
+    $e
+}

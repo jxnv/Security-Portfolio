@@ -1,0 +1,11 @@
+// Title: Windows Kernel Debugger Execution
+// ID: 27ee9438-90dc-4bef-904b-d3ef927f5e7e
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-05-15
+// Tags: attack.privilege-escalation, attack.stealth
+// Description: Detects execution of the Windows Kernel Debugger "kd.exe".
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((Image="*\\kd.exe") OR (OriginalFileName: "kd.exe"))

@@ -1,0 +1,11 @@
+// Title: Suspicious WmiPrvSE Child Process
+// ID: 8a582fe2-0882-4b89-a82a-da6b2dc32937
+// Status: test
+// Level: high
+// Author: Vadim Khrykov (ThreatIntel), Cyb3rEng, Florian Roth (Nextron Systems)
+// Date: 2021-08-23
+// Tags: attack.execution, attack.stealth, attack.t1047, attack.t1204.002, attack.t1218.010
+// Description: Detects suspicious and uncommon child processes of WmiPrvSE
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((ParentBaseFileName = /.*\\wbem\\WmiPrvSE.exe/i) and (((ImageFileName = /.*\\certutil.exe/i or ImageFileName = /.*\\cscript.exe/i or ImageFileName = /.*\\mshta.exe/i or ImageFileName = /.*\\msiexec.exe/i or ImageFileName = /.*\\regsvr32.exe/i or ImageFileName = /.*\\rundll32.exe/i or ImageFileName = /.*\\verclsid.exe/i or ImageFileName = /.*\\wscript.exe/i)) or (ImageFileName = /.*\\cmd.exe/i and (CommandLine = /*cscript*/i or CommandLine = /*mshta*/i or CommandLine = /*powershell*/i or CommandLine = /*pwsh*/i or CommandLine = /*regsvr32*/i or CommandLine = /*rundll32*/i or CommandLine = /*wscript*/i))) and not(((ImageFileName = /.*\\msiexec.exe/i and CommandLine = /*/i */i) or (ImageFileName = /.*\\WerFault.exe/i) or (ImageFileName = /.*\\WmiPrvSE.exe/i))))

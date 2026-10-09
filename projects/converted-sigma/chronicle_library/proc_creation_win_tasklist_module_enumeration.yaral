@@ -1,0 +1,25 @@
+// Title: Loaded Module Enumeration Via Tasklist.EXE
+// ID: 34275eb8-fa19-436b-b959-3d9ecd53fa1f
+// Status: test
+// Level: medium
+// Author: Swachchhanda Shrawan Poudel
+// Date: 2024-02-12
+// Tags: attack.t1003, attack.credential-access
+// Description: Detects the enumeration of a specific DLL or EXE being used by a binary via "tasklist.exe".
+// This is often used by attackers in order to find the specific process identifier (PID) that is using the DLL in question.
+// In order to dump the process memory or perform other nefarious actions.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 34275eb8_fa19_436b_b959_3d9ecd53fa1f {
+  meta:
+    title = "Loaded Module Enumeration Via Tasklist.EXE"
+    description = "Detects the enumeration of a specific DLL or EXE being used by a binary via "tasklist.exe". This is often used by attackers in order to find the specific process identifier (PID) that is using the DLL in question. In order to dump the process memory or perform other nefarious actions."
+    author = "Swachchhanda Shrawan Poudel"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.command_line = /.*-m.*/ nocase or $e.target.process.command_line = /.*/m.*/ nocase)) and (($e.target.process.file.full_path = /.*\\tasklist.exe$/ nocase) or ($e.target.process.file.name = "tasklist.exe")) and ($e.target.process.command_line = /.*rdpcorets.dll.*/ nocase))
+
+  condition:
+    $e
+}

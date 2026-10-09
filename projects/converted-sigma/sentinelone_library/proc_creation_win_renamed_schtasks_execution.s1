@@ -1,0 +1,13 @@
+// Title: Renamed Schtasks Execution
+// ID: f91e51c9-f344-4b32-969b-0b6f6b8537d4
+// Status: experimental
+// Level: high
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-11-27
+// Tags: attack.execution, attack.persistence, attack.privilege-escalation, attack.stealth, attack.t1036.003, attack.t1053.005
+// Description: Detects the execution of renamed schtasks.exe binary, which is a legitimate Windows utility used for scheduling tasks.
+// One of the very common persistence techniques is schedule malicious tasks using schtasks.exe.
+// Since, it is heavily abused, it is also heavily monitored by security products. To evade detection, threat actors may rename the schtasks.exe binary to schedule their malicious tasks.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((((src.process.cmdline containsCIS " /tn " OR src.process.cmdline containsCIS " /tr " OR src.process.cmdline containsCIS " /sc " OR src.process.cmdline containsCIS " /st " OR src.process.cmdline containsCIS " /ru " OR src.process.cmdline containsCIS " /fo ")) AND ((src.process.cmdline containsCIS " /create " OR src.process.cmdline containsCIS " /delete " OR src.process.cmdline containsCIS " /query " OR src.process.cmdline containsCIS " /change " OR src.process.cmdline containsCIS " /run " OR src.process.cmdline containsCIS " /end "))) AND NOT ((src.process.cmdline containsCIS "schtasks")) AND NOT (((src.process.cmdline containsCIS "openfiles" AND src.process.cmdline containsCIS " /query " AND src.process.cmdline containsCIS " /fo")))) OR ((OriginalFileName = "schtasks.exe") AND NOT ((src.process.image.path endswithCIS "\\schtasks.exe"))))

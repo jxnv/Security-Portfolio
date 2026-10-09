@@ -1,0 +1,11 @@
+-- Title: System Shutdown/Reboot - Linux
+-- ID: 4cb57c2f-1f29-41f8-893d-8bed8e1c1d2f
+-- Status: test
+-- Level: informational
+-- Author: Igor Fits, oscd.community
+-- Date: 2020-10-15
+-- Tags: attack.impact, attack.t1529
+-- Description: Adversaries may shutdown/reboot systems to interrupt access to, or aid in the destruction of, those systems.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM events WHERE ((type = 'EXECVE') AND ((TEXT SEARCH 'shutdown' OR TEXT SEARCH 'reboot' OR TEXT SEARCH 'halt' OR TEXT SEARCH 'poweroff') OR ((TEXT SEARCH 'init' OR TEXT SEARCH 'telinit') AND (TEXT SEARCH '0' OR TEXT SEARCH '6'))))

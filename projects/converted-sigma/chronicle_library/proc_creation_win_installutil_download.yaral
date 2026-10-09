@@ -1,0 +1,23 @@
+// Title: File Download Via InstallUtil.EXE
+// ID: 75edd216-1939-4c73-8d61-7f3a0d85b5cc
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-19
+// Tags: attack.stealth, attack.t1218
+// Description: Detects use of .NET InstallUtil.exe in order to download arbitrary files. The files will be written to "%LOCALAPPDATA%\Microsoft\Windows\INetCache\IE\"
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 75edd216_1939_4c73_8d61_7f3a0d85b5cc {
+  meta:
+    title = "File Download Via InstallUtil.EXE"
+    description = "Detects use of .NET InstallUtil.exe in order to download arbitrary files. The files will be written to "%LOCALAPPDATA%\Microsoft\Windows\INetCache\IE\""
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.command_line = /.*ftp://.*/ nocase or $e.target.process.command_line = /.*http://.*/ nocase or $e.target.process.command_line = /.*https://.*/ nocase)) and (($e.target.process.file.full_path = /.*\\InstallUtil.exe$/ nocase) or ($e.target.process.file.name = "InstallUtil.exe")))
+
+  condition:
+    $e
+}

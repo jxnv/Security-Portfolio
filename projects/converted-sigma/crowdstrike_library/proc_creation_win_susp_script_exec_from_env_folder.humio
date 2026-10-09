@@ -1,0 +1,12 @@
+// Title: Script Interpreter Execution From Suspicious Folder
+// ID: 1228c958-e64e-4e71-92ad-7d429f4138ba
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-02-08
+// Tags: attack.execution, attack.t1059
+// Description: Detects suspicious script execution from suspicious directories or folders accessible by environment variables that may indicate malware activity.
+// Script interpreters (cscript, wscript, mshta, powershell) executing from folders like Temp, Public, or user profile directories may suggest attempts to evade detection or execute malicious scripts.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((CommandLine = /* -ep bypass */i or CommandLine = /* -ExecutionPolicy bypass */i or CommandLine = /* -w hidden */i or CommandLine = /*/e:javascript */i or CommandLine = /*/e:Jscript */i or CommandLine = /*/e:vbscript */i)) or ((ImageFileName = /.*\\cscript.exe/i or ImageFileName = /.*\\mshta.exe/i or ImageFileName = /.*\\wscript.exe/i)) or ((OriginalFilename = "cscript.exe" or OriginalFilename = "mshta.exe" or OriginalFilename = "wscript.exe"))) and (((CommandLine = /*:\\Perflogs\\*/i or CommandLine = /*:\\Users\\Public\\*/i or CommandLine = /*\\%Public%*/i or CommandLine = /*\\AppData\\Local\\Temp*/i or CommandLine = /*\\AppData\\Roaming\\Temp*/i or CommandLine = /*\\Temporary Internet*/i or CommandLine = /*\\Windows\\Temp*/i or CommandLine = /*\\Start Menu\\Programs\\Startup\\*/i or CommandLine = /*%TEMP%*/i or CommandLine = /*%TMP%*/i or CommandLine = /*%LocalAppData%\\Temp*/i)) or (((CommandLine = /*:\\Users\\*/i and CommandLine = /*\\Favorites\\*/i)) or ((CommandLine = /*:\\Users\\*/i and CommandLine = /*\\Favourites\\*/i)) or ((CommandLine = /*:\\Users\\*/i and CommandLine = /*\\Contacts\\*/i)) or ((CommandLine = /*:\\Users\\*/i and CommandLine = /*\\Documents\\*/i)) or ((CommandLine = /*:\\Users\\*/i and CommandLine = /*\\Music\\*/i)) or ((CommandLine = /*:\\Users\\*/i and CommandLine = /*\\Pictures\\*/i)) or ((CommandLine = /*:\\Users\\*/i and CommandLine = /*\\Videos\\*/i)))) and not(((ParentBaseFileName = "C:\\Windows\\System32\\Msiexec.exe" or ParentBaseFileName = "C:\\Windows\\SysWOW64\\Msiexec.exe") and ImageFileName = /.*\\powershell.exe/i and (CommandLine = /*-NoProfile -ExecutionPolicy Bypass -Command*/i and CommandLine = /*AppData\\Local\\Temp\\*/i and CommandLine = /*Install-Chocolatey.ps1*/i))))

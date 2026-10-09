@@ -1,0 +1,23 @@
+// Title: RDP Sensitive Settings Changed
+// ID: 3f6b7b62-61aa-45db-96bd-9c31b36b653c
+// Status: test
+// Level: high
+// Author: Samir Bousseaden, David ANDRE, Roberto Rodriguez @Cyb3rWard0g, Nasreddine Bencherchali
+// Date: 2022-08-06
+// Tags: attack.persistence, attack.defense-impairment, attack.t1112
+// Description: Detects tampering of RDP Terminal Service/Server sensitive settings.
+// Such as allowing unauthorized users access to a system via the 'fAllowUnsolicited' or enabling RDP via 'fDenyTSConnections', etc.
+// 
+// Below is a list of registry keys/values that are monitored by this rule:
+// 
+// - Shadow: Used to enable Remote Desktop shadowing, which allows an administrator to view or control a user's session.
+// - DisableRemoteDesktopAntiAlias: Disables anti-aliasing for remote desktop sessions.
+// - DisableSecuritySettings: Disables certain security settings for Remote Desktop connections.
+// - fAllowUnsolicited: Allows unsolicited remote assistance offers.
+// - fAllowUnsolicitedFullControl: Allows unsolicited remote assistance offers with full control.
+// - InitialProgram: Specifies a program to run automatically when a user logs on to a remote computer.
+// - ServiceDll: Used in RDP hijacking techniques to specify a custom DLL to be loaded by the Terminal Services service.
+// - SecurityLayer: Specifies the security layer used for RDP connections.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where ((((registry.path like "%\\Control\\Terminal Server\\%" OR registry.path like "%\\Windows NT\\Terminal Services\\%") AND registry.path="*\\Shadow" AND (registry.data.strings = "DWORD (0x00000001)" OR registry.data.strings = "DWORD (0x00000002)" OR registry.data.strings = "DWORD (0x00000003)" OR registry.data.strings = "DWORD (0x00000004)")) OR ((registry.path like "%\\Control\\Terminal Server\\%" OR registry.path like "%\\Windows NT\\Terminal Services\\%") AND (registry.path="*\\DisableRemoteDesktopAntiAlias" OR registry.path="*\\DisableSecuritySettings" OR registry.path="*\\fAllowUnsolicited" OR registry.path="*\\fAllowUnsolicitedFullControl") AND registry.data.strings = "DWORD (0x00000001)") OR ((registry.path like "%\\Control\\Terminal Server\\InitialProgram%" OR registry.path like "%\\Control\\Terminal Server\\WinStations\\RDP-Tcp\\InitialProgram%" OR registry.path like "%\\services\\TermService\\Parameters\\ServiceDll%" OR registry.path like "%\\Terminal Server\\WinStations\\RDP-Tcp\\SecurityLayer%" OR registry.path like "%\\Windows NT\\Terminal Services\\InitialProgram%"))) AND NOT ((registry.path="*\\SecurityLayer" AND registry.data.strings = "DWORD (0x00000002)")))

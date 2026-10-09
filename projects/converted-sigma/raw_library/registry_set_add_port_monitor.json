@@ -1,0 +1,44 @@
+{
+  "title": "Add Port Monitor Persistence in Registry",
+  "id": "944e8941-f6f6-4ee8-ac05-1c224e923c0e",
+  "status": "test",
+  "description": "Adversaries may use port monitors to run an attacker supplied DLL during system boot for persistence or privilege escalation.\nA port monitor can be set through the AddMonitor API call to set a DLL to be loaded at startup.\n",
+  "author": "frack113",
+  "date": "2021-12-30",
+  "tags": [
+    "attack.privilege-escalation",
+    "attack.persistence",
+    "attack.t1547.010"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "registry_set",
+    "product": "windows"
+  },
+  "detection": {
+    "selection": {
+      "TargetObject|contains": "\\Control\\Print\\Monitors\\",
+      "Details|endswith": ".dll"
+    },
+    "filter_optional_cutepdf": {
+      "Image": "C:\\Windows\\System32\\spoolsv.exe",
+      "TargetObject|contains": "\\Control\\Print\\Monitors\\CutePDF Writer Monitor v4.0\\Driver",
+      "Details": "cpwmon64_v40.dll",
+      "User|contains": [
+        "AUTHORI",
+        "AUTORI"
+      ]
+    },
+    "filter_optional_monvnc": {
+      "TargetObject|contains": "\\Control\\Print\\Monitors\\MONVNC\\Driver"
+    },
+    "filter_optional_vnc": {
+      "TargetObject|contains|all": [
+        "Control\\Print\\Environments\\",
+        "\\Drivers\\",
+        "\\VNC Printer"
+      ]
+    },
+    "condition": "selection and not 1 of filter_optional_*"
+  }
+}

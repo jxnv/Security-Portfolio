@@ -1,0 +1,11 @@
+// Title: Monero Crypto Coin Mining Pool Lookup
+// ID: b593fd50-7335-4682-a36c-4edcb68e4641
+// Status: stable
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2021-10-24
+// Tags: attack.impact, attack.t1496, attack.exfiltration, attack.t1567
+// Description: Detects suspicious DNS queries to Monero mining pools
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((query: "*pool.minexmr.com*" OR query: "*fr.minexmr.com*" OR query: "*de.minexmr.com*" OR query: "*sg.minexmr.com*" OR query: "*ca.minexmr.com*" OR query: "*us-west.minexmr.com*" OR query: "*pool.supportxmr.com*" OR query: "*mine.c3pool.com*" OR query: "*xmr-eu1.nanopool.org*" OR query: "*xmr-eu2.nanopool.org*" OR query: "*xmr-us-east1.nanopool.org*" OR query: "*xmr-us-west1.nanopool.org*" OR query: "*xmr-asia1.nanopool.org*" OR query: "*xmr-jp1.nanopool.org*" OR query: "*xmr-au1.nanopool.org*" OR query: "*xmr.2miners.com*" OR query: "*xmr.hashcity.org*" OR query: "*xmr.f2pool.com*" OR query: "*xmrpool.eu*" OR query: "*pool.hashvault.pro*"))

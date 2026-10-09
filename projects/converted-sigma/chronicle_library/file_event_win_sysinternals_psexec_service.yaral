@@ -1,0 +1,23 @@
+// Title: PsExec Service File Creation
+// ID: 259e5a6a-b8d2-4c38-86e2-26c5e651361d
+// Status: test
+// Level: low
+// Author: Thomas Patzke
+// Date: 2017-06-12
+// Tags: attack.execution, attack.t1569.002, attack.s0029
+// Description: Detects default PsExec service filename which indicates PsExec service installation and execution
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 259e5a6a_b8d2_4c38_86e2_26c5e651361d {
+  meta:
+    title = "PsExec Service File Creation"
+    description = "Detects default PsExec service filename which indicates PsExec service installation and execution"
+    author = "Thomas Patzke"
+    severity = "LOW"
+
+  events:
+    ($e.target.file.full_path = /.*\\PSEXESVC.exe$/ nocase)
+
+  condition:
+    $e
+}

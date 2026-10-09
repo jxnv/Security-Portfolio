@@ -1,0 +1,20 @@
+# Title: Sysmon Driver Altitude Change
+# ID: 4916a35e-bfc4-47d0-8e25-a003d7067061
+# Status: test
+# Level: high
+# Author: B.Talebi
+# Date: 2022-07-28
+# Tags: attack.defense-impairment, attack.t1685
+# Description: Detects changes in Sysmon driver altitude value.
+# If the Sysmon driver is configured to load at an altitude of another registered service, it will fail to load at boot.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Sysmon Driver Altitude Change
+def rule(event):
+    # Detection Logic:
+    # (TargetObject="*\\Services\\*" AND TargetObject="*\\Instances\\Sysmon Instance\\Altitude")
+    return True
+
+def title(event):
+    return "Sysmon Driver Altitude Change"
+

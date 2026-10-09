@@ -1,0 +1,11 @@
+// Title: VMToolsd Suspicious Child Process
+// ID: 5687f942-867b-4578-ade7-1e341c46e99a
+// Status: test
+// Level: high
+// Author: bohops, Bhabesh Raj
+// Date: 2021-10-08
+// Tags: attack.execution, attack.persistence, attack.t1059
+// Description: Detects suspicious child process creations of VMware Tools process which may indicate persistence setup
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where (((((process.executable endswith "\\cmd.exe" or process.executable endswith "\\cscript.exe" or process.executable endswith "\\mshta.exe" or process.executable endswith "\\powershell.exe" or process.executable endswith "\\pwsh.exe" or process.executable endswith "\\regsvr32.exe" or process.executable endswith "\\rundll32.exe" or process.executable endswith "\\wscript.exe")) or ((process.pe.original_file_name == "Cmd.Exe" or process.pe.original_file_name == "cscript.exe" or process.pe.original_file_name == "MSHTA.EXE" or process.pe.original_file_name == "PowerShell.EXE" or process.pe.original_file_name == "pwsh.dll" or process.pe.original_file_name == "REGSVR32.EXE" or process.pe.original_file_name == "RUNDLL32.EXE" or process.pe.original_file_name == "wscript.exe"))) and (process.parent.executable endswith "\\vmtoolsd.exe")) and not (((process.executable endswith "\\cmd.exe" and process.command_line == "") or (process.executable endswith "\\cmd.exe" and process.command_line == null) or (process.executable endswith "\\cmd.exe" and (process.command_line like "*_\\VMware\\VMware Tools\\poweron-vm-default.bat*" or process.command_line like "*_\\VMware\\VMware Tools\\poweroff-vm-default.bat*" or process.command_line like "*_\\VMware\\VMware Tools\\resume-vm-default.bat*" or process.command_line like "*_\\VMware\\VMware Tools\\suspend-vm-default.bat*")))))

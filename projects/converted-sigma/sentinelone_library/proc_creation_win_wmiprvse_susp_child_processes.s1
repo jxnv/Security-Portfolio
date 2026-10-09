@@ -1,0 +1,11 @@
+// Title: Suspicious WmiPrvSE Child Process
+// ID: 8a582fe2-0882-4b89-a82a-da6b2dc32937
+// Status: test
+// Level: high
+// Author: Vadim Khrykov (ThreatIntel), Cyb3rEng, Florian Roth (Nextron Systems)
+// Date: 2021-08-23
+// Tags: attack.execution, attack.stealth, attack.t1047, attack.t1204.002, attack.t1218.010
+// Description: Detects suspicious and uncommon child processes of WmiPrvSE
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((src.process.parent.image.path endswithCIS "\\wbem\\WmiPrvSE.exe") AND (((src.process.image.path endswithCIS "\\certutil.exe" OR src.process.image.path endswithCIS "\\cscript.exe" OR src.process.image.path endswithCIS "\\mshta.exe" OR src.process.image.path endswithCIS "\\msiexec.exe" OR src.process.image.path endswithCIS "\\regsvr32.exe" OR src.process.image.path endswithCIS "\\rundll32.exe" OR src.process.image.path endswithCIS "\\verclsid.exe" OR src.process.image.path endswithCIS "\\wscript.exe")) OR (src.process.image.path endswithCIS "\\cmd.exe" AND (src.process.cmdline containsCIS "cscript" OR src.process.cmdline containsCIS "mshta" OR src.process.cmdline containsCIS "powershell" OR src.process.cmdline containsCIS "pwsh" OR src.process.cmdline containsCIS "regsvr32" OR src.process.cmdline containsCIS "rundll32" OR src.process.cmdline containsCIS "wscript"))) AND NOT (((src.process.image.path endswithCIS "\\msiexec.exe" AND src.process.cmdline containsCIS "/i ") OR (src.process.image.path endswithCIS "\\WerFault.exe") OR (src.process.image.path endswithCIS "\\WmiPrvSE.exe"))))

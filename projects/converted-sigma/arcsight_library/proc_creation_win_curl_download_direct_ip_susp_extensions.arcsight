@@ -1,0 +1,11 @@
+// Title: Suspicious File Download From IP Via Curl.EXE
+// ID: 5cb299fc-5fb1-4d07-b989-0644c68b6043
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-07-27
+// Tags: attack.execution
+// Description: Detects potentially suspicious file downloads directly from IP addresses using curl.exe
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((CommandLine ENDSWITH ".bat" OR CommandLine ENDSWITH ".bat\"" OR CommandLine ENDSWITH ".dat" OR CommandLine ENDSWITH ".dat\"" OR CommandLine ENDSWITH ".dll" OR CommandLine ENDSWITH ".dll\"" OR CommandLine ENDSWITH ".exe" OR CommandLine ENDSWITH ".exe\"" OR CommandLine ENDSWITH ".gif" OR CommandLine ENDSWITH ".gif\"" OR CommandLine ENDSWITH ".hta" OR CommandLine ENDSWITH ".hta\"" OR CommandLine ENDSWITH ".jpeg" OR CommandLine ENDSWITH ".jpeg\"" OR CommandLine ENDSWITH ".log" OR CommandLine ENDSWITH ".log\"" OR CommandLine ENDSWITH ".msi" OR CommandLine ENDSWITH ".msi\"" OR CommandLine ENDSWITH ".png" OR CommandLine ENDSWITH ".png\"" OR CommandLine ENDSWITH ".ps1" OR CommandLine ENDSWITH ".ps1\"" OR CommandLine ENDSWITH ".psm1" OR CommandLine ENDSWITH ".psm1\"" OR CommandLine ENDSWITH ".vbe" OR CommandLine ENDSWITH ".vbe\"" OR CommandLine ENDSWITH ".vbs" OR CommandLine ENDSWITH ".vbs\"" OR CommandLine ENDSWITH ".bat'" OR CommandLine ENDSWITH ".dat'" OR CommandLine ENDSWITH ".dll'" OR CommandLine ENDSWITH ".exe'" OR CommandLine ENDSWITH ".gif'" OR CommandLine ENDSWITH ".hta'" OR CommandLine ENDSWITH ".jpeg'" OR CommandLine ENDSWITH ".log'" OR CommandLine ENDSWITH ".msi'" OR CommandLine ENDSWITH ".png'" OR CommandLine ENDSWITH ".ps1'" OR CommandLine ENDSWITH ".psm1'" OR CommandLine ENDSWITH ".vbe'" OR CommandLine ENDSWITH ".vbs'")) AND ((CommandLine CONTAINS " -O" OR CommandLine CONTAINS "--remote-name" OR CommandLine CONTAINS "--output")) AND (CommandLine CONTAINS "http") AND ((Image ENDSWITH "\\curl.exe") OR (OriginalFileName EQ "curl.exe")) AND (CommandLine=regex("://[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}")))

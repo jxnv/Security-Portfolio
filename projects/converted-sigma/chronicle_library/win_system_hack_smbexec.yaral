@@ -1,0 +1,23 @@
+// Title: smbexec.py Service Installation
+// ID: 52a85084-6989-40c3-8f32-091e12e13f09
+// Status: test
+// Level: high
+// Author: Omer Faruk Celik
+// Date: 2018-03-20
+// Tags: attack.lateral-movement, attack.execution, attack.t1021.002, attack.t1569.002
+// Description: Detects the use of smbexec.py tool by detecting a specific service installation
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 52a85084_6989_40c3_8f32_091e12e13f09 {
+  meta:
+    title = "smbexec.py Service Installation"
+    description = "Detects the use of smbexec.py tool by detecting a specific service installation"
+    author = "Omer Faruk Celik"
+    severity = "HIGH"
+
+  events:
+    (($e.Provider_Name = "Service Control Manager" and $e.EventID = 7045) and ((($e.ImagePath = /.*.bat & del .*/ nocase or $e.ImagePath = /.*__output 2^>^&1 >.*/ nocase)) or ($e.ServiceName = "BTOBTO")))
+
+  condition:
+    $e
+}

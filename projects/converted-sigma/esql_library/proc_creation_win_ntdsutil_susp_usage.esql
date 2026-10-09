@@ -1,0 +1,11 @@
+// Title: Suspicious Usage Of Active Directory Diagnostic Tool (ntdsutil.exe)
+// ID: a58353df-af43-4753-bad0-cd83ef35eef5
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-09-14
+// Tags: attack.credential-access, attack.t1003.003
+// Description: Detects execution of ntdsutil.exe to perform different actions such as restoring snapshots...etc.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE ((((process.command_line LIKE "%snapshot%" AND process.command_line LIKE "%mount %")) OR ((process.command_line LIKE "%ac%" AND process.command_line LIKE "% i%" AND process.command_line LIKE "% ntds%"))) AND ((process.executable LIKE "%\\ntdsutil.exe") OR (process.pe.original_file_name == "ntdsutil.exe")))

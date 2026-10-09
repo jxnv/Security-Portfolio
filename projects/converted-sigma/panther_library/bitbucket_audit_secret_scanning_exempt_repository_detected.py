@@ -1,0 +1,19 @@
+# Title: Bitbucket Secret Scanning Exempt Repository Added
+# ID: b91e8d5e-0033-44fe-973f-b730316f23a1
+# Status: test
+# Level: high
+# Author: Muhammad Faisal (@faisalusuf)
+# Date: 2024-02-25
+# Tags: attack.defense-impairment, attack.t1685
+# Description: Detects when a repository is exempted from secret scanning feature.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Bitbucket Secret Scanning Exempt Repository Added
+def rule(event):
+    # Detection Logic:
+    # (auditType.category="Repositories" AND auditType.action="Secret scanning exempt repository added")
+    return True
+
+def title(event):
+    return "Bitbucket Secret Scanning Exempt Repository Added"
+

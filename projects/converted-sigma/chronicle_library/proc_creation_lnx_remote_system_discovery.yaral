@@ -1,0 +1,23 @@
+// Title: Linux Remote System Discovery
+// ID: 11063ec2-de63-4153-935e-b1a8b9e616f1
+// Status: test
+// Level: low
+// Author: Alejandro Ortuno, oscd.community
+// Date: 2020-10-22
+// Tags: attack.discovery, attack.t1018
+// Description: Detects the enumeration of other remote systems.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 11063ec2_de63_4153_935e_b1a8b9e616f1 {
+  meta:
+    title = "Linux Remote System Discovery"
+    description = "Detects the enumeration of other remote systems."
+    author = "Alejandro Ortuno, oscd.community"
+    severity = "LOW"
+
+  events:
+    (($e.target.process.file.full_path = /.*/arp$/ nocase and $e.target.process.command_line = /.*-a.*/ nocase) or ($e.target.process.file.full_path = /.*/ping$/ nocase and ($e.target.process.command_line = /.* 10..*/ nocase or $e.target.process.command_line = /.* 192.168..*/ nocase or $e.target.process.command_line = /.* 172.16..*/ nocase or $e.target.process.command_line = /.* 172.17..*/ nocase or $e.target.process.command_line = /.* 172.18..*/ nocase or $e.target.process.command_line = /.* 172.19..*/ nocase or $e.target.process.command_line = /.* 172.20..*/ nocase or $e.target.process.command_line = /.* 172.21..*/ nocase or $e.target.process.command_line = /.* 172.22..*/ nocase or $e.target.process.command_line = /.* 172.23..*/ nocase or $e.target.process.command_line = /.* 172.24..*/ nocase or $e.target.process.command_line = /.* 172.25..*/ nocase or $e.target.process.command_line = /.* 172.26..*/ nocase or $e.target.process.command_line = /.* 172.27..*/ nocase or $e.target.process.command_line = /.* 172.28..*/ nocase or $e.target.process.command_line = /.* 172.29..*/ nocase or $e.target.process.command_line = /.* 172.30..*/ nocase or $e.target.process.command_line = /.* 172.31..*/ nocase or $e.target.process.command_line = /.* 127..*/ nocase or $e.target.process.command_line = /.* 169.254..*/ nocase)))
+
+  condition:
+    $e
+}

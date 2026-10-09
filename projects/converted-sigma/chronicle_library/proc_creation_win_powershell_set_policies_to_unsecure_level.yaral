@@ -1,0 +1,23 @@
+// Title: Change PowerShell Policies to an Insecure Level
+// ID: 87e3c4e8-a6a8-4ad9-bb4f-46e7ff99a180
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2021-11-01
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects changing the PowerShell script execution policy to a potentially insecure level using the "-ExecutionPolicy" flag.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 87e3c4e8_a6a8_4ad9_bb4f_46e7ff99a180 {
+  meta:
+    title = "Change PowerShell Policies to an Insecure Level"
+    description = "Detects changing the PowerShell script execution policy to a potentially insecure level using the "-ExecutionPolicy" flag."
+    author = "frack113"
+    severity = "MEDIUM"
+
+  events:
+    ((((($e.target.process.file.name = "powershell_ise.exe" or $e.target.process.file.name = "PowerShell.EXE" or $e.target.process.file.name = "pwsh.dll")) or (($e.target.process.file.full_path = /.*\\powershell_ise.exe$/ nocase or $e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase))) and (($e.target.process.command_line = /.*Bypass.*/ nocase or $e.target.process.command_line = /.*Unrestricted.*/ nocase)) and (($e.target.process.command_line = /.*-executionpolicy .*/ nocase or $e.target.process.command_line = /.* -ep .*/ nocase or $e.target.process.command_line = /.* -exec .*/ nocase))) and not((($e.principal.process.file.full_path = "C:\\Windows\\SysWOW64\\msiexec.exe" or $e.principal.process.file.full_path = "C:\\Windows\\System32\\msiexec.exe") and ($e.target.process.command_line = /.*-NoProfile -ExecutionPolicy Bypass -File \"C:\\Program Files\\PowerShell\\7\\.*/ nocase or $e.target.process.command_line = /.*-NoProfile -ExecutionPolicy Bypass -File \"C:\\Program Files (x86)\\PowerShell\\7\\.*/ nocase))) and not((($e.principal.process.file.full_path = /.*C:\\Program Files\\Avast Software\\Avast\\.*/ nocase or $e.principal.process.file.full_path = /.*C:\\Program Files (x86)\\Avast Software\\Avast\\.*/ nocase or $e.principal.process.file.full_path = /.*\\instup.exe.*/ nocase) and ($e.target.process.command_line = /.*-ExecutionPolicy ByPass -File \"C:\\Program Files\\Avast Software\\Avast.*/ nocase or $e.target.process.command_line = /.*-ExecutionPolicy ByPass -File \"C:\\Program Files (x86)\\Avast Software\\Avast\\.*/ nocase))))
+
+  condition:
+    $e
+}

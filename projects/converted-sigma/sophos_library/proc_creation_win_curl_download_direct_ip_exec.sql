@@ -1,0 +1,11 @@
+-- Title: File Download From IP URL Via Curl.EXE
+-- ID: 9cc85849-3b02-4cb5-b371-3a1ff54f2218
+-- Status: test
+-- Level: medium
+-- Author: Nasreddine Bencherchali (Nextron Systems)
+-- Date: 2023-10-18
+-- Tags: attack.execution
+-- Description: Detects file downloads directly from IP address URL using curl.exe
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE ((((CommandLine ILIKE '% -O%' OR CommandLine ILIKE '%--remote-name%' OR CommandLine ILIKE '%--output%')) AND (CommandLine ILIKE '%http%') AND ((Image ILIKE '%\\curl.exe') OR (OriginalFileName = 'curl.exe')) AND (REGEXP_LIKE(CommandLine, '://[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}'))) AND NOT (((CommandLine ILIKE '%.bat' OR CommandLine ILIKE '%.bat\"' OR CommandLine ILIKE '%.dat' OR CommandLine ILIKE '%.dat\"' OR CommandLine ILIKE '%.dll' OR CommandLine ILIKE '%.dll\"' OR CommandLine ILIKE '%.exe' OR CommandLine ILIKE '%.exe\"' OR CommandLine ILIKE '%.gif' OR CommandLine ILIKE '%.gif\"' OR CommandLine ILIKE '%.hta' OR CommandLine ILIKE '%.hta\"' OR CommandLine ILIKE '%.jpeg' OR CommandLine ILIKE '%.jpeg\"' OR CommandLine ILIKE '%.log' OR CommandLine ILIKE '%.log\"' OR CommandLine ILIKE '%.msi' OR CommandLine ILIKE '%.msi\"' OR CommandLine ILIKE '%.png' OR CommandLine ILIKE '%.png\"' OR CommandLine ILIKE '%.ps1' OR CommandLine ILIKE '%.ps1\"' OR CommandLine ILIKE '%.psm1' OR CommandLine ILIKE '%.psm1\"' OR CommandLine ILIKE '%.vbe' OR CommandLine ILIKE '%.vbe\"' OR CommandLine ILIKE '%.vbs' OR CommandLine ILIKE '%.vbs\"' OR CommandLine ILIKE '%.bat'' OR CommandLine ILIKE '%.dat'' OR CommandLine ILIKE '%.dll'' OR CommandLine ILIKE '%.exe'' OR CommandLine ILIKE '%.gif'' OR CommandLine ILIKE '%.hta'' OR CommandLine ILIKE '%.jpeg'' OR CommandLine ILIKE '%.log'' OR CommandLine ILIKE '%.msi'' OR CommandLine ILIKE '%.png'' OR CommandLine ILIKE '%.ps1'' OR CommandLine ILIKE '%.psm1'' OR CommandLine ILIKE '%.vbe'' OR CommandLine ILIKE '%.vbs''))))

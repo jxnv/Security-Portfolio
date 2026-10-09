@@ -1,0 +1,11 @@
+-- Title: Suspicious New-PSDrive to Admin Share
+-- ID: 1c563233-030e-4a07-af8c-ee0490a66d3a
+-- Status: test
+-- Level: medium
+-- Author: frack113
+-- Date: 2022-08-13
+-- Tags: attack.lateral-movement, attack.t1021.002
+-- Description: Adversaries may use to interact with a remote network share using Server Message Block (SMB). The adversary may then perform actions as the logged-on user.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM file WHERE ((ScriptBlockText LIKE '%New-PSDrive%' AND ScriptBlockText LIKE '%-psprovider %' AND ScriptBlockText LIKE '%filesystem%' AND ScriptBlockText LIKE '%-root %' AND ScriptBlockText LIKE '%\\\\\\\\%' AND ScriptBlockText LIKE '%$%'))

@@ -1,0 +1,11 @@
+// Title: Process Execution From A Potentially Suspicious Folder
+// ID: 3dfd06d2-eaf4-4532-9555-68aca59f57c4
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Tim Shelton
+// Date: 2019-01-16
+// Tags: attack.stealth, attack.t1036
+// Description: Detects a potentially suspicious execution from an uncommon folder.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(Image ICONTAINS ":\\Perflogs\\") OR where(Image ICONTAINS ":\\Users\\All Users\\") OR where(Image ICONTAINS ":\\Users\\Default\\") OR where(Image ICONTAINS ":\\Users\\NetworkService\\") OR where(Image ICONTAINS ":\\Windows\\addins\\") OR where(Image ICONTAINS ":\\Windows\\debug\\") OR where(Image ICONTAINS ":\\Windows\\Fonts\\") OR where(Image ICONTAINS ":\\Windows\\Help\\") OR where(Image ICONTAINS ":\\Windows\\IME\\") OR where(Image ICONTAINS ":\\Windows\\Media\\") OR where(Image ICONTAINS ":\\Windows\\repair\\") OR where(Image ICONTAINS ":\\Windows\\security\\") OR where(Image ICONTAINS ":\\Windows\\System32\\Tasks\\") OR where(Image ICONTAINS ":\\Windows\\Tasks\\") OR where(Image ICONTAINS "$Recycle.bin") OR where(Image ICONTAINS "\\config\\systemprofile\\") OR where(Image ICONTAINS "\\Intel\\Logs\\") OR where(Image ICONTAINS "\\RSA\\MachineKeys\\"))) AND NOT (((where(Image ISTARTSWITH "C:\\Windows\\SysWOW64\\config\\systemprofile\\Citrix\\UpdaterBinaries\\") AND where(Image IENDSWITH "\\CitrixReceiverUpdater.exe")) OR (where(Image ISTARTSWITH "C:\\Users\\Public\\IBM\\ClientSolutions\\Start_Programs\\")))))

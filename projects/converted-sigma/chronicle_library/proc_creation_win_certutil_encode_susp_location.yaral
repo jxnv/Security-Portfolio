@@ -1,0 +1,23 @@
+// Title: File In Suspicious Location Encoded To Base64 Via Certutil.EXE
+// ID: 82a6714f-4899-4f16-9c1e-9a333544d4c3
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-05-15
+// Tags: attack.stealth, attack.t1027
+// Description: Detects the execution of certutil with the "encode" flag to encode a file to base64 where the files are located in potentially suspicious locations
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 82a6714f_4899_4f16_9c1e_9a333544d4c3 {
+  meta:
+    title = "File In Suspicious Location Encoded To Base64 Via Certutil.EXE"
+    description = "Detects the execution of certutil with the "encode" flag to encode a file to base64 where the files are located in potentially suspicious locations"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*-encode.*/ nocase or $e.target.process.command_line = /.*/encode.*/ nocase)) and (($e.target.process.command_line = /.*\\AppData\\Roaming\\.*/ nocase or $e.target.process.command_line = /.*\\Desktop\\.*/ nocase or $e.target.process.command_line = /.*\\Local\\Temp\\.*/ nocase or $e.target.process.command_line = /.*\\PerfLogs\\.*/ nocase or $e.target.process.command_line = /.*\\Users\\Public\\.*/ nocase or $e.target.process.command_line = /.*\\Windows\\Temp\\.*/ nocase or $e.target.process.command_line = /.*$Recycle.Bin.*/ nocase)) and (($e.target.process.file.full_path = /.*\\certutil.exe$/ nocase) or ($e.target.process.file.name = "CertUtil.exe")))
+
+  condition:
+    $e
+}

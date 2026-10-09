@@ -1,0 +1,25 @@
+// Title: Suspicious WSL Binary Masquerading
+// ID: 530576ee-3b62-4bce-9a03-9aac6c61788a
+// Status: experimental
+// Level: high
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2026-05-05
+// Tags: attack.stealth, attack.t1036.005, attack.t1218
+// Description: Detects execution of masqueraded wsl.exe binary.
+// Attackers can rename a malicious payload to wsl.exe to masquerade as the legitimate Windows Subsystem for Linux binary,
+// bypassing detection based on image name alone and abusing user trust in the WSL process name.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 530576ee_3b62_4bce_9a03_9aac6c61788a {
+  meta:
+    title = "Suspicious WSL Binary Masquerading"
+    description = "Detects execution of masqueraded wsl.exe binary. Attackers can rename a malicious payload to wsl.exe to masquerade as the legitimate Windows Subsystem for Linux binary, bypassing detection based on image name alone and abusing user trust in the WSL process name."
+    author = "Swachchhanda Shrawan Poudel (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.file.full_path = /.*\\wsl.exe$/ nocase) and not((($e.target.process.file.name = "wsl.exe") or (not ($e.target.process.file.name = /.*/)))))
+
+  condition:
+    $e
+}

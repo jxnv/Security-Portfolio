@@ -1,0 +1,19 @@
+# Title: Invoke-Obfuscation Via Use MSHTA - PowerShell
+# ID: e55a5195-4724-480e-a77e-3ebe64bd3759
+# Status: test
+# Level: high
+# Author: Nikita Nazarov, oscd.community
+# Date: 2020-10-08
+# Tags: attack.stealth, attack.t1027, attack.execution, attack.t1059.001
+# Description: Detects Obfuscated Powershell via use MSHTA in Scripts
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Invoke-Obfuscation Via Use MSHTA - PowerShell
+def rule(event):
+    # Detection Logic:
+    # ((ScriptBlockText="*set*" AND ScriptBlockText="*&&*" AND ScriptBlockText="*mshta*" AND ScriptBlockText="*vbscript:createobject*" AND ScriptBlockText="*.run*" AND ScriptBlockText="*(window.close)*"))
+    return True
+
+def title(event):
+    return "Invoke-Obfuscation Via Use MSHTA - PowerShell"
+

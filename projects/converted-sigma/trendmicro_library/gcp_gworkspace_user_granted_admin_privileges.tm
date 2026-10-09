@@ -1,0 +1,11 @@
+// Title: Google Workspace User Granted Admin Privileges
+// ID: 2d1b83e4-17c6-4896-a37b-29140b40a788
+// Status: test
+// Level: medium
+// Author: Austin Songer
+// Date: 2021-08-23
+// Tags: attack.privilege-escalation, attack.persistence, attack.t1098
+// Description: Detects when an Google Workspace user is granted admin privileges.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(eventService: "admin.googleapis.com" AND (eventName: "GRANT_DELEGATED_ADMIN_PRIVILEGES" OR eventName: "GRANT_ADMIN_PRIVILEGE"))

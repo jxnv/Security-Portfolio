@@ -1,0 +1,12 @@
+// Title: Suspicious Get Local Groups Information
+// ID: cef24b90-dddc-4ae1-a09a-8764872f69fc
+// Status: test
+// Level: low
+// Author: frack113
+// Date: 2021-12-12
+// Tags: attack.discovery, attack.t1069.001
+// Description: Detects the use of PowerShell modules and cmdlets to gather local group information.
+// Adversaries may use local system permission groups to determine which groups exist and which users belong to a particular group such as the local administrators group.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter ((((Payload contains "get-localgroup " or Payload contains "get-localgroupmember ")) or ((ContextInfo contains "get-localgroup " or ContextInfo contains "get-localgroupmember "))) or (((Payload contains "win32_group") or (ContextInfo contains "win32_group")) and (((Payload contains "get-wmiobject " or Payload contains "gwmi " or Payload contains "get-ciminstance " or Payload contains "gcim ")) or ((ContextInfo contains "get-wmiobject " and ContextInfo contains "gwmi " and ContextInfo contains "get-ciminstance " and ContextInfo contains "gcim ")))))

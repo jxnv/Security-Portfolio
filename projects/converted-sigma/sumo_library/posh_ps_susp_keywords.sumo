@@ -1,0 +1,11 @@
+// Title: Potential Suspicious PowerShell Keywords
+// ID: 1f49f2ab-26bc-48b3-96cc-dcffbc93eadf
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems), Perez Diego (@darkquassar), Tuan Le (NCSGroup)
+// Date: 2019-02-11
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects potentially suspicious keywords that could indicate the use of a PowerShell exploitation framework
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where ((ScriptBlockText matches "*System.Reflection.Assembly.Load($*" or ScriptBlockText matches "*[System.Reflection.Assembly]::Load($*" or ScriptBlockText matches "*[Reflection.Assembly]::Load($*" or ScriptBlockText matches "*System.Reflection.AssemblyName*" or ScriptBlockText matches "*Reflection.Emit.AssemblyBuilderAccess*" or ScriptBlockText matches "*Reflection.Emit.CustomAttributeBuilder*" or ScriptBlockText matches "*Runtime.InteropServices.UnmanagedType*" or ScriptBlockText matches "*Runtime.InteropServices.DllImportAttribute*" or ScriptBlockText matches "*SuspendThread*" or ScriptBlockText matches "*rundll32*"))

@@ -1,0 +1,27 @@
+{
+  "title": "Active Directory Group Enumeration With Get-AdGroup",
+  "id": "8c3a6607-b7dc-4f0d-a646-ef38c00b76ee",
+  "status": "test",
+  "description": "Detects usage of the \"Get-AdGroup\" cmdlet to enumerate Groups within Active Directory",
+  "author": "frack113",
+  "date": "2022-03-17",
+  "tags": [
+    "attack.discovery",
+    "attack.t1069.002"
+  ],
+  "level": "low",
+  "logsource": {
+    "product": "windows",
+    "category": "ps_script",
+    "definition": "Requirements: Script Block Logging must be enabled"
+  },
+  "detection": {
+    "selection": {
+      "ScriptBlockText|contains|all": [
+        "Get-AdGroup ",
+        "-Filter"
+      ]
+    },
+    "condition": "selection"
+  }
+}

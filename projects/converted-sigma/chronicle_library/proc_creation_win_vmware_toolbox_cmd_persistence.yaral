@@ -1,0 +1,23 @@
+// Title: Potential Persistence Via VMwareToolBoxCmd.EXE VM State Change Script
+// ID: 7aa4e81a-a65c-4e10-9f81-b200eb229d7d
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-06-14
+// Tags: attack.execution, attack.persistence, attack.t1059
+// Description: Detects execution of the "VMwareToolBoxCmd.exe" with the "script" and "set" flag to setup a specific script to run for a specific VM state
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 7aa4e81a_a65c_4e10_9f81_b200eb229d7d {
+  meta:
+    title = "Potential Persistence Via VMwareToolBoxCmd.EXE VM State Change Script"
+    description = "Detects execution of the "VMwareToolBoxCmd.exe" with the "script" and "set" flag to setup a specific script to run for a specific VM state"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.command_line = /.* script .*/ nocase and $e.target.process.command_line = /.* set .*/ nocase)) and (($e.target.process.file.full_path = /.*\\VMwareToolBoxCmd.exe$/ nocase) or ($e.target.process.file.name = "toolbox-cmd.exe")))
+
+  condition:
+    $e
+}

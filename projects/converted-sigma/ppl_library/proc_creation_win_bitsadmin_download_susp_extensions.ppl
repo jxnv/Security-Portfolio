@@ -1,0 +1,11 @@
+// Title: File With Suspicious Extension Downloaded Via Bitsadmin
+// ID: 5b80a791-ad9b-4b75-bcc1-ad4e1e89c200
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-06-28
+// Tags: attack.persistence, attack.execution, attack.stealth, attack.t1197, attack.s0190, attack.t1036.003, attack.command-and-control, attack.t1105
+// Description: Detects usage of bitsadmin downloading a file with a suspicious extension
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where (((process.command_line like "%.7z%" OR process.command_line like "%.asax%" OR process.command_line like "%.ashx%" OR process.command_line like "%.asmx%" OR process.command_line like "%.asp%" OR process.command_line like "%.aspx%" OR process.command_line like "%.bat%" OR process.command_line like "%.cfm%" OR process.command_line like "%.cgi%" OR process.command_line like "%.chm%" OR process.command_line like "%.cmd%" OR process.command_line like "%.dll%" OR process.command_line like "%.gif%" OR process.command_line like "%.jpeg%" OR process.command_line like "%.jpg%" OR process.command_line like "%.jsp%" OR process.command_line like "%.jspx%" OR process.command_line like "%.log%" OR process.command_line like "%.png%" OR process.command_line like "%.ps1%" OR process.command_line like "%.psm1%" OR process.command_line like "%.rar%" OR process.command_line like "%.scf%" OR process.command_line like "%.sct%" OR process.command_line like "%.txt%" OR process.command_line like "%.vbe%" OR process.command_line like "%.vbs%" OR process.command_line like "%.war%" OR process.command_line like "%.wsf%" OR process.command_line like "%.wsh%" OR process.command_line like "%.xll%" OR process.command_line like "%.zip%")) AND ((process.command_line like "% /transfer %" OR process.command_line like "% /create %" OR process.command_line like "% /addfile %")) AND ((process.executable="*\\bitsadmin.exe") OR (process.pe.original_file_name = "bitsadmin.exe")))

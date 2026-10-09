@@ -1,0 +1,23 @@
+// Title: Disk Image Mounting Via Hdiutil - MacOS
+// ID: bf241472-f014-4f01-a869-96f99330ca8c
+// Status: test
+// Level: medium
+// Author: Omar Khaled (@beacon_exe)
+// Date: 2024-08-10
+// Tags: attack.initial-access, attack.collection, attack.t1566.001, attack.t1560.001
+// Description: Detects the execution of the hdiutil utility in order to mount disk images.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule bf241472_f014_4f01_a869_96f99330ca8c {
+  meta:
+    title = "Disk Image Mounting Via Hdiutil - MacOS"
+    description = "Detects the execution of the hdiutil utility in order to mount disk images."
+    author = "Omar Khaled (@beacon_exe)"
+    severity = "MEDIUM"
+
+  events:
+    ($e.target.process.file.full_path = /.*/hdiutil$/ nocase and ($e.target.process.command_line = /.*attach .*/ nocase or $e.target.process.command_line = /.*mount .*/ nocase))
+
+  condition:
+    $e
+}

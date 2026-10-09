@@ -1,0 +1,11 @@
+// Title: COM Hijacking via TreatAs
+// ID: dc5c24af-6995-49b2-86eb-a9ff62199e82
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-08-28
+// Tags: attack.privilege-escalation, attack.persistence, attack.t1546.015
+// Description: Detect modification of TreatAs key to enable "rundll32.exe -sta" command
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((TargetObject endswithCIS "TreatAs\\(Default)") AND NOT ((((src.process.image.path = "C:\\Windows\\system32\\msiexec.exe" OR src.process.image.path = "C:\\Windows\\SysWOW64\\msiexec.exe")) OR (src.process.image.path startswithCIS "C:\\Program Files\\Common Files\\Microsoft Shared\\ClickToRun\\" AND src.process.image.path endswithCIS "\\OfficeClickToRun.exe") OR ((src.process.image.path = "C:\\Program Files\\Microsoft Office\\root\\integration\\integrator.exe" OR src.process.image.path = "C:\\Program Files (x86)\\Microsoft Office\\root\\integration\\integrator.exe")) OR (src.process.image.path = "C:\\Windows\\system32\\svchost.exe"))))

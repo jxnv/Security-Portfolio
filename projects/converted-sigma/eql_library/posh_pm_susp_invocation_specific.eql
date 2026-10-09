@@ -1,0 +1,11 @@
+// Title: Suspicious PowerShell Invocations - Specific - PowerShell Module
+// ID: 8ff28fdd-e2fa-4dfa-aeda-ef3d61c62090
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Jonhnathan Ribeiro
+// Date: 2017-03-05
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects suspicious PowerShell invocation command parameters
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+any where ((((ContextInfo like "*_-nop*" and ContextInfo like "*_ -w *" and ContextInfo like "*_hidden*" and ContextInfo like "*_ -c *" and ContextInfo like "*_[Convert]::FromBase64String*")) or ((ContextInfo like "*_ -w *" and ContextInfo like "*_hidden*" and ContextInfo like "*_-ep*" and ContextInfo like "*_bypass*" and ContextInfo like "*_-Enc*")) or ((ContextInfo like "*_ -w *" and ContextInfo like "*_hidden*" and ContextInfo like "*_-noni*" and ContextInfo like "*_-nop*" and ContextInfo like "*_ -c *" and ContextInfo like "*_iex*" and ContextInfo like "*_New-Object*")) or ((ContextInfo like "*_iex*" and ContextInfo like "*_New-Object*" and ContextInfo like "*_Net.WebClient*" and ContextInfo like "*_.Download*")) or ((ContextInfo like "*_powershell*" and ContextInfo like "*_reg*" and ContextInfo like "*_add*") and (ContextInfo like "*_\\software\\microsoft\\windows\\currentversion\\run*" or ContextInfo like "*_\\software\\wow6432node\\microsoft\\windows\\currentversion\\run*" or ContextInfo like "*_\\software\\microsoft\\windows\\currentversion\\policies\\explorer\\run*")) or ((ContextInfo like "*_bypass*" and ContextInfo like "*_-noprofile*" and ContextInfo like "*_-windowstyle*" and ContextInfo like "*_hidden*" and ContextInfo like "*_new-object*" and ContextInfo like "*_system.net.webclient*" and ContextInfo like "*_.download*"))) and not (((ContextInfo like "*_(New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1*" or ContextInfo like "*_Write-ChocolateyWarning*"))))

@@ -1,0 +1,23 @@
+// Title: Service Installation in Suspicious Folder
+// ID: 5e993621-67d4-488a-b9ae-b420d08b96cb
+// Status: test
+// Level: medium
+// Author: pH-T (Nextron Systems)
+// Date: 2022-03-18
+// Tags: attack.persistence, attack.privilege-escalation, car.2013-09-005, attack.t1543.003
+// Description: Detects service installation in suspicious folder appdata
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 5e993621_67d4_488a_b9ae_b420d08b96cb {
+  meta:
+    title = "Service Installation in Suspicious Folder"
+    description = "Detects service installation in suspicious folder appdata"
+    author = "pH-T (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.Provider_Name = "Service Control Manager" and $e.EventID = 7045 and ($e.ImagePath = /.*\\AppData\\.*/ nocase or $e.ImagePath = /.*\\\\\\\\127.0.0.1.*/ nocase or $e.ImagePath = /.*\\\\\\\\localhost.*/ nocase)) and not(($e.ServiceName = "Zoom Sharing Service" and $e.ImagePath = /.*:\\Program Files\\Common Files\\Zoom\\Support\\CptService.exe.*/ nocase)))
+
+  condition:
+    $e
+}

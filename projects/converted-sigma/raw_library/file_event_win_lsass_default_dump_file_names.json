@@ -1,0 +1,56 @@
+{
+  "title": "LSASS Process Memory Dump Files",
+  "id": "a5a2d357-1ab8-4675-a967-ef9990a59391",
+  "status": "test",
+  "description": "Detects creation of files with names used by different memory dumping tools to create a memory dump of the LSASS process memory, which contains user credentials.",
+  "author": "Florian Roth (Nextron Systems)",
+  "date": "2021-11-15",
+  "tags": [
+    "attack.credential-access",
+    "attack.t1003.001"
+  ],
+  "level": "high",
+  "logsource": {
+    "product": "windows",
+    "category": "file_event"
+  },
+  "detection": {
+    "selection_1": {
+      "TargetFilename|endswith": [
+        "\\Andrew.dmp",
+        "\\Coredump.dmp",
+        "\\lsass.dmp",
+        "\\lsass.rar",
+        "\\lsass.zip",
+        "\\NotLSASS.zip",
+        "\\PPLBlade.dmp",
+        "\\rustive.dmp"
+      ]
+    },
+    "selection_2": {
+      "TargetFilename|contains": [
+        "\\lsass_2",
+        "\\lsassdmp",
+        "\\lsassdump"
+      ]
+    },
+    "selection_3": {
+      "TargetFilename|contains|all": [
+        "\\lsass",
+        ".dmp"
+      ]
+    },
+    "selection_4": {
+      "TargetFilename|contains": "SQLDmpr",
+      "TargetFilename|endswith": ".mdmp"
+    },
+    "selection_5": {
+      "TargetFilename|contains": [
+        "\\nanodump",
+        "\\proc_"
+      ],
+      "TargetFilename|endswith": ".dmp"
+    },
+    "condition": "1 of selection_*"
+  }
+}

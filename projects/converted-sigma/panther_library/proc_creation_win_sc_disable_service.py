@@ -1,0 +1,19 @@
+# Title: Service StartupType Change Via Sc.EXE
+# ID: 85c312b7-f44d-4a51-a024-d671c40b49fc
+# Status: test
+# Level: medium
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-08-01
+# Tags: attack.execution, attack.defense-impairment, attack.t1685
+# Description: Detect the use of "sc.exe" to change the startup type of a service to "disabled" or "demand"
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Service StartupType Change Via Sc.EXE
+def rule(event):
+    # Detection Logic:
+    # (((CommandLine="* config *" AND CommandLine="*start*") AND (CommandLine="*disabled*" OR CommandLine="*demand*")) AND ((Image="*\\sc.exe") OR (OriginalFileName="sc.exe")))
+    return True
+
+def title(event):
+    return "Service StartupType Change Via Sc.EXE"
+

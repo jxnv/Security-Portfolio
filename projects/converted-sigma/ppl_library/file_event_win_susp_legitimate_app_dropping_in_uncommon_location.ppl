@@ -1,0 +1,12 @@
+// Title: Legitimate Application Writing Files In Uncommon Location
+// ID: 1cf465a1-2609-4c15-9b66-c32dbe4bfd67
+// Status: experimental
+// Level: high
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-12-10
+// Tags: attack.stealth, attack.t1218, attack.command-and-control, attack.t1105
+// Description: Detects legitimate applications writing any type of file to uncommon or suspicious locations that are not typical for application data storage or execution.
+// Adversaries may leverage legitimate applications (Living off the Land Binaries - LOLBins) to drop or download malicious files to uncommon locations on the system to evade detection by security solutions.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where (((process.executable="*\\eqnedt32.exe" OR process.executable="*\\wordpad.exe" OR process.executable="*\\wordview.exe" OR process.executable="*\\cmdl32.exe" OR process.executable="*\\certutil.exe" OR process.executable="*\\certoc.exe" OR process.executable="*\\CertReq.exe" OR process.executable="*\\bitsadmin.exe" OR process.executable="*\\Desktopimgdownldr.exe" OR process.executable="*\\esentutl.exe" OR process.executable="*\\expand.exe" OR process.executable="*\\extrac32.exe" OR process.executable="*\\replace.exe" OR process.executable="*\\mshta.exe" OR process.executable="*\\ftp.exe" OR process.executable="*\\Ldifde.exe" OR process.executable="*\\RdrCEF.exe" OR process.executable="*\\hh.exe" OR process.executable="*\\finger.exe" OR process.executable="*\\findstr.exe")) AND ((file.path like "%:\\Perflogs%" OR file.path like "%:\\ProgramData\\%" OR file.path like "%:\\Temp\\%" OR file.path like "%:\\Users\\Public\\%" OR file.path like "%:\\Windows\\%" OR file.path like "%\\$Recycle.Bin\\%" OR file.path like "%\\AppData\\Local\\%" OR file.path like "%\\AppData\\Roaming\\%" OR file.path like "%\\Contacts\\%" OR file.path like "%\\Desktop\\%" OR file.path like "%\\Favorites\\%" OR file.path like "%\\Favourites\\%" OR file.path like "%\\inetpub\\wwwroot\\%" OR file.path like "%\\Music\\%" OR file.path like "%\\Pictures\\%" OR file.path like "%\\Start Menu\\Programs\\Startup\\%" OR file.path like "%\\Users\\Default\\%" OR file.path like "%\\Videos\\%")))

@@ -1,0 +1,19 @@
+# Title: File and Directory Discovery - MacOS
+# ID: 089dbdf6-b960-4bcc-90e3-ffc3480c20f6
+# Status: test
+# Level: informational
+# Author: Daniil Yugoslavskiy, oscd.community
+# Date: 2020-10-19
+# Tags: attack.discovery, attack.t1083
+# Description: Detects usage of system utilities to discover files and directories
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: File and Directory Discovery - MacOS
+def rule(event):
+    # Detection Logic:
+    # ((Image="/usr/bin/file" AND CommandLine=regex("(.){200,}")) OR (Image="/usr/bin/find") OR (Image="/usr/bin/mdfind") OR (Image="/bin/ls" AND CommandLine="*-R*") OR 1=1)
+    return True
+
+def title(event):
+    return "File and Directory Discovery - MacOS"
+

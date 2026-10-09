@@ -1,0 +1,23 @@
+// Title: Suspicious Control Panel DLL Load
+// ID: d7eb979b-c2b5-4a6f-a3a7-c87ce6763819
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2017-04-15
+// Tags: attack.stealth, attack.t1218.011
+// Description: Detects suspicious Rundll32 execution from control.exe as used by Equation Group and Exploit Kits
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule d7eb979b_c2b5_4a6f_a3a7_c87ce6763819 {
+  meta:
+    title = "Suspicious Control Panel DLL Load"
+    description = "Detects suspicious Rundll32 execution from control.exe as used by Equation Group and Exploit Kits"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (((($e.target.process.file.full_path = /.*\\rundll32.exe$/ nocase) or ($e.target.process.file.name = "RUNDLL32.EXE")) and ($e.principal.process.file.full_path = /.*\\System32\\control.exe$/ nocase)) and not(($e.target.process.command_line = /.*Shell32.dll.*/ nocase)))
+
+  condition:
+    $e
+}

@@ -1,0 +1,23 @@
+// Title: External Remote RDP Logon from Public IP
+// ID: 259a9cdf-c4dd-4fa2-b243-2269e5ab18a2
+// Status: test
+// Level: medium
+// Author: Micah Babinski (@micahbabinski), Zach Mathis (@yamatosecurity)
+// Date: 2023-01-19
+// Tags: attack.privilege-escalation, attack.persistence, attack.initial-access, attack.credential-access, attack.stealth, attack.t1133, attack.t1078, attack.t1110
+// Description: Detects successful logon from public IP address via RDP. This can indicate a publicly-exposed RDP port.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 259a9cdf_c4dd_4fa2_b243_2269e5ab18a2 {
+  meta:
+    title = "External Remote RDP Logon from Public IP"
+    description = "Detects successful logon from public IP address via RDP. This can indicate a publicly-exposed RDP port."
+    author = "Micah Babinski (@micahbabinski), Zach Mathis (@yamatosecurity)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.EventID = 4624 and $e.LogonType = 10) and not((($e.IpAddress = "-") or ((net.ip_in_range_cidr($e.IpAddress, "::1/128") or net.ip_in_range_cidr($e.IpAddress, "10.0.0.0/8") or net.ip_in_range_cidr($e.IpAddress, "127.0.0.0/8") or net.ip_in_range_cidr($e.IpAddress, "172.16.0.0/12") or net.ip_in_range_cidr($e.IpAddress, "192.168.0.0/16") or net.ip_in_range_cidr($e.IpAddress, "169.254.0.0/16") or net.ip_in_range_cidr($e.IpAddress, "fc00::/7") or net.ip_in_range_cidr($e.IpAddress, "fe80::/10"))))))
+
+  condition:
+    $e
+}

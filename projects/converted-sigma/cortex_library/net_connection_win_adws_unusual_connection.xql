@@ -1,0 +1,11 @@
+// Title: Uncommon Connection to Active Directory Web Services
+// ID: b3ad3c0f-c949-47a1-a30e-b0491ccae876
+// Status: test
+// Level: medium
+// Author: @kostastsale
+// Date: 2024-01-26
+// Tags: attack.discovery, attack.t1087
+// Description: Detects uncommon network connections to the Active Directory Web Services (ADWS) from processes not typically associated with ADWS management.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter ((Initiated = True and action_remote_port = 9389) and not (((action_process_image_path = "C:\\Windows\\system32\\dsac.exe") or (action_process_image_path = "C:\\Program Files\\Microsoft Monitoring Agent\\") or ((action_process_image_path startswith "C:\\Program Files\\PowerShell\\7\\pwsh.exe" or action_process_image_path startswith "C:\\Program Files\\PowerShell\\7-preview\\pwsh.ex" or action_process_image_path startswith "C:\\Windows\\System32\\WindowsPowerShell\\" or action_process_image_path startswith "C:\\Windows\\SysWOW64\\WindowsPowerShell\\")))))

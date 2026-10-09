@@ -1,0 +1,11 @@
+# Title: PowerShell Base64 Encoded WMI Classes
+# ID: 1816994b-42e1-4fb1-afd2-134d88184f71
+# Status: test
+# Level: high
+# Author: Christian Burkard (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+# Date: 2023-01-30
+# Tags: attack.execution, attack.stealth, attack.t1059.001, attack.t1027
+# Description: Detects calls to base64 encoded WMI class such as "Win32_ShadowCopy", "Win32_ScheduledJob", etc.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog ((((process_path="*\\powershell.exe" OR process_path="*\\pwsh.exe")) OR ((process_name="PowerShell.EXE" OR process_name="pwsh.dll"))) AND (((process_exec="*VwBpAG4AMwAyAF8ATABvAGcAZwBlAGQATwBuAFUAcwBlAHIA*" OR process_exec="*cAaQBuADMAMgBfAEwAbwBnAGcAZQBkAE8AbgBVAHMAZQByA*" OR process_exec="*XAGkAbgAzADIAXwBMAG8AZwBnAGUAZABPAG4AVQBzAGUAcg*" OR process_exec="*V2luMzJfTG9nZ2VkT25Vc2Vy*" OR process_exec="*dpbjMyX0xvZ2dlZE9uVXNlc*" OR process_exec="*XaW4zMl9Mb2dnZWRPblVzZX*")) OR ((process_exec="*VwBpAG4AMwAyAF8AUAByAG8AYwBlAHMAcw*" OR process_exec="*cAaQBuADMAMgBfAFAAcgBvAGMAZQBzAHMA*" OR process_exec="*XAGkAbgAzADIAXwBQAHIAbwBjAGUAcwBzA*" OR process_exec="*V2luMzJfUHJvY2Vzc*" OR process_exec="*dpbjMyX1Byb2Nlc3*" OR process_exec="*XaW4zMl9Qcm9jZXNz*")) OR ((process_exec="*VwBpAG4AMwAyAF8AUwBjAGgAZQBkAHUAbABlAGQASgBvAGIA*" OR process_exec="*cAaQBuADMAMgBfAFMAYwBoAGUAZAB1AGwAZQBkAEoAbwBiA*" OR process_exec="*XAGkAbgAzADIAXwBTAGMAaABlAGQAdQBsAGUAZABKAG8AYg*" OR process_exec="*V2luMzJfU2NoZWR1bGVkSm9i*" OR process_exec="*dpbjMyX1NjaGVkdWxlZEpvY*" OR process_exec="*XaW4zMl9TY2hlZHVsZWRKb2*")) OR ((process_exec="*VwBpAG4AMwAyAF8AUwBoAGEAZABvAHcAYwBvAHAAeQ*" OR process_exec="*cAaQBuADMAMgBfAFMAaABhAGQAbwB3AGMAbwBwAHkA*" OR process_exec="*XAGkAbgAzADIAXwBTAGgAYQBkAG8AdwBjAG8AcAB5A*" OR process_exec="*V2luMzJfU2hhZG93Y29we*" OR process_exec="*dpbjMyX1NoYWRvd2NvcH*" OR process_exec="*XaW4zMl9TaGFkb3djb3B5*")) OR ((process_exec="*VwBpAG4AMwAyAF8AVQBzAGUAcgBBAGMAYwBvAHUAbgB0A*" OR process_exec="*cAaQBuADMAMgBfAFUAcwBlAHIAQQBjAGMAbwB1AG4AdA*" OR process_exec="*XAGkAbgAzADIAXwBVAHMAZQByAEEAYwBjAG8AdQBuAHQA*" OR process_exec="*V2luMzJfVXNlckFjY291bn*" OR process_exec="*dpbjMyX1VzZXJBY2NvdW50*" OR process_exec="*XaW4zMl9Vc2VyQWNjb3Vud*"))))

@@ -1,0 +1,11 @@
+// Title: Suspicious WMIC Execution Via Office Process
+// ID: e1693bc8-7168-4eab-8718-cdcaa68a1738
+// Status: test
+// Level: high
+// Author: Vadim Khrykov, Cyb3rEng
+// Date: 2021-08-23
+// Tags: attack.stealth, attack.t1204.002, attack.t1047, attack.t1218.010, attack.execution
+// Description: Office application called wmic to proxye execution through a LOLBIN process. This is often used to break suspicious parent-child chain (Office app spawns LOLBin).
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((src.process.parent.image.path endswithCIS "\\WINWORD.EXE" OR src.process.parent.image.path endswithCIS "\\EXCEL.EXE" OR src.process.parent.image.path endswithCIS "\\POWERPNT.exe" OR src.process.parent.image.path endswithCIS "\\MSPUB.exe" OR src.process.parent.image.path endswithCIS "\\VISIO.exe" OR src.process.parent.image.path endswithCIS "\\MSACCESS.EXE" OR src.process.parent.image.path endswithCIS "\\EQNEDT32.EXE" OR src.process.parent.image.path endswithCIS "\\ONENOTE.EXE" OR src.process.parent.image.path endswithCIS "\\wordpad.exe" OR src.process.parent.image.path endswithCIS "\\wordview.exe")) AND ((src.process.cmdline containsCIS "process" AND src.process.cmdline containsCIS "create" AND src.process.cmdline containsCIS "call") AND (src.process.cmdline containsCIS "regsvr32" OR src.process.cmdline containsCIS "rundll32" OR src.process.cmdline containsCIS "msiexec" OR src.process.cmdline containsCIS "mshta" OR src.process.cmdline containsCIS "verclsid" OR src.process.cmdline containsCIS "wscript" OR src.process.cmdline containsCIS "cscript")) AND ((src.process.image.path endswithCIS "\\wbem\\WMIC.exe") OR (OriginalFileName = "wmic.exe")))

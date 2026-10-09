@@ -1,0 +1,11 @@
+// Title: Potentially Suspicious Cabinet File Expansion
+// ID: 9f107a84-532c-41af-b005-8d12a607639f
+// Status: test
+// Level: medium
+// Author: Bhabesh Raj, X__Junior (Nextron Systems)
+// Date: 2021-07-30
+// Tags: attack.stealth, attack.t1218
+// Description: Detects the expansion or decompression of cabinet files from potentially suspicious or uncommon locations, e.g. seen in Iranian MeteorExpress related attacks
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((where(Image IENDSWITH "\\expand.exe") AND (where(CommandLine ICONTAINS "-F:") OR where(CommandLine ICONTAINS "/F:"))) AND (((where(CommandLine ICONTAINS ":\\Perflogs\\") OR where(CommandLine ICONTAINS ":\\ProgramData") OR where(CommandLine ICONTAINS ":\\Users\\Public\\") OR where(CommandLine ICONTAINS ":\\Windows\\Temp\\") OR where(CommandLine ICONTAINS "\\Admin$\\") OR where(CommandLine ICONTAINS "\\AppData\\Local\\Temp\\") OR where(CommandLine ICONTAINS "\\AppData\\Roaming\\") OR where(CommandLine ICONTAINS "\\C$\\") OR where(CommandLine ICONTAINS "\\Temporary Internet"))) OR (((where(CommandLine ICONTAINS ":\\Users\\") AND where(CommandLine ICONTAINS "\\Favorites\\"))) OR ((where(CommandLine ICONTAINS ":\\Users\\") AND where(CommandLine ICONTAINS "\\Favourites\\"))) OR ((where(CommandLine ICONTAINS ":\\Users\\") AND where(CommandLine ICONTAINS "\\Contacts\\"))))) AND NOT ((where(ParentImage = "C:\\Program Files (x86)\\Dell\\UpdateService\\ServiceShell.exe") AND where(CommandLine ICONTAINS "C:\\ProgramData\\Dell\\UpdateService\\Temp\\"))))

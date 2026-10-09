@@ -1,0 +1,23 @@
+// Title: PAExec Service Installation
+// ID: de7ce410-b3fb-4e8a-b38c-3b999e2c3420
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-10-26
+// Tags: attack.execution, attack.t1569.002
+// Description: Detects PAExec service installation
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule de7ce410_b3fb_4e8a_b38c_3b999e2c3420 {
+  meta:
+    title = "PAExec Service Installation"
+    description = "Detects PAExec service installation"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.Provider_Name = "Service Control Manager" and $e.EventID = 7045) and (($e.ServiceName = /^PAExec-.*/ nocase) or ($e.ImagePath = /^C:\\WINDOWS\\PAExec-.*/ nocase)))
+
+  condition:
+    $e
+}

@@ -1,0 +1,11 @@
+// Title: Persistence Via New SIP Provider
+// ID: 5a2b21ee-6aaa-4234-ac9d-59a59edf90a1
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-07-21
+// Tags: attack.persistence, attack.defense-impairment, attack.t1553.003
+// Description: Detects when an attacker register a new SIP provider for persistence and defense evasion
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where ((((registry.path like "%\\Dll%" OR registry.path like "%\\$DLL%")) AND ((registry.path like "%\\SOFTWARE\\Microsoft\\Cryptography\\Providers\\%" OR registry.path like "%\\SOFTWARE\\Microsoft\\Cryptography\\OID\\EncodingType%" OR registry.path like "%\\SOFTWARE\\WOW6432Node\\Microsoft\\Cryptography\\Providers\\%" OR registry.path like "%\\SOFTWARE\\WOW6432Node\\Microsoft\\Cryptography\\OID\\EncodingType%"))) AND NOT ((((registry.data.strings = "WINTRUST.DLL" OR registry.data.strings = "mso.dll")) OR (process.executable = "C:\\Windows\\System32\\poqexec.exe" AND registry.path like "%\\CryptSIPDll%" AND registry.data.strings = "C:\\Windows\\System32\\PsfSip.dll"))))

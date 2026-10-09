@@ -1,0 +1,36 @@
+{
+  "title": "RegAsm.EXE Initiating Network Connection To Public IP",
+  "id": "0531e43a-d77d-47c2-b89f-5fe50321c805",
+  "status": "test",
+  "description": "Detects \"RegAsm.exe\" initiating a network connection to public IP adresses",
+  "author": "frack113",
+  "date": "2024-04-25",
+  "tags": [
+    "attack.stealth",
+    "attack.t1218.009"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "network_connection",
+    "product": "windows"
+  },
+  "detection": {
+    "selection": {
+      "Initiated": "true",
+      "Image|endswith": "\\regasm.exe"
+    },
+    "filter_main_local_ranges": {
+      "DestinationIp|cidr": [
+        "127.0.0.0/8",
+        "10.0.0.0/8",
+        "172.16.0.0/12",
+        "192.168.0.0/16",
+        "169.254.0.0/16",
+        "::1/128",
+        "fe80::/10",
+        "fc00::/7"
+      ]
+    },
+    "condition": "selection and not 1 of filter_main_*"
+  }
+}

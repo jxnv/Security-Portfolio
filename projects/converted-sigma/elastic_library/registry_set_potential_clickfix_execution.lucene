@@ -1,0 +1,14 @@
+# Title: Potential ClickFix Execution Pattern - Registry
+# ID: f5fe36cf-f1ec-4c23-903d-09a3110f6bbb
+# Status: experimental
+# Level: high
+# Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+# Date: 2025-03-25
+# Tags: attack.execution, attack.t1204.001
+# Description: Detects potential ClickFix malware execution patterns by monitoring registry modifications in RunMRU keys containing HTTP/HTTPS links.
+# ClickFix is known to be distributed through phishing campaigns and uses techniques like clipboard hijacking and fake CAPTCHA pages.
+# Through the fakecaptcha pages, the adversary tricks users into opening the Run dialog box and pasting clipboard-hijacked content,
+# such as one-liners that execute remotely hosted malicious files or scripts.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((registry.data.strings:*http://* OR registry.data.strings:*https://*)) AND (registry.path:*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\RunMRU\\*) AND (((registry.data.strings:*account* OR registry.data.strings:*anti-bot* OR registry.data.strings:*botcheck* OR registry.data.strings:*captcha* OR registry.data.strings:*challenge* OR registry.data.strings:*confirmation* OR registry.data.strings:*fraud* OR registry.data.strings:*human* OR registry.data.strings:*identification* OR registry.data.strings:*identificator* OR registry.data.strings:*identity* OR registry.data.strings:*robot* OR registry.data.strings:*validation* OR registry.data.strings:*verification* OR registry.data.strings:*verify*)) OR ((registry.data.strings:*%comspec%* OR registry.data.strings:*bitsadmin* OR registry.data.strings:*certutil* OR registry.data.strings:*cmd* OR registry.data.strings:*cscript* OR registry.data.strings:*curl* OR registry.data.strings:*finger* OR registry.data.strings:*mshta* OR registry.data.strings:*powershell* OR registry.data.strings:*pwsh* OR registry.data.strings:*regsvr32* OR registry.data.strings:*rundll32* OR registry.data.strings:*schtasks* OR registry.data.strings:*wget* OR registry.data.strings:*wscript*))))

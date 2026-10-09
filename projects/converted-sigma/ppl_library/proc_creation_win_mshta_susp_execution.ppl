@@ -1,0 +1,14 @@
+// Title: MSHTA Execution with Suspicious File Extensions
+// ID: cc7abbd0-762b-41e3-8a26-57ad50d2eea3
+// Status: test
+// Level: high
+// Author: Diego Perez (@darkquassar), Markus Neis, Swisscom (Improve Rule), Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2019-02-22
+// Tags: attack.stealth, attack.t1140, attack.t1218.005, attack.execution, attack.t1059.007, cve.2020-1599
+// Description: Detects execution of mshta.exe with file types that looks like they do not typically represent HTA (HTML Application) content,
+// such as .png, .jpg, .zip, .pdf, and others, which are often polyglots. MSHTA is a legitimate Windows utility for executing HTML Applications
+// containing VBScript or JScript. Threat actors often abuse this lolbin utility to download and
+// execute malicious scripts disguised as benign files or hosted under misleading extensions to evade detection.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where (((process.command_line like "%.7z%" OR process.command_line like "%.avi%" OR process.command_line like "%.bat%" OR process.command_line like "%.bmp%" OR process.command_line like "%.conf%" OR process.command_line like "%.csv%" OR process.command_line like "%.dll%" OR process.command_line like "%.doc%" OR process.command_line like "%.gif%" OR process.command_line like "%.gz%" OR process.command_line like "%.ini%" OR process.command_line like "%.jpe%" OR process.command_line like "%.jpg%" OR process.command_line like "%.json%" OR process.command_line like "%.lnk%" OR process.command_line like "%.log%" OR process.command_line like "%.mkv%" OR process.command_line like "%.mp3%" OR process.command_line like "%.mp4%" OR process.command_line like "%.pdf%" OR process.command_line like "%.png%" OR process.command_line like "%.ppt%" OR process.command_line like "%.rar%" OR process.command_line like "%.rtf%" OR process.command_line like "%.svg%" OR process.command_line like "%.tar%" OR process.command_line like "%.tmp%" OR process.command_line like "%.txt%" OR process.command_line like "%.xls%" OR process.command_line like "%.xml%" OR process.command_line like "%.yaml%" OR process.command_line like "%.yml%" OR process.command_line like "%.zip%" OR process.command_line like "%vbscript%")) AND ((process.executable="*\\mshta.exe") OR (process.pe.original_file_name = "mshta.exe")))

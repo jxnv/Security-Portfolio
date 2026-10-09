@@ -1,0 +1,11 @@
+-- Title: Potential Edputil.DLL Sideloading
+-- ID: e4903324-1a10-4ed3-981b-f6fe3be3a2c2
+-- Status: test
+-- Level: high
+-- Author: X__Junior (Nextron Systems)
+-- Date: 2023-06-09
+-- Tags: attack.persistence, attack.privilege-escalation, attack.execution, attack.stealth, attack.t1574.001
+-- Description: Detects potential DLL sideloading of "edputil.dll"
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE ((ImageLoaded ILIKE '%\\edputil.dll') AND NOT (((ImageLoaded ILIKE 'C:\\Windows\\System32\\%' OR ImageLoaded ILIKE 'C:\\Windows\\SysWOW64\\%' OR ImageLoaded ILIKE 'C\\Windows\\WinSxS\\%'))))

@@ -1,0 +1,11 @@
+// Title: Suspicious Appended Extension
+// ID: e3f673b3-65d1-4d80-9146-466f8b63fa99
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-07-16
+// Tags: attack.impact, attack.t1486
+// Description: Detects file renames where the target filename uses an uncommon double extension. Could indicate potential ransomware activity renaming files and adding a custom extension to the encrypted files, such as ".jpg.crypted", ".docx.locky", etc.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where (((SourceFilename matches "*.doc" or SourceFilename matches "*.docx" or SourceFilename matches "*.jpeg" or SourceFilename matches "*.jpg" or SourceFilename matches "*.lnk" or SourceFilename matches "*.pdf" or SourceFilename matches "*.png" or SourceFilename matches "*.pst" or SourceFilename matches "*.rtf" or SourceFilename matches "*.xls" or SourceFilename matches "*.xlsx") and (TargetFilename matches "*.doc.*" or TargetFilename matches "*.docx.*" or TargetFilename matches "*.jpeg.*" or TargetFilename matches "*.jpg.*" or TargetFilename matches "*.lnk.*" or TargetFilename matches "*.pdf.*" or TargetFilename matches "*.png.*" or TargetFilename matches "*.pst.*" or TargetFilename matches "*.rtf.*" or TargetFilename matches "*.xls.*" or TargetFilename matches "*.xlsx.*")) and !(((TargetFilename matches "*.backup" or TargetFilename matches "*.bak" or TargetFilename matches "*.old" or TargetFilename matches "*.orig" or TargetFilename matches "*.temp" or TargetFilename matches "*.tmp"))) and !((TargetFilename matches "*:\\ProgramData\\Anaconda3\\*" and TargetFilename matches "*.c~")))

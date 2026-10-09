@@ -1,0 +1,23 @@
+// Title: Suspicious Obfuscated PowerShell Code
+// ID: 8d01b53f-456f-48ee-90f6-bc28e67d4e35
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-07-11
+// Tags: attack.stealth
+// Description: Detects suspicious UTF16 and base64 encoded and often obfuscated PowerShell code often used in command lines
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 8d01b53f_456f_48ee_90f6_bc28e67d4e35 {
+  meta:
+    title = "Suspicious Obfuscated PowerShell Code"
+    description = "Detects suspicious UTF16 and base64 encoded and often obfuscated PowerShell code often used in command lines"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.command_line = /.*IAAtAGIAeABvAHIAIAAwAHgA.*/ nocase or $e.target.process.command_line = /.*AALQBiAHgAbwByACAAMAB4A.*/ nocase or $e.target.process.command_line = /.*gAC0AYgB4AG8AcgAgADAAeA.*/ nocase or $e.target.process.command_line = /.*AC4ASQBuAHYAbwBrAGUAKAApACAAfAAg.*/ nocase or $e.target.process.command_line = /.*AuAEkAbgB2AG8AawBlACgAKQAgAHwAI.*/ nocase or $e.target.process.command_line = /.*ALgBJAG4AdgBvAGsAZQAoACkAIAB8AC.*/ nocase or $e.target.process.command_line = /.*AHsAMQB9AHsAMAB9ACIAIAAtAGYAI.*/ nocase or $e.target.process.command_line = /.*B7ADEAfQB7ADAAfQAiACAALQBmAC.*/ nocase or $e.target.process.command_line = /.*AewAxAH0AewAwAH0AIgAgAC0AZgAg.*/ nocase or $e.target.process.command_line = /.*AHsAMAB9AHsAMwB9ACIAIAAtAGYAI.*/ nocase or $e.target.process.command_line = /.*B7ADAAfQB7ADMAfQAiACAALQBmAC.*/ nocase or $e.target.process.command_line = /.*AewAwAH0AewAzAH0AIgAgAC0AZgAg.*/ nocase or $e.target.process.command_line = /.*AHsAMgB9AHsAMAB9ACIAIAAtAGYAI.*/ nocase or $e.target.process.command_line = /.*B7ADIAfQB7ADAAfQAiACAALQBmAC.*/ nocase or $e.target.process.command_line = /.*AewAyAH0AewAwAH0AIgAgAC0AZgAg.*/ nocase or $e.target.process.command_line = /.*AHsAMQB9AHsAMAB9ACcAIAAtAGYAI.*/ nocase or $e.target.process.command_line = /.*B7ADEAfQB7ADAAfQAnACAALQBmAC.*/ nocase or $e.target.process.command_line = /.*AewAxAH0AewAwAH0AJwAgAC0AZgAg.*/ nocase or $e.target.process.command_line = /.*AHsAMAB9AHsAMwB9ACcAIAAtAGYAI.*/ nocase or $e.target.process.command_line = /.*B7ADAAfQB7ADMAfQAnACAALQBmAC.*/ nocase or $e.target.process.command_line = /.*AewAwAH0AewAzAH0AJwAgAC0AZgAg.*/ nocase or $e.target.process.command_line = /.*AHsAMgB9AHsAMAB9ACcAIAAtAGYAI.*/ nocase or $e.target.process.command_line = /.*B7ADIAfQB7ADAAfQAnACAALQBmAC.*/ nocase or $e.target.process.command_line = /.*AewAyAH0AewAwAH0AJwAgAC0AZgAg.*/ nocase))
+
+  condition:
+    $e
+}

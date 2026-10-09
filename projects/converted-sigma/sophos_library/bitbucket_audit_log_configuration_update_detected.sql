@@ -1,0 +1,11 @@
+-- Title: Bitbucket Audit Log Configuration Updated
+-- ID: 6aa12161-235a-4dfb-9c74-fe08df8d8da1
+-- Status: test
+-- Level: medium
+-- Author: Muhammad Faisal (@faisalusuf)
+-- Date: 2024-02-25
+-- Tags: attack.defense-impairment, attack.t1685
+-- Description: Detects changes to the bitbucket audit log configuration.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE (auditType.category = 'Auditing' AND auditType.action = 'Audit log configuration updated')

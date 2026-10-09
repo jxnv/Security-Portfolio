@@ -1,0 +1,11 @@
+-- Title: Potential Binary Or Script Dropper Via PowerShell
+-- ID: 7047d730-036f-4f40-b9d8-1c63e36d5e62
+-- Status: test
+-- Level: medium
+-- Author: frack113, Nasreddine Bencherchali (Nextron Systems)
+-- Date: 2023-03-17
+-- Tags: attack.persistence
+-- Description: Detects PowerShell creating a binary executable or a script file.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE (((Image ILIKE '%\\powershell.exe' OR Image ILIKE '%\\powershell_ise.exe' OR Image ILIKE '%\\pwsh.exe') AND (TargetFilename ILIKE '%.bat' OR TargetFilename ILIKE '%.chm' OR TargetFilename ILIKE '%.cmd' OR TargetFilename ILIKE '%.com' OR TargetFilename ILIKE '%.dll' OR TargetFilename ILIKE '%.exe' OR TargetFilename ILIKE '%.hta' OR TargetFilename ILIKE '%.jar' OR TargetFilename ILIKE '%.js' OR TargetFilename ILIKE '%.ocx' OR TargetFilename ILIKE '%.scr' OR TargetFilename ILIKE '%.sys' OR TargetFilename ILIKE '%.vbe' OR TargetFilename ILIKE '%.vbs' OR TargetFilename ILIKE '%.wsf')) AND NOT (((TargetFilename ILIKE 'C:\\Program Files\\PackageManagement\\ProviderAssemblies\\nuget\\%' AND TargetFilename ILIKE '%\\Microsoft.PackageManagement.NuGetProvider.dll') OR ((TargetFilename ILIKE 'C:\\Windows\\Temp\\%' OR TargetFilename ILIKE 'C:\\Windows\\SystemTemp\\%') AND (TargetFilename ILIKE '%.dll' OR TargetFilename ILIKE '%.exe')) OR (TargetFilename ILIKE 'C:\\Users\\%' AND TargetFilename ILIKE '%\\WindowsPowerShell\\Modules\\%' AND TargetFilename ILIKE '%.dll') OR (TargetFilename ILIKE 'C:\\Users\\%' AND TargetFilename ILIKE '%\\AppData\\Local\\Temp\\%' AND (TargetFilename ILIKE '%.dll' OR TargetFilename ILIKE '%.exe')))))

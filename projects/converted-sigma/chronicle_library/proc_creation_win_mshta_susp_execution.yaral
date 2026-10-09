@@ -1,0 +1,26 @@
+// Title: MSHTA Execution with Suspicious File Extensions
+// ID: cc7abbd0-762b-41e3-8a26-57ad50d2eea3
+// Status: test
+// Level: high
+// Author: Diego Perez (@darkquassar), Markus Neis, Swisscom (Improve Rule), Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2019-02-22
+// Tags: attack.stealth, attack.t1140, attack.t1218.005, attack.execution, attack.t1059.007, cve.2020-1599
+// Description: Detects execution of mshta.exe with file types that looks like they do not typically represent HTA (HTML Application) content,
+// such as .png, .jpg, .zip, .pdf, and others, which are often polyglots. MSHTA is a legitimate Windows utility for executing HTML Applications
+// containing VBScript or JScript. Threat actors often abuse this lolbin utility to download and
+// execute malicious scripts disguised as benign files or hosted under misleading extensions to evade detection.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule cc7abbd0_762b_41e3_8a26_57ad50d2eea3 {
+  meta:
+    title = "MSHTA Execution with Suspicious File Extensions"
+    description = "Detects execution of mshta.exe with file types that looks like they do not typically represent HTA (HTML Application) content, such as .png, .jpg, .zip, .pdf, and others, which are often polyglots. MSHTA is a legitimate Windows utility for executing HTML Applications containing VBScript or JScript. Threat actors often abuse this lolbin utility to download and execute malicious scripts disguised as benign files or hosted under misleading extensions to evade detection."
+    author = "Diego Perez (@darkquassar), Markus Neis, Swisscom (Improve Rule), Swachchhanda Shrawan Poudel (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*.7z.*/ nocase or $e.target.process.command_line = /.*.avi.*/ nocase or $e.target.process.command_line = /.*.bat.*/ nocase or $e.target.process.command_line = /.*.bmp.*/ nocase or $e.target.process.command_line = /.*.conf.*/ nocase or $e.target.process.command_line = /.*.csv.*/ nocase or $e.target.process.command_line = /.*.dll.*/ nocase or $e.target.process.command_line = /.*.doc.*/ nocase or $e.target.process.command_line = /.*.gif.*/ nocase or $e.target.process.command_line = /.*.gz.*/ nocase or $e.target.process.command_line = /.*.ini.*/ nocase or $e.target.process.command_line = /.*.jpe.*/ nocase or $e.target.process.command_line = /.*.jpg.*/ nocase or $e.target.process.command_line = /.*.json.*/ nocase or $e.target.process.command_line = /.*.lnk.*/ nocase or $e.target.process.command_line = /.*.log.*/ nocase or $e.target.process.command_line = /.*.mkv.*/ nocase or $e.target.process.command_line = /.*.mp3.*/ nocase or $e.target.process.command_line = /.*.mp4.*/ nocase or $e.target.process.command_line = /.*.pdf.*/ nocase or $e.target.process.command_line = /.*.png.*/ nocase or $e.target.process.command_line = /.*.ppt.*/ nocase or $e.target.process.command_line = /.*.rar.*/ nocase or $e.target.process.command_line = /.*.rtf.*/ nocase or $e.target.process.command_line = /.*.svg.*/ nocase or $e.target.process.command_line = /.*.tar.*/ nocase or $e.target.process.command_line = /.*.tmp.*/ nocase or $e.target.process.command_line = /.*.txt.*/ nocase or $e.target.process.command_line = /.*.xls.*/ nocase or $e.target.process.command_line = /.*.xml.*/ nocase or $e.target.process.command_line = /.*.yaml.*/ nocase or $e.target.process.command_line = /.*.yml.*/ nocase or $e.target.process.command_line = /.*.zip.*/ nocase or $e.target.process.command_line = /.*vbscript.*/ nocase)) and (($e.target.process.file.full_path = /.*\\mshta.exe$/ nocase) or ($e.target.process.file.name = "mshta.exe")))
+
+  condition:
+    $e
+}

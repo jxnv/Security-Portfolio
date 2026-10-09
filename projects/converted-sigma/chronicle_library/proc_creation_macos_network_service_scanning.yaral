@@ -1,0 +1,23 @@
+// Title: MacOS Network Service Scanning
+// ID: 84bae5d4-b518-4ae0-b331-6d4afd34d00f
+// Status: test
+// Level: low
+// Author: Alejandro Ortuno, oscd.community
+// Date: 2020-10-21
+// Tags: attack.discovery, attack.t1046
+// Description: Detects enumeration of local or remote network services.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 84bae5d4_b518_4ae0_b331_6d4afd34d00f {
+  meta:
+    title = "MacOS Network Service Scanning"
+    description = "Detects enumeration of local or remote network services."
+    author = "Alejandro Ortuno, oscd.community"
+    severity = "LOW"
+
+  events:
+    (((($e.target.process.file.full_path = /.*/nc$/ nocase or $e.target.process.file.full_path = /.*/netcat$/ nocase)) and not(($e.target.process.command_line = /.*l.*/ nocase))) or (($e.target.process.file.full_path = /.*/nmap$/ nocase or $e.target.process.file.full_path = /.*/telnet$/ nocase)))
+
+  condition:
+    $e
+}

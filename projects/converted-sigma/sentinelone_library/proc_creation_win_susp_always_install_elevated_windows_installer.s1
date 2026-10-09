@@ -1,0 +1,11 @@
+// Title: Always Install Elevated Windows Installer
+// ID: cd951fdc-4b2f-47f5-ba99-a33bf61e3770
+// Status: test
+// Level: medium
+// Author: Teymur Kheirkhabarov (idea), Mangatas Tondang (rule), oscd.community
+// Date: 2020-10-13
+// Tags: attack.privilege-escalation, attack.t1548.002
+// Description: Detects Windows Installer service (msiexec.exe) trying to install MSI packages with SYSTEM privilege
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((src.process.image.path containsCIS "\\Windows\\Installer\\" AND src.process.image.path containsCIS "msi") AND src.process.image.path endswithCIS "tmp") OR (src.process.image.path endswithCIS "\\msiexec.exe" AND (IntegrityLevel = "System" OR IntegrityLevel = "S-1-16-16384"))) AND ((src.process.user containsCIS "AUTHORI" OR src.process.user containsCIS "AUTORI")) AND NOT ((((src.process.parent.image.path startswithCIS "C:\\Program Files\\Avast Software\\" OR src.process.parent.image.path startswithCIS "C:\\Program Files (x86)\\Avast Software\\")) OR (src.process.parent.image.path startswithCIS "C:\\ProgramData\\Avira\\") OR ((src.process.parent.image.path startswithCIS "C:\\Program Files\\Google\\Update\\" OR src.process.parent.image.path startswithCIS "C:\\Program Files (x86)\\Google\\Update\\")) OR (src.process.parent.image.path = "C:\\Windows\\System32\\services.exe") OR ((src.process.cmdline endswithCIS "\\system32\\msiexec.exe /V") OR (src.process.parent.cmdline endswithCIS "\\system32\\msiexec.exe /V")) OR (src.process.parent.image.path startswithCIS "C:\\ProgramData\\Sophos\\"))))

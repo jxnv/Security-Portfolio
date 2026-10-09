@@ -1,0 +1,13 @@
+// Title: Linux Setgid Capability Set on a Binary via Setcap Utility
+// ID: 3a716279-c18c-4488-83be-f9ececbfb9fc
+// Status: experimental
+// Level: low
+// Author: Luc Génaux
+// Date: 2026-01-24
+// Tags: attack.privilege-escalation, attack.persistence, attack.t1548, attack.t1554
+// Description: Detects the use of the 'setcap' utility to set the 'setgid' capability (cap_setgid) on a binary file.
+// This capability allows a non privileged process to make arbitrary manipulations of group IDs (GIDs), including setting its current GID to a value that would otherwise be restricted (i.e. GID 0, the root group).
+// This behavior can be used by adversaries to backdoor a binary in order to escalate privileges again in the future if needed.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where (process.executable endswith "/setcap" and process.command_line like "*_cap_setgid*")

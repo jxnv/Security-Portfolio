@@ -1,0 +1,13 @@
+// Title: Windows Defender Disabled Via SystemSettingsAdminFlows.EXE
+// ID: da92713f-ca2d-4fab-8320-098013d3f43a
+// Status: experimental
+// Level: high
+// Author: Chirag Damani (KPMG India), Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2026-07-01
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects the usage of SystemSettingsAdminFlows.exe to disable Windows Defender.
+// SystemSettingsAdminFlows.exe is a legitimate Windows component used for administrative configuration tasks.
+// However, attackers may abuse it to disable Windows Defender as part of their attack chain, especially in the context of ransomware or other malware campaigns.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(CommandLine ICONTAINS "defender")) AND ((where(Image IENDSWITH "\\SystemSettingsAdminFlows.exe")) OR (where(OriginalFileName = "SystemSettingsAdminFlows.EXE")))) AND ((((where(CommandLine ICONTAINS "RTP ") OR where(CommandLine ICONTAINS "RealTimeProtection ") OR where(CommandLine ICONTAINS "DisableEnhancedNotifications "))) AND (where(CommandLine ICONTAINS "1"))) OR (((where(CommandLine ICONTAINS "SubmitSamplesConsent ") OR where(CommandLine ICONTAINS "SpyNetReporting ") OR where(CommandLine ICONTAINS "DisableCDPUserAuthPolicy "))) AND (where(CommandLine ICONTAINS "0")))))

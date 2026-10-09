@@ -1,0 +1,11 @@
+// Title: Suspicious File Creation In Uncommon AppData Folder
+// ID: d7b50671-d1ad-4871-aa60-5aa5b331fe04
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-05
+// Tags: attack.execution, attack.stealth
+// Description: Detects the creation of suspicious files and folders inside the user's AppData folder but not inside any of the common and well known directories (Local, Romaing, LocalLow). This method could be used as a method to bypass detection who exclude the AppData folder in fear of FPs
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((TargetFileName = /C:\\Users\\.*/i and TargetFileName = /*\\AppData\\*/i and (TargetFileName = /.*.bat/i or TargetFileName = /.*.cmd/i or TargetFileName = /.*.cpl/i or TargetFileName = /.*.dll/i or TargetFileName = /.*.exe/i or TargetFileName = /.*.hta/i or TargetFileName = /.*.iso/i or TargetFileName = /.*.lnk/i or TargetFileName = /.*.msi/i or TargetFileName = /.*.ps1/i or TargetFileName = /.*.psm1/i or TargetFileName = /.*.scr/i or TargetFileName = /.*.vbe/i or TargetFileName = /.*.vbs/i)) and not((TargetFileName = /C:\\Users\\.*/i and (TargetFileName = /*\\AppData\\Local\\*/i or TargetFileName = /*\\AppData\\LocalLow\\*/i or TargetFileName = /*\\AppData\\Roaming\\*/i))))

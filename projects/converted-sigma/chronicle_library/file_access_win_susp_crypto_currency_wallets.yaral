@@ -1,0 +1,24 @@
+// Title: Access To Crypto Currency Wallets By Uncommon Applications
+// ID: f41b0311-44f9-44f0-816d-dd45e39d4bc8
+// Status: test
+// Level: medium
+// Author: X__Junior (Nextron Systems)
+// Date: 2024-07-29
+// Tags: attack.t1003, attack.credential-access
+// Description: Detects file access requests to crypto currency files by uncommon processes.
+// Could indicate potential attempt of crypto currency wallet stealing.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule f41b0311_44f9_44f0_816d_dd45e39d4bc8 {
+  meta:
+    title = "Access To Crypto Currency Wallets By Uncommon Applications"
+    description = "Detects file access requests to crypto currency files by uncommon processes. Could indicate potential attempt of crypto currency wallet stealing."
+    author = "X__Junior (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (((($e.FileName = /.*\\AppData\\Roaming\\Ethereum\\keystore\\.*/ nocase or $e.FileName = /.*\\AppData\\Roaming\\EthereumClassic\\keystore\\.*/ nocase or $e.FileName = /.*\\AppData\\Roaming\\monero\\wallets\\.*/ nocase)) or (($e.FileName = /.*\\AppData\\Roaming\\Bitcoin\\wallet.dat$/ nocase or $e.FileName = /.*\\AppData\\Roaming\\BitcoinABC\\wallet.dat$/ nocase or $e.FileName = /.*\\AppData\\Roaming\\BitcoinSV\\wallet.dat$/ nocase or $e.FileName = /.*\\AppData\\Roaming\\DashCore\\wallet.dat$/ nocase or $e.FileName = /.*\\AppData\\Roaming\\DogeCoin\\wallet.dat$/ nocase or $e.FileName = /.*\\AppData\\Roaming\\Litecoin\\wallet.dat$/ nocase or $e.FileName = /.*\\AppData\\Roaming\\Ripple\\wallet.dat$/ nocase or $e.FileName = /.*\\AppData\\Roaming\\Zcash\\wallet.dat$/ nocase))) and not(((($e.target.process.file.full_path = /^C:\\Program Files (x86)\\.*/ nocase or $e.target.process.file.full_path = /^C:\\Program Files\\.*/ nocase or $e.target.process.file.full_path = /^C:\\Windows\\system32\\.*/ nocase or $e.target.process.file.full_path = /^C:\\Windows\\SysWOW64\\.*/ nocase)) or ($e.target.process.file.full_path = "System"))) and not(($e.target.process.file.full_path = /^C:\\ProgramData\\Microsoft\\Windows Defender\\.*/ nocase and ($e.target.process.file.full_path = /.*\\MpCopyAccelerator.exe$/ nocase or $e.target.process.file.full_path = /.*\\MsMpEng.exe$/ nocase))))
+
+  condition:
+    $e
+}

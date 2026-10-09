@@ -1,0 +1,23 @@
+// Title: Remotely Hosted HTA File Executed Via Mshta.EXE
+// ID: b98d0db6-511d-45de-ad02-e82a98729620
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-08
+// Tags: attack.execution, attack.stealth, attack.t1218.005
+// Description: Detects execution of the "mshta" utility with an argument containing the "http" keyword, which could indicate that an attacker is executing a remotely hosted malicious hta file
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule b98d0db6_511d_45de_ad02_e82a98729620 {
+  meta:
+    title = "Remotely Hosted HTA File Executed Via Mshta.EXE"
+    description = "Detects execution of the "mshta" utility with an argument containing the "http" keyword, which could indicate that an attacker is executing a remotely hosted malicious hta file"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*http://.*/ nocase or $e.target.process.command_line = /.*https://.*/ nocase or $e.target.process.command_line = /.*ftp://.*/ nocase)) and (($e.target.process.file.full_path = /.*\\mshta.exe$/ nocase) or ($e.target.process.file.name = "MSHTA.EXE")))
+
+  condition:
+    $e
+}

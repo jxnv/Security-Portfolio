@@ -1,0 +1,19 @@
+# Title: Enable Microsoft Dynamic Data Exchange
+# ID: 63647769-326d-4dde-a419-b925cc0caf42
+# Status: test
+# Level: medium
+# Author: frack113
+# Date: 2022-02-26
+# Tags: attack.execution, attack.t1559.002
+# Description: Enable Dynamic Data Exchange protocol (DDE) in all supported editions of Microsoft Word or Excel.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Enable Microsoft Dynamic Data Exchange
+def rule(event):
+    # Detection Logic:
+    # (((TargetObject="*\\Excel\\Security\\DisableDDEServerLaunch" OR TargetObject="*\\Excel\\Security\\DisableDDEServerLookup") AND Details="DWORD (0x00000000)") OR (TargetObject="*\\Word\\Security\\AllowDDE" AND (Details="DWORD (0x00000001)" OR Details="DWORD (0x00000002)")))
+    return True
+
+def title(event):
+    return "Enable Microsoft Dynamic Data Exchange"
+

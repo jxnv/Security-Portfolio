@@ -1,0 +1,19 @@
+# Title: File Deleted Via Sysinternals SDelete
+# ID: 6ddab845-b1b8-49c2-bbf7-1a11967f64bc
+# Status: test
+# Level: medium
+# Author: Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research)
+# Date: 2020-05-02
+# Tags: attack.stealth, attack.t1070.004
+# Description: Detects the deletion of files by the Sysinternals SDelete utility. It looks for the common name pattern used to rename files.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: File Deleted Via Sysinternals SDelete
+def rule(event):
+    # Detection Logic:
+    # (((TargetFilename="*.AAA" OR TargetFilename="*.ZZZ")) AND NOT ((TargetFilename="*\\Wireshark\\radius\\dictionary.alcatel-lucent.aaa")))
+    return True
+
+def title(event):
+    return "File Deleted Via Sysinternals SDelete"
+

@@ -1,0 +1,26 @@
+{
+  "title": "Add Windows Capability Via PowerShell Script",
+  "id": "155c7fd5-47b4-49b2-bbeb-eb4fab335429",
+  "status": "test",
+  "description": "Detects usage of the \"Add-WindowsCapability\" cmdlet to add Windows capabilities. Notable capabilities could be \"OpenSSH\" and others.",
+  "author": "Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2023-01-22",
+  "tags": [
+    "attack.execution"
+  ],
+  "level": "medium",
+  "logsource": {
+    "product": "windows",
+    "category": "ps_script",
+    "definition": "Requirements: Script Block Logging must be enabled"
+  },
+  "detection": {
+    "selection_cmdlet": {
+      "ScriptBlockText|contains": "Add-WindowsCapability "
+    },
+    "selection_capa": {
+      "ScriptBlockText|contains": "-Name OpenSSH."
+    },
+    "condition": "all of selection_*"
+  }
+}

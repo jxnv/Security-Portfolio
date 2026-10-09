@@ -1,0 +1,11 @@
+# Title: Schedule Task Creation From Env Variable Or Potentially Suspicious Path Via Schtasks.EXE
+# ID: 81325ce1-be01-4250-944f-b4789644556f
+# Status: test
+# Level: medium
+# Author: Florian Roth (Nextron Systems)
+# Date: 2022-02-21
+# Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.t1053.005
+# Description: Detects Schtask creations that point to a suspicious folder or an environment variable often used by malware
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog (((((process_exec="*:\\Perflogs*" OR process_exec="*:\\Users\\All Users\\*" OR process_exec="*:\\Users\\Default\\*" OR process_exec="*:\\Users\\Public*" OR process_exec="*:\\Windows\\Temp*" OR process_exec="*\\AppData\\Local\\*" OR process_exec="*\\AppData\\Roaming\\*" OR process_exec="*%AppData%*" OR process_exec="*%Public%*")) AND (process_path="*\\schtasks.exe" AND process_exec="* /create *")) OR ((parent_process_exec="*\\svchost.exe -k netsvcs -p -s Schedule") AND ((process_exec="*:\\Perflogs*" OR process_exec="*:\\Windows\\Temp*" OR process_exec="*\\Users\\Public*" OR process_exec="*%Public%*")))) AND NOT ((((process_exec="*/Create /Xml *" AND process_exec="*\\Temp\\.CR.*" AND process_exec="*\\Avira_Security_Installation.xml*")) OR ((process_exec="*/Create /F /TN*" AND process_exec="*/Xml *" AND process_exec="*\\Temp\\*" AND process_exec="*Avira_*") AND (process_exec="*.tmp\\UpdateFallbackTask.xml*" OR process_exec="*.tmp\\WatchdogServiceControlManagerTimeout.xml*" OR process_exec="*.tmp\\SystrayAutostart.xml*" OR process_exec="*.tmp\\MaintenanceTask.xml*")) OR ((process_exec="*\\Temp\\*" AND process_exec="*/Create /TN \"klcp_update\" /XML *" AND process_exec="*\\klcp_update_task.xml*")) OR ((parent_process_exec="*unattended.ini*") OR (process_exec="*update_task.xml*")) OR (process_exec="*/Create /TN TVInstallRestore /TR*"))))

@@ -1,0 +1,23 @@
+// Title: Potential File Extension Spoofing Using Right-to-Left Override
+// ID: 979baf41-ca44-4540-9d0c-4fcef3b5a3a4
+// Status: test
+// Level: high
+// Author: Jonathan Peters (Nextron Systems), Florian Roth (Nextron Systems), Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2024-11-17
+// Tags: attack.execution, attack.stealth, attack.t1036.002
+// Description: Detects suspicious filenames that contain a right-to-left override character and a potentially spoofed file extensions.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 979baf41_ca44_4540_9d0c_4fcef3b5a3a4 {
+  meta:
+    title = "Potential File Extension Spoofing Using Right-to-Left Override"
+    description = "Detects suspicious filenames that contain a right-to-left override character and a potentially spoofed file extensions."
+    author = "Jonathan Peters (Nextron Systems), Florian Roth (Nextron Systems), Swachchhanda Shrawan Poudel (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.file.full_path = /.*3pm..*/ nocase or $e.target.file.full_path = /.*4pm..*/ nocase or $e.target.file.full_path = /.*cod..*/ nocase or $e.target.file.full_path = /.*fdp..*/ nocase or $e.target.file.full_path = /.*ftr..*/ nocase or $e.target.file.full_path = /.*gepj..*/ nocase or $e.target.file.full_path = /.*gnp..*/ nocase or $e.target.file.full_path = /.*gpj..*/ nocase or $e.target.file.full_path = /.*ism..*/ nocase or $e.target.file.full_path = /.*lmth..*/ nocase or $e.target.file.full_path = /.*nls..*/ nocase or $e.target.file.full_path = /.*piz..*/ nocase or $e.target.file.full_path = /.*slx..*/ nocase or $e.target.file.full_path = /.*tdo..*/ nocase or $e.target.file.full_path = /.*vsc..*/ nocase or $e.target.file.full_path = /.*vwm..*/ nocase or $e.target.file.full_path = /.*xcod..*/ nocase or $e.target.file.full_path = /.*xslx..*/ nocase or $e.target.file.full_path = /.*xtpp..*/ nocase)) and (($e.target.file.full_path = /.*\\u202e.*/ nocase or $e.target.file.full_path = /.*[U+202E].*/ nocase or $e.target.file.full_path = /.*‮.*/ nocase)))
+
+  condition:
+    $e
+}

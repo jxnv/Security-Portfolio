@@ -1,0 +1,11 @@
+// Title: Potentially Suspicious Execution Of Regasm/Regsvcs With Uncommon Extension
+// ID: e9f8f8cc-07cc-4e81-b724-f387db9175e4
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-02-13
+// Tags: attack.stealth, attack.t1218.009
+// Description: Detects potentially suspicious execution of the Regasm/Regsvcs utilities with an uncommon extension.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where (((process.command_line like "*_.dat*" or process.command_line like "*_.gif*" or process.command_line like "*_.jpeg*" or process.command_line like "*_.jpg*" or process.command_line like "*_.png*" or process.command_line like "*_.txt*")) and (((process.executable endswith "\\Regsvcs.exe" or process.executable endswith "\\Regasm.exe")) or ((process.pe.original_file_name == "RegSvcs.exe" or process.pe.original_file_name == "RegAsm.exe"))))

@@ -1,0 +1,11 @@
+// Title: Potentially Suspicious Execution Of PDQDeployRunner
+// ID: 12b8e9f5-96b2-41e1-9a42-8c6779a5c184
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-07-22
+// Tags: attack.execution
+// Description: Detects suspicious execution of "PDQDeployRunner" which is part of the PDQDeploy service stack that is responsible for executing commands and packages on a remote machines
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((Image ENDSWITH "\\bash.exe" OR Image ENDSWITH "\\certutil.exe" OR Image ENDSWITH "\\cmd.exe" OR Image ENDSWITH "\\csc.exe" OR Image ENDSWITH "\\cscript.exe" OR Image ENDSWITH "\\dllhost.exe" OR Image ENDSWITH "\\mshta.exe" OR Image ENDSWITH "\\msiexec.exe" OR Image ENDSWITH "\\regsvr32.exe" OR Image ENDSWITH "\\rundll32.exe" OR Image ENDSWITH "\\scriptrunner.exe" OR Image ENDSWITH "\\wmic.exe" OR Image ENDSWITH "\\wscript.exe" OR Image ENDSWITH "\\wsl.exe")) OR ((Image CONTAINS ":\\ProgramData\\" OR Image CONTAINS ":\\Users\\Public\\" OR Image CONTAINS ":\\Windows\\TEMP\\" OR Image CONTAINS "\\AppData\\Local\\Temp")) OR ((CommandLine CONTAINS " -decode " OR CommandLine CONTAINS " -enc " OR CommandLine CONTAINS " -encodedcommand " OR CommandLine CONTAINS " -w hidden" OR CommandLine CONTAINS "DownloadString" OR CommandLine CONTAINS "FromBase64String" OR CommandLine CONTAINS "http" OR CommandLine CONTAINS "iex " OR CommandLine CONTAINS "Invoke-"))) AND (ParentImage CONTAINS "\\PDQDeployRunner-"))

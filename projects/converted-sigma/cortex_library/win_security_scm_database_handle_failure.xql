@@ -1,0 +1,11 @@
+// Title: SCM Database Handle Failure
+// ID: 13addce7-47b2-4ca0-a98f-1de964d1d669
+// Status: test
+// Level: medium
+// Author: Roberto Rodriguez @Cyb3rWard0g
+// Date: 2019-08-12
+// Tags: attack.discovery, attack.t1010
+// Description: Detects non-system users failing to get a handle of the SCM database.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter ((EventID = 4656 and ObjectType = "SC_MANAGER OBJECT" and ObjectName = "ServicesActive" and AccessMask = "0xf003f") and not ((SubjectLogonId = "0x3e4")))

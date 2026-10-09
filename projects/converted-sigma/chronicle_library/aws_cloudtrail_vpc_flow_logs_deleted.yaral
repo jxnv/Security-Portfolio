@@ -1,0 +1,24 @@
+// Title: AWS VPC Flow Logs Deleted
+// ID: e386b9b5-af12-450e-afff-761730fb8a98
+// Status: experimental
+// Level: high
+// Author: Ivan Saakov
+// Date: 2025-10-19
+// Tags: attack.stealth
+// Description: Detects the deletion of one or more VPC Flow Logs in AWS Elastic Compute Cloud (EC2) through the DeleteFlowLogs API call.
+// Adversaries may delete flow logs to evade detection or remove evidence of network activity, hindering forensic investigations and visibility into malicious operations.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule e386b9b5_af12_450e_afff_761730fb8a98 {
+  meta:
+    title = "AWS VPC Flow Logs Deleted"
+    description = "Detects the deletion of one or more VPC Flow Logs in AWS Elastic Compute Cloud (EC2) through the DeleteFlowLogs API call. Adversaries may delete flow logs to evade detection or remove evidence of network activity, hindering forensic investigations and visibility into malicious operations."
+    author = "Ivan Saakov"
+    severity = "HIGH"
+
+  events:
+    (($e.eventName = "DeleteFlowLogs") and ((not ($e.errorCode = /.*/)) or ($e.errorCode = "Success")))
+
+  condition:
+    $e
+}

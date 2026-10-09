@@ -1,0 +1,11 @@
+// Title: Suspicious PowerShell In Registry Run Keys
+// ID: 8d85cf08-bf97-4260-ba49-986a2a65129c
+// Status: test
+// Level: medium
+// Author: frack113, Florian Roth (Nextron Systems)
+// Date: 2022-03-17
+// Tags: attack.privilege-escalation, attack.persistence, attack.t1547.001
+// Description: Detects potential PowerShell commands or code within registry run keys
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE ((registry.path LIKE "%\\Software\\Microsoft\\Windows\\CurrentVersion\\Run%" OR registry.path LIKE "%\\Software\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Run%" OR registry.path LIKE "%\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run%") AND (registry.data.strings LIKE "%powershell%" OR registry.data.strings LIKE "%pwsh %" OR registry.data.strings LIKE "%FromBase64String%" OR registry.data.strings LIKE "%.DownloadFile(%" OR registry.data.strings LIKE "%.DownloadString(%" OR registry.data.strings LIKE "% -w hidden %" OR registry.data.strings LIKE "% -w 1 %" OR registry.data.strings LIKE "%-windowstyle hidden%" OR registry.data.strings LIKE "%-window hidden%" OR registry.data.strings LIKE "% -nop %" OR registry.data.strings LIKE "% -encodedcommand %" OR registry.data.strings LIKE "%-ExecutionPolicy Bypass%" OR registry.data.strings LIKE "%Invoke-Expression%" OR registry.data.strings LIKE "%IEX (%" OR registry.data.strings LIKE "%Invoke-Command%" OR registry.data.strings LIKE "%ICM -%" OR registry.data.strings LIKE "%Invoke-WebRequest%" OR registry.data.strings LIKE "%IWR %" OR registry.data.strings LIKE "%Invoke-RestMethod%" OR registry.data.strings LIKE "%IRM %" OR registry.data.strings LIKE "% -noni %" OR registry.data.strings LIKE "% -noninteractive %"))

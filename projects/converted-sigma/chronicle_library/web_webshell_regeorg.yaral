@@ -1,0 +1,23 @@
+// Title: Webshell ReGeorg Detection Via Web Logs
+// ID: 2ea44a60-cfda-11ea-87d0-0242ac130003
+// Status: test
+// Level: high
+// Author: Cian Heasley
+// Date: 2020-08-04
+// Tags: attack.persistence, attack.t1505.003
+// Description: Certain strings in the uri_query field when combined with null referer and null user agent can indicate activity associated with the webshell ReGeorg.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 2ea44a60_cfda_11ea_87d0_0242ac130003 {
+  meta:
+    title = "Webshell ReGeorg Detection Via Web Logs"
+    description = "Certain strings in the uri_query field when combined with null referer and null user agent can indicate activity associated with the webshell ReGeorg."
+    author = "Cian Heasley"
+    severity = "HIGH"
+
+  events:
+    ((($e.cs-uri-query = /.*cmd=read.*/ nocase or $e.cs-uri-query = /.*connect&target.*/ nocase or $e.cs-uri-query = /.*cmd=connect.*/ nocase or $e.cs-uri-query = /.*cmd=disconnect.*/ nocase or $e.cs-uri-query = /.*cmd=forward.*/ nocase)) and (not ($e.cs-referer = /.*/) and not ($e.cs-user-agent = /.*/) and $e.cs-method = "POST"))
+
+  condition:
+    $e
+}

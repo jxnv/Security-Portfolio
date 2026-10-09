@@ -1,0 +1,23 @@
+// Title: Suspicious PowerShell Invocation From Script Engines
+// ID: 95eadcb2-92e4-4ed1-9031-92547773a6db
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems)
+// Date: 2019-01-16
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects suspicious powershell invocations from interpreters or unusual programs
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 95eadcb2_92e4_4ed1_9031_92547773a6db {
+  meta:
+    title = "Suspicious PowerShell Invocation From Script Engines"
+    description = "Detects suspicious powershell invocations from interpreters or unusual programs"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.principal.process.file.full_path = /.*\\wscript.exe$/ nocase or $e.principal.process.file.full_path = /.*\\cscript.exe$/ nocase) and ($e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase)) and not(($e.CurrentDirectory = /.*\\Health Service State\\.*/ nocase)))
+
+  condition:
+    $e
+}

@@ -1,0 +1,23 @@
+// Title: Potential Credential Dumping Via WER
+// ID: 9a4ccd1a-3526-4d99-b980-9f9c5d3a6ff3
+// Status: test
+// Level: high
+// Author: @pbssubhash , Nasreddine Bencherchali
+// Date: 2022-12-08
+// Tags: attack.credential-access, attack.t1003.001
+// Description: Detects potential credential dumping via Windows Error Reporting LSASS Shtinkering technique which uses the Windows Error Reporting to dump lsass
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 9a4ccd1a_3526_4d99_b980_9f9c5d3a6ff3 {
+  meta:
+    title = "Potential Credential Dumping Via WER"
+    description = "Detects potential credential dumping via Windows Error Reporting LSASS Shtinkering technique which uses the Windows Error Reporting to dump lsass"
+    author = "@pbssubhash , Nasreddine Bencherchali"
+    severity = "HIGH"
+
+  events:
+    (((($e.ParentUser = /.*AUTHORI.*/ nocase or $e.ParentUser = /.*AUTORI.*/ nocase) and ($e.target.user.userid = /.*AUTHORI.*/ nocase or $e.target.user.userid = /.*AUTORI.*/ nocase) and ($e.target.process.command_line = /.* -u -p .*/ nocase and $e.target.process.command_line = /.* -ip .*/ nocase and $e.target.process.command_line = /.* -s .*/ nocase)) and (($e.target.process.file.full_path = /.*\\Werfault.exe$/ nocase) or ($e.target.process.file.name = "WerFault.exe"))) and not(($e.principal.process.file.full_path = "C:\\Windows\\System32\\lsass.exe")))
+
+  condition:
+    $e
+}

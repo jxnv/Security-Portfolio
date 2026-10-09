@@ -1,0 +1,11 @@
+// Title: Suspicious Scheduled Task Creation
+// ID: 3a734d25-df5c-4b99-8034-af1ddb5883a4
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-12-05
+// Tags: attack.execution, attack.privilege-escalation, attack.persistence, attack.t1053.005
+// Description: Detects suspicious scheduled task creation events. Based on attributes such as paths, commands line flags, etc.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+any where (((TaskContent like "*_regsvr32*" or TaskContent like "*_rundll32*" or TaskContent like "*_cmd.exe</Command>*" or TaskContent like "*_cmd</Command>*" or TaskContent like "*_<Arguments>/c *" or TaskContent like "*_<Arguments>/k *" or TaskContent like "*_<Arguments>/r *" or TaskContent like "*_powershell*" or TaskContent like "*_pwsh*" or TaskContent like "*_mshta*" or TaskContent like "*_wscript*" or TaskContent like "*_cscript*" or TaskContent like "*_certutil*" or TaskContent like "*_bitsadmin*" or TaskContent like "*_bash.exe*" or TaskContent like "*_bash *" or TaskContent like "*_scrcons*" or TaskContent like "*_wmic *" or TaskContent like "*_wmic.exe*" or TaskContent like "*_forfiles*" or TaskContent like "*_scriptrunner*" or TaskContent like "*_hh.exe*")) and (winlog.event_id == 4698) and ((TaskContent like "*_\\AppData\\Local\\Temp\\*" or TaskContent like "*_\\AppData\\Roaming\\*" or TaskContent like "*_\\Users\\Public\\*" or TaskContent like "*_\\WINDOWS\\Temp\\*" or TaskContent like "*_C:\\Temp\\*" or TaskContent like "*_\\Desktop\\*" or TaskContent like "*_\\Downloads\\*" or TaskContent like "*_\\Temporary Internet*" or TaskContent like "*_C:\\ProgramData\\*" or TaskContent like "*_C:\\Perflogs\\*")))

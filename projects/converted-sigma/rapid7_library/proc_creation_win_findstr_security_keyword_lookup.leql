@@ -1,0 +1,12 @@
+// Title: Security Tools Keyword Lookup Via Findstr.EXE
+// ID: 4fe074b4-b833-4081-8f24-7dcfeca72b42
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems), frack113
+// Date: 2023-10-20
+// Tags: attack.discovery, attack.t1518.001
+// Description: Detects execution of "findstr" to search for common names of security tools. Attackers often pipe the results of recon commands such as "tasklist" or "whoami" to "findstr" in order to filter out the results.
+// This detection focuses on the keywords that the attacker might use as a filter.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(CommandLine IENDSWITH " avira") OR where(CommandLine IENDSWITH " avira\"") OR where(CommandLine IENDSWITH " cb") OR where(CommandLine IENDSWITH " cb\"") OR where(CommandLine IENDSWITH " cylance") OR where(CommandLine IENDSWITH " cylance\"") OR where(CommandLine IENDSWITH " defender") OR where(CommandLine IENDSWITH " defender\"") OR where(CommandLine IENDSWITH " kaspersky") OR where(CommandLine IENDSWITH " kaspersky\"") OR where(CommandLine IENDSWITH " kes") OR where(CommandLine IENDSWITH " kes\"") OR where(CommandLine IENDSWITH " mc") OR where(CommandLine IENDSWITH " mc\"") OR where(CommandLine IENDSWITH " sec") OR where(CommandLine IENDSWITH " sec\"") OR where(CommandLine IENDSWITH " sentinel") OR where(CommandLine IENDSWITH " sentinel\"") OR where(CommandLine IENDSWITH " symantec") OR where(CommandLine IENDSWITH " symantec\"") OR where(CommandLine IENDSWITH " virus") OR where(CommandLine IENDSWITH " virus\""))) AND (((where(Image IENDSWITH "\\find.exe") OR where(Image IENDSWITH "\\findstr.exe"))) OR ((where(OriginalFileName = "FIND.EXE") OR where(OriginalFileName = "FINDSTR.EXE")))))

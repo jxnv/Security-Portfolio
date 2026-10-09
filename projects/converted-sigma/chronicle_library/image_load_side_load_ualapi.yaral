@@ -1,0 +1,23 @@
+// Title: Fax Service DLL Search Order Hijack
+// ID: 828af599-4c53-4ed2-ba4a-a9f835c434ea
+// Status: test
+// Level: high
+// Author: NVISO
+// Date: 2020-05-04
+// Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.stealth, attack.t1574.001
+// Description: The Fax service attempts to load ualapi.dll, which is non-existent. An attacker can then (side)load their own malicious DLL using this service.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 828af599_4c53_4ed2_ba4a_a9f835c434ea {
+  meta:
+    title = "Fax Service DLL Search Order Hijack"
+    description = "The Fax service attempts to load ualapi.dll, which is non-existent. An attacker can then (side)load their own malicious DLL using this service."
+    author = "NVISO"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.file.full_path = /.*\\fxssvc.exe$/ nocase and $e.ImageLoaded = /.*ualapi.dll$/ nocase) and not(($e.ImageLoaded = /^C:\\Windows\\WinSxS\\.*/ nocase)))
+
+  condition:
+    $e
+}

@@ -1,0 +1,23 @@
+// Title: HackTool - SharpMove Tool Execution
+// ID: 055fb54c-a8f4-4aee-bd44-f74cf30a0d9d
+// Status: test
+// Level: high
+// Author: Luca Di Bartolomeo (CrimpSec)
+// Date: 2024-01-29
+// Tags: attack.lateral-movement, attack.t1021.002
+// Description: Detects the execution of SharpMove, a .NET utility performing multiple tasks such as "Task Creation", "SCM" query, VBScript execution using WMI via its PE metadata and command line options.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 055fb54c_a8f4_4aee_bd44_f74cf30a0d9d {
+  meta:
+    title = "HackTool - SharpMove Tool Execution"
+    description = "Detects the execution of SharpMove, a .NET utility performing multiple tasks such as "Task Creation", "SCM" query, VBScript execution using WMI via its PE metadata and command line options."
+    author = "Luca Di Bartolomeo (CrimpSec)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.file.full_path = /.*\\SharpMove.exe$/ nocase) or ($e.target.process.file.name = "SharpMove.exe")) or ((($e.target.process.command_line = /.*action=create.*/ nocase or $e.target.process.command_line = /.*action=dcom.*/ nocase or $e.target.process.command_line = /.*action=executevbs.*/ nocase or $e.target.process.command_line = /.*action=hijackdcom.*/ nocase or $e.target.process.command_line = /.*action=modschtask.*/ nocase or $e.target.process.command_line = /.*action=modsvc.*/ nocase or $e.target.process.command_line = /.*action=query.*/ nocase or $e.target.process.command_line = /.*action=scm.*/ nocase or $e.target.process.command_line = /.*action=startservice.*/ nocase or $e.target.process.command_line = /.*action=taskscheduler.*/ nocase)) and ($e.target.process.command_line = /.*computername=.*/ nocase)))
+
+  condition:
+    $e
+}

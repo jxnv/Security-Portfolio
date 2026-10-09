@@ -1,0 +1,19 @@
+# Title: Potential Credential Dumping Attempt Via PowerShell Remote Thread
+# ID: fb656378-f909-47c1-8747-278bf09f4f4f
+# Status: test
+# Level: high
+# Author: oscd.community, Natalia Shornikova
+# Date: 2020-10-06
+# Tags: attack.credential-access, attack.t1003.001
+# Description: Detects remote thread creation by PowerShell processes into "lsass.exe"
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Potential Credential Dumping Attempt Via PowerShell Remote Thread
+def rule(event):
+    # Detection Logic:
+    # ((SourceImage="*\\powershell.exe" OR SourceImage="*\\pwsh.exe") AND TargetImage="*\\lsass.exe")
+    return True
+
+def title(event):
+    return "Potential Credential Dumping Attempt Via PowerShell Remote Thread"
+

@@ -1,0 +1,11 @@
+// Title: Suspicious Electron Application Child Processes
+// ID: f26eb764-fd89-464b-85e2-dc4a8e6e77b8
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-10-21
+// Tags: attack.execution
+// Description: Detects suspicious child processes of electron apps (teams, discord, slack, etc.). This could be a potential sign of ".asar" file tampering (See reference section for more information) or binary execution proxy through specific CLI arguments (see related rule)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((src.process.parent.image.path endswithCIS "\\chrome.exe" OR src.process.parent.image.path endswithCIS "\\discord.exe" OR src.process.parent.image.path endswithCIS "\\GitHubDesktop.exe" OR src.process.parent.image.path endswithCIS "\\keybase.exe" OR src.process.parent.image.path endswithCIS "\\msedge.exe" OR src.process.parent.image.path endswithCIS "\\msedgewebview2.exe" OR src.process.parent.image.path endswithCIS "\\msteams.exe" OR src.process.parent.image.path endswithCIS "\\slack.exe" OR src.process.parent.image.path endswithCIS "\\teams.exe")) AND (((src.process.image.path endswithCIS "\\cmd.exe" OR src.process.image.path endswithCIS "\\cscript.exe" OR src.process.image.path endswithCIS "\\mshta.exe" OR src.process.image.path endswithCIS "\\powershell.exe" OR src.process.image.path endswithCIS "\\pwsh.exe" OR src.process.image.path endswithCIS "\\regsvr32.exe" OR src.process.image.path endswithCIS "\\whoami.exe" OR src.process.image.path endswithCIS "\\wscript.exe")) OR ((src.process.image.path containsCIS ":\\ProgramData\\" OR src.process.image.path containsCIS ":\\Temp\\" OR src.process.image.path containsCIS "\\AppData\\Local\\Temp\\" OR src.process.image.path containsCIS "\\Users\\Public\\" OR src.process.image.path containsCIS "\\Windows\\Temp\\"))) AND NOT ((src.process.parent.image.path endswithCIS "\\Discord.exe" AND src.process.image.path endswithCIS "\\cmd.exe" AND src.process.cmdline containsCIS "\\NVSMI\\nvidia-smi.exe")))

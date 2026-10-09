@@ -1,0 +1,11 @@
+// Title: File Decoded From Base64/Hex Via Certutil.EXE
+// ID: cc9cbe82-7bc0-4ef5-bc23-bbfb83947be7
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Jonhnathan Ribeiro, oscd.community
+// Date: 2023-02-15
+// Tags: attack.stealth, attack.t1027
+// Description: Detects the execution of certutil with either the "decode" or "decodehex" flags to decode base64 or hex encoded files. This can be abused by attackers to decode an encoded payload before execution
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((CommandLine: "*-decode *" OR CommandLine: "*/decode *" OR CommandLine: "*-decodehex *" OR CommandLine: "*/decodehex *")) AND ((Image="*\\certutil.exe") OR (OriginalFileName: "CertUtil.exe")))

@@ -1,0 +1,11 @@
+// Title: Suspicious Program Location Whitelisted In Firewall Via Netsh.EXE
+// ID: a35f5a72-f347-4e36-8895-9869b0d5fc6d
+// Status: test
+// Level: high
+// Author: Sander Wiebing, Jonhnathan Ribeiro, Daniil Yugoslavskiy, oscd.community
+// Date: 2020-05-25
+// Tags: attack.defense-impairment, attack.t1686.003
+// Description: Detects Netsh command execution that whitelists a program located in a suspicious location in the Windows Firewall
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where ((((process.command_line like "%firewall%" AND process.command_line like "%add%" AND process.command_line like "%allowedprogram%")) OR ((process.command_line like "%advfirewall%" AND process.command_line like "%firewall%" AND process.command_line like "%add%" AND process.command_line like "%rule%" AND process.command_line like "%action=allow%" AND process.command_line like "%program=%"))) AND ((process.executable="*\\netsh.exe") OR (process.pe.original_file_name = "netsh.exe")) AND ((process.command_line like "%:\\$Recycle.bin\\%" OR process.command_line like "%:\\RECYCLER.BIN\\%" OR process.command_line like "%:\\RECYCLERS.BIN\\%" OR process.command_line like "%:\\SystemVolumeInformation\\%" OR process.command_line like "%:\\Temp\\%" OR process.command_line like "%:\\Users\\Default\\%" OR process.command_line like "%:\\Users\\Desktop\\%" OR process.command_line like "%:\\Users\\Public\\%" OR process.command_line like "%:\\Windows\\addins\\%" OR process.command_line like "%:\\Windows\\cursors\\%" OR process.command_line like "%:\\Windows\\debug\\%" OR process.command_line like "%:\\Windows\\drivers\\%" OR process.command_line like "%:\\Windows\\fonts\\%" OR process.command_line like "%:\\Windows\\help\\%" OR process.command_line like "%:\\Windows\\system32\\tasks\\%" OR process.command_line like "%:\\Windows\\Tasks\\%" OR process.command_line like "%:\\Windows\\Temp\\%" OR process.command_line like "%\\Downloads\\%" OR process.command_line like "%\\Local Settings\\Temporary Internet Files\\%" OR process.command_line like "%\\Temporary Internet Files\\Content.Outlook\\%" OR process.command_line like "%%Public%\\%" OR process.command_line like "%%TEMP%%" OR process.command_line like "%%TMP%%")))

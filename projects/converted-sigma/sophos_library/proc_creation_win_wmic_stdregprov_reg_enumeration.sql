@@ -1,0 +1,13 @@
+-- Title: Registry Enumeration via WMI Stdregprov
+-- ID: a0e417e2-2fa1-40da-b6d2-e094cd5e1191
+-- Status: experimental
+-- Level: medium
+-- Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+-- Date: 2025-07-30
+-- Tags: attack.execution, attack.t1047, attack.discovery, attack.t1012
+-- Description: Detects the usage of wmic.exe to enumerate or read Windows registry via the WMI StdRegProv class read methods (EnumKey, EnumValues, GetStringValue, etc.).
+-- While registry reads are common, attackers may use this technique to perform reconnaissance and discover sensitive configuration values, credentials, or installed software.
+-- The use of WMI as an alternative to standard tools like reg.exe can indicate an attempt to evade detection focused on traditional registry query commands.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE (((CommandLine ILIKE '%stdregprov%' AND CommandLine ILIKE '%call%') AND (CommandLine ILIKE '%CheckAccess%' OR CommandLine ILIKE '%EnumKey%' OR CommandLine ILIKE '%EnumValues%' OR CommandLine ILIKE '%GetBinaryValue%' OR CommandLine ILIKE '%GetDWORDValue%' OR CommandLine ILIKE '%GetExpandedStringValue%' OR CommandLine ILIKE '%GetMultiStringValue%' OR CommandLine ILIKE '%GetQWORDValue%' OR CommandLine ILIKE '%GetSecurityDescriptor%' OR CommandLine ILIKE '%GetStringValue%')) AND ((Image ILIKE '%\\wmic.exe') OR (OriginalFileName = 'wmic.exe')))

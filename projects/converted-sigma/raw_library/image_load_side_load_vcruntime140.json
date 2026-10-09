@@ -1,0 +1,43 @@
+{
+  "title": "Potential Vcruntime140 DLL Sideloading",
+  "id": "d7a63acb-1284-49bc-bfea-7771146c8b1c",
+  "status": "experimental",
+  "description": "Detects potential DLL sideloading of vcruntime140.dll, a common C++ runtime library.\nThreat actors have been observed using DLL sideloading techniques to load malicious payloads under the guise of legitimate applications such as SqlWriter, SqlDumper etc.\nNotably, APT29 has been documented leveraging WinELOADER to sideload vcruntime140.dll for executing malicious code.\n",
+  "author": "Swachchhanda Shrawan Poudel (Nextron Systems)",
+  "date": "2026-01-12",
+  "tags": [
+    "attack.persistence",
+    "attack.privilege-escalation",
+    "attack.execution",
+    "attack.stealth",
+    "attack.t1574.001"
+  ],
+  "level": "high",
+  "logsource": {
+    "category": "image_load",
+    "product": "windows"
+  },
+  "detection": {
+    "selection": {
+      "ImageLoaded|endswith": "\\vcruntime140.dll"
+    },
+    "filter_main_legitimate_path": {
+      "ImageLoaded|startswith": [
+        "C:\\Windows\\System32\\",
+        "C:\\Windows\\SysWOW64\\",
+        "C:\\Program Files\\",
+        "C:\\Program Files (x86)\\"
+      ]
+    },
+    "filter_main_legitimate_signer": {
+      "Signed": true,
+      "SignatureStatus": "Valid",
+      "Description|endswith": "C Runtime Library"
+    },
+    "filter_optional_onedrive": {
+      "Image|startswith": "C:\\Users\\",
+      "Image|contains": "\\AppData\\Local\\Microsoft\\OneDrive\\"
+    },
+    "condition": "selection and not 1 of filter_main_* and not 1 of filter_optional_*"
+  }
+}

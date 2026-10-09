@@ -1,0 +1,12 @@
+// Title: Potential Shim Database Persistence via Sdbinst.EXE
+// ID: 517490a7-115a-48c6-8862-1a481504d5a8
+// Status: test
+// Level: medium
+// Author: Markus Neis
+// Date: 2019-01-16
+// Tags: attack.persistence, attack.privilege-escalation, attack.t1546.011
+// Description: Detects installation of a new shim using sdbinst.exe.
+// Adversaries may establish persistence and/or elevate privileges by executing malicious content triggered by application shims
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((src.process.cmdline containsCIS ".sdb") AND ((src.process.image.path endswithCIS "\\sdbinst.exe") OR (OriginalFileName = "sdbinst.exe"))) AND NOT ((src.process.parent.image.path endswithCIS "\\msiexec.exe" AND (src.process.cmdline containsCIS ":\\Program Files (x86)\\IIS Express\\iisexpressshim.sdb" OR src.process.cmdline containsCIS ":\\Program Files\\IIS Express\\iisexpressshim.sdb"))))

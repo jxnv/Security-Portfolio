@@ -1,0 +1,11 @@
+# Title: Potential Persistence Attempt Via Existing Service Tampering
+# ID: 38879043-7e1e-47a9-8d46-6bec88e201df
+# Status: test
+# Level: medium
+# Author: Sreeman
+# Date: 2020-09-29
+# Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.stealth, attack.t1543.003, attack.t1574.011
+# Description: Detects the modification of an existing service in order to execute an arbitrary payload when the service is started or killed as a potential method for persistence.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((((CommandLine CONTAIN "sc " AND CommandLine CONTAIN "config " AND CommandLine CONTAIN "binpath=")) OR ((CommandLine CONTAIN "sc " AND CommandLine CONTAIN "failure" AND CommandLine CONTAIN "command="))) OR (((CommandLine CONTAIN ".sh" OR CommandLine CONTAIN ".exe" OR CommandLine CONTAIN ".dll" OR CommandLine CONTAIN ".bin$" OR CommandLine CONTAIN ".bat" OR CommandLine CONTAIN ".cmd" OR CommandLine CONTAIN ".js" OR CommandLine CONTAIN ".msh$" OR CommandLine CONTAIN ".reg$" OR CommandLine CONTAIN ".scr" OR CommandLine CONTAIN ".ps" OR CommandLine CONTAIN ".vb" OR CommandLine CONTAIN ".jar" OR CommandLine CONTAIN ".pl")) AND (((CommandLine CONTAIN "reg " AND CommandLine CONTAIN "add " AND CommandLine CONTAIN "FailureCommand")) OR ((CommandLine CONTAIN "reg " AND CommandLine CONTAIN "add " AND CommandLine CONTAIN "ImagePath")))))

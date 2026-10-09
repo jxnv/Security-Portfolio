@@ -1,0 +1,11 @@
+# Title: Suspicious PowerShell Invocations - Specific - ProcessCreation
+# ID: 536e2947-3729-478c-9903-745aaffe60d2
+# Status: test
+# Level: medium
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2023-01-05
+# Tags: attack.stealth
+# Description: Detects suspicious PowerShell invocation command parameters
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((((cmdline:*-nop* AND cmdline:* -w * AND cmdline:*hidden* AND cmdline:* -c * AND cmdline:*[Convert]::FromBase64String*)) OR ((cmdline:* -w * AND cmdline:*hidden* AND cmdline:*-ep* AND cmdline:*bypass* AND cmdline:*-Enc*)) OR ((cmdline:* -w * AND cmdline:*hidden* AND cmdline:*-noni* AND cmdline:*-nop* AND cmdline:* -c * AND cmdline:*iex* AND cmdline:*New-Object*)) OR ((cmdline:*iex* AND cmdline:*New-Object* AND cmdline:*Net.WebClient* AND cmdline:*.Download*)) OR ((cmdline:*powershell* AND cmdline:*reg* AND cmdline:*add* AND cmdline:*\\software\\*)) OR ((cmdline:*bypass* AND cmdline:*-noprofile* AND cmdline:*-windowstyle* AND cmdline:*hidden* AND cmdline:*new-object* AND cmdline:*system.net.webclient* AND cmdline:*.download*))) AND -(((cmdline:*(New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1* OR cmdline:*Write-ChocolateyWarning*))))

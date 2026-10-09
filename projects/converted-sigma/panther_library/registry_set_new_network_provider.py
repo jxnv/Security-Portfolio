@@ -1,0 +1,19 @@
+# Title: Potential Credential Dumping Attempt Using New NetworkProvider - REG
+# ID: 0442defa-b4a2-41c9-ae2c-ea7042fc4701
+# Status: test
+# Level: medium
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-08-23
+# Tags: attack.credential-access, attack.t1003
+# Description: Detects when an attacker tries to add a new network provider in order to dump clear text credentials, similar to how the NPPSpy tool does it
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Potential Credential Dumping Attempt Using New NetworkProvider - REG
+def rule(event):
+    # Detection Logic:
+    # (((TargetObject="*\\System\\CurrentControlSet\\Services\\*" AND TargetObject="*\\NetworkProvider*")) AND NOT ((((TargetObject="*\\System\\CurrentControlSet\\Services\\WebClient\\NetworkProvider*" OR TargetObject="*\\System\\CurrentControlSet\\Services\\LanmanWorkstation\\NetworkProvider*" OR TargetObject="*\\System\\CurrentControlSet\\Services\\RDPNP\\NetworkProvider*")) OR (Image="C:\\Windows\\System32\\poqexec.exe"))))
+    return True
+
+def title(event):
+    return "Potential Credential Dumping Attempt Using New NetworkProvider - REG"
+

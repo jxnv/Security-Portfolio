@@ -1,0 +1,23 @@
+// Title: Regsvr32 Execution From Potential Suspicious Location
+// ID: 9525dc73-0327-438c-8c04-13c0e037e9da
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-05-26
+// Tags: attack.stealth, attack.t1218.010
+// Description: Detects execution of regsvr32 where the DLL is located in a potentially suspicious location.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 9525dc73_0327_438c_8c04_13c0e037e9da {
+  meta:
+    title = "Regsvr32 Execution From Potential Suspicious Location"
+    description = "Detects execution of regsvr32 where the DLL is located in a potentially suspicious location."
+    author = "Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.command_line = /.*:\\ProgramData\\.*/ nocase or $e.target.process.command_line = /.*:\\Temp\\.*/ nocase or $e.target.process.command_line = /.*:\\Users\\Public\\.*/ nocase or $e.target.process.command_line = /.*:\\Windows\\Temp\\.*/ nocase or $e.target.process.command_line = /.*\\AppData\\Local\\Temp\\.*/ nocase or $e.target.process.command_line = /.*\\AppData\\Roaming\\.*/ nocase)) and (($e.target.process.file.full_path = /.*\\regsvr32.exe$/ nocase) or ($e.target.process.file.name = "REGSVR32.EXE")))
+
+  condition:
+    $e
+}

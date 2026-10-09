@@ -1,0 +1,23 @@
+// Title: UAC Bypass Using EventVwr
+// ID: 63e4f530-65dc-49cc-8f80-ccfa95c69d43
+// Status: test
+// Level: high
+// Author: Antonio Cocomazzi (idea), Florian Roth (Nextron Systems)
+// Date: 2022-04-27
+// Tags: attack.privilege-escalation, attack.stealth
+// Description: Detects the pattern of a UAC bypass using Windows Event Viewer
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 63e4f530_65dc_49cc_8f80_ccfa95c69d43 {
+  meta:
+    title = "UAC Bypass Using EventVwr"
+    description = "Detects the pattern of a UAC bypass using Windows Event Viewer"
+    author = "Antonio Cocomazzi (idea), Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.file.full_path = /.*\\Microsoft\\Event Viewer\\RecentViews$/ nocase or $e.target.file.full_path = /.*\\Microsoft\\EventV~1\\RecentViews$/ nocase)) and not((($e.target.process.file.full_path = /^C:\\Windows\\System32\\.*/ nocase or $e.target.process.file.full_path = /^C:\\Windows\\SysWOW64\\.*/ nocase))))
+
+  condition:
+    $e
+}

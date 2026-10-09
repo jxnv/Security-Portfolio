@@ -1,0 +1,23 @@
+// Title: Dllhost.EXE Execution Anomaly
+// ID: e7888eb1-13b0-4616-bd99-4bc0c2b054b9
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-06-27
+// Tags: attack.privilege-escalation, attack.stealth, attack.t1055
+// Description: Detects a "dllhost" process spawning with no commandline arguments which is very rare to happen and could indicate process injection activity or malware mimicking similar system processes.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule e7888eb1_13b0_4616_bd99_4bc0c2b054b9 {
+  meta:
+    title = "Dllhost.EXE Execution Anomaly"
+    description = "Detects a "dllhost" process spawning with no commandline arguments which is very rare to happen and could indicate process injection activity or malware mimicking similar system processes."
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.file.full_path = /.*\\dllhost.exe$/ nocase and ($e.target.process.command_line = "dllhost.exe" or $e.target.process.command_line = "dllhost")) and not((not ($e.target.process.command_line = /.*/))))
+
+  condition:
+    $e
+}

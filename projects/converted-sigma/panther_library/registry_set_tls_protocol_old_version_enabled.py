@@ -1,0 +1,19 @@
+# Title: Old TLS1.0/TLS1.1 Protocol Version Enabled
+# ID: 439957a7-ad86-4a8f-9705-a28131c6821b
+# Status: test
+# Level: medium
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2023-09-05
+# Tags: attack.stealth
+# Description: Detects applications or users re-enabling old TLS versions by setting the "Enabled" value to "1" for the "Protocols" registry key.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Old TLS1.0/TLS1.1 Protocol Version Enabled
+def rule(event):
+    # Detection Logic:
+    # ((TargetObject="*\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.0\\*" OR TargetObject="*\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.1\\*") AND TargetObject="*\\Enabled" AND Details="DWORD (0x00000001)")
+    return True
+
+def title(event):
+    return "Old TLS1.0/TLS1.1 Protocol Version Enabled"
+

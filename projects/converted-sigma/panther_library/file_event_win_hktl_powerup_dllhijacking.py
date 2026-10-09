@@ -1,0 +1,21 @@
+# Title: HackTool - Powerup Write Hijack DLL
+# ID: 602a1f13-c640-4d73-b053-be9a2fa58b96
+# Status: test
+# Level: high
+# Author: Subhash Popuri (@pbssubhash)
+# Date: 2021-08-21
+# Tags: attack.persistence, attack.privilege-escalation, attack.execution, attack.stealth, attack.t1574.001
+# Description: Powerup tool's Write Hijack DLL exploits DLL hijacking for privilege escalation.
+# In it's default mode, it builds a self deleting .bat file which executes malicious command.
+# The detection rule relies on creation of the malicious bat file (debug.bat by default).
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: HackTool - Powerup Write Hijack DLL
+def rule(event):
+    # Detection Logic:
+    # ((Image="*\\powershell.exe" OR Image="*\\pwsh.exe") AND TargetFilename="*.bat")
+    return True
+
+def title(event):
+    return "HackTool - Powerup Write Hijack DLL"
+

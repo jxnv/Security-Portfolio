@@ -1,0 +1,38 @@
+{
+  "title": "Atbroker Registry Change",
+  "id": "9577edbb-851f-4243-8c91-1d5b50c1a39b",
+  "status": "test",
+  "description": "Detects creation/modification of Assistive Technology applications and persistence with usage of 'at'",
+  "author": "Mateusz Wydra, oscd.community",
+  "date": "2020-10-13",
+  "tags": [
+    "attack.privilege-escalation",
+    "attack.stealth",
+    "attack.t1218",
+    "attack.persistence",
+    "attack.t1547"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "registry_event",
+    "product": "windows"
+  },
+  "detection": {
+    "selection": {
+      "TargetObject|contains": [
+        "Software\\Microsoft\\Windows NT\\CurrentVersion\\Accessibility\\ATs",
+        "Software\\Microsoft\\Windows NT\\CurrentVersion\\Accessibility\\Configuration"
+      ]
+    },
+    "filter_atbroker": {
+      "Image": "C:\\Windows\\system32\\atbroker.exe",
+      "TargetObject|contains": "\\Microsoft\\Windows NT\\CurrentVersion\\Accessibility\\Configuration",
+      "Details": "(Empty)"
+    },
+    "filter_uninstallers": {
+      "Image|startswith": "C:\\Windows\\Installer\\MSI",
+      "TargetObject|contains": "Software\\Microsoft\\Windows NT\\CurrentVersion\\Accessibility\\ATs"
+    },
+    "condition": "selection and not 1 of filter_*"
+  }
+}

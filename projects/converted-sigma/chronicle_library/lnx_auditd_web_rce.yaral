@@ -1,0 +1,23 @@
+// Title: Webshell Remote Command Execution
+// ID: c0d3734d-330f-4a03-aae2-65dacc6a8222
+// Status: test
+// Level: critical
+// Author: Ilyas Ochkov, Beyu Denis, oscd.community
+// Date: 2019-10-12
+// Tags: attack.persistence, attack.t1505.003
+// Description: Detects possible command execution by web application/web shell
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule c0d3734d_330f_4a03_aae2_65dacc6a8222 {
+  meta:
+    title = "Webshell Remote Command Execution"
+    description = "Detects possible command execution by web application/web shell"
+    author = "Ilyas Ochkov, Beyu Denis, oscd.community"
+    severity = "CRITICAL"
+
+  events:
+    ($e.type = "SYSCALL" and ($e.SYSCALL = "execve" or $e.SYSCALL = "execveat") and $e.euid = 33)
+
+  condition:
+    $e
+}

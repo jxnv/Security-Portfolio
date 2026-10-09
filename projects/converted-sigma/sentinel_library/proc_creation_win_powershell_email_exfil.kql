@@ -1,0 +1,11 @@
+// Title: Email Exifiltration Via Powershell
+// ID: 312d0384-401c-4b8b-abdf-685ffba9a332
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems),  Azure-Sentinel (idea)
+// Date: 2022-09-09
+// Tags: attack.exfiltration
+// Description: Detects email exfiltration via powershell cmdlets
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+DeviceProcessEvents | where ((FolderPath endswith "\\powershell.exe" or FolderPath endswith "\\pwsh.exe") and (ProcessCommandLine contains "Add-PSSnapin" and ProcessCommandLine contains "Get-Recipient" and ProcessCommandLine contains "-ExpandProperty" and ProcessCommandLine contains "EmailAddresses" and ProcessCommandLine contains "SmtpAddress" and ProcessCommandLine contains "-hidetableheaders"))

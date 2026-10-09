@@ -1,0 +1,11 @@
+// Title: OpenSSH Server Listening On Socket
+// ID: 3ce8e9a4-bc61-4c9b-8e69-d7e2492a8781
+// Status: test
+// Level: medium
+// Author: mdecrevoisier
+// Date: 2022-10-25
+// Tags: attack.lateral-movement, attack.t1021.004
+// Description: Detects scenarios where an attacker enables the OpenSSH server and server starts to listening on SSH socket.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(EventID: "4" AND process: "sshd" AND payload="Server listening on *")

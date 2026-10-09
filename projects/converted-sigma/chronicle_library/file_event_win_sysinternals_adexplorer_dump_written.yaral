@@ -1,0 +1,23 @@
+// Title: ADExplorer Writing Complete AD Snapshot Into .dat File
+// ID: 0a1255c5-d732-4b62-ac02-b5152d34fb83
+// Status: experimental
+// Level: medium
+// Author: Arnim Rupp (Nextron Systems), Thomas Patzke
+// Date: 2025-07-09
+// Tags: attack.discovery, attack.t1087.002, attack.t1069.002, attack.t1482
+// Description: Detects the dual use tool ADExplorer writing a complete AD snapshot into a .dat file. This can be used by attackers to extract data for Bloodhound, usernames for password spraying or use the meta data for social engineering. The snapshot doesn't contain password hashes but there have been cases, where administrators put passwords in the comment field.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 0a1255c5_d732_4b62_ac02_b5152d34fb83 {
+  meta:
+    title = "ADExplorer Writing Complete AD Snapshot Into .dat File"
+    description = "Detects the dual use tool ADExplorer writing a complete AD snapshot into a .dat file. This can be used by attackers to extract data for Bloodhound, usernames for password spraying or use the meta data for social engineering. The snapshot doesn't contain password hashes but there have been cases, where administrators put passwords in the comment field."
+    author = "Arnim Rupp (Nextron Systems), Thomas Patzke"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.process.file.full_path = /.*\\ADExp.exe$/ nocase or $e.target.process.file.full_path = /.*\\ADExplorer.exe$/ nocase or $e.target.process.file.full_path = /.*\\ADExplorer64.exe$/ nocase or $e.target.process.file.full_path = /.*\\ADExplorer64a.exe$/ nocase) and $e.target.file.full_path = /.*.dat$/ nocase)
+
+  condition:
+    $e
+}

@@ -1,0 +1,16 @@
+// Title: Potential Persistence Via Disk Cleanup Handler - Registry
+// ID: d4f4e0be-cf12-439f-9e25-4e2cdcf7df5a
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-07-21
+// Tags: attack.persistence
+// Description: Detects when an attacker modifies values of the Disk Cleanup Handler in the registry to achieve persistence.
+// The disk cleanup manager is part of the operating system. It displays the dialog box […]
+// The user has the option of enabling or disabling individual handlers by selecting or clearing their check box in the disk cleanup manager's UI.
+// Although Windows comes with a number of disk cleanup handlers, they aren't designed to handle files produced by other applications.
+// Instead, the disk cleanup manager is designed to be flexible and extensible by enabling any developer to implement and register their own disk cleanup handler.
+// Any developer can extend the available disk cleanup services by implementing and registering a disk cleanup handler.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((EventType = "CreateKey" and TargetObject = /*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\VolumeCaches\\*/i) and not(((TargetObject = /.*\\Active Setup Temp Folders/i or TargetObject = /.*\\BranchCache/i or TargetObject = /.*\\Content Indexer Cleaner/i or TargetObject = /.*\\D3D Shader Cache/i or TargetObject = /.*\\Delivery Optimization Files/i or TargetObject = /.*\\Device Driver Packages/i or TargetObject = /.*\\Diagnostic Data Viewer database files/i or TargetObject = /.*\\Downloaded Program Files/i or TargetObject = /.*\\DownloadsFolder/i or TargetObject = /.*\\Feedback Hub Archive log files/i or TargetObject = /.*\\Internet Cache Files/i or TargetObject = /.*\\Language Pack/i or TargetObject = /.*\\Microsoft Office Temp Files/i or TargetObject = /.*\\Offline Pages Files/i or TargetObject = /.*\\Old ChkDsk Files/i or TargetObject = /.*\\Previous Installations/i or TargetObject = /.*\\Recycle Bin/i or TargetObject = /.*\\RetailDemo Offline Content/i or TargetObject = /.*\\Setup Log Files/i or TargetObject = /.*\\System error memory dump files/i or TargetObject = /.*\\System error minidump files/i or TargetObject = /.*\\Temporary Files/i or TargetObject = /.*\\Temporary Setup Files/i or TargetObject = /.*\\Temporary Sync Files/i or TargetObject = /.*\\Thumbnail Cache/i or TargetObject = /.*\\Update Cleanup/i or TargetObject = /.*\\Upgrade Discarded Files/i or TargetObject = /.*\\User file versions/i or TargetObject = /.*\\Windows Defender/i or TargetObject = /.*\\Windows Error Reporting Files/i or TargetObject = /.*\\Windows ESD installation files/i or TargetObject = /.*\\Windows Upgrade Log Files/i))))

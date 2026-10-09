@@ -1,0 +1,12 @@
+// Title: Execution of Suspicious File Type Extension
+// ID: c09dad97-1c78-4f71-b127-7edb2b8e491a
+// Status: test
+// Level: medium
+// Author: Max Altgelt (Nextron Systems)
+// Date: 2021-12-09
+// Tags: attack.stealth
+// Description: Detects whether the image specified in a process creation event doesn't refer to an ".exe" (or other known executable extension) file. This can be caused by process ghosting or other unorthodox methods to start a process.
+// This rule might require some initial baselining to align with some third party tooling in the user environment.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(NOT (((Image ENDSWITH ".bin" OR Image ENDSWITH ".cgi" OR Image ENDSWITH ".com" OR Image ENDSWITH ".exe" OR Image ENDSWITH ".scr" OR Image ENDSWITH ".tmp"))) AND NOT (((Image CONTAINS ":\\$Extend\\$Deleted\\") OR (Image CONTAINS ":\\Windows\\System32\\DriverStore\\FileRepository\\") OR ((Image EQ "-" OR Image EQ "")) OR ((Image EQ "System" OR Image EQ "Registry" OR Image EQ "MemCompression" OR Image EQ "vmmem")) OR (Image CONTAINS ":\\Windows\\Installer\\MSI") OR (Image CONTAINS ":\\Config.Msi\\" AND (Image ENDSWITH ".rbf" OR Image ENDSWITH ".rbs")) OR (NOT Image=*) OR ((ParentImage CONTAINS ":\\Windows\\Temp\\") OR (Image CONTAINS ":\\Windows\\Temp\\")))) AND NOT (((ParentImage CONTAINS ":\\ProgramData\\Avira\\") OR (ParentImage EQ "C:\\Windows\\System32\\services.exe" AND Image ENDSWITH "com.docker.service") OR (Image CONTAINS ":\\Program Files\\Mozilla Firefox\\") OR (Image ENDSWITH "\\LZMA_EXE") OR ((Image ENDSWITH ":\\Program Files (x86)\\MyQ\\Server\\pcltool.dll" OR Image ENDSWITH ":\\Program Files\\MyQ\\Server\\pcltool.dll")) OR (Image CONTAINS "NVIDIA\\NvBackend\\" AND Image ENDSWITH ".dat") OR ((Image CONTAINS ":\\Program Files (x86)\\WINPAKPRO\\" OR Image CONTAINS ":\\Program Files\\WINPAKPRO\\") AND Image ENDSWITH ".ngn") OR ((Image CONTAINS "\\AppData\\Local\\Packages\\" AND Image CONTAINS "\\LocalState\\rootfs\\")))))

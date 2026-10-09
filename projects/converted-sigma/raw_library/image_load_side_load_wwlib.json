@@ -1,0 +1,37 @@
+{
+  "title": "Potential WWlib.DLL Sideloading",
+  "id": "e2e01011-5910-4267-9c3b-4149ed5479cf",
+  "status": "test",
+  "description": "Detects potential DLL sideloading of \"wwlib.dll\"",
+  "author": "X__Junior (Nextron Systems)",
+  "date": "2023-05-18",
+  "tags": [
+    "attack.persistence",
+    "attack.privilege-escalation",
+    "attack.execution",
+    "attack.stealth",
+    "attack.t1574.001"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "image_load",
+    "product": "windows"
+  },
+  "detection": {
+    "selection": {
+      "ImageLoaded|endswith": "\\wwlib.dll"
+    },
+    "filter_main_path": {
+      "Image|startswith": [
+        "C:\\Program Files (x86)\\Microsoft Office\\",
+        "C:\\Program Files\\Microsoft Office\\"
+      ],
+      "Image|endswith": "\\winword.exe",
+      "ImageLoaded|startswith": [
+        "C:\\Program Files (x86)\\Microsoft Office\\",
+        "C:\\Program Files\\Microsoft Office\\"
+      ]
+    },
+    "condition": "selection and not 1 of filter_main_*"
+  }
+}

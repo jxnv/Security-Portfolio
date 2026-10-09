@@ -1,0 +1,39 @@
+{
+  "title": "Potential Dosfuscation Activity",
+  "id": "a77c1610-fc73-4019-8e29-0f51efc04a51",
+  "status": "test",
+  "description": "Detects possible payload obfuscation via the commandline",
+  "author": "frack113, Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2022-02-15",
+  "tags": [
+    "attack.execution",
+    "attack.t1059"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection": {
+      "CommandLine|contains": [
+        "^^",
+        "^|^",
+        ",;,",
+        ";;;;",
+        ";; ;;",
+        "(,(,",
+        "%COMSPEC:~",
+        " c^m^d",
+        "^c^m^d",
+        " c^md",
+        " cm^d",
+        "^cm^d",
+        " s^et ",
+        " s^e^t ",
+        " se^t "
+      ]
+    },
+    "condition": "selection"
+  }
+}

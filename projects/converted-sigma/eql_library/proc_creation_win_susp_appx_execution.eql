@@ -1,0 +1,11 @@
+// Title: Potentially Suspicious Windows App Activity
+// ID: f91ed517-a6ba-471d-9910-b3b4a398c0f3
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-01-12
+// Tags: attack.stealth
+// Description: Detects potentially suspicious child process of applications launched from inside the WindowsApps directory. This could be a sign of a rogue ".appx" package installation/execution
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where ((process.parent.executable like "*_C:\\Program Files\\WindowsApps\\*") and (((process.command_line like "*_cmd /c*" or process.command_line like "*_Invoke-*" or process.command_line like "*_Base64*")) or ((process.executable endswith "\\cmd.exe" or process.executable endswith "\\cscript.exe" or process.executable endswith "\\mshta.exe" or process.executable endswith "\\powershell.exe" or process.executable endswith "\\powershell_ise.exe" or process.executable endswith "\\pwsh.exe" or process.executable endswith "\\regsvr32.exe" or process.executable endswith "\\rundll32.exe" or process.executable endswith "\\wscript.exe"))) and not (((process.parent.executable startswith "C:\\Program Files\\WindowsApps\\Microsoft.SysinternalsSuite" and process.executable endswith "\\cmd.exe") or (process.parent.executable like "*_:\\Program Files\\WindowsApps\\Microsoft.WindowsTerminal*" and process.parent.executable endswith "\\WindowsTerminal.exe" and (process.executable endswith "\\powershell.exe" or process.executable endswith "\\cmd.exe" or process.executable endswith "\\pwsh.exe")))))

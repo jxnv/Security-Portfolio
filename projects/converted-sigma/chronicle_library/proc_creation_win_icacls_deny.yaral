@@ -1,0 +1,23 @@
+// Title: Use Icacls to Hide File to Everyone
+// ID: 4ae81040-fc1c-4249-bfa3-938d260214d9
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-07-18
+// Tags: attack.stealth, attack.t1564.001
+// Description: Detect use of icacls to deny access for everyone in Users folder sometimes used to hide malicious files
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 4ae81040_fc1c_4249_bfa3_938d260214d9 {
+  meta:
+    title = "Use Icacls to Hide File to Everyone"
+    description = "Detect use of icacls to deny access for everyone in Users folder sometimes used to hide malicious files"
+    author = "frack113"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.command_line = /.*/deny.*/ nocase and $e.target.process.command_line = /.**S-1-1-0:.*/ nocase)) and (($e.target.process.file.name = "iCACLS.EXE") or ($e.target.process.file.full_path = /.*\\icacls.exe$/ nocase)))
+
+  condition:
+    $e
+}

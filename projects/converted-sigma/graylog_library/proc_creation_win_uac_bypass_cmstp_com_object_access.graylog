@@ -1,0 +1,11 @@
+# Title: CMSTP UAC Bypass via COM Object Access
+# ID: 4b60e6f2-bf39-47b4-b4ea-398e33cfe253
+# Status: stable
+# Level: high
+# Author: Nik Seetharaman, Christian Burkard (Nextron Systems)
+# Date: 2019-07-31
+# Tags: attack.execution, attack.privilege-escalation, attack.stealth, attack.t1548.002, attack.t1218.003, attack.g0069, car.2019-04-001
+# Description: Detects UAC Bypass Attempt Using Microsoft Connection Manager Profile Installer Autoelevate-capable COM Objects (e.g. UACMe ID of 41, 43, 58 or 65)
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(ParentImage:*\\DllHost.exe AND (ParentCommandLine:* /Processid:{3E5FC7F9-9A51-4367-9063-A120244FBEC7}* OR ParentCommandLine:* /Processid:{3E000D72-A845-4CD9-BD83-80C07C3B881F}* OR ParentCommandLine:* /Processid:{BD54C901-076B-434E-B6C7-17C531F4AB41}* OR ParentCommandLine:* /Processid:{D2E7041B-2927-42FB-8E9F-7CE93B6DC937}* OR ParentCommandLine:* /Processid:{E9495B87-D950-4AB5-87A5-FF6D70BF3E90}*) AND (IntegrityLevel:"High" OR IntegrityLevel:"System" OR IntegrityLevel:"S-1-16-16384" OR IntegrityLevel:"S-1-16-12288"))

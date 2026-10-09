@@ -1,0 +1,11 @@
+// Title: Use of W32tm as Timer
+// ID: 6da2c9f5-7c53-401b-aacb-92c040ce1215
+// Status: test
+// Level: high
+// Author: frack113
+// Date: 2022-09-25
+// Tags: attack.discovery, attack.t1124
+// Description: When configured with suitable command line arguments, w32tm can act as a delay mechanism
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((CommandLine: "*/stripchart*" AND CommandLine: "*/computer:*" AND CommandLine: "*/period:*" AND CommandLine: "*/dataonly*" AND CommandLine: "*/samples:*")) AND ((Image="*\\w32tm.exe") OR (OriginalFileName: "w32time.dll")))

@@ -1,0 +1,11 @@
+// Title: Process Monitor Driver Creation By Non-Sysinternals Binary
+// ID: a05baa88-e922-4001-bc4d-8738135f27de
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-05-05
+// Tags: attack.persistence, attack.privilege-escalation, attack.t1068
+// Description: Detects creation of the Process Monitor driver by processes other than Process Monitor (procmon) itself.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((tgt.file.path containsCIS "\\procmon" AND tgt.file.path endswithCIS ".sys") AND NOT (((src.process.image.path endswithCIS "\\procmon.exe" OR src.process.image.path endswithCIS "\\procmon64.exe" OR src.process.image.path endswithCIS "\\procmon64a.exe"))))

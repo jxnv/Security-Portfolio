@@ -1,0 +1,24 @@
+// Title: Suspicious Service Installed
+// ID: f2485272-a156-4773-82d7-1d178bc4905b
+// Status: test
+// Level: medium
+// Author: xknow (@xknow_infosec), xorxes (@xor_xes)
+// Date: 2019-04-08
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects installation of NalDrv or PROCEXP152 services via registry-keys to non-system32 folders.
+// Both services are used in the tool Ghost-In-The-Logs (https://github.com/bats3c/Ghost-In-The-Logs), which uses KDU (https://github.com/hfiref0x/KDU)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule f2485272_a156_4773_82d7_1d178bc4905b {
+  meta:
+    title = "Suspicious Service Installed"
+    description = "Detects installation of NalDrv or PROCEXP152 services via registry-keys to non-system32 folders. Both services are used in the tool Ghost-In-The-Logs (https://github.com/bats3c/Ghost-In-The-Logs), which uses KDU (https://github.com/hfiref0x/KDU)"
+    author = "xknow (@xknow_infosec), xorxes (@xor_xes)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.TargetObject = "HKLM\\System\\CurrentControlSet\\Services\\NalDrv\\ImagePath" or $e.TargetObject = "HKLM\\System\\CurrentControlSet\\Services\\PROCEXP152\\ImagePath")) and not((($e.target.process.file.full_path = /.*\\procexp64.exe$/ nocase or $e.target.process.file.full_path = /.*\\procexp64a.exe$/ nocase or $e.target.process.file.full_path = /.*\\procexp.exe$/ nocase or $e.target.process.file.full_path = /.*\\procmon64.exe$/ nocase or $e.target.process.file.full_path = /.*\\procmon64a.exe$/ nocase or $e.target.process.file.full_path = /.*\\procmon.exe$/ nocase or $e.target.process.file.full_path = /.*\\handle.exe$/ nocase or $e.target.process.file.full_path = /.*\\handle64.exe$/ nocase or $e.target.process.file.full_path = /.*\\handle64a.exe$/ nocase) and $e.Details = /.*\\WINDOWS\\system32\\Drivers\\PROCEXP152.SYS.*/ nocase)))
+
+  condition:
+    $e
+}

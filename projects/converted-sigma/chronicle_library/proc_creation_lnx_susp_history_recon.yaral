@@ -1,0 +1,23 @@
+// Title: Print History File Contents
+// ID: d7821ff1-4527-4e33-9f84-d0d57fa2fb66
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-06-20
+// Tags: attack.reconnaissance, attack.t1592.004
+// Description: Detects events in which someone prints the contents of history files to the commandline or redirects it to a file for reconnaissance
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule d7821ff1_4527_4e33_9f84_d0d57fa2fb66 {
+  meta:
+    title = "Print History File Contents"
+    description = "Detects events in which someone prints the contents of history files to the commandline or redirects it to a file for reconnaissance"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.file.full_path = /.*/cat$/ nocase or $e.target.process.file.full_path = /.*/head$/ nocase or $e.target.process.file.full_path = /.*/tail$/ nocase or $e.target.process.file.full_path = /.*/more$/ nocase)) and ((($e.target.process.command_line = /.*/.bash_history.*/ nocase or $e.target.process.command_line = /.*/.zsh_history.*/ nocase)) or (($e.target.process.command_line = /.*_history$/ nocase or $e.target.process.command_line = /.*.history$/ nocase or $e.target.process.command_line = /.*zhistory$/ nocase))))
+
+  condition:
+    $e
+}

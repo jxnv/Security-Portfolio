@@ -1,0 +1,12 @@
+# Title: Legitimate Application Dropped Script
+# ID: 7d604714-e071-49ff-8726-edeb95a70679
+# Status: test
+# Level: high
+# Author: frack113, Florian Roth (Nextron Systems)
+# Date: 2022-08-21
+# Tags: attack.stealth, attack.t1218
+# Description: Detects LOLBINs and applications that should not legitimately drop script files to disk.
+# This may indicate malware staging or abuse of a trusted binary for script-based code execution.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((process_name:*\\eqnedt32.exe OR process_name:*\\wordpad.exe OR process_name:*\\wordview.exe OR process_name:*\\certutil.exe OR process_name:*\\certoc.exe OR process_name:*\\CertReq.exe OR process_name:*\\Desktopimgdownldr.exe OR process_name:*\\esentutl.exe OR process_name:*\\mshta.exe OR process_name:*\\AcroRd32.exe OR process_name:*\\RdrCEF.exe OR process_name:*\\hh.exe OR process_name:*\\finger.exe) AND (filemod_name:*.bat OR filemod_name:*.chm OR filemod_name:*.csproj OR filemod_name:*.hta OR filemod_name:*.js OR filemod_name:*.jse OR filemod_name:*.proj OR filemod_name:*.ps1 OR filemod_name:*.py OR filemod_name:*.scf OR filemod_name:*.vbe OR filemod_name:*.vbs OR filemod_name:*.wsf OR filemod_name:*.wsh)) AND -((process_name:*\\mshta.exe AND filemod_name:*.hta)))

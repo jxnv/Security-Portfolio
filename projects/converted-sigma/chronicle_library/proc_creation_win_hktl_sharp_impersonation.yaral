@@ -1,0 +1,23 @@
+// Title: HackTool - SharpImpersonation Execution
+// ID: f89b08d0-77ad-4728-817b-9b16c5a69c7a
+// Status: test
+// Level: high
+// Author: Sai Prashanth Pulisetti @pulisettis, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-12-27
+// Tags: attack.privilege-escalation, attack.stealth, attack.t1134.001, attack.t1134.003
+// Description: Detects execution of the SharpImpersonation tool. Which can be used to manipulate tokens on a Windows computers remotely (PsExec/WmiExec) or interactively
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule f89b08d0_77ad_4728_817b_9b16c5a69c7a {
+  meta:
+    title = "HackTool - SharpImpersonation Execution"
+    description = "Detects execution of the SharpImpersonation tool. Which can be used to manipulate tokens on a Windows computers remotely (PsExec/WmiExec) or interactively"
+    author = "Sai Prashanth Pulisetti @pulisettis, Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (((($e.target.process.command_line = /.* user:.*/ nocase and $e.target.process.command_line = /.* binary:.*/ nocase)) or (($e.target.process.command_line = /.* user:.*/ nocase and $e.target.process.command_line = /.* shellcode:.*/ nocase)) or (($e.target.process.command_line = /.* technique:CreateProcessAsUserW.*/ nocase or $e.target.process.command_line = /.* technique:ImpersonateLoggedOnuser.*/ nocase))) or (($e.target.process.file.full_path = /.*\\SharpImpersonation.exe$/ nocase) or ($e.target.process.file.name = "SharpImpersonation.exe")))
+
+  condition:
+    $e
+}

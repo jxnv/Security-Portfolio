@@ -1,0 +1,11 @@
+# Title: Local System Accounts Discovery - Linux
+# ID: b45e3d6f-42c6-47d8-a478-df6bd6cf534c
+# Status: test
+# Level: low
+# Author: Alejandro Ortuno, oscd.community, CheraghiMilad
+# Date: 2020-10-08
+# Tags: attack.discovery, attack.t1087.001
+# Description: Detects enumeration of local system accounts. This information can help adversaries determine which local accounts exist on a system to aid in follow-on behavior.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((process_name:*/lastlog) OR (cmdline:*'x:0:'*) OR ((process_name:*/cat OR process_name:*/ed OR process_name:*/head OR process_name:*/more OR process_name:*/nano OR process_name:*/tail OR process_name:*/vi OR process_name:*/vim OR process_name:*/less OR process_name:*/emacs OR process_name:*/sqlite3 OR process_name:*/makemap) AND (cmdline:*/etc/passwd* OR cmdline:*/etc/shadow* OR cmdline:*/etc/sudoers* OR cmdline:*/etc/spwd.db* OR cmdline:*/etc/pwd.db* OR cmdline:*/etc/master.passwd*)) OR (process_name:*/id) OR (process_name:*/lsof AND cmdline:*-u*))

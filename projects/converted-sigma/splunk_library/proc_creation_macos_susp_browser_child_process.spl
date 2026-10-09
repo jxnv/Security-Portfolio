@@ -1,0 +1,11 @@
+# Title: Suspicious Browser Child Process - MacOS
+# ID: 0250638a-2b28-4541-86fc-ea4c558fa0c6
+# Status: test
+# Level: medium
+# Author: Sohan G (D4rkCiph3r)
+# Date: 2023-04-05
+# Tags: attack.initial-access, attack.execution, attack.t1189, attack.t1203, attack.t1059
+# Description: Detects suspicious child processes spawned from browsers. This could be a result of a potential web browser exploitation.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* (((parent_process_path="*com.apple.WebKit.WebContent*" OR parent_process_path="*firefox*" OR parent_process_path="*Google Chrome Helper*" OR parent_process_path="*Google Chrome*" OR parent_process_path="*Microsoft Edge*" OR parent_process_path="*Opera*" OR parent_process_path="*Safari*" OR parent_process_path="*Tor Browser*") AND (process_path="*/bash" OR process_path="*/curl" OR process_path="*/dash" OR process_path="*/ksh" OR process_path="*/osascript" OR process_path="*/perl" OR process_path="*/php" OR process_path="*/pwsh" OR process_path="*/python" OR process_path="*/sh" OR process_path="*/tcsh" OR process_path="*/wget" OR process_path="*/zsh")) AND NOT ((((parent_process_path="*Google Chrome Helper*" OR parent_process_path="*Google Chrome*") AND (process_exec="*/Volumes/Google Chrome/Google Chrome.app/Contents/Frameworks/*/Resources/install.sh*" OR process_exec="*/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/*/Resources/keystone_promote_preflight.sh*" OR process_exec="*/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/*/Resources/keystone_promote_postflight.sh*")) OR ((parent_process_path="*Google Chrome Helper*" OR parent_process_path="*Google Chrome*") AND (process_exec="*/Users/*" AND process_exec="*/Library/Application Support/Google/Chrome/recovery/*" AND process_exec="*/ChromeRecovery*")) OR (process_exec="*--defaults-torrc*") OR (process_exec="*/Library/Application Support/Microsoft/MAU*/Microsoft AutoUpdate.app/Contents/MacOS/msupdate*") OR (parent_process_path="*Microsoft Edge*" AND (process_exec="*IOPlatformExpertDevice*" OR process_exec="*hw.model*")))) AND NOT (((process_exec="") OR (NOT process_exec=*))))

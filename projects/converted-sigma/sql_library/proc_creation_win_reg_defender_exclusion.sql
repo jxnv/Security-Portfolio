@@ -1,0 +1,11 @@
+-- Title: Suspicious Windows Defender Folder Exclusion Added Via Reg.EXE
+-- ID: 48917adc-a28e-4f5d-b729-11e75da8941f
+-- Status: test
+-- Level: medium
+-- Author: frack113
+-- Date: 2022-02-13
+-- Tags: attack.defense-impairment, attack.t1685
+-- Description: Detects the usage of "reg.exe" to add Defender folder exclusions. Qbot has been seen using this technique to add exclusions for folders within AppData and ProgramData.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE (Image ILIKE '%\\reg.exe' AND (CommandLine ILIKE '%SOFTWARE\\Microsoft\\Windows Defender\\Exclusions\\Paths%' OR CommandLine ILIKE '%SOFTWARE\\Microsoft\\Microsoft Antimalware\\Exclusions\\Paths%') AND (CommandLine ILIKE '%ADD %' AND CommandLine ILIKE '%/t %' AND CommandLine ILIKE '%REG_DWORD %' AND CommandLine ILIKE '%/v %' AND CommandLine ILIKE '%/d %' AND CommandLine ILIKE '%0%'))

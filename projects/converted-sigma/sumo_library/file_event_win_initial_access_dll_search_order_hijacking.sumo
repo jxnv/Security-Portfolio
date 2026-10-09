@@ -1,0 +1,11 @@
+// Title: Potential Initial Access via DLL Search Order Hijacking
+// ID: dbbd9f66-2ed3-4ca2-98a4-6ea985dd1a1c
+// Status: test
+// Level: medium
+// Author: Tim Rauch (rule), Elastic (idea)
+// Date: 2022-10-21
+// Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.stealth, attack.t1566, attack.t1566.001, attack.initial-access, attack.t1574, attack.t1574.001
+// Description: Detects attempts to create a DLL file to a known desktop application dependencies folder such as Slack, Teams or OneDrive and by an unusual process. This may indicate an attempt to load a malicious module via DLL search order hijacking.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where (((Image matches "*\\winword.exe" or Image matches "*\\excel.exe" or Image matches "*\\powerpnt.exe" or Image matches "*\\MSACCESS.EXE" or Image matches "*\\MSPUB.EXE" or Image matches "*\\fltldr.exe" or Image matches "*\\cmd.exe" or Image matches "*\\certutil.exe" or Image matches "*\\mshta.exe" or Image matches "*\\cscript.exe" or Image matches "*\\wscript.exe" or Image matches "*\\curl.exe" or Image matches "*\\powershell.exe" or Image matches "*\\pwsh.exe") and TargetFilename matches "*.dll" and (TargetFilename matches "*\\Users\\*" and TargetFilename matches "*\\AppData\\*") and (TargetFilename matches "*\\Microsoft\\OneDrive\\*" or TargetFilename matches "*\\Microsoft OneDrive\\*" or TargetFilename matches "*\\Microsoft\\Teams\\*" or TargetFilename matches "*\\Local\\slack\\app-*" or TargetFilename matches "*\\Local\\Programs\\Microsoft VS Code\\*")) and !((Image matches "*\\cmd.exe" and (TargetFilename matches "*\\Users\\*" and TargetFilename matches "*\\AppData\\*" and TargetFilename matches "*\\Microsoft\\OneDrive\\*" and TargetFilename matches "*\\api-ms-win-core-*"))))

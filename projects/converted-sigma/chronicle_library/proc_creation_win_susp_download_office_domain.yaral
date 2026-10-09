@@ -1,0 +1,23 @@
+// Title: Suspicious Download from Office Domain
+// ID: 00d49ed5-4491-4271-a8db-650a4ef6f8c1
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2021-12-27
+// Tags: attack.command-and-control, attack.resource-development, attack.t1105, attack.t1608
+// Description: Detects suspicious ways to download files from Microsoft domains that are used to store attachments in Emails or OneNote documents
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 00d49ed5_4491_4271_a8db_650a4ef6f8c1 {
+  meta:
+    title = "Suspicious Download from Office Domain"
+    description = "Detects suspicious ways to download files from Microsoft domains that are used to store attachments in Emails or OneNote documents"
+    author = "Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*https://attachment.outlook.live.net/owa/.*/ nocase or $e.target.process.command_line = /.*https://onenoteonlinesync.onenote.com/onenoteonlinesync/.*/ nocase)) and ((($e.target.process.file.full_path = /.*\\curl.exe$/ nocase or $e.target.process.file.full_path = /.*\\wget.exe$/ nocase)) or (($e.target.process.command_line = /.*Invoke-WebRequest.*/ nocase or $e.target.process.command_line = /.*iwr .*/ nocase or $e.target.process.command_line = /.*curl .*/ nocase or $e.target.process.command_line = /.*wget .*/ nocase or $e.target.process.command_line = /.*Start-BitsTransfer.*/ nocase or $e.target.process.command_line = /.*.DownloadFile(.*/ nocase or $e.target.process.command_line = /.*.DownloadString(.*/ nocase))))
+
+  condition:
+    $e
+}

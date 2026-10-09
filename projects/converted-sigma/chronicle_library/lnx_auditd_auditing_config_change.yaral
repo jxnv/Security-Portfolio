@@ -1,0 +1,23 @@
+// Title: Auditing Configuration Changes on Linux Host
+// ID: 977ef627-4539-4875-adf4-ed8f780c4922
+// Status: test
+// Level: high
+// Author: Mikhail Larin, oscd.community
+// Date: 2019-10-25
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detect changes in auditd configuration files
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 977ef627_4539_4875_adf4_ed8f780c4922 {
+  meta:
+    title = "Auditing Configuration Changes on Linux Host"
+    description = "Detect changes in auditd configuration files"
+    author = "Mikhail Larin, oscd.community"
+    severity = "HIGH"
+
+  events:
+    ($e.type = "PATH" and ($e.name = "/etc/audit/*" or $e.name = "/etc/libaudit.conf" or $e.name = "/etc/audisp/*"))
+
+  condition:
+    $e
+}

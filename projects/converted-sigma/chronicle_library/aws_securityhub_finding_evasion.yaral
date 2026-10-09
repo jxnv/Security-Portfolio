@@ -1,0 +1,23 @@
+// Title: AWS SecurityHub Findings Evasion
+// ID: a607e1fe-74bf-4440-a3ec-b059b9103157
+// Status: stable
+// Level: high
+// Author: Sittikorn S
+// Date: 2021-06-28
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects the modification of the findings on SecurityHub.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule a607e1fe_74bf_4440_a3ec_b059b9103157 {
+  meta:
+    title = "AWS SecurityHub Findings Evasion"
+    description = "Detects the modification of the findings on SecurityHub."
+    author = "Sittikorn S"
+    severity = "HIGH"
+
+  events:
+    ($e.eventSource = "securityhub.amazonaws.com" and ($e.eventName = "BatchUpdateFindings" or $e.eventName = "DeleteInsight" or $e.eventName = "UpdateFindings" or $e.eventName = "UpdateInsight"))
+
+  condition:
+    $e
+}

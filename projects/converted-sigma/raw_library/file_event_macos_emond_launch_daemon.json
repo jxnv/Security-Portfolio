@@ -1,0 +1,28 @@
+{
+  "title": "MacOS Emond Launch Daemon",
+  "id": "23c43900-e732-45a4-8354-63e4a6c187ce",
+  "status": "test",
+  "description": "Detects additions to the Emond Launch Daemon that adversaries may use to gain persistence and elevate privileges.",
+  "author": "Alejandro Ortuno, oscd.community",
+  "date": "2020-10-23",
+  "tags": [
+    "attack.persistence",
+    "attack.privilege-escalation",
+    "attack.t1546.014"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "file_event",
+    "product": "macos"
+  },
+  "detection": {
+    "selection_1": {
+      "TargetFilename|contains": "/etc/emond.d/rules/",
+      "TargetFilename|endswith": ".plist"
+    },
+    "selection_2": {
+      "TargetFilename|contains": "/private/var/db/emondClients/"
+    },
+    "condition": "1 of selection_*"
+  }
+}

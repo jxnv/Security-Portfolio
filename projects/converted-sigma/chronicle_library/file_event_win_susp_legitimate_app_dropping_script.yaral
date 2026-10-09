@@ -1,0 +1,24 @@
+// Title: Legitimate Application Dropped Script
+// ID: 7d604714-e071-49ff-8726-edeb95a70679
+// Status: test
+// Level: high
+// Author: frack113, Florian Roth (Nextron Systems)
+// Date: 2022-08-21
+// Tags: attack.stealth, attack.t1218
+// Description: Detects LOLBINs and applications that should not legitimately drop script files to disk.
+// This may indicate malware staging or abuse of a trusted binary for script-based code execution.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 7d604714_e071_49ff_8726_edeb95a70679 {
+  meta:
+    title = "Legitimate Application Dropped Script"
+    description = "Detects LOLBINs and applications that should not legitimately drop script files to disk. This may indicate malware staging or abuse of a trusted binary for script-based code execution."
+    author = "frack113, Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.file.full_path = /.*\\eqnedt32.exe$/ nocase or $e.target.process.file.full_path = /.*\\wordpad.exe$/ nocase or $e.target.process.file.full_path = /.*\\wordview.exe$/ nocase or $e.target.process.file.full_path = /.*\\certutil.exe$/ nocase or $e.target.process.file.full_path = /.*\\certoc.exe$/ nocase or $e.target.process.file.full_path = /.*\\CertReq.exe$/ nocase or $e.target.process.file.full_path = /.*\\Desktopimgdownldr.exe$/ nocase or $e.target.process.file.full_path = /.*\\esentutl.exe$/ nocase or $e.target.process.file.full_path = /.*\\mshta.exe$/ nocase or $e.target.process.file.full_path = /.*\\AcroRd32.exe$/ nocase or $e.target.process.file.full_path = /.*\\RdrCEF.exe$/ nocase or $e.target.process.file.full_path = /.*\\hh.exe$/ nocase or $e.target.process.file.full_path = /.*\\finger.exe$/ nocase) and ($e.target.file.full_path = /.*.bat$/ nocase or $e.target.file.full_path = /.*.chm$/ nocase or $e.target.file.full_path = /.*.csproj$/ nocase or $e.target.file.full_path = /.*.hta$/ nocase or $e.target.file.full_path = /.*.js$/ nocase or $e.target.file.full_path = /.*.jse$/ nocase or $e.target.file.full_path = /.*.proj$/ nocase or $e.target.file.full_path = /.*.ps1$/ nocase or $e.target.file.full_path = /.*.py$/ nocase or $e.target.file.full_path = /.*.scf$/ nocase or $e.target.file.full_path = /.*.vbe$/ nocase or $e.target.file.full_path = /.*.vbs$/ nocase or $e.target.file.full_path = /.*.wsf$/ nocase or $e.target.file.full_path = /.*.wsh$/ nocase)) and not(($e.target.process.file.full_path = /.*\\mshta.exe$/ nocase and $e.target.file.full_path = /.*.hta$/ nocase)))
+
+  condition:
+    $e
+}

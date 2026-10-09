@@ -1,0 +1,29 @@
+{
+  "title": "File Deleted Via Sysinternals SDelete",
+  "id": "6ddab845-b1b8-49c2-bbf7-1a11967f64bc",
+  "status": "test",
+  "description": "Detects the deletion of files by the Sysinternals SDelete utility. It looks for the common name pattern used to rename files.",
+  "author": "Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research)",
+  "date": "2020-05-02",
+  "tags": [
+    "attack.stealth",
+    "attack.t1070.004"
+  ],
+  "level": "medium",
+  "logsource": {
+    "product": "windows",
+    "category": "file_delete"
+  },
+  "detection": {
+    "selection": {
+      "TargetFilename|endswith": [
+        ".AAA",
+        ".ZZZ"
+      ]
+    },
+    "filter_wireshark": {
+      "TargetFilename|endswith": "\\Wireshark\\radius\\dictionary.alcatel-lucent.aaa"
+    },
+    "condition": "selection and not 1 of filter_*"
+  }
+}

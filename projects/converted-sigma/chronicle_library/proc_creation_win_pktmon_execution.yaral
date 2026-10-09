@@ -1,0 +1,23 @@
+// Title: PktMon.EXE Execution
+// ID: f956c7c1-0f60-4bc5-b7d7-b39ab3c08908
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-03-17
+// Tags: attack.discovery, attack.credential-access, attack.t1040
+// Description: Detects execution of PktMon, a tool that captures network packets.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule f956c7c1_0f60_4bc5_b7d7_b39ab3c08908 {
+  meta:
+    title = "PktMon.EXE Execution"
+    description = "Detects execution of PktMon, a tool that captures network packets."
+    author = "frack113"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.process.file.full_path = /.*\\pktmon.exe$/ nocase) or ($e.target.process.file.name = "PktMon.exe"))
+
+  condition:
+    $e
+}

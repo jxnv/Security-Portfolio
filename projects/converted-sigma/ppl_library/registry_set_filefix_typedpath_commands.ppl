@@ -1,0 +1,11 @@
+// Title: FileFix - Command Evidence in TypedPaths
+// ID: 4fee3d51-8069-4a4c-a0f7-924fcaff2c70
+// Status: experimental
+// Level: high
+// Author: Alfie Champion (delivr.to), Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-07-05
+// Tags: attack.execution, attack.t1204.004
+// Description: Detects commonly-used chained commands and strings in the most recent 'url' value of the 'TypedPaths' key, which could be indicative of a user being targeted by the FileFix technique.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where ((registry.path="*\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\TypedPaths\\url1" AND (registry.data.strings like "%#%" AND registry.data.strings like "%http%")) AND (((registry.data.strings like "%account%" OR registry.data.strings like "%anti-bot%" OR registry.data.strings like "%botcheck%" OR registry.data.strings like "%captcha%" OR registry.data.strings like "%challenge%" OR registry.data.strings like "%confirmation%" OR registry.data.strings like "%fraud%" OR registry.data.strings like "%human%" OR registry.data.strings like "%identification%" OR registry.data.strings like "%identificator%" OR registry.data.strings like "%identity%" OR registry.data.strings like "%robot%" OR registry.data.strings like "%validation%" OR registry.data.strings like "%verification%" OR registry.data.strings like "%verify%")) OR ((registry.data.strings like "%%comspec%%" OR registry.data.strings like "%bitsadmin%" OR registry.data.strings like "%certutil%" OR registry.data.strings like "%cmd%" OR registry.data.strings like "%cscript%" OR registry.data.strings like "%curl%" OR registry.data.strings like "%finger%" OR registry.data.strings like "%mshta%" OR registry.data.strings like "%powershell%" OR registry.data.strings like "%pwsh%" OR registry.data.strings like "%regsvr32%" OR registry.data.strings like "%rundll32%" OR registry.data.strings like "%schtasks%" OR registry.data.strings like "%wget%" OR registry.data.strings like "%wscript%"))))

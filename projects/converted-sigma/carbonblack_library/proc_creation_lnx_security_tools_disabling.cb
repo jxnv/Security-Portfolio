@@ -1,0 +1,11 @@
+# Title: Disabling Security Tools
+# ID: e3a8a052-111f-4606-9aee-f28ebeb76776
+# Status: test
+# Level: medium
+# Author: Ömer Günal, Alejandro Ortuno, oscd.community
+# Date: 2020-06-17
+# Tags: attack.defense-impairment, attack.t1686
+# Description: Detects disabling security tools
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((process_name:*/service AND (cmdline:*cbdaemon* AND cmdline:*stop*)) OR (process_name:*/chkconfig AND (cmdline:*cbdaemon* AND cmdline:*off*)) OR (process_name:*/systemctl AND (cmdline:*cbdaemon* AND cmdline:*stop*)) OR (process_name:*/systemctl AND (cmdline:*cbdaemon* AND cmdline:*disable*)) OR (process_name:*/systemctl AND (cmdline:*stop* AND cmdline:*falcon-sensor*)) OR (process_name:*/systemctl AND (cmdline:*disable* AND cmdline:*falcon-sensor*)) OR (process_name:*/systemctl AND (cmdline:*firewalld* AND cmdline:*stop*)) OR (process_name:*/systemctl AND (cmdline:*firewalld* AND cmdline:*disable*)) OR (process_name:*/service AND (cmdline:*iptables* AND cmdline:*stop*)) OR (process_name:*/service AND (cmdline:*ip6tables* AND cmdline:*stop*)) OR (process_name:*/chkconfig AND (cmdline:*iptables* AND cmdline:*stop*)) OR (process_name:*/chkconfig AND (cmdline:*ip6tables* AND cmdline:*stop*)) OR (process_name:*/setenforce AND cmdline:*0*))

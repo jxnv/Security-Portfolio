@@ -1,0 +1,14 @@
+// Title: NodeJS Execution of JavaScript File
+// ID: ba3874b9-0fae-465f-836c-eb5d071a1789
+// Status: experimental
+// Level: low
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-04-21
+// Tags: attack.execution, attack.t1059.007
+// Description: Detects execution of JavaScript or JSC files using NodeJs binary node.exe, that could be potentially suspicious.
+// Node.js is a popular open-source JavaScript runtime that runs code outside browsers and is widely used for both frontend and backend development.
+// Adversaries have been observed abusing Node.js to disguise malware as legitimate processes, evade security defenses, and maintain persistence within target systems.
+// Because Node.js is commonly used, this rule may generate false positives in some environments. However, if such activity is unusual in your environment, it is highly suspicious and warrants immediate investigation.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((CommandLine: "*.js*") AND ((Image="*\\node.exe") OR (OriginalFileName: "node.exe") OR (Product: "Node.js")))

@@ -1,0 +1,12 @@
+// Title: Suspicious ScreenSave Change by Reg.exe
+// ID: 0fc35fc3-efe6-4898-8a37-0b233339524f
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2021-08-19
+// Tags: attack.persistence, attack.privilege-escalation, attack.t1546.002
+// Description: Adversaries may establish persistence by executing malicious content triggered by user inactivity.
+// Screensavers are programs that execute after a configurable time of user inactivity and consist of Portable Executable (PE) files with a .scr file extension
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((where(Image IENDSWITH "\\reg.exe") AND (where(CommandLine ICONTAINS "HKEY_CURRENT_USER\\Control Panel\\Desktop") OR where(CommandLine ICONTAINS "HKCU\\Control Panel\\Desktop"))) AND (((where(CommandLine ICONTAINS "/v ScreenSaveActive") AND where(CommandLine ICONTAINS "/t REG_SZ") AND where(CommandLine ICONTAINS "/d 1") AND where(CommandLine ICONTAINS "/f"))) OR ((where(CommandLine ICONTAINS "/v ScreenSaveTimeout") AND where(CommandLine ICONTAINS "/t REG_SZ") AND where(CommandLine ICONTAINS "/d ") AND where(CommandLine ICONTAINS "/f"))) OR ((where(CommandLine ICONTAINS "/v ScreenSaverIsSecure") AND where(CommandLine ICONTAINS "/t REG_SZ") AND where(CommandLine ICONTAINS "/d 0") AND where(CommandLine ICONTAINS "/f"))) OR ((where(CommandLine ICONTAINS "/v SCRNSAVE.EXE") AND where(CommandLine ICONTAINS "/t REG_SZ") AND where(CommandLine ICONTAINS "/d ") AND where(CommandLine ICONTAINS ".scr") AND where(CommandLine ICONTAINS "/f")))))

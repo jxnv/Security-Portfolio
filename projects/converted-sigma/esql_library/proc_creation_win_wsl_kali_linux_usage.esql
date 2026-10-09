@@ -1,0 +1,11 @@
+// Title: WSL Kali-Linux Usage
+// ID: 6f1a11aa-4b8a-4b7f-9e13-4d3e4ff0e0d4
+// Status: experimental
+// Level: high
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-10-10
+// Tags: attack.stealth, attack.t1202
+// Description: Detects the use of Kali Linux through Windows Subsystem for Linux
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE (((((process.executable LIKE "%:\\Users\\%" AND process.executable LIKE "%\\AppData\\Local\\packages\\KaliLinux%")) OR ((process.executable LIKE "%:\\Users\\%" AND process.executable LIKE "%\\AppData\\Local\\Microsoft\\WindowsApps\\kali.exe%"))) OR (process.executable LIKE "%:\\Program Files\\WindowsApps\\KaliLinux.%" AND process.executable LIKE "%\\kali.exe")) OR (((((process.executable LIKE "%\\kali.exe%" OR process.executable LIKE "%\\KaliLinux%")) OR ((process.command_line LIKE "%Kali.exe%" OR process.command_line LIKE "%Kali-linux%" OR process.command_line LIKE "%kalilinux%"))) AND ((process.parent.executable LIKE "%\\wsl.exe" OR process.parent.executable LIKE "%\\wslhost.exe"))) AND NOT (((process.command_line LIKE "% -i %" OR process.command_line LIKE "% --install %" OR process.command_line LIKE "% --unregister %")))))

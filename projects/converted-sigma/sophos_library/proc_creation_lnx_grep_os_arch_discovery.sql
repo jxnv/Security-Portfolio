@@ -1,0 +1,11 @@
+-- Title: OS Architecture Discovery Via Grep
+-- ID: d27ab432-2199-483f-a297-03633c05bae6
+-- Status: test
+-- Level: low
+-- Author: Joseliyo Sanchez, @Joseliyo_Jstnk
+-- Date: 2023-06-02
+-- Tags: attack.discovery, attack.t1082
+-- Description: Detects the use of grep to identify information about the operating system architecture. Often combined beforehand with the execution of "uname" or "cat /proc/cpuinfo"
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE (((CommandLine ILIKE '%aarch64' OR CommandLine ILIKE '%arm' OR CommandLine ILIKE '%i386' OR CommandLine ILIKE '%i686' OR CommandLine ILIKE '%mips' OR CommandLine ILIKE '%x86_64')) AND (Image ILIKE '%/grep'))

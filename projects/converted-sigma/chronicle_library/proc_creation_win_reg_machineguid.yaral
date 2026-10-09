@@ -1,0 +1,23 @@
+// Title: Suspicious Query of MachineGUID
+// ID: f5240972-3938-4e56-8e4b-e33893176c1f
+// Status: test
+// Level: low
+// Author: frack113
+// Date: 2022-01-01
+// Tags: attack.discovery, attack.t1082
+// Description: Use of reg to get MachineGuid information
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule f5240972_3938_4e56_8e4b_e33893176c1f {
+  meta:
+    title = "Suspicious Query of MachineGUID"
+    description = "Use of reg to get MachineGuid information"
+    author = "frack113"
+    severity = "LOW"
+
+  events:
+    ($e.target.process.file.full_path = /.*\\reg.exe$/ nocase and ($e.target.process.command_line = /.*SOFTWARE\\Microsoft\\Cryptography.*/ nocase and $e.target.process.command_line = /.*/v .*/ nocase and $e.target.process.command_line = /.*MachineGuid.*/ nocase))
+
+  condition:
+    $e
+}

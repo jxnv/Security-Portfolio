@@ -1,0 +1,23 @@
+// Title: Procdump Execution
+// ID: 2e65275c-8288-4ab4-aeb7-6274f58b6b20
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems)
+// Date: 2021-08-16
+// Tags: attack.stealth, attack.t1036, attack.t1003.001, attack.credential-access
+// Description: Detects usage of the SysInternals Procdump utility
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 2e65275c_8288_4ab4_aeb7_6274f58b6b20 {
+  meta:
+    title = "Procdump Execution"
+    description = "Detects usage of the SysInternals Procdump utility"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.process.file.full_path = /.*\\procdump.exe$/ nocase or $e.target.process.file.full_path = /.*\\procdump64.exe$/ nocase or $e.target.process.file.full_path = /.*\\procdump64a.exe$/ nocase))
+
+  condition:
+    $e
+}

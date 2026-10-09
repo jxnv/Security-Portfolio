@@ -1,0 +1,23 @@
+// Title: Linux Base64 Encoded Pipe to Shell
+// ID: ba592c6d-6888-43c3-b8c6-689b8fe47337
+// Status: test
+// Level: medium
+// Author: pH-T (Nextron Systems)
+// Date: 2022-07-26
+// Tags: attack.stealth, attack.t1140
+// Description: Detects suspicious process command line that uses base64 encoded input for execution with a shell
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule ba592c6d_6888_43c3_b8c6_689b8fe47337 {
+  meta:
+    title = "Linux Base64 Encoded Pipe to Shell"
+    description = "Detects suspicious process command line that uses base64 encoded input for execution with a shell"
+    author = "pH-T (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.process.command_line = /.*base64 .*/ nocase) and ((($e.target.process.command_line = /.*| bash .*/ nocase or $e.target.process.command_line = /.*| sh .*/ nocase or $e.target.process.command_line = /.*|bash .*/ nocase or $e.target.process.command_line = /.*|sh .*/ nocase)) or (($e.target.process.command_line = /.* |sh$/ nocase or $e.target.process.command_line = /.*| bash$/ nocase or $e.target.process.command_line = /.*| sh$/ nocase or $e.target.process.command_line = /.*|bash$/ nocase))))
+
+  condition:
+    $e
+}

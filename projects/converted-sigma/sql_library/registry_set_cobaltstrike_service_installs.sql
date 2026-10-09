@@ -1,0 +1,11 @@
+-- Title: Potential CobaltStrike Service Installations - Registry
+-- ID: 61a7697c-cb79-42a8-a2ff-5f0cdfae0130
+-- Status: test
+-- Level: high
+-- Author: Wojciech Lesicki
+-- Date: 2021-06-29
+-- Tags: attack.persistence, attack.execution, attack.privilege-escalation, attack.lateral-movement, attack.t1021.002, attack.t1543.003, attack.t1569.002
+-- Description: Detects known malicious service installs that appear in cases in which a Cobalt Strike beacon elevates privileges or lateral movement.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE ((((Details ILIKE '%ADMIN$%' AND Details ILIKE '%.exe%')) OR ((Details ILIKE '%%COMSPEC%%' AND Details ILIKE '%start%' AND Details ILIKE '%powershell%'))) AND ((TargetObject ILIKE '%\\System\\CurrentControlSet\\Services%') OR ((TargetObject ILIKE '%\\System\\ControlSet%' AND TargetObject ILIKE '%\\Services%'))))

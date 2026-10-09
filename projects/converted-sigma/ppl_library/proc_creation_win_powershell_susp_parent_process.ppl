@@ -1,0 +1,11 @@
+// Title: Suspicious PowerShell Parent Process
+// ID: 754ed792-634f-40ae-b3bc-e0448d33f695
+// Status: test
+// Level: high
+// Author: Teymur Kheirkhabarov, Harish Segar
+// Date: 2020-03-20
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects a suspicious or uncommon parent processes of PowerShell
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where (((process.parent.executable like "%tomcat%") OR ((process.parent.executable="*\\amigo.exe" OR process.parent.executable="*\\browser.exe" OR process.parent.executable="*\\chrome.exe" OR process.parent.executable="*\\firefox.exe" OR process.parent.executable="*\\httpd.exe" OR process.parent.executable="*\\iexplore.exe" OR process.parent.executable="*\\jbosssvc.exe" OR process.parent.executable="*\\microsoftedge.exe" OR process.parent.executable="*\\microsoftedgecp.exe" OR process.parent.executable="*\\MicrosoftEdgeSH.exe" OR process.parent.executable="*\\mshta.exe" OR process.parent.executable="*\\nginx.exe" OR process.parent.executable="*\\outlook.exe" OR process.parent.executable="*\\php-cgi.exe" OR process.parent.executable="*\\regsvr32.exe" OR process.parent.executable="*\\rundll32.exe" OR process.parent.executable="*\\safari.exe" OR process.parent.executable="*\\services.exe" OR process.parent.executable="*\\sqlagent.exe" OR process.parent.executable="*\\sqlserver.exe" OR process.parent.executable="*\\sqlservr.exe" OR process.parent.executable="*\\vivaldi.exe" OR process.parent.executable="*\\w3wp.exe"))) AND (((process.executable="*\\powershell.exe" OR process.executable="*\\pwsh.exe")) OR ((process.command_line like "%/c powershell%" OR process.command_line like "%/c pwsh%")) OR (Description = "Windows PowerShell") OR (Product = "PowerShell Core 6") OR ((process.pe.original_file_name = "PowerShell.EXE" OR process.pe.original_file_name = "pwsh.dll"))))

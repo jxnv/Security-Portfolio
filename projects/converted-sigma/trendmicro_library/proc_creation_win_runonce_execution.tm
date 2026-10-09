@@ -1,0 +1,11 @@
+// Title: Run Once Task Execution as Configured in Registry
+// ID: 198effb6-6c98-4d0c-9ea3-451fa143c45c
+// Status: test
+// Level: low
+// Author: Avneet Singh @v3t0_, oscd.community, Christopher Peacock @SecurePeacock (updated)
+// Date: 2020-10-18
+// Tags: attack.persistence, attack.defense-impairment, attack.t1112
+// Description: This rule detects the execution of Run Once task as configured in the registry
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((CommandLine: "*/AlternateShellStartup*") OR (CommandLine="*/r")) AND ((Image="*\\runonce.exe") OR (Description: "Run Once Wrapper")))

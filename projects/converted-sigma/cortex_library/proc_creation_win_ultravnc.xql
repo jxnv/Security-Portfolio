@@ -1,0 +1,11 @@
+// Title: Use of UltraVNC Remote Access Software
+// ID: 145322e4-0fd3-486b-81ca-9addc75736d8
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-10-02
+// Tags: attack.command-and-control, attack.t1219.002
+// Description: An adversary may use legitimate desktop support and remote access software,to establish an interactive command and control channel to target systems within networks
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter ((Description = "VNCViewer") or (Product = "UltraVNC VNCViewer") or (Company = "UltraVNC") or (action_process_image_name = "VNCViewer.exe"))

@@ -1,0 +1,11 @@
+// Title: Suspicious Processes Spawned by Java.EXE
+// ID: 0d34ed8b-1c12-4ff2-828c-16fc860b766d
+// Status: test
+// Level: high
+// Author: Andreas Hunkeler (@Karneades), Florian Roth
+// Date: 2021-12-17
+// Tags: attack.initial-access, attack.persistence, attack.privilege-escalation
+// Description: Detects suspicious processes spawned from a Java host process which could indicate a sign of exploitation (e.g. log4j)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where (process.parent.executable="*\\java.exe" AND (process.executable="*\\AppVLP.exe" OR process.executable="*\\bitsadmin.exe" OR process.executable="*\\certutil.exe" OR process.executable="*\\cscript.exe" OR process.executable="*\\curl.exe" OR process.executable="*\\forfiles.exe" OR process.executable="*\\hh.exe" OR process.executable="*\\mftrace.exe" OR process.executable="*\\mshta.exe" OR process.executable="*\\net.exe" OR process.executable="*\\net1.exe" OR process.executable="*\\query.exe" OR process.executable="*\\reg.exe" OR process.executable="*\\regsvr32.exe" OR process.executable="*\\rundll32.exe" OR process.executable="*\\schtasks.exe" OR process.executable="*\\scrcons.exe" OR process.executable="*\\scriptrunner.exe" OR process.executable="*\\sh.exe" OR process.executable="*\\systeminfo.exe" OR process.executable="*\\whoami.exe" OR process.executable="*\\wmic.exe" OR process.executable="*\\wscript.exe"))

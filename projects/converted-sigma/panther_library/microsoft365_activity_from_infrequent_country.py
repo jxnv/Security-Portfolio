@@ -1,0 +1,19 @@
+# Title: Activity from Infrequent Country
+# ID: 0f2468a2-5055-4212-a368-7321198ee706
+# Status: test
+# Level: medium
+# Author: Austin Songer @austinsonger
+# Date: 2021-08-23
+# Tags: attack.command-and-control, attack.t1573
+# Description: Detects when a Microsoft Cloud App Security reported when an activity occurs from a location that wasn't recently or never visited by any user in the organization.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Activity from Infrequent Country
+def rule(event):
+    # Detection Logic:
+    # (eventSource="SecurityComplianceCenter" AND eventName="Activity from infrequent country" AND status="success")
+    return True
+
+def title(event):
+    return "Activity from Infrequent Country"
+

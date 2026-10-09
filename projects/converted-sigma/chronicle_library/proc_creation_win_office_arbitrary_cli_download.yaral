@@ -1,0 +1,23 @@
+// Title: Potential Arbitrary File Download Using Office Application
+// ID: 4ae3e30b-b03f-43aa-87e3-b622f4048eed
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems), Beyu Denis, oscd.community
+// Date: 2022-05-17
+// Tags: attack.stealth, attack.t1202
+// Description: Detects potential arbitrary file download using a Microsoft Office application
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 4ae3e30b_b03f_43aa_87e3_b622f4048eed {
+  meta:
+    title = "Potential Arbitrary File Download Using Office Application"
+    description = "Detects potential arbitrary file download using a Microsoft Office application"
+    author = "Nasreddine Bencherchali (Nextron Systems), Beyu Denis, oscd.community"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*http://.*/ nocase or $e.target.process.command_line = /.*https://.*/ nocase)) and ((($e.target.process.file.full_path = /.*\\EXCEL.EXE$/ nocase or $e.target.process.file.full_path = /.*\\MSOXMLED.EXE$/ nocase or $e.target.process.file.full_path = /.*\\POWERPNT.EXE$/ nocase or $e.target.process.file.full_path = /.*\\WINWORD.exe$/ nocase)) or (($e.target.process.file.name = "Excel.exe" or $e.target.process.file.name = "msoxmled.exe" or $e.target.process.file.name = "POWERPNT.EXE" or $e.target.process.file.name = "WinWord.exe"))))
+
+  condition:
+    $e
+}

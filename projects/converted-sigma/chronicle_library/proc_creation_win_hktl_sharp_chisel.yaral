@@ -1,0 +1,23 @@
+// Title: HackTool - SharpChisel Execution
+// ID: cf93e05e-d798-4d9e-b522-b0248dc61eaf
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-09-05
+// Tags: attack.command-and-control, attack.t1090.001
+// Description: Detects usage of the Sharp Chisel via the commandline arguments
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule cf93e05e_d798_4d9e_b522_b0248dc61eaf {
+  meta:
+    title = "HackTool - SharpChisel Execution"
+    description = "Detects usage of the Sharp Chisel via the commandline arguments"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.file.full_path = /.*\\SharpChisel.exe$/ nocase) or ($e.Product = "SharpChisel"))
+
+  condition:
+    $e
+}

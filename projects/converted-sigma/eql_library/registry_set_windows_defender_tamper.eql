@@ -1,0 +1,11 @@
+// Title: Disable Windows Defender Functionalities Via Registry Keys
+// ID: 0eb46774-f1ab-4a74-8238-1155855f2263
+// Status: test
+// Level: high
+// Author: AlertIQ, Ján Trenčanský, frack113, Nasreddine Bencherchali, Swachchhanda Shrawan Poudel
+// Date: 2022-08-01
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects when attackers or tools disable Windows Defender functionalities via the Windows registry
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+registry where (((registry.path like "*_\\SOFTWARE\\Microsoft\\Windows Defender\\*" or registry.path like "*_\\SOFTWARE\\Policies\\Microsoft\\Windows Defender Security Center\\*" or registry.path like "*_\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\*")) and (((registry.path endswith "\\DisallowExploitProtectionOverride" or registry.path endswith "\\Features\\TamperProtection" or registry.path endswith "\\MpEngine\\MpEnablePus" or registry.path endswith "\\PUAProtection" or registry.path endswith "\\Signature Update\\ForceUpdateFromMU" or registry.path endswith "\\SpyNet\\SpynetReporting" or registry.path endswith "\\SpyNet\\SubmitSamplesConsent" or registry.path endswith "\\Windows Defender Exploit Guard\\Controlled Folder Access\\EnableControlledFolderAccess") and registry.data.strings == "DWORD (0x00000000)") or ((registry.path endswith "\\DisableAntiSpyware" or registry.path endswith "\\DisableAntiVirus" or registry.path endswith "\\DisableBehaviorMonitoring" or registry.path endswith "\\DisableBlockAtFirstSeen" or registry.path endswith "\\DisableEnhancedNotifications" or registry.path endswith "\\DisableIntrusionPreventionSystem" or registry.path endswith "\\DisableIOAVProtection" or registry.path endswith "\\DisableOnAccessProtection" or registry.path endswith "\\DisableRealtimeMonitoring" or registry.path endswith "\\DisableScanOnRealtimeEnable" or registry.path endswith "\\DisableScriptScanning") and registry.data.strings == "DWORD (0x00000001)")) and not ((process.executable startswith "C:\\Program Files\\Symantec\\Symantec Endpoint Protection\\" and process.executable endswith "\\sepWscSvc64.exe")))

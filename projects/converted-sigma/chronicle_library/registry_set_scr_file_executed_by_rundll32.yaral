@@ -1,0 +1,23 @@
+// Title: ScreenSaver Registry Key Set
+// ID: 40b6e656-4e11-4c0c-8772-c1cc6dae34ce
+// Status: test
+// Level: medium
+// Author: Jose Luis Sanchez Martinez (@Joseliyo_Jstnk)
+// Date: 2022-05-04
+// Tags: attack.stealth, attack.t1218.011
+// Description: Detects registry key established after masqueraded .scr file execution using Rundll32 through desk.cpl
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 40b6e656_4e11_4c0c_8772_c1cc6dae34ce {
+  meta:
+    title = "ScreenSaver Registry Key Set"
+    description = "Detects registry key established after masqueraded .scr file execution using Rundll32 through desk.cpl"
+    author = "Jose Luis Sanchez Martinez (@Joseliyo_Jstnk)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.process.file.full_path = /.*\\rundll32.exe$/ nocase) and ($e.TargetObject = /.*\\Control Panel\\Desktop\\SCRNSAVE.EXE.*/ nocase and $e.Details = /.*.scr$/ nocase) and not((($e.Details = /.*C:\\Windows\\System32\\.*/ nocase or $e.Details = /.*C:\\Windows\\SysWOW64\\.*/ nocase))))
+
+  condition:
+    $e
+}

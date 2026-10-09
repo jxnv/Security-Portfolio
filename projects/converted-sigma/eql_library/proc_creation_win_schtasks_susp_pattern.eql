@@ -1,0 +1,11 @@
+// Title: Suspicious Command Patterns In Scheduled Task Creation
+// ID: f2c64357-b1d2-41b7-849f-34d2682c0fad
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-02-23
+// Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.t1053.005
+// Description: Detects scheduled task creation using "schtasks" that contain potentially suspicious or uncommon commands
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where ((process.executable endswith "\\schtasks.exe" and process.command_line like "*_/Create *") and ((((process.command_line like "*_/sc minute *" or process.command_line like "*_/ru system *")) and ((process.command_line like "*_cmd /c*" or process.command_line like "*_cmd /k*" or process.command_line like "*_cmd /r*" or process.command_line like "*_cmd.exe /c *" or process.command_line like "*_cmd.exe /k *" or process.command_line like "*_cmd.exe /r *"))) or ((process.command_line like "*_ -decode *" or process.command_line like "*_ -enc *" or process.command_line like "*_ -w hidden *" or process.command_line like "*_ bypass *" or process.command_line like "*_ IEX*" or process.command_line like "*_.DownloadData*" or process.command_line like "*_.DownloadFile*" or process.command_line like "*_.DownloadString*" or process.command_line like "*_/c start /min *" or process.command_line like "*_FromBase64String*" or process.command_line like "*_mshta http*" or process.command_line like "*_mshta.exe http*")) or (((process.command_line like "*_:\\ProgramData\\*" or process.command_line like "*_:\\Temp\\*" or process.command_line like "*_:\\Tmp\\*" or process.command_line like "*_:\\Users\\Public\\*" or process.command_line like "*_:\\Windows\\Temp\\*" or process.command_line like "*_\\AppData\\*" or process.command_line like "*_%AppData%*" or process.command_line like "*_%Temp%*" or process.command_line like "*_%tmp%*")) and ((process.command_line like "*_cscript*" or process.command_line like "*_curl*" or process.command_line like "*_wscript*")))))

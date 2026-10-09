@@ -1,0 +1,28 @@
+{
+  "title": "Possible PetitPotam Coerce Authentication Attempt",
+  "id": "1ce8c8a3-2723-48ed-8246-906ac91061a6",
+  "status": "test",
+  "description": "Detect PetitPotam coerced authentication activity.",
+  "author": "Mauricio Velazco, Michael Haag",
+  "date": "2021-09-02",
+  "tags": [
+    "attack.credential-access",
+    "attack.t1187"
+  ],
+  "level": "high",
+  "logsource": {
+    "product": "windows",
+    "service": "security",
+    "definition": "The advanced audit policy setting \"Object Access > Detailed File Share\" must be configured for Success/Failure"
+  },
+  "detection": {
+    "selection": {
+      "EventID": 5145,
+      "ShareName|startswith": "\\\\\\\\",
+      "ShareName|endswith": "\\IPC$",
+      "RelativeTargetName": "lsarpc",
+      "SubjectUserName": "ANONYMOUS LOGON"
+    },
+    "condition": "selection"
+  }
+}

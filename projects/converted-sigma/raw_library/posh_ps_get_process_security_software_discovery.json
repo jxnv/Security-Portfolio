@@ -1,0 +1,51 @@
+{
+  "title": "Security Software Discovery Via Powershell Script",
+  "id": "904e8e61-8edf-4350-b59c-b905fc8e810c",
+  "status": "test",
+  "description": "Detects calls to \"get-process\" where the output is piped to a \"where-object\" filter to search for security solution processes.\nAdversaries may attempt to get a listing of security software, configurations, defensive tools, and sensors that are installed on a system or in a cloud environment. This may include things such as firewall rules and anti-virus\n",
+  "author": "frack113, Anish Bogati, Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2021-12-16",
+  "tags": [
+    "attack.discovery",
+    "attack.t1518.001"
+  ],
+  "level": "medium",
+  "logsource": {
+    "product": "windows",
+    "category": "ps_script",
+    "definition": "Requirements: Script Block Logging must be enabled"
+  },
+  "detection": {
+    "selection_cmdlet": {
+      "ScriptBlockText|contains": [
+        "get-process | \\?",
+        "get-process | where",
+        "gps | \\?",
+        "gps | where"
+      ]
+    },
+    "selection_field": {
+      "ScriptBlockText|contains": [
+        "Company -like",
+        "Description -like",
+        "Name -like",
+        "Path -like",
+        "Product -like"
+      ]
+    },
+    "selection_keywords": {
+      "ScriptBlockText|contains": [
+        "\\*avira\\*",
+        "\\*carbonblack\\*",
+        "\\*cylance\\*",
+        "\\*defender\\*",
+        "\\*kaspersky\\*",
+        "\\*malware\\*",
+        "\\*sentinel\\*",
+        "\\*symantec\\*",
+        "\\*virus\\*"
+      ]
+    },
+    "condition": "all of selection_*"
+  }
+}

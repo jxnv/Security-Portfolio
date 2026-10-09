@@ -1,0 +1,11 @@
+// Title: HackTool - CreateMiniDump Execution
+// ID: 36d88494-1d43-4dc0-b3fa-35c8fea0ca9d
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2019-12-22
+// Tags: attack.credential-access, attack.t1003.001
+// Description: Detects the use of CreateMiniDump hack tool used to dump the LSASS process memory for credential extraction on the attacker's machine
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((Image="*\\CreateMiniDump.exe") OR (Hashes contains "IMPHASH=4a07f944a83e8a7c2525efa35dd30e2f"))

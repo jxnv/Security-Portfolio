@@ -1,0 +1,11 @@
+// Title: Potential Dropper Script Execution Via WScript/CScript/MSHTA
+// ID: cea72823-df4d-4567-950c-0b579eaf0846
+// Status: test
+// Level: medium
+// Author: Margaritis Dimitrios (idea), Florian Roth (Nextron Systems), oscd.community, Nasreddine Bencherchali (Nextron Systems), Dave Johnson
+// Date: 2019-01-16
+// Tags: attack.execution, attack.t1059.005, attack.t1059.007
+// Description: Detects wscript/cscript/mshta executions of scripts located in user directories
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((src.process.image.path endswithCIS "\\wscript.exe" OR src.process.image.path endswithCIS "\\cscript.exe" OR src.process.image.path endswithCIS "\\mshta.exe")) AND ((src.process.cmdline containsCIS ".hta" OR src.process.cmdline containsCIS ".js" OR src.process.cmdline containsCIS ".jse" OR src.process.cmdline containsCIS ".vba" OR src.process.cmdline containsCIS ".vbe" OR src.process.cmdline containsCIS ".vbs" OR src.process.cmdline containsCIS ".wsf" OR src.process.cmdline containsCIS ".wsh")) AND ((src.process.cmdline containsCIS ":\\Perflogs\\" OR src.process.cmdline containsCIS ":\\Temp\\" OR src.process.cmdline containsCIS ":\\Tmp\\" OR src.process.cmdline containsCIS ":\\Users\\Public\\" OR src.process.cmdline containsCIS ":\\Windows\\Temp\\" OR src.process.cmdline containsCIS "\\AppData\\Local\\Temp\\" OR src.process.cmdline containsCIS "\\AppData\\Roaming\\Temp\\" OR src.process.cmdline containsCIS "\\Start Menu\\Programs\\Startup\\" OR src.process.cmdline containsCIS "\\Temporary Internet" OR src.process.cmdline containsCIS "\\Windows\\Temp" OR src.process.cmdline containsCIS "%LocalAppData%\\Temp\\" OR src.process.cmdline containsCIS "%TEMP%" OR src.process.cmdline containsCIS "%TMP%")))

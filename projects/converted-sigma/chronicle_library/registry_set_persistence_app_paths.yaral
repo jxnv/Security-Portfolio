@@ -1,0 +1,26 @@
+// Title: Potential Persistence Via App Paths Default Property
+// ID: 707e097c-e20f-4f67-8807-1f72ff4500d6
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-10
+// Tags: attack.privilege-escalation, attack.persistence, attack.t1546.012
+// Description: Detects changes to the "Default" property for keys located in the \Software\Microsoft\Windows\CurrentVersion\App Paths\ registry. Which might be used as a method of persistence
+// The entries found under App Paths are used primarily for the following purposes.
+// First, to map an application's executable file name to that file's fully qualified path.
+// Second, to prepend information to the PATH environment variable on a per-application, per-process basis.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 707e097c_e20f_4f67_8807_1f72ff4500d6 {
+  meta:
+    title = "Potential Persistence Via App Paths Default Property"
+    description = "Detects changes to the "Default" property for keys located in the \Software\Microsoft\Windows\CurrentVersion\App Paths\ registry. Which might be used as a method of persistence The entries found under App Paths are used primarily for the following purposes. First, to map an application's executable file name to that file's fully qualified path. Second, to prepend information to the PATH environment variable on a per-application, per-process basis."
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ($e.TargetObject = /.*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths.*/ nocase and ($e.TargetObject = /.*(Default)$/ nocase or $e.TargetObject = /.*Path$/ nocase) and ($e.Details = /.*\\Users\\Public.*/ nocase or $e.Details = /.*\\AppData\\Local\\Temp\\.*/ nocase or $e.Details = /.*\\Windows\\Temp\\.*/ nocase or $e.Details = /.*\\Desktop\\.*/ nocase or $e.Details = /.*\\Downloads\\.*/ nocase or $e.Details = /.*%temp%.*/ nocase or $e.Details = /.*%tmp%.*/ nocase or $e.Details = /.*iex.*/ nocase or $e.Details = /.*Invoke-.*/ nocase or $e.Details = /.*rundll32.*/ nocase or $e.Details = /.*regsvr32.*/ nocase or $e.Details = /.*mshta.*/ nocase or $e.Details = /.*cscript.*/ nocase or $e.Details = /.*wscript.*/ nocase or $e.Details = /.*.bat.*/ nocase or $e.Details = /.*.hta.*/ nocase or $e.Details = /.*.dll.*/ nocase or $e.Details = /.*.ps1.*/ nocase))
+
+  condition:
+    $e
+}

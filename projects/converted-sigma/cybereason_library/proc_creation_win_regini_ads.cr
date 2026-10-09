@@ -1,0 +1,11 @@
+// Title: Suspicious Registry Modification From ADS Via Regini.EXE
+// ID: 77946e79-97f1-45a2-84b4-f37b5c0d8682
+// Status: test
+// Level: high
+// Author: Eli Salem, Sander Wiebing, oscd.community
+// Date: 2020-10-12
+// Tags: attack.persistence, attack.defense-impairment, attack.t1112
+// Description: Detects the import of an alternate data stream with regini.exe, regini.exe can be used to modify registry keys.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((Image="*\\regini.exe") OR (OriginalFileName == "REGINI.EXE")) AND (CommandLine=regex(":[^ \\\\]")))

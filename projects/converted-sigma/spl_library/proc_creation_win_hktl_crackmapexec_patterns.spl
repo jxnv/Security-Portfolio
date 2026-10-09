@@ -1,0 +1,11 @@
+# Title: HackTool - CrackMapExec Process Patterns
+# ID: f26307d8-14cd-47e3-a26b-4b4769f24af6
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems)
+# Date: 2022-03-12
+# Tags: attack.credential-access, attack.t1003.001
+# Description: Detects suspicious process patterns found in logs when CrackMapExec is used
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog (((process_exec="*tasklist /fi *" AND process_exec="*Imagename eq lsass.exe*") AND (process_exec="*cmd.exe /c *" OR process_exec="*cmd.exe /r *" OR process_exec="*cmd.exe /k *" OR process_exec="*cmd /c *" OR process_exec="*cmd /r *" OR process_exec="*cmd /k *") AND (user="*AUTHORI*" OR user="*AUTORI*")) OR ((process_exec="*do rundll32.exe C:\\windows\\System32\\comsvcs.dll, MiniDump*" AND process_exec="*\\Windows\\Temp\\*" AND process_exec="* full*" AND process_exec="*%%B*")) OR ((process_exec="*tasklist /v /fo csv*" AND process_exec="*findstr /i \"lsass\"*")))

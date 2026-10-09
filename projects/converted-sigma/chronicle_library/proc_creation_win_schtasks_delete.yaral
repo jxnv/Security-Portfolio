@@ -1,0 +1,23 @@
+// Title: Delete Important Scheduled Task
+// ID: dbc1f800-0fe0-4bc0-9c66-292c2abe3f78
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-09-09
+// Tags: attack.impact, attack.t1489
+// Description: Detects when adversaries stop services or processes by deleting their respective scheduled tasks in order to conduct data destructive activities
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule dbc1f800_0fe0_4bc0_9c66_292c2abe3f78 {
+  meta:
+    title = "Delete Important Scheduled Task"
+    description = "Detects when adversaries stop services or processes by deleting their respective scheduled tasks in order to conduct data destructive activities"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*/delete.*/ nocase or $e.target.process.command_line = /.*-delete.*/ nocase)) and (($e.target.process.command_line = /.*\\Windows\\BitLocker.*/ nocase or $e.target.process.command_line = /.*\\Windows\\ExploitGuard.*/ nocase or $e.target.process.command_line = /.*\\Windows\\SystemRestore\\SR.*/ nocase or $e.target.process.command_line = /.*\\Windows\\UpdateOrchestrator\\.*/ nocase or $e.target.process.command_line = /.*\\Windows\\Windows Defender\\.*/ nocase or $e.target.process.command_line = /.*\\Windows\\WindowsBackup\\.*/ nocase or $e.target.process.command_line = /.*\\Windows\\WindowsUpdate\\.*/ nocase)) and (($e.target.process.file.full_path = /.*\\schtasks.exe$/ nocase) or ($e.target.process.file.name = "schtasks.exe")))
+
+  condition:
+    $e
+}

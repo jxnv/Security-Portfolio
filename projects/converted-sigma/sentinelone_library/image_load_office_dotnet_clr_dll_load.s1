@@ -1,0 +1,11 @@
+// Title: CLR DLL Loaded Via Office Applications
+// ID: d13c43f0-f66b-4279-8b2c-5912077c1780
+// Status: test
+// Level: medium
+// Author: Antonlovesdnb
+// Date: 2020-02-19
+// Tags: attack.execution, attack.t1204.002
+// Description: Detects CLR DLL being loaded by an Office Product
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((src.process.image.path endswithCIS "\\excel.exe" OR src.process.image.path endswithCIS "\\mspub.exe" OR src.process.image.path endswithCIS "\\outlook.exe" OR src.process.image.path endswithCIS "\\onenote.exe" OR src.process.image.path endswithCIS "\\onenoteim.exe" OR src.process.image.path endswithCIS "\\powerpnt.exe" OR src.process.image.path endswithCIS "\\winword.exe") AND ImageLoaded containsCIS "\\clr.dll")

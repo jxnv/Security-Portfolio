@@ -1,0 +1,15 @@
+// Title: New DMSA Service Account Created in Specific OUs
+// ID: 0ea8db81-2ff6-4525-9448-33bbe7effc13
+// Status: experimental
+// Level: medium
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-05-24
+// Tags: attack.privilege-escalation, attack.initial-access, attack.persistence, attack.stealth, attack.t1078.002, attack.t1098
+// Description: Detects the creation of a dMSASvc account using the New-ADServiceAccount cmdlet in certain OUs.
+// The fact that the Cmdlet is used to create a dMSASvc account in a specific OU is highly suspicious.
+// It is a pattern trying to exploit the BadSuccessor privilege escalation vulnerability in Windows Server 2025.
+// On top of that, if the user that is creating the dMSASvc account is not a legitimate administrator or does not have the necessary permissions,
+// it is a strong signal of an attempted or successful abuse of the BaDSuccessor vulnerability for privilege escalation within the Windows Server 2025 Active Directory environment.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where (((process.command_line like "%New-ADServiceAccount%" AND process.command_line like "%-CreateDelegatedServiceAccount%" AND process.command_line like "%-path%")) AND (((process.executable="*\\powershell.exe" OR process.executable="*\\pwsh.exe" OR process.executable="*\\powershell_ise.exe")) OR ((process.pe.original_file_name = "powershell.exe" OR process.pe.original_file_name = "pwsh.dll" OR process.pe.original_file_name = "powershell_ise.exe"))))

@@ -1,0 +1,23 @@
+// Title: Prefetch File Deleted
+// ID: 0a1f9d29-6465-4776-b091-7f43b26e4c89
+// Status: test
+// Level: high
+// Author: Cedric MAURUGEON
+// Date: 2021-09-29
+// Tags: attack.stealth, attack.t1070.004
+// Description: Detects the deletion of a prefetch file which may indicate an attempt to destroy forensic evidence
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 0a1f9d29_6465_4776_b091_7f43b26e4c89 {
+  meta:
+    title = "Prefetch File Deleted"
+    description = "Detects the deletion of a prefetch file which may indicate an attempt to destroy forensic evidence"
+    author = "Cedric MAURUGEON"
+    severity = "HIGH"
+
+  events:
+    (($e.target.file.full_path = /.*:\\Windows\\Prefetch\\.*/ nocase and $e.target.file.full_path = /.*.pf$/ nocase) and not(($e.target.process.file.full_path = /.*:\\windows\\system32\\svchost.exe$/ nocase and ($e.target.user.userid = /.*AUTHORI.*/ nocase or $e.target.user.userid = /.*AUTORI.*/ nocase))))
+
+  condition:
+    $e
+}

@@ -1,0 +1,11 @@
+// Title: Suspicious User Agent
+// ID: 7195a772-4b3f-43a4-a210-6a003d65caa1
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2017-07-08
+// Tags: attack.command-and-control, attack.t1071.001
+// Description: Detects suspicious malformed user agent strings in proxy logs
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((c-useragent = /user-agent.*/i or c-useragent = /Mozilla/3.0 .*/i or c-useragent = /Mozilla/2.0 .*/i or c-useragent = /Mozilla/1.0 .*/i or c-useragent = /Mozilla .*/i or c-useragent = / Mozilla/.*/i or c-useragent = /Mozila/.*/i or c-useragent = /Mozilla/4.0 (compatible; MSIE 6.0; MS Web Services Client Protocol.*/i)) or ((c-useragent = /* (compatible;MSIE */i or c-useragent = /*.0;Windows NT */i or c-useragent = /*loader*/i)) or ((c-useragent = "_" or c-useragent = "CertUtil URL Agent" or c-useragent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:60.0)" or c-useragent = "Mozilla/5.0 (Windows NT 6.3; WOW64; rv:28.0) Gecko/20100101 Firefox/28.0" or c-useragent = "HTTPS" or c-useragent = "Erbium-UA-4ce7c27cb4be9d32e333bf032c88235a" or c-useragent = "x" or c-useragent = "xxx"))) and not(((c-useragent = "Mozilla/3.0 * Acrobat *") or ((cs-host = /.*.acrobat.com/i or cs-host = /.*.adobe.com/i or cs-host = /.*.adobe.io/i)))))

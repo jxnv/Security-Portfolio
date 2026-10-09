@@ -1,0 +1,19 @@
+# Title: Legitimate Application Dropped Archive
+# ID: 654fcc6d-840d-4844-9b07-2c3300e54a26
+# Status: test
+# Level: high
+# Author: frack113, Florian Roth
+# Date: 2022-08-21
+# Tags: attack.stealth, attack.t1218
+# Description: Detects programs on a Windows system that should not write an archive to disk
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Legitimate Application Dropped Archive
+def rule(event):
+    # Detection Logic:
+    # ((Image="*\\winword.exe" OR Image="*\\excel.exe" OR Image="*\\powerpnt.exe" OR Image="*\\msaccess.exe" OR Image="*\\mspub.exe" OR Image="*\\eqnedt32.exe" OR Image="*\\visio.exe" OR Image="*\\wordpad.exe" OR Image="*\\wordview.exe" OR Image="*\\certutil.exe" OR Image="*\\certoc.exe" OR Image="*\\CertReq.exe" OR Image="*\\Desktopimgdownldr.exe" OR Image="*\\esentutl.exe" OR Image="*\\finger.exe" OR Image="*\\notepad.exe" OR Image="*\\AcroRd32.exe" OR Image="*\\RdrCEF.exe" OR Image="*\\mshta.exe" OR Image="*\\hh.exe") AND (TargetFilename="*.zip" OR TargetFilename="*.rar" OR TargetFilename="*.7z" OR TargetFilename="*.diagcab" OR TargetFilename="*.appx"))
+    return True
+
+def title(event):
+    return "Legitimate Application Dropped Archive"
+

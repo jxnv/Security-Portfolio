@@ -1,0 +1,11 @@
+// Title: F5 BIG-IP iControl Rest API Command Execution - Webserver
+// ID: 85254a62-22be-4239-b79c-2ec17e566c37
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems), Thurein Oo
+// Date: 2023-11-08
+// Tags: attack.execution, attack.t1190, attack.initial-access
+// Description: Detects POST requests to the F5 BIG-IP iControl Rest API "bash" endpoint, which allows the execution of commands on the BIG-IP
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(cs-method: "POST" AND cs-uri-query="*/mgmt/tm/util/bash")

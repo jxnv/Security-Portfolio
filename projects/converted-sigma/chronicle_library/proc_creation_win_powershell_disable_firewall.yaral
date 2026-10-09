@@ -1,0 +1,23 @@
+// Title: Windows Firewall Disabled via PowerShell
+// ID: 12f6b752-042d-483e-bf9c-915a6d06ad75
+// Status: test
+// Level: medium
+// Author: Tim Rauch, Elastic (idea)
+// Date: 2022-09-14
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects attempts to disable the Windows Firewall using PowerShell
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 12f6b752_042d_483e_bf9c_915a6d06ad75 {
+  meta:
+    title = "Windows Firewall Disabled via PowerShell"
+    description = "Detects attempts to disable the Windows Firewall using PowerShell"
+    author = "Tim Rauch, Elastic (idea)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.command_line = /.*Set-NetFirewallProfile .*/ nocase and $e.target.process.command_line = /.* -Enabled .*/ nocase and $e.target.process.command_line = /.* False.*/ nocase)) and ((($e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase or $e.target.process.file.full_path = /.*\\powershell_ise.exe$/ nocase)) or (($e.target.process.file.name = "PowerShell.EXE" or $e.target.process.file.name = "pwsh.dll"))) and (($e.target.process.command_line = /.* -All .*/ nocase or $e.target.process.command_line = /.*Public.*/ nocase or $e.target.process.command_line = /.*Domain.*/ nocase or $e.target.process.command_line = /.*Private.*/ nocase)))
+
+  condition:
+    $e
+}

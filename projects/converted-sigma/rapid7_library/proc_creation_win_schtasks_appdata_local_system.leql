@@ -1,0 +1,11 @@
+// Title: Suspicious Schtasks Execution AppData Folder
+// ID: c5c00f49-b3f9-45a6-997e-cfdecc6e1967
+// Status: test
+// Level: high
+// Author: pH-T (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-03-15
+// Tags: attack.privilege-escalation, attack.execution, attack.persistence, attack.t1053.005, attack.t1059.001
+// Description: Detects the creation of a schtask that executes a file from C:\Users\<USER>\AppData\Local
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((where(Image IENDSWITH "\\schtasks.exe") AND (where(CommandLine ICONTAINS "/Create") AND where(CommandLine ICONTAINS "/RU") AND where(CommandLine ICONTAINS "/TR") AND where(CommandLine ICONTAINS "C:\\Users\\") AND where(CommandLine ICONTAINS "\\AppData\\Local\\")) AND (where(CommandLine ICONTAINS "NT AUT") OR where(CommandLine ICONTAINS " SYSTEM "))) AND NOT (((where(ParentImage ICONTAINS "\\AppData\\Local\\Temp\\") AND where(ParentImage ICONTAINS "TeamViewer_.exe")) AND where(Image IENDSWITH "\\schtasks.exe") AND where(CommandLine ICONTAINS "/TN TVInstallRestore"))))

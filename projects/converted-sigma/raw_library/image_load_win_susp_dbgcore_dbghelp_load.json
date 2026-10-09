@@ -1,0 +1,46 @@
+{
+  "title": "Suspicious Loading of Dbgcore/Dbghelp DLLs from Uncommon Location",
+  "id": "416bc4a2-7217-4519-8dc7-c3271817f1d5",
+  "status": "experimental",
+  "description": "Detects loading of dbgcore.dll or dbghelp.dll from uncommon locations such as user directories.\nThese DLLs contain the MiniDumpWriteDump function, which can be abused for credential dumping purposes or in some cases for evading EDR/AV detection by suspending processes.\n",
+  "author": "Swachchhanda Shrawan Poudel (Nextron Systems)",
+  "date": "2025-11-27",
+  "tags": [
+    "attack.credential-access",
+    "attack.defense-impairment",
+    "attack.t1003",
+    "attack.t1685"
+  ],
+  "level": "high",
+  "logsource": {
+    "category": "image_load",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_img": {
+      "Image|contains": [
+        ":\\Perflogs\\",
+        ":\\Temp\\",
+        ":\\Users\\Public\\",
+        "\\$Recycle.Bin\\",
+        "\\Contacts\\",
+        "\\Documents\\",
+        "\\Favorites\\",
+        "\\Favourites\\",
+        "\\inetpub\\wwwroot\\",
+        "\\Music\\",
+        "\\Pictures\\",
+        "\\Start Menu\\Programs\\Startup\\",
+        "\\Users\\Default\\",
+        "\\Videos\\"
+      ]
+    },
+    "selection_dll": {
+      "ImageLoaded|endswith": [
+        "\\dbgcore.dll",
+        "\\dbghelp.dll"
+      ]
+    },
+    "condition": "all of selection_*"
+  }
+}

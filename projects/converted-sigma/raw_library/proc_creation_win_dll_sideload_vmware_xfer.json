@@ -1,0 +1,29 @@
+{
+  "title": "DLL Sideloading by VMware Xfer Utility",
+  "id": "ebea773c-a8f1-42ad-a856-00cb221966e8",
+  "status": "test",
+  "description": "Detects execution of VMware Xfer utility (VMwareXferlogs.exe) from the non-default directory which may be an attempt to sideload arbitrary DLL",
+  "author": "Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2022-08-02",
+  "tags": [
+    "attack.privilege-escalation",
+    "attack.persistence",
+    "attack.execution",
+    "attack.stealth",
+    "attack.t1574.001"
+  ],
+  "level": "high",
+  "logsource": {
+    "product": "windows",
+    "category": "process_creation"
+  },
+  "detection": {
+    "selection": {
+      "Image|endswith": "\\VMwareXferlogs.exe"
+    },
+    "filter": {
+      "Image|startswith": "C:\\Program Files\\VMware\\"
+    },
+    "condition": "selection and not filter"
+  }
+}

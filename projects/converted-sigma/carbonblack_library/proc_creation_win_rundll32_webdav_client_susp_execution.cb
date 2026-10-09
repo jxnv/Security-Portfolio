@@ -1,0 +1,11 @@
+# Title: Suspicious WebDav Client Execution Via Rundll32.EXE
+# ID: 982e9f2d-1a85-4d5b-aea4-31f5e97c6555
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems), Florian Roth (Nextron Systems)
+# Date: 2023-03-16
+# Tags: attack.exfiltration, attack.t1048.003, cve.2023-23397
+# Description: Detects "svchost.exe" spawning "rundll32.exe" with command arguments like C:\windows\system32\davclnt.dll,DavSetCookie. This could be an indicator of exfiltration or use of WebDav to launch code (hosted on WebDav Server) or potentially a sign of exploitation of CVE-2023-23397
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((parent_name:*\\svchost.exe AND ParentCommandLine:*-s WebClient* AND process_name:*\\rundll32.exe AND cmdline:*C:\\windows\\system32\\davclnt.dll,DavSetCookie* AND cmdline=regex("://\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}")) AND -(((cmdline:*://10.* OR cmdline:*://192.168.* OR cmdline:*://172.16.* OR cmdline:*://172.17.* OR cmdline:*://172.18.* OR cmdline:*://172.19.* OR cmdline:*://172.20.* OR cmdline:*://172.21.* OR cmdline:*://172.22.* OR cmdline:*://172.23.* OR cmdline:*://172.24.* OR cmdline:*://172.25.* OR cmdline:*://172.26.* OR cmdline:*://172.27.* OR cmdline:*://172.28.* OR cmdline:*://172.29.* OR cmdline:*://172.30.* OR cmdline:*://172.31.* OR cmdline:*://127.* OR cmdline:*://169.254.*))))

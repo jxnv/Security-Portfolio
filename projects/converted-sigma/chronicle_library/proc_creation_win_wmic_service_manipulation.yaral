@@ -1,0 +1,23 @@
+// Title: Service Started/Stopped Via Wmic.EXE
+// ID: 0b7163dc-7eee-4960-af17-c0cd517f92da
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-06-20
+// Tags: attack.execution, attack.t1047
+// Description: Detects usage of wmic to start or stop a service
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 0b7163dc_7eee_4960_af17_c0cd517f92da {
+  meta:
+    title = "Service Started/Stopped Via Wmic.EXE"
+    description = "Detects usage of wmic to start or stop a service"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.command_line = /.* service .*/ nocase and $e.target.process.command_line = /.* call .*/ nocase) and ($e.target.process.command_line = /.*stopservice.*/ nocase or $e.target.process.command_line = /.*startservice.*/ nocase)) and (($e.target.process.file.name = "wmic.exe") or ($e.target.process.file.full_path = /.*\\WMIC.exe$/ nocase)))
+
+  condition:
+    $e
+}

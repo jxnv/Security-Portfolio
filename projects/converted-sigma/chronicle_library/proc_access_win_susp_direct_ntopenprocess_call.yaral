@@ -1,0 +1,23 @@
+// Title: Potential Direct Syscall of NtOpenProcess
+// ID: 3f3f3506-1895-401b-9cc3-e86b16e630d0
+// Status: test
+// Level: medium
+// Author: Christian Burkard (Nextron Systems), Tim Shelton (FP)
+// Date: 2021-07-28
+// Tags: attack.execution, attack.t1106
+// Description: Detects potential calls to NtOpenProcess directly from NTDLL.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 3f3f3506_1895_401b_9cc3_e86b16e630d0 {
+  meta:
+    title = "Potential Direct Syscall of NtOpenProcess"
+    description = "Detects potential calls to NtOpenProcess directly from NTDLL."
+    author = "Christian Burkard (Nextron Systems), Tim Shelton (FP)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.CallTrace = /^UNKNOWN.*/ nocase) and not(((($e.SourceImage = /.*:\\Program Files (x86)\\.*/ nocase or $e.SourceImage = /.*:\\Program Files\\.*/ nocase or $e.SourceImage = /.*:\\Windows\\System32\\.*/ nocase or $e.SourceImage = /.*:\\Windows\\SysWOW64\\.*/ nocase or $e.SourceImage = /.*:\\Windows\\WinSxS\\.*/ nocase) and ($e.TargetImage = /.*:\\Program Files (x86)\\.*/ nocase or $e.TargetImage = /.*:\\Program Files\\.*/ nocase or $e.TargetImage = /.*:\\Windows\\System32\\.*/ nocase or $e.TargetImage = /.*:\\Windows\\SysWOW64\\.*/ nocase or $e.TargetImage = /.*:\\Windows\\WinSxS\\.*/ nocase)) or ($e.Provider_Name = "Microsoft-Windows-Kernel-Audit-API-Calls") or ($e.TargetImage = /.*vcredist_x64.exe$/ nocase and $e.SourceImage = /.*vcredist_x64.exe$/ nocase))) and not((($e.SourceImage = /.*:\\Program Files\\Adobe\\Acrobat DC\\Acrobat\\.*/ nocase and $e.SourceImage = /.*\\AcroCEF.exe$/ nocase and $e.TargetImage = /.*:\\Program Files\\Adobe\\Acrobat DC\\Acrobat\\.*/ nocase and $e.TargetImage = /.*\\AcroCEF.exe$/ nocase) or ($e.SourceImage = /.*AmazonSSMAgentSetup.exe$/ nocase and $e.TargetImage = /.*AmazonSSMAgentSetup.exe$/ nocase) or ($e.SourceImage = /.*:\\Windows\\Explorer.EXE$/ nocase and $e.TargetImage = /.*:\\Program Files\\Cylance\\Desktop\\CylanceUI.exe$/ nocase) or ($e.TargetImage = /.*\\AppData\\Local\\Discord\\.*/ nocase and $e.TargetImage = /.*\\Discord.exe$/ nocase) or ($e.TargetImage = /.*\\Evernote\\Evernote.exe$/ nocase) or ($e.TargetImage = /.*\\AppData\\Local\\Microsoft\\Teams\\current\\Teams.exe$/ nocase and $e.SourceImage = /.*\\AppData\\Local\\Microsoft\\Teams\\current\\Teams.exe$/ nocase) or ($e.TargetImage = /.*:\\Windows\\system32\\systeminfo.exe$/ nocase and $e.SourceImage = /.*setup64.exe$/ nocase) or ($e.SourceImage = /.*\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe$/ nocase and $e.TargetImage = /.*\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe$/ nocase) or ($e.SourceImage = /.*\\AppData\\Local\\yammerdesktop\\app-.*/ nocase and $e.SourceImage = /.*\\Yammer.exe$/ nocase and $e.TargetImage = /.*\\AppData\\Local\\yammerdesktop\\app-.*/ nocase and $e.TargetImage = /.*\\Yammer.exe$/ nocase and $e.GrantedAccess = "0x1000"))))
+
+  condition:
+    $e
+}

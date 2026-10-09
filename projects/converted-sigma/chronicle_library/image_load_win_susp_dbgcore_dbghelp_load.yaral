@@ -1,0 +1,24 @@
+// Title: Suspicious Loading of Dbgcore/Dbghelp DLLs from Uncommon Location
+// ID: 416bc4a2-7217-4519-8dc7-c3271817f1d5
+// Status: experimental
+// Level: high
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-11-27
+// Tags: attack.credential-access, attack.defense-impairment, attack.t1003, attack.t1685
+// Description: Detects loading of dbgcore.dll or dbghelp.dll from uncommon locations such as user directories.
+// These DLLs contain the MiniDumpWriteDump function, which can be abused for credential dumping purposes or in some cases for evading EDR/AV detection by suspending processes.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 416bc4a2_7217_4519_8dc7_c3271817f1d5 {
+  meta:
+    title = "Suspicious Loading of Dbgcore/Dbghelp DLLs from Uncommon Location"
+    description = "Detects loading of dbgcore.dll or dbghelp.dll from uncommon locations such as user directories. These DLLs contain the MiniDumpWriteDump function, which can be abused for credential dumping purposes or in some cases for evading EDR/AV detection by suspending processes."
+    author = "Swachchhanda Shrawan Poudel (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.ImageLoaded = /.*\\dbgcore.dll$/ nocase or $e.ImageLoaded = /.*\\dbghelp.dll$/ nocase)) and (($e.target.process.file.full_path = /.*:\\Perflogs\\.*/ nocase or $e.target.process.file.full_path = /.*:\\Temp\\.*/ nocase or $e.target.process.file.full_path = /.*:\\Users\\Public\\.*/ nocase or $e.target.process.file.full_path = /.*\\$Recycle.Bin\\.*/ nocase or $e.target.process.file.full_path = /.*\\Contacts\\.*/ nocase or $e.target.process.file.full_path = /.*\\Documents\\.*/ nocase or $e.target.process.file.full_path = /.*\\Favorites\\.*/ nocase or $e.target.process.file.full_path = /.*\\Favourites\\.*/ nocase or $e.target.process.file.full_path = /.*\\inetpub\\wwwroot\\.*/ nocase or $e.target.process.file.full_path = /.*\\Music\\.*/ nocase or $e.target.process.file.full_path = /.*\\Pictures\\.*/ nocase or $e.target.process.file.full_path = /.*\\Start Menu\\Programs\\Startup\\.*/ nocase or $e.target.process.file.full_path = /.*\\Users\\Default\\.*/ nocase or $e.target.process.file.full_path = /.*\\Videos\\.*/ nocase)))
+
+  condition:
+    $e
+}

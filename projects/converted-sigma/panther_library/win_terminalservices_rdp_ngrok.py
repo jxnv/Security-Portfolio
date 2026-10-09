@@ -1,0 +1,19 @@
+# Title: Ngrok Usage with Remote Desktop Service
+# ID: 64d51a51-32a6-49f0-9f3d-17e34d640272
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems)
+# Date: 2022-04-29
+# Tags: attack.command-and-control, attack.t1090
+# Description: Detects cases in which ngrok, a reverse proxy tool, forwards events to the local RDP port, which could be a sign of malicious behaviour
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Ngrok Usage with Remote Desktop Service
+def rule(event):
+    # Detection Logic:
+    # (EventID="21" AND Address="*16777216*")
+    return True
+
+def title(event):
+    return "Ngrok Usage with Remote Desktop Service"
+

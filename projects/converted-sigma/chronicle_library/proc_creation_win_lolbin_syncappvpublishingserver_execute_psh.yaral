@@ -1,0 +1,23 @@
+// Title: SyncAppvPublishingServer Execute Arbitrary PowerShell Code
+// ID: fbd7c32d-db2a-4418-b92c-566eb8911133
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2021-07-12
+// Tags: attack.stealth, attack.t1218
+// Description: Executes arbitrary PowerShell code using SyncAppvPublishingServer.exe.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule fbd7c32d_db2a_4418_b92c_566eb8911133 {
+  meta:
+    title = "SyncAppvPublishingServer Execute Arbitrary PowerShell Code"
+    description = "Executes arbitrary PowerShell code using SyncAppvPublishingServer.exe."
+    author = "frack113"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.process.command_line = /.*\"n; .*/ nocase) and (($e.target.process.file.full_path = /.*\\SyncAppvPublishingServer.exe$/ nocase) or ($e.target.process.file.name = "syncappvpublishingserver.exe")))
+
+  condition:
+    $e
+}

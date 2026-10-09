@@ -1,0 +1,19 @@
+# Title: Invoke-Obfuscation Via Use Clip - PowerShell Module
+# ID: ebdf49d8-b89c-46c9-8fdf-2c308406f6bd
+# Status: test
+# Level: high
+# Author: Nikita Nazarov, oscd.community
+# Date: 2020-10-09
+# Tags: attack.stealth, attack.t1027, attack.execution, attack.t1059.001
+# Description: Detects Obfuscated Powershell via use Clip.exe in Scripts
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Invoke-Obfuscation Via Use Clip - PowerShell Module
+def rule(event):
+    # Detection Logic:
+    # (Payload=regex("(?i)echo.*clip.*&&.*(Clipboard|i`?n`?v`?o`?k`?e`?)"))
+    return True
+
+def title(event):
+    return "Invoke-Obfuscation Via Use Clip - PowerShell Module"
+

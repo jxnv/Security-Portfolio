@@ -1,0 +1,12 @@
+// Title: Legitimate Application Dropped Executable
+// ID: f0540f7e-2db3-4432-b9e0-3965486744bc
+// Status: test
+// Level: high
+// Author: frack113, Florian Roth (Nextron Systems)
+// Date: 2022-08-21
+// Tags: attack.stealth, attack.t1218
+// Description: Detects LOLBINs and applications that should not legitimately drop executable or executable-equivalent files to disk.
+// This may indicate malware staging, process injection, or abuse of a trusted binary for payload delivery.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((where(Image IENDSWITH "\\eqnedt32.exe") OR where(Image IENDSWITH "\\wordpad.exe") OR where(Image IENDSWITH "\\wordview.exe") OR where(Image IENDSWITH "\\certutil.exe") OR where(Image IENDSWITH "\\certoc.exe") OR where(Image IENDSWITH "\\CertReq.exe") OR where(Image IENDSWITH "\\Desktopimgdownldr.exe") OR where(Image IENDSWITH "\\esentutl.exe") OR where(Image IENDSWITH "\\mshta.exe") OR where(Image IENDSWITH "\\AcroRd32.exe") OR where(Image IENDSWITH "\\RdrCEF.exe") OR where(Image IENDSWITH "\\hh.exe") OR where(Image IENDSWITH "\\finger.exe")) AND (where(TargetFilename IENDSWITH ".com") OR where(TargetFilename IENDSWITH ".dll") OR where(TargetFilename IENDSWITH ".exe") OR where(TargetFilename IENDSWITH ".jar") OR where(TargetFilename IENDSWITH ".ocx") OR where(TargetFilename IENDSWITH ".pyc")))

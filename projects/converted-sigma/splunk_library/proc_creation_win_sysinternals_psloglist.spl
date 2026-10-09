@@ -1,0 +1,11 @@
+# Title: Suspicious Use of PsLogList
+# ID: aae1243f-d8af-40d8-ab20-33fc6d0c55bc
+# Status: test
+# Level: medium
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2021-12-18
+# Tags: attack.discovery, attack.t1087, attack.t1087.001, attack.t1087.002
+# Description: Detects usage of the PsLogList utility to dump event log in order to extract admin accounts and perform account discovery or delete events logs
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog (((process_exec="* security*" OR process_exec="* application*" OR process_exec="* system*")) AND ((process_exec="* -d*" OR process_exec="* -x*" OR process_exec="* -s*" OR process_exec="* -c*" OR process_exec="* -g*")) AND ((process_name="psloglist.exe") OR ((process_path="*\\psloglist.exe" OR process_path="*\\psloglist64.exe" OR process_path="*\\psloglist64a.exe"))))

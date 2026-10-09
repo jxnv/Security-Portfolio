@@ -1,0 +1,19 @@
+# Title: Microsoft Malware Protection Engine Crash - WER
+# ID: 6c82cf5c-090d-4d57-9188-533577631108
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems)
+# Date: 2017-05-09
+# Tags: attack.stealth, attack.defense-impairment, attack.t1211, attack.t1685
+# Description: This rule detects a suspicious crash of the Microsoft Malware Protection Engine
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Microsoft Malware Protection Engine Crash - WER
+def rule(event):
+    # Detection Logic:
+    # (Provider_Name="Windows Error Reporting" AND EventID="1001" AND (Data="*MsMpEng.exe*" AND Data="*mpengine.dll*"))
+    return True
+
+def title(event):
+    return "Microsoft Malware Protection Engine Crash - WER"
+

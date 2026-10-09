@@ -1,0 +1,23 @@
+// Title: Delete All Scheduled Tasks
+// ID: 220457c1-1c9f-4c2e-afe6-9598926222c1
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-09-09
+// Tags: attack.impact, attack.t1489
+// Description: Detects the usage of schtasks with the delete flag and the asterisk symbol to delete all tasks from the schedule of the local computer, including tasks scheduled by other users.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 220457c1_1c9f_4c2e_afe6_9598926222c1 {
+  meta:
+    title = "Delete All Scheduled Tasks"
+    description = "Detects the usage of schtasks with the delete flag and the asterisk symbol to delete all tasks from the schedule of the local computer, including tasks scheduled by other users."
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ($e.target.process.file.full_path = /.*\\schtasks.exe$/ nocase and ($e.target.process.command_line = /.* /delete .*/ nocase and $e.target.process.command_line = /.*/tn \\*.*/ nocase and $e.target.process.command_line = /.* /f.*/ nocase))
+
+  condition:
+    $e
+}

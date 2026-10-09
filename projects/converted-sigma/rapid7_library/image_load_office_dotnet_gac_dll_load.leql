@@ -1,0 +1,11 @@
+// Title: GAC DLL Loaded Via Office Applications
+// ID: 90217a70-13fc-48e4-b3db-0d836c5824ac
+// Status: test
+// Level: high
+// Author: Antonlovesdnb
+// Date: 2020-02-19
+// Tags: attack.execution, attack.t1204.002
+// Description: Detects any GAC DLL being loaded by an Office Product
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((where(Image IENDSWITH "\\excel.exe") OR where(Image IENDSWITH "\\mspub.exe") OR where(Image IENDSWITH "\\onenote.exe") OR where(Image IENDSWITH "\\onenoteim.exe") OR where(Image IENDSWITH "\\outlook.exe") OR where(Image IENDSWITH "\\powerpnt.exe") OR where(Image IENDSWITH "\\winword.exe")) AND where(ImageLoaded ISTARTSWITH "C:\\Windows\\Microsoft.NET\\assembly\\GAC_MSIL"))

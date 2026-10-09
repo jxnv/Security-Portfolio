@@ -1,0 +1,11 @@
+-- Title: MsiExec Web Install
+-- ID: f7b5f842-a6af-4da5-9e95-e32478f3cd2f
+-- Status: test
+-- Level: medium
+-- Author: Florian Roth (Nextron Systems)
+-- Date: 2018-02-09
+-- Tags: attack.stealth, attack.t1218.007, attack.command-and-control, attack.t1105
+-- Description: Detects suspicious msiexec process starts with web addresses as parameter
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM processes WHERE ((CommandLine LIKE '% msiexec%' AND CommandLine LIKE '%://%'))

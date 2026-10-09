@@ -1,0 +1,11 @@
+-- Title: Legitimate Application Dropped Archive
+-- ID: 654fcc6d-840d-4844-9b07-2c3300e54a26
+-- Status: test
+-- Level: high
+-- Author: frack113, Florian Roth
+-- Date: 2022-08-21
+-- Tags: attack.stealth, attack.t1218
+-- Description: Detects programs on a Windows system that should not write an archive to disk
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE ((Image ILIKE '%\\winword.exe' OR Image ILIKE '%\\excel.exe' OR Image ILIKE '%\\powerpnt.exe' OR Image ILIKE '%\\msaccess.exe' OR Image ILIKE '%\\mspub.exe' OR Image ILIKE '%\\eqnedt32.exe' OR Image ILIKE '%\\visio.exe' OR Image ILIKE '%\\wordpad.exe' OR Image ILIKE '%\\wordview.exe' OR Image ILIKE '%\\certutil.exe' OR Image ILIKE '%\\certoc.exe' OR Image ILIKE '%\\CertReq.exe' OR Image ILIKE '%\\Desktopimgdownldr.exe' OR Image ILIKE '%\\esentutl.exe' OR Image ILIKE '%\\finger.exe' OR Image ILIKE '%\\notepad.exe' OR Image ILIKE '%\\AcroRd32.exe' OR Image ILIKE '%\\RdrCEF.exe' OR Image ILIKE '%\\mshta.exe' OR Image ILIKE '%\\hh.exe') AND (TargetFilename ILIKE '%.zip' OR TargetFilename ILIKE '%.rar' OR TargetFilename ILIKE '%.7z' OR TargetFilename ILIKE '%.diagcab' OR TargetFilename ILIKE '%.appx'))

@@ -1,0 +1,23 @@
+// Title: Wab Execution From Non Default Location
+// ID: 395907ee-96e5-4666-af2e-2ca91688e151
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-12
+// Tags: attack.execution, attack.stealth
+// Description: Detects execution of wab.exe (Windows Contacts) and Wabmig.exe (Microsoft Address Book Import Tool) from non default locations as seen with bumblebee activity
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 395907ee_96e5_4666_af2e_2ca91688e151 {
+  meta:
+    title = "Wab Execution From Non Default Location"
+    description = "Detects execution of wab.exe (Windows Contacts) and Wabmig.exe (Microsoft Address Book Import Tool) from non default locations as seen with bumblebee activity"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.file.full_path = /.*\\wab.exe$/ nocase or $e.target.process.file.full_path = /.*\\wabmig.exe$/ nocase)) and not((($e.target.process.file.full_path = /^C:\\Windows\\WinSxS\\.*/ nocase or $e.target.process.file.full_path = /^C:\\Program Files\\Windows Mail\\.*/ nocase or $e.target.process.file.full_path = /^C:\\Program Files (x86)\\Windows Mail\\.*/ nocase))))
+
+  condition:
+    $e
+}

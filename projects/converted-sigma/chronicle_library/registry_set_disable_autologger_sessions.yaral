@@ -1,0 +1,26 @@
+// Title: Potential AutoLogger Sessions Tampering
+// ID: f37b4bce-49d0-4087-9f5b-58bffda77316
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-01
+// Tags: attack.defense-impairment, attack.t1685.001
+// Description: Detects tampering with autologger trace sessions which is a technique used by attackers to disable logging.
+// The AutoLogger event tracing session records events up that occur early in the operating system boot process.
+// Applications and device drivers can use the AutoLogger session to capture traces before the user logs in, and also used by security solutions as telemetry source.
+// Adversaries may disable these sessions to evade detection and prevent security monitoring of early boot activities and system events.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule f37b4bce_49d0_4087_9f5b_58bffda77316 {
+  meta:
+    title = "Potential AutoLogger Sessions Tampering"
+    description = "Detects tampering with autologger trace sessions which is a technique used by attackers to disable logging. The AutoLogger event tracing session records events up that occur early in the operating system boot process. Applications and device drivers can use the AutoLogger session to capture traces before the user logs in, and also used by security solutions as telemetry source. Adversaries may disable these sessions to evade detection and prevent security monitoring of early boot activities and system events."
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.TargetObject = /.*\\Control\\WMI\\Autologger\\.*/ nocase) and (($e.TargetObject = /.*\\EventLog-.*/ nocase or $e.TargetObject = /.*\\Defender.*/ nocase) and ($e.TargetObject = /.*\\Enabled$/ nocase or $e.TargetObject = /.*\\Start$/ nocase) and $e.Details = "DWORD (0x00000000)")) and not(((($e.target.process.file.full_path = /^C:\\ProgramData\\Microsoft\\Windows Defender\\Platform\\.*/ nocase or $e.target.process.file.full_path = /^C:\\Program Files\\Windows Defender\\.*/ nocase or $e.target.process.file.full_path = /^C:\\Program Files (x86)\\Windows Defender\\.*/ nocase) and $e.target.process.file.full_path = /.*\\MsMpEng.exe$/ nocase and ($e.TargetObject = /.*\\DefenderApiLogger\\.*/ nocase or $e.TargetObject = /.*\\DefenderAuditLogger\\.*/ nocase)) or ($e.target.process.file.full_path = "C:\\Windows\\system32\\wevtutil.exe"))))
+
+  condition:
+    $e
+}

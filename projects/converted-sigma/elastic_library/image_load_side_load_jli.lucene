@@ -1,0 +1,13 @@
+# Title: Potential JLI.dll Side-Loading
+# ID: 7a3b6d1f-4a2b-4f8c-9d7e-e9f8cbf21a35
+# Status: experimental
+# Level: high
+# Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+# Date: 2025-07-25
+# Tags: attack.persistence, attack.privilege-escalation, attack.execution, attack.stealth, attack.t1574.001
+# Description: Detects potential DLL side-loading of jli.dll.
+# JLI.dll has been observed being side-loaded by Java processes by various threat actors, including APT41, XWorm,
+# and others in order to load malicious payloads in context of legitimate Java processes.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((ImageLoaded:*\\jli.dll) AND NOT (((ImageLoaded:C:\\Program Files\\* OR ImageLoaded:C:\\Program Files (x86)\\*) AND Description:"OpenJDK Platform binary" AND process.pe.original_file_name:"jli.dll" AND Product:OpenJDK Platform* AND Signed:"true")) AND NOT ((ImageLoaded:C:\\eclipse\\plugins\\*)))

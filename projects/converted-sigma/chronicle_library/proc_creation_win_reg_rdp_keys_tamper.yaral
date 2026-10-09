@@ -1,0 +1,23 @@
+// Title: Potential Tampering With RDP Related Registry Keys Via Reg.EXE
+// ID: 0d5675be-bc88-4172-86d3-1e96a4476536
+// Status: test
+// Level: high
+// Author: pH-T (Nextron Systems), @Kostastsale, TheDFIRReport
+// Date: 2022-02-12
+// Tags: attack.persistence, attack.lateral-movement, attack.defense-impairment, attack.t1021.001, attack.t1112
+// Description: Detects the execution of "reg.exe" for enabling/disabling the RDP service on the host by tampering with the 'CurrentControlSet\Control\Terminal Server' values
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 0d5675be_bc88_4172_86d3_1e96a4476536 {
+  meta:
+    title = "Potential Tampering With RDP Related Registry Keys Via Reg.EXE"
+    description = "Detects the execution of "reg.exe" for enabling/disabling the RDP service on the host by tampering with the 'CurrentControlSet\Control\Terminal Server' values"
+    author = "pH-T (Nextron Systems), @Kostastsale, TheDFIRReport"
+    severity = "HIGH"
+
+  events:
+    (((($e.target.process.command_line = /.* add .*/ nocase and $e.target.process.command_line = /.*\\CurrentControlSet\\Control\\Terminal Server.*/ nocase and $e.target.process.command_line = /.*REG_DWORD.*/ nocase and $e.target.process.command_line = /.* /f.*/ nocase)) and (($e.target.process.file.full_path = /.*\\reg.exe$/ nocase) or ($e.target.process.file.name = "reg.exe"))) and ((($e.target.process.command_line = /.*Licensing Core.*/ nocase and $e.target.process.command_line = /.*EnableConcurrentSessions.*/ nocase)) or (($e.target.process.command_line = /.*AllowTSConnections.*/ nocase or $e.target.process.command_line = /.*fDenyTSConnections.*/ nocase or $e.target.process.command_line = /.*fEnableWinStation.*/ nocase or $e.target.process.command_line = /.*fSingleSessionPerUser.*/ nocase or $e.target.process.command_line = /.*IdleWinStationPoolCount.*/ nocase or $e.target.process.command_line = /.*MaxInstanceCount.*/ nocase or $e.target.process.command_line = /.*SecurityLayer.*/ nocase or $e.target.process.command_line = /.*TSAdvertise.*/ nocase or $e.target.process.command_line = /.*TSAppCompat.*/ nocase or $e.target.process.command_line = /.*TSEnabled.*/ nocase or $e.target.process.command_line = /.*TSUserEnabled.*/ nocase or $e.target.process.command_line = /.*WinStations\\RDP-Tcp.*/ nocase))) and not((($e.target.process.command_line = /.*SecurityLayer.*/ nocase and $e.target.process.command_line = /.*02.*/ nocase))))
+
+  condition:
+    $e
+}

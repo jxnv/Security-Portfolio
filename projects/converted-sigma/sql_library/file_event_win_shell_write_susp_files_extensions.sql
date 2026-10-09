@@ -1,0 +1,11 @@
+-- Title: Windows Binaries Write Suspicious Extensions
+-- ID: b8fd0e93-ff58-4cbd-8f48-1c114e342e62
+-- Status: test
+-- Level: high
+-- Author: Nasreddine Bencherchali (Nextron Systems)
+-- Date: 2022-08-12
+-- Tags: attack.stealth, attack.t1036
+-- Description: Detects Windows executables that write files with suspicious extensions
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE ((((Image ILIKE '%\\csrss.exe' OR Image ILIKE '%\\lsass.exe' OR Image ILIKE '%\\RuntimeBroker.exe' OR Image ILIKE '%\\sihost.exe' OR Image ILIKE '%\\smss.exe' OR Image ILIKE '%\\wininit.exe' OR Image ILIKE '%\\winlogon.exe') AND (TargetFilename ILIKE '%.bat' OR TargetFilename ILIKE '%.dll' OR TargetFilename ILIKE '%.exe' OR TargetFilename ILIKE '%.hta' OR TargetFilename ILIKE '%.iso' OR TargetFilename ILIKE '%.ps1' OR TargetFilename ILIKE '%.txt' OR TargetFilename ILIKE '%.vbe' OR TargetFilename ILIKE '%.vbs')) OR ((Image ILIKE '%\\dllhost.exe' OR Image ILIKE '%\\rundll32.exe' OR Image ILIKE '%\\svchost.exe') AND (TargetFilename ILIKE '%.bat' OR TargetFilename ILIKE '%.hta' OR TargetFilename ILIKE '%.iso' OR TargetFilename ILIKE '%.ps1' OR TargetFilename ILIKE '%.vbe' OR TargetFilename ILIKE '%.vbs'))) AND NOT (((Image = 'C:\\Windows\\System32\\dllhost.exe' AND (TargetFilename ILIKE '%:\\Users\\%' AND TargetFilename ILIKE '%\\AppData\\Local\\Temp\\__PSScriptPolicyTest_%') AND TargetFilename ILIKE '%.ps1') OR (Image = 'C:\\Windows\\system32\\svchost.exe' AND (TargetFilename ILIKE '%C:\\Program Files\\WindowsApps\\Clipchamp%' AND TargetFilename ILIKE '%.ps1%')) OR ((Image = 'C:\\Windows\\system32\\svchost.exe' OR Image = 'C:\\Windows\\SysWOW64\\svchost.exe') AND (TargetFilename ILIKE 'C:\\Program Files\\WindowsApps\\Microsoft.PowerShellPreview%' OR TargetFilename ILIKE 'C:\\Program Files (x86)\\WindowsApps\\Microsoft.PowerShellPreview%') AND TargetFilename ILIKE '%.ps1') OR (Image = 'C:\\Windows\\system32\\svchost.exe' AND (TargetFilename ILIKE '%C:\\Windows\\System32\\GroupPolicy\\DataStore\\%' AND TargetFilename ILIKE '%\\sysvol\\%' AND TargetFilename ILIKE '%\\Policies\\%' AND TargetFilename ILIKE '%\\Machine\\Scripts\\Startup\\%') AND (TargetFilename ILIKE '%.ps1' OR TargetFilename ILIKE '%.bat')))))

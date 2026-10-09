@@ -1,0 +1,11 @@
+// Title: Ntdsutil Abuse
+// ID: e6e88853-5f20-4c4a-8d26-cd469fd8d31f
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-14
+// Tags: attack.credential-access, attack.t1003.003
+// Description: Detects potential abuse of ntdsutil to dump ntds.dit database
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE (winlog.provider_name == "ESENT" AND (winlog.event_id == 216 OR winlog.event_id == 325 OR winlog.event_id == 326 OR winlog.event_id == 327) AND Data LIKE "%ntds.dit%")

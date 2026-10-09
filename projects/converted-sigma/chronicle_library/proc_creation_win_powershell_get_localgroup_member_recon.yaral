@@ -1,0 +1,23 @@
+// Title: Suspicious Reconnaissance Activity Using Get-LocalGroupMember Cmdlet
+// ID: c8a180d6-47a3-4345-a609-53f9c3d834fc
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-10-10
+// Tags: attack.discovery, attack.t1087.001
+// Description: Detects suspicious reconnaissance command line activity on Windows systems using the PowerShell Get-LocalGroupMember Cmdlet
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule c8a180d6_47a3_4345_a609_53f9c3d834fc {
+  meta:
+    title = "Suspicious Reconnaissance Activity Using Get-LocalGroupMember Cmdlet"
+    description = "Detects suspicious reconnaissance command line activity on Windows systems using the PowerShell Get-LocalGroupMember Cmdlet"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.process.command_line = /.*Get-LocalGroupMember .*/ nocase) and (($e.target.process.command_line = /.*domain admins.*/ nocase or $e.target.process.command_line = /.* administrator.*/ nocase or $e.target.process.command_line = /.* administrateur.*/ nocase or $e.target.process.command_line = /.*enterprise admins.*/ nocase or $e.target.process.command_line = /.*Exchange Trusted Subsystem.*/ nocase or $e.target.process.command_line = /.*Remote Desktop Users.*/ nocase or $e.target.process.command_line = /.*Utilisateurs du Bureau à distance.*/ nocase or $e.target.process.command_line = /.*Usuarios de escritorio remoto.*/ nocase)))
+
+  condition:
+    $e
+}

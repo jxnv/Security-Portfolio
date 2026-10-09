@@ -1,0 +1,11 @@
+// Title: NTDS.DIT Creation By Uncommon Parent Process
+// ID: 4e7050dd-e548-483f-b7d6-527ab4fa784d
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-03-11
+// Tags: attack.credential-access, attack.t1003.003
+// Description: Detects creation of a file named "ntds.dit" (Active Directory Database) by an uncommon parent process or directory
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((tgt.file.path endswithCIS "\\ntds.dit") AND (((src.process.parent.image.path endswithCIS "\\cscript.exe" OR src.process.parent.image.path endswithCIS "\\httpd.exe" OR src.process.parent.image.path endswithCIS "\\nginx.exe" OR src.process.parent.image.path endswithCIS "\\php-cgi.exe" OR src.process.parent.image.path endswithCIS "\\powershell.exe" OR src.process.parent.image.path endswithCIS "\\pwsh.exe" OR src.process.parent.image.path endswithCIS "\\w3wp.exe" OR src.process.parent.image.path endswithCIS "\\wscript.exe")) OR ((src.process.parent.image.path containsCIS "\\apache" OR src.process.parent.image.path containsCIS "\\tomcat" OR src.process.parent.image.path containsCIS "\\AppData\\" OR src.process.parent.image.path containsCIS "\\Temp\\" OR src.process.parent.image.path containsCIS "\\Public\\" OR src.process.parent.image.path containsCIS "\\PerfLogs\\"))))

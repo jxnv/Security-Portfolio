@@ -1,0 +1,29 @@
+{
+  "title": "Potential Registry Persistence Attempt Via DbgManagedDebugger",
+  "id": "9827ae57-3802-418f-994b-d5ecf5cd974b",
+  "status": "test",
+  "description": "Detects the addition of the \"Debugger\" value to the \"DbgManagedDebugger\" key in order to achieve persistence. Which will get invoked when an application crashes",
+  "author": "frack113",
+  "date": "2022-08-07",
+  "tags": [
+    "attack.privilege-escalation",
+    "attack.persistence",
+    "attack.execution",
+    "attack.stealth",
+    "attack.t1574"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "registry_set",
+    "product": "windows"
+  },
+  "detection": {
+    "selection": {
+      "TargetObject|endswith": "\\Microsoft\\.NETFramework\\DbgManagedDebugger"
+    },
+    "filter": {
+      "Details": "\"C:\\Windows\\system32\\vsjitdebugger.exe\" PID %d APPDOM %d EXTEXT \"%s\" EVTHDL %d"
+    },
+    "condition": "selection and not filter"
+  }
+}

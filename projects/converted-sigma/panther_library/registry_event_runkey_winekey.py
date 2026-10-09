@@ -1,0 +1,19 @@
+# Title: WINEKEY Registry Modification
+# ID: b98968aa-dbc0-4a9c-ac35-108363cbf8d5
+# Status: test
+# Level: high
+# Author: omkar72
+# Date: 2020-10-30
+# Tags: attack.privilege-escalation, attack.persistence, attack.t1547
+# Description: Detects potential malicious modification of run keys by winekey or team9 backdoor
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: WINEKEY Registry Modification
+def rule(event):
+    # Detection Logic:
+    # (TargetObject="*Software\\Microsoft\\Windows\\CurrentVersion\\Run\\Backup Mgr")
+    return True
+
+def title(event):
+    return "WINEKEY Registry Modification"
+

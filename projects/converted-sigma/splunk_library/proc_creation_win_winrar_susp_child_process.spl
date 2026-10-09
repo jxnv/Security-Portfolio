@@ -1,0 +1,11 @@
+# Title: Potentially Suspicious Child Process Of WinRAR.EXE
+# ID: 146aace8-9bd6-42ba-be7a-0070d8027b76
+# Status: test
+# Level: medium
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2023-08-31
+# Tags: attack.execution, attack.t1203
+# Description: Detects potentially suspicious child processes of WinRAR.exe.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog ((((process_path="*\\cmd.exe" OR process_path="*\\cscript.exe" OR process_path="*\\mshta.exe" OR process_path="*\\powershell.exe" OR process_path="*\\pwsh.exe" OR process_path="*\\regsvr32.exe" OR process_path="*\\rundll32.exe" OR process_path="*\\wscript.exe")) OR ((process_name="Cmd.Exe" OR process_name="cscript.exe" OR process_name="mshta.exe" OR process_name="PowerShell.EXE" OR process_name="pwsh.dll" OR process_name="regsvr32.exe" OR process_name="RUNDLL32.EXE" OR process_name="wscript.exe"))) AND (parent_process_path="*\\WinRAR.exe"))

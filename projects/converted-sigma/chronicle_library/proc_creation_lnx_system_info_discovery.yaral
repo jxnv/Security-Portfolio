@@ -1,0 +1,23 @@
+// Title: System Information Discovery
+// ID: 42df45e7-e6e9-43b5-8f26-bec5b39cc239
+// Status: stable
+// Level: informational
+// Author: Ömer Günal, oscd.community
+// Date: 2020-10-08
+// Tags: attack.discovery, attack.t1082
+// Description: Detects system information discovery commands
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 42df45e7_e6e9_43b5_8f26_bec5b39cc239 {
+  meta:
+    title = "System Information Discovery"
+    description = "Detects system information discovery commands"
+    author = "Ömer Günal, oscd.community"
+    severity = "INFORMATIONAL"
+
+  events:
+    (($e.target.process.file.full_path = /.*/uname$/ nocase or $e.target.process.file.full_path = /.*/hostname$/ nocase or $e.target.process.file.full_path = /.*/uptime$/ nocase or $e.target.process.file.full_path = /.*/lspci$/ nocase or $e.target.process.file.full_path = /.*/dmidecode$/ nocase or $e.target.process.file.full_path = /.*/lscpu$/ nocase or $e.target.process.file.full_path = /.*/lsmod$/ nocase))
+
+  condition:
+    $e
+}

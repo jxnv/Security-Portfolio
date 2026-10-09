@@ -1,0 +1,23 @@
+// Title: Dumping Process via Sqldumper.exe
+// ID: 23ceaf5c-b6f1-4a32-8559-f2ff734be516
+// Status: test
+// Level: medium
+// Author: Kirill Kiryanov, oscd.community
+// Date: 2020-10-08
+// Tags: attack.credential-access, attack.t1003.001
+// Description: Detects process dump via legitimate sqldumper.exe binary
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 23ceaf5c_b6f1_4a32_8559_f2ff734be516 {
+  meta:
+    title = "Dumping Process via Sqldumper.exe"
+    description = "Detects process dump via legitimate sqldumper.exe binary"
+    author = "Kirill Kiryanov, oscd.community"
+    severity = "MEDIUM"
+
+  events:
+    ($e.target.process.file.full_path = /.*\\sqldumper.exe$/ nocase and ($e.target.process.command_line = /.*0x0110.*/ nocase or $e.target.process.command_line = /.*0x01100:40.*/ nocase))
+
+  condition:
+    $e
+}

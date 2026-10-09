@@ -1,0 +1,11 @@
+// Title: Potential Crypto Mining Activity
+// ID: 66c3b204-9f88-4d0a-a7f7-8a57d521ca55
+// Status: stable
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2021-10-26
+// Tags: attack.impact, attack.t1496
+// Description: Detects command line parameters or strings often used by crypto miners
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE (((process.command_line LIKE "% --cpu-priority=%" OR process.command_line LIKE "%--donate-level=0%" OR process.command_line LIKE "% -o pool.%" OR process.command_line LIKE "% --nicehash%" OR process.command_line LIKE "% --algo=rx/0 %" OR process.command_line LIKE "%stratum+tcp://%" OR process.command_line LIKE "%stratum+udp://%" OR process.command_line LIKE "%LS1kb25hdGUtbGV2ZWw9%" OR process.command_line LIKE "%0tZG9uYXRlLWxldmVsP%" OR process.command_line LIKE "%tLWRvbmF0ZS1sZXZlbD%" OR process.command_line LIKE "%c3RyYXR1bSt0Y3A6Ly%" OR process.command_line LIKE "%N0cmF0dW0rdGNwOi8v%" OR process.command_line LIKE "%zdHJhdHVtK3RjcDovL%" OR process.command_line LIKE "%c3RyYXR1bSt1ZHA6Ly%" OR process.command_line LIKE "%N0cmF0dW0rdWRwOi8v%" OR process.command_line LIKE "%zdHJhdHVtK3VkcDovL%")) AND NOT (((process.command_line LIKE "% pool.c %" OR process.command_line LIKE "% pool.o %" OR process.command_line LIKE "%gcc -%"))))

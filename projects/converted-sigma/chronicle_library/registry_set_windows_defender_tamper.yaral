@@ -1,0 +1,23 @@
+// Title: Disable Windows Defender Functionalities Via Registry Keys
+// ID: 0eb46774-f1ab-4a74-8238-1155855f2263
+// Status: test
+// Level: high
+// Author: AlertIQ, Ján Trenčanský, frack113, Nasreddine Bencherchali, Swachchhanda Shrawan Poudel
+// Date: 2022-08-01
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects when attackers or tools disable Windows Defender functionalities via the Windows registry
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 0eb46774_f1ab_4a74_8238_1155855f2263 {
+  meta:
+    title = "Disable Windows Defender Functionalities Via Registry Keys"
+    description = "Detects when attackers or tools disable Windows Defender functionalities via the Windows registry"
+    author = "AlertIQ, Ján Trenčanský, frack113, Nasreddine Bencherchali, Swachchhanda Shrawan Poudel"
+    severity = "HIGH"
+
+  events:
+    ((($e.TargetObject = /.*\\SOFTWARE\\Microsoft\\Windows Defender\\.*/ nocase or $e.TargetObject = /.*\\SOFTWARE\\Policies\\Microsoft\\Windows Defender Security Center\\.*/ nocase or $e.TargetObject = /.*\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\.*/ nocase)) and ((($e.TargetObject = /.*\\DisallowExploitProtectionOverride$/ nocase or $e.TargetObject = /.*\\Features\\TamperProtection$/ nocase or $e.TargetObject = /.*\\MpEngine\\MpEnablePus$/ nocase or $e.TargetObject = /.*\\PUAProtection$/ nocase or $e.TargetObject = /.*\\Signature Update\\ForceUpdateFromMU$/ nocase or $e.TargetObject = /.*\\SpyNet\\SpynetReporting$/ nocase or $e.TargetObject = /.*\\SpyNet\\SubmitSamplesConsent$/ nocase or $e.TargetObject = /.*\\Windows Defender Exploit Guard\\Controlled Folder Access\\EnableControlledFolderAccess$/ nocase) and $e.Details = "DWORD (0x00000000)") or (($e.TargetObject = /.*\\DisableAntiSpyware$/ nocase or $e.TargetObject = /.*\\DisableAntiVirus$/ nocase or $e.TargetObject = /.*\\DisableBehaviorMonitoring$/ nocase or $e.TargetObject = /.*\\DisableBlockAtFirstSeen$/ nocase or $e.TargetObject = /.*\\DisableEnhancedNotifications$/ nocase or $e.TargetObject = /.*\\DisableIntrusionPreventionSystem$/ nocase or $e.TargetObject = /.*\\DisableIOAVProtection$/ nocase or $e.TargetObject = /.*\\DisableOnAccessProtection$/ nocase or $e.TargetObject = /.*\\DisableRealtimeMonitoring$/ nocase or $e.TargetObject = /.*\\DisableScanOnRealtimeEnable$/ nocase or $e.TargetObject = /.*\\DisableScriptScanning$/ nocase) and $e.Details = "DWORD (0x00000001)")) and not(($e.target.process.file.full_path = /^C:\\Program Files\\Symantec\\Symantec Endpoint Protection\\.*/ nocase and $e.target.process.file.full_path = /.*\\sepWscSvc64.exe$/ nocase)))
+
+  condition:
+    $e
+}

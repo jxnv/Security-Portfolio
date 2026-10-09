@@ -1,0 +1,25 @@
+// Title: Load Of RstrtMgr.DLL By An Uncommon Process
+// ID: 3669afd2-9891-4534-a626-e5cf03810a61
+// Status: test
+// Level: low
+// Author: Luc Génaux
+// Date: 2023-11-28
+// Tags: attack.impact, attack.defense-impairment, attack.t1486, attack.t1685
+// Description: Detects the load of RstrtMgr DLL (Restart Manager) by an uncommon process.
+// This library has been used during ransomware campaigns to kill processes that would prevent file encryption by locking them (e.g. Conti ransomware, Cactus ransomware). It has also recently been seen used by the BiBi wiper for Windows.
+// It could also be used for anti-analysis purposes by shut downing specific processes.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 3669afd2_9891_4534_a626_e5cf03810a61 {
+  meta:
+    title = "Load Of RstrtMgr.DLL By An Uncommon Process"
+    description = "Detects the load of RstrtMgr DLL (Restart Manager) by an uncommon process. This library has been used during ransomware campaigns to kill processes that would prevent file encryption by locking them (e.g. Conti ransomware, Cactus ransomware). It has also recently been seen used by the BiBi wiper for Windows. It could also be used for anti-analysis purposes by shut downing specific processes."
+    author = "Luc Génaux"
+    severity = "LOW"
+
+  events:
+    ((($e.ImageLoaded = /.*\\RstrtMgr.dll$/ nocase) or ($e.target.process.file.name = "RstrtMgr.dll")) and not((($e.target.process.file.full_path = /^C:\\Windows\\Temp\\.*/ nocase) or (($e.target.process.file.full_path = /^C:\\$WINDOWS.~BT\\.*/ nocase or $e.target.process.file.full_path = /^C:\\$WinREAgent\\.*/ nocase or $e.target.process.file.full_path = /^C:\\Program Files (x86)\\.*/ nocase or $e.target.process.file.full_path = /^C:\\Program Files\\.*/ nocase or $e.target.process.file.full_path = /^C:\\ProgramData\\.*/ nocase or $e.target.process.file.full_path = /^C:\\Windows\\explorer.exe.*/ nocase or $e.target.process.file.full_path = /^C:\\Windows\\SoftwareDistribution\\.*/ nocase or $e.target.process.file.full_path = /^C:\\Windows\\SysNative\\.*/ nocase or $e.target.process.file.full_path = /^C:\\Windows\\System32\\.*/ nocase or $e.target.process.file.full_path = /^C:\\Windows\\SysWOW64\\.*/ nocase or $e.target.process.file.full_path = /^C:\\Windows\\WinSxS\\.*/ nocase or $e.target.process.file.full_path = /^C:\\WUDownloadCache\\.*/ nocase)) or ($e.target.process.file.full_path = /^C:\\Users\\.*/ nocase and ($e.target.process.file.full_path = /.*\\AppData\\Local\\Temp\\is-.*/ nocase and $e.target.process.file.full_path = /.*.tmp\\.*/ nocase) and $e.target.process.file.full_path = /.*.tmp$/ nocase))) and not((($e.target.process.file.full_path = /^C:\\Users\\.*/ nocase and ($e.target.process.file.full_path = /.*\\AppData\\Local\\Microsoft\\OneDrive\\OneDrive.exe$/ nocase or $e.target.process.file.full_path = /.*\\AppData\\Local\\Microsoft\\OneDrive\\OneDriveStandaloneUpdater.exe$/ nocase)) or ($e.target.process.file.full_path = /^C:\\Users\\.*/ nocase and $e.target.process.file.full_path = /.*\\AppData\\Local\\Microsoft\\OneDrive\\.*/ nocase and $e.target.process.file.full_path = /.*\\OneDrive.Sync.Service.exe$/ nocase))))
+
+  condition:
+    $e
+}

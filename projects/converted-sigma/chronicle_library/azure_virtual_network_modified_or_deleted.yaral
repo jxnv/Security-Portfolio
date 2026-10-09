@@ -1,0 +1,23 @@
+// Title: Azure Virtual Network Modified or Deleted
+// ID: bcfcc962-0e4a-4fd9-84bb-a833e672df3f
+// Status: test
+// Level: medium
+// Author: Austin Songer @austinsonger
+// Date: 2021-08-08
+// Tags: attack.impact
+// Description: Identifies when a Virtual Network is modified or deleted in Azure.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule bcfcc962_0e4a_4fd9_84bb_a833e672df3f {
+  meta:
+    title = "Azure Virtual Network Modified or Deleted"
+    description = "Identifies when a Virtual Network is modified or deleted in Azure."
+    author = "Austin Songer @austinsonger"
+    severity = "MEDIUM"
+
+  events:
+    (($e.operationName = /^MICROSOFT.NETWORK/VIRTUALNETWORKGATEWAYS/.*/ nocase or $e.operationName = /^MICROSOFT.NETWORK/VIRTUALNETWORKS/.*/ nocase) and ($e.operationName = /.*/WRITE$/ nocase or $e.operationName = /.*/DELETE$/ nocase))
+
+  condition:
+    $e
+}

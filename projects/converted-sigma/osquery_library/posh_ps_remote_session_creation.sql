@@ -1,0 +1,12 @@
+-- Title: PowerShell Remote Session Creation
+-- ID: a0edd39f-a0c6-4c17-8141-261f958e8d8f
+-- Status: test
+-- Level: medium
+-- Author: frack113
+-- Date: 2022-01-06
+-- Tags: attack.execution, attack.t1059.001
+-- Description: Adversaries may abuse PowerShell commands and scripts for execution.
+-- PowerShell is a powerful interactive command-line interface and scripting environment included in the Windows operating system
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM file WHERE ((ScriptBlockText LIKE '%New-PSSession%' AND ScriptBlockText LIKE '%-ComputerName %'))

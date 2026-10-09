@@ -1,0 +1,12 @@
+// Title: Legitimate Application Dropped Executable
+// ID: f0540f7e-2db3-4432-b9e0-3965486744bc
+// Status: test
+// Level: high
+// Author: frack113, Florian Roth (Nextron Systems)
+// Date: 2022-08-21
+// Tags: attack.stealth, attack.t1218
+// Description: Detects LOLBINs and applications that should not legitimately drop executable or executable-equivalent files to disk.
+// This may indicate malware staging, process injection, or abuse of a trusted binary for payload delivery.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((src.process.image.path endswithCIS "\\eqnedt32.exe" OR src.process.image.path endswithCIS "\\wordpad.exe" OR src.process.image.path endswithCIS "\\wordview.exe" OR src.process.image.path endswithCIS "\\certutil.exe" OR src.process.image.path endswithCIS "\\certoc.exe" OR src.process.image.path endswithCIS "\\CertReq.exe" OR src.process.image.path endswithCIS "\\Desktopimgdownldr.exe" OR src.process.image.path endswithCIS "\\esentutl.exe" OR src.process.image.path endswithCIS "\\mshta.exe" OR src.process.image.path endswithCIS "\\AcroRd32.exe" OR src.process.image.path endswithCIS "\\RdrCEF.exe" OR src.process.image.path endswithCIS "\\hh.exe" OR src.process.image.path endswithCIS "\\finger.exe") AND (tgt.file.path endswithCIS ".com" OR tgt.file.path endswithCIS ".dll" OR tgt.file.path endswithCIS ".exe" OR tgt.file.path endswithCIS ".jar" OR tgt.file.path endswithCIS ".ocx" OR tgt.file.path endswithCIS ".pyc"))

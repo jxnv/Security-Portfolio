@@ -1,0 +1,23 @@
+// Title: Invoke-Obfuscation CLIP+ Launcher - Security
+// ID: 4edf51e1-cb83-4e1a-bc39-800e396068e3
+// Status: test
+// Level: high
+// Author: Jonathan Cheong, oscd.community
+// Date: 2020-10-13
+// Tags: attack.stealth, attack.t1027, attack.execution, attack.t1059.001
+// Description: Detects Obfuscated use of Clip.exe to execute PowerShell
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 4edf51e1_cb83_4e1a_bc39_800e396068e3 {
+  meta:
+    title = "Invoke-Obfuscation CLIP+ Launcher - Security"
+    description = "Detects Obfuscated use of Clip.exe to execute PowerShell"
+    author = "Jonathan Cheong, oscd.community"
+    severity = "HIGH"
+
+  events:
+    ($e.EventID = 4697 and ($e.ServiceFileName = /.*cmd.*/ nocase and $e.ServiceFileName = /.*&&.*/ nocase and $e.ServiceFileName = /.*clipboard]::.*/ nocase))
+
+  condition:
+    $e
+}

@@ -1,0 +1,11 @@
+// Title: Suspicious Appended Extension
+// ID: e3f673b3-65d1-4d80-9146-466f8b63fa99
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-07-16
+// Tags: attack.impact, attack.t1486
+// Description: Detects file renames where the target filename uses an uncommon double extension. Could indicate potential ransomware activity renaming files and adding a custom extension to the encrypted files, such as ".jpg.crypted", ".docx.locky", etc.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE (((SourceFilename LIKE "%.doc" OR SourceFilename LIKE "%.docx" OR SourceFilename LIKE "%.jpeg" OR SourceFilename LIKE "%.jpg" OR SourceFilename LIKE "%.lnk" OR SourceFilename LIKE "%.pdf" OR SourceFilename LIKE "%.png" OR SourceFilename LIKE "%.pst" OR SourceFilename LIKE "%.rtf" OR SourceFilename LIKE "%.xls" OR SourceFilename LIKE "%.xlsx") AND (file.path LIKE "%.doc.%" OR file.path LIKE "%.docx.%" OR file.path LIKE "%.jpeg.%" OR file.path LIKE "%.jpg.%" OR file.path LIKE "%.lnk.%" OR file.path LIKE "%.pdf.%" OR file.path LIKE "%.png.%" OR file.path LIKE "%.pst.%" OR file.path LIKE "%.rtf.%" OR file.path LIKE "%.xls.%" OR file.path LIKE "%.xlsx.%")) AND NOT (((file.path LIKE "%.backup" OR file.path LIKE "%.bak" OR file.path LIKE "%.old" OR file.path LIKE "%.orig" OR file.path LIKE "%.temp" OR file.path LIKE "%.tmp"))) AND NOT ((file.path LIKE "%:\\ProgramData\\Anaconda3\\%" AND file.path LIKE "%.c~")))

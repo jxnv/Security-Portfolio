@@ -1,0 +1,11 @@
+// Title: Script Event Consumer Spawning Process
+// ID: f6d1dd2f-b8ce-40ca-bc23-062efb686b34
+// Status: test
+// Level: high
+// Author: Sittikorn S
+// Date: 2021-06-21
+// Tags: attack.execution, attack.t1047
+// Description: Detects a suspicious child process of Script Event Consumer (scrcons.exe).
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE (process.parent.executable LIKE "%\\scrcons.exe" AND (process.executable LIKE "%\\svchost.exe" OR process.executable LIKE "%\\dllhost.exe" OR process.executable LIKE "%\\powershell.exe" OR process.executable LIKE "%\\pwsh.exe" OR process.executable LIKE "%\\wscript.exe" OR process.executable LIKE "%\\cscript.exe" OR process.executable LIKE "%\\schtasks.exe" OR process.executable LIKE "%\\regsvr32.exe" OR process.executable LIKE "%\\mshta.exe" OR process.executable LIKE "%\\rundll32.exe" OR process.executable LIKE "%\\msiexec.exe" OR process.executable LIKE "%\\msbuild.exe"))

@@ -1,0 +1,23 @@
+// Title: Service Reload or Start - Linux
+// ID: 2625cc59-0634-40d0-821e-cb67382a3dd7
+// Status: test
+// Level: low
+// Author: Jakob Weinzettl, oscd.community, CheraghiMilad
+// Date: 2019-09-23
+// Tags: attack.privilege-escalation, attack.persistence, attack.t1543.002
+// Description: Detects the start, reload or restart of a service.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 2625cc59_0634_40d0_821e_cb67382a3dd7 {
+  meta:
+    title = "Service Reload or Start - Linux"
+    description = "Detects the start, reload or restart of a service."
+    author = "Jakob Weinzettl, oscd.community, CheraghiMilad"
+    severity = "LOW"
+
+  events:
+    ($e.type = "EXECVE" and ($e.a0 = /.*systemctl.*/ nocase or $e.a0 = /.*service.*/ nocase) and ($e.a1 = /.*reload.*/ nocase or $e.a1 = /.*start.*/ nocase))
+
+  condition:
+    $e
+}

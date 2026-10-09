@@ -1,0 +1,11 @@
+// Title: Dynamic .NET Compilation Via Csc.EXE
+// ID: dcaa3f04-70c3-427a-80b4-b870d73c94c4
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems), X__Junior (Nextron Systems)
+// Date: 2019-08-24
+// Tags: attack.stealth, attack.t1027.004
+// Description: Detects execution of "csc.exe" to compile .NET code. Attackers often leverage this to compile code on the fly and use it in other stages.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((ImageFileName = /.*\\csc.exe/i) and (((CommandLine = /*:\\Perflogs\\*/i or CommandLine = /*:\\Users\\Public\\*/i or CommandLine = /*\\AppData\\Local\\Temp\\*/i or CommandLine = /*\\Temporary Internet*/i or CommandLine = /*\\Windows\\Temp\\*/i)) or (((CommandLine = /*:\\Users\\*/i and CommandLine = /*\\Favorites\\*/i)) or ((CommandLine = /*:\\Users\\*/i and CommandLine = /*\\Favourites\\*/i)) or ((CommandLine = /*:\\Users\\*/i and CommandLine = /*\\Contacts\\*/i)) or ((CommandLine = /*:\\Users\\*/i and CommandLine = /*\\Pictures\\*/i))) or (CommandLine =~ /(?:[Pp]rogram[Dd]ata|%(?:[Ll]ocal)?[Aa]pp[Dd]ata%|\\[Aa]pp[Dd]ata\\(?:[Ll]ocal(?:[Ll]ow)?|[Rr]oaming))\\[^\\]{1,256}$/i)) and not((((ParentBaseFileName = /C:\\Program Files (x86)\\.*/i or ParentBaseFileName = /C:\\Program Files\\.*/i)) or (ParentBaseFileName = "C:\\Windows\\System32\\sdiagnhost.exe") or (ParentBaseFileName = "C:\\Windows\\System32\\inetsrv\\w3wp.exe"))) and not((((ParentCommandLine = /*JwB7ACIAZgBhAGkAbABlAGQAIgA6AHQAcgB1AGUALAAiAG0AcwBnACIAOgAiAEEAbgBzAGkAYgBsAGUAIAByAGUAcQB1AGkAcgBlAHMAIABQAG8AdwBlAHIAUwBoAGUAbABsACAAdgAzAC4AMAAgAG8AcgAgAG4AZQB3AGUAcgAiAH0AJw*/i or ParentCommandLine = /*cAewAiAGYAYQBpAGwAZQBkACIAOgB0AHIAdQBlACwAIgBtAHMAZwAiADoAIgBBAG4AcwBpAGIAbABlACAAcgBlAHEAdQBpAHIAZQBzACAAUABvAHcAZQByAFMAaABlAGwAbAAgAHYAMwAuADAAIABvAHIAIABuAGUAdwBlAHIAIgB9ACcA*/i or ParentCommandLine = /*nAHsAIgBmAGEAaQBsAGUAZAAiADoAdAByAHUAZQAsACIAbQBzAGcAIgA6ACIAQQBuAHMAaQBiAGwAZQAgAHIAZQBxAHUAaQByAGUAcwAgAFAAbwB3AGUAcgBTAGgAZQBsAGwAIAB2ADMALgAwACAAbwByACAAbgBlAHcAZQByACIAfQAnA*/i)) or ((ParentBaseFileName = "C:\\ProgramData\\chocolatey\\choco.exe" or ParentBaseFileName = "C:\\ProgramData\\chocolatey\\tools\\shimgen.exe")) or (ParentCommandLine = /*\\ProgramData\\Microsoft\\Windows Defender Advanced Threat Protection*/i))))

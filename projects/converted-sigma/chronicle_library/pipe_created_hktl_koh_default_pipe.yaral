@@ -1,0 +1,23 @@
+// Title: HackTool - Koh Default Named Pipe
+// ID: 0adc67e0-a68f-4ffd-9c43-28905aad5d6a
+// Status: test
+// Level: critical
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-07-08
+// Tags: attack.privilege-escalation, attack.credential-access, attack.stealth, attack.t1528, attack.t1134.001
+// Description: Detects creation of default named pipes used by the Koh tool
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 0adc67e0_a68f_4ffd_9c43_28905aad5d6a {
+  meta:
+    title = "HackTool - Koh Default Named Pipe"
+    description = "Detects creation of default named pipes used by the Koh tool"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "CRITICAL"
+
+  events:
+    (($e.PipeName = /.*\\imposecost.*/ nocase or $e.PipeName = /.*\\imposingcost.*/ nocase))
+
+  condition:
+    $e
+}

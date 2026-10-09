@@ -1,0 +1,11 @@
+// Title: PowerShell Script Dropped Via PowerShell.EXE
+// ID: 576426ad-0131-4001-ae01-be175da0c108
+// Status: test
+// Level: low
+// Author: frack113
+// Date: 2023-05-09
+// Tags: attack.persistence
+// Description: Detects PowerShell creating a PowerShell file (.ps1). While often times this behavior is benign, sometimes it can be a sign of a dropper script trying to achieve persistence.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where (((Image matches "*\\powershell.exe" or Image matches "*\\pwsh.exe") and TargetFilename matches "*.ps1") and !(((TargetFilename matches "C:\\Users\\*" and TargetFilename matches "*\\AppData\\Local\\Temp\\*") or (TargetFilename matches "*__PSScriptPolicyTest_*") or (TargetFilename matches "C:\\Windows\\Temp\\*"))))

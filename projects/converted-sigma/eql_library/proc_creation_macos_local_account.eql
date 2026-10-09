@@ -1,0 +1,12 @@
+// Title: Local System Accounts Discovery - MacOs
+// ID: ddf36b67-e872-4507-ab2e-46bda21b842c
+// Status: test
+// Level: low
+// Author: Alejandro Ortuno, oscd.community
+// Date: 2020-10-08
+// Tags: attack.discovery, attack.t1087.001
+// Description: Detects enumeration of local system accounts on MacOS systems.
+// This can be used by attackers to identify accounts for lateral movement or privilege escalation.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where ((process.executable endswith "/dscacheutil" and (process.command_line like "*_-q*" and process.command_line like "*_user*")) or (process.executable endswith "/dscl" and (process.command_line like "*_list*" and process.command_line like "*_/users*")) or (process.executable endswith "/ls" and (process.command_line endswith "/Users" or process.command_line endswith "/Users'" or process.command_line endswith "/Users\"")) or (process.executable endswith "/id") or ((process.executable endswith "/who" or process.executable endswith "/w" or process.executable endswith "/users" or process.executable endswith "/last")) or ((process.executable endswith "/defaults" or process.executable endswith "/plutil") and process.command_line like "*_com.apple.loginwindow*") or (process.executable endswith "/lsof" and process.command_line like "*_-u*") or ((process.executable endswith "/cat" or process.executable endswith "/awk" or process.executable endswith "/grep") and (process.command_line like "*_/etc/passwd*" or process.command_line like "*_/etc/sudoers*")) or (process.command_line like "*_'*:0:'*"))

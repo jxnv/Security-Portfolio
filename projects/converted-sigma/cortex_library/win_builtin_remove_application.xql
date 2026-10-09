@@ -1,0 +1,11 @@
+// Title: Application Uninstalled
+// ID: 570ae5ec-33dc-427c-b815-db86228ad43e
+// Status: test
+// Level: low
+// Author: frack113
+// Date: 2022-01-28
+// Tags: attack.impact, attack.t1489
+// Description: An application has been removed. Check if it is critical.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter (Provider_Name = "MsiInstaller" and (EventID = 1034 or EventID = 11724))

@@ -1,0 +1,22 @@
+# Title: Copy .DMP/.DUMP Files From Remote Share Via Cmd.EXE
+# ID: 044ba588-dff4-4918-9808-3f95e8160606
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-09-27
+# Tags: attack.credential-access
+# Description: Detects usage of the copy builtin cmd command to copy files with the ".dmp"/".dump" extension from a remote share
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# LimaCharlie Detection & Response Rule
+# Name: Copy .DMP/.DUMP Files From Remote Share Via Cmd.EXE
+detect:
+  event: process_creation
+  op: and
+  rules:
+    # Filter logic:
+    # (((CommandLine="*copy *" AND CommandLine="* \\\\\\\\*") AND (CommandLine="*.dmp*" OR CommandLine="*.dump*" OR CommandLine="*.hdmp*")) AND ((Image="*\\cmd.exe") OR (OriginalFileName="Cmd.Exe")))
+respond:
+  - action: report
+    name: Copy .DMP/.DUMP Files From Remote Share Via Cmd.EXE
+

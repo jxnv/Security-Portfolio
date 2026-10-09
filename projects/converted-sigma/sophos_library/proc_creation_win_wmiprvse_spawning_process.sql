@@ -1,0 +1,11 @@
+-- Title: WmiPrvSE Spawned A Process
+-- ID: d21374ff-f574-44a7-9998-4a8c8bf33d7d
+-- Status: stable
+-- Level: medium
+-- Author: Roberto Rodriguez @Cyb3rWard0g
+-- Date: 2019-08-15
+-- Tags: attack.execution, attack.t1047
+-- Description: Detects WmiPrvSE spawning a process
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE ((ParentImage ILIKE '%\\WmiPrvSe.exe') AND NOT ((((LogonId = '0x3e7' OR LogonId = 'null')) OR (LogonId IS NULL) OR ((User ILIKE '%AUTHORI%' OR User ILIKE '%AUTORI%')) OR (Image ILIKE '%\\WerFault.exe') OR (Image ILIKE '%\\WmiPrvSE.exe'))))

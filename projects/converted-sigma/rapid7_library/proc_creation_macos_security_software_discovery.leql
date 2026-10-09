@@ -1,0 +1,11 @@
+// Title: Security Software Discovery - MacOs
+// ID: 0ed75b9c-c73b-424d-9e7d-496cd565fbe0
+// Status: test
+// Level: medium
+// Author: Daniil Yugoslavskiy, oscd.community
+// Date: 2020-10-19
+// Tags: attack.discovery, attack.t1518.001
+// Description: Detects usage of system utilities (only grep for now) to discover security software discovery
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((where(Image = "/usr/bin/grep")) AND (((where(CommandLine ICONTAINS "nessusd") OR where(CommandLine ICONTAINS "santad") OR where(CommandLine ICONTAINS "CbDefense") OR where(CommandLine ICONTAINS "falcond") OR where(CommandLine ICONTAINS "td-agent") OR where(CommandLine ICONTAINS "packetbeat") OR where(CommandLine ICONTAINS "filebeat") OR where(CommandLine ICONTAINS "auditbeat") OR where(CommandLine ICONTAINS "osqueryd") OR where(CommandLine ICONTAINS "BlockBlock") OR where(CommandLine ICONTAINS "LuLu"))) OR ((where(CommandLine ICONTAINS "Little") AND where(CommandLine ICONTAINS "Snitch")))))

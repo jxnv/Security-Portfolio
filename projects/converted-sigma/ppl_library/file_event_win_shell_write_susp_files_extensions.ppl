@@ -1,0 +1,11 @@
+// Title: Windows Binaries Write Suspicious Extensions
+// ID: b8fd0e93-ff58-4cbd-8f48-1c114e342e62
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-12
+// Tags: attack.stealth, attack.t1036
+// Description: Detects Windows executables that write files with suspicious extensions
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where ((((process.executable="*\\csrss.exe" OR process.executable="*\\lsass.exe" OR process.executable="*\\RuntimeBroker.exe" OR process.executable="*\\sihost.exe" OR process.executable="*\\smss.exe" OR process.executable="*\\wininit.exe" OR process.executable="*\\winlogon.exe") AND (file.path="*.bat" OR file.path="*.dll" OR file.path="*.exe" OR file.path="*.hta" OR file.path="*.iso" OR file.path="*.ps1" OR file.path="*.txt" OR file.path="*.vbe" OR file.path="*.vbs")) OR ((process.executable="*\\dllhost.exe" OR process.executable="*\\rundll32.exe" OR process.executable="*\\svchost.exe") AND (file.path="*.bat" OR file.path="*.hta" OR file.path="*.iso" OR file.path="*.ps1" OR file.path="*.vbe" OR file.path="*.vbs"))) AND NOT (((process.executable = "C:\\Windows\\System32\\dllhost.exe" AND (file.path like "%:\\Users\\%" AND file.path like "%\\AppData\\Local\\Temp\\__PSScriptPolicyTest_%") AND file.path="*.ps1") OR (process.executable = "C:\\Windows\\system32\\svchost.exe" AND (file.path like "%C:\\Program Files\\WindowsApps\\Clipchamp%" AND file.path like "%.ps1%")) OR ((process.executable = "C:\\Windows\\system32\\svchost.exe" OR process.executable = "C:\\Windows\\SysWOW64\\svchost.exe") AND (file.path="C:\\Program Files\\WindowsApps\\Microsoft.PowerShellPreview*" OR file.path="C:\\Program Files (x86)\\WindowsApps\\Microsoft.PowerShellPreview*") AND file.path="*.ps1") OR (process.executable = "C:\\Windows\\system32\\svchost.exe" AND (file.path like "%C:\\Windows\\System32\\GroupPolicy\\DataStore\\%" AND file.path like "%\\sysvol\\%" AND file.path like "%\\Policies\\%" AND file.path like "%\\Machine\\Scripts\\Startup\\%") AND (file.path="*.ps1" OR file.path="*.bat")))))

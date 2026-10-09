@@ -1,0 +1,20 @@
+# Title: Potential PowerShell Console History Access Attempt via History File
+# ID: f4ff7323-b5fc-4323-8b52-6b9408e15788
+# Status: experimental
+# Level: medium
+# Author: Luc Génaux
+# Date: 2025-04-03
+# Tags: attack.credential-access, attack.t1552.001
+# Description: Detects potential access attempts to the PowerShell console history directly via history file (ConsoleHost_history.txt).
+# This can give access to plaintext passwords used in PowerShell commands or used for general reconnaissance.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Potential PowerShell Console History Access Attempt via History File
+def rule(event):
+    # Detection Logic:
+    # ((CommandLine="*ConsoleHost_history.txt*" OR CommandLine="*(Get-PSReadLineOption).HistorySavePath*"))
+    return True
+
+def title(event):
+    return "Potential PowerShell Console History Access Attempt via History File"
+

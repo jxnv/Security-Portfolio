@@ -1,0 +1,32 @@
+{
+  "title": "Suspicious Dropbox API Usage",
+  "id": "25eabf56-22f0-4915-a1ed-056b8dae0a68",
+  "status": "test",
+  "description": "Detects an executable that isn't dropbox but communicates with the Dropbox API",
+  "author": "Florian Roth (Nextron Systems)",
+  "date": "2022-04-20",
+  "tags": [
+    "attack.command-and-control",
+    "attack.exfiltration",
+    "attack.t1105",
+    "attack.t1567.002"
+  ],
+  "level": "high",
+  "logsource": {
+    "category": "network_connection",
+    "product": "windows"
+  },
+  "detection": {
+    "selection": {
+      "Initiated": "true",
+      "DestinationHostname|endswith": [
+        "api.dropboxapi.com",
+        "content.dropboxapi.com"
+      ]
+    },
+    "filter_main_legit_dropbox": {
+      "Image|contains": "\\Dropbox"
+    },
+    "condition": "selection and not 1 of filter_main_*"
+  }
+}

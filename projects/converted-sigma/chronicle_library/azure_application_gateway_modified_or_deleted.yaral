@@ -1,0 +1,23 @@
+// Title: Azure Application Gateway Modified or Deleted
+// ID: ad87d14e-7599-4633-ba81-aeb60cfe8cd6
+// Status: test
+// Level: medium
+// Author: Austin Songer
+// Date: 2021-08-16
+// Tags: attack.impact
+// Description: Identifies when a application gateway is modified or deleted.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule ad87d14e_7599_4633_ba81_aeb60cfe8cd6 {
+  meta:
+    title = "Azure Application Gateway Modified or Deleted"
+    description = "Identifies when a application gateway is modified or deleted."
+    author = "Austin Songer"
+    severity = "MEDIUM"
+
+  events:
+    (($e.operationName = "MICROSOFT.NETWORK/APPLICATIONGATEWAYS/WRITE" or $e.operationName = "MICROSOFT.NETWORK/APPLICATIONGATEWAYS/DELETE"))
+
+  condition:
+    $e
+}

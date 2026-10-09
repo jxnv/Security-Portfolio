@@ -1,0 +1,11 @@
+# Title: Cab File Extraction Via Wusa.EXE From Potentially Suspicious Paths
+# ID: c74c0390-3e20-41fd-a69a-128f0275a5ea
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-08-05
+# Tags: attack.execution
+# Description: Detects the execution of the "wusa.exe" (Windows Update Standalone Installer) utility to extract ".cab" files using the "/extract" argument from potentially suspicious paths.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((process.command_line:*:\\PerfLogs\\* OR process.command_line:*:\\Users\\Public\\* OR process.command_line:*:\\Windows\\Temp\\* OR process.command_line:*\\Appdata\\Local\\Temp\\*)) AND (process.executable:*\\wusa.exe AND process.command_line:*/extract:*))

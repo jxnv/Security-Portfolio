@@ -1,0 +1,12 @@
+// Title: Kaspersky Endpoint Security Stopped Via CommandLine - Linux
+// ID: 36388120-b3f1-4ce9-b50b-280d9a7f4c04
+// Status: experimental
+// Level: high
+// Author: Milad Cheraghi
+// Date: 2025-10-18
+// Tags: attack.execution, attack.defense-impairment, attack.t1685
+// Description: Detects execution of the Kaspersky init.d stop script on Linux systems either directly or via systemctl.
+// This activity may indicate a manual interruption of the antivirus service by an administrator, or it could be a sign of potential tampering or evasion attempts by malicious actors.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where ((Image matches "*/systemctl" or Image matches "*/bash" or Image matches "*/sh") and (CommandLine matches "*stop*" and CommandLine matches "*kesl*"))

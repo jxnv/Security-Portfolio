@@ -1,0 +1,19 @@
+# Title: Potential CobaltStrike Process Patterns
+# ID: f35c5d71-b489-4e22-a115-f003df287317
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+# Date: 2021-07-27
+# Tags: attack.execution, attack.t1059
+# Description: Detects potential process patterns related to Cobalt Strike beacon activity
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Potential CobaltStrike Process Patterns
+def rule(event):
+    # Detection Logic:
+    # (((ParentCommandLine="*cmd.exe /C echo*" AND ParentCommandLine="* > \\\\\\\\.\\\\pipe*") AND CommandLine="*conhost.exe 0xffffffff -ForceV1") OR (ParentCommandLine="*/C whoami" AND CommandLine="*conhost.exe 0xffffffff -ForceV1") OR (CommandLine="*cmd.exe /C whoami" AND ParentImage="C:\\Temp\\*") OR ((ParentImage="*\\runonce.exe" OR ParentImage="*\\dllhost.exe") AND (CommandLine="*cmd.exe /c echo*" AND CommandLine="*> \\\\\\\\.\\\\pipe*")))
+    return True
+
+def title(event):
+    return "Potential CobaltStrike Process Patterns"
+

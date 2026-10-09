@@ -1,0 +1,11 @@
+// Title: PowerShell Base64 Encoded WMI Classes
+// ID: 1816994b-42e1-4fb1-afd2-134d88184f71
+// Status: test
+// Level: high
+// Author: Christian Burkard (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-01-30
+// Tags: attack.execution, attack.stealth, attack.t1059.001, attack.t1027
+// Description: Detects calls to base64 encoded WMI class such as "Win32_ShadowCopy", "Win32_ScheduledJob", etc.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((Image="*\\powershell.exe" OR Image="*\\pwsh.exe")) OR ((OriginalFileName: "PowerShell.EXE" OR OriginalFileName: "pwsh.dll"))) AND (((CommandLine: "*VwBpAG4AMwAyAF8ATABvAGcAZwBlAGQATwBuAFUAcwBlAHIA*" OR CommandLine: "*cAaQBuADMAMgBfAEwAbwBnAGcAZQBkAE8AbgBVAHMAZQByA*" OR CommandLine: "*XAGkAbgAzADIAXwBMAG8AZwBnAGUAZABPAG4AVQBzAGUAcg*" OR CommandLine: "*V2luMzJfTG9nZ2VkT25Vc2Vy*" OR CommandLine: "*dpbjMyX0xvZ2dlZE9uVXNlc*" OR CommandLine: "*XaW4zMl9Mb2dnZWRPblVzZX*")) OR ((CommandLine: "*VwBpAG4AMwAyAF8AUAByAG8AYwBlAHMAcw*" OR CommandLine: "*cAaQBuADMAMgBfAFAAcgBvAGMAZQBzAHMA*" OR CommandLine: "*XAGkAbgAzADIAXwBQAHIAbwBjAGUAcwBzA*" OR CommandLine: "*V2luMzJfUHJvY2Vzc*" OR CommandLine: "*dpbjMyX1Byb2Nlc3*" OR CommandLine: "*XaW4zMl9Qcm9jZXNz*")) OR ((CommandLine: "*VwBpAG4AMwAyAF8AUwBjAGgAZQBkAHUAbABlAGQASgBvAGIA*" OR CommandLine: "*cAaQBuADMAMgBfAFMAYwBoAGUAZAB1AGwAZQBkAEoAbwBiA*" OR CommandLine: "*XAGkAbgAzADIAXwBTAGMAaABlAGQAdQBsAGUAZABKAG8AYg*" OR CommandLine: "*V2luMzJfU2NoZWR1bGVkSm9i*" OR CommandLine: "*dpbjMyX1NjaGVkdWxlZEpvY*" OR CommandLine: "*XaW4zMl9TY2hlZHVsZWRKb2*")) OR ((CommandLine: "*VwBpAG4AMwAyAF8AUwBoAGEAZABvAHcAYwBvAHAAeQ*" OR CommandLine: "*cAaQBuADMAMgBfAFMAaABhAGQAbwB3AGMAbwBwAHkA*" OR CommandLine: "*XAGkAbgAzADIAXwBTAGgAYQBkAG8AdwBjAG8AcAB5A*" OR CommandLine: "*V2luMzJfU2hhZG93Y29we*" OR CommandLine: "*dpbjMyX1NoYWRvd2NvcH*" OR CommandLine: "*XaW4zMl9TaGFkb3djb3B5*")) OR ((CommandLine: "*VwBpAG4AMwAyAF8AVQBzAGUAcgBBAGMAYwBvAHUAbgB0A*" OR CommandLine: "*cAaQBuADMAMgBfAFUAcwBlAHIAQQBjAGMAbwB1AG4AdA*" OR CommandLine: "*XAGkAbgAzADIAXwBVAHMAZQByAEEAYwBjAG8AdQBuAHQA*" OR CommandLine: "*V2luMzJfVXNlckFjY291bn*" OR CommandLine: "*dpbjMyX1VzZXJBY2NvdW50*" OR CommandLine: "*XaW4zMl9Vc2VyQWNjb3Vud*"))))

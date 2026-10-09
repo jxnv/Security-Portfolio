@@ -1,0 +1,23 @@
+// Title: Potential WinAPI Calls Via CommandLine
+// ID: ba3f5c1b-6272-4119-9dbd-0bc8d21c2702
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-09-06
+// Tags: attack.execution, attack.t1106
+// Description: Detects the use of WinAPI Functions via the commandline. As seen used by threat actors via the tool winapiexec
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule ba3f5c1b_6272_4119_9dbd_0bc8d21c2702 {
+  meta:
+    title = "Potential WinAPI Calls Via CommandLine"
+    description = "Detects the use of WinAPI Functions via the commandline. As seen used by threat actors via the tool winapiexec"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*AddSecurityPackage.*/ nocase or $e.target.process.command_line = /.*AdjustTokenPrivileges.*/ nocase or $e.target.process.command_line = /.*Advapi32.*/ nocase or $e.target.process.command_line = /.*CloseHandle.*/ nocase or $e.target.process.command_line = /.*CreateProcessWithToken.*/ nocase or $e.target.process.command_line = /.*CreatePseudoConsole.*/ nocase or $e.target.process.command_line = /.*CreateRemoteThread.*/ nocase or $e.target.process.command_line = /.*CreateThread.*/ nocase or $e.target.process.command_line = /.*CreateUserThread.*/ nocase or $e.target.process.command_line = /.*DangerousGetHandle.*/ nocase or $e.target.process.command_line = /.*DuplicateTokenEx.*/ nocase or $e.target.process.command_line = /.*EnumerateSecurityPackages.*/ nocase or $e.target.process.command_line = /.*FreeHGlobal.*/ nocase or $e.target.process.command_line = /.*FreeLibrary.*/ nocase or $e.target.process.command_line = /.*GetDelegateForFunctionPointer.*/ nocase or $e.target.process.command_line = /.*GetLogonSessionData.*/ nocase or $e.target.process.command_line = /.*GetModuleHandle.*/ nocase or $e.target.process.command_line = /.*GetProcAddress.*/ nocase or $e.target.process.command_line = /.*GetProcessHandle.*/ nocase or $e.target.process.command_line = /.*GetTokenInformation.*/ nocase or $e.target.process.command_line = /.*ImpersonateLoggedOnUser.*/ nocase or $e.target.process.command_line = /.*kernel32.*/ nocase or $e.target.process.command_line = /.*LoadLibrary.*/ nocase or $e.target.process.command_line = /.*memcpy.*/ nocase or $e.target.process.command_line = /.*MiniDumpWriteDump.*/ nocase or $e.target.process.command_line = /.*ntdll.*/ nocase or $e.target.process.command_line = /.*OpenDesktop.*/ nocase or $e.target.process.command_line = /.*OpenProcess.*/ nocase or $e.target.process.command_line = /.*OpenProcessToken.*/ nocase or $e.target.process.command_line = /.*OpenThreadToken.*/ nocase or $e.target.process.command_line = /.*OpenWindowStation.*/ nocase or $e.target.process.command_line = /.*PtrToString.*/ nocase or $e.target.process.command_line = /.*QueueUserApc.*/ nocase or $e.target.process.command_line = /.*ReadProcessMemory.*/ nocase or $e.target.process.command_line = /.*RevertToSelf.*/ nocase or $e.target.process.command_line = /.*RtlCreateUserThread.*/ nocase or $e.target.process.command_line = /.*secur32.*/ nocase or $e.target.process.command_line = /.*SetThreadToken.*/ nocase or $e.target.process.command_line = /.*VirtualAlloc.*/ nocase or $e.target.process.command_line = /.*VirtualFree.*/ nocase or $e.target.process.command_line = /.*VirtualProtect.*/ nocase or $e.target.process.command_line = /.*WaitForSingleObject.*/ nocase or $e.target.process.command_line = /.*WriteInt32.*/ nocase or $e.target.process.command_line = /.*WriteProcessMemory.*/ nocase or $e.target.process.command_line = /.*ZeroFreeGlobalAllocUnicode.*/ nocase)) and not((($e.principal.process.file.full_path = /.*\\CompatTelRunner.exe$/ nocase and ($e.target.process.command_line = /.*FreeHGlobal.*/ nocase or $e.target.process.command_line = /.*PtrToString.*/ nocase or $e.target.process.command_line = /.*kernel32.*/ nocase or $e.target.process.command_line = /.*CloseHandle.*/ nocase)) or ($e.target.process.file.full_path = /.*\\MpCmdRun.exe$/ nocase and $e.target.process.command_line = /.*GetLoadLibraryWAddress32.*/ nocase))))
+
+  condition:
+    $e
+}

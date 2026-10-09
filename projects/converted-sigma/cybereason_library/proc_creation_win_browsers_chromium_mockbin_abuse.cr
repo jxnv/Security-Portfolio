@@ -1,0 +1,11 @@
+// Title: Chromium Browser Headless Execution To Mockbin Like Site
+// ID: 1c526788-0abe-4713-862f-b520da5e5316
+// Status: test
+// Level: high
+// Author: X__Junior (Nextron Systems)
+// Date: 2023-09-11
+// Tags: attack.execution
+// Description: Detects the execution of a Chromium based browser process with the "headless" flag and a URL pointing to the mockbin.org service (which can be used to exfiltrate data).
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((CommandLine contains "--headless") AND ((Image="*\\brave.exe" OR Image="*\\chrome.exe" OR Image="*\\msedge.exe" OR Image="*\\opera.exe" OR Image="*\\vivaldi.exe")) AND ((CommandLine contains "://run.mocky" OR CommandLine contains "://mockbin")))

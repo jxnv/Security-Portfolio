@@ -1,0 +1,11 @@
+// Title: Suspicious IIS URL GlobalRules Rewrite Via AppCmd
+// ID: 7c8af9b2-dcae-41a2-a9db-b28c288b5f08
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-01-22
+// Tags: attack.stealth
+// Description: Detects usage of "appcmd" to create new global URL rewrite rules. This behaviour has been observed being used by threat actors to add new rules so they can access their webshells.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((CommandLine CONTAINS "set" AND CommandLine CONTAINS "config" AND CommandLine CONTAINS "section:system.webServer/rewrite/globalRules" AND CommandLine CONTAINS "commit:")) AND ((Image="*\\appcmd.exe") OR (OriginalFileName EQUALS "appcmd.exe")))

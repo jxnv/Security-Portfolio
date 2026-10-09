@@ -1,0 +1,11 @@
+# Title: Proxy Execution Via Wuauclt.EXE
+# ID: af77cf95-c469-471c-b6a0-946c685c4798
+# Status: test
+# Level: high
+# Author: Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research), Florian Roth (Nextron Systems), Sreeman, FPT.EagleEye Team
+# Date: 2020-10-12
+# Tags: attack.stealth, attack.t1218, attack.execution
+# Description: Detects the use of the Windows Update Client binary (wuauclt.exe) for proxy execution.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((((CommandLine CONTAINS "UpdateDeploymentProvider" AND CommandLine CONTAINS "RunHandlerComServer")) AND ((Image="*\\wuauclt.exe") OR (OriginalFileName == "wuauclt.exe"))) AND NOT (((CommandLine CONTAINS " /UpdateDeploymentProvider UpdateDeploymentProvider.dll ") OR ((CommandLine CONTAINS ":\\Windows\\UUS\\Packages\\Preview\\amd64\\updatedeploy.dll /ClassId" OR CommandLine CONTAINS ":\\Windows\\UUS\\amd64\\UpdateDeploy.dll /ClassId")) OR ((CommandLine CONTAINS ":\\Windows\\WinSxS\\" AND CommandLine CONTAINS "\\UpdateDeploy.dll /ClassId ")) OR (CommandLine CONTAINS " wuaueng.dll "))))

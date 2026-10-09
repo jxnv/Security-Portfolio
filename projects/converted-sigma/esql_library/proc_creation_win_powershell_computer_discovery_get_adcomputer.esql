@@ -1,0 +1,11 @@
+// Title: Computer Discovery And Export Via Get-ADComputer Cmdlet
+// ID: 435e10e4-992a-4281-96f3-38b11106adde
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-11-10
+// Tags: attack.discovery, attack.t1033
+// Description: Detects usage of the Get-ADComputer cmdlet to collect computer information and output it to a file
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE (((process.command_line LIKE "%Get-ADComputer %" AND process.command_line LIKE "% -Filter \\*%") AND (process.command_line LIKE "% > %" OR process.command_line LIKE "% | Select %" OR process.command_line LIKE "%Out-File%" OR process.command_line LIKE "%Set-Content%" OR process.command_line LIKE "%Add-Content%")) AND (((process.executable LIKE "%\\powershell.exe" OR process.executable LIKE "%\\pwsh.exe")) OR ((process.pe.original_file_name == "PowerShell.EXE" OR process.pe.original_file_name == "pwsh.dll"))))

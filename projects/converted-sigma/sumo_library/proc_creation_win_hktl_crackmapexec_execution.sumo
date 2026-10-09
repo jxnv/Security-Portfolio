@@ -1,0 +1,11 @@
+// Title: HackTool - CrackMapExec Execution
+// ID: 42a993dd-bb3e-48c8-b372-4d6684c4106c
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-02-25
+// Tags: attack.execution, attack.persistence, attack.privilege-escalation, attack.credential-access, attack.discovery, attack.t1047, attack.t1053, attack.t1059.003, attack.t1059.001, attack.t1110, attack.t1201
+// Description: This rule detect common flag combinations used by CrackMapExec in order to detect its use even if the binary has been replaced.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where (((Image matches "*\\crackmapexec.exe") or ((CommandLine matches "* --local-auth*" and CommandLine matches "* -u *" and CommandLine matches "* -x *")) or ((CommandLine matches "* --local-auth*" and CommandLine matches "* -u *" and CommandLine matches "* -p *" and CommandLine matches "* -H 'NTHASH'*")) or ((CommandLine matches "* mssql *" and CommandLine matches "* -u *" and CommandLine matches "* -p *" and CommandLine matches "* -M *" and CommandLine matches "* -d *")) or ((CommandLine matches "* smb *" and CommandLine matches "* -u *" and CommandLine matches "* -H *" and CommandLine matches "* -M *" and CommandLine matches "* -o *")) or ((CommandLine matches "* smb *" and CommandLine matches "* -u *" and CommandLine matches "* -p *" and CommandLine matches "* --local-auth*")) or (CommandLine matches "* -M pe_inject *")) or (((CommandLine matches "* --local-auth*" and CommandLine matches "* -u *" and CommandLine matches "* -p *")) and ((CommandLine matches "* 10.*" and CommandLine matches "* 192.168.*" and CommandLine matches "*/24 *"))))

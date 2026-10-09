@@ -1,0 +1,19 @@
+# Title: Potential Discovery Activity Using Find - MacOS
+# ID: 85de3a19-b675-4a51-bfc6-b11a5186c971
+# Status: test
+# Level: medium
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-12-28
+# Tags: attack.discovery, attack.t1083
+# Description: Detects usage of "find" binary in a suspicious manner to perform discovery
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Potential Discovery Activity Using Find - MacOS
+def rule(event):
+    # Detection Logic:
+    # (Image="*/find" AND (CommandLine="*-perm -4000*" OR CommandLine="*-perm -2000*" OR CommandLine="*-perm 0777*" OR CommandLine="*-perm -222*" OR CommandLine="*-perm -o w*" OR CommandLine="*-perm -o x*" OR CommandLine="*-perm -u=s*" OR CommandLine="*-perm -g=s*"))
+    return True
+
+def title(event):
+    return "Potential Discovery Activity Using Find - MacOS"
+

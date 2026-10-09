@@ -1,0 +1,23 @@
+// Title: Potential Persistence Via Outlook Form
+// ID: c3edc6a5-d9d4-48d8-930e-aab518390917
+// Status: test
+// Level: high
+// Author: Tobias Michalski (Nextron Systems)
+// Date: 2021-06-10
+// Tags: attack.persistence, attack.t1137.003
+// Description: Detects the creation of a new Outlook form which can contain malicious code
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule c3edc6a5_d9d4_48d8_930e_aab518390917 {
+  meta:
+    title = "Potential Persistence Via Outlook Form"
+    description = "Detects the creation of a new Outlook form which can contain malicious code"
+    author = "Tobias Michalski (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ($e.target.process.file.full_path = /.*\\outlook.exe$/ nocase and ($e.target.file.full_path = /.*\\AppData\\Local\\Microsoft\\FORMS\\IPM.*/ nocase or $e.target.file.full_path = /.*\\Local Settings\\Application Data\\Microsoft\\Forms.*/ nocase))
+
+  condition:
+    $e
+}

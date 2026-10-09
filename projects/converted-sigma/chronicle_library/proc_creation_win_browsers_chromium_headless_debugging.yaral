@@ -1,0 +1,23 @@
+// Title: Potential Data Stealing Via Chromium Headless Debugging
+// ID: 3e8207c5-fcd2-4ea6-9418-15d45b4890e4
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-12-23
+// Tags: attack.credential-access, attack.collection, attack.stealth, attack.t1185, attack.t1564.003
+// Description: Detects chromium based browsers starting in headless and debugging mode and pointing to a user profile. This could be a sign of data stealing or remote control
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 3e8207c5_fcd2_4ea6_9418_15d45b4890e4 {
+  meta:
+    title = "Potential Data Stealing Via Chromium Headless Debugging"
+    description = "Detects chromium based browsers starting in headless and debugging mode and pointing to a user profile. This could be a sign of data stealing or remote control"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.command_line = /.*--remote-debugging-.*/ nocase and $e.target.process.command_line = /.*--user-data-dir.*/ nocase and $e.target.process.command_line = /.*--headless.*/ nocase))
+
+  condition:
+    $e
+}

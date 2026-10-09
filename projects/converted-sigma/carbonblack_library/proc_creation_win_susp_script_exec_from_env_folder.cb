@@ -1,0 +1,12 @@
+# Title: Script Interpreter Execution From Suspicious Folder
+# ID: 1228c958-e64e-4e71-92ad-7d429f4138ba
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-02-08
+# Tags: attack.execution, attack.t1059
+# Description: Detects suspicious script execution from suspicious directories or folders accessible by environment variables that may indicate malware activity.
+# Script interpreters (cscript, wscript, mshta, powershell) executing from folders like Temp, Public, or user profile directories may suggest attempts to evade detection or execute malicious scripts.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((((cmdline:* -ep bypass * OR cmdline:* -ExecutionPolicy bypass * OR cmdline:* -w hidden * OR cmdline:*/e:javascript * OR cmdline:*/e:Jscript * OR cmdline:*/e:vbscript *)) OR ((process_name:*\\cscript.exe OR process_name:*\\mshta.exe OR process_name:*\\wscript.exe)) OR ((OriginalFileName:"cscript.exe" OR OriginalFileName:"mshta.exe" OR OriginalFileName:"wscript.exe"))) AND (((cmdline:*:\\Perflogs\\* OR cmdline:*:\\Users\\Public\\* OR cmdline:*\\%Public%* OR cmdline:*\\AppData\\Local\\Temp* OR cmdline:*\\AppData\\Roaming\\Temp* OR cmdline:*\\Temporary Internet* OR cmdline:*\\Windows\\Temp* OR cmdline:*\\Start Menu\\Programs\\Startup\\* OR cmdline:*%TEMP%* OR cmdline:*%TMP%* OR cmdline:*%LocalAppData%\\Temp*)) OR (((cmdline:*:\\Users\\* AND cmdline:*\\Favorites\\*)) OR ((cmdline:*:\\Users\\* AND cmdline:*\\Favourites\\*)) OR ((cmdline:*:\\Users\\* AND cmdline:*\\Contacts\\*)) OR ((cmdline:*:\\Users\\* AND cmdline:*\\Documents\\*)) OR ((cmdline:*:\\Users\\* AND cmdline:*\\Music\\*)) OR ((cmdline:*:\\Users\\* AND cmdline:*\\Pictures\\*)) OR ((cmdline:*:\\Users\\* AND cmdline:*\\Videos\\*)))) AND -(((parent_name:"C:\\Windows\\System32\\Msiexec.exe" OR parent_name:"C:\\Windows\\SysWOW64\\Msiexec.exe") AND process_name:*\\powershell.exe AND (cmdline:*-NoProfile -ExecutionPolicy Bypass -Command* AND cmdline:*AppData\\Local\\Temp\\* AND cmdline:*Install-Chocolatey.ps1*))))

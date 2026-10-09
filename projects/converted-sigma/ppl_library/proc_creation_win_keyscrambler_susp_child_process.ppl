@@ -1,0 +1,11 @@
+// Title: Potentially Suspicious Child Process of KeyScrambler.exe
+// ID: ca5583e9-8f80-46ac-ab91-7f314d13b984
+// Status: test
+// Level: medium
+// Author: Swachchhanda Shrawan Poudel
+// Date: 2024-05-13
+// Tags: attack.persistence, attack.execution, attack.privilege-escalation, attack.stealth, attack.t1203, attack.t1574.001
+// Description: Detects potentially suspicious child processes of KeyScrambler.exe
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where ((((process.executable="*\\cmd.exe" OR process.executable="*\\cscript.exe" OR process.executable="*\\mshta.exe" OR process.executable="*\\powershell.exe" OR process.executable="*\\pwsh.exe" OR process.executable="*\\regsvr32.exe" OR process.executable="*\\rundll32.exe" OR process.executable="*\\wscript.exe")) OR ((process.pe.original_file_name = "Cmd.Exe" OR process.pe.original_file_name = "cscript.exe" OR process.pe.original_file_name = "mshta.exe" OR process.pe.original_file_name = "PowerShell.EXE" OR process.pe.original_file_name = "pwsh.dll" OR process.pe.original_file_name = "regsvr32.exe" OR process.pe.original_file_name = "RUNDLL32.EXE" OR process.pe.original_file_name = "wscript.exe"))) AND (process.parent.executable="*\\KeyScrambler.exe"))

@@ -1,0 +1,24 @@
+// Title: Suspicious Get Local Groups Information
+// ID: cef24b90-dddc-4ae1-a09a-8764872f69fc
+// Status: test
+// Level: low
+// Author: frack113
+// Date: 2021-12-12
+// Tags: attack.discovery, attack.t1069.001
+// Description: Detects the use of PowerShell modules and cmdlets to gather local group information.
+// Adversaries may use local system permission groups to determine which groups exist and which users belong to a particular group such as the local administrators group.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule cef24b90_dddc_4ae1_a09a_8764872f69fc {
+  meta:
+    title = "Suspicious Get Local Groups Information"
+    description = "Detects the use of PowerShell modules and cmdlets to gather local group information. Adversaries may use local system permission groups to determine which groups exist and which users belong to a particular group such as the local administrators group."
+    author = "frack113"
+    severity = "LOW"
+
+  events:
+    (((($e.Payload = /.*get-localgroup .*/ nocase or $e.Payload = /.*get-localgroupmember .*/ nocase)) or (($e.ContextInfo = /.*get-localgroup .*/ nocase or $e.ContextInfo = /.*get-localgroupmember .*/ nocase))) or ((($e.Payload = /.*win32_group.*/ nocase) or ($e.ContextInfo = /.*win32_group.*/ nocase)) and ((($e.Payload = /.*get-wmiobject .*/ nocase or $e.Payload = /.*gwmi .*/ nocase or $e.Payload = /.*get-ciminstance .*/ nocase or $e.Payload = /.*gcim .*/ nocase)) or (($e.ContextInfo = /.*get-wmiobject .*/ nocase and $e.ContextInfo = /.*gwmi .*/ nocase and $e.ContextInfo = /.*get-ciminstance .*/ nocase and $e.ContextInfo = /.*gcim .*/ nocase)))))
+
+  condition:
+    $e
+}

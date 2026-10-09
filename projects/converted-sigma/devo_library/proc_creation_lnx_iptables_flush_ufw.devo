@@ -1,0 +1,11 @@
+// Title: Flush Iptables Ufw Chain
+// ID: 3be619f4-d9ec-4ea8-a173-18fdd01996ab
+// Status: test
+// Level: medium
+// Author: Joseliyo Sanchez, @Joseliyo_Jstnk
+// Date: 2023-01-18
+// Tags: attack.defense-impairment, attack.t1686
+// Description: Detect use of iptables to flush all firewall rules, tables and chains and allow all network traffic
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+from siem.events where (((Image="*/iptables" OR Image="*/xtables-legacy-multi" OR Image="*/iptables-legacy-multi" OR Image="*/ip6tables" OR Image="*/ip6tables-legacy-multi")) AND ((contains(CommandLine, "-F") OR contains(CommandLine, "-Z") OR contains(CommandLine, "-X"))) AND ((contains(CommandLine, "ufw-logging-deny") OR contains(CommandLine, "ufw-logging-allow") OR contains(CommandLine, "ufw6-logging-deny") OR contains(CommandLine, "ufw6-logging-allow"))))

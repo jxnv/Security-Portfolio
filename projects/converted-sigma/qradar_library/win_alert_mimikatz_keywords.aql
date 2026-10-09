@@ -1,0 +1,11 @@
+-- Title: Mimikatz Use
+-- ID: 06d71506-7beb-4f22-8888-e2e5e2ca7fd8
+-- Status: test
+-- Level: high
+-- Author: Florian Roth (Nextron Systems), David ANDRE (additional keywords)
+-- Date: 2017-01-10
+-- Tags: attack.s0002, attack.lateral-movement, attack.credential-access, car.2013-07-001, car.2019-04-004, attack.t1003.002, attack.t1003.004, attack.t1003.001, attack.t1003.006
+-- Description: This method detects mimikatz keywords in different Eventlogs (some of them only appear in older Mimikatz version that are however still used by different threat groups)
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM events WHERE ((TEXT SEARCH 'dpapi::masterkey' OR TEXT SEARCH 'eo.oe.kiwi' OR TEXT SEARCH 'event::clear' OR TEXT SEARCH 'event::drop' OR TEXT SEARCH 'gentilkiwi.com' OR TEXT SEARCH 'kerberos::golden' OR TEXT SEARCH 'kerberos::ptc' OR TEXT SEARCH 'kerberos::ptt' OR TEXT SEARCH 'kerberos::tgt' OR TEXT SEARCH 'Kiwi Legit Printer' OR TEXT SEARCH 'lsadump::' OR TEXT SEARCH 'mimidrv.sys' OR TEXT SEARCH '\\mimilib.dll' OR TEXT SEARCH 'misc::printnightmare' OR TEXT SEARCH 'misc::shadowcopies' OR TEXT SEARCH 'misc::skeleton' OR TEXT SEARCH 'privilege::backup' OR TEXT SEARCH 'privilege::debug' OR TEXT SEARCH 'privilege::driver' OR TEXT SEARCH 'sekurlsa::') AND NOT ((EventID = 15)))

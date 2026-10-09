@@ -1,0 +1,23 @@
+// Title: Suspicious RunAs-Like Flag Combination
+// ID: 50d66fb0-03f8-4da0-8add-84e77d12a020
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-11-11
+// Tags: attack.privilege-escalation
+// Description: Detects suspicious command line flags that let the user set a target user and command as e.g. seen in PsExec-like tools
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 50d66fb0_03f8_4da0_8add_84e77d12a020 {
+  meta:
+    title = "Suspicious RunAs-Like Flag Combination"
+    description = "Detects suspicious command line flags that let the user set a target user and command as e.g. seen in PsExec-like tools"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.command_line = /.* -c cmd.*/ nocase or $e.target.process.command_line = /.* -c \"cmd.*/ nocase or $e.target.process.command_line = /.* -c powershell.*/ nocase or $e.target.process.command_line = /.* -c \"powershell.*/ nocase or $e.target.process.command_line = /.* --command cmd.*/ nocase or $e.target.process.command_line = /.* --command powershell.*/ nocase or $e.target.process.command_line = /.* -c whoami.*/ nocase or $e.target.process.command_line = /.* -c wscript.*/ nocase or $e.target.process.command_line = /.* -c cscript.*/ nocase)) and (($e.target.process.command_line = /.* -u system .*/ nocase or $e.target.process.command_line = /.* --user system .*/ nocase or $e.target.process.command_line = /.* -u NT.*/ nocase or $e.target.process.command_line = /.* -u \"NT.*/ nocase or $e.target.process.command_line = /.* -u 'NT.*/ nocase or $e.target.process.command_line = /.* --system .*/ nocase or $e.target.process.command_line = /.* -u administrator .*/ nocase)))
+
+  condition:
+    $e
+}

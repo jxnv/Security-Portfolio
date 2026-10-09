@@ -1,0 +1,27 @@
+{
+  "title": "DLL Load By System Process From Suspicious Locations",
+  "id": "9e9a9002-56c4-40fd-9eff-e4b09bfa5f6c",
+  "status": "test",
+  "description": "Detects when a system process (i.e. located in system32, syswow64, etc.) loads a DLL from a suspicious location or a location with permissive permissions such as \"C:\\Users\\Public\"",
+  "author": "Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2022-07-17",
+  "tags": [
+    "attack.stealth",
+    "attack.t1070"
+  ],
+  "level": "medium",
+  "logsource": {
+    "product": "windows",
+    "category": "image_load"
+  },
+  "detection": {
+    "selection": {
+      "Image|startswith": "C:\\Windows\\",
+      "ImageLoaded|startswith": [
+        "C:\\Users\\Public\\",
+        "C:\\PerfLogs\\"
+      ]
+    },
+    "condition": "selection"
+  }
+}

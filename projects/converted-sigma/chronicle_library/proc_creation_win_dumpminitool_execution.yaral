@@ -1,0 +1,23 @@
+// Title: DumpMinitool Execution
+// ID: dee0a7a3-f200-4112-a99b-952196d81e42
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems), Florian Roth (Nextron Systems)
+// Date: 2022-04-06
+// Tags: attack.stealth, attack.t1036, attack.t1003.001, attack.credential-access
+// Description: Detects the use of "DumpMinitool.exe" a tool that allows the dump of process memory via the use of the "MiniDumpWriteDump"
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule dee0a7a3_f200_4112_a99b_952196d81e42 {
+  meta:
+    title = "DumpMinitool Execution"
+    description = "Detects the use of "DumpMinitool.exe" a tool that allows the dump of process memory via the use of the "MiniDumpWriteDump""
+    author = "Nasreddine Bencherchali (Nextron Systems), Florian Roth (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.command_line = /.* Full.*/ nocase or $e.target.process.command_line = /.* Mini.*/ nocase or $e.target.process.command_line = /.* WithHeap.*/ nocase)) and ((($e.target.process.file.full_path = /.*\\DumpMinitool.exe$/ nocase or $e.target.process.file.full_path = /.*\\DumpMinitool.x86.exe$/ nocase or $e.target.process.file.full_path = /.*\\DumpMinitool.arm64.exe$/ nocase)) or (($e.target.process.file.name = "DumpMinitool.exe" or $e.target.process.file.name = "DumpMinitool.x86.exe" or $e.target.process.file.name = "DumpMinitool.arm64.exe"))))
+
+  condition:
+    $e
+}

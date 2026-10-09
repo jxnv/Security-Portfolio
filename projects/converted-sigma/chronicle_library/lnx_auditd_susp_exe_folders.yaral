@@ -1,0 +1,23 @@
+// Title: Program Executions in Suspicious Folders
+// ID: a39d7fa7-3fbd-4dc2-97e1-d87f546b1bbc
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems)
+// Date: 2018-01-23
+// Tags: attack.t1587, attack.t1584, attack.resource-development
+// Description: Detects program executions in suspicious non-program folders related to malware or hacking activity
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule a39d7fa7_3fbd_4dc2_97e1_d87f546b1bbc {
+  meta:
+    title = "Program Executions in Suspicious Folders"
+    description = "Detects program executions in suspicious non-program folders related to malware or hacking activity"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ($e.type = "SYSCALL" and ($e.exe = /^/tmp/.*/ nocase or $e.exe = /^/var/www/.*/ nocase or $e.exe = /^/home/*/public_html/.*/ nocase or $e.exe = /^/usr/local/apache2/.*/ nocase or $e.exe = /^/usr/local/httpd/.*/ nocase or $e.exe = /^/var/apache/.*/ nocase or $e.exe = /^/srv/www/.*/ nocase or $e.exe = /^/home/httpd/html/.*/ nocase or $e.exe = /^/srv/http/.*/ nocase or $e.exe = /^/usr/share/nginx/html/.*/ nocase or $e.exe = /^/var/lib/pgsql/data/.*/ nocase or $e.exe = /^/usr/local/mysql/data/.*/ nocase or $e.exe = /^/var/lib/mysql/.*/ nocase or $e.exe = /^/var/vsftpd/.*/ nocase or $e.exe = /^/etc/bind/.*/ nocase or $e.exe = /^/var/named/.*/ nocase))
+
+  condition:
+    $e
+}

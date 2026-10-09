@@ -1,0 +1,11 @@
+// Title: Backup Files Deleted
+// ID: 06125661-3814-4e03-bfa2-1e4411c60ac3
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-01-02
+// Tags: attack.impact, attack.t1490
+// Description: Detects deletion of files with extensions often used for backup files. Adversaries may delete or remove built-in operating system data and turn off services designed to aid in the recovery of a corrupted system to prevent recovery.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((src.process.image.path endswithCIS "\\cmd.exe" OR src.process.image.path endswithCIS "\\powershell.exe" OR src.process.image.path endswithCIS "\\pwsh.exe" OR src.process.image.path endswithCIS "\\wt.exe" OR src.process.image.path endswithCIS "\\rundll32.exe" OR src.process.image.path endswithCIS "\\regsvr32.exe") AND (tgt.file.path endswithCIS ".VHD" OR tgt.file.path endswithCIS ".bac" OR tgt.file.path endswithCIS ".bak" OR tgt.file.path endswithCIS ".wbcat" OR tgt.file.path endswithCIS ".bkf" OR tgt.file.path endswithCIS ".set" OR tgt.file.path endswithCIS ".win" OR tgt.file.path endswithCIS ".dsk"))

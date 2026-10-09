@@ -1,0 +1,22 @@
+# Title: AWS Suspicious SAML Activity
+# ID: f43f5d2f-3f2a-4cc8-b1af-81fde7dbaf0e
+# Status: test
+# Level: medium
+# Author: Austin Songer
+# Date: 2021-09-22
+# Tags: attack.initial-access, attack.lateral-movement, attack.persistence, attack.privilege-escalation, attack.stealth, attack.t1078, attack.t1548, attack.t1550, attack.t1550.001
+# Description: Identifies when suspicious SAML activity has occurred in AWS. An adversary could gain backdoor access via SAML.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# LimaCharlie Detection & Response Rule
+# Name: AWS Suspicious SAML Activity
+detect:
+  event: NEW_PROCESS
+  op: and
+  rules:
+    # Filter logic:
+    # ((eventSource="iam.amazonaws.com" AND eventName="UpdateSAMLProvider") OR (eventSource="sts.amazonaws.com" AND eventName="AssumeRoleWithSAML"))
+respond:
+  - action: report
+    name: AWS Suspicious SAML Activity
+

@@ -1,0 +1,19 @@
+# Title: Powerview Add-DomainObjectAcl DCSync AD Extend Right
+# ID: 2c99737c-585d-4431-b61a-c911d86ff32f
+# Status: test
+# Level: high
+# Author: Samir Bousseaden, Roberto Rodriguez @Cyb3rWard0g, oscd.community, Tim Shelton, Maxence Fossat
+# Date: 2019-04-03
+# Tags: attack.privilege-escalation, attack.persistence, attack.t1098
+# Description: Backdooring domain object to grant the rights associated with DCSync to a regular user or machine account using Powerview\Add-DomainObjectAcl DCSync Extended Right cmdlet, will allow to re-obtain the pwd hashes of any user/computer
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Powerview Add-DomainObjectAcl DCSync AD Extend Right
+def rule(event):
+    # Detection Logic:
+    # ((EventID="5136" AND AttributeLDAPDisplayName="ntSecurityDescriptor" AND (AttributeValue="*1131f6ad-9c07-11d1-f79f-00c04fc2dcd2*" OR AttributeValue="*1131f6aa-9c07-11d1-f79f-00c04fc2dcd2*" OR AttributeValue="*89e95b76-444d-4c62-991a-0facbeda640c*")) AND NOT (((ObjectClass="dnsNode" OR ObjectClass="dnsZoneScope" OR ObjectClass="dnsZone"))))
+    return True
+
+def title(event):
+    return "Powerview Add-DomainObjectAcl DCSync AD Extend Right"
+

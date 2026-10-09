@@ -1,0 +1,23 @@
+// Title: Disable Tamper Protection on Windows Defender
+// ID: 93d298a1-d28f-47f1-a468-d971e7796679
+// Status: test
+// Level: medium
+// Author: Austin Songer @austinsonger
+// Date: 2021-08-04
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects disabling Windows Defender Tamper Protection
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 93d298a1_d28f_47f1_a468_d971e7796679 {
+  meta:
+    title = "Disable Tamper Protection on Windows Defender"
+    description = "Detects disabling Windows Defender Tamper Protection"
+    author = "Austin Songer @austinsonger"
+    severity = "MEDIUM"
+
+  events:
+    (($e.TargetObject = /.*\\Microsoft\\Windows Defender\\Features\\TamperProtection.*/ nocase and $e.Details = "DWORD (0x00000000)") and not((($e.target.process.file.full_path = /^C:\\ProgramData\\Microsoft\\Windows Defender\\Platform\\.*/ nocase and $e.target.process.file.full_path = /.*\\MsMpEng.exe$/ nocase) or ($e.target.process.file.full_path = "C:\\Program Files\\Windows Defender\\MsMpEng.exe"))))
+
+  condition:
+    $e
+}

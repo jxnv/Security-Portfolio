@@ -1,0 +1,42 @@
+{
+  "title": "Microsoft Office Protected View Disabled",
+  "id": "a5c7a43f-6009-4a8c-80c5-32abf1c53ecc",
+  "status": "test",
+  "description": "Detects changes to Microsoft Office protected view registry keys with which the attacker disables this feature.",
+  "author": "frack113, Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2021-06-08",
+  "tags": [
+    "attack.defense-impairment",
+    "attack.t1685"
+  ],
+  "level": "high",
+  "logsource": {
+    "product": "windows",
+    "category": "registry_set"
+  },
+  "detection": {
+    "selection_path": {
+      "TargetObject|contains|all": [
+        "\\SOFTWARE\\Microsoft\\Office\\",
+        "\\Security\\ProtectedView\\"
+      ]
+    },
+    "selection_values_1": {
+      "Details": "DWORD (0x00000001)",
+      "TargetObject|endswith": [
+        "\\DisableAttachementsInPV",
+        "\\DisableInternetFilesInPV",
+        "\\DisableIntranetCheck",
+        "\\DisableUnsafeLocationsInPV"
+      ]
+    },
+    "selection_values_0": {
+      "Details": "DWORD (0x00000000)",
+      "TargetObject|endswith": [
+        "\\enabledatabasefileprotectedview",
+        "\\enableforeigntextfileprotectedview"
+      ]
+    },
+    "condition": "selection_path and 1 of selection_values_*"
+  }
+}

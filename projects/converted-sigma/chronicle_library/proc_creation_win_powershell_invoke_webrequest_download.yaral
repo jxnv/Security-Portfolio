@@ -1,0 +1,23 @@
+// Title: Suspicious Invoke-WebRequest Execution
+// ID: 5e3cc4d8-3e68-43db-8656-eaaeefdec9cc
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-02
+// Tags: attack.command-and-control, attack.t1105
+// Description: Detects a suspicious call to Invoke-WebRequest cmdlet where the and output is located in a suspicious location
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 5e3cc4d8_3e68_43db_8656_eaaeefdec9cc {
+  meta:
+    title = "Suspicious Invoke-WebRequest Execution"
+    description = "Detects a suspicious call to Invoke-WebRequest cmdlet where the and output is located in a suspicious location"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*curl .*/ nocase or $e.target.process.command_line = /.*Invoke-WebRequest.*/ nocase or $e.target.process.command_line = /.*iwr .*/ nocase or $e.target.process.command_line = /.*wget .*/ nocase)) and (($e.target.process.command_line = /.* -ur.*/ nocase or $e.target.process.command_line = /.* -o.*/ nocase)) and ((($e.target.process.file.full_path = /.*\\powershell_ise.exe$/ nocase or $e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase)) or (($e.target.process.file.name = "powershell_ise.EXE" or $e.target.process.file.name = "PowerShell.EXE" or $e.target.process.file.name = "pwsh.dll"))) and (($e.target.process.command_line = /.*\\AppData\\.*/ nocase or $e.target.process.command_line = /.*\\Desktop\\.*/ nocase or $e.target.process.command_line = /.*\\Temp\\.*/ nocase or $e.target.process.command_line = /.*\\Users\\Public\\.*/ nocase or $e.target.process.command_line = /.*%AppData%.*/ nocase or $e.target.process.command_line = /.*%Public%.*/ nocase or $e.target.process.command_line = /.*%Temp%.*/ nocase or $e.target.process.command_line = /.*%tmp%.*/ nocase or $e.target.process.command_line = /.*:\\Windows\\.*/ nocase)))
+
+  condition:
+    $e
+}

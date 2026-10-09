@@ -1,0 +1,24 @@
+// Title: Renamed ProcDump Execution
+// ID: 4a0b2c7e-7cb2-495d-8b63-5f268e7bfd67
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2019-11-18
+// Tags: attack.stealth, attack.t1036.003
+// Description: Detects the execution of a renamed ProcDump executable.
+// This often done by attackers or malware in order to evade defensive mechanisms.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 4a0b2c7e_7cb2_495d_8b63_5f268e7bfd67 {
+  meta:
+    title = "Renamed ProcDump Execution"
+    description = "Detects the execution of a renamed ProcDump executable. This often done by attackers or malware in order to evade defensive mechanisms."
+    author = "Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.file.name = "procdump") or ((($e.target.process.command_line = /.* -ma .*/ nocase or $e.target.process.command_line = /.* -mp .*/ nocase)) and ($e.target.process.command_line = /.* /accepteula.*/ nocase))) and not((($e.target.process.file.full_path = /.*\\procdump.exe$/ nocase or $e.target.process.file.full_path = /.*\\procdump64.exe$/ nocase or $e.target.process.file.full_path = /.*\\procdump64a.exe$/ nocase))))
+
+  condition:
+    $e
+}

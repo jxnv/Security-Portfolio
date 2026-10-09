@@ -1,0 +1,11 @@
+// Title: Uncommon New Firewall Rule Added In Windows Firewall Exception List
+// ID: cde0a575-7d3d-4a49-9817-b8004a7bf105
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-02-19
+// Tags: attack.defense-impairment, attack.t1686.003
+// Description: Detects when a rule has been added to the Windows Firewall exception list
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE (((winlog.event_id == 2004 OR winlog.event_id == 2071 OR winlog.event_id == 2097)) AND NOT (((Action == 2) OR ((ApplicationPath LIKE "%C:\\PerfLogs\\%" OR ApplicationPath LIKE "%C:\\Temp\\%" OR ApplicationPath LIKE "%C:\\Tmp\\%" OR ApplicationPath LIKE "%C:\\Users\\Public\\%" OR ApplicationPath LIKE "%C:\\Windows\\Tasks\\%" OR ApplicationPath LIKE "%C:\\Windows\\Temp\\%" OR ApplicationPath LIKE "%\\AppData\\Local\\Temp\\%")) OR (ApplicationPath LIKE "C:\\Windows\\ehome\\%" AND ModifyingApplication == "C:\\Windows\\System32\\oobe\\Setup.exe") OR ((ApplicationPath LIKE "C:\\Program Files (x86)\\%" OR ApplicationPath LIKE "C:\\Program Files\\%" OR ApplicationPath LIKE "C:\\Windows\\System32\\%" OR ApplicationPath LIKE "C:\\Windows\\SysWOW64\\%" OR ApplicationPath LIKE "C:\\Windows\\WinSxS\\%")) OR (ApplicationPath IS NULL) OR (ApplicationPath == "SYSTEM" AND (ModifyingApplication == "C:\\Windows\\System32\\dllhost.exe" OR ModifyingApplication == "C:\\Windows\\System32\\oobe\\Setup.exe" OR ModifyingApplication == "C:\\Windows\\System32\\svchost.exe")) OR (ModifyingApplication LIKE "C:\\Windows\\WinSxS\\%" AND ModifyingApplication LIKE "%\\TiWorker.exe"))) AND NOT (((((ModifyingApplication LIKE "C:\\ProgramData\\Microsoft\\Windows Defender\\Platform\\%" OR ModifyingApplication LIKE "C:\\Program Files\\Windows Defender\\%") AND ModifyingApplication LIKE "%\\MsMpEng.exe") OR ((ApplicationPath LIKE "C:\\ProgramData\\Microsoft\\Windows Defender\\Platform\\%" OR ApplicationPath LIKE "C:\\Program Files\\Windows Defender\\%") AND ApplicationPath LIKE "%\\MsMpEng.exe")) OR ((ModifyingApplication == "C:\\Windows\\System32\\svchost.exe" OR ModifyingApplication == "C:\\Windows\\System32\\dllhost.exe") AND ApplicationPath == "") OR (ApplicationPath LIKE "C:\\Windows\\SystemApps\\%" AND ModifyingApplication == "C:\\Windows\\System32\\svchost.exe"))))

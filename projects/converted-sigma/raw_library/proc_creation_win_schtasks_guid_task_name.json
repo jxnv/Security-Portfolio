@@ -1,0 +1,40 @@
+{
+  "title": "Suspicious Scheduled Task Name As GUID",
+  "id": "ff2fff64-4cd6-4a2b-ba7d-e28a30bbe66b",
+  "status": "test",
+  "description": "Detects creation of a scheduled task with a GUID like name",
+  "author": "Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2022-10-31",
+  "tags": [
+    "attack.privilege-escalation",
+    "attack.persistence",
+    "attack.execution",
+    "attack.t1053.005"
+  ],
+  "level": "medium",
+  "logsource": {
+    "product": "windows",
+    "category": "process_creation"
+  },
+  "detection": {
+    "selection_img": {
+      "Image|endswith": "\\schtasks.exe",
+      "CommandLine|contains": "/Create "
+    },
+    "selection_tn": {
+      "CommandLine|contains": [
+        "/TN \"{",
+        "/TN '{",
+        "/TN {"
+      ]
+    },
+    "selection_end": {
+      "CommandLine|contains": [
+        "}\"",
+        "}'",
+        "} "
+      ]
+    },
+    "condition": "all of selection_*"
+  }
+}

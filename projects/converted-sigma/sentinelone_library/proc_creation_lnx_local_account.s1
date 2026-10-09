@@ -1,0 +1,11 @@
+// Title: Local System Accounts Discovery - Linux
+// ID: b45e3d6f-42c6-47d8-a478-df6bd6cf534c
+// Status: test
+// Level: low
+// Author: Alejandro Ortuno, oscd.community, CheraghiMilad
+// Date: 2020-10-08
+// Tags: attack.discovery, attack.t1087.001
+// Description: Detects enumeration of local system accounts. This information can help adversaries determine which local accounts exist on a system to aid in follow-on behavior.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((src.process.image.path endswithCIS "/lastlog") OR (src.process.cmdline containsCIS "'x:0:'") OR ((src.process.image.path endswithCIS "/cat" OR src.process.image.path endswithCIS "/ed" OR src.process.image.path endswithCIS "/head" OR src.process.image.path endswithCIS "/more" OR src.process.image.path endswithCIS "/nano" OR src.process.image.path endswithCIS "/tail" OR src.process.image.path endswithCIS "/vi" OR src.process.image.path endswithCIS "/vim" OR src.process.image.path endswithCIS "/less" OR src.process.image.path endswithCIS "/emacs" OR src.process.image.path endswithCIS "/sqlite3" OR src.process.image.path endswithCIS "/makemap") AND (src.process.cmdline containsCIS "/etc/passwd" OR src.process.cmdline containsCIS "/etc/shadow" OR src.process.cmdline containsCIS "/etc/sudoers" OR src.process.cmdline containsCIS "/etc/spwd.db" OR src.process.cmdline containsCIS "/etc/pwd.db" OR src.process.cmdline containsCIS "/etc/master.passwd")) OR (src.process.image.path endswithCIS "/id") OR (src.process.image.path endswithCIS "/lsof" AND src.process.cmdline containsCIS "-u"))

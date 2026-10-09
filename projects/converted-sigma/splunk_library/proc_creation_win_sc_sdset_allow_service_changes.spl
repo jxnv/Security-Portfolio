@@ -1,0 +1,11 @@
+# Title: Allow Service Access Using Security Descriptor Tampering Via Sc.EXE
+# ID: 6c8fbee5-dee8-49bc-851d-c3142d02aa47
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2023-02-28
+# Tags: attack.privilege-escalation, attack.persistence, attack.t1543.003
+# Description: Detects suspicious DACL modifications to allow access to a service from a suspicious trustee. This can be used to override access restrictions set by previous ACLs.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog ((((process_path="*\\sc.exe") OR (process_name="sc.exe")) AND ((process_exec="*sdset*" AND process_exec="*A;*")) AND ((process_exec="*;IU*" OR process_exec="*;SU*" OR process_exec="*;BA*" OR process_exec="*;SY*" OR process_exec="*;WD*"))) AND NOT ((parent_process_path="C:\\Hexnode\\Hexnode Agent\\Current\\HexnodeAgent.exe")))

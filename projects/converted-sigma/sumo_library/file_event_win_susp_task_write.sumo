@@ -1,0 +1,11 @@
+// Title: Suspicious Scheduled Task Write to System32 Tasks
+// ID: 80e1f67a-4596-4351-98f5-a9c3efabac95
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2021-11-16
+// Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.t1053
+// Description: Detects the creation of tasks from processes executed from suspicious locations
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where (TargetFilename matches "*\\Windows\\System32\\Tasks*" and (Image matches "*\\AppData\\*" or Image matches "*C:\\PerfLogs*" or Image matches "*\\Windows\\System32\\config\\systemprofile*"))

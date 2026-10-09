@@ -1,0 +1,11 @@
+# Title: Potential Attachment Manager Settings Associations Tamper
+# ID: a9b6c011-ab69-4ddb-bc0a-c4f21c80ec47
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-08-01
+# Tags: attack.defense-impairment
+# Description: Detects tampering with attachment manager settings policies associations to lower the default file type risks (See reference for more information)
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((registry.path:*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Associations\\*) AND ((registry.path:*\\DefaultFileTypeRisk AND registry.data.strings:"DWORD (0x00006152)") OR (registry.path:*\\LowRiskFileTypes AND (registry.data.strings:*.zip;* OR registry.data.strings:*.rar;* OR registry.data.strings:*.exe;* OR registry.data.strings:*.bat;* OR registry.data.strings:*.com;* OR registry.data.strings:*.cmd;* OR registry.data.strings:*.reg;* OR registry.data.strings:*.msi;* OR registry.data.strings:*.htm;* OR registry.data.strings:*.html;*))))

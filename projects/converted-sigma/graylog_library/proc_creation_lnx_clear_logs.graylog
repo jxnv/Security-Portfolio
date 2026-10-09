@@ -1,0 +1,12 @@
+# Title: Linux Logs Clearing Attempts
+# ID: 80915f59-9b56-4616-9de0-fd0dea6c12fe
+# Status: stable
+# Level: medium
+# Author: Ömer Günal, oscd.community
+# Date: 2020-10-07
+# Tags: attack.defense-impairment, attack.t1685.006
+# Description: Detects logs clearing attempts on Linux systems via utilities such as 'rm', 'rmdir', 'shred', and 'unlink' targeting log files and directories.
+# Adversaries often try to clear logs to cover their tracks after performing malicious activities.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((Image:*/rm OR Image:*/rmdir OR Image:*/shred OR Image:*/unlink) AND (CommandLine:*/var/log* OR CommandLine:*/var/spool/mail*)) AND NOT (((Image:*/rm AND CommandLine:rm -f -- /var/log//dmesg*) OR (Image:*/rm AND CommandLine:rm -f /var/log/sysstat/*))))

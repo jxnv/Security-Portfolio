@@ -1,0 +1,23 @@
+// Title: PowerShell Execution With Potential Decryption Capabilities
+// ID: 434c08ba-8406-4d15-8b24-782cb071a691
+// Status: test
+// Level: high
+// Author: X__Junior (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-06-30
+// Tags: attack.execution
+// Description: Detects PowerShell commands that decrypt an ".LNK" "file to drop the next stage of the malware.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 434c08ba_8406_4d15_8b24_782cb071a691 {
+  meta:
+    title = "PowerShell Execution With Potential Decryption Capabilities"
+    description = "Detects PowerShell commands that decrypt an ".LNK" "file to drop the next stage of the malware."
+    author = "X__Junior (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*Get-ChildItem .*/ nocase or $e.target.process.command_line = /.*dir .*/ nocase or $e.target.process.command_line = /.*gci .*/ nocase or $e.target.process.command_line = /.*ls .*/ nocase)) and (($e.target.process.command_line = /.*Get-Content .*/ nocase or $e.target.process.command_line = /.*gc .*/ nocase or $e.target.process.command_line = /.*cat .*/ nocase or $e.target.process.command_line = /.*type .*/ nocase or $e.target.process.command_line = /.*ReadAllBytes.*/ nocase)) and ((($e.target.process.command_line = /.* ^| .*/ nocase and $e.target.process.command_line = /.*\\*.lnk.*/ nocase and $e.target.process.command_line = /.*-Recurse.*/ nocase and $e.target.process.command_line = /.*-Skip .*/ nocase)) or (($e.target.process.command_line = /.* -ExpandProperty .*/ nocase and $e.target.process.command_line = /.*\\*.lnk.*/ nocase and $e.target.process.command_line = /.*WriteAllBytes.*/ nocase and $e.target.process.command_line = /.* .length .*/ nocase))) and (($e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase) and ($e.target.process.file.name = "PowerShell.EXE" or $e.target.process.file.name = "pwsh.dll")))
+
+  condition:
+    $e
+}

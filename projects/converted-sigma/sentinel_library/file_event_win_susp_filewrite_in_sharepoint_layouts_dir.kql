@@ -1,0 +1,12 @@
+// Title: Suspicious File Write to SharePoint Layouts Directory
+// ID: 1f0489be-b496-4ddf-b3a9-5900f2044e9c
+// Status: experimental
+// Level: high
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-07-24
+// Tags: attack.initial-access, attack.t1190, attack.persistence, attack.t1505.003
+// Description: Detects suspicious file writes to SharePoint layouts directory which could indicate webshell activity or post-exploitation.
+// This behavior has been observed in the exploitation of SharePoint vulnerabilities such as CVE-2025-49704, CVE-2025-49706 or CVE-2025-53770.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+DeviceProcessEvents | where ((FolderPath endswith "\\cmd.exe" or FolderPath endswith "\\powershell_ise.exe" or FolderPath endswith "\\powershell.exe" or FolderPath endswith "\\pwsh.exe" or FolderPath endswith "\\w3wp.exe") and (FileName startswith "C:\\Program Files\\Common Files\\Microsoft Shared\\Web Server Extensions\\" or FileName startswith "C:\\Program Files (x86)\\Common Files\\Microsoft Shared\\Web Server Extensions\\") and (FileName contains "\\15\\TEMPLATE\\LAYOUTS\\" or FileName contains "\\16\\TEMPLATE\\LAYOUTS\\") and (FileName endswith ".asax" or FileName endswith ".ascx" or FileName endswith ".ashx" or FileName endswith ".asmx" or FileName endswith ".asp" or FileName endswith ".aspx" or FileName endswith ".bat" or FileName endswith ".cmd" or FileName endswith ".cer" or FileName endswith ".config" or FileName endswith ".hta" or FileName endswith ".js" or FileName endswith ".jsp" or FileName endswith ".jspx" or FileName endswith ".php" or FileName endswith ".ps1" or FileName endswith ".vbs"))

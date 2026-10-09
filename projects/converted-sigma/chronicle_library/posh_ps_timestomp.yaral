@@ -1,0 +1,24 @@
+// Title: Powershell Timestomp
+// ID: c6438007-e081-42ce-9483-b067fbef33c3
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2021-08-03
+// Tags: attack.stealth, attack.t1070.006
+// Description: Adversaries may modify file time attributes to hide new or changes to existing files.
+// Timestomping is a technique that modifies the timestamps of a file (the modify, access, create, and change times), often to mimic files that are in the same folder.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule c6438007_e081_42ce_9483_b067fbef33c3 {
+  meta:
+    title = "Powershell Timestomp"
+    description = "Adversaries may modify file time attributes to hide new or changes to existing files. Timestomping is a technique that modifies the timestamps of a file (the modify, access, create, and change times), often to mimic files that are in the same folder."
+    author = "frack113"
+    severity = "MEDIUM"
+
+  events:
+    (($e.ScriptBlockText = /.*.CreationTime =.*/ nocase or $e.ScriptBlockText = /.*.LastWriteTime =.*/ nocase or $e.ScriptBlockText = /.*.LastAccessTime =.*/ nocase or $e.ScriptBlockText = /.*[IO.File]::SetCreationTime.*/ nocase or $e.ScriptBlockText = /.*[IO.File]::SetLastAccessTime.*/ nocase or $e.ScriptBlockText = /.*[IO.File]::SetLastWriteTime.*/ nocase))
+
+  condition:
+    $e
+}

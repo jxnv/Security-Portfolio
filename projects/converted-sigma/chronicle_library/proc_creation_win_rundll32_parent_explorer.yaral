@@ -1,0 +1,23 @@
+// Title: Rundll32 Spawned Via Explorer.EXE
+// ID: 1723e720-616d-4ddc-ab02-f7e3685a4713
+// Status: test
+// Level: medium
+// Author: CD_ROM_
+// Date: 2022-05-21
+// Tags: attack.stealth
+// Description: Detects execution of "rundll32.exe" with a parent process of Explorer.exe. This has been observed by variants of Raspberry Robin, as first reported by Red Canary.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 1723e720_616d_4ddc_ab02_f7e3685a4713 {
+  meta:
+    title = "Rundll32 Spawned Via Explorer.EXE"
+    description = "Detects execution of "rundll32.exe" with a parent process of Explorer.exe. This has been observed by variants of Raspberry Robin, as first reported by Red Canary."
+    author = "CD_ROM_"
+    severity = "MEDIUM"
+
+  events:
+    (((($e.target.process.file.full_path = /.*\\rundll32.exe$/ nocase) or ($e.target.process.file.name = "RUNDLL32.EXE")) and ($e.principal.process.file.full_path = /.*\\explorer.exe$/ nocase)) and not((($e.target.process.command_line = /.* C:\\Windows\\System32\\.*/ nocase) or ($e.target.process.command_line = /.* -localserver 22d8c27b-47a1-48d1-ad08-7da7abd79617$/ nocase))))
+
+  condition:
+    $e
+}

@@ -1,0 +1,12 @@
+// Title: Suspicious ClickFix/FileFix Execution Pattern
+// ID: d487ed4a-fd24-436d-a0b2-f4e95f7b2635
+// Status: experimental
+// Level: high
+// Author: montysecurity, Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-11-19
+// Tags: attack.execution, attack.t1204.001, attack.t1204.004
+// Description: Detects suspicious execution patterns where users are tricked into running malicious commands via clipboard manipulation, either through the Windows Run dialog (ClickFix) or File Explorer address bar (FileFix).
+// Attackers leverage social engineering campaigns—such as fake CAPTCHA challenges or urgent alerts—encouraging victims to paste clipboard contents, often executing mshta.exe, powershell.exe, or similar commands to infect systems.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((CommandLine contains "account" OR CommandLine contains "anti-bot" OR CommandLine contains "botcheck" OR CommandLine contains "captcha" OR CommandLine contains "challenge" OR CommandLine contains "confirmation" OR CommandLine contains "fraud" OR CommandLine contains "human" OR CommandLine contains "identification" OR CommandLine contains "identificator" OR CommandLine contains "identity" OR CommandLine contains "robot" OR CommandLine contains "validation" OR CommandLine contains "verification" OR CommandLine contains "verify")) AND (ParentImage="*\\explorer.exe" AND CommandLine contains "#"))

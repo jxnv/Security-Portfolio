@@ -1,0 +1,11 @@
+// Title: AWS CloudTrail Important Change
+// ID: 4db60cc0-36fb-42b7-9b58-a5b53019fb74
+// Status: test
+// Level: medium
+// Author: vitaliy0x1
+// Date: 2020-01-21
+// Tags: attack.defense-impairment, attack.t1685.002
+// Description: Detects disabling, deleting and updating of a Trail
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter (eventSource = "cloudtrail.amazonaws.com" and (eventName = "StopLogging" or eventName = "UpdateTrail" or eventName = "DeleteTrail"))

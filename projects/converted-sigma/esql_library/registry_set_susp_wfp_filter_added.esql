@@ -1,0 +1,11 @@
+// Title: WFP Filter Added via Registry
+// ID: 1f1d8209-636e-4c6c-a137-781cca8b82f9
+// Status: experimental
+// Level: medium
+// Author: Frack113
+// Date: 2025-10-23
+// Tags: attack.execution, attack.defense-impairment, attack.t1685, attack.t1569.002
+// Description: Detects registry modifications that add Windows Filtering Platform (WFP) filters, which may be used to block security tools and EDR agents from reporting events.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE ((registry.path LIKE "%\\BFE\\Parameters\\Policy\\Persistent\\Filter\\%") AND NOT (((process.executable == "C:\\Windows\\System32\\svchost.exe" OR process.executable == "C:\\Windows\\SysWOW64\\svchost.exe"))))

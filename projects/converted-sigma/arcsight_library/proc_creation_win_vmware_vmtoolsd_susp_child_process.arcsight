@@ -1,0 +1,11 @@
+// Title: VMToolsd Suspicious Child Process
+// ID: 5687f942-867b-4578-ade7-1e341c46e99a
+// Status: test
+// Level: high
+// Author: bohops, Bhabesh Raj
+// Date: 2021-10-08
+// Tags: attack.execution, attack.persistence, attack.t1059
+// Description: Detects suspicious child process creations of VMware Tools process which may indicate persistence setup
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((((Image ENDSWITH "\\cmd.exe" OR Image ENDSWITH "\\cscript.exe" OR Image ENDSWITH "\\mshta.exe" OR Image ENDSWITH "\\powershell.exe" OR Image ENDSWITH "\\pwsh.exe" OR Image ENDSWITH "\\regsvr32.exe" OR Image ENDSWITH "\\rundll32.exe" OR Image ENDSWITH "\\wscript.exe")) OR ((OriginalFileName EQ "Cmd.Exe" OR OriginalFileName EQ "cscript.exe" OR OriginalFileName EQ "MSHTA.EXE" OR OriginalFileName EQ "PowerShell.EXE" OR OriginalFileName EQ "pwsh.dll" OR OriginalFileName EQ "REGSVR32.EXE" OR OriginalFileName EQ "RUNDLL32.EXE" OR OriginalFileName EQ "wscript.exe"))) AND (ParentImage ENDSWITH "\\vmtoolsd.exe")) AND NOT (((Image ENDSWITH "\\cmd.exe" AND CommandLine EQ "") OR (Image ENDSWITH "\\cmd.exe" AND NOT CommandLine=*) OR (Image ENDSWITH "\\cmd.exe" AND (CommandLine CONTAINS "\\VMware\\VMware Tools\\poweron-vm-default.bat" OR CommandLine CONTAINS "\\VMware\\VMware Tools\\poweroff-vm-default.bat" OR CommandLine CONTAINS "\\VMware\\VMware Tools\\resume-vm-default.bat" OR CommandLine CONTAINS "\\VMware\\VMware Tools\\suspend-vm-default.bat")))))

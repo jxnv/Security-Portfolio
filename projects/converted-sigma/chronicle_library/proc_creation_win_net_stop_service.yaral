@@ -1,0 +1,23 @@
+// Title: Stop Windows Service Via Net.EXE
+// ID: 88872991-7445-4a22-90b2-a3adadb0e827
+// Status: test
+// Level: low
+// Author: Jakob Weinzettl, oscd.community, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-03-05
+// Tags: attack.impact, attack.t1489
+// Description: Detects the stopping of a Windows service via the "net" utility.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 88872991_7445_4a22_90b2_a3adadb0e827 {
+  meta:
+    title = "Stop Windows Service Via Net.EXE"
+    description = "Detects the stopping of a Windows service via the "net" utility."
+    author = "Jakob Weinzettl, oscd.community, Nasreddine Bencherchali (Nextron Systems)"
+    severity = "LOW"
+
+  events:
+    (($e.target.process.command_line = /.* stop .*/ nocase) and ((($e.target.process.file.name = "net.exe" or $e.target.process.file.name = "net1.exe")) or (($e.target.process.file.full_path = /.*\\net.exe$/ nocase or $e.target.process.file.full_path = /.*\\net1.exe$/ nocase))))
+
+  condition:
+    $e
+}

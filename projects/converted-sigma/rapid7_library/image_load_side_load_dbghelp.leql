@@ -1,0 +1,11 @@
+// Title: Potential DLL Sideloading Of DBGHELP.DLL
+// ID: 6414b5cd-b19d-447e-bb5e-9f03940b5784
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems), Wietze Beukema (project and research)
+// Date: 2022-10-25
+// Tags: attack.persistence, attack.privilege-escalation, attack.execution, attack.stealth, attack.t1574.001
+// Description: Detects potential DLL sideloading of "dbghelp.dll"
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((where(ImageLoaded IENDSWITH "\\dbghelp.dll")) AND NOT (((where(ImageLoaded ISTARTSWITH "C:\\Program Files (x86)\\") OR where(ImageLoaded ISTARTSWITH "C:\\Program Files\\") OR where(ImageLoaded ISTARTSWITH "C:\\Windows\\SoftwareDistribution\\") OR where(ImageLoaded ISTARTSWITH "C:\\Windows\\System32\\") OR where(ImageLoaded ISTARTSWITH "C:\\Windows\\SystemTemp\\") OR where(ImageLoaded ISTARTSWITH "C:\\Windows\\SysWOW64\\") OR where(ImageLoaded ISTARTSWITH "C:\\Windows\\WinSxS\\")))) AND NOT ((((where(ImageLoaded IENDSWITH "\\Anaconda3\\Lib\\site-packages\\vtrace\\platforms\\windll\\amd64\\dbghelp.dll") OR where(ImageLoaded IENDSWITH "\\Anaconda3\\Lib\\site-packages\\vtrace\\platforms\\windll\\i386\\dbghelp.dll"))) OR ((where(ImageLoaded IENDSWITH "\\Epic Games\\Launcher\\Engine\\Binaries\\ThirdParty\\DbgHelp\\dbghelp.dll") OR where(ImageLoaded IENDSWITH "\\Epic Games\\MagicLegends\\x86\\dbghelp.dll"))) OR (where(ImageLoaded ICONTAINS "opera\\Opera Installer Temp\\opera_package") AND where(ImageLoaded IENDSWITH "\\assistant\\dbghelp.dll")))))

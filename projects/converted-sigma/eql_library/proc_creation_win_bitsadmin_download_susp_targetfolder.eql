@@ -1,0 +1,11 @@
+// Title: File Download Via Bitsadmin To A Suspicious Target Folder
+// ID: 2ddef153-167b-4e89-86b6-757a9e65dcac
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-06-28
+// Tags: attack.persistence, attack.execution, attack.stealth, attack.t1197, attack.s0190, attack.t1036.003, attack.command-and-control, attack.t1105
+// Description: Detects usage of bitsadmin downloading a file to a suspicious target folder
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where (((process.command_line like "*_ /transfer *" or process.command_line like "*_ /create *" or process.command_line like "*_ /addfile *")) and ((process.command_line like "*_:\\Perflogs*" or process.command_line like "*_:\\ProgramData\\*" or process.command_line like "*_:\\Temp\\*" or process.command_line like "*_:\\Users\\Public\\*" or process.command_line like "*_:\\Windows\\*" or process.command_line like "*_\\$Recycle.Bin\\*" or process.command_line like "*_\\AppData\\Local\\*" or process.command_line like "*_\\AppData\\Roaming\\*" or process.command_line like "*_\\Contacts\\*" or process.command_line like "*_\\Desktop\\*" or process.command_line like "*_\\Favorites\\*" or process.command_line like "*_\\Favourites\\*" or process.command_line like "*_\\inetpub\\wwwroot\\*" or process.command_line like "*_\\Music\\*" or process.command_line like "*_\\Pictures\\*" or process.command_line like "*_\\Start Menu\\Programs\\Startup\\*" or process.command_line like "*_\\Users\\Default\\*" or process.command_line like "*_\\Videos\\*" or process.command_line like "*_%ProgramData%*" or process.command_line like "*_%public%*" or process.command_line like "*_%temp%*" or process.command_line like "*_%tmp%*")) and ((process.executable endswith "\\bitsadmin.exe") or (process.pe.original_file_name == "bitsadmin.exe")))

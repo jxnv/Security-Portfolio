@@ -1,0 +1,12 @@
+// Title: Clipboard Collection with Xclip Tool
+// ID: ec127035-a636-4b9a-8555-0efd4e59f316
+// Status: test
+// Level: low
+// Author: Pawel Mazur, Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research), MSTIC
+// Date: 2021-10-15
+// Tags: attack.collection, attack.t1115
+// Description: Detects attempts to collect data stored in the clipboard from users with the usage of xclip tool. Xclip has to be installed.
+// Highly recommended using rule on servers, due to high usage of clipboard utilities on user workstations.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(Image: "*xclip*" AND (CommandLine: "*-sel*" AND CommandLine: "*clip*" AND CommandLine: "*-o*"))

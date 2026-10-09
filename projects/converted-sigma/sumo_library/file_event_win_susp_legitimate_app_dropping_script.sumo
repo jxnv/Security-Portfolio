@@ -1,0 +1,12 @@
+// Title: Legitimate Application Dropped Script
+// ID: 7d604714-e071-49ff-8726-edeb95a70679
+// Status: test
+// Level: high
+// Author: frack113, Florian Roth (Nextron Systems)
+// Date: 2022-08-21
+// Tags: attack.stealth, attack.t1218
+// Description: Detects LOLBINs and applications that should not legitimately drop script files to disk.
+// This may indicate malware staging or abuse of a trusted binary for script-based code execution.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where (((Image matches "*\\eqnedt32.exe" or Image matches "*\\wordpad.exe" or Image matches "*\\wordview.exe" or Image matches "*\\certutil.exe" or Image matches "*\\certoc.exe" or Image matches "*\\CertReq.exe" or Image matches "*\\Desktopimgdownldr.exe" or Image matches "*\\esentutl.exe" or Image matches "*\\mshta.exe" or Image matches "*\\AcroRd32.exe" or Image matches "*\\RdrCEF.exe" or Image matches "*\\hh.exe" or Image matches "*\\finger.exe") and (TargetFilename matches "*.bat" or TargetFilename matches "*.chm" or TargetFilename matches "*.csproj" or TargetFilename matches "*.hta" or TargetFilename matches "*.js" or TargetFilename matches "*.jse" or TargetFilename matches "*.proj" or TargetFilename matches "*.ps1" or TargetFilename matches "*.py" or TargetFilename matches "*.scf" or TargetFilename matches "*.vbe" or TargetFilename matches "*.vbs" or TargetFilename matches "*.wsf" or TargetFilename matches "*.wsh")) and !((Image matches "*\\mshta.exe" and TargetFilename matches "*.hta")))

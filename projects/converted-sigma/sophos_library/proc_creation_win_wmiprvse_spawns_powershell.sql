@@ -1,0 +1,11 @@
+-- Title: Potential WMI Lateral Movement WmiPrvSE Spawned PowerShell
+-- ID: 692f0bec-83ba-4d04-af7e-e884a96059b6
+-- Status: stable
+-- Level: medium
+-- Author: Markus Neis @Karneades
+-- Date: 2019-04-03
+-- Tags: attack.execution, attack.t1047, attack.t1059.001
+-- Description: Detects Powershell as a child of the WmiPrvSE process. Which could be a sign of lateral movement via WMI.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE ((((Image ILIKE '%\\powershell.exe' OR Image ILIKE '%\\pwsh.exe')) OR ((OriginalFileName = 'PowerShell.EXE' OR OriginalFileName = 'pwsh.dll'))) AND (ParentImage ILIKE '%\\WmiPrvSE.exe'))

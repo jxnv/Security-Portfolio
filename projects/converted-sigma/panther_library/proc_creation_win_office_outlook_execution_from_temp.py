@@ -1,0 +1,19 @@
+# Title: Suspicious Execution From Outlook Temporary Folder
+# ID: a018fdc3-46a3-44e5-9afb-2cd4af1d4b39
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems)
+# Date: 2019-10-01
+# Tags: attack.initial-access, attack.t1566.001
+# Description: Detects a suspicious program execution in Outlook temp folder
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Suspicious Execution From Outlook Temporary Folder
+def rule(event):
+    # Detection Logic:
+    # (Image="*\\Temporary Internet Files\\Content.Outlook\\*")
+    return True
+
+def title(event):
+    return "Suspicious Execution From Outlook Temporary Folder"
+

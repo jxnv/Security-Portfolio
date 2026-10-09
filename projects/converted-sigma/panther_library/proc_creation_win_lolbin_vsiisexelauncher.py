@@ -1,0 +1,19 @@
+# Title: Use of VSIISExeLauncher.exe
+# ID: 18749301-f1c5-4efc-a4c3-276ff1f5b6f8
+# Status: test
+# Level: medium
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-06-09
+# Tags: attack.execution, attack.stealth, attack.t1127
+# Description: The "VSIISExeLauncher.exe" binary part of the Visual Studio/VS Code can be used to execute arbitrary binaries
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Use of VSIISExeLauncher.exe
+def rule(event):
+    # Detection Logic:
+    # (((CommandLine="* -p *" OR CommandLine="* -a *")) AND ((Image="*\\VSIISExeLauncher.exe") OR (OriginalFileName="VSIISExeLauncher.exe")))
+    return True
+
+def title(event):
+    return "Use of VSIISExeLauncher.exe"
+

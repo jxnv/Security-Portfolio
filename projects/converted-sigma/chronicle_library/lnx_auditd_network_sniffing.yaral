@@ -1,0 +1,24 @@
+// Title: Network Sniffing - Linux
+// ID: f4d3748a-65d1-4806-bd23-e25728081d01
+// Status: test
+// Level: low
+// Author: Timur Zinniatullin, oscd.community
+// Date: 2019-10-21
+// Tags: attack.credential-access, attack.discovery, attack.t1040
+// Description: Network sniffing refers to using the network interface on a system to monitor or capture information sent over a wired or wireless connection.
+// An adversary may place a network interface into promiscuous mode to passively access data in transit over the network, or use span ports to capture a larger amount of data.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule f4d3748a_65d1_4806_bd23_e25728081d01 {
+  meta:
+    title = "Network Sniffing - Linux"
+    description = "Network sniffing refers to using the network interface on a system to monitor or capture information sent over a wired or wireless connection. An adversary may place a network interface into promiscuous mode to passively access data in transit over the network, or use span ports to capture a larger amount of data."
+    author = "Timur Zinniatullin, oscd.community"
+    severity = "LOW"
+
+  events:
+    (($e.type = "execve" and $e.a0 = "tcpdump" and $e.a1 = "-c" and $e.a3 = /.*-i.*/ nocase) or ($e.type = "execve" and $e.a0 = "tshark" and $e.a1 = "-c" and $e.a3 = "-i"))
+
+  condition:
+    $e
+}

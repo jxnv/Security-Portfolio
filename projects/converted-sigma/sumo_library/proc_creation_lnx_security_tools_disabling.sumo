@@ -1,0 +1,11 @@
+// Title: Disabling Security Tools
+// ID: e3a8a052-111f-4606-9aee-f28ebeb76776
+// Status: test
+// Level: medium
+// Author: Ömer Günal, Alejandro Ortuno, oscd.community
+// Date: 2020-06-17
+// Tags: attack.defense-impairment, attack.t1686
+// Description: Detects disabling security tools
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where ((Image matches "*/service" and (CommandLine matches "*cbdaemon*" and CommandLine matches "*stop*")) or (Image matches "*/chkconfig" and (CommandLine matches "*cbdaemon*" and CommandLine matches "*off*")) or (Image matches "*/systemctl" and (CommandLine matches "*cbdaemon*" and CommandLine matches "*stop*")) or (Image matches "*/systemctl" and (CommandLine matches "*cbdaemon*" and CommandLine matches "*disable*")) or (Image matches "*/systemctl" and (CommandLine matches "*stop*" and CommandLine matches "*falcon-sensor*")) or (Image matches "*/systemctl" and (CommandLine matches "*disable*" and CommandLine matches "*falcon-sensor*")) or (Image matches "*/systemctl" and (CommandLine matches "*firewalld*" and CommandLine matches "*stop*")) or (Image matches "*/systemctl" and (CommandLine matches "*firewalld*" and CommandLine matches "*disable*")) or (Image matches "*/service" and (CommandLine matches "*iptables*" and CommandLine matches "*stop*")) or (Image matches "*/service" and (CommandLine matches "*ip6tables*" and CommandLine matches "*stop*")) or (Image matches "*/chkconfig" and (CommandLine matches "*iptables*" and CommandLine matches "*stop*")) or (Image matches "*/chkconfig" and (CommandLine matches "*ip6tables*" and CommandLine matches "*stop*")) or (Image matches "*/setenforce" and CommandLine matches "*0*"))

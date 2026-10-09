@@ -1,0 +1,11 @@
+// Title: Potential AS-REP Roasting via Kerberos TGT Requests
+// ID: 3e2f1b2c-4d5e-11ee-be56-0242ac120002
+// Status: experimental
+// Level: medium
+// Author: ANosir
+// Date: 2025-05-22
+// Description: Detects suspicious Kerberos TGT requests with pre-authentication disabled (Pre-Authentication Type = 0) and Ticket Encryption Type (0x17) i.e, RC4-HMAC.
+// This may indicate an AS-REP Roasting attack, where attackers request AS-REP messages for accounts without pre-authentication and attempt to crack the encrypted ticket offline to recover user passwords.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(EventID EQ "4768" AND TicketEncryptionType EQ "0x17" AND ServiceName EQ "krbtgt" AND PreAuthType EQ "0")

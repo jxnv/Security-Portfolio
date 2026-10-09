@@ -1,0 +1,23 @@
+// Title: Remote Code Execute via Winrm.vbs
+// ID: 9df0dd3a-1a5c-47e3-a2bc-30ed177646a0
+// Status: test
+// Level: medium
+// Author: Julia Fomina, oscd.community
+// Date: 2020-10-07
+// Tags: attack.stealth, attack.t1216
+// Description: Detects an attempt to execute code or create service on remote host via winrm.vbs.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 9df0dd3a_1a5c_47e3_a2bc_30ed177646a0 {
+  meta:
+    title = "Remote Code Execute via Winrm.vbs"
+    description = "Detects an attempt to execute code or create service on remote host via winrm.vbs."
+    author = "Julia Fomina, oscd.community"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.command_line = /.*winrm.*/ nocase and $e.target.process.command_line = /.*invoke Create wmicimv2/Win32_.*/ nocase and $e.target.process.command_line = /.*-r:http.*/ nocase)) and (($e.target.process.file.full_path = /.*\\cscript.exe$/ nocase) or ($e.target.process.file.name = "cscript.exe")))
+
+  condition:
+    $e
+}

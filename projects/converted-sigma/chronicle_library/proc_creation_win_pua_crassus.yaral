@@ -1,0 +1,23 @@
+// Title: PUA - Crassus Execution
+// ID: 2c32b543-1058-4808-91c6-5b31b8bed6c5
+// Status: test
+// Level: high
+// Author: pH-T (Nextron Systems)
+// Date: 2023-04-17
+// Tags: attack.discovery, attack.reconnaissance, attack.t1590.001
+// Description: Detects Crassus, a Windows privilege escalation discovery tool, based on PE metadata characteristics.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 2c32b543_1058_4808_91c6_5b31b8bed6c5 {
+  meta:
+    title = "PUA - Crassus Execution"
+    description = "Detects Crassus, a Windows privilege escalation discovery tool, based on PE metadata characteristics."
+    author = "pH-T (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.file.full_path = /.*\\Crassus.exe$/ nocase) or ($e.target.process.file.name = "Crassus.exe") or ($e.Description = /.*Crassus.*/ nocase))
+
+  condition:
+    $e
+}

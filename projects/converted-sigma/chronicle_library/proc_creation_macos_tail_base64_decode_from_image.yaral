@@ -1,0 +1,23 @@
+// Title: Potential Base64 Decoded From Images
+// ID: 09a910bf-f71f-4737-9c40-88880ba5913d
+// Status: test
+// Level: high
+// Author: Joseliyo Sanchez, @Joseliyo_Jstnk
+// Date: 2023-12-20
+// Tags: attack.stealth, attack.t1140
+// Description: Detects the use of tail to extract bytes at an offset from an image and then decode the base64 value to create a new file with the decoded content. The detected execution is a bash one-liner.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 09a910bf_f71f_4737_9c40_88880ba5913d {
+  meta:
+    title = "Potential Base64 Decoded From Images"
+    description = "Detects the use of tail to extract bytes at an offset from an image and then decode the base64 value to create a new file with the decoded content. The detected execution is a bash one-liner."
+    author = "Joseliyo Sanchez, @Joseliyo_Jstnk"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*base64.*/ nocase and $e.target.process.command_line = /.*-d.*/ nocase and $e.target.process.command_line = /.*>.*/ nocase)) and (($e.target.process.command_line = /.*.avif.*/ nocase or $e.target.process.command_line = /.*.gif.*/ nocase or $e.target.process.command_line = /.*.jfif.*/ nocase or $e.target.process.command_line = /.*.jpeg.*/ nocase or $e.target.process.command_line = /.*.jpg.*/ nocase or $e.target.process.command_line = /.*.pjp.*/ nocase or $e.target.process.command_line = /.*.pjpeg.*/ nocase or $e.target.process.command_line = /.*.png.*/ nocase or $e.target.process.command_line = /.*.svg.*/ nocase or $e.target.process.command_line = /.*.webp.*/ nocase)) and ($e.target.process.file.full_path = /.*/bash$/ nocase) and (($e.target.process.command_line = /.*tail.*/ nocase and $e.target.process.command_line = /.*-c.*/ nocase)))
+
+  condition:
+    $e
+}

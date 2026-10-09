@@ -1,0 +1,13 @@
+// Title: Suspicious Volume Shadow Copy VSS_PS.dll Load
+// ID: 333cdbe8-27bb-4246-bf82-b41a0dca4b70
+// Status: test
+// Level: high
+// Author: Markus Neis, @markus_neis
+// Date: 2021-07-07
+// Tags: attack.impact, attack.t1490
+// Description: Detects the image load of vss_ps.dll by uncommon executables. This DLL is used by the Volume Shadow Copy Service (VSS) to manage shadow copies of files and volumes.
+// It is often abused by attackers to delete or manipulate shadow copies, which can hinder forensic investigations and data recovery efforts.
+// The fact that it is loaded by processes that are not typically associated with VSS operations can indicate suspicious activity.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((where(ImageLoaded IENDSWITH "\\vss_ps.dll")) AND NOT (((NOT Image=*) OR (where(Image ISTARTSWITH "C:\\Windows\\") AND (where(Image IENDSWITH "\\clussvc.exe") OR where(Image IENDSWITH "\\dismhost.exe") OR where(Image IENDSWITH "\\dllhost.exe") OR where(Image IENDSWITH "\\inetsrv\\appcmd.exe") OR where(Image IENDSWITH "\\inetsrv\\iissetup.exe") OR where(Image IENDSWITH "\\msiexec.exe") OR where(Image IENDSWITH "\\rundll32.exe") OR where(Image IENDSWITH "\\searchindexer.exe") OR where(Image IENDSWITH "\\srtasks.exe") OR where(Image IENDSWITH "\\svchost.exe") OR where(Image IENDSWITH "\\System32\\SystemPropertiesAdvanced.exe") OR where(Image IENDSWITH "\\taskhostw.exe") OR where(Image IENDSWITH "\\thor.exe") OR where(Image IENDSWITH "\\thor64.exe") OR where(Image IENDSWITH "\\tiworker.exe") OR where(Image IENDSWITH "\\vssvc.exe") OR where(Image IENDSWITH "\\vssadmin.exe") OR where(Image IENDSWITH "\\WmiPrvSE.exe") OR where(Image IENDSWITH "\\wsmprovhost.exe"))) OR (where(CommandLine ISTARTSWITH "C:\\$WinREAgent\\Scratch\\") AND where(CommandLine ICONTAINS "\\dismhost.exe {")))) AND NOT (((where(Image ISTARTSWITH "C:\\Program Files\\") OR where(Image ISTARTSWITH "C:\\Program Files (x86)\\")))))

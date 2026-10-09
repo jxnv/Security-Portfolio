@@ -1,0 +1,11 @@
+-- Title: Suspicious Curl.EXE Download
+-- ID: e218595b-bbe7-4ee5-8a96-f32a24ad3468
+-- Status: test
+-- Level: high
+-- Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+-- Date: 2020-07-03
+-- Tags: attack.command-and-control, attack.t1105
+-- Description: Detects a suspicious curl process start on Windows and outputs the requested document to a local file
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE (((Image ILIKE '%\\curl.exe') OR (Product = 'The curl executable')) AND (((CommandLine ILIKE '%.dll' OR CommandLine ILIKE '%.gif' OR CommandLine ILIKE '%.jpeg' OR CommandLine ILIKE '%.jpg' OR CommandLine ILIKE '%.png' OR CommandLine ILIKE '%.temp' OR CommandLine ILIKE '%.tmp' OR CommandLine ILIKE '%.txt' OR CommandLine ILIKE '%.vbe' OR CommandLine ILIKE '%.vbs')) OR ((CommandLine ILIKE '%%AppData%%' OR CommandLine ILIKE '%%Public%%' OR CommandLine ILIKE '%%Temp%%' OR CommandLine ILIKE '%%tmp%%' OR CommandLine ILIKE '%\\AppData\\%' OR CommandLine ILIKE '%\\Desktop\\%' OR CommandLine ILIKE '%\\Temp\\%' OR CommandLine ILIKE '%\\Users\\Public\\%' OR CommandLine ILIKE '%C:\\PerfLogs\\%' OR CommandLine ILIKE '%C:\\ProgramData\\%' OR CommandLine ILIKE '%C:\\Windows\\Temp\\%'))) AND NOT ((ParentImage = 'C:\\Program Files\\Git\\usr\\bin\\sh.exe' AND Image = 'C:\\Program Files\\Git\\mingw64\\bin\\curl.exe' AND (CommandLine ILIKE '%--silent --show-error --output %' AND CommandLine ILIKE '%gfw-httpget-%' AND CommandLine ILIKE '%AppData%'))))

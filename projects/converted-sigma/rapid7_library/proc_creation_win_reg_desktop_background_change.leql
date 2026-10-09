@@ -1,0 +1,12 @@
+// Title: Potentially Suspicious Desktop Background Change Using Reg.EXE
+// ID: 8cbc9475-8d05-4e27-9c32-df960716c701
+// Status: test
+// Level: medium
+// Author: Stephen Lincoln @slincoln-aiq (AttackIQ)
+// Date: 2023-12-21
+// Tags: attack.persistence, attack.impact, attack.defense-impairment, attack.t1112, attack.t1491.001
+// Description: Detects the execution of "reg.exe" to alter registry keys that would replace the user's desktop background.
+// This is a common technique used by malware to change the desktop background to a ransom note or other image.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(CommandLine ICONTAINS "add")) AND ((where(Image IENDSWITH "\\reg.exe")) OR (where(OriginalFileName = "reg.exe")))) AND ((where(CommandLine ICONTAINS "Control Panel\\Desktop") OR where(CommandLine ICONTAINS "CurrentVersion\\Policies\\ActiveDesktop") OR where(CommandLine ICONTAINS "CurrentVersion\\Policies\\System"))) AND (((where(CommandLine ICONTAINS "/v NoChangingWallpaper") AND where(CommandLine ICONTAINS "/d 1"))) OR ((where(CommandLine ICONTAINS "/v Wallpaper") AND where(CommandLine ICONTAINS "/t REG_SZ"))) OR ((where(CommandLine ICONTAINS "/v WallpaperStyle") AND where(CommandLine ICONTAINS "/d 2")))))

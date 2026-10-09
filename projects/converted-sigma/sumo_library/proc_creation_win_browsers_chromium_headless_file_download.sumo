@@ -1,0 +1,11 @@
+// Title: File Download with Headless Browser
+// ID: 0e8cfe08-02c9-4815-a2f8-0d157b7ed33e
+// Status: test
+// Level: high
+// Author: Sreeman, Florian Roth (Nextron Systems)
+// Date: 2022-01-04
+// Tags: attack.command-and-control, attack.stealth, attack.t1105, attack.t1564.003
+// Description: Detects execution of chromium based browser in headless mode using the "dump-dom" command line to download files
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where (((Image matches "*\\brave.exe" or Image matches "*\\chrome.exe" or Image matches "*\\msedge.exe" or Image matches "*\\opera.exe" or Image matches "*\\vivaldi.exe") and (CommandLine matches "*--headless*" and CommandLine matches "*dump-dom*" and CommandLine matches "*http*")) and !((((Image matches "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\*" or Image matches "C:\\Program Files (x86)\\Microsoft\\EdgeCore\\*" or Image matches "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\*" or Image matches "C:\\Program Files\\Microsoft\\Edge\\Application\\*" or Image matches "C:\\Program Files\\Microsoft\\EdgeCore\\*" or Image matches "C:\\Program Files\\Microsoft\\EdgeWebView\\*" or Image matches "C:\\Program Files\\WindowsApps\\Microsoft.MicrosoftEdge*") and (Image matches "*\\msedge.exe" or Image matches "*\\msedgewebview2.exe" or Image matches "*\\MicrosoftEdge.exe") and CommandLine matches "*--headless --disable-gpu --disable-extensions --disable-plugins --mute-audio --no-first-run --incognito --aggressive-cache-discard --dump-dom*") or ((Image matches "*\\AppData\\Local\\Microsoft\\WindowsApps\\*" or Image matches "*\\Windows\\SystemApps\\Microsoft.MicrosoftEdge*") and (Image matches "*\\msedge.exe" or Image matches "*\\MicrosoftEdge.exe") and CommandLine matches "*--headless --disable-gpu --disable-extensions --disable-plugins --mute-audio --no-first-run --incognito --aggressive-cache-discard --dump-dom*"))))

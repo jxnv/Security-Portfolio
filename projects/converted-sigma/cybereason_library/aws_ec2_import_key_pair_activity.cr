@@ -1,0 +1,11 @@
+// Title: AWS Key Pair Import Activity
+// ID: 92f84194-8d9a-4ee0-8699-c30bfac59780
+// Status: experimental
+// Level: medium
+// Author: Ivan Saakov
+// Date: 2024-12-19
+// Tags: attack.initial-access, attack.stealth, attack.t1078, attack.persistence, attack.privilege-escalation
+// Description: Detects the import of SSH key pairs into AWS EC2, which may indicate an attacker attempting to gain unauthorized access to instances. This activity could lead to initial access, persistence, or privilege escalation, potentially compromising sensitive data and operations.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(eventSource == "ec2.amazonaws.com" AND eventName == "ImportKeyPair")

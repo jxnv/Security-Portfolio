@@ -1,0 +1,23 @@
+// Title: AD Privileged Users or Groups Reconnaissance
+// ID: 35ba1d85-724d-42a3-889f-2e2362bcaf23
+// Status: test
+// Level: high
+// Author: Samir Bousseaden
+// Date: 2019-04-03
+// Tags: attack.discovery, attack.t1087.002
+// Description: Detect priv users or groups recon based on 4661 eventid and known privileged users or groups SIDs
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 35ba1d85_724d_42a3_889f_2e2362bcaf23 {
+  meta:
+    title = "AD Privileged Users or Groups Reconnaissance"
+    description = "Detect priv users or groups recon based on 4661 eventid and known privileged users or groups SIDs"
+    author = "Samir Bousseaden"
+    severity = "HIGH"
+
+  events:
+    (($e.EventID = 4661 and ($e.ObjectType = "SAM_USER" or $e.ObjectType = "SAM_GROUP")) and ((($e.ObjectName = /.*-512$/ nocase or $e.ObjectName = /.*-502$/ nocase or $e.ObjectName = /.*-500$/ nocase or $e.ObjectName = /.*-505$/ nocase or $e.ObjectName = /.*-519$/ nocase or $e.ObjectName = /.*-520$/ nocase or $e.ObjectName = /.*-544$/ nocase or $e.ObjectName = /.*-551$/ nocase or $e.ObjectName = /.*-555$/ nocase)) or ($e.ObjectName = /.*admin.*/ nocase)) and not(($e.SubjectUserName = /.*$$/ nocase)))
+
+  condition:
+    $e
+}

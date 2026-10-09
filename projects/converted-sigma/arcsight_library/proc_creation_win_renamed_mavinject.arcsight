@@ -1,0 +1,11 @@
+// Title: Renamed Mavinject.EXE Execution
+// ID: e6474a1b-5390-49cd-ab41-8d88655f7394
+// Status: test
+// Level: high
+// Author: frack113, Florian Roth
+// Date: 2022-12-05
+// Tags: attack.privilege-escalation, attack.stealth, attack.t1055.001, attack.t1218.013
+// Description: Detects the execution of a renamed version of the "Mavinject" process. Which can be abused to perform process injection using the "/INJECTRUNNING" flag
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((OriginalFileName EQ "mavinject32.exe" OR OriginalFileName EQ "mavinject64.exe")) AND NOT (((Image ENDSWITH "\\mavinject32.exe" OR Image ENDSWITH "\\mavinject64.exe"))))

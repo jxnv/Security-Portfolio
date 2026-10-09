@@ -1,0 +1,14 @@
+# Title: Windows Recall Feature Enabled Via Reg.EXE
+# ID: 817f252c-5143-4dae-b418-48c3e9f63728
+# Status: test
+# Level: medium
+# Author: Sajid Nawaz Khan
+# Date: 2024-06-02
+# Tags: attack.collection, attack.t1113
+# Description: Detects the enabling of the Windows Recall feature via registry manipulation.
+# Windows Recall can be enabled by deleting the existing "DisableAIDataAnalysis" value, or setting it to 0.
+# Adversaries may enable Windows Recall as part of post-exploitation discovery and collection activities.
+# This rule assumes that Recall is already explicitly disabled on the host, and subsequently enabled by the adversary.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((@Image:*\\reg.exe) OR (@OriginalFileName:"reg.exe")) AND ((@CommandLine:*Microsoft\\Windows\\WindowsAI* AND @CommandLine:*DisableAIDataAnalysis*)) AND (((@CommandLine:*add* OR @CommandLine:*0*)) OR (@CommandLine:*delete*)))

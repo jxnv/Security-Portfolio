@@ -1,0 +1,11 @@
+// Title: Potential SSH Tunnel Persistence Install Using A Scheduled Task
+// ID: 2daa93a0-a5fb-41c5-8cd8-3c11294bfd1f
+// Status: experimental
+// Level: high
+// Author: Rory Duncan
+// Date: 2025-07-14
+// Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.t1053.005, attack.command-and-control
+// Description: Detects the creation of new scheduled tasks via commandline, using Schtasks.exe. This rule detects tasks creating that call OpenSSH, which may indicate the creation of reverse SSH tunnel to the attacker's server.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where (((Image matches "*\\schtasks.exe") or (OriginalFileName = "schtasks.exe")) and (((CommandLine matches "* /create *" and CommandLine matches "*ssh.exe*" and CommandLine matches "*-i*")) or ((CommandLine matches "* /create *" and CommandLine matches "*sshd.exe*" and CommandLine matches "*-f*"))))

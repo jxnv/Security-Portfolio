@@ -1,0 +1,13 @@
+# Title: Cmd Launched with Hidden Start Flags to Suspicious Targets
+# ID: 5a6b7c8d-9e0f-1a2b-3c4d-5e6f7a8b9c0d
+# Status: experimental
+# Level: medium
+# Author: Vladan Sekulic, Swachchhanda Shrawan Poudel (Nextron Systems)
+# Date: 2026-01-24
+# Tags: attack.stealth, attack.t1564.003
+# Description: Detects cmd.exe executing commands with the "start" utility using "/b" (no window) or "/min" (minimized) flags.
+# To reduce false positives from standard background tasks, detection is restricted to scenarios where the target is a known script extension or located in suspicious temporary/public directories.
+# This technique was observed in Chaos, DarkSide, and Emotet malware campaigns.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((((CommandLine CONTAIN "start " OR CommandLine CONTAIN "start/b" OR CommandLine CONTAIN "start/min")) AND ((CommandLine CONTAIN "/b " OR CommandLine CONTAIN "-b " OR CommandLine CONTAIN "/b\"" OR CommandLine CONTAIN "-b\"" OR CommandLine CONTAIN "/min " OR CommandLine CONTAIN "-min " OR CommandLine CONTAIN "/min\"" OR CommandLine CONTAIN "-min\"")) AND ((Image="*\\cmd.exe") OR (OriginalFileName = "Cmd.Exe"))) AND (((CommandLine CONTAIN ".bat" OR CommandLine CONTAIN ".cmd" OR CommandLine CONTAIN ".cpl" OR CommandLine CONTAIN ".hta" OR CommandLine CONTAIN ".js" OR CommandLine CONTAIN ".ps1" OR CommandLine CONTAIN ".scr" OR CommandLine CONTAIN ".vbe" OR CommandLine CONTAIN ".vbs")) OR ((CommandLine CONTAIN " -nop " OR CommandLine CONTAIN " -sta " OR CommandLine CONTAIN ".downloadfile(" OR CommandLine CONTAIN ".downloadstring(" OR CommandLine CONTAIN "-noni " OR CommandLine CONTAIN "-w hidden ")) OR ((CommandLine CONTAIN ":\\Perflogs\\" OR CommandLine CONTAIN ":\\Temp\\" OR CommandLine CONTAIN ":\\Users\\Default\\" OR CommandLine CONTAIN ":\\Windows\\Temp\\" OR CommandLine CONTAIN "\\AppData\\Roaming\\" OR CommandLine CONTAIN "\\Contacts\\" OR CommandLine CONTAIN "\\Documents\\" OR CommandLine CONTAIN "\\Downloads\\" OR CommandLine CONTAIN "\\Favorites\\" OR CommandLine CONTAIN "\\Favourites\\" OR CommandLine CONTAIN "\\inetpub\\" OR CommandLine CONTAIN "\\Music\\" OR CommandLine CONTAIN "\\Photos\\" OR CommandLine CONTAIN "\\Temporary Internet\\" OR CommandLine CONTAIN "\\Users\\Public\\" OR CommandLine CONTAIN "\\Videos\\"))))

@@ -1,0 +1,13 @@
+// Title: Cmd Launched with Hidden Start Flags to Suspicious Targets
+// ID: 5a6b7c8d-9e0f-1a2b-3c4d-5e6f7a8b9c0d
+// Status: experimental
+// Level: medium
+// Author: Vladan Sekulic, Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2026-01-24
+// Tags: attack.stealth, attack.t1564.003
+// Description: Detects cmd.exe executing commands with the "start" utility using "/b" (no window) or "/min" (minimized) flags.
+// To reduce false positives from standard background tasks, detection is restricted to scenarios where the target is a known script extension or located in suspicious temporary/public directories.
+// This technique was observed in Chaos, DarkSide, and Emotet malware campaigns.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where ((((CommandLine matches "*start *" or CommandLine matches "*start/b*" or CommandLine matches "*start/min*")) and ((CommandLine matches "*/b *" or CommandLine matches "*-b *" or CommandLine matches "*/b\"*" or CommandLine matches "*-b\"*" or CommandLine matches "*/min *" or CommandLine matches "*-min *" or CommandLine matches "*/min\"*" or CommandLine matches "*-min\"*")) and ((Image matches "*\\cmd.exe") or (OriginalFileName = "Cmd.Exe"))) and (((CommandLine matches "*.bat*" or CommandLine matches "*.cmd*" or CommandLine matches "*.cpl*" or CommandLine matches "*.hta*" or CommandLine matches "*.js*" or CommandLine matches "*.ps1*" or CommandLine matches "*.scr*" or CommandLine matches "*.vbe*" or CommandLine matches "*.vbs*")) or ((CommandLine matches "* -nop *" or CommandLine matches "* -sta *" or CommandLine matches "*.downloadfile(*" or CommandLine matches "*.downloadstring(*" or CommandLine matches "*-noni *" or CommandLine matches "*-w hidden *")) or ((CommandLine matches "*:\\Perflogs\\*" or CommandLine matches "*:\\Temp\\*" or CommandLine matches "*:\\Users\\Default\\*" or CommandLine matches "*:\\Windows\\Temp\\*" or CommandLine matches "*\\AppData\\Roaming\\*" or CommandLine matches "*\\Contacts\\*" or CommandLine matches "*\\Documents\\*" or CommandLine matches "*\\Downloads\\*" or CommandLine matches "*\\Favorites\\*" or CommandLine matches "*\\Favourites\\*" or CommandLine matches "*\\inetpub\\*" or CommandLine matches "*\\Music\\*" or CommandLine matches "*\\Photos\\*" or CommandLine matches "*\\Temporary Internet\\*" or CommandLine matches "*\\Users\\Public\\*" or CommandLine matches "*\\Videos\\*"))))

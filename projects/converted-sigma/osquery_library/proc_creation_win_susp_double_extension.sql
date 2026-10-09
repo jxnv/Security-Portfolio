@@ -1,0 +1,11 @@
+-- Title: Suspicious Double Extension File Execution
+-- ID: 1cdd9a09-06c9-4769-99ff-626e2b3991b8
+-- Status: stable
+-- Level: high
+-- Author: Florian Roth (Nextron Systems), @blu3_team (idea), Nasreddine Bencherchali (Nextron Systems)
+-- Date: 2019-06-26
+-- Tags: attack.initial-access, attack.t1566.001
+-- Description: Detects suspicious use of an .exe extension after a non-executable file extension like .pdf.exe, a set of spaces or underlines to cloak the executable file in spear phishing campaigns
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM processes WHERE ((Image="*      .exe" OR Image="*______.exe" OR Image="*.doc.exe" OR Image="*.doc.js" OR Image="*.docx.exe" OR Image="*.docx.js" OR Image="*.gif.exe" OR Image="*.jpeg.exe" OR Image="*.jpg.exe" OR Image="*.mkv.exe" OR Image="*.mov.exe" OR Image="*.mp3.exe" OR Image="*.mp4.exe" OR Image="*.pdf.exe" OR Image="*.pdf.js" OR Image="*.png.exe" OR Image="*.ppt.exe" OR Image="*.ppt.js" OR Image="*.pptx.exe" OR Image="*.pptx.js" OR Image="*.rtf.exe" OR Image="*.rtf.js" OR Image="*.svg.exe" OR Image="*.txt.exe" OR Image="*.txt.js" OR Image="*.xls.exe" OR Image="*.xls.js" OR Image="*.xlsx.exe" OR Image="*.xlsx.js" OR Image="*⠀⠀⠀⠀⠀⠀.exe") AND (CommandLine LIKE '%      .exe%' OR CommandLine LIKE '%______.exe%' OR CommandLine LIKE '%.doc.exe%' OR CommandLine LIKE '%.doc.js%' OR CommandLine LIKE '%.docx.exe%' OR CommandLine LIKE '%.docx.js%' OR CommandLine LIKE '%.gif.exe%' OR CommandLine LIKE '%.jpeg.exe%' OR CommandLine LIKE '%.jpg.exe%' OR CommandLine LIKE '%.mkv.exe%' OR CommandLine LIKE '%.mov.exe%' OR CommandLine LIKE '%.mp3.exe%' OR CommandLine LIKE '%.mp4.exe%' OR CommandLine LIKE '%.pdf.exe%' OR CommandLine LIKE '%.pdf.js%' OR CommandLine LIKE '%.png.exe%' OR CommandLine LIKE '%.ppt.exe%' OR CommandLine LIKE '%.ppt.js%' OR CommandLine LIKE '%.pptx.exe%' OR CommandLine LIKE '%.pptx.js%' OR CommandLine LIKE '%.rtf.exe%' OR CommandLine LIKE '%.rtf.js%' OR CommandLine LIKE '%.svg.exe%' OR CommandLine LIKE '%.txt.exe%' OR CommandLine LIKE '%.txt.js%' OR CommandLine LIKE '%.xls.exe%' OR CommandLine LIKE '%.xls.js%' OR CommandLine LIKE '%.xlsx.exe%' OR CommandLine LIKE '%.xlsx.js%' OR CommandLine LIKE '%⠀⠀⠀⠀⠀⠀.exe%'))

@@ -1,0 +1,23 @@
+// Title: Potential Data Exfiltration Via Audio File
+// ID: e4f93c99-396f-47c8-bb0f-201b1fa69034
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-01-16
+// Tags: attack.exfiltration
+// Description: Detects potential exfiltration attempt via audio file using PowerShell
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule e4f93c99_396f_47c8_bb0f_201b1fa69034 {
+  meta:
+    title = "Potential Data Exfiltration Via Audio File"
+    description = "Detects potential exfiltration attempt via audio file using PowerShell"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.ScriptBlockText = /.*[System.Math]::.*/ nocase and $e.ScriptBlockText = /.*[IO.FileMode]::.*/ nocase and $e.ScriptBlockText = /.*BinaryWriter.*/ nocase)) and (($e.ScriptBlockText = /.*0x52.*/ nocase and $e.ScriptBlockText = /.*0x49.*/ nocase and $e.ScriptBlockText = /.*0x46.*/ nocase and $e.ScriptBlockText = /.*0x57.*/ nocase and $e.ScriptBlockText = /.*0x41.*/ nocase and $e.ScriptBlockText = /.*0x56.*/ nocase and $e.ScriptBlockText = /.*0x45.*/ nocase and $e.ScriptBlockText = /.*0xAC.*/ nocase)))
+
+  condition:
+    $e
+}

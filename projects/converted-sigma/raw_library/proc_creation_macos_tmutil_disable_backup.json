@@ -1,0 +1,31 @@
+{
+  "title": "Time Machine Backup Disabled Via Tmutil - MacOS",
+  "id": "2c95fa8a-8b8d-4787-afce-7117ceb8e3da",
+  "status": "test",
+  "description": "Detects disabling of Time Machine (Apple's automated backup utility software) via the native macOS backup utility \"tmutil\".\nAn attacker can use this to prevent backups from occurring.\n",
+  "author": "Pratinav Chandra",
+  "date": "2024-05-29",
+  "tags": [
+    "attack.impact",
+    "attack.t1490"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "process_creation",
+    "product": "macos"
+  },
+  "detection": {
+    "selection_img": [
+      {
+        "Image|endswith": "/tmutil"
+      },
+      {
+        "CommandLine|contains": "tmutil"
+      }
+    ],
+    "selection_cmd": {
+      "CommandLine|contains": "disable"
+    },
+    "condition": "all of selection_*"
+  }
+}

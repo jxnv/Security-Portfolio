@@ -1,0 +1,23 @@
+// Title: Webshell Tool Reconnaissance Activity
+// ID: f64e5c19-879c-4bae-b471-6d84c8339677
+// Status: test
+// Level: high
+// Author: Cian Heasley, Florian Roth (Nextron Systems)
+// Date: 2020-07-22
+// Tags: attack.persistence, attack.t1505.003
+// Description: Detects processes spawned from web servers (PHP, Tomcat, IIS, etc.) that perform reconnaissance looking for the existence of popular scripting tools (perl, python, wget) on the system via the help commands
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule f64e5c19_879c_4bae_b471_6d84c8339677 {
+  meta:
+    title = "Webshell Tool Reconnaissance Activity"
+    description = "Detects processes spawned from web servers (PHP, Tomcat, IIS, etc.) that perform reconnaissance looking for the existence of popular scripting tools (perl, python, wget) on the system via the help commands"
+    author = "Cian Heasley, Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (((($e.principal.process.file.full_path = /.*\\java.exe$/ nocase or $e.principal.process.file.full_path = /.*\\javaw.exe$/ nocase) and ($e.principal.process.file.full_path = /.*-tomcat-.*/ nocase or $e.principal.process.file.full_path = /.*\\tomcat.*/ nocase)) or (($e.principal.process.file.full_path = /.*\\java.exe$/ nocase or $e.principal.process.file.full_path = /.*\\javaw.exe$/ nocase) and ($e.target.process.command_line = /.*CATALINA_HOME.*/ nocase or $e.target.process.command_line = /.*catalina.jar.*/ nocase)) or (($e.principal.process.file.full_path = /.*\\caddy.exe$/ nocase or $e.principal.process.file.full_path = /.*\\httpd.exe$/ nocase or $e.principal.process.file.full_path = /.*\\nginx.exe$/ nocase or $e.principal.process.file.full_path = /.*\\php-cgi.exe$/ nocase or $e.principal.process.file.full_path = /.*\\w3wp.exe$/ nocase or $e.principal.process.file.full_path = /.*\\ws_tomcatservice.exe$/ nocase))) and (($e.target.process.command_line = /.*perl --help.*/ nocase or $e.target.process.command_line = /.*perl -h.*/ nocase or $e.target.process.command_line = /.*python --help.*/ nocase or $e.target.process.command_line = /.*python -h.*/ nocase or $e.target.process.command_line = /.*python3 --help.*/ nocase or $e.target.process.command_line = /.*python3 -h.*/ nocase or $e.target.process.command_line = /.*wget --help.*/ nocase)))
+
+  condition:
+    $e
+}

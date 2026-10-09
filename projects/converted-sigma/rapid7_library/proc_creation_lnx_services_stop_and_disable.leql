@@ -1,0 +1,12 @@
+// Title: Disable Or Stop Services
+// ID: de25eeb8-3655-4643-ac3a-b662d3f26b6b
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-09-15
+// Tags: attack.defense-impairment, attack.t1685, attack.impact, attack.t1489
+// Description: Detects the usage of utilities such as 'systemctl', 'service'...etc to stop or disable tools and services on Linux systems.
+// Attackers may stop or disable security tools and services to evade detection, maintain persistence, or disrupt system operations.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(Image IENDSWITH "/service") OR where(Image IENDSWITH "/systemctl") OR where(Image IENDSWITH "/chkconfig")) AND (where(CommandLine ICONTAINS " stop ") OR where(CommandLine ICONTAINS " disable "))) AND NOT (((where(Image IENDSWITH "/systemctl") AND (where(CommandLine ICONTAINS "--no-reload disable snap-snapd-") OR where(CommandLine ICONTAINS " stop snap-snapd-"))) OR (where(Image IENDSWITH "/systemctl") AND where(ParentCommandLine ICONTAINS "tmp.ci/preinst upgrade") AND (where(CommandLine ICONTAINS " stop ") AND where(CommandLine ICONTAINS "ssh."))) OR (where(ParentCommandLine ICONTAINS "/dpkg/info/ubuntu-pro-client.prerm upgrade") AND where(Image IENDSWITH "/systemctl")))) AND NOT ((where(Image IENDSWITH "/systemctl") AND where(CommandLine IENDSWITH "snap.amazon-ssm-agent.amazon-ssm-agent.service"))))

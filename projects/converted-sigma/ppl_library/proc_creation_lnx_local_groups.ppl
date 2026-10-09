@@ -1,0 +1,11 @@
+// Title: Local Groups Discovery - Linux
+// ID: 676381a6-15ca-4d73-a9c8-6a22e970b90d
+// Status: test
+// Level: low
+// Author: Ömer Günal, Alejandro Ortuno, oscd.community
+// Date: 2020-10-11
+// Tags: attack.discovery, attack.t1069.001
+// Description: Detects enumeration of local system groups. Adversaries may attempt to find local system groups and permission settings
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where ((process.executable="*/groups") OR ((process.executable="*/cat" OR process.executable="*/ed" OR process.executable="*/head" OR process.executable="*/less" OR process.executable="*/more" OR process.executable="*/nano" OR process.executable="*/tail" OR process.executable="*/vi" OR process.executable="*/vim") AND process.command_line like "%/etc/group%"))

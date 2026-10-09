@@ -1,0 +1,23 @@
+// Title: Potential Credential Dumping Via LSASS Process Clone
+// ID: c8da0dfd-4ed0-4b68-962d-13c9c884384e
+// Status: test
+// Level: critical
+// Author: Florian Roth (Nextron Systems), Samir Bousseaden
+// Date: 2021-11-27
+// Tags: attack.credential-access, attack.t1003, attack.t1003.001
+// Description: Detects a suspicious LSASS process process clone that could be a sign of credential dumping activity
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule c8da0dfd_4ed0_4b68_962d_13c9c884384e {
+  meta:
+    title = "Potential Credential Dumping Via LSASS Process Clone"
+    description = "Detects a suspicious LSASS process process clone that could be a sign of credential dumping activity"
+    author = "Florian Roth (Nextron Systems), Samir Bousseaden"
+    severity = "CRITICAL"
+
+  events:
+    ($e.principal.process.file.full_path = /.*\\Windows\\System32\\lsass.exe$/ nocase and $e.target.process.file.full_path = /.*\\Windows\\System32\\lsass.exe$/ nocase)
+
+  condition:
+    $e
+}

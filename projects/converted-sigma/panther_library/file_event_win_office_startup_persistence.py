@@ -1,0 +1,19 @@
+# Title: Potential Persistence Via Microsoft Office Startup Folder
+# ID: 0e20c89d-2264-44ae-8238-aeeaba609ece
+# Status: test
+# Level: high
+# Author: Max Altgelt (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-06-02
+# Tags: attack.persistence, attack.t1137
+# Description: Detects creation of Microsoft Office files inside of one of the default startup folders in order to achieve persistence.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Potential Persistence Via Microsoft Office Startup Folder
+def rule(event):
+    # Detection Logic:
+    # (((((TargetFilename="*.doc" OR TargetFilename="*.docm" OR TargetFilename="*.docx" OR TargetFilename="*.dot" OR TargetFilename="*.dotm" OR TargetFilename="*.rtf")) AND ((TargetFilename="*\\Microsoft\\Word\\STARTUP*") OR ((TargetFilename="*\\Office*" AND TargetFilename="*\\Program Files*" AND TargetFilename="*\\STARTUP*")))) OR (((TargetFilename="*.xls" OR TargetFilename="*.xlsm" OR TargetFilename="*.xlsx" OR TargetFilename="*.xlt" OR TargetFilename="*.xltm")) AND ((TargetFilename="*\\Microsoft\\Excel\\XLSTART*") OR ((TargetFilename="*\\Office*" AND TargetFilename="*\\Program Files*" AND TargetFilename="*\\XLSTART*"))))) AND NOT (((Image="*\\WINWORD.exe" OR Image="*\\EXCEL.exe"))))
+    return True
+
+def title(event):
+    return "Potential Persistence Via Microsoft Office Startup Folder"
+

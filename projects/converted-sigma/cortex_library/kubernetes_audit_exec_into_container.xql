@@ -1,0 +1,11 @@
+// Title: Potential Remote Command Execution In Pod Container
+// ID: a1b0ca4e-7835-413e-8471-3ff2b8a66be6
+// Status: test
+// Level: medium
+// Author: Leo Tsaousis (@laripping)
+// Date: 2024-03-26
+// Tags: attack.t1609, attack.execution
+// Description: Detects attempts to execute remote commands, within a Pod's container using e.g. the "kubectl exec" command.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter (verb = "create" and objectRef.resource = "pods" and objectRef.subresource = "exec")

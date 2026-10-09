@@ -1,0 +1,11 @@
+// Title: AADInternals PowerShell Cmdlets Execution - ProccessCreation
+// ID: c86500e9-a645-4680-98d7-f882c70c1ea3
+// Status: test
+// Level: high
+// Author: Austin Songer (@austinsonger), Nasreddine Bencherchali (Nextron Systems), Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2022-12-23
+// Tags: attack.execution, attack.reconnaissance, attack.discovery, attack.credential-access, attack.impact
+// Description: Detects ADDInternals Cmdlet execution. A tool for administering Azure AD and Office 365. Which can be abused by threat actors to attack Azure AD or Office 365.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where (((process.command_line like "%Add-AADInt%" OR process.command_line like "%ConvertTo-AADInt%" OR process.command_line like "%Disable-AADInt%" OR process.command_line like "%Enable-AADInt%" OR process.command_line like "%Export-AADInt%" OR process.command_line like "%Find-AADInt%" OR process.command_line like "%Get-AADInt%" OR process.command_line like "%Grant-AADInt%" OR process.command_line like "%Initialize-AADInt%" OR process.command_line like "%Install-AADInt%" OR process.command_line like "%Invoke-AADInt%" OR process.command_line like "%Join-AADInt%" OR process.command_line like "%New-AADInt%" OR process.command_line like "%Open-AADInt%" OR process.command_line like "%Read-AADInt%" OR process.command_line like "%Register-AADInt%" OR process.command_line like "%Remove-AADInt%" OR process.command_line like "%Reset-AADInt%" OR process.command_line like "%Resolve-AADInt%" OR process.command_line like "%Restore-AADInt%" OR process.command_line like "%Save-AADInt%" OR process.command_line like "%Search-AADInt%" OR process.command_line like "%Send-AADInt%" OR process.command_line like "%Set-AADInt%" OR process.command_line like "%Start-AADInt%" OR process.command_line like "%Unprotect-AADInt%" OR process.command_line like "%Update-AADInt%")) AND (((process.executable="*\\powershell.exe" OR process.executable="*\\powershell_ise.exe" OR process.executable="*\\pwsh.exe")) OR ((process.pe.original_file_name = "PowerShell.Exe" OR process.pe.original_file_name = "pwsh.dll"))))

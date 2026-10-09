@@ -1,0 +1,19 @@
+# Title: Nltest.EXE Execution
+# ID: 903076ff-f442-475a-b667-4f246bcc203b
+# Status: test
+# Level: low
+# Author: Arun Chauhan
+# Date: 2023-02-03
+# Tags: attack.discovery, attack.t1016, attack.t1018, attack.t1482
+# Description: Detects nltest commands that can be used for information discovery
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Nltest.EXE Execution
+def rule(event):
+    # Detection Logic:
+    # ((Image="*\\nltest.exe") OR (OriginalFileName="nltestrk.exe"))
+    return True
+
+def title(event):
+    return "Nltest.EXE Execution"
+

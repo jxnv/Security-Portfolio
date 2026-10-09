@@ -1,0 +1,23 @@
+// Title: PowerShell Base64 Encoded WMI Classes
+// ID: 1816994b-42e1-4fb1-afd2-134d88184f71
+// Status: test
+// Level: high
+// Author: Christian Burkard (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-01-30
+// Tags: attack.execution, attack.stealth, attack.t1059.001, attack.t1027
+// Description: Detects calls to base64 encoded WMI class such as "Win32_ShadowCopy", "Win32_ScheduledJob", etc.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 1816994b_42e1_4fb1_afd2_134d88184f71 {
+  meta:
+    title = "PowerShell Base64 Encoded WMI Classes"
+    description = "Detects calls to base64 encoded WMI class such as "Win32_ShadowCopy", "Win32_ScheduledJob", etc."
+    author = "Christian Burkard (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (((($e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase)) or (($e.target.process.file.name = "PowerShell.EXE" or $e.target.process.file.name = "pwsh.dll"))) and ((($e.target.process.command_line = /.*VwBpAG4AMwAyAF8ATABvAGcAZwBlAGQATwBuAFUAcwBlAHIA.*/ nocase or $e.target.process.command_line = /.*cAaQBuADMAMgBfAEwAbwBnAGcAZQBkAE8AbgBVAHMAZQByA.*/ nocase or $e.target.process.command_line = /.*XAGkAbgAzADIAXwBMAG8AZwBnAGUAZABPAG4AVQBzAGUAcg.*/ nocase or $e.target.process.command_line = /.*V2luMzJfTG9nZ2VkT25Vc2Vy.*/ nocase or $e.target.process.command_line = /.*dpbjMyX0xvZ2dlZE9uVXNlc.*/ nocase or $e.target.process.command_line = /.*XaW4zMl9Mb2dnZWRPblVzZX.*/ nocase)) or (($e.target.process.command_line = /.*VwBpAG4AMwAyAF8AUAByAG8AYwBlAHMAcw.*/ nocase or $e.target.process.command_line = /.*cAaQBuADMAMgBfAFAAcgBvAGMAZQBzAHMA.*/ nocase or $e.target.process.command_line = /.*XAGkAbgAzADIAXwBQAHIAbwBjAGUAcwBzA.*/ nocase or $e.target.process.command_line = /.*V2luMzJfUHJvY2Vzc.*/ nocase or $e.target.process.command_line = /.*dpbjMyX1Byb2Nlc3.*/ nocase or $e.target.process.command_line = /.*XaW4zMl9Qcm9jZXNz.*/ nocase)) or (($e.target.process.command_line = /.*VwBpAG4AMwAyAF8AUwBjAGgAZQBkAHUAbABlAGQASgBvAGIA.*/ nocase or $e.target.process.command_line = /.*cAaQBuADMAMgBfAFMAYwBoAGUAZAB1AGwAZQBkAEoAbwBiA.*/ nocase or $e.target.process.command_line = /.*XAGkAbgAzADIAXwBTAGMAaABlAGQAdQBsAGUAZABKAG8AYg.*/ nocase or $e.target.process.command_line = /.*V2luMzJfU2NoZWR1bGVkSm9i.*/ nocase or $e.target.process.command_line = /.*dpbjMyX1NjaGVkdWxlZEpvY.*/ nocase or $e.target.process.command_line = /.*XaW4zMl9TY2hlZHVsZWRKb2.*/ nocase)) or (($e.target.process.command_line = /.*VwBpAG4AMwAyAF8AUwBoAGEAZABvAHcAYwBvAHAAeQ.*/ nocase or $e.target.process.command_line = /.*cAaQBuADMAMgBfAFMAaABhAGQAbwB3AGMAbwBwAHkA.*/ nocase or $e.target.process.command_line = /.*XAGkAbgAzADIAXwBTAGgAYQBkAG8AdwBjAG8AcAB5A.*/ nocase or $e.target.process.command_line = /.*V2luMzJfU2hhZG93Y29we.*/ nocase or $e.target.process.command_line = /.*dpbjMyX1NoYWRvd2NvcH.*/ nocase or $e.target.process.command_line = /.*XaW4zMl9TaGFkb3djb3B5.*/ nocase)) or (($e.target.process.command_line = /.*VwBpAG4AMwAyAF8AVQBzAGUAcgBBAGMAYwBvAHUAbgB0A.*/ nocase or $e.target.process.command_line = /.*cAaQBuADMAMgBfAFUAcwBlAHIAQQBjAGMAbwB1AG4AdA.*/ nocase or $e.target.process.command_line = /.*XAGkAbgAzADIAXwBVAHMAZQByAEEAYwBjAG8AdQBuAHQA.*/ nocase or $e.target.process.command_line = /.*V2luMzJfVXNlckFjY291bn.*/ nocase or $e.target.process.command_line = /.*dpbjMyX1VzZXJBY2NvdW50.*/ nocase or $e.target.process.command_line = /.*XaW4zMl9Vc2VyQWNjb3Vud.*/ nocase))))
+
+  condition:
+    $e
+}

@@ -1,0 +1,11 @@
+# Title: Potential Configuration And Service Reconnaissance Via Reg.EXE
+# ID: 970007b7-ce32-49d0-a4a4-fbef016950bd
+# Status: test
+# Level: medium
+# Author: Timur Zinniatullin, oscd.community
+# Date: 2019-10-21
+# Tags: attack.discovery, attack.t1012, attack.t1007
+# Description: Detects the usage of "reg.exe" in order to query reconnaissance information from the registry. Adversaries may interact with the Windows registry to gather information about credentials, the system, configuration, and installed software.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog ((process_exec="*query*") AND ((process_path="*\\reg.exe") OR (process_name="reg.exe")) AND ((process_exec="*currentVersion\\windows*" OR process_exec="*winlogon\\*" OR process_exec="*currentVersion\\shellServiceObjectDelayLoad*" OR process_exec="*currentVersion\\run*" OR process_exec="*currentVersion\\policies\\explorer\\run*" OR process_exec="*currentcontrolset\\services*")))

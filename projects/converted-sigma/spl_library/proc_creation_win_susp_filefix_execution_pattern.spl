@@ -1,0 +1,14 @@
+# Title: Suspicious FileFix Execution Pattern
+# ID: b5b29e4e-31fa-4fdf-b058-296e7a1aa0c2
+# Status: experimental
+# Level: high
+# Author: 0xFustang, Swachchhanda Shrawan Poudel (Nextron Systems)
+# Date: 2025-11-24
+# Tags: attack.execution, attack.t1204.004
+# Description: Detects suspicious FileFix execution patterns where users are tricked into running malicious commands through browser file upload dialog manipulation.
+# This attack typically begins when users visit malicious websites impersonating legitimate services or news platforms,
+# which may display fake CAPTCHA challenges or direct instructions to open file explorer and paste clipboard content.
+# The clipboard content usually contains commands that download and execute malware, such as information stealing tools.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog (((parent_process_path="*\\brave.exe" OR parent_process_path="*\\chrome.exe" OR parent_process_path="*\\firefox.exe" OR parent_process_path="*\\msedge.exe") AND process_exec="*#*") AND (((process_exec="*account*" OR process_exec="*anti-bot*" OR process_exec="*botcheck*" OR process_exec="*captcha*" OR process_exec="*challenge*" OR process_exec="*confirmation*" OR process_exec="*fraud*" OR process_exec="*human*" OR process_exec="*identification*" OR process_exec="*identificator*" OR process_exec="*identity*" OR process_exec="*robot*" OR process_exec="*validation*" OR process_exec="*verification*" OR process_exec="*verify*")) OR ((process_exec="*%comspec%*" OR process_exec="*bitsadmin*" OR process_exec="*certutil*" OR process_exec="*cmd*" OR process_exec="*cscript*" OR process_exec="*curl*" OR process_exec="*finger*" OR process_exec="*mshta*" OR process_exec="*powershell*" OR process_exec="*pwsh*" OR process_exec="*regsvr32*" OR process_exec="*rundll32*" OR process_exec="*schtasks*" OR process_exec="*wget*" OR process_exec="*wscript*"))))

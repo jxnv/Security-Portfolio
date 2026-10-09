@@ -1,0 +1,24 @@
+// Title: Suspicious ScreenSave Change by Reg.exe
+// ID: 0fc35fc3-efe6-4898-8a37-0b233339524f
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2021-08-19
+// Tags: attack.persistence, attack.privilege-escalation, attack.t1546.002
+// Description: Adversaries may establish persistence by executing malicious content triggered by user inactivity.
+// Screensavers are programs that execute after a configurable time of user inactivity and consist of Portable Executable (PE) files with a .scr file extension
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 0fc35fc3_efe6_4898_8a37_0b233339524f {
+  meta:
+    title = "Suspicious ScreenSave Change by Reg.exe"
+    description = "Adversaries may establish persistence by executing malicious content triggered by user inactivity. Screensavers are programs that execute after a configurable time of user inactivity and consist of Portable Executable (PE) files with a .scr file extension"
+    author = "frack113"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.process.file.full_path = /.*\\reg.exe$/ nocase and ($e.target.process.command_line = /.*HKEY_CURRENT_USER\\Control Panel\\Desktop.*/ nocase or $e.target.process.command_line = /.*HKCU\\Control Panel\\Desktop.*/ nocase)) and ((($e.target.process.command_line = /.*/v ScreenSaveActive.*/ nocase and $e.target.process.command_line = /.*/t REG_SZ.*/ nocase and $e.target.process.command_line = /.*/d 1.*/ nocase and $e.target.process.command_line = /.*/f.*/ nocase)) or (($e.target.process.command_line = /.*/v ScreenSaveTimeout.*/ nocase and $e.target.process.command_line = /.*/t REG_SZ.*/ nocase and $e.target.process.command_line = /.*/d .*/ nocase and $e.target.process.command_line = /.*/f.*/ nocase)) or (($e.target.process.command_line = /.*/v ScreenSaverIsSecure.*/ nocase and $e.target.process.command_line = /.*/t REG_SZ.*/ nocase and $e.target.process.command_line = /.*/d 0.*/ nocase and $e.target.process.command_line = /.*/f.*/ nocase)) or (($e.target.process.command_line = /.*/v SCRNSAVE.EXE.*/ nocase and $e.target.process.command_line = /.*/t REG_SZ.*/ nocase and $e.target.process.command_line = /.*/d .*/ nocase and $e.target.process.command_line = /.*.scr.*/ nocase and $e.target.process.command_line = /.*/f.*/ nocase))))
+
+  condition:
+    $e
+}

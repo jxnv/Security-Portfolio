@@ -1,0 +1,59 @@
+{
+  "title": "Suspicious XOR Encoded PowerShell Command",
+  "id": "bb780e0c-16cf-4383-8383-1e5471db6cf9",
+  "status": "test",
+  "description": "Detects presence of a potentially xor encoded powershell command",
+  "author": "Sami Ruohonen, Harish Segar, Tim Shelton, Teymur Kheirkhabarov, Vasiliy Burov, oscd.community, Nasreddine Bencherchali",
+  "date": "2018-09-05",
+  "tags": [
+    "attack.execution",
+    "attack.stealth",
+    "attack.t1059.001",
+    "attack.t1140",
+    "attack.t1027"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_img": [
+      {
+        "Image|endswith": [
+          "\\powershell.exe",
+          "\\pwsh.exe"
+        ]
+      },
+      {
+        "OriginalFileName": [
+          "PowerShell.EXE",
+          "pwsh.dll"
+        ]
+      },
+      {
+        "Description": "Windows PowerShell"
+      },
+      {
+        "Product": "PowerShell Core 6"
+      }
+    ],
+    "selection_cli_xor": {
+      "CommandLine|contains": "bxor"
+    },
+    "selection_cli_other": {
+      "CommandLine|contains": [
+        "ForEach",
+        "for(",
+        "for ",
+        "-join ",
+        "-join'",
+        "-join\"",
+        "-join`",
+        "::Join",
+        "[char]"
+      ]
+    },
+    "condition": "all of selection_*"
+  }
+}

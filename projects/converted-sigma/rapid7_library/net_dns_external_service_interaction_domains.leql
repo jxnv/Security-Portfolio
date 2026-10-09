@@ -1,0 +1,22 @@
+// Title: DNS Query to External Service Interaction Domains
+// ID: aff715fa-4dd5-497a-8db3-910bea555566
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Matt Kelly (list of domains)
+// Date: 2022-06-07
+// Tags: attack.initial-access, attack.t1190, attack.reconnaissance, attack.t1595.002
+// Description: Detects DNS queries to well-known out-of-band application security testing (OAST) and callback domains.
+// These services (e.g. Burp Collaborator, interactsh, canarytokens, dnslog.cn) are used by security
+// researchers and attackers alike to confirm blind vulnerabilities such as SSRF, XXE, blind RCE, and
+// Log4Shell-style injections, where the exploit payload triggers an external DNS lookup to a controlled domain.
+// 
+// A detection indicates that a host on your network resolved one of these domains, which may mean:
+//     (1) an attacker is actively probing or exploiting a vulnerable service and using the callback to
+//     confirm code execution or data exfiltration,
+//     (2) a security scanner (e.g. Nuclei, Gobies) is running against internal targets.
+// 
+// Investigate the source host, the full DNS query string (the unique subdomain prefix encodes the callback session),
+// and any concurrent outbound connections or process activity to determine intent.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(query IENDSWITH ".burpcollaborator.net") OR where(query IENDSWITH ".canarytokens.com") OR where(query IENDSWITH ".ceye.io") OR where(query IENDSWITH ".ddns.1433.eu.org") OR where(query IENDSWITH ".ddns.bypass.eu.org") OR where(query IENDSWITH ".ddns.xn--gg8h.eu.org") OR where(query IENDSWITH ".digimg.store") OR where(query IENDSWITH ".dns.su18.org") OR where(query IENDSWITH ".dnshook.site") OR where(query IENDSWITH ".dnslog.cn") OR where(query IENDSWITH ".dnslog.ink") OR where(query IENDSWITH ".gobygo.net") OR where(query IENDSWITH ".instances.httpworkbench.com") OR where(query IENDSWITH ".interact.sh") OR where(query IENDSWITH ".log.dnslog.pp.ua") OR where(query IENDSWITH ".log.dnslog.qzz.io") OR where(query IENDSWITH ".log.dnslogs.dpdns.org") OR where(query IENDSWITH ".log.javaweb.org") OR where(query IENDSWITH ".log.nat.cloudns.ph") OR where(query IENDSWITH ".oast.fun") OR where(query IENDSWITH ".oast.live") OR where(query IENDSWITH ".oast.me") OR where(query IENDSWITH ".oast.online") OR where(query IENDSWITH ".oast.pro") OR where(query IENDSWITH ".oast.site") OR where(query IENDSWITH ".oastify.com") OR where(query IENDSWITH ".p8.lol") OR where(query IENDSWITH ".requestbin.net"))) AND NOT ((where(query ICONTAINS "polling.oastify.com"))))

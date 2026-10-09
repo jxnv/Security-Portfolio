@@ -1,0 +1,11 @@
+// Title: Linux Network Service Scanning Tools Execution
+// ID: 3e102cd9-a70d-4a7a-9508-403963092f31
+// Status: test
+// Level: low
+// Author: Alejandro Ortuno, oscd.community, Georg Lauenstein (sure[secure])
+// Date: 2020-10-21
+// Tags: attack.discovery, attack.t1046
+// Description: Detects execution of network scanning and reconnaisance tools. These tools can be used for the enumeration of local or remote network services for example.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((ImageFileName = /.*/nc/i or ImageFileName = /.*/ncat/i or ImageFileName = /.*/netcat/i or ImageFileName = /.*/socat/i)) and not(((CommandLine = /* --listen */i or CommandLine = /* -l */i)))) or ((ImageFileName = /.*/autorecon/i or ImageFileName = /.*/hping/i or ImageFileName = /.*/hping2/i or ImageFileName = /.*/hping3/i or ImageFileName = /.*/naabu/i or ImageFileName = /.*/nmap/i or ImageFileName = /.*/nping/i or ImageFileName = /.*/telnet/i or ImageFileName = /.*/zenmap/i)))

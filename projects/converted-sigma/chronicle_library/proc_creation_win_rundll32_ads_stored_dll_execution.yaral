@@ -1,0 +1,23 @@
+// Title: Potential Rundll32 Execution With DLL Stored In ADS
+// ID: 9248c7e1-2bf3-4661-a22c-600a8040b446
+// Status: test
+// Level: high
+// Author: Harjot Singh, '@cyb3rjy0t'
+// Date: 2023-01-21
+// Tags: attack.stealth, attack.t1564.004
+// Description: Detects execution of rundll32 where the DLL being called is stored in an Alternate Data Stream (ADS).
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 9248c7e1_2bf3_4661_a22c_600a8040b446 {
+  meta:
+    title = "Potential Rundll32 Execution With DLL Stored In ADS"
+    description = "Detects execution of rundll32 where the DLL being called is stored in an Alternate Data Stream (ADS)."
+    author = "Harjot Singh, '@cyb3rjy0t'"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.command_line = /[Rr][Uu][Nn][Dd][Ll][Ll]32(?:\.[Ee][Xx][Ee])? \S+?\w:\S+?:/ nocase) and (($e.target.process.file.full_path = /.*\\rundll32.exe$/ nocase) or ($e.target.process.file.name = "RUNDLL32.EXE")))
+
+  condition:
+    $e
+}

@@ -1,0 +1,25 @@
+// Title: Default RDP Port Changed to Non Standard Port
+// ID: 509e84b9-a71a-40e0-834f-05470369bd1e
+// Status: test
+// Level: high
+// Author: frack113
+// Date: 2022-01-01
+// Tags: attack.privilege-escalation, attack.persistence, attack.t1547.010
+// Description: Detects changes to the default RDP port.
+// Remote desktop is a common feature in operating systems. It allows a user to log into a remote system using an interactive session with a graphical user interface.
+// Microsoft refers to its implementation of the Remote Desktop Protocol (RDP) as Remote Desktop Services (RDS).
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 509e84b9_a71a_40e0_834f_05470369bd1e {
+  meta:
+    title = "Default RDP Port Changed to Non Standard Port"
+    description = "Detects changes to the default RDP port. Remote desktop is a common feature in operating systems. It allows a user to log into a remote system using an interactive session with a graphical user interface. Microsoft refers to its implementation of the Remote Desktop Protocol (RDP) as Remote Desktop Services (RDS)."
+    author = "frack113"
+    severity = "HIGH"
+
+  events:
+    (($e.TargetObject = /.*\\Control\\Terminal Server\\WinStations\\RDP-Tcp\\PortNumber$/ nocase) and not(($e.Details = "DWORD (0x00000d3d)")))
+
+  condition:
+    $e
+}

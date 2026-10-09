@@ -1,0 +1,60 @@
+{
+  "title": "RDP Sensitive Settings Changed",
+  "id": "3f6b7b62-61aa-45db-96bd-9c31b36b653c",
+  "status": "test",
+  "description": "Detects tampering of RDP Terminal Service/Server sensitive settings.\nSuch as allowing unauthorized users access to a system via the 'fAllowUnsolicited' or enabling RDP via 'fDenyTSConnections', etc.\n\nBelow is a list of registry keys/values that are monitored by this rule:\n\n- Shadow: Used to enable Remote Desktop shadowing, which allows an administrator to view or control a user's session.\n- DisableRemoteDesktopAntiAlias: Disables anti-aliasing for remote desktop sessions.\n- DisableSecuritySettings: Disables certain security settings for Remote Desktop connections.\n- fAllowUnsolicited: Allows unsolicited remote assistance offers.\n- fAllowUnsolicitedFullControl: Allows unsolicited remote assistance offers with full control.\n- InitialProgram: Specifies a program to run automatically when a user logs on to a remote computer.\n- ServiceDll: Used in RDP hijacking techniques to specify a custom DLL to be loaded by the Terminal Services service.\n- SecurityLayer: Specifies the security layer used for RDP connections.\n",
+  "author": "Samir Bousseaden, David ANDRE, Roberto Rodriguez @Cyb3rWard0g, Nasreddine Bencherchali",
+  "date": "2022-08-06",
+  "tags": [
+    "attack.persistence",
+    "attack.defense-impairment",
+    "attack.t1112"
+  ],
+  "level": "high",
+  "logsource": {
+    "category": "registry_set",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_shadow": {
+      "TargetObject|contains": [
+        "\\Control\\Terminal Server\\",
+        "\\Windows NT\\Terminal Services\\"
+      ],
+      "TargetObject|endswith": "\\Shadow",
+      "Details": [
+        "DWORD (0x00000001)",
+        "DWORD (0x00000002)",
+        "DWORD (0x00000003)",
+        "DWORD (0x00000004)"
+      ]
+    },
+    "selection_terminal_services_key": {
+      "TargetObject|contains": [
+        "\\Control\\Terminal Server\\",
+        "\\Windows NT\\Terminal Services\\"
+      ],
+      "TargetObject|endswith": [
+        "\\DisableRemoteDesktopAntiAlias",
+        "\\DisableSecuritySettings",
+        "\\fAllowUnsolicited",
+        "\\fAllowUnsolicitedFullControl"
+      ],
+      "Details": "DWORD (0x00000001)"
+    },
+    "selection_tamper_only": {
+      "TargetObject|contains": [
+        "\\Control\\Terminal Server\\InitialProgram",
+        "\\Control\\Terminal Server\\WinStations\\RDP-Tcp\\InitialProgram",
+        "\\services\\TermService\\Parameters\\ServiceDll",
+        "\\Terminal Server\\WinStations\\RDP-Tcp\\SecurityLayer",
+        "\\Windows NT\\Terminal Services\\InitialProgram"
+      ]
+    },
+    "filter_main_securitylayer_tls": {
+      "TargetObject|endswith": "\\SecurityLayer",
+      "Details": "DWORD (0x00000002)"
+    },
+    "condition": "(selection_shadow or selection_terminal_services_key or selection_tamper_only) and not 1 of filter_main_*"
+  }
+}

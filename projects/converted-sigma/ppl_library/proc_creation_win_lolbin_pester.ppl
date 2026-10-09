@@ -1,0 +1,11 @@
+// Title: Execute Code with Pester.bat as Parent
+// ID: 18988e1b-9087-4f8a-82fe-0414dce49878
+// Status: test
+// Level: medium
+// Author: frack113, Nasreddine Bencherchali
+// Date: 2022-08-20
+// Tags: attack.execution, attack.stealth, attack.t1059.001, attack.t1216
+// Description: Detects code execution via Pester.bat (Pester - Powershell Modulte for testing)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where (((process.parent.command_line like "%{ Invoke-Pester -EnableExit ;%" OR process.parent.command_line like "%{ Get-Help \"%")) AND ((process.parent.executable="*\\powershell.exe" OR process.parent.executable="*\\pwsh.exe") AND process.parent.command_line like "%\\WindowsPowerShell\\Modules\\Pester\\%"))

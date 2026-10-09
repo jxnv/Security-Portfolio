@@ -1,0 +1,23 @@
+// Title: User Added To Highly Privileged Group
+// ID: 10fb649c-3600-4d37-b1e6-56ea90bb7e09
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2024-02-23
+// Tags: attack.privilege-escalation, attack.persistence, attack.t1098
+// Description: Detects addition of users to highly privileged groups via "Net" or "Add-LocalGroupMember".
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 10fb649c_3600_4d37_b1e6_56ea90bb7e09 {
+  meta:
+    title = "User Added To Highly Privileged Group"
+    description = "Detects addition of users to highly privileged groups via "Net" or "Add-LocalGroupMember"."
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*Group Policy Creator Owners.*/ nocase or $e.target.process.command_line = /.*Schema Admins.*/ nocase)) and ((($e.target.process.command_line = /.*localgroup .*/ nocase and $e.target.process.command_line = /.* /add.*/ nocase)) or (($e.target.process.command_line = /.*Add-LocalGroupMember .*/ nocase and $e.target.process.command_line = /.* -Group .*/ nocase))))
+
+  condition:
+    $e
+}

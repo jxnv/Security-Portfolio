@@ -1,0 +1,54 @@
+{
+  "title": "Suspicious External WebDAV Execution",
+  "id": "1ae64f96-72b6-48b3-ad3d-e71dff6c6398",
+  "status": "test",
+  "description": "Detects executables launched from external WebDAV shares using the WebDAV Explorer integration, commonly seen in initial access campaigns.\n",
+  "author": "Ahmed Farouk",
+  "date": "2024-05-10",
+  "tags": [
+    "attack.initial-access",
+    "attack.resource-development",
+    "attack.t1584",
+    "attack.t1566"
+  ],
+  "level": "high",
+  "logsource": {
+    "category": "proxy"
+  },
+  "detection": {
+    "selection_webdav": {
+      "c-useragent|startswith": "Microsoft-WebDAV-MiniRedir/",
+      "cs-method": "GET"
+    },
+    "selection_execution": {
+      "c-uri|endswith": [
+        ".7z",
+        ".bat",
+        ".dat",
+        ".cmd",
+        ".exe",
+        ".js",
+        ".lnk",
+        ".ps1",
+        ".rar",
+        ".url",
+        ".vbe",
+        ".vbs",
+        ".zip"
+      ]
+    },
+    "filter_main_local_ips": {
+      "dst_ip|cidr": [
+        "127.0.0.0/8",
+        "10.0.0.0/8",
+        "172.16.0.0/12",
+        "192.168.0.0/16",
+        "169.254.0.0/16",
+        "::1/128",
+        "fe80::/10",
+        "fc00::/7"
+      ]
+    },
+    "condition": "all of selection_* and not 1 of filter_main_*"
+  }
+}

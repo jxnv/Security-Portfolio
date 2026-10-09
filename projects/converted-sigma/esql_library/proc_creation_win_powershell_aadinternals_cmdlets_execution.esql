@@ -1,0 +1,11 @@
+// Title: AADInternals PowerShell Cmdlets Execution - ProccessCreation
+// ID: c86500e9-a645-4680-98d7-f882c70c1ea3
+// Status: test
+// Level: high
+// Author: Austin Songer (@austinsonger), Nasreddine Bencherchali (Nextron Systems), Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2022-12-23
+// Tags: attack.execution, attack.reconnaissance, attack.discovery, attack.credential-access, attack.impact
+// Description: Detects ADDInternals Cmdlet execution. A tool for administering Azure AD and Office 365. Which can be abused by threat actors to attack Azure AD or Office 365.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE (((process.command_line LIKE "%Add-AADInt%" OR process.command_line LIKE "%ConvertTo-AADInt%" OR process.command_line LIKE "%Disable-AADInt%" OR process.command_line LIKE "%Enable-AADInt%" OR process.command_line LIKE "%Export-AADInt%" OR process.command_line LIKE "%Find-AADInt%" OR process.command_line LIKE "%Get-AADInt%" OR process.command_line LIKE "%Grant-AADInt%" OR process.command_line LIKE "%Initialize-AADInt%" OR process.command_line LIKE "%Install-AADInt%" OR process.command_line LIKE "%Invoke-AADInt%" OR process.command_line LIKE "%Join-AADInt%" OR process.command_line LIKE "%New-AADInt%" OR process.command_line LIKE "%Open-AADInt%" OR process.command_line LIKE "%Read-AADInt%" OR process.command_line LIKE "%Register-AADInt%" OR process.command_line LIKE "%Remove-AADInt%" OR process.command_line LIKE "%Reset-AADInt%" OR process.command_line LIKE "%Resolve-AADInt%" OR process.command_line LIKE "%Restore-AADInt%" OR process.command_line LIKE "%Save-AADInt%" OR process.command_line LIKE "%Search-AADInt%" OR process.command_line LIKE "%Send-AADInt%" OR process.command_line LIKE "%Set-AADInt%" OR process.command_line LIKE "%Start-AADInt%" OR process.command_line LIKE "%Unprotect-AADInt%" OR process.command_line LIKE "%Update-AADInt%")) AND (((process.executable LIKE "%\\powershell.exe" OR process.executable LIKE "%\\powershell_ise.exe" OR process.executable LIKE "%\\pwsh.exe")) OR ((process.pe.original_file_name == "PowerShell.Exe" OR process.pe.original_file_name == "pwsh.dll"))))

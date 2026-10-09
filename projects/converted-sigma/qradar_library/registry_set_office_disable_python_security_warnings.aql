@@ -1,0 +1,12 @@
+-- Title: Python Function Execution Security Warning Disabled In Excel - Registry
+-- ID: 17e53739-a1fc-4a62-b1b9-87711c2d5e44
+-- Status: test
+-- Level: high
+-- Author: Nasreddine Bencherchali (Nextron Systems), @Kostastsale
+-- Date: 2024-08-23
+-- Tags: attack.defense-impairment, attack.t1685
+-- Description: Detects changes to the registry value "PythonFunctionWarnings" that would prevent any warnings or alerts from showing when Python functions are about to be executed.
+-- Threat actors could run malicious code through the new Microsoft Excel feature that allows Python to run within the spreadsheet.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM events WHERE (TargetObject ILIKE '%\\Microsoft\\Office\\%' AND TargetObject ILIKE '%\\Excel\\Security\\PythonFunctionWarnings' AND Details = 'DWORD (0x00000001)')

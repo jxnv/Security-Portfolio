@@ -1,0 +1,35 @@
+{
+  "title": "File Recovery From Backup Via Wbadmin.EXE",
+  "id": "6fe4aa1e-0531-4510-8be2-782154b73b48",
+  "status": "test",
+  "description": "Detects the recovery of files from backups via \"wbadmin.exe\".\nAttackers can restore sensitive files such as NTDS.DIT or Registry Hives from backups in order to potentially extract credentials.\n",
+  "author": "Nasreddine Bencherchali (Nextron Systems), frack113",
+  "date": "2024-05-10",
+  "tags": [
+    "attack.impact",
+    "attack.t1490"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_img": [
+      {
+        "Image|endswith": "\\wbadmin.exe"
+      },
+      {
+        "OriginalFileName": "WBADMIN.EXE"
+      }
+    ],
+    "selection_cli": {
+      "CommandLine|contains|all": [
+        " recovery",
+        "recoveryTarget",
+        "itemtype:File"
+      ]
+    },
+    "condition": "all of selection_*"
+  }
+}

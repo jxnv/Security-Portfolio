@@ -1,0 +1,34 @@
+{
+  "title": "Potential PsExec Remote Execution",
+  "id": "ea011323-7045-460b-b2d7-0f7442ea6b38",
+  "status": "test",
+  "description": "Detects potential psexec command that initiate execution on a remote systems via common commandline flags used by the utility",
+  "author": "Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2023-02-28",
+  "tags": [
+    "attack.resource-development",
+    "attack.t1587.001"
+  ],
+  "level": "high",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection": {
+      "CommandLine|contains|all": [
+        "accepteula",
+        " -u ",
+        " -p ",
+        " \\\\\\\\"
+      ]
+    },
+    "filter_main_localhost": {
+      "CommandLine|contains": [
+        "\\\\\\\\localhost",
+        "\\\\\\\\127."
+      ]
+    },
+    "condition": "selection and not 1 of filter_main_*"
+  }
+}

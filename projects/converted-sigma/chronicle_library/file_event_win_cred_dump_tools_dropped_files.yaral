@@ -1,0 +1,23 @@
+// Title: Cred Dump Tools Dropped Files
+// ID: 8fbf3271-1ef6-4e94-8210-03c2317947f6
+// Status: test
+// Level: high
+// Author: Teymur Kheirkhabarov, oscd.community
+// Date: 2019-11-01
+// Tags: attack.credential-access, attack.t1003.001, attack.t1003.002, attack.t1003.003, attack.t1003.004, attack.t1003.005
+// Description: Files with well-known filenames (parts of credential dump software or files produced by them) creation
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 8fbf3271_1ef6_4e94_8210_03c2317947f6 {
+  meta:
+    title = "Cred Dump Tools Dropped Files"
+    description = "Files with well-known filenames (parts of credential dump software or files produced by them) creation"
+    author = "Teymur Kheirkhabarov, oscd.community"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.file.full_path = /.*\\fgdump-log.*/ nocase or $e.target.file.full_path = /.*\\kirbi.*/ nocase or $e.target.file.full_path = /.*\\pwdump.*/ nocase or $e.target.file.full_path = /.*\\pwhashes.*/ nocase or $e.target.file.full_path = /.*\\wce_ccache.*/ nocase or $e.target.file.full_path = /.*\\wce_krbtkts.*/ nocase)) or (($e.target.file.full_path = /.*\\cachedump.exe$/ nocase or $e.target.file.full_path = /.*\\cachedump64.exe$/ nocase or $e.target.file.full_path = /.*\\DumpExt.dll$/ nocase or $e.target.file.full_path = /.*\\DumpSvc.exe$/ nocase or $e.target.file.full_path = /.*\\Dumpy.exe$/ nocase or $e.target.file.full_path = /.*\\fgexec.exe$/ nocase or $e.target.file.full_path = /.*\\lsremora.dll$/ nocase or $e.target.file.full_path = /.*\\lsremora64.dll$/ nocase or $e.target.file.full_path = /.*\\NTDS.out$/ nocase or $e.target.file.full_path = /.*\\procdump.exe$/ nocase or $e.target.file.full_path = /.*\\procdump64.exe$/ nocase or $e.target.file.full_path = /.*\\procdump64a.exe$/ nocase or $e.target.file.full_path = /.*\\pstgdump.exe$/ nocase or $e.target.file.full_path = /.*\\pwdump.exe$/ nocase or $e.target.file.full_path = /.*\\SAM.out$/ nocase or $e.target.file.full_path = /.*\\SECURITY.out$/ nocase or $e.target.file.full_path = /.*\\servpw.exe$/ nocase or $e.target.file.full_path = /.*\\servpw64.exe$/ nocase or $e.target.file.full_path = /.*\\SYSTEM.out$/ nocase or $e.target.file.full_path = /.*\\test.pwd$/ nocase or $e.target.file.full_path = /.*\\wceaux.dll$/ nocase)))
+
+  condition:
+    $e
+}

@@ -1,0 +1,27 @@
+{
+  "title": "Potential Credential Dumping Attempt Via PowerShell Remote Thread",
+  "id": "fb656378-f909-47c1-8747-278bf09f4f4f",
+  "status": "test",
+  "description": "Detects remote thread creation by PowerShell processes into \"lsass.exe\"",
+  "author": "oscd.community, Natalia Shornikova",
+  "date": "2020-10-06",
+  "tags": [
+    "attack.credential-access",
+    "attack.t1003.001"
+  ],
+  "level": "high",
+  "logsource": {
+    "product": "windows",
+    "category": "create_remote_thread"
+  },
+  "detection": {
+    "selection": {
+      "SourceImage|endswith": [
+        "\\powershell.exe",
+        "\\pwsh.exe"
+      ],
+      "TargetImage|endswith": "\\lsass.exe"
+    },
+    "condition": "selection"
+  }
+}

@@ -1,0 +1,23 @@
+// Title: UAC Bypass Using ChangePK and SLUI
+// ID: 503d581c-7df0-4bbe-b9be-5840c0ecc1fc
+// Status: test
+// Level: high
+// Author: Christian Burkard (Nextron Systems)
+// Date: 2021-08-23
+// Tags: attack.privilege-escalation, attack.t1548.002
+// Description: Detects an UAC bypass that uses changepk.exe and slui.exe (UACMe 61)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 503d581c_7df0_4bbe_b9be_5840c0ecc1fc {
+  meta:
+    title = "UAC Bypass Using ChangePK and SLUI"
+    description = "Detects an UAC bypass that uses changepk.exe and slui.exe (UACMe 61)"
+    author = "Christian Burkard (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ($e.target.process.file.full_path = /.*\\changepk.exe$/ nocase and $e.principal.process.file.full_path = /.*\\slui.exe$/ nocase and ($e.IntegrityLevel = "High" or $e.IntegrityLevel = "System" or $e.IntegrityLevel = "S-1-16-16384" or $e.IntegrityLevel = "S-1-16-12288"))
+
+  condition:
+    $e
+}

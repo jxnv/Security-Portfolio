@@ -1,0 +1,11 @@
+// Title: Process Proxy Execution Via Squirrel.EXE
+// ID: 45239e6a-b035-4aaf-b339-8ad379fcb67e
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems), Karneades / Markus Neis, Jonhnathan Ribeiro, oscd.community
+// Date: 2022-06-09
+// Tags: attack.execution, attack.stealth, attack.t1218
+// Description: Detects the usage of the "Squirrel.exe" binary to execute arbitrary processes. This binary is part of multiple Electron based software installations (Slack, Teams, Discord, etc.)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((src.process.cmdline containsCIS "--processStart" OR src.process.cmdline containsCIS "--processStartAndWait" OR src.process.cmdline containsCIS "--createShortcut")) AND ((src.process.image.path endswithCIS "\\squirrel.exe" OR src.process.image.path endswithCIS "\\update.exe"))) AND NOT ((((src.process.cmdline containsCIS ":\\Users\\" AND src.process.cmdline containsCIS "\\AppData\\Local\\Discord\\Update.exe" AND src.process.cmdline containsCIS "Discord.exe") AND (src.process.cmdline containsCIS "--createShortcut" OR src.process.cmdline containsCIS "--processStart")) OR ((src.process.cmdline containsCIS ":\\Users\\" AND src.process.cmdline containsCIS "\\AppData\\Local\\GitHubDesktop\\Update.exe" AND src.process.cmdline containsCIS "GitHubDesktop.exe") AND (src.process.cmdline containsCIS "--createShortcut" OR src.process.cmdline containsCIS "--processStartAndWait")) OR ((src.process.cmdline containsCIS ":\\Users\\" AND src.process.cmdline containsCIS "\\AppData\\Local\\Microsoft\\Teams\\Update.exe" AND src.process.cmdline containsCIS "Teams.exe") AND (src.process.cmdline containsCIS "--processStart" OR src.process.cmdline containsCIS "--createShortcut")) OR ((src.process.cmdline containsCIS ":\\Users\\" AND src.process.cmdline containsCIS "\\AppData\\Local\\yammerdesktop\\Update.exe" AND src.process.cmdline containsCIS "Yammer.exe") AND (src.process.cmdline containsCIS "--processStart" OR src.process.cmdline containsCIS "--createShortcut")))))

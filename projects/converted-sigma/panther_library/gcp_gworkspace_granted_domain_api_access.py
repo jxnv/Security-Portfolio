@@ -1,0 +1,19 @@
+# Title: Google Workspace Granted Domain API Access
+# ID: 04e2a23a-9b29-4a5c-be3a-3542e3f982ba
+# Status: test
+# Level: medium
+# Author: Austin Songer
+# Date: 2021-08-23
+# Tags: attack.privilege-escalation, attack.persistence, attack.t1098
+# Description: Detects when an API access service account is granted domain authority.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Google Workspace Granted Domain API Access
+def rule(event):
+    # Detection Logic:
+    # (eventService="admin.googleapis.com" AND eventName="AUTHORIZE_API_CLIENT_ACCESS")
+    return True
+
+def title(event):
+    return "Google Workspace Granted Domain API Access"
+

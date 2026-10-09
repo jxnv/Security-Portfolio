@@ -1,0 +1,23 @@
+// Title: New Federated Domain Added
+// ID: 58f88172-a73d-442b-94c9-95eaed3cbb36
+// Status: test
+// Level: medium
+// Author: Splunk Threat Research Team (original rule), Harjot Singh @cyb3rjy0t (sigma rule)
+// Date: 2023-09-18
+// Tags: attack.privilege-escalation, attack.defense-impairment, attack.t1484.002
+// Description: Detects the addition of a new Federated Domain.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 58f88172_a73d_442b_94c9_95eaed3cbb36 {
+  meta:
+    title = "New Federated Domain Added"
+    description = "Detects the addition of a new Federated Domain."
+    author = "Splunk Threat Research Team (original rule), Harjot Singh @cyb3rjy0t (sigma rule)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.Operation = /.*domain.*/ nocase) and (($e.Operation = /.*add.*/ nocase or $e.Operation = /.*new.*/ nocase)))
+
+  condition:
+    $e
+}

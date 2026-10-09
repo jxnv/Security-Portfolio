@@ -1,0 +1,13 @@
+// Title: Cmd Launched with Hidden Start Flags to Suspicious Targets
+// ID: 5a6b7c8d-9e0f-1a2b-3c4d-5e6f7a8b9c0d
+// Status: experimental
+// Level: medium
+// Author: Vladan Sekulic, Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2026-01-24
+// Tags: attack.stealth, attack.t1564.003
+// Description: Detects cmd.exe executing commands with the "start" utility using "/b" (no window) or "/min" (minimized) flags.
+// To reduce false positives from standard background tasks, detection is restricted to scenarios where the target is a known script extension or located in suspicious temporary/public directories.
+// This technique was observed in Chaos, DarkSide, and Emotet malware campaigns.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+from siem.events where ((((contains(CommandLine, "start ") OR contains(CommandLine, "start/b") OR contains(CommandLine, "start/min"))) AND ((contains(CommandLine, "/b ") OR contains(CommandLine, "-b ") OR contains(CommandLine, "/b\"") OR contains(CommandLine, "-b\"") OR contains(CommandLine, "/min ") OR contains(CommandLine, "-min ") OR contains(CommandLine, "/min\"") OR contains(CommandLine, "-min\""))) AND ((Image="*\\cmd.exe") OR (OriginalFileName == "Cmd.Exe"))) AND (((contains(CommandLine, ".bat") OR contains(CommandLine, ".cmd") OR contains(CommandLine, ".cpl") OR contains(CommandLine, ".hta") OR contains(CommandLine, ".js") OR contains(CommandLine, ".ps1") OR contains(CommandLine, ".scr") OR contains(CommandLine, ".vbe") OR contains(CommandLine, ".vbs"))) OR ((contains(CommandLine, " -nop ") OR contains(CommandLine, " -sta ") OR contains(CommandLine, ".downloadfile(") OR contains(CommandLine, ".downloadstring(") OR contains(CommandLine, "-noni ") OR contains(CommandLine, "-w hidden "))) OR ((contains(CommandLine, ":\\Perflogs\\") OR contains(CommandLine, ":\\Temp\\") OR contains(CommandLine, ":\\Users\\Default\\") OR contains(CommandLine, ":\\Windows\\Temp\\") OR contains(CommandLine, "\\AppData\\Roaming\\") OR contains(CommandLine, "\\Contacts\\") OR contains(CommandLine, "\\Documents\\") OR contains(CommandLine, "\\Downloads\\") OR contains(CommandLine, "\\Favorites\\") OR contains(CommandLine, "\\Favourites\\") OR contains(CommandLine, "\\inetpub\\") OR contains(CommandLine, "\\Music\\") OR contains(CommandLine, "\\Photos\\") OR contains(CommandLine, "\\Temporary Internet\\") OR contains(CommandLine, "\\Users\\Public\\") OR contains(CommandLine, "\\Videos\\")))))

@@ -1,0 +1,11 @@
+// Title: Potential MFA Bypass Using Legacy Client Authentication
+// ID: 53bb4f7f-48a8-4475-ac30-5a82ddfdf6fc
+// Status: test
+// Level: high
+// Author: Harjot Singh, '@cyb3rjy0t'
+// Date: 2023-03-20
+// Tags: attack.privilege-escalation, attack.persistence, attack.initial-access, attack.credential-access, attack.stealth, attack.t1078.004, attack.t1110
+// Description: Detects successful authentication from potential clients using legacy authentication via user agent strings. This could be a sign of MFA bypass using a password spray attack.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter (Status = "Success" and (userAgent contains "BAV2ROPC" or userAgent contains "CBAinPROD" or userAgent contains "CBAinTAR"))

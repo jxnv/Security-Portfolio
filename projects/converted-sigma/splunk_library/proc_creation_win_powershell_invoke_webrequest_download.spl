@@ -1,0 +1,11 @@
+# Title: Suspicious Invoke-WebRequest Execution
+# ID: 5e3cc4d8-3e68-43db-8656-eaaeefdec9cc
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-08-02
+# Tags: attack.command-and-control, attack.t1105
+# Description: Detects a suspicious call to Invoke-WebRequest cmdlet where the and output is located in a suspicious location
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog (((process_exec="*curl *" OR process_exec="*Invoke-WebRequest*" OR process_exec="*iwr *" OR process_exec="*wget *")) AND ((process_exec="* -ur*" OR process_exec="* -o*")) AND (((process_path="*\\powershell_ise.exe" OR process_path="*\\powershell.exe" OR process_path="*\\pwsh.exe")) OR ((process_name="powershell_ise.EXE" OR process_name="PowerShell.EXE" OR process_name="pwsh.dll"))) AND ((process_exec="*\\AppData\\*" OR process_exec="*\\Desktop\\*" OR process_exec="*\\Temp\\*" OR process_exec="*\\Users\\Public\\*" OR process_exec="*%AppData%*" OR process_exec="*%Public%*" OR process_exec="*%Temp%*" OR process_exec="*%tmp%*" OR process_exec="*:\\Windows\\*")))

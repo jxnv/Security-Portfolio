@@ -1,0 +1,32 @@
+{
+  "title": "UAC Bypass Using EventVwr",
+  "id": "63e4f530-65dc-49cc-8f80-ccfa95c69d43",
+  "status": "test",
+  "description": "Detects the pattern of a UAC bypass using Windows Event Viewer",
+  "author": "Antonio Cocomazzi (idea), Florian Roth (Nextron Systems)",
+  "date": "2022-04-27",
+  "tags": [
+    "attack.privilege-escalation",
+    "attack.stealth"
+  ],
+  "level": "high",
+  "logsource": {
+    "category": "file_event",
+    "product": "windows"
+  },
+  "detection": {
+    "selection": {
+      "TargetFilename|endswith": [
+        "\\Microsoft\\Event Viewer\\RecentViews",
+        "\\Microsoft\\EventV~1\\RecentViews"
+      ]
+    },
+    "filter": {
+      "Image|startswith": [
+        "C:\\Windows\\System32\\",
+        "C:\\Windows\\SysWOW64\\"
+      ]
+    },
+    "condition": "selection and not filter"
+  }
+}

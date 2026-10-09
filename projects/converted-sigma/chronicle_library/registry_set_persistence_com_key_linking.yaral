@@ -1,0 +1,23 @@
+// Title: Potential COM Object Hijacking Via TreatAs Subkey - Registry
+// ID: 9b0f8a61-91b2-464f-aceb-0527e0a45020
+// Status: test
+// Level: medium
+// Author: Kutepov Anton, oscd.community
+// Date: 2019-10-23
+// Tags: attack.privilege-escalation, attack.persistence, attack.t1546.015
+// Description: Detects COM object hijacking via TreatAs subkey
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 9b0f8a61_91b2_464f_aceb_0527e0a45020 {
+  meta:
+    title = "Potential COM Object Hijacking Via TreatAs Subkey - Registry"
+    description = "Detects COM object hijacking via TreatAs subkey"
+    author = "Kutepov Anton, oscd.community"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.TargetObject = /.*HKU\\.*/ nocase and $e.TargetObject = /.*Classes\\CLSID\\.*/ nocase and $e.TargetObject = /.*\\TreatAs.*/ nocase)) and not(($e.target.process.file.full_path = "C:\\WINDOWS\\system32\\svchost.exe")))
+
+  condition:
+    $e
+}

@@ -1,0 +1,11 @@
+// Title: Query Tor Onion Address - DNS Client
+// ID: 8384bd26-bde6-4da9-8e5d-4174a7a47ca2
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-02-20
+// Tags: attack.command-and-control, attack.t1090.003
+// Description: Detects DNS resolution of an .onion address related to Tor routing networks
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter (EventID = 3008 and (QueryName endswith ".hiddenservice.net" or QueryName endswith ".onion.ca" or QueryName endswith ".onion.cab" or QueryName endswith ".onion.casa" or QueryName endswith ".onion.city" or QueryName endswith ".onion.direct" or QueryName endswith ".onion.dog" or QueryName endswith ".onion.glass" or QueryName endswith ".onion.gq" or QueryName endswith ".onion.guide" or QueryName endswith ".onion.in.net" or QueryName endswith ".onion.ink" or QueryName endswith ".onion.it" or QueryName endswith ".onion.link" or QueryName endswith ".onion.lt" or QueryName endswith ".onion.lu" or QueryName endswith ".onion.ly" or QueryName endswith ".onion.mn" or QueryName endswith ".onion.network" or QueryName endswith ".onion.nu" or QueryName endswith ".onion.pet" or QueryName endswith ".onion.plus" or QueryName endswith ".onion.pt" or QueryName endswith ".onion.pw" or QueryName endswith ".onion.rip" or QueryName endswith ".onion.sh" or QueryName endswith ".onion.si" or QueryName endswith ".onion.to" or QueryName endswith ".onion.top" or QueryName endswith ".onion.ws" or QueryName endswith ".onion" or QueryName endswith ".s1.tor-gateways.de" or QueryName endswith ".s2.tor-gateways.de" or QueryName endswith ".s3.tor-gateways.de" or QueryName endswith ".s4.tor-gateways.de" or QueryName endswith ".s5.tor-gateways.de" or QueryName endswith ".t2w.pw" or QueryName endswith ".tor2web.ae.org" or QueryName endswith ".tor2web.blutmagie.de" or QueryName endswith ".tor2web.com" or QueryName endswith ".tor2web.fi" or QueryName endswith ".tor2web.io" or QueryName endswith ".tor2web.org" or QueryName endswith ".tor2web.xyz" or QueryName endswith ".torlink.co"))

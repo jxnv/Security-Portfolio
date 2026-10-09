@@ -1,0 +1,11 @@
+// Title: Suspicious PowerShell Invocations - Specific
+// ID: ae7fbf8e-f3cb-49fd-8db4-5f3bed522c71
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Jonhnathan Ribeiro
+// Date: 2017-03-05
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects suspicious PowerShell invocation command parameters
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((ScriptBlockText containsCIS "-nop" AND ScriptBlockText containsCIS " -w " AND ScriptBlockText containsCIS "hidden" AND ScriptBlockText containsCIS " -c " AND ScriptBlockText containsCIS "[Convert]::FromBase64String")) OR ((ScriptBlockText containsCIS " -w " AND ScriptBlockText containsCIS "hidden" AND ScriptBlockText containsCIS "-ep" AND ScriptBlockText containsCIS "bypass" AND ScriptBlockText containsCIS "-Enc")) OR ((ScriptBlockText containsCIS " -w " AND ScriptBlockText containsCIS "hidden" AND ScriptBlockText containsCIS "-noni" AND ScriptBlockText containsCIS "-nop" AND ScriptBlockText containsCIS " -c " AND ScriptBlockText containsCIS "iex" AND ScriptBlockText containsCIS "New-Object")) OR ((ScriptBlockText containsCIS "iex" AND ScriptBlockText containsCIS "New-Object" AND ScriptBlockText containsCIS "Net.WebClient" AND ScriptBlockText containsCIS ".Download")) OR ((ScriptBlockText containsCIS "powershell" AND ScriptBlockText containsCIS "reg" AND ScriptBlockText containsCIS "add") AND (ScriptBlockText containsCIS "\\software\\microsoft\\windows\\currentversion\\run" OR ScriptBlockText containsCIS "\\software\\wow6432node\\microsoft\\windows\\currentversion\\run" OR ScriptBlockText containsCIS "\\software\\microsoft\\windows\\currentversion\\policies\\explorer\\run")) OR ((ScriptBlockText containsCIS "bypass" AND ScriptBlockText containsCIS "-noprofile" AND ScriptBlockText containsCIS "-windowstyle" AND ScriptBlockText containsCIS "hidden" AND ScriptBlockText containsCIS "new-object" AND ScriptBlockText containsCIS "system.net.webclient" AND ScriptBlockText containsCIS ".download"))) AND NOT (((ScriptBlockText containsCIS "(New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1" OR ScriptBlockText containsCIS "(New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1')" OR ScriptBlockText containsCIS "Write-ChocolateyWarning"))))

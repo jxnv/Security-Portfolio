@@ -1,0 +1,24 @@
+// Title: LSA PPL Protection Setting Modification via CommandLine
+// ID: 8c0eca51-0f88-4db2-9183-fdfb10c703f9
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems), Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2022-03-22
+// Tags: attack.defense-impairment, attack.t1689
+// Description: Detects modification of LSA PPL protection settings via CommandLine.
+// It may indicate an attempt to disable protection and enable credential dumping tools to access LSASS process memory.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 8c0eca51_0f88_4db2_9183_fdfb10c703f9 {
+  meta:
+    title = "LSA PPL Protection Setting Modification via CommandLine"
+    description = "Detects modification of LSA PPL protection settings via CommandLine. It may indicate an attempt to disable protection and enable credential dumping tools to access LSASS process memory."
+    author = "Florian Roth (Nextron Systems), Swachchhanda Shrawan Poudel (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.command_line = /.*ControlSet.*/ nocase and $e.target.process.command_line = /.*\\Control\\Lsa.*/ nocase) and ($e.target.process.command_line = /.*Set-ItemProperty.*/ nocase or $e.target.process.command_line = /.*New-ItemProperty.*/ nocase or $e.target.process.command_line = /.* add .*/ nocase)) and ((($e.target.process.file.full_path = /.*\\reg.exe$/ nocase or $e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase)) or (($e.target.process.file.name = "reg.exe" or $e.target.process.file.name = "powershell.exe" or $e.target.process.file.name = "pwsh.dll"))) and (($e.target.process.command_line = /.*IsPplAutoEnabled.*/ nocase or $e.target.process.command_line = /.*RunAsPPL.*/ nocase or $e.target.process.command_line = /.*RunAsPPLBoot.*/ nocase)))
+
+  condition:
+    $e
+}

@@ -1,0 +1,11 @@
+// Title: Important Scheduled Task Deleted or Disabled
+// ID: 9e3cb244-bdb8-4632-8c90-6079c8f4f16d
+// Status: test
+// Level: high
+// Author: frack113
+// Date: 2023-01-13
+// Tags: attack.impact, attack.t1489
+// Description: Detects when adversaries try to stop system services or processes by deleting or disabling their respective scheduled tasks in order to conduct data destructive activities
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((EventID == "141" OR EventID == "142") AND (TaskName contains "\\Windows\\SystemRestore\\SR" OR TaskName contains "\\Windows\\Windows Defender\\" OR TaskName contains "\\Windows\\BitLocker" OR TaskName contains "\\Windows\\WindowsBackup\\" OR TaskName contains "\\Windows\\WindowsUpdate\\" OR TaskName contains "\\Windows\\UpdateOrchestrator\\" OR TaskName contains "\\Windows\\ExploitGuard")) AND NOT (((UserName contains "AUTHORI" OR UserName contains "AUTORI"))))

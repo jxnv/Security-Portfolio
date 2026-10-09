@@ -1,0 +1,30 @@
+{
+  "title": "Obfuscated PowerShell OneLiner Execution",
+  "id": "44e24481-6202-4c62-9127-5a0ae8e3fe3d",
+  "status": "test",
+  "description": "Detects the execution of a specific OneLiner to download and execute powershell modules in memory.",
+  "author": "@Kostastsale, TheDFIRReport",
+  "date": "2022-05-09",
+  "tags": [
+    "attack.execution",
+    "attack.defense-impairment",
+    "attack.t1059.001",
+    "attack.t1685"
+  ],
+  "level": "high",
+  "logsource": {
+    "product": "windows",
+    "category": "process_creation"
+  },
+  "detection": {
+    "selection": {
+      "Image|endswith": "\\powershell.exe",
+      "CommandLine|contains|all": [
+        "http://127.0.0.1",
+        "%{(IRM $_)}",
+        "Invoke"
+      ]
+    },
+    "condition": "selection"
+  }
+}

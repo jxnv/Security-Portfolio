@@ -1,0 +1,11 @@
+# Title: Veeam Backup Database Suspicious Query
+# ID: 696bfb54-227e-4602-ac5b-30d9d2053312
+# Status: test
+# Level: medium
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2023-05-04
+# Tags: attack.collection, attack.t1005
+# Description: Detects potentially suspicious SQL queries using SQLCmd targeting the Veeam backup databases in order to steal information.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog (((process_exec="*BackupRepositories*" OR process_exec="*Backups*" OR process_exec="*Credentials*" OR process_exec="*HostCreds*" OR process_exec="*SmbFileShares*" OR process_exec="*Ssh_creds*" OR process_exec="*VSphereInfo*")) AND (process_path="*\\sqlcmd.exe" AND (process_exec="*VeeamBackup*" AND process_exec="*From *")))

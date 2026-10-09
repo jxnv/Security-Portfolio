@@ -1,0 +1,33 @@
+{
+  "title": "Kubernetes Rolebinding Modification",
+  "id": "10b97915-ec8d-455f-a815-9a78926585f6",
+  "status": "test",
+  "description": "Detects when a Kubernetes Rolebinding is created or modified.\n",
+  "author": "kelnage",
+  "date": "2024-07-11",
+  "tags": [
+    "attack.privilege-escalation"
+  ],
+  "level": "medium",
+  "logsource": {
+    "product": "kubernetes",
+    "service": "audit"
+  },
+  "detection": {
+    "selection": {
+      "objectRef.apiGroup": "rbac.authorization.k8s.io",
+      "objectRef.resource": [
+        "clusterrolebindings",
+        "rolebindings"
+      ],
+      "verb": [
+        "create",
+        "delete",
+        "patch",
+        "replace",
+        "update"
+      ]
+    },
+    "condition": "selection"
+  }
+}

@@ -1,0 +1,12 @@
+// Title: Suspicious File Write to SharePoint Layouts Directory
+// ID: 1f0489be-b496-4ddf-b3a9-5900f2044e9c
+// Status: experimental
+// Level: high
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-07-24
+// Tags: attack.initial-access, attack.t1190, attack.persistence, attack.t1505.003
+// Description: Detects suspicious file writes to SharePoint layouts directory which could indicate webshell activity or post-exploitation.
+// This behavior has been observed in the exploitation of SharePoint vulnerabilities such as CVE-2025-49704, CVE-2025-49706 or CVE-2025-53770.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((where(Image IENDSWITH "\\cmd.exe") OR where(Image IENDSWITH "\\powershell_ise.exe") OR where(Image IENDSWITH "\\powershell.exe") OR where(Image IENDSWITH "\\pwsh.exe") OR where(Image IENDSWITH "\\w3wp.exe")) AND (where(TargetFilename ISTARTSWITH "C:\\Program Files\\Common Files\\Microsoft Shared\\Web Server Extensions\\") OR where(TargetFilename ISTARTSWITH "C:\\Program Files (x86)\\Common Files\\Microsoft Shared\\Web Server Extensions\\")) AND (where(TargetFilename ICONTAINS "\\15\\TEMPLATE\\LAYOUTS\\") OR where(TargetFilename ICONTAINS "\\16\\TEMPLATE\\LAYOUTS\\")) AND (where(TargetFilename IENDSWITH ".asax") OR where(TargetFilename IENDSWITH ".ascx") OR where(TargetFilename IENDSWITH ".ashx") OR where(TargetFilename IENDSWITH ".asmx") OR where(TargetFilename IENDSWITH ".asp") OR where(TargetFilename IENDSWITH ".aspx") OR where(TargetFilename IENDSWITH ".bat") OR where(TargetFilename IENDSWITH ".cmd") OR where(TargetFilename IENDSWITH ".cer") OR where(TargetFilename IENDSWITH ".config") OR where(TargetFilename IENDSWITH ".hta") OR where(TargetFilename IENDSWITH ".js") OR where(TargetFilename IENDSWITH ".jsp") OR where(TargetFilename IENDSWITH ".jspx") OR where(TargetFilename IENDSWITH ".php") OR where(TargetFilename IENDSWITH ".ps1") OR where(TargetFilename IENDSWITH ".vbs")))

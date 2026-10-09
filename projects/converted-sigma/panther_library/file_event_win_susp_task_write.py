@@ -1,0 +1,19 @@
+# Title: Suspicious Scheduled Task Write to System32 Tasks
+# ID: 80e1f67a-4596-4351-98f5-a9c3efabac95
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems)
+# Date: 2021-11-16
+# Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.t1053
+# Description: Detects the creation of tasks from processes executed from suspicious locations
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Suspicious Scheduled Task Write to System32 Tasks
+def rule(event):
+    # Detection Logic:
+    # (TargetFilename="*\\Windows\\System32\\Tasks*" AND (Image="*\\AppData\\*" OR Image="*C:\\PerfLogs*" OR Image="*\\Windows\\System32\\config\\systemprofile*"))
+    return True
+
+def title(event):
+    return "Suspicious Scheduled Task Write to System32 Tasks"
+

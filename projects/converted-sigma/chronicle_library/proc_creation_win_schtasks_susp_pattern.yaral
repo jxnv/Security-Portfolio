@@ -1,0 +1,23 @@
+// Title: Suspicious Command Patterns In Scheduled Task Creation
+// ID: f2c64357-b1d2-41b7-849f-34d2682c0fad
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-02-23
+// Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.t1053.005
+// Description: Detects scheduled task creation using "schtasks" that contain potentially suspicious or uncommon commands
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule f2c64357_b1d2_41b7_849f_34d2682c0fad {
+  meta:
+    title = "Suspicious Command Patterns In Scheduled Task Creation"
+    description = "Detects scheduled task creation using "schtasks" that contain potentially suspicious or uncommon commands"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.file.full_path = /.*\\schtasks.exe$/ nocase and $e.target.process.command_line = /.*/Create .*/ nocase) and (((($e.target.process.command_line = /.*/sc minute .*/ nocase or $e.target.process.command_line = /.*/ru system .*/ nocase)) and (($e.target.process.command_line = /.*cmd /c.*/ nocase or $e.target.process.command_line = /.*cmd /k.*/ nocase or $e.target.process.command_line = /.*cmd /r.*/ nocase or $e.target.process.command_line = /.*cmd.exe /c .*/ nocase or $e.target.process.command_line = /.*cmd.exe /k .*/ nocase or $e.target.process.command_line = /.*cmd.exe /r .*/ nocase))) or (($e.target.process.command_line = /.* -decode .*/ nocase or $e.target.process.command_line = /.* -enc .*/ nocase or $e.target.process.command_line = /.* -w hidden .*/ nocase or $e.target.process.command_line = /.* bypass .*/ nocase or $e.target.process.command_line = /.* IEX.*/ nocase or $e.target.process.command_line = /.*.DownloadData.*/ nocase or $e.target.process.command_line = /.*.DownloadFile.*/ nocase or $e.target.process.command_line = /.*.DownloadString.*/ nocase or $e.target.process.command_line = /.*/c start /min .*/ nocase or $e.target.process.command_line = /.*FromBase64String.*/ nocase or $e.target.process.command_line = /.*mshta http.*/ nocase or $e.target.process.command_line = /.*mshta.exe http.*/ nocase)) or ((($e.target.process.command_line = /.*:\\ProgramData\\.*/ nocase or $e.target.process.command_line = /.*:\\Temp\\.*/ nocase or $e.target.process.command_line = /.*:\\Tmp\\.*/ nocase or $e.target.process.command_line = /.*:\\Users\\Public\\.*/ nocase or $e.target.process.command_line = /.*:\\Windows\\Temp\\.*/ nocase or $e.target.process.command_line = /.*\\AppData\\.*/ nocase or $e.target.process.command_line = /.*%AppData%.*/ nocase or $e.target.process.command_line = /.*%Temp%.*/ nocase or $e.target.process.command_line = /.*%tmp%.*/ nocase)) and (($e.target.process.command_line = /.*cscript.*/ nocase or $e.target.process.command_line = /.*curl.*/ nocase or $e.target.process.command_line = /.*wscript.*/ nocase)))))
+
+  condition:
+    $e
+}

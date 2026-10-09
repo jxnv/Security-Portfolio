@@ -1,0 +1,23 @@
+// Title: Suspicious WMIC Execution Via Office Process
+// ID: e1693bc8-7168-4eab-8718-cdcaa68a1738
+// Status: test
+// Level: high
+// Author: Vadim Khrykov, Cyb3rEng
+// Date: 2021-08-23
+// Tags: attack.stealth, attack.t1204.002, attack.t1047, attack.t1218.010, attack.execution
+// Description: Office application called wmic to proxye execution through a LOLBIN process. This is often used to break suspicious parent-child chain (Office app spawns LOLBin).
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule e1693bc8_7168_4eab_8718_cdcaa68a1738 {
+  meta:
+    title = "Suspicious WMIC Execution Via Office Process"
+    description = "Office application called wmic to proxye execution through a LOLBIN process. This is often used to break suspicious parent-child chain (Office app spawns LOLBin)."
+    author = "Vadim Khrykov, Cyb3rEng"
+    severity = "HIGH"
+
+  events:
+    ((($e.principal.process.file.full_path = /.*\\WINWORD.EXE$/ nocase or $e.principal.process.file.full_path = /.*\\EXCEL.EXE$/ nocase or $e.principal.process.file.full_path = /.*\\POWERPNT.exe$/ nocase or $e.principal.process.file.full_path = /.*\\MSPUB.exe$/ nocase or $e.principal.process.file.full_path = /.*\\VISIO.exe$/ nocase or $e.principal.process.file.full_path = /.*\\MSACCESS.EXE$/ nocase or $e.principal.process.file.full_path = /.*\\EQNEDT32.EXE$/ nocase or $e.principal.process.file.full_path = /.*\\ONENOTE.EXE$/ nocase or $e.principal.process.file.full_path = /.*\\wordpad.exe$/ nocase or $e.principal.process.file.full_path = /.*\\wordview.exe$/ nocase)) and (($e.target.process.command_line = /.*process.*/ nocase and $e.target.process.command_line = /.*create.*/ nocase and $e.target.process.command_line = /.*call.*/ nocase) and ($e.target.process.command_line = /.*regsvr32.*/ nocase or $e.target.process.command_line = /.*rundll32.*/ nocase or $e.target.process.command_line = /.*msiexec.*/ nocase or $e.target.process.command_line = /.*mshta.*/ nocase or $e.target.process.command_line = /.*verclsid.*/ nocase or $e.target.process.command_line = /.*wscript.*/ nocase or $e.target.process.command_line = /.*cscript.*/ nocase)) and (($e.target.process.file.full_path = /.*\\wbem\\WMIC.exe$/ nocase) or ($e.target.process.file.name = "wmic.exe")))
+
+  condition:
+    $e
+}

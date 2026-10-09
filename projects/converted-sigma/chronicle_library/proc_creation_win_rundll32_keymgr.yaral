@@ -1,0 +1,23 @@
+// Title: Suspicious Key Manager Access
+// ID: a4694263-59a8-4608-a3a0-6f8d3a51664c
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-04-21
+// Tags: attack.credential-access, attack.t1555.004
+// Description: Detects the invocation of the Stored User Names and Passwords dialogue (Key Manager)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule a4694263_59a8_4608_a3a0_6f8d3a51664c {
+  meta:
+    title = "Suspicious Key Manager Access"
+    description = "Detects the invocation of the Stored User Names and Passwords dialogue (Key Manager)"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*keymgr.*/ nocase and $e.target.process.command_line = /.*KRShowKeyMgr.*/ nocase)) and (($e.target.process.file.full_path = /.*\\rundll32.exe$/ nocase) or ($e.target.process.file.name = "RUNDLL32.EXE")))
+
+  condition:
+    $e
+}

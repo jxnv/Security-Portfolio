@@ -1,0 +1,11 @@
+// Title: AD Privileged Users or Groups Reconnaissance
+// ID: 35ba1d85-724d-42a3-889f-2e2362bcaf23
+// Status: test
+// Level: high
+// Author: Samir Bousseaden
+// Date: 2019-04-03
+// Tags: attack.discovery, attack.t1087.002
+// Description: Detect priv users or groups recon based on 4661 eventid and known privileged users or groups SIDs
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((EventID = 4661 and (ObjectType = "SAM_USER" or ObjectType = "SAM_GROUP")) and (((ObjectName = /.*-512/i or ObjectName = /.*-502/i or ObjectName = /.*-500/i or ObjectName = /.*-505/i or ObjectName = /.*-519/i or ObjectName = /.*-520/i or ObjectName = /.*-544/i or ObjectName = /.*-551/i or ObjectName = /.*-555/i)) or (ObjectName = /*admin*/i)) and not((SubjectUserName = /.*$/i)))

@@ -1,0 +1,11 @@
+// Title: Shadow Copies Deletion Using Operating Systems Utilities
+// ID: c947b146-0abc-4c87-9c64-b17e9d7274a2
+// Status: stable
+// Level: high
+// Author: Florian Roth (Nextron Systems), Michael Haag, Teymur Kheirkhabarov, Daniil Yugoslavskiy, oscd.community, Andreas Hunkeler (@Karneades)
+// Date: 2019-10-22
+// Tags: attack.impact, attack.stealth, attack.t1070, attack.t1490
+// Description: Shadow Copies deletion using operating systems utilities
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((src.process.cmdline containsCIS "shadow" AND src.process.cmdline containsCIS "delete")) AND (((src.process.image.path endswithCIS "\\powershell.exe" OR src.process.image.path endswithCIS "\\pwsh.exe" OR src.process.image.path endswithCIS "\\wmic.exe" OR src.process.image.path endswithCIS "\\vssadmin.exe" OR src.process.image.path endswithCIS "\\diskshadow.exe")) OR ((OriginalFileName = "PowerShell.EXE" OR OriginalFileName = "pwsh.dll" OR OriginalFileName = "wmic.exe" OR OriginalFileName = "VSSADMIN.EXE" OR OriginalFileName = "diskshadow.exe")))) OR (((src.process.cmdline containsCIS "delete" AND src.process.cmdline containsCIS "catalog" AND src.process.cmdline containsCIS "quiet")) AND ((src.process.image.path endswithCIS "\\wbadmin.exe") OR (OriginalFileName = "WBADMIN.EXE"))) OR (((src.process.cmdline containsCIS "resize" AND src.process.cmdline containsCIS "shadowstorage") AND (src.process.cmdline containsCIS "unbounded" OR src.process.cmdline containsCIS "/MaxSize=")) AND ((src.process.image.path endswithCIS "\\vssadmin.exe") OR (OriginalFileName = "VSSADMIN.EXE"))))

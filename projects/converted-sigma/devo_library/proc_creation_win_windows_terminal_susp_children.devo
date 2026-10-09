@@ -1,0 +1,11 @@
+// Title: Suspicious WindowsTerminal Child Processes
+// ID: 8de89e52-f6e1-4b5b-afd1-41ecfa300d48
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-07-25
+// Tags: attack.execution, attack.persistence
+// Description: Detects suspicious children spawned via the Windows Terminal application which could be a sign of persistence via WindowsTerminal (see references section)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+from siem.events where ((((ParentImage="*\\WindowsTerminal.exe" OR ParentImage="*\\wt.exe")) AND (((Image="*\\rundll32.exe" OR Image="*\\regsvr32.exe" OR Image="*\\certutil.exe" OR Image="*\\cscript.exe" OR Image="*\\wscript.exe" OR Image="*\\csc.exe")) OR ((contains(Image, "C:\\Users\\Public\\") OR contains(Image, "\\Downloads\\") OR contains(Image, "\\Desktop\\") OR contains(Image, "\\AppData\\Local\\Temp\\") OR contains(Image, "\\Windows\\TEMP\\"))) OR ((contains(CommandLine, " iex ") OR contains(CommandLine, " icm") OR contains(CommandLine, "Invoke-") OR contains(CommandLine, "Import-Module ") OR contains(CommandLine, "ipmo ") OR contains(CommandLine, "DownloadString(") OR contains(CommandLine, " /c ") OR contains(CommandLine, " /k ") OR contains(CommandLine, " /r "))))) AND NOT ((((contains(CommandLine, "Import-Module") AND contains(CommandLine, "Microsoft.VisualStudio.DevShell.dll") AND contains(CommandLine, "Enter-VsDevShell"))) OR ((contains(CommandLine, "\\AppData\\Local\\Packages\\Microsoft.WindowsTerminal_") AND contains(CommandLine, "\\LocalState\\settings.json"))) OR ((contains(CommandLine, "C:\\Program Files\\Microsoft Visual Studio\\") AND contains(CommandLine, "\\Common7\\Tools\\VsDevCmd.bat"))))))

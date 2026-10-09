@@ -1,0 +1,11 @@
+// Title: File Download Via Bitsadmin To A Suspicious Target Folder
+// ID: 2ddef153-167b-4e89-86b6-757a9e65dcac
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-06-28
+// Tags: attack.persistence, attack.execution, attack.stealth, attack.t1197, attack.s0190, attack.t1036.003, attack.command-and-control, attack.t1105
+// Description: Detects usage of bitsadmin downloading a file to a suspicious target folder
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter (((action_process_image_command_line contains " /transfer " or action_process_image_command_line contains " /create " or action_process_image_command_line contains " /addfile ")) and ((action_process_image_command_line contains ":\\Perflogs" or action_process_image_command_line contains ":\\ProgramData\\" or action_process_image_command_line contains ":\\Temp\\" or action_process_image_command_line contains ":\\Users\\Public\\" or action_process_image_command_line contains ":\\Windows\\" or action_process_image_command_line contains "\\$Recycle.Bin\\" or action_process_image_command_line contains "\\AppData\\Local\\" or action_process_image_command_line contains "\\AppData\\Roaming\\" or action_process_image_command_line contains "\\Contacts\\" or action_process_image_command_line contains "\\Desktop\\" or action_process_image_command_line contains "\\Favorites\\" or action_process_image_command_line contains "\\Favourites\\" or action_process_image_command_line contains "\\inetpub\\wwwroot\\" or action_process_image_command_line contains "\\Music\\" or action_process_image_command_line contains "\\Pictures\\" or action_process_image_command_line contains "\\Start Menu\\Programs\\Startup\\" or action_process_image_command_line contains "\\Users\\Default\\" or action_process_image_command_line contains "\\Videos\\" or action_process_image_command_line contains "%ProgramData%" or action_process_image_command_line contains "%public%" or action_process_image_command_line contains "%temp%" or action_process_image_command_line contains "%tmp%")) and ((action_process_image_path endswith "\\bitsadmin.exe") or (action_process_image_name = "bitsadmin.exe")))

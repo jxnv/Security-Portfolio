@@ -1,0 +1,23 @@
+// Title: Terminal Service Process Spawn
+// ID: 1012f107-b8f1-4271-af30-5aed2de89b39
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2019-05-22
+// Tags: attack.initial-access, attack.t1190, attack.lateral-movement, attack.t1210, car.2013-07-002
+// Description: Detects a process spawned by the terminal service server process (this could be an indicator for an exploitation of CVE-2019-0708)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 1012f107_b8f1_4271_af30_5aed2de89b39 {
+  meta:
+    title = "Terminal Service Process Spawn"
+    description = "Detects a process spawned by the terminal service server process (this could be an indicator for an exploitation of CVE-2019-0708)"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.principal.process.command_line = /.*\\svchost.exe.*/ nocase and $e.principal.process.command_line = /.*termsvcs.*/ nocase)) and not(((($e.target.process.file.full_path = /.*\\rdpclip.exe$/ nocase or $e.target.process.file.full_path = /.*:\\Windows\\System32\\csrss.exe$/ nocase or $e.target.process.file.full_path = /.*:\\Windows\\System32\\wininit.exe$/ nocase or $e.target.process.file.full_path = /.*:\\Windows\\System32\\winlogon.exe$/ nocase)) or (not ($e.target.process.file.full_path = /.*/)))))
+
+  condition:
+    $e
+}

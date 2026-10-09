@@ -1,0 +1,115 @@
+{
+  "title": "Script Interpreter Execution From Suspicious Folder",
+  "id": "1228c958-e64e-4e71-92ad-7d429f4138ba",
+  "status": "test",
+  "description": "Detects suspicious script execution from suspicious directories or folders accessible by environment variables that may indicate malware activity.\nScript interpreters (cscript, wscript, mshta, powershell) executing from folders like Temp, Public, or user profile directories may suggest attempts to evade detection or execute malicious scripts.\n",
+  "author": "Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2022-02-08",
+  "tags": [
+    "attack.execution",
+    "attack.t1059"
+  ],
+  "level": "high",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_proc_image": {
+      "Image|endswith": [
+        "\\cscript.exe",
+        "\\mshta.exe",
+        "\\wscript.exe"
+      ]
+    },
+    "selection_proc_flags": {
+      "CommandLine|contains": [
+        " -ep bypass ",
+        " -ExecutionPolicy bypass ",
+        " -w hidden ",
+        "/e:javascript ",
+        "/e:Jscript ",
+        "/e:vbscript "
+      ]
+    },
+    "selection_proc_original": {
+      "OriginalFileName": [
+        "cscript.exe",
+        "mshta.exe",
+        "wscript.exe"
+      ]
+    },
+    "selection_folders_1": {
+      "CommandLine|contains": [
+        ":\\Perflogs\\",
+        ":\\Users\\Public\\",
+        "\\%Public%",
+        "\\AppData\\Local\\Temp",
+        "\\AppData\\Roaming\\Temp",
+        "\\Temporary Internet",
+        "\\Windows\\Temp",
+        "\\Start Menu\\Programs\\Startup\\",
+        "%TEMP%",
+        "%TMP%",
+        "%LocalAppData%\\Temp"
+      ]
+    },
+    "selection_folders_2": [
+      {
+        "CommandLine|contains|all": [
+          ":\\Users\\",
+          "\\Favorites\\"
+        ]
+      },
+      {
+        "CommandLine|contains|all": [
+          ":\\Users\\",
+          "\\Favourites\\"
+        ]
+      },
+      {
+        "CommandLine|contains|all": [
+          ":\\Users\\",
+          "\\Contacts\\"
+        ]
+      },
+      {
+        "CommandLine|contains|all": [
+          ":\\Users\\",
+          "\\Documents\\"
+        ]
+      },
+      {
+        "CommandLine|contains|all": [
+          ":\\Users\\",
+          "\\Music\\"
+        ]
+      },
+      {
+        "CommandLine|contains|all": [
+          ":\\Users\\",
+          "\\Pictures\\"
+        ]
+      },
+      {
+        "CommandLine|contains|all": [
+          ":\\Users\\",
+          "\\Videos\\"
+        ]
+      }
+    ],
+    "filter_optional_chocolatey_installer": {
+      "ParentImage": [
+        "C:\\Windows\\System32\\Msiexec.exe",
+        "C:\\Windows\\SysWOW64\\Msiexec.exe"
+      ],
+      "Image|endswith": "\\powershell.exe",
+      "CommandLine|contains|all": [
+        "-NoProfile -ExecutionPolicy Bypass -Command",
+        "AppData\\Local\\Temp\\",
+        "Install-Chocolatey.ps1"
+      ]
+    },
+    "condition": "1 of selection_proc_* and 1 of selection_folders_* and not 1 of filter_optional_*"
+  }
+}

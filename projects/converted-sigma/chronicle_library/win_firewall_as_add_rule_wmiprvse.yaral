@@ -1,0 +1,24 @@
+// Title: New Firewall Rule Added In Windows Firewall Exception List Via WmiPrvSE.EXE
+// ID: eca81e8d-09e1-4d04-8614-c91f44fd0519
+// Status: test
+// Level: medium
+// Author: frack113, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2024-05-10
+// Tags: attack.defense-impairment, attack.t1686.003
+// Description: Detects the addition of a new "Allow" firewall rule by the WMI process (WmiPrvSE.EXE).
+// This can occur if an attacker leverages PowerShell cmdlets such as "New-NetFirewallRule", or directly uses WMI CIM classes such as "MSFT_NetFirewallRule".
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule eca81e8d_09e1_4d04_8614_c91f44fd0519 {
+  meta:
+    title = "New Firewall Rule Added In Windows Firewall Exception List Via WmiPrvSE.EXE"
+    description = "Detects the addition of a new "Allow" firewall rule by the WMI process (WmiPrvSE.EXE). This can occur if an attacker leverages PowerShell cmdlets such as "New-NetFirewallRule", or directly uses WMI CIM classes such as "MSFT_NetFirewallRule"."
+    author = "frack113, Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.EventID = 2004 or $e.EventID = 2071 or $e.EventID = 2097) and $e.Action = 3 and $e.ModifyingApplication = /.*:\\Windows\\System32\\wbem\\WmiPrvSE.exe$/ nocase)
+
+  condition:
+    $e
+}

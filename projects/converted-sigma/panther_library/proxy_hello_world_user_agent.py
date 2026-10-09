@@ -1,0 +1,19 @@
+# Title: Potential Hello-World Scraper Botnet Activity
+# ID: 1712bafe-be05-4a0e-89d4-17a3ed151bf5
+# Status: experimental
+# Level: medium
+# Author: Joseph A. M.
+# Date: 2025-08-02
+# Tags: attack.reconnaissance, attack.t1595
+# Description: Detects network traffic potentially associated with a scraper botnet variant that uses the "Hello-World/1.0" user-agent string.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Potential Hello-World Scraper Botnet Activity
+def rule(event):
+    # Detection Logic:
+    # (c-useragent="Hello-World/1.0" AND cs-method="GET")
+    return True
+
+def title(event):
+    return "Potential Hello-World Scraper Botnet Activity"
+

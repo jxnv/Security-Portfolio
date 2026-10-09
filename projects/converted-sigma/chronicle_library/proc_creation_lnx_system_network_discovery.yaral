@@ -1,0 +1,23 @@
+// Title: System Network Discovery - Linux
+// ID: e7bd1cfa-b446-4c88-8afb-403bcd79e3fa
+// Status: test
+// Level: informational
+// Author: Ömer Günal and remotephone, oscd.community
+// Date: 2020-10-06
+// Tags: attack.discovery, attack.t1016
+// Description: Detects enumeration of local network configuration
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule e7bd1cfa_b446_4c88_8afb_403bcd79e3fa {
+  meta:
+    title = "System Network Discovery - Linux"
+    description = "Detects enumeration of local network configuration"
+    author = "Ömer Günal and remotephone, oscd.community"
+    severity = "INFORMATIONAL"
+
+  events:
+    (($e.target.process.command_line = /.*/etc/resolv.conf.*/ nocase) or (($e.target.process.file.full_path = /.*/firewall-cmd$/ nocase or $e.target.process.file.full_path = /.*/ufw$/ nocase or $e.target.process.file.full_path = /.*/iptables$/ nocase or $e.target.process.file.full_path = /.*/netstat$/ nocase or $e.target.process.file.full_path = /.*/ss$/ nocase or $e.target.process.file.full_path = /.*/ip$/ nocase or $e.target.process.file.full_path = /.*/ifconfig$/ nocase or $e.target.process.file.full_path = /.*/systemd-resolve$/ nocase or $e.target.process.file.full_path = /.*/route$/ nocase)))
+
+  condition:
+    $e
+}

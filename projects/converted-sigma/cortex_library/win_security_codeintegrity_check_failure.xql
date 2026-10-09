@@ -1,0 +1,11 @@
+// Title: Failed Code Integrity Checks
+// ID: 470ec5fa-7b4e-4071-b200-4c753100f49b
+// Status: stable
+// Level: informational
+// Author: Thomas Patzke
+// Date: 2019-12-03
+// Tags: attack.stealth, attack.t1027.001
+// Description: Detects code integrity failures such as missing page hashes or corrupted drivers due unauthorized modification. This could be a sign of tampered binaries.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter (((EventID = 5038 or EventID = 6281)) and not ((((param1 contains "\\CSFalconServiceUninstallTool_" or param1 contains "\\Program Files\\CrowdStrike\\" or param1 contains "\\System32\\drivers\\CrowdStrike\\" or param1 contains "\\Windows\\System32\\ScriptControl64_")) or (param1 contains "\\Program Files\\Sophos\\"))))

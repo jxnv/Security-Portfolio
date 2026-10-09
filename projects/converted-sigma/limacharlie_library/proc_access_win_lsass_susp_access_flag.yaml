@@ -1,0 +1,22 @@
+# Title: Potentially Suspicious GrantedAccess Flags On LSASS
+# ID: a18dd26b-6450-46de-8c91-9659150cf088
+# Status: test
+# Level: medium
+# Author: Florian Roth, Roberto Rodriguez, Dimitrios Slamaris, Mark Russinovich, Thomas Patzke, Teymur Kheirkhabarov, Sherif Eldeeb, James Dickenson, Aleksey Potapov, oscd.community
+# Date: 2021-11-22
+# Tags: attack.credential-access, attack.t1003.001, attack.s0002
+# Description: Detects process access requests to LSASS process with potentially suspicious access flags
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# LimaCharlie Detection & Response Rule
+# Name: Potentially Suspicious GrantedAccess Flags On LSASS
+detect:
+  event: process_access
+  op: and
+  rules:
+    # Filter logic:
+    # (((((GrantedAccess="*30" OR GrantedAccess="*50" OR GrantedAccess="*70" OR GrantedAccess="*90" OR GrantedAccess="*B0" OR GrantedAccess="*D0" OR GrantedAccess="*F0" OR GrantedAccess="*18" OR GrantedAccess="*38" OR GrantedAccess="*58" OR GrantedAccess="*78" OR GrantedAccess="*98" OR GrantedAccess="*B8" OR GrantedAccess="*D8" OR GrantedAccess="*F8" OR GrantedAccess="*1A" OR GrantedAccess="*3A" OR GrantedAccess="*5A" OR GrantedAccess="*7A" OR GrantedAccess="*9A" OR GrantedAccess="*BA" OR GrantedAccess="*DA" OR GrantedAccess="*FA" OR GrantedAccess="*0x14C2")) OR ((GrantedAccess="0x100000*" OR GrantedAccess="0x1418*" OR GrantedAccess="0x1438*" OR GrantedAccess="0x143a*" OR GrantedAccess="0x1f0fff*" OR GrantedAccess="0x1f1fff*" OR GrantedAccess="0x1f2fff*" OR GrantedAccess="0x1f3fff*" OR GrantedAccess="0x40*"))) AND (TargetImage="*\\lsass.exe")) AND NOT (((SourceImage="*\\explorer.exe" AND GrantedAccess="0x401") OR ((SourceImage="*:\\Program Files (x86)\\*" OR SourceImage="*:\\Program Files\\*" OR SourceImage="*:\\Windows\\System32\\*" OR SourceImage="*:\\Windows\\SysWOW64\\*")) OR (SourceImage="*:\\ProgramData\\Microsoft\\Windows Defender\\*" AND SourceImage="*\\MsMpEng.exe") OR ((CallTrace="*|?:\\ProgramData\\Microsoft\\Windows Defender\\Definition Updates\\{*" AND CallTrace="*}\\mpengine.dll+*") AND GrantedAccess="0x1418") OR ((CallTrace="*|c:\\program files\\windows defender\\mprtp.dll*" OR CallTrace="*|c:\\program files\\windows defender\\MpClient.dll*")))) AND NOT (((SourceImage="*:\\ProgramData\\MALWAREBYTES\\MBAMSERVICE\\ctlrupdate\\mbupdatr.exe") OR (SourceImage="*\\MBAMInstallerService.exe" AND GrantedAccess="0x40") OR ((SourceImage="*\\aurora-agent-64.exe" OR SourceImage="*\\aurora-agent.exe" OR SourceImage="*\\thor.exe" OR SourceImage="*\\thor64.exe") AND GrantedAccess="0x40") OR (SourceImage="*\\SteamLibrary\\steamapps\\*") OR ((SourceImage="*\\handle.exe" OR SourceImage="*\\handle64.exe" OR SourceImage="*\\handle64a.exe") AND GrantedAccess="0x40") OR ((SourceImage="*\\PROCEXP64.EXE" OR SourceImage="*\\PROCEXP.EXE") AND GrantedAccess="0x40") OR (SourceImage="*:\\ProgramData\\VMware\\VMware Tools\\*" AND SourceImage="*\\vmtoolsd.exe") OR (SourceImage="*\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe") OR (SourceImage="*\\AppData\\Local\\WebEx\\WebexHost.exe" AND GrantedAccess="0x401"))))
+respond:
+  - action: report
+    name: Potentially Suspicious GrantedAccess Flags On LSASS
+

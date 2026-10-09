@@ -1,0 +1,11 @@
+// Title: Remote DCOM/WMI Lateral Movement
+// ID: 68050b10-e477-4377-a99b-3721b422d6ef
+// Status: test
+// Level: high
+// Author: Sagie Dulce, Dekel Paz
+// Date: 2022-01-01
+// Tags: attack.lateral-movement, attack.execution, attack.t1021.003, attack.t1047
+// Description: Detects remote RPC calls that performs remote DCOM operations. These could be abused for lateral movement via DCOM or WMI.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+from siem.events where (EventLog == "RPCFW" AND EventID == "3" AND (InterfaceUuid == "4d9f4ab8-7d1c-11cf-861e-0020af6e7c57" OR InterfaceUuid == "99fcfec4-5260-101b-bbcb-00aa0021347a" OR InterfaceUuid == "000001a0-0000-0000-c000-000000000046" OR InterfaceUuid == "00000131-0000-0000-c000-000000000046" OR InterfaceUuid == "00000143-0000-0000-c000-000000000046" OR InterfaceUuid == "00000000-0000-0000-c000-000000000046"))

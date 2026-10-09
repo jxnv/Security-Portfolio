@@ -1,0 +1,14 @@
+// Title: Directory Removal Via Rmdir
+// ID: 41ca393d-538c-408a-ac27-cf1e038be80c
+// Status: test
+// Level: low
+// Author: frack113
+// Date: 2022-01-15
+// Tags: attack.stealth, attack.t1070.004
+// Description: Detects execution of the builtin "rmdir" command in order to delete directories.
+// Adversaries may delete files left behind by the actions of their intrusion activity.
+// Malware, tools, or other non-native files dropped or created on a system by an adversary may leave traces to indicate to what was done within a network and how.
+// Removal of these files can occur during an intrusion, or as part of a post-intrusion process to minimize the adversary's footprint.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter (((action_process_image_command_line contains "/s" or action_process_image_command_line contains "/q")) and ((action_process_image_path endswith "\\cmd.exe") or (action_process_image_name = "Cmd.Exe")) and (action_process_image_command_line contains "rmdir"))

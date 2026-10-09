@@ -1,0 +1,11 @@
+// Title: Data Compressed
+// ID: a3b5e3e9-1b49-4119-8b8e-0344a01f21ee
+// Status: test
+// Level: low
+// Author: Timur Zinniatullin, oscd.community
+// Date: 2019-10-21
+// Tags: attack.exfiltration, attack.collection, attack.t1560.001
+// Description: An adversary may compress data (e.g., sensitive documents) that is collected prior to exfiltration in order to make it portable and minimize the amount of data sent over the network.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter ((type = "execve" and a0 = "zip") or (type = "execve" and a0 = "gzip" and a1 = "-k") or (type = "execve" and a0 = "tar" and a1 contains "-c"))

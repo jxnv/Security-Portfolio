@@ -1,0 +1,12 @@
+// Title: Suspicious Copy From or To System Directory
+// ID: fff9d2b7-e11c-4a69-93d3-40ef66189767
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems), Markus Neis, Tim Shelton (HAWK.IO), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2020-07-03
+// Tags: attack.stealth, attack.t1036.003
+// Description: Detects a suspicious copy operation that tries to copy a program from system (System32, SysWOW64, WinSxS) directories to another on disk.
+// Often used to move LOLBINs such as 'certutil' or 'desktopimgdownldr' to a different location with a different name in order to bypass detections based on locations.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((ImageFileName = /.*\\cmd.exe/i and CommandLine = /*copy */i) or (((ImageFileName = /.*\\robocopy.exe/i or ImageFileName = /.*\\xcopy.exe/i)) or ((OriginalFilename = "robocopy.exe" or OriginalFilename = "XCOPY.EXE"))) or ((ImageFileName = /.*\\powershell.exe/i or ImageFileName = /.*\\pwsh.exe/i) and (CommandLine = /*copy-item*/i or CommandLine = /* copy */i or CommandLine = /*cpi */i or CommandLine = /* cp */i))) and (CommandLine =~ /\s['"]?C:\\Windows\\(?:System32|SysWOW64|WinSxS)/i) and not((ImageFileName = /.*\\cmd.exe/i and (CommandLine = /*/c copy*/i and CommandLine = /*\\Temp\\*/i and CommandLine = /*\\avira_system_speedup.exe*/i) and (CommandLine = /*C:\\Program Files\\Avira\\*/i or CommandLine = /*C:\\Program Files (x86)\\Avira\\*/i))))

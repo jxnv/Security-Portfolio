@@ -1,0 +1,11 @@
+-- Title: Exchange Set OabVirtualDirectory ExternalUrl Property
+-- ID: 9db37458-4df2-46a5-95ab-307e7f29e675
+-- Status: test
+-- Level: high
+-- Author: Jose Rodriguez @Cyb3rPandaH
+-- Date: 2021-03-15
+-- Tags: attack.persistence, attack.t1505.003
+-- Description: Rule to detect an adversary setting OabVirtualDirectory External URL property to a script in Exchange Management log
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE (( = 'Set-OabVirtualDirectory' AND  = 'ExternalUrl' AND  = 'Page_Load' AND  = 'script'))

@@ -1,0 +1,23 @@
+// Title: Suspicious PowerShell Mailbox Export to Share - PS
+// ID: 4a241dea-235b-4a7e-8d76-50d817b146c4
+// Status: test
+// Level: critical
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-10-26
+// Tags: attack.exfiltration
+// Description: Detects usage of the powerShell New-MailboxExportRequest Cmdlet to exports a mailbox to a remote or local share, as used in ProxyShell exploitations
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 4a241dea_235b_4a7e_8d76_50d817b146c4 {
+  meta:
+    title = "Suspicious PowerShell Mailbox Export to Share - PS"
+    description = "Detects usage of the powerShell New-MailboxExportRequest Cmdlet to exports a mailbox to a remote or local share, as used in ProxyShell exploitations"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "CRITICAL"
+
+  events:
+    (($e.ScriptBlockText = /.*New-MailboxExportRequest.*/ nocase and $e.ScriptBlockText = /.* -Mailbox .*/ nocase and $e.ScriptBlockText = /.* -FilePath \\\\\\\\.*/ nocase))
+
+  condition:
+    $e
+}

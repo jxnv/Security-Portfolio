@@ -1,0 +1,11 @@
+// Title: HackTool - SharpEvtMute DLL Load
+// ID: 49329257-089d-46e6-af37-4afce4290685
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-09-07
+// Tags: attack.defense-impairment, attack.t1685.001
+// Description: Detects the load of EvtMuteHook.dll, a key component of SharpEvtHook, a tool that tampers with the Windows event logs
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter (Hashes contains "IMPHASH=330768A4F172E10ACB6287B87289D83B")

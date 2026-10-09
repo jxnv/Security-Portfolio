@@ -1,0 +1,11 @@
+// Title: PowerShell Console History Logs Deleted
+// ID: ff301988-c231-4bd0-834c-ac9d73b86586
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-02-15
+// Tags: attack.stealth, attack.t1070
+// Description: Detects the deletion of the PowerShell console History logs which may indicate an attempt to destroy forensic evidence
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(TargetFilename="*\\PSReadLine\\ConsoleHost_history.txt")

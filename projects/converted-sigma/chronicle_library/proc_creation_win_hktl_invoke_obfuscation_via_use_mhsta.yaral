@@ -1,0 +1,23 @@
+// Title: Invoke-Obfuscation Via Use MSHTA
+// ID: ac20ae82-8758-4f38-958e-b44a3140ca88
+// Status: test
+// Level: high
+// Author: Nikita Nazarov, oscd.community
+// Date: 2020-10-08
+// Tags: attack.stealth, attack.t1027, attack.execution, attack.t1059.001
+// Description: Detects Obfuscated Powershell via use MSHTA in Scripts
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule ac20ae82_8758_4f38_958e_b44a3140ca88 {
+  meta:
+    title = "Invoke-Obfuscation Via Use MSHTA"
+    description = "Detects Obfuscated Powershell via use MSHTA in Scripts"
+    author = "Nikita Nazarov, oscd.community"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.command_line = /.*set.*/ nocase and $e.target.process.command_line = /.*&&.*/ nocase and $e.target.process.command_line = /.*mshta.*/ nocase and $e.target.process.command_line = /.*vbscript:createobject.*/ nocase and $e.target.process.command_line = /.*.run.*/ nocase and $e.target.process.command_line = /.*(window.close).*/ nocase))
+
+  condition:
+    $e
+}

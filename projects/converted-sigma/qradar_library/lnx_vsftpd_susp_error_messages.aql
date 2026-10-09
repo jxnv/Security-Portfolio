@@ -1,0 +1,11 @@
+-- Title: Suspicious VSFTPD Error Messages
+-- ID: 377f33a1-4b36-4ee1-acee-1dbe4b43cfbe
+-- Status: test
+-- Level: medium
+-- Author: Florian Roth (Nextron Systems)
+-- Date: 2017-07-05
+-- Tags: attack.initial-access, attack.t1190
+-- Description: Detects suspicious VSFTPD error messages that indicate a fatal or suspicious error that could be caused by exploiting attempts
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM events WHERE (TEXT SEARCH 'Connection refused: too many sessions for this address.' OR TEXT SEARCH 'Connection refused: tcp_wrappers denial.' OR TEXT SEARCH 'Bad HTTP verb.' OR TEXT SEARCH 'port and pasv both active' OR TEXT SEARCH 'pasv and port both active' OR TEXT SEARCH 'Transfer done (but failed to open directory).' OR TEXT SEARCH 'Could not set file modification time.' OR TEXT SEARCH 'bug: pid active in ptrace_sandbox_free' OR TEXT SEARCH 'PTRACE_SETOPTIONS failure' OR TEXT SEARCH 'weird status:' OR TEXT SEARCH 'couldn't handle sandbox event' OR TEXT SEARCH 'syscall * out of bounds' OR TEXT SEARCH 'syscall not permitted:' OR TEXT SEARCH 'syscall validate failed:' OR TEXT SEARCH 'Input line too long.' OR TEXT SEARCH 'poor buffer accounting in str_netfd_alloc' OR TEXT SEARCH 'vsf_sysutil_read_loop')

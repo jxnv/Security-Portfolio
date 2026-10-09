@@ -1,0 +1,11 @@
+// Title: DLL Loaded From Suspicious Location Via Cmspt.EXE
+// ID: 75e508f7-932d-4ebc-af77-269237a84ce1
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-30
+// Tags: attack.stealth, attack.t1218.003
+// Description: Detects cmstp loading "dll" or "ocx" files from suspicious locations
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter (action_process_image_path endswith "\\cmstp.exe" and (ImageLoaded contains "\\PerfLogs\\" or ImageLoaded contains "\\ProgramData\\" or ImageLoaded contains "\\Users\\" or ImageLoaded contains "\\Windows\\Temp\\" or ImageLoaded contains "C:\\Temp\\") and (ImageLoaded endswith ".dll" or ImageLoaded endswith ".ocx"))

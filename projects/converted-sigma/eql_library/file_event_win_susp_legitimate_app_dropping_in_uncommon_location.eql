@@ -1,0 +1,12 @@
+// Title: Legitimate Application Writing Files In Uncommon Location
+// ID: 1cf465a1-2609-4c15-9b66-c32dbe4bfd67
+// Status: experimental
+// Level: high
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-12-10
+// Tags: attack.stealth, attack.t1218, attack.command-and-control, attack.t1105
+// Description: Detects legitimate applications writing any type of file to uncommon or suspicious locations that are not typical for application data storage or execution.
+// Adversaries may leverage legitimate applications (Living off the Land Binaries - LOLBins) to drop or download malicious files to uncommon locations on the system to evade detection by security solutions.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+file where (((process.executable endswith "\\eqnedt32.exe" or process.executable endswith "\\wordpad.exe" or process.executable endswith "\\wordview.exe" or process.executable endswith "\\cmdl32.exe" or process.executable endswith "\\certutil.exe" or process.executable endswith "\\certoc.exe" or process.executable endswith "\\CertReq.exe" or process.executable endswith "\\bitsadmin.exe" or process.executable endswith "\\Desktopimgdownldr.exe" or process.executable endswith "\\esentutl.exe" or process.executable endswith "\\expand.exe" or process.executable endswith "\\extrac32.exe" or process.executable endswith "\\replace.exe" or process.executable endswith "\\mshta.exe" or process.executable endswith "\\ftp.exe" or process.executable endswith "\\Ldifde.exe" or process.executable endswith "\\RdrCEF.exe" or process.executable endswith "\\hh.exe" or process.executable endswith "\\finger.exe" or process.executable endswith "\\findstr.exe")) and ((file.path like "*_:\\Perflogs*" or file.path like "*_:\\ProgramData\\*" or file.path like "*_:\\Temp\\*" or file.path like "*_:\\Users\\Public\\*" or file.path like "*_:\\Windows\\*" or file.path like "*_\\$Recycle.Bin\\*" or file.path like "*_\\AppData\\Local\\*" or file.path like "*_\\AppData\\Roaming\\*" or file.path like "*_\\Contacts\\*" or file.path like "*_\\Desktop\\*" or file.path like "*_\\Favorites\\*" or file.path like "*_\\Favourites\\*" or file.path like "*_\\inetpub\\wwwroot\\*" or file.path like "*_\\Music\\*" or file.path like "*_\\Pictures\\*" or file.path like "*_\\Start Menu\\Programs\\Startup\\*" or file.path like "*_\\Users\\Default\\*" or file.path like "*_\\Videos\\*")))

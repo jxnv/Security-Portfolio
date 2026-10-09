@@ -1,0 +1,23 @@
+// Title: Remote File Copy
+// ID: 7a14080d-a048-4de8-ae58-604ce58a795b
+// Status: stable
+// Level: low
+// Author: Ömer Günal
+// Date: 2020-06-18
+// Tags: attack.command-and-control, attack.lateral-movement, attack.t1105
+// Description: Detects the use of tools that copy files from or to remote systems
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 7a14080d_a048_4de8_ae58_604ce58a795b {
+  meta:
+    title = "Remote File Copy"
+    description = "Detects the use of tools that copy files from or to remote systems"
+    author = "Ömer Günal"
+    severity = "LOW"
+
+  events:
+    (("scp " or "rsync " or "sftp ") and ("@" or ":"))
+
+  condition:
+    $e
+}

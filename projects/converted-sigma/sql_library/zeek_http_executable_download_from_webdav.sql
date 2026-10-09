@@ -1,0 +1,11 @@
+-- Title: Executable from Webdav
+-- ID: aac2fd97-bcba-491b-ad66-a6edf89c71bf
+-- Status: test
+-- Level: medium
+-- Author: SOC Prime, Adam Swan
+-- Date: 2020-05-01
+-- Tags: attack.command-and-control, attack.t1105
+-- Description: Detects executable access via webdav6. Can be seen in APT 29 such as from the emulated APT 29 hackathon https://github.com/OTRF/detection-hackathon-apt29/
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE (((c-useragent ILIKE '%WebDAV%') OR (c-uri ILIKE '%webdav%')) AND ((resp_mime_types ILIKE '%dosexec%') OR (c-uri ILIKE '%.exe')))

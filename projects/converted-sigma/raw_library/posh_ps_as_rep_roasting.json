@@ -1,0 +1,30 @@
+{
+  "title": "Get-ADUser Enumeration Using UserAccountControl Flags",
+  "id": "96c982fe-3d08-4df4-bed2-eb14e02f21c8",
+  "status": "test",
+  "description": "Detects AS-REP roasting is an attack that is often-overlooked. It is not very common as you have to explicitly set accounts that do not require pre-authentication.",
+  "author": "frack113",
+  "date": "2022-03-17",
+  "tags": [
+    "attack.discovery",
+    "attack.t1033"
+  ],
+  "level": "medium",
+  "logsource": {
+    "product": "windows",
+    "category": "ps_script",
+    "definition": "Requirements: Script Block Logging must be enabled"
+  },
+  "detection": {
+    "selection": {
+      "ScriptBlockText|contains|all": [
+        "Get-ADUser",
+        "-Filter",
+        "useraccountcontrol",
+        "-band",
+        "4194304"
+      ]
+    },
+    "condition": "selection"
+  }
+}

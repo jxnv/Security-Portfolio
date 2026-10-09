@@ -1,0 +1,11 @@
+-- Title: Disable Macro Runtime Scan Scope
+-- ID: ab871450-37dc-4a3a-997f-6662aa8ae0f1
+-- Status: test
+-- Level: high
+-- Author: Nasreddine Bencherchali (Nextron Systems)
+-- Date: 2022-10-25
+-- Tags: attack.defense-impairment
+-- Description: Detects tampering with the MacroRuntimeScanScope registry key to disable runtime scanning of enabled macros
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE ((TargetObject ILIKE '%\\SOFTWARE\\%' AND TargetObject ILIKE '%\\Microsoft\\Office\\%' AND TargetObject ILIKE '%\\Common\\Security%') AND TargetObject ILIKE '%\\MacroRuntimeScanScope' AND Details = 'DWORD (0x00000000)')

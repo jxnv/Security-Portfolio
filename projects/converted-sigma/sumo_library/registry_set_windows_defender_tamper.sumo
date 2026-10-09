@@ -1,0 +1,11 @@
+// Title: Disable Windows Defender Functionalities Via Registry Keys
+// ID: 0eb46774-f1ab-4a74-8238-1155855f2263
+// Status: test
+// Level: high
+// Author: AlertIQ, Ján Trenčanský, frack113, Nasreddine Bencherchali, Swachchhanda Shrawan Poudel
+// Date: 2022-08-01
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects when attackers or tools disable Windows Defender functionalities via the Windows registry
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where (((TargetObject matches "*\\SOFTWARE\\Microsoft\\Windows Defender\\*" or TargetObject matches "*\\SOFTWARE\\Policies\\Microsoft\\Windows Defender Security Center\\*" or TargetObject matches "*\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\*")) and (((TargetObject matches "*\\DisallowExploitProtectionOverride" or TargetObject matches "*\\Features\\TamperProtection" or TargetObject matches "*\\MpEngine\\MpEnablePus" or TargetObject matches "*\\PUAProtection" or TargetObject matches "*\\Signature Update\\ForceUpdateFromMU" or TargetObject matches "*\\SpyNet\\SpynetReporting" or TargetObject matches "*\\SpyNet\\SubmitSamplesConsent" or TargetObject matches "*\\Windows Defender Exploit Guard\\Controlled Folder Access\\EnableControlledFolderAccess") and Details = "DWORD (0x00000000)") or ((TargetObject matches "*\\DisableAntiSpyware" or TargetObject matches "*\\DisableAntiVirus" or TargetObject matches "*\\DisableBehaviorMonitoring" or TargetObject matches "*\\DisableBlockAtFirstSeen" or TargetObject matches "*\\DisableEnhancedNotifications" or TargetObject matches "*\\DisableIntrusionPreventionSystem" or TargetObject matches "*\\DisableIOAVProtection" or TargetObject matches "*\\DisableOnAccessProtection" or TargetObject matches "*\\DisableRealtimeMonitoring" or TargetObject matches "*\\DisableScanOnRealtimeEnable" or TargetObject matches "*\\DisableScriptScanning") and Details = "DWORD (0x00000001)")) and !((Image matches "C:\\Program Files\\Symantec\\Symantec Endpoint Protection\\*" and Image matches "*\\sepWscSvc64.exe")))

@@ -1,0 +1,23 @@
+// Title: Network Communication Initiated To File Sharing Domains From Process Located In Suspicious Folder
+// ID: e0f8ab85-0ac9-423b-a73a-81b3c7b1aa97
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2018-08-30
+// Tags: attack.command-and-control, attack.t1105
+// Description: Detects executables located in potentially suspicious directories initiating network connections towards file sharing domains.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule e0f8ab85_0ac9_423b_a73a_81b3c7b1aa97 {
+  meta:
+    title = "Network Communication Initiated To File Sharing Domains From Process Located In Suspicious Folder"
+    description = "Detects executables located in potentially suspicious directories initiating network connections towards file sharing domains."
+    author = "Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.Initiated = "true" and ($e.DestinationHostname = /.*.githubusercontent.com$/ nocase or $e.DestinationHostname = /.*0x0.st$/ nocase or $e.DestinationHostname = /.*anonfiles.com$/ nocase or $e.DestinationHostname = /.*bashupload.com$/ nocase or $e.DestinationHostname = /.*cdn.discordapp.com$/ nocase or $e.DestinationHostname = /.*chunk.io$/ nocase or $e.DestinationHostname = /.*ddns.net$/ nocase or $e.DestinationHostname = /.*dl.dropboxusercontent.com$/ nocase or $e.DestinationHostname = /.*ghostbin.co$/ nocase or $e.DestinationHostname = /.*github.com$/ nocase or $e.DestinationHostname = /.*glitch.me$/ nocase or $e.DestinationHostname = /.*gofile.io$/ nocase or $e.DestinationHostname = /.*hastebin.com$/ nocase or $e.DestinationHostname = /.*mediafire.com$/ nocase or $e.DestinationHostname = /.*mega.co.nz$/ nocase or $e.DestinationHostname = /.*mega.nz$/ nocase or $e.DestinationHostname = /.*onrender.com$/ nocase or $e.DestinationHostname = /.*pages.dev$/ nocase or $e.DestinationHostname = /.*paste.ee$/ nocase or $e.DestinationHostname = /.*pastebin.com$/ nocase or $e.DestinationHostname = /.*pastebin.pl$/ nocase or $e.DestinationHostname = /.*pastetext.net$/ nocase or $e.DestinationHostname = /.*pixeldrain.com$/ nocase or $e.DestinationHostname = /.*privatlab.com$/ nocase or $e.DestinationHostname = /.*privatlab.net$/ nocase or $e.DestinationHostname = /.*send.exploit.in$/ nocase or $e.DestinationHostname = /.*sendspace.com$/ nocase or $e.DestinationHostname = /.*storage.googleapis.com$/ nocase or $e.DestinationHostname = /.*storjshare.io$/ nocase or $e.DestinationHostname = /.*supabase.co$/ nocase or $e.DestinationHostname = /.*temp.sh$/ nocase or $e.DestinationHostname = /.*transfer.sh$/ nocase or $e.DestinationHostname = /.*trycloudflare.com$/ nocase or $e.DestinationHostname = /.*ufile.io$/ nocase or $e.DestinationHostname = /.*w3spaces.com$/ nocase or $e.DestinationHostname = /.*workers.dev$/ nocase or $e.DestinationHostname = /.*x0.at$/ nocase)) and (($e.target.process.file.full_path = /.*:\\$Recycle.bin.*/ nocase or $e.target.process.file.full_path = /.*:\\Perflogs\\.*/ nocase or $e.target.process.file.full_path = /.*:\\Temp\\.*/ nocase or $e.target.process.file.full_path = /.*:\\Users\\Default\\.*/ nocase or $e.target.process.file.full_path = /.*:\\Users\\Public\\.*/ nocase or $e.target.process.file.full_path = /.*:\\Windows\\Fonts\\.*/ nocase or $e.target.process.file.full_path = /.*:\\Windows\\IME\\.*/ nocase or $e.target.process.file.full_path = /.*:\\Windows\\System32\\Tasks\\.*/ nocase or $e.target.process.file.full_path = /.*:\\Windows\\Tasks\\.*/ nocase or $e.target.process.file.full_path = /.*:\\Windows\\Temp\\.*/ nocase or $e.target.process.file.full_path = /.*\\AppData\\Temp\\.*/ nocase or $e.target.process.file.full_path = /.*\\config\\systemprofile\\.*/ nocase or $e.target.process.file.full_path = /.*\\Windows\\addins\\.*/ nocase)))
+
+  condition:
+    $e
+}

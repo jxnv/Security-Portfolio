@@ -1,0 +1,19 @@
+# Title: Bypass UAC Using DelegateExecute
+# ID: 46dd5308-4572-4d12-aa43-8938f0184d4f
+# Status: test
+# Level: high
+# Author: frack113
+# Date: 2022-01-05
+# Tags: attack.privilege-escalation, attack.t1548.002
+# Description: Bypasses User Account Control using a fileless method
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Bypass UAC Using DelegateExecute
+def rule(event):
+    # Detection Logic:
+    # (TargetObject="*\\open\\command\\DelegateExecute" AND Details="(Empty)")
+    return True
+
+def title(event):
+    return "Bypass UAC Using DelegateExecute"
+

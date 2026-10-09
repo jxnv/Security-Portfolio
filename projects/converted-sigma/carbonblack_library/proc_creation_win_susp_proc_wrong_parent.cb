@@ -1,0 +1,11 @@
+# Title: Windows Processes Suspicious Parent Directory
+# ID: 96036718-71cc-4027-a538-d1587e0006a7
+# Status: test
+# Level: low
+# Author: vburov
+# Date: 2019-02-23
+# Tags: attack.stealth, attack.t1036.003, attack.t1036.005
+# Description: Detect suspicious parent processes of well-known Windows processes
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((process_name:*\\svchost.exe OR process_name:*\\taskhost.exe OR process_name:*\\lsm.exe OR process_name:*\\lsass.exe OR process_name:*\\services.exe OR process_name:*\\lsaiso.exe OR process_name:*\\csrss.exe OR process_name:*\\wininit.exe OR process_name:*\\winlogon.exe)) AND -((((parent_name:*\\Windows Defender\\* OR parent_name:*\\Microsoft Security Client\\*) AND parent_name:*\\MsMpEng.exe) OR ((-parent_name:*) OR ((parent_name:"" OR parent_name:"-"))) OR (((parent_name:*\\SavService.exe OR parent_name:*\\ngen.exe)) OR ((parent_name:*\\System32\\* OR parent_name:*\\SysWOW64\\*))))))

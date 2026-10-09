@@ -1,0 +1,11 @@
+-- Title: Webshell Hacking Activity Patterns
+-- ID: 4ebc877f-4612-45cb-b3a5-8e3834db36c9
+-- Status: test
+-- Level: high
+-- Author: Florian Roth (Nextron Systems)
+-- Date: 2022-03-17
+-- Tags: attack.persistence, attack.discovery, attack.t1505.003, attack.t1018, attack.t1033, attack.t1087
+-- Description: Detects certain parent child patterns found in cases in which a web shell is used to perform certain credential dumping or exfiltration activities on a compromised system
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE ((((ParentImage ILIKE '%\\java.exe' OR ParentImage ILIKE '%\\javaw.exe') AND (ParentImage ILIKE '%-tomcat-%' OR ParentImage ILIKE '%\\tomcat%')) OR ((ParentImage ILIKE '%\\java.exe' OR ParentImage ILIKE '%\\javaw.exe') AND (CommandLine ILIKE '%catalina.jar%' OR CommandLine ILIKE '%CATALINA_HOME%')) OR ((ParentImage ILIKE '%\\caddy.exe' OR ParentImage ILIKE '%\\httpd.exe' OR ParentImage ILIKE '%\\nginx.exe' OR ParentImage ILIKE '%\\php-cgi.exe' OR ParentImage ILIKE '%\\w3wp.exe' OR ParentImage ILIKE '%\\ws_tomcatservice.exe'))) AND (((CommandLine ILIKE '%rundll32%' AND CommandLine ILIKE '%comsvcs%')) OR ((CommandLine ILIKE '% -hp%' AND CommandLine ILIKE '% a %' AND CommandLine ILIKE '% -m%')) OR ((CommandLine ILIKE '%net%' AND CommandLine ILIKE '% user %' AND CommandLine ILIKE '% /add%')) OR ((CommandLine ILIKE '%net%' AND CommandLine ILIKE '% localgroup %' AND CommandLine ILIKE '% administrators %' AND CommandLine ILIKE '%/add%')) OR ((Image ILIKE '%\\ntdsutil.exe' OR Image ILIKE '%\\ldifde.exe' OR Image ILIKE '%\\adfind.exe' OR Image ILIKE '%\\procdump.exe' OR Image ILIKE '%\\Nanodump.exe' OR Image ILIKE '%\\vssadmin.exe' OR Image ILIKE '%\\fsutil.exe')) OR ((CommandLine ILIKE '% -decode %' OR CommandLine ILIKE '% -NoP %' OR CommandLine ILIKE '% -W Hidden %' OR CommandLine ILIKE '% /decode %' OR CommandLine ILIKE '% /ticket:%' OR CommandLine ILIKE '% sekurlsa%' OR CommandLine ILIKE '%.dmp full%' OR CommandLine ILIKE '%.downloadfile(%' OR CommandLine ILIKE '%.downloadstring(%' OR CommandLine ILIKE '%FromBase64String%' OR CommandLine ILIKE '%process call create%' OR CommandLine ILIKE '%reg save %' OR CommandLine ILIKE '%whoami /priv%'))))

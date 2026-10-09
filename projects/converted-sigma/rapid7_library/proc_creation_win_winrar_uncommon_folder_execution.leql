@@ -1,0 +1,11 @@
+// Title: WinRAR Execution in Non-Standard Folder
+// ID: 4ede543c-e098-43d9-a28f-dd784a13132f
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems), Tigzy
+// Date: 2021-11-17
+// Tags: attack.collection, attack.t1560.001
+// Description: Detects a suspicious WinRAR execution in a folder which is not the default installation folder
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((where(Image IENDSWITH "\\rar.exe") OR where(Image IENDSWITH "\\winrar.exe"))) OR ((where(Description = "Command line RAR") OR where(Description = "WinRAR")))) AND NOT ((((where(Image ICONTAINS ":\\Program Files (x86)\\WinRAR\\") OR where(Image ICONTAINS ":\\Program Files\\WinRAR\\"))) OR (where(Image IENDSWITH "\\UnRAR.exe")))) AND NOT ((where(Image ICONTAINS ":\\Windows\\Temp\\"))))

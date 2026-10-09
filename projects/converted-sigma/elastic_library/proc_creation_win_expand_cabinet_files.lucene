@@ -1,0 +1,11 @@
+# Title: Potentially Suspicious Cabinet File Expansion
+# ID: 9f107a84-532c-41af-b005-8d12a607639f
+# Status: test
+# Level: medium
+# Author: Bhabesh Raj, X__Junior (Nextron Systems)
+# Date: 2021-07-30
+# Tags: attack.stealth, attack.t1218
+# Description: Detects the expansion or decompression of cabinet files from potentially suspicious or uncommon locations, e.g. seen in Iranian MeteorExpress related attacks
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((process.executable:*\\expand.exe AND (process.command_line:*-F:* OR process.command_line:*/F:*)) AND (((process.command_line:*:\\Perflogs\\* OR process.command_line:*:\\ProgramData* OR process.command_line:*:\\Users\\Public\\* OR process.command_line:*:\\Windows\\Temp\\* OR process.command_line:*\\Admin$\\* OR process.command_line:*\\AppData\\Local\\Temp\\* OR process.command_line:*\\AppData\\Roaming\\* OR process.command_line:*\\C$\\* OR process.command_line:*\\Temporary Internet*)) OR (((process.command_line:*:\\Users\\* AND process.command_line:*\\Favorites\\*)) OR ((process.command_line:*:\\Users\\* AND process.command_line:*\\Favourites\\*)) OR ((process.command_line:*:\\Users\\* AND process.command_line:*\\Contacts\\*)))) AND NOT ((process.parent.executable:"C:\\Program Files (x86)\\Dell\\UpdateService\\ServiceShell.exe" AND process.command_line:*C:\\ProgramData\\Dell\\UpdateService\\Temp\\*)))

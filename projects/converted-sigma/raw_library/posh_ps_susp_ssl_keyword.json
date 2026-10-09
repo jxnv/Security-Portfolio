@@ -1,0 +1,28 @@
+{
+  "title": "Suspicious SSL Connection",
+  "id": "195626f3-5f1b-4403-93b7-e6cfd4d6a078",
+  "status": "test",
+  "description": "Adversaries may employ a known encryption algorithm to conceal command and control traffic rather than relying on any inherent protections provided by a communication protocol.",
+  "author": "frack113",
+  "date": "2022-01-23",
+  "tags": [
+    "attack.command-and-control",
+    "attack.t1573"
+  ],
+  "level": "low",
+  "logsource": {
+    "product": "windows",
+    "category": "ps_script",
+    "definition": "Requirements: Script Block Logging must be enabled"
+  },
+  "detection": {
+    "selection": {
+      "ScriptBlockText|contains|all": [
+        "System.Net.Security.SslStream",
+        "Net.Security.RemoteCertificateValidationCallback",
+        ".AuthenticateAsClient"
+      ]
+    },
+    "condition": "selection"
+  }
+}

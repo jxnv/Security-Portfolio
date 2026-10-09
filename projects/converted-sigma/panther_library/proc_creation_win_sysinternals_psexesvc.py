@@ -1,0 +1,19 @@
+# Title: PsExec Service Execution
+# ID: fdfcbd78-48f1-4a4b-90ac-d82241e368c5
+# Status: test
+# Level: medium
+# Author: Thomas Patzke, Romaissa Adjailia, Florian Roth (Nextron Systems)
+# Date: 2017-06-12
+# Tags: attack.execution
+# Description: Detects launch of the PSEXESVC service, which means that this system was the target of a psexec remote execution
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: PsExec Service Execution
+def rule(event):
+    # Detection Logic:
+    # ((Image="C:\\Windows\\PSEXESVC.exe") OR (OriginalFileName="psexesvc.exe"))
+    return True
+
+def title(event):
+    return "PsExec Service Execution"
+

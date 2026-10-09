@@ -1,0 +1,11 @@
+// Title: Windows Shell/Scripting Processes Spawning Suspicious Programs
+// ID: 3a6586ad-127a-4d3b-a677-1e6eacdf8fde
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Tim Shelton
+// Date: 2018-04-06
+// Tags: attack.execution, attack.stealth, attack.t1059.005, attack.t1059.001, attack.t1218
+// Description: Detects suspicious child processes of a Windows shell and scripting processes such as wscript, rundll32, powershell, mshta...etc.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE (((process.parent.executable LIKE "%\\mshta.exe" OR process.parent.executable LIKE "%\\powershell.exe" OR process.parent.executable LIKE "%\\pwsh.exe" OR process.parent.executable LIKE "%\\rundll32.exe" OR process.parent.executable LIKE "%\\cscript.exe" OR process.parent.executable LIKE "%\\wscript.exe" OR process.parent.executable LIKE "%\\wmiprvse.exe" OR process.parent.executable LIKE "%\\regsvr32.exe") AND (process.executable LIKE "%\\schtasks.exe" OR process.executable LIKE "%\\nslookup.exe" OR process.executable LIKE "%\\certutil.exe" OR process.executable LIKE "%\\bitsadmin.exe" OR process.executable LIKE "%\\mshta.exe")) AND NOT ((((process.parent.command_line LIKE "%\\Program Files\\Amazon\\WorkSpacesConfig\\Scripts\\setup-scheduledtask.ps1%" OR process.parent.command_line LIKE "%\\Program Files\\Amazon\\WorkSpacesConfig\\Scripts\\set-selfhealing.ps1%" OR process.parent.command_line LIKE "%\\Program Files\\Amazon\\WorkSpacesConfig\\Scripts\\check-workspacehealth.ps1%" OR process.parent.command_line LIKE "%\\nessus_%")) OR (CurrentDirectory LIKE "%\\ccmcache\\%") OR (process.command_line LIKE "%\\nessus_%") OR (process.parent.executable LIKE "%\\mshta.exe" AND process.executable LIKE "%\\mshta.exe" AND (process.parent.command_line LIKE "%C:\\MEM_Configmgr_%" AND process.parent.command_line LIKE "%\\splash.hta%" AND process.parent.command_line LIKE "%{1E460BD7-F1C3-4B2E-88BF-4E770A288AF5}%") AND (process.command_line LIKE "%C:\\MEM_Configmgr_%" AND process.command_line LIKE "%\\SMSSETUP\\BIN\\%" AND process.command_line LIKE "%\\autorun.hta%" AND process.command_line LIKE "%{1E460BD7-F1C3-4B2E-88BF-4E770A288AF5}%")))))

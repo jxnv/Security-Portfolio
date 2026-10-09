@@ -1,0 +1,11 @@
+# Title: Webshell Hacking Activity Patterns
+# ID: 4ebc877f-4612-45cb-b3a5-8e3834db36c9
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems)
+# Date: 2022-03-17
+# Tags: attack.persistence, attack.discovery, attack.t1505.003, attack.t1018, attack.t1033, attack.t1087
+# Description: Detects certain parent child patterns found in cases in which a web shell is used to perform certain credential dumping or exfiltration activities on a compromised system
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((((@ParentImage:*\\java.exe OR @ParentImage:*\\javaw.exe) AND (@ParentImage:*-tomcat-* OR @ParentImage:*\\tomcat*)) OR ((@ParentImage:*\\java.exe OR @ParentImage:*\\javaw.exe) AND (@CommandLine:*catalina.jar* OR @CommandLine:*CATALINA_HOME*)) OR ((@ParentImage:*\\caddy.exe OR @ParentImage:*\\httpd.exe OR @ParentImage:*\\nginx.exe OR @ParentImage:*\\php-cgi.exe OR @ParentImage:*\\w3wp.exe OR @ParentImage:*\\ws_tomcatservice.exe))) AND (((@CommandLine:*rundll32* AND @CommandLine:*comsvcs*)) OR ((@CommandLine:* -hp* AND @CommandLine:* a * AND @CommandLine:* -m*)) OR ((@CommandLine:*net* AND @CommandLine:* user * AND @CommandLine:* /add*)) OR ((@CommandLine:*net* AND @CommandLine:* localgroup * AND @CommandLine:* administrators * AND @CommandLine:*/add*)) OR ((@Image:*\\ntdsutil.exe OR @Image:*\\ldifde.exe OR @Image:*\\adfind.exe OR @Image:*\\procdump.exe OR @Image:*\\Nanodump.exe OR @Image:*\\vssadmin.exe OR @Image:*\\fsutil.exe)) OR ((@CommandLine:* -decode * OR @CommandLine:* -NoP * OR @CommandLine:* -W Hidden * OR @CommandLine:* /decode * OR @CommandLine:* /ticket:* OR @CommandLine:* sekurlsa* OR @CommandLine:*.dmp full* OR @CommandLine:*.downloadfile(* OR @CommandLine:*.downloadstring(* OR @CommandLine:*FromBase64String* OR @CommandLine:*process call create* OR @CommandLine:*reg save * OR @CommandLine:*whoami /priv*))))

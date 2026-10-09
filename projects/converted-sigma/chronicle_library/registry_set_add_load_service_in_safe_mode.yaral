@@ -1,0 +1,23 @@
+// Title: Registry Persistence via Service in Safe Mode
+// ID: 1547e27c-3974-43e2-a7d7-7f484fb928ec
+// Status: test
+// Level: high
+// Author: frack113
+// Date: 2022-04-04
+// Tags: attack.stealth, attack.t1564.001
+// Description: Detects the modification of the registry to allow a driver or service to persist in Safe Mode.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 1547e27c_3974_43e2_a7d7_7f484fb928ec {
+  meta:
+    title = "Registry Persistence via Service in Safe Mode"
+    description = "Detects the modification of the registry to allow a driver or service to persist in Safe Mode."
+    author = "frack113"
+    severity = "HIGH"
+
+  events:
+    ((($e.TargetObject = /.*\\Control\\SafeBoot\\Minimal\\.*/ nocase or $e.TargetObject = /.*\\Control\\SafeBoot\\Network\\.*/ nocase) and $e.TargetObject = /.*\\(Default)$/ nocase and $e.Details = "Service") and not((($e.target.process.file.full_path = "C:\\Hexnode\\Hexnode Agent\\Current\\HexnodeAgent.exe" and ($e.TargetObject = /.*\\Control\\SafeBoot\\Minimal\\Hexnode Updater\\(Default)$/ nocase or $e.TargetObject = /.*\\Control\\SafeBoot\\Network\\Hexnode Updater\\(Default)$/ nocase or $e.TargetObject = /.*\\Control\\SafeBoot\\Minimal\\Hexnode Agent\\(Default)$/ nocase or $e.TargetObject = /.*\\Control\\SafeBoot\\Network\\Hexnode Agent\\(Default)$/ nocase) and $e.Details = "Service") or ($e.target.process.file.full_path = /.*\\MBAMInstallerService.exe$/ nocase and $e.TargetObject = /.*\\MBAMService\\(Default)$/ nocase and $e.Details = "Service") or ($e.target.process.file.full_path = "C:\\WINDOWS\\system32\\msiexec.exe" and ($e.TargetObject = /.*\\Control\\SafeBoot\\Minimal\\SAVService\\(Default)$/ nocase or $e.TargetObject = /.*\\Control\\SafeBoot\\Network\\SAVService\\(Default)$/ nocase)))))
+
+  condition:
+    $e
+}

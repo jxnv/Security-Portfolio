@@ -1,0 +1,14 @@
+// Title: Suspicious WSL Binary Hijack via Proxy Execution
+// ID: 88d306e9-8e2d-4025-9768-28757d2732db
+// Status: experimental
+// Level: high
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2026-05-05
+// Tags: attack.stealth, attack.t1036.005, attack.t1218
+// Description: Detects C:\Windows\System32\wsl.exe spawning a child wsl.exe process from outside the legitimate WSL install locations.
+// When WSL or bash is invoked, the System32 stub (wsl.exe) looks up the InstallLocation registry key and executes the wsl.exe found there.
+// An attacker who modifies InstallLocation to a controlled path causes the stub to transparently proxy execution to a malicious payload,
+// which then appears as a wsl.exe child of the legitimate System32 stub.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where ((process.parent.executable = "C:\\Windows\\System32\\wsl.exe" AND process.executable="*\\wsl.exe") AND NOT ((((process.executable = "C:\\Windows\\System32\\wsl.exe" OR process.executable = "C:\\Program Files\\WSL\\wsl.exe")) OR ((process.executable="C:\\Windows\\WinSxS\\amd64_microsoft-windows-lxss-wsl_*" OR process.executable="C:\\Windows\\WinSxS\\arm64_microsoft-windows-lxss-wsl_*" OR process.executable="C:\\Program Files\\WindowsApps\\MicrosoftCorporationII.WindowsSubsystemForLinux*")) OR (process.executable="C:\\Users\\*" AND process.executable like "%\\AppData\\Local\\Microsoft\\WindowsApps\\%"))))

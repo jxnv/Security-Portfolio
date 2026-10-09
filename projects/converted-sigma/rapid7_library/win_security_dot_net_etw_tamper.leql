@@ -1,0 +1,11 @@
+// Title: ETW Logging Disabled In .NET Processes - Registry
+// ID: a4c90ea1-2634-4ca0-adbb-35eae169b6fc
+// Status: test
+// Level: high
+// Author: Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research)
+// Date: 2020-06-05
+// Tags: attack.persistence, attack.defense-impairment, attack.t1112, attack.t1685
+// Description: Potential adversaries stopping ETW providers recording loaded .NET assemblies.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((where(EventID = "4657") AND where(ObjectName ICONTAINS "\\Environment") AND (where(ObjectValueName = "COMPlus_ETWEnabled") OR where(ObjectValueName = "COMPlus_ETWFlags")) AND where(NewValue = "0")) OR (where(EventID = "4657") AND where(ObjectName IENDSWITH "\\SOFTWARE\\Microsoft\\.NETFramework") AND where(ObjectValueName = "ETWEnabled") AND where(NewValue = "0")))

@@ -1,0 +1,11 @@
+# Title: Windows Firewall Disabled via PowerShell
+# ID: 12f6b752-042d-483e-bf9c-915a6d06ad75
+# Status: test
+# Level: medium
+# Author: Tim Rauch, Elastic (idea)
+# Date: 2022-09-14
+# Tags: attack.defense-impairment, attack.t1685
+# Description: Detects attempts to disable the Windows Firewall using PowerShell
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((process.command_line:*Set-NetFirewallProfile * AND process.command_line:* -Enabled * AND process.command_line:* False*)) AND (((process.executable:*\\powershell.exe OR process.executable:*\\pwsh.exe OR process.executable:*\\powershell_ise.exe)) OR ((process.pe.original_file_name:"PowerShell.EXE" OR process.pe.original_file_name:"pwsh.dll"))) AND ((process.command_line:* -All * OR process.command_line:*Public* OR process.command_line:*Domain* OR process.command_line:*Private*)))

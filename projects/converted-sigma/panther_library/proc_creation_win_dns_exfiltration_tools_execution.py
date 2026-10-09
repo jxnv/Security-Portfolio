@@ -1,0 +1,19 @@
+# Title: DNS Exfiltration and Tunneling Tools Execution
+# ID: 98a96a5a-64a0-4c42-92c5-489da3866cb0
+# Status: test
+# Level: high
+# Author: Daniil Yugoslavskiy, oscd.community
+# Date: 2019-10-24
+# Tags: attack.exfiltration, attack.t1048.001, attack.command-and-control, attack.t1071.004, attack.t1132.001
+# Description: Well-known DNS Exfiltration tools execution
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: DNS Exfiltration and Tunneling Tools Execution
+def rule(event):
+    # Detection Logic:
+    # ((Image="*\\iodine.exe") OR (Image="*\\dnscat2*"))
+    return True
+
+def title(event):
+    return "DNS Exfiltration and Tunneling Tools Execution"
+

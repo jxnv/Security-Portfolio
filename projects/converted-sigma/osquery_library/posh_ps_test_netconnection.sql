@@ -1,0 +1,12 @@
+-- Title: Testing Usage of Uncommonly Used Port
+-- ID: adf876b3-f1f8-4aa9-a4e4-a64106feec06
+-- Status: test
+-- Level: medium
+-- Author: frack113
+-- Date: 2022-01-23
+-- Tags: attack.command-and-control, attack.t1571
+-- Description: Adversaries may communicate using a protocol and port paring that are typically not associated.
+-- For example, HTTPS over port 8088(Citation: Symantec Elfin Mar 2019) or port 587(Citation: Fortinet Agent Tesla April 2018) as opposed to the traditional port 443.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM file WHERE (((ScriptBlockText LIKE '%Test-NetConnection%' AND ScriptBlockText LIKE '%-ComputerName %' AND ScriptBlockText LIKE '%-port %')) AND NOT (((ScriptBlockText LIKE '% 443 %' OR ScriptBlockText LIKE '% 80 %'))))

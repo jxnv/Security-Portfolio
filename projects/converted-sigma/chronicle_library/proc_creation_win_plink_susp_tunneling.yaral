@@ -1,0 +1,23 @@
+// Title: Potential RDP Tunneling Via Plink
+// ID: f38ce0b9-5e97-4b47-a211-7dc8d8b871da
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-08-04
+// Tags: attack.command-and-control, attack.t1572
+// Description: Execution of plink to perform data exfiltration and tunneling
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule f38ce0b9_5e97_4b47_a211_7dc8d8b871da {
+  meta:
+    title = "Potential RDP Tunneling Via Plink"
+    description = "Execution of plink to perform data exfiltration and tunneling"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.file.full_path = /.*\\plink.exe$/ nocase and $e.target.process.command_line = /.*:127.0.0.1:3389.*/ nocase) or (($e.target.process.file.full_path = /.*\\plink.exe$/ nocase and $e.target.process.command_line = /.*:3389.*/ nocase) and (($e.target.process.command_line = /.* -P 443.*/ nocase or $e.target.process.command_line = /.* -P 22.*/ nocase))))
+
+  condition:
+    $e
+}

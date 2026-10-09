@@ -1,0 +1,23 @@
+// Title: File With Suspicious Extension Downloaded Via Bitsadmin
+// ID: 5b80a791-ad9b-4b75-bcc1-ad4e1e89c200
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-06-28
+// Tags: attack.persistence, attack.execution, attack.stealth, attack.t1197, attack.s0190, attack.t1036.003, attack.command-and-control, attack.t1105
+// Description: Detects usage of bitsadmin downloading a file with a suspicious extension
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 5b80a791_ad9b_4b75_bcc1_ad4e1e89c200 {
+  meta:
+    title = "File With Suspicious Extension Downloaded Via Bitsadmin"
+    description = "Detects usage of bitsadmin downloading a file with a suspicious extension"
+    author = "Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*.7z.*/ nocase or $e.target.process.command_line = /.*.asax.*/ nocase or $e.target.process.command_line = /.*.ashx.*/ nocase or $e.target.process.command_line = /.*.asmx.*/ nocase or $e.target.process.command_line = /.*.asp.*/ nocase or $e.target.process.command_line = /.*.aspx.*/ nocase or $e.target.process.command_line = /.*.bat.*/ nocase or $e.target.process.command_line = /.*.cfm.*/ nocase or $e.target.process.command_line = /.*.cgi.*/ nocase or $e.target.process.command_line = /.*.chm.*/ nocase or $e.target.process.command_line = /.*.cmd.*/ nocase or $e.target.process.command_line = /.*.dll.*/ nocase or $e.target.process.command_line = /.*.gif.*/ nocase or $e.target.process.command_line = /.*.jpeg.*/ nocase or $e.target.process.command_line = /.*.jpg.*/ nocase or $e.target.process.command_line = /.*.jsp.*/ nocase or $e.target.process.command_line = /.*.jspx.*/ nocase or $e.target.process.command_line = /.*.log.*/ nocase or $e.target.process.command_line = /.*.png.*/ nocase or $e.target.process.command_line = /.*.ps1.*/ nocase or $e.target.process.command_line = /.*.psm1.*/ nocase or $e.target.process.command_line = /.*.rar.*/ nocase or $e.target.process.command_line = /.*.scf.*/ nocase or $e.target.process.command_line = /.*.sct.*/ nocase or $e.target.process.command_line = /.*.txt.*/ nocase or $e.target.process.command_line = /.*.vbe.*/ nocase or $e.target.process.command_line = /.*.vbs.*/ nocase or $e.target.process.command_line = /.*.war.*/ nocase or $e.target.process.command_line = /.*.wsf.*/ nocase or $e.target.process.command_line = /.*.wsh.*/ nocase or $e.target.process.command_line = /.*.xll.*/ nocase or $e.target.process.command_line = /.*.zip.*/ nocase)) and (($e.target.process.command_line = /.* /transfer .*/ nocase or $e.target.process.command_line = /.* /create .*/ nocase or $e.target.process.command_line = /.* /addfile .*/ nocase)) and (($e.target.process.file.full_path = /.*\\bitsadmin.exe$/ nocase) or ($e.target.process.file.name = "bitsadmin.exe")))
+
+  condition:
+    $e
+}

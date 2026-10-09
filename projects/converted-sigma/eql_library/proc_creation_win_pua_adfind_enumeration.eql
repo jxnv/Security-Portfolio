@@ -1,0 +1,11 @@
+// Title: PUA - Suspicious ActiveDirectory Enumeration Via AdFind.EXE
+// ID: 455b9d50-15a1-4b99-853f-8d37655a4c1b
+// Status: test
+// Level: high
+// Author: frack113
+// Date: 2021-12-13
+// Tags: attack.discovery, attack.t1087.002
+// Description: Detects active directory enumeration activity using known AdFind CLI flags
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where ((process.command_line like "*_-sc admincountdmp*") or (process.command_line like "*_-sc exchaddresses*") or ((process.command_line like "*_lockoutduration*" or process.command_line like "*_lockoutthreshold*" or process.command_line like "*_lockoutobservationwindow*" or process.command_line like "*_maxpwdage*" or process.command_line like "*_minpwdage*" or process.command_line like "*_minpwdlength*" or process.command_line like "*_pwdhistorylength*" or process.command_line like "*_pwdproperties*")))

@@ -1,0 +1,22 @@
+# Title: Use NTFS Short Name in Command Line
+# ID: dd6b39d9-d9be-4a3b-8fe0-fe3c6a5c1795
+# Status: test
+# Level: medium
+# Author: frack113, Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-08-05
+# Tags: attack.stealth, attack.t1564.004
+# Description: Detect use of the Windows 8.3 short name. Which could be used as a method to avoid command-line detection
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# LimaCharlie Detection & Response Rule
+# Name: Use NTFS Short Name in Command Line
+detect:
+  event: process_creation
+  op: and
+  rules:
+    # Filter logic:
+    # (((CommandLine="*~1.exe*" OR CommandLine="*~1.bat*" OR CommandLine="*~1.msi*" OR CommandLine="*~1.vbe*" OR CommandLine="*~1.vbs*" OR CommandLine="*~1.dll*" OR CommandLine="*~1.ps1*" OR CommandLine="*~1.js*" OR CommandLine="*~1.hta*" OR CommandLine="*~2.exe*" OR CommandLine="*~2.bat*" OR CommandLine="*~2.msi*" OR CommandLine="*~2.vbe*" OR CommandLine="*~2.vbs*" OR CommandLine="*~2.dll*" OR CommandLine="*~2.ps1*" OR CommandLine="*~2.js*" OR CommandLine="*~2.hta*")) AND NOT ((((ParentImage="*\\WebEx\\WebexHost.exe" OR ParentImage="*\\thor\\thor64.exe")) OR (CommandLine="*C:\\xampp\\vcredist\\VCREDI~1.EXE*"))))
+respond:
+  - action: report
+    name: Use NTFS Short Name in Command Line
+

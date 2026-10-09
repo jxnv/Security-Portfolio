@@ -1,0 +1,11 @@
+// Title: Elevated System Shell Spawned From Uncommon Parent Location
+// ID: 178e615d-e666-498b-9630-9ed363038101
+// Status: test
+// Level: medium
+// Author: frack113, Tim Shelton (update fp)
+// Date: 2022-12-05
+// Tags: attack.privilege-escalation, attack.execution, attack.t1059
+// Description: Detects when a shell program such as the Windows command prompt or PowerShell is launched with system privileges from a uncommon parent location.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((((where(Image IENDSWITH "\\powershell.exe") OR where(Image IENDSWITH "\\powershell_ise.exe") OR where(Image IENDSWITH "\\pwsh.exe") OR where(Image IENDSWITH "\\cmd.exe"))) OR ((where(OriginalFileName = "PowerShell.EXE") OR where(OriginalFileName = "powershell_ise.EXE") OR where(OriginalFileName = "pwsh.dll") OR where(OriginalFileName = "Cmd.Exe")))) AND ((where(User ICONTAINS "AUTHORI") OR where(User ICONTAINS "AUTORI")) AND where(LogonId = "0x3e7"))) AND NOT ((((where(ParentImage ICONTAINS ":\\Program Files (x86)\\") OR where(ParentImage ICONTAINS ":\\Program Files\\") OR where(ParentImage ICONTAINS ":\\ProgramData\\") OR where(ParentImage ICONTAINS ":\\Windows\\System32\\") OR where(ParentImage ICONTAINS ":\\Windows\\SysWOW64\\") OR where(ParentImage ICONTAINS ":\\Windows\\Temp\\") OR where(ParentImage ICONTAINS ":\\Windows\\WinSxS\\"))) OR ((where(ParentImage = "") OR where(ParentImage = "-"))) OR (NOT ParentImage=*))) AND NOT (((where(CommandLine ICONTAINS ":\\WINDOWS\\system32\\cmd.exe /c \"") AND where(CurrentDirectory ICONTAINS ":\\WINDOWS\\Temp\\asgard2-agent\\")) OR (where(ParentImage ICONTAINS ":\\IBM\\SpectrumProtect\\webserver\\scripts\\") AND where(CommandLine ICONTAINS ":\\IBM\\SpectrumProtect\\webserver\\scripts\\")) OR (where(ParentImage IENDSWITH ":\\ManageEngine\\ADManager Plus\\pgsql\\bin\\postgres.exe") AND where(Image IENDSWITH "\\cmd.exe")))))

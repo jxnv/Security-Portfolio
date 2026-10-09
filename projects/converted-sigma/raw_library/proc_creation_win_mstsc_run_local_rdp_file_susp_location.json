@@ -1,0 +1,46 @@
+{
+  "title": "Suspicious Mstsc.EXE Execution With Local RDP File",
+  "id": "6e22722b-dfb1-4508-a911-49ac840b40f8",
+  "status": "test",
+  "description": "Detects potential RDP connection via Mstsc using a local \".rdp\" file located in suspicious locations.",
+  "author": "Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2023-04-18",
+  "tags": [
+    "attack.command-and-control",
+    "attack.t1219.002"
+  ],
+  "level": "high",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_img": [
+      {
+        "Image|endswith": "\\mstsc.exe"
+      },
+      {
+        "OriginalFileName": "mstsc.exe"
+      }
+    ],
+    "selection_extension": {
+      "CommandLine|endswith": [
+        ".rdp",
+        ".rdp\""
+      ]
+    },
+    "selection_paths": {
+      "CommandLine|contains": [
+        ":\\Users\\Public\\",
+        ":\\Windows\\System32\\spool\\drivers\\color",
+        ":\\Windows\\System32\\Tasks_Migrated ",
+        ":\\Windows\\Tasks\\",
+        ":\\Windows\\Temp\\",
+        ":\\Windows\\Tracing\\",
+        "\\AppData\\Local\\Temp\\",
+        "\\Downloads\\"
+      ]
+    },
+    "condition": "all of selection_*"
+  }
+}

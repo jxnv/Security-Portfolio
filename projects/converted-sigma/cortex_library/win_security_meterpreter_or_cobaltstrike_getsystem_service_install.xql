@@ -1,0 +1,11 @@
+// Title: Meterpreter or Cobalt Strike Getsystem Service Installation - Security
+// ID: ecbc5e16-58e0-4521-9c60-eb9a7ea4ad34
+// Status: test
+// Level: high
+// Author: Teymur Kheirkhabarov, Ecco, Florian Roth (Nextron Systems)
+// Date: 2019-10-26
+// Tags: attack.privilege-escalation, attack.stealth, attack.t1134.001, attack.t1134.002
+// Description: Detects the use of getsystem Meterpreter/Cobalt Strike command by detecting a specific service installation
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter ((EventID = 4697) and (((ServiceFileName contains "/c" and ServiceFileName contains "echo" and ServiceFileName contains "\\pipe\\") and (ServiceFileName contains "cmd" or ServiceFileName contains "%COMSPEC%")) or ((ServiceFileName contains "rundll32" and ServiceFileName contains ".dll,a" and ServiceFileName contains "/p:")) or (ServiceFileName startswith "\\\\\\\\127.0.0.1\\\\ADMIN$\\")))

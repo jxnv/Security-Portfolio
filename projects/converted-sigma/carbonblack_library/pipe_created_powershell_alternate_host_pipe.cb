@@ -1,0 +1,11 @@
+# Title: Alternate PowerShell Hosts Pipe
+# ID: 58cb02d5-78ce-4692-b3e1-dce850aae41a
+# Status: test
+# Level: medium
+# Author: Roberto Rodriguez @Cyb3rWard0g, Tim Shelton
+# Date: 2019-09-12
+# Tags: attack.execution, attack.t1059.001
+# Description: Detects alternate PowerShell hosts potentially bypassing detections looking for powershell.exe
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((PipeName:\\PSHost*) AND -(((((process_name:*:\\Program Files\\PowerShell\\7-preview\\pwsh.exe* OR process_name:*:\\Program Files\\PowerShell\\7\\pwsh.exe* OR process_name:*:\\Windows\\system32\\dsac.exe* OR process_name:*:\\Windows\\system32\\inetsrv\\w3wp.exe* OR process_name:*:\\Windows\\System32\\sdiagnhost.exe* OR process_name:*:\\Windows\\system32\\ServerManager.exe* OR process_name:*:\\Windows\\system32\\wbem\\wmiprvse.exe* OR process_name:*:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell_ise.exe* OR process_name:*:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe* OR process_name:*:\\Windows\\System32\\wsmprovhost.exe* OR process_name:*:\\Windows\\SysWOW64\\WindowsPowerShell\\v1.0\\powershell_ise.exe* OR process_name:*:\\Windows\\SysWOW64\\WindowsPowerShell\\v1.0\\powershell.exe*)) OR ((process_name:*C:\\Program Files\\WindowsApps\\Microsoft.PowerShellPreview* AND process_name:*\\pwsh.exe*)) OR ((process_name:*\\AppData\\Local\\Microsoft\\WindowsApps\\Microsoft.PowerShellPreview* AND process_name:*\\pwsh.exe*))) OR (-process_name:*))) AND -(((process_name:C:\\Program Files\\AzureConnectedMachineAgent\\GCArcService* AND process_name:*\\GC\\gc_worker.exe) OR (process_name:C:\\Program Files\\Citrix\\*) OR (process_name:C:\\Program Files\\Microsoft\\Exchange Server\\*) OR ((process_name:C:\\Program Files (x86)\\* OR process_name:C:\\Program Files\\*) AND process_name:*\\Microsoft SQL Server\\* AND process_name:*\\Tools\\Binn\\SQLPS.exe))))

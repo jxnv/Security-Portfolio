@@ -1,0 +1,23 @@
+// Title: Suspicious Download Via Certutil.EXE
+// ID: 19b08b1c-861d-4e75-a1ef-ea0c1baf202b
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems), Jonhnathan Ribeiro, oscd.community, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-02-15
+// Tags: attack.stealth, attack.t1027, attack.command-and-control, attack.t1105
+// Description: Detects the execution of certutil with certain flags that allow the utility to download files.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 19b08b1c_861d_4e75_a1ef_ea0c1baf202b {
+  meta:
+    title = "Suspicious Download Via Certutil.EXE"
+    description = "Detects the execution of certutil with certain flags that allow the utility to download files."
+    author = "Florian Roth (Nextron Systems), Jonhnathan Ribeiro, oscd.community, Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.command_line = /.*urlcache .*/ nocase or $e.target.process.command_line = /.*verifyctl .*/ nocase or $e.target.process.command_line = /.*URL .*/ nocase)) and ($e.target.process.command_line = /.*http.*/ nocase) and (($e.target.process.file.full_path = /.*\\certutil.exe$/ nocase) or ($e.target.process.file.name = "CertUtil.exe")))
+
+  condition:
+    $e
+}

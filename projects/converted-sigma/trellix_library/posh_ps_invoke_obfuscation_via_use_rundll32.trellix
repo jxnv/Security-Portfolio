@@ -1,0 +1,11 @@
+# Title: Invoke-Obfuscation Via Use Rundll32 - PowerShell
+# ID: a5a30a6e-75ca-4233-8b8c-42e0f2037d3b
+# Status: test
+# Level: high
+# Author: Nikita Nazarov, oscd.community
+# Date: 2019-10-08
+# Tags: attack.stealth, attack.t1027, attack.execution, attack.t1059.001
+# Description: Detects Obfuscated Powershell via use Rundll32 in Scripts
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((ScriptBlockText CONTAINS "&&" AND ScriptBlockText CONTAINS "rundll32" AND ScriptBlockText CONTAINS "shell32.dll" AND ScriptBlockText CONTAINS "shellexec_rundll") AND (ScriptBlockText CONTAINS "value" OR ScriptBlockText CONTAINS "invoke" OR ScriptBlockText CONTAINS "comspec" OR ScriptBlockText CONTAINS "iex"))

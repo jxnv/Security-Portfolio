@@ -1,0 +1,25 @@
+// Title: Screen Capture with Import Tool
+// ID: dbe4b9c5-c254-4258-9688-d6af0b7967fd
+// Status: test
+// Level: low
+// Author: Pawel Mazur
+// Date: 2021-09-21
+// Tags: attack.collection, attack.t1113
+// Description: Detects adversary creating screen capture of a desktop with Import Tool.
+// Highly recommended using rule on servers, due to high usage of screenshot utilities on user workstations.
+// ImageMagick must be installed.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule dbe4b9c5_c254_4258_9688_d6af0b7967fd {
+  meta:
+    title = "Screen Capture with Import Tool"
+    description = "Detects adversary creating screen capture of a desktop with Import Tool. Highly recommended using rule on servers, due to high usage of screenshot utilities on user workstations. ImageMagick must be installed."
+    author = "Pawel Mazur"
+    severity = "LOW"
+
+  events:
+    (($e.type = "EXECVE" and $e.a0 = "import") and (($e.a1 = "-window" and $e.a2 = "root" and ($e.a3 = /.*.png$/ nocase or $e.a3 = /.*.jpg$/ nocase or $e.a3 = /.*.jpeg$/ nocase)) or (($e.a1 = /.*.png$/ nocase or $e.a1 = /.*.jpg$/ nocase or $e.a1 = /.*.jpeg$/ nocase))))
+
+  condition:
+    $e
+}

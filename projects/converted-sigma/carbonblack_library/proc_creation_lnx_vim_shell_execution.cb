@@ -1,0 +1,12 @@
+# Title: Vim GTFOBin Abuse - Linux
+# ID: 7ab8f73a-fcff-428b-84aa-6a5ff7877dea
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems), Luc Génaux
+# Date: 2022-12-28
+# Tags: attack.execution, attack.discovery, attack.t1059, attack.t1083
+# Description: Detects the use of "vim" and it's siblings commands to execute a shell or proxy commands.
+# Such behavior may be associated with privilege escalation, unauthorized command execution, or to break out from restricted environments.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((cmdline:*:!/* OR cmdline:*:!$* OR cmdline:*:!..* OR cmdline:*:lua * OR cmdline:*:py * OR cmdline:*:shell* OR cmdline:*/bin/bash* OR cmdline:*/bin/dash* OR cmdline:*/bin/fish* OR cmdline:*/bin/sh* OR cmdline:*/bin/csh* OR cmdline:*/bin/ksh* OR cmdline:*/bin/zsh* OR cmdline:*/bin/tmux*)) AND ((process_name:*/rvim OR process_name:*/vi OR process_name:*/vim OR process_name:*/vimdiff) AND (cmdline:* --cmd * OR cmdline:* -c*)))

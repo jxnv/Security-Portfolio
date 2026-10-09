@@ -1,0 +1,31 @@
+{
+  "title": "Potential Ransomware Activity Using LegalNotice Message",
+  "id": "8b9606c9-28be-4a38-b146-0e313cc232c1",
+  "status": "test",
+  "description": "Detect changes to the \"LegalNoticeCaption\" or \"LegalNoticeText\" registry values where the message set contains keywords often used in ransomware ransom messages",
+  "author": "frack113",
+  "date": "2022-12-11",
+  "tags": [
+    "attack.impact",
+    "attack.t1491.001"
+  ],
+  "level": "high",
+  "logsource": {
+    "product": "windows",
+    "category": "registry_set"
+  },
+  "detection": {
+    "selection": {
+      "TargetObject|contains": [
+        "\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\LegalNoticeCaption",
+        "\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\LegalNoticeText"
+      ],
+      "Details|contains": [
+        "encrypted",
+        "Unlock-Password",
+        "paying"
+      ]
+    },
+    "condition": "selection"
+  }
+}

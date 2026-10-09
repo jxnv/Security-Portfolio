@@ -1,0 +1,19 @@
+# Title: Osacompile Execution By Potentially Suspicious Applet/Osascript
+# ID: a753a6af-3126-426d-8bd0-26ebbcb92254
+# Status: test
+# Level: medium
+# Author: Sohan G (D4rkCiph3r), Red Canary (Idea)
+# Date: 2023-04-03
+# Tags: attack.execution, attack.t1059.002
+# Description: Detects potential suspicious applet or osascript executing "osacompile".
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Osacompile Execution By Potentially Suspicious Applet/Osascript
+def rule(event):
+    # Detection Logic:
+    # ((ParentImage="*/applet" OR ParentImage="*/osascript") AND CommandLine="*osacompile*")
+    return True
+
+def title(event):
+    return "Osacompile Execution By Potentially Suspicious Applet/Osascript"
+

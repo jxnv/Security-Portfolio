@@ -1,0 +1,11 @@
+// Title: Rundll32 Execution With Uncommon DLL Extension
+// ID: c3a99af4-35a9-4668-879e-c09aeb4f2bdf
+// Status: test
+// Level: medium
+// Author: Tim Shelton, Florian Roth (Nextron Systems), Yassine Oukessou
+// Date: 2022-01-13
+// Tags: attack.stealth, attack.t1218.011
+// Description: Detects the execution of rundll32 with a command line that doesn't contain a common extension
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter (((action_process_image_path endswith "\\rundll32.exe") or (action_process_image_name = "RUNDLL32.EXE")) and not (((action_process_image_command_line = "") or (((action_process_image_command_line contains ".cpl " or action_process_image_command_line contains ".cpl," or action_process_image_command_line contains ".cpl\"" or action_process_image_command_line contains ".cpl'" or action_process_image_command_line contains ".dll " or action_process_image_command_line contains ".dll," or action_process_image_command_line contains ".dll\"" or action_process_image_command_line contains ".dll'" or action_process_image_command_line contains ".inf " or action_process_image_command_line contains ".inf," or action_process_image_command_line contains ".inf\"" or action_process_image_command_line contains ".inf'")) or ((action_process_image_command_line endswith ".cpl" or action_process_image_command_line endswith ".dll" or action_process_image_command_line endswith ".inf"))) or (action_process_image_command_line contains " -localserver ") or (action_process_image_command_line = null) or (actor_process_image_path endswith "\\msiexec.exe" and (action_process_image_command_line contains ":\\Windows\\Installer\\" and action_process_image_command_line contains ".tmp" and action_process_image_command_line contains "zzzzInvokeManagedCustomActionOutOfProc")))) and not (((actor_process_command_line contains ":\\Users\\" and actor_process_command_line contains "\\AppData\\Local\\Microsoft\\EdgeUpdate\\Install\\{" and actor_process_command_line contains "\\EDGEMITMP_" and actor_process_command_line contains ".tmp\\setup.exe" and actor_process_command_line contains "--install-archive=" and actor_process_command_line contains "--previous-version=" and actor_process_command_line contains "--msedgewebview --verbose-logging --do-not-launch-msedge --user-level"))))

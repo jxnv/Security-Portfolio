@@ -1,0 +1,23 @@
+// Title: HackTool - Mimikatz Kirbi File Creation
+// ID: 9e099d99-44c2-42b6-a6d8-54c3545cab29
+// Status: test
+// Level: critical
+// Author: Florian Roth (Nextron Systems), David ANDRE
+// Date: 2021-11-08
+// Tags: attack.credential-access, attack.t1558
+// Description: Detects the creation of files created by mimikatz such as ".kirbi", "mimilsa.log", etc.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 9e099d99_44c2_42b6_a6d8_54c3545cab29 {
+  meta:
+    title = "HackTool - Mimikatz Kirbi File Creation"
+    description = "Detects the creation of files created by mimikatz such as ".kirbi", "mimilsa.log", etc."
+    author = "Florian Roth (Nextron Systems), David ANDRE"
+    severity = "CRITICAL"
+
+  events:
+    (($e.target.file.full_path = /.*.kirbi$/ nocase or $e.target.file.full_path = /.*mimilsa.log$/ nocase))
+
+  condition:
+    $e
+}

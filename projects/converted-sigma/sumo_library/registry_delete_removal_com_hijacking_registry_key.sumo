@@ -1,0 +1,12 @@
+// Title: Removal of Potential COM Hijacking Registry Keys
+// ID: 96f697b0-b499-4e5d-9908-a67bec11cdb6
+// Status: test
+// Level: medium
+// Author: Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research)
+// Date: 2020-05-02
+// Tags: attack.persistence, attack.defense-impairment, attack.t1112
+// Description: Detects any deletion of entries in ".*\shell\open\command" registry keys.
+// These registry keys might have been used for COM hijacking activities by a threat actor or an attacker and the deletion could indicate steps to remove its tracks.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where ((TargetObject matches "*\\shell\\open\\command") and !(((Image matches "*C:\\Windows\\explorer.exe") or ((Image matches "C:\\Program Files\\*" or Image matches "C:\\Program Files (x86)\\*")) or ((Image = "C:\\Windows\\System32\\msiexec.exe" or Image = "C:\\Windows\\SysWOW64\\msiexec.exe")) or (Image = "C:\\Windows\\System32\\OpenWith.exe") or (Image = "C:\\Windows\\system32\\svchost.exe"))) and !((((Image = "C:\\Program Files (x86)\\Avira\\Antivirus\\" or Image = "C:\\Program Files\\Avira\\Antivirus\\") and (TargetObject matches "*\\CLSID\\{305CA226-D286-468e-B848-2B2E8E697B74}\\Shell\\Open\\Command" or TargetObject matches "*\\AntiVir.Keyfile\\shell\\open\\command")) or (Image matches "*\\reg.exe" and TargetObject matches "*\\Discord\\shell\\open\\command") or (Image matches "*\\Dropbox.exe" and TargetObject matches "*\\Dropbox.*") or (Image matches "*C:\\eclipse\\eclipse.exe" and TargetObject matches "*_Classes\\eclipse+*") or (Image matches "*\\Microsoft\\EdgeUpdate\\Install*") or (Image matches "*\\Everything.exe" and TargetObject matches "*\\Everything.*") or (((Image matches "*AppData\\Local\\Temp*" and Image matches "*\\setup.exe*")) or ((Image matches "*\\Temp\\is-*" and Image matches "*\\target.tmp*"))) or (Image matches "C:\\Program Files (x86)\\Java\\*" and Image matches "*\\installer.exe" and TargetObject matches "*\\Classes\\WOW6432Node\\CLSID\\{4299124F-F2C3-41b4-9C73-9236B2AD0E8F}*") or (Image matches "*\\ninite.exe") or (Image matches "*peazip*" and TargetObject matches "*\\PeaZip.*") or (Image matches "*\\Spotify.exe" and TargetObject matches "*\\Spotify\\shell\\open\\command") or ((Image matches "*\\Temp*" and Image matches "*\\TeamViewer*")) or (Image matches "C:\\Windows\\Installer\\MSI*") or (Image matches "*\\AppData\\Local\\Temp\\Wireshark_uninstaller.exe" and TargetObject matches "*\\wireshark-capture-file\\*"))))

@@ -1,0 +1,11 @@
+// Title: Scheduled Task Executing Encoded Payload from Registry
+// ID: c4eeeeae-89f4-43a7-8b48-8d1bdfa66c78
+// Status: test
+// Level: high
+// Author: pH-T (Nextron Systems), @Kostastsale, TheDFIRReport, X__Junior (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-02-12
+// Tags: attack.privilege-escalation, attack.execution, attack.persistence, attack.t1053.005, attack.t1059.001
+// Description: Detects the creation of a schtask that potentially executes a base64 encoded payload stored in the Windows Registry using PowerShell.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where ((CommandLine matches "*/Create*") and ((CommandLine matches "*FromBase64String*" or CommandLine matches "*encodedcommand*")) and ((CommandLine matches "*Get-ItemProperty*" or CommandLine matches "* gp *")) and ((CommandLine matches "*HKCU:*" or CommandLine matches "*HKLM:*" or CommandLine matches "*registry::*" or CommandLine matches "*HKEY_*")) and ((Image matches "*\\schtasks.exe") or (OriginalFileName = "schtasks.exe")))

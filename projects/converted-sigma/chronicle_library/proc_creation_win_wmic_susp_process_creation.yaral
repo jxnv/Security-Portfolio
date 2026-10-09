@@ -1,0 +1,23 @@
+// Title: Suspicious Process Created Via Wmic.EXE
+// ID: 3c89a1e8-0fba-449e-8f1b-8409d6267ec8
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2020-10-12
+// Tags: attack.execution, attack.t1047
+// Description: Detects WMIC executing "process call create" with suspicious calls to processes such as "rundll32", "regsrv32", etc.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 3c89a1e8_0fba_449e_8f1b_8409d6267ec8 {
+  meta:
+    title = "Suspicious Process Created Via Wmic.EXE"
+    description = "Detects WMIC executing "process call create" with suspicious calls to processes such as "rundll32", "regsrv32", etc."
+    author = "Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.command_line = /.*process .*/ nocase and $e.target.process.command_line = /.*call .*/ nocase and $e.target.process.command_line = /.*create .*/ nocase) and ($e.target.process.command_line = /.*rundll32.*/ nocase or $e.target.process.command_line = /.*bitsadmin.*/ nocase or $e.target.process.command_line = /.*regsvr32.*/ nocase or $e.target.process.command_line = /.*cmd.exe /c .*/ nocase or $e.target.process.command_line = /.*cmd.exe /k .*/ nocase or $e.target.process.command_line = /.*cmd.exe /r .*/ nocase or $e.target.process.command_line = /.*cmd /c .*/ nocase or $e.target.process.command_line = /.*cmd /k .*/ nocase or $e.target.process.command_line = /.*cmd /r .*/ nocase or $e.target.process.command_line = /.*powershell.*/ nocase or $e.target.process.command_line = /.*pwsh.*/ nocase or $e.target.process.command_line = /.*certutil.*/ nocase or $e.target.process.command_line = /.*cscript.*/ nocase or $e.target.process.command_line = /.*wscript.*/ nocase or $e.target.process.command_line = /.*mshta.*/ nocase or $e.target.process.command_line = /.*\\Users\\Public\\.*/ nocase or $e.target.process.command_line = /.*\\Windows\\Temp\\.*/ nocase or $e.target.process.command_line = /.*\\AppData\\Local\\.*/ nocase or $e.target.process.command_line = /.*%temp%.*/ nocase or $e.target.process.command_line = /.*%tmp%.*/ nocase or $e.target.process.command_line = /.*%ProgramData%.*/ nocase or $e.target.process.command_line = /.*%appdata%.*/ nocase or $e.target.process.command_line = /.*%comspec%.*/ nocase or $e.target.process.command_line = /.*%localappdata%.*/ nocase))
+
+  condition:
+    $e
+}

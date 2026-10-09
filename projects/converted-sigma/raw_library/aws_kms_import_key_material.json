@@ -1,0 +1,29 @@
+{
+  "title": "AWS KMS Imported Key Material Usage",
+  "id": "1279262f-1464-422f-ac0d-5b545320c526",
+  "status": "experimental",
+  "description": "Detects the import or deletion of key material in AWS KMS, which can be used as part of ransomware attacks. This activity is uncommon and provides a high certainty signal.\n",
+  "author": "toopricey",
+  "date": "2025-10-18",
+  "tags": [
+    "attack.impact",
+    "attack.t1486",
+    "attack.resource-development",
+    "attack.t1608.003"
+  ],
+  "level": "high",
+  "logsource": {
+    "product": "aws",
+    "service": "cloudtrail"
+  },
+  "detection": {
+    "selection": {
+      "eventSource": "kms.amazonaws.com",
+      "eventName": [
+        "ImportKeyMaterial",
+        "DeleteImportedKeyMaterial"
+      ]
+    },
+    "condition": "selection"
+  }
+}

@@ -1,0 +1,11 @@
+// Title: Suspicious Spool Service Child Process
+// ID: dcdbc940-0bff-46b2-95f3-2d73f848e33b
+// Status: test
+// Level: high
+// Author: Justin C. (@endisphotic), @dreadphones (detection), Thomas Patzke (Sigma rule)
+// Date: 2021-07-11
+// Tags: attack.execution, attack.t1203, attack.privilege-escalation, attack.t1068
+// Description: Detects suspicious print spool service (spoolsv.exe) child processes.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((ParentBaseFileName = /.*\\spoolsv.exe/i and (IntegrityLevel = "System" or IntegrityLevel = "S-1-16-16384")) and (((ImageFileName = /.*\\gpupdate.exe/i or ImageFileName = /.*\\whoami.exe/i or ImageFileName = /.*\\nltest.exe/i or ImageFileName = /.*\\taskkill.exe/i or ImageFileName = /.*\\wmic.exe/i or ImageFileName = /.*\\taskmgr.exe/i or ImageFileName = /.*\\sc.exe/i or ImageFileName = /.*\\findstr.exe/i or ImageFileName = /.*\\curl.exe/i or ImageFileName = /.*\\wget.exe/i or ImageFileName = /.*\\certutil.exe/i or ImageFileName = /.*\\bitsadmin.exe/i or ImageFileName = /.*\\accesschk.exe/i or ImageFileName = /.*\\wevtutil.exe/i or ImageFileName = /.*\\bcdedit.exe/i or ImageFileName = /.*\\fsutil.exe/i or ImageFileName = /.*\\cipher.exe/i or ImageFileName = /.*\\schtasks.exe/i or ImageFileName = /.*\\write.exe/i or ImageFileName = /.*\\wuauclt.exe/i or ImageFileName = /.*\\systeminfo.exe/i or ImageFileName = /.*\\reg.exe/i or ImageFileName = /.*\\query.exe/i)) or (((ImageFileName = /.*\\net.exe/i or ImageFileName = /.*\\net1.exe/i)) and not((CommandLine = /*start*/i))) or ((ImageFileName = /.*\\cmd.exe/i) and not(((CommandLine = /*.spl*/i or CommandLine = /*route add*/i or CommandLine = /*program files*/i)))) or ((ImageFileName = /.*\\netsh.exe/i) and not(((CommandLine = /*add portopening*/i or CommandLine = /*rule name*/i)))) or (((ImageFileName = /.*\\powershell.exe/i or ImageFileName = /.*\\pwsh.exe/i)) and not((CommandLine = /*.spl*/i))) or ((CommandLine = /.*rundll32.exe/i) and ((ImageFileName = /.*\\rundll32.exe/i) or (OriginalFilename = "RUNDLL32.EXE")))))

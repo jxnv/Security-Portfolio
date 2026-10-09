@@ -1,0 +1,11 @@
+// Title: Suspicious Non-Browser Network Communication With Google API
+// ID: 7e9cf7b6-e827-11ed-a05b-0242ac120003
+// Status: experimental
+// Level: medium
+// Author: Gavin Knapp
+// Date: 2023-05-01
+// Tags: attack.command-and-control, attack.t1102
+// Description: Detects a non-browser process interacting with the Google API which could indicate the use of a covert C2 such as Google Sheet C2 (GC2-sheet)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((DestinationHostname = /*drive.googleapis.com*/i or DestinationHostname = /*oauth2.googleapis.com*/i or DestinationHostname = /*sheets.googleapis.com*/i or DestinationHostname = /*www.googleapis.com*/i)) and not(((ImageFileName = "") or (not(ImageFileName = *)))) and not(((ImageFileName = /.*\\brave.exe/i) or ((ImageFileName = /.*:\\Program Files\\Google\\Chrome\\Application\\chrome.exe/i or ImageFileName = /.*:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe/i)) or ((ImageFileName = /*:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\*/i) or ((ImageFileName = /.*:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe/i or ImageFileName = /.*:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe/i or ImageFileName = /.*\\WindowsApps\\MicrosoftEdge.exe/i))) or ((ImageFileName = /*:\\Program Files (x86)\\Microsoft\\EdgeCore\\*/i or ImageFileName = /*:\\Program Files\\Microsoft\\EdgeCore\\*/i) and (ImageFileName = /.*\\msedge.exe/i or ImageFileName = /.*\\msedgewebview2.exe/i)) or ((ImageFileName = /.*:\\Program Files\\Mozilla Firefox\\firefox.exe/i or ImageFileName = /.*:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe/i)) or (ImageFileName = /*:\\Program Files\\Google\\Drive File Stream\\*/i and ImageFileName = /.*\\GoogleDriveFS.exe/i) or (ImageFileName = /.*\\GoogleUpdate.exe/i) or ((ImageFileName = /.*:\\Program Files (x86)\\Internet Explorer\\iexplore.exe/i or ImageFileName = /.*:\\Program Files\\Internet Explorer\\iexplore.exe/i)) or (ImageFileName = /.*\\maxthon.exe/i) or (ImageFileName = /.*\\opera.exe/i) or (ImageFileName = /.*\\outlook.exe/i) or (ImageFileName = /.*\\safari.exe/i) or (ImageFileName = /.*\\seamonkey.exe/i) or (ImageFileName = /.*\\vivaldi.exe/i) or (ImageFileName = /.*\\whale.exe/i))))

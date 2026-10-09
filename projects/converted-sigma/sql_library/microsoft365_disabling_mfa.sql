@@ -1,0 +1,11 @@
+-- Title: Disabling Multi Factor Authentication
+-- ID: 60de9b57-dc4d-48b9-a6a0-b39e0469f876
+-- Status: test
+-- Level: high
+-- Author: Splunk Threat Research Team (original rule), Harjot Singh @cyb3rjy0t (sigma rule)
+-- Date: 2023-09-18
+-- Tags: attack.persistence, attack.credential-access, attack.defense-impairment, attack.t1556.006
+-- Description: Detects disabling of Multi Factor Authentication.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE (Operation ILIKE '%Disable Strong Authentication.%')

@@ -1,0 +1,11 @@
+// Title: Suspicious File Download From IP Via Curl.EXE
+// ID: 5cb299fc-5fb1-4d07-b989-0644c68b6043
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-07-27
+// Tags: attack.execution
+// Description: Detects potentially suspicious file downloads directly from IP addresses using curl.exe
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((CommandLine = /.*.bat/i or CommandLine = /.*.bat\"/i or CommandLine = /.*.dat/i or CommandLine = /.*.dat\"/i or CommandLine = /.*.dll/i or CommandLine = /.*.dll\"/i or CommandLine = /.*.exe/i or CommandLine = /.*.exe\"/i or CommandLine = /.*.gif/i or CommandLine = /.*.gif\"/i or CommandLine = /.*.hta/i or CommandLine = /.*.hta\"/i or CommandLine = /.*.jpeg/i or CommandLine = /.*.jpeg\"/i or CommandLine = /.*.log/i or CommandLine = /.*.log\"/i or CommandLine = /.*.msi/i or CommandLine = /.*.msi\"/i or CommandLine = /.*.png/i or CommandLine = /.*.png\"/i or CommandLine = /.*.ps1/i or CommandLine = /.*.ps1\"/i or CommandLine = /.*.psm1/i or CommandLine = /.*.psm1\"/i or CommandLine = /.*.vbe/i or CommandLine = /.*.vbe\"/i or CommandLine = /.*.vbs/i or CommandLine = /.*.vbs\"/i or CommandLine = /.*.bat'/i or CommandLine = /.*.dat'/i or CommandLine = /.*.dll'/i or CommandLine = /.*.exe'/i or CommandLine = /.*.gif'/i or CommandLine = /.*.hta'/i or CommandLine = /.*.jpeg'/i or CommandLine = /.*.log'/i or CommandLine = /.*.msi'/i or CommandLine = /.*.png'/i or CommandLine = /.*.ps1'/i or CommandLine = /.*.psm1'/i or CommandLine = /.*.vbe'/i or CommandLine = /.*.vbs'/i)) and ((CommandLine = /* -O*/i or CommandLine = /*--remote-name*/i or CommandLine = /*--output*/i)) and (CommandLine = /*http*/i) and ((ImageFileName = /.*\\curl.exe/i) or (OriginalFilename = "curl.exe")) and (CommandLine =~ /://[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/i))

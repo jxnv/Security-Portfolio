@@ -1,0 +1,19 @@
+# Title: Code Execution via Pcwutl.dll
+# ID: 9386d78a-7207-4048-9c9f-a93a7c2d1c05
+# Status: test
+# Level: medium
+# Author: Julia Fomina, oscd.community
+# Date: 2020-10-05
+# Tags: attack.stealth, attack.t1218.011
+# Description: Detects launch of executable by calling the LaunchApplication function from pcwutl.dll library.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Code Execution via Pcwutl.dll
+def rule(event):
+    # Detection Logic:
+    # (((CommandLine="*pcwutl*" AND CommandLine="*LaunchApplication*")) AND ((Image="*\\rundll32.exe") OR (OriginalFileName="RUNDLL32.EXE")))
+    return True
+
+def title(event):
+    return "Code Execution via Pcwutl.dll"
+

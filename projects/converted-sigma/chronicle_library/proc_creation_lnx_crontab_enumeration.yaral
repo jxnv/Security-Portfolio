@@ -1,0 +1,23 @@
+// Title: Crontab Enumeration
+// ID: 403ed92c-b7ec-4edd-9947-5b535ee12d46
+// Status: test
+// Level: low
+// Author: Joseliyo Sanchez, @Joseliyo_Jstnk
+// Date: 2023-06-02
+// Tags: attack.discovery, attack.t1007
+// Description: Detects usage of crontab to list the tasks of the user
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 403ed92c_b7ec_4edd_9947_5b535ee12d46 {
+  meta:
+    title = "Crontab Enumeration"
+    description = "Detects usage of crontab to list the tasks of the user"
+    author = "Joseliyo Sanchez, @Joseliyo_Jstnk"
+    severity = "LOW"
+
+  events:
+    ($e.target.process.file.full_path = /.*/crontab$/ nocase and $e.target.process.command_line = /.* -l.*/ nocase)
+
+  condition:
+    $e
+}

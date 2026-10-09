@@ -1,0 +1,24 @@
+// Title: Registry Modification of MS-settings Protocol Handler
+// ID: dd3ee8cc-f751-41c9-ba53-5a32ed47e563
+// Status: test
+// Level: medium
+// Author: frack113, Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2021-12-20
+// Tags: attack.privilege-escalation, attack.persistence, attack.defense-impairment, attack.t1548.002, attack.t1546.001, attack.t1112
+// Description: Detects registry modifications to the 'ms-settings' protocol handler, which is frequently targeted for UAC bypass or persistence.
+// Attackers can modify this registry to execute malicious code with elevated privileges by hijacking the command execution path.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule dd3ee8cc_f751_41c9_ba53_5a32ed47e563 {
+  meta:
+    title = "Registry Modification of MS-settings Protocol Handler"
+    description = "Detects registry modifications to the 'ms-settings' protocol handler, which is frequently targeted for UAC bypass or persistence. Attackers can modify this registry to execute malicious code with elevated privileges by hijacking the command execution path."
+    author = "frack113, Swachchhanda Shrawan Poudel (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (((($e.target.process.command_line = /.*add.*/ nocase) and (($e.target.process.file.full_path = /.*\\reg.exe$/ nocase) or ($e.target.process.file.name = "reg.exe"))) or ((($e.target.process.command_line = /.*New-ItemProperty.*/ nocase or $e.target.process.command_line = /.*Set-ItemProperty.*/ nocase or $e.target.process.command_line = /.*ni .*/ nocase or $e.target.process.command_line = /.*sp .*/ nocase)) and ((($e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase)) or (($e.target.process.file.name = "powershell.exe" or $e.target.process.file.name = "pwsh.dll"))))) and ($e.target.process.command_line = /.*\\ms-settings\\shell\\open\\command.*/ nocase))
+
+  condition:
+    $e
+}

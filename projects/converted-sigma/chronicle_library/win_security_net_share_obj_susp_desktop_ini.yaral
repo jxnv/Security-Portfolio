@@ -1,0 +1,23 @@
+// Title: Windows Network Access Suspicious desktop.ini Action
+// ID: 35bc7e28-ee6b-492f-ab04-da58fcf6402e
+// Status: test
+// Level: medium
+// Author: Tim Shelton (HAWK.IO)
+// Date: 2021-12-06
+// Tags: attack.privilege-escalation, attack.persistence, attack.t1547.009
+// Description: Detects unusual processes accessing desktop.ini remotely over network share, which can be leveraged to alter how Explorer displays a folder's content (i.e. renaming files) without changing them on disk.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 35bc7e28_ee6b_492f_ab04_da58fcf6402e {
+  meta:
+    title = "Windows Network Access Suspicious desktop.ini Action"
+    description = "Detects unusual processes accessing desktop.ini remotely over network share, which can be leveraged to alter how Explorer displays a folder's content (i.e. renaming files) without changing them on disk."
+    author = "Tim Shelton (HAWK.IO)"
+    severity = "MEDIUM"
+
+  events:
+    ($e.EventID = 5145 and $e.ObjectType = "File" and $e.RelativeTargetName = /.*\\desktop.ini$/ nocase and ($e.AccessList = /.*WriteData.*/ nocase or $e.AccessList = /.*DELETE.*/ nocase or $e.AccessList = /.*WriteDAC.*/ nocase or $e.AccessList = /.*AppendData.*/ nocase or $e.AccessList = /.*AddSubdirectory.*/ nocase))
+
+  condition:
+    $e
+}

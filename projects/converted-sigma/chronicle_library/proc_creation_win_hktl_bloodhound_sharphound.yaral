@@ -1,0 +1,23 @@
+// Title: HackTool - Bloodhound/Sharphound Execution
+// ID: f376c8a7-a2d0-4ddc-aa0c-16c17236d962
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2019-12-20
+// Tags: attack.discovery, attack.t1087.001, attack.t1087.002, attack.t1482, attack.t1069.001, attack.t1069.002, attack.execution, attack.t1059.001
+// Description: Detects command line parameters used by Bloodhound and Sharphound hack tools
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule f376c8a7_a2d0_4ddc_aa0c_16c17236d962 {
+  meta:
+    title = "HackTool - Bloodhound/Sharphound Execution"
+    description = "Detects command line parameters used by Bloodhound and Sharphound hack tools"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.* -CollectionMethod All .*/ nocase or $e.target.process.command_line = /.* --CollectionMethods Session .*/ nocase or $e.target.process.command_line = /.* --Loop --Loopduration .*/ nocase or $e.target.process.command_line = /.* --PortScanTimeout .*/ nocase or $e.target.process.command_line = /.*.exe -c All -d .*/ nocase or $e.target.process.command_line = /.*Invoke-Bloodhound.*/ nocase or $e.target.process.command_line = /.*Get-BloodHoundData.*/ nocase)) or (($e.target.process.command_line = /.* -JsonFolder .*/ nocase and $e.target.process.command_line = /.* -ZipFileName .*/ nocase)) or (($e.target.process.command_line = /.* DCOnly .*/ nocase and $e.target.process.command_line = /.* --NoSaveCache .*/ nocase)) or (($e.Product = /.*SharpHound.*/ nocase) or ($e.Description = /.*SharpHound.*/ nocase) or (($e.Company = /.*SpecterOps.*/ nocase or $e.Company = /.*evil corp.*/ nocase)) or (($e.target.process.file.full_path = /.*\\Bloodhound.exe.*/ nocase or $e.target.process.file.full_path = /.*\\SharpHound.exe.*/ nocase))))
+
+  condition:
+    $e
+}

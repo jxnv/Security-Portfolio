@@ -1,0 +1,23 @@
+// Title: Invoke-Obfuscation COMPRESS OBFUSCATION - PowerShell
+// ID: 20e5497e-331c-4cd5-8d36-935f6e2a9a07
+// Status: test
+// Level: medium
+// Author: Timur Zinniatullin, oscd.community
+// Date: 2020-10-18
+// Tags: attack.stealth, attack.t1027, attack.execution, attack.t1059.001
+// Description: Detects Obfuscated Powershell via COMPRESS OBFUSCATION
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 20e5497e_331c_4cd5_8d36_935f6e2a9a07 {
+  meta:
+    title = "Invoke-Obfuscation COMPRESS OBFUSCATION - PowerShell"
+    description = "Detects Obfuscated Powershell via COMPRESS OBFUSCATION"
+    author = "Timur Zinniatullin, oscd.community"
+    severity = "MEDIUM"
+
+  events:
+    (($e.ScriptBlockText = /.*new-object.*/ nocase and $e.ScriptBlockText = /.*text.encoding]::ascii.*/ nocase) and ($e.ScriptBlockText = /.*system.io.compression.deflatestream.*/ nocase or $e.ScriptBlockText = /.*system.io.streamreader.*/ nocase) and $e.ScriptBlockText = /.*readtoend$/ nocase)
+
+  condition:
+    $e
+}

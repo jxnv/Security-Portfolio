@@ -1,0 +1,11 @@
+-- Title: Malicious PowerShell Keywords
+-- ID: f62176f3-8128-4faa-bf6c-83261322e5eb
+-- Status: test
+-- Level: medium
+-- Author: Sean Metcalf (source), Florian Roth (Nextron Systems)
+-- Date: 2017-03-05
+-- Tags: attack.execution, attack.t1059.001
+-- Description: Detects keywords from well-known PowerShell exploitation frameworks
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE ((ScriptBlockText ILIKE '%AdjustTokenPrivileges%' OR ScriptBlockText ILIKE '%IMAGE_NT_OPTIONAL_HDR64_MAGIC%' OR ScriptBlockText ILIKE '%Metasploit%' OR ScriptBlockText ILIKE '%Microsoft.Win32.UnsafeNativeMethods%' OR ScriptBlockText ILIKE '%Mimikatz%' OR ScriptBlockText ILIKE '%MiniDumpWriteDump%' OR ScriptBlockText ILIKE '%PAGE_EXECUTE_READ%' OR ScriptBlockText ILIKE '%ReadProcessMemory.Invoke%' OR ScriptBlockText ILIKE '%SE_PRIVILEGE_ENABLED%' OR ScriptBlockText ILIKE '%SECURITY_DELEGATION%' OR ScriptBlockText ILIKE '%TOKEN_ADJUST_PRIVILEGES%' OR ScriptBlockText ILIKE '%TOKEN_ALL_ACCESS%' OR ScriptBlockText ILIKE '%TOKEN_ASSIGN_PRIMARY%' OR ScriptBlockText ILIKE '%TOKEN_DUPLICATE%' OR ScriptBlockText ILIKE '%TOKEN_ELEVATION%' OR ScriptBlockText ILIKE '%TOKEN_IMPERSONATE%' OR ScriptBlockText ILIKE '%TOKEN_INFORMATION_CLASS%' OR ScriptBlockText ILIKE '%TOKEN_PRIVILEGES%' OR ScriptBlockText ILIKE '%TOKEN_QUERY%'))

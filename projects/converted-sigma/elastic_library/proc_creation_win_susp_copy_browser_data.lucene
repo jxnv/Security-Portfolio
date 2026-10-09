@@ -1,0 +1,13 @@
+# Title: Potential Browser Data Stealing
+# ID: 47147b5b-9e17-4d76-b8d2-7bac24c5ce1b
+# Status: test
+# Level: medium
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-12-23
+# Tags: attack.credential-access, attack.t1555.003
+# Description: Adversaries may acquire credentials from web browsers by reading files specific to the target browser.
+# Web browsers commonly save credentials such as website usernames and passwords so that they do not need to be entered manually in the future.
+# Web browsers typically store the credentials in an encrypted format within a credential store.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((((process.command_line:*copy-item* OR process.command_line:*copy * OR process.command_line:*cpi * OR process.command_line:* cp * OR process.command_line:*move * OR process.command_line:*move-item* OR process.command_line:* mi * OR process.command_line:* mv *)) OR ((process.executable:*\\esentutl.exe OR process.executable:*\\xcopy.exe OR process.executable:*\\robocopy.exe)) OR ((process.pe.original_file_name:"esentutl.exe" OR process.pe.original_file_name:"XCOPY.EXE" OR process.pe.original_file_name:"robocopy.exe"))) AND ((process.command_line:*\\Amigo\\User Data* OR process.command_line:*\\BraveSoftware\\Brave-Browser\\User Data* OR process.command_line:*\\CentBrowser\\User Data* OR process.command_line:*\\Chromium\\User Data* OR process.command_line:*\\CocCoc\\Browser\\User Data* OR process.command_line:*\\Comodo\\Dragon\\User Data* OR process.command_line:*\\Elements Browser\\User Data* OR process.command_line:*\\Epic Privacy Browser\\User Data* OR process.command_line:*\\Google\\Chrome Beta\\User Data* OR process.command_line:*\\Google\\Chrome SxS\\User Data* OR process.command_line:*\\Google\\Chrome\\User Data\\* OR process.command_line:*\\Kometa\\User Data* OR process.command_line:*\\Maxthon5\\Users* OR process.command_line:*\\Microsoft\\Edge\\User Data* OR process.command_line:*\\Mozilla\\Firefox\\Profiles* OR process.command_line:*\\Nichrome\\User Data* OR process.command_line:*\\Opera Software\\Opera GX Stable\\* OR process.command_line:*\\Opera Software\\Opera Neon\\User Data* OR process.command_line:*\\Opera Software\\Opera Stable\\* OR process.command_line:*\\Orbitum\\User Data* OR process.command_line:*\\QIP Surf\\User Data* OR process.command_line:*\\Sputnik\\User Data* OR process.command_line:*\\Torch\\User Data* OR process.command_line:*\\uCozMedia\\Uran\\User Data* OR process.command_line:*\\Vivaldi\\User Data*)))

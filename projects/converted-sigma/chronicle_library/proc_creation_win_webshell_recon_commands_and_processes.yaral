@@ -1,0 +1,23 @@
+// Title: Webshell Detection With Command Line Keywords
+// ID: bed2a484-9348-4143-8a8a-b801c979301c
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Jonhnathan Ribeiro, Anton Kutepov, oscd.community, Chad Hudson, Matt Anderson
+// Date: 2017-01-01
+// Tags: attack.persistence, attack.discovery, attack.t1505.003, attack.t1018, attack.t1033, attack.t1087
+// Description: Detects certain command line parameters often used during reconnaissance activity via web shells
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule bed2a484_9348_4143_8a8a_b801c979301c {
+  meta:
+    title = "Webshell Detection With Command Line Keywords"
+    description = "Detects certain command line parameters often used during reconnaissance activity via web shells"
+    author = "Florian Roth (Nextron Systems), Jonhnathan Ribeiro, Anton Kutepov, oscd.community, Chad Hudson, Matt Anderson"
+    severity = "HIGH"
+
+  events:
+    (((($e.principal.process.file.full_path = /.*\\java.exe$/ nocase or $e.principal.process.file.full_path = /.*\\javaw.exe$/ nocase) and ($e.principal.process.file.full_path = /.*-tomcat-.*/ nocase or $e.principal.process.file.full_path = /.*\\tomcat.*/ nocase)) or (($e.principal.process.file.full_path = /.*\\java.exe$/ nocase or $e.principal.process.file.full_path = /.*\\javaw.exe$/ nocase) and ($e.target.process.command_line = /.*catalina.jar.*/ nocase or $e.target.process.command_line = /.*CATALINA_HOME.*/ nocase)) or (($e.principal.process.file.full_path = /.*\\w3wp.exe$/ nocase or $e.principal.process.file.full_path = /.*\\php-cgi.exe$/ nocase or $e.principal.process.file.full_path = /.*\\nginx.exe$/ nocase or $e.principal.process.file.full_path = /.*\\httpd.exe$/ nocase or $e.principal.process.file.full_path = /.*\\caddy.exe$/ nocase or $e.principal.process.file.full_path = /.*\\ws_tomcatservice.exe$/ nocase))) and ((($e.target.process.command_line = /.*&cd&echo.*/ nocase or $e.target.process.command_line = /.*cd /d .*/ nocase)) or ((($e.target.process.file.full_path = /.*\\dsquery.exe$/ nocase or $e.target.process.file.full_path = /.*\\find.exe$/ nocase or $e.target.process.file.full_path = /.*\\findstr.exe$/ nocase or $e.target.process.file.full_path = /.*\\ipconfig.exe$/ nocase or $e.target.process.file.full_path = /.*\\netstat.exe$/ nocase or $e.target.process.file.full_path = /.*\\nslookup.exe$/ nocase or $e.target.process.file.full_path = /.*\\pathping.exe$/ nocase or $e.target.process.file.full_path = /.*\\quser.exe$/ nocase or $e.target.process.file.full_path = /.*\\schtasks.exe$/ nocase or $e.target.process.file.full_path = /.*\\systeminfo.exe$/ nocase or $e.target.process.file.full_path = /.*\\tasklist.exe$/ nocase or $e.target.process.file.full_path = /.*\\tracert.exe$/ nocase or $e.target.process.file.full_path = /.*\\wevtutil.exe$/ nocase or $e.target.process.file.full_path = /.*\\whoami.exe$/ nocase)) or (($e.target.process.file.name = "dsquery.exe" or $e.target.process.file.name = "find.exe" or $e.target.process.file.name = "findstr.exe" or $e.target.process.file.name = "ipconfig.exe" or $e.target.process.file.name = "netstat.exe" or $e.target.process.file.name = "nslookup.exe" or $e.target.process.file.name = "pathping.exe" or $e.target.process.file.name = "quser.exe" or $e.target.process.file.name = "schtasks.exe" or $e.target.process.file.name = "sysinfo.exe" or $e.target.process.file.name = "tasklist.exe" or $e.target.process.file.name = "tracert.exe" or $e.target.process.file.name = "VSSADMIN.EXE" or $e.target.process.file.name = "wevtutil.exe" or $e.target.process.file.name = "whoami.exe"))) or (($e.target.process.command_line = /.* Test-NetConnection .*/ nocase or $e.target.process.command_line = /.*dir \\.*/ nocase)) or (($e.target.process.file.name = "net.exe" or $e.target.process.file.name = "net1.exe") and ($e.target.process.command_line = /.* user .*/ nocase or $e.target.process.command_line = /.* use .*/ nocase or $e.target.process.command_line = /.* group .*/ nocase)) or ($e.target.process.file.name = "ping.exe" and $e.target.process.command_line = /.* -n .*/ nocase) or (($e.target.process.file.full_path = /.*\\cmd.exe$/ nocase or $e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase) and ($e.target.process.command_line = /.* -enc .*/ nocase or $e.target.process.command_line = /.* -EncodedCommand .*/ nocase or $e.target.process.command_line = /.* -w hidden .*/ nocase or $e.target.process.command_line = /.* -windowstyle hidden.*/ nocase or $e.target.process.command_line = /.*.WebClient).Download.*/ nocase)) or ($e.target.process.file.name = "wmic.exe" and $e.target.process.command_line = /.* /node:.*/ nocase)))
+
+  condition:
+    $e
+}

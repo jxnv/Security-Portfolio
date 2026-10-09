@@ -1,0 +1,27 @@
+{
+  "title": "TeamViewer Log File Deleted",
+  "id": "b1decb61-ed83-4339-8e95-53ea51901720",
+  "status": "test",
+  "description": "Detects the deletion of the TeamViewer log files which may indicate an attempt to destroy forensic evidence",
+  "author": "frack113",
+  "date": "2022-01-16",
+  "tags": [
+    "attack.stealth",
+    "attack.t1070.004"
+  ],
+  "level": "low",
+  "logsource": {
+    "product": "windows",
+    "category": "file_delete"
+  },
+  "detection": {
+    "selection": {
+      "TargetFilename|contains": "\\TeamViewer_",
+      "TargetFilename|endswith": ".log"
+    },
+    "filter": {
+      "Image": "C:\\Windows\\system32\\svchost.exe"
+    },
+    "condition": "selection and not filter"
+  }
+}

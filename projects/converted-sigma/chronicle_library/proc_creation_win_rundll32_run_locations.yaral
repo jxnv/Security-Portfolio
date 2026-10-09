@@ -1,0 +1,23 @@
+// Title: Suspicious Process Start Locations
+// ID: 15b75071-74cc-47e0-b4c6-b43744a62a2b
+// Status: test
+// Level: medium
+// Author: juju4, Jonhnathan Ribeiro, oscd.community
+// Date: 2019-01-16
+// Tags: attack.stealth, attack.t1036, car.2013-05-002
+// Description: Detects suspicious process run from unusual locations
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 15b75071_74cc_47e0_b4c6_b43744a62a2b {
+  meta:
+    title = "Suspicious Process Start Locations"
+    description = "Detects suspicious process run from unusual locations"
+    author = "juju4, Jonhnathan Ribeiro, oscd.community"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.file.full_path = /.*:\\RECYCLER\\.*/ nocase or $e.target.process.file.full_path = /.*:\\SystemVolumeInformation\\.*/ nocase)) or (($e.target.process.file.full_path = /^C:\\Windows\\Tasks\\.*/ nocase or $e.target.process.file.full_path = /^C:\\Windows\\debug\\.*/ nocase or $e.target.process.file.full_path = /^C:\\Windows\\fonts\\.*/ nocase or $e.target.process.file.full_path = /^C:\\Windows\\help\\.*/ nocase or $e.target.process.file.full_path = /^C:\\Windows\\drivers\\.*/ nocase or $e.target.process.file.full_path = /^C:\\Windows\\addins\\.*/ nocase or $e.target.process.file.full_path = /^C:\\Windows\\cursors\\.*/ nocase or $e.target.process.file.full_path = /^C:\\Windows\\system32\\tasks\\.*/ nocase)))
+
+  condition:
+    $e
+}

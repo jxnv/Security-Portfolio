@@ -1,0 +1,19 @@
+# Title: Flash Player Update from Suspicious Location
+# ID: 4922a5dd-6743-4fc2-8e81-144374280997
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems)
+# Date: 2017-10-25
+# Tags: attack.initial-access, attack.stealth, attack.t1189, attack.execution, attack.t1204.002, attack.t1036.005
+# Description: Detects a flashplayer update from an unofficial location
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Flash Player Update from Suspicious Location
+def rule(event):
+    # Detection Logic:
+    # (((c-uri="*/flash_install.php*") OR (c-uri="*/install_flash_player.exe")) AND NOT ((cs-host="*.adobe.com")))
+    return True
+
+def title(event):
+    return "Flash Player Update from Suspicious Location"
+

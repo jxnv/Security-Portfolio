@@ -1,0 +1,11 @@
+# Title: User Discovery And Export Via Get-ADUser Cmdlet
+# ID: 1114e048-b69c-4f41-bc20-657245ae6e3f
+# Status: test
+# Level: medium
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-09-09
+# Tags: attack.discovery, attack.t1033
+# Description: Detects usage of the Get-ADUser cmdlet to collect user information and output it to a file
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog (((process_exec="*Get-ADUser *" AND process_exec="* -Filter \\**") AND (process_exec="* > *" OR process_exec="* | Select *" OR process_exec="*Out-File*" OR process_exec="*Set-Content*" OR process_exec="*Add-Content*")) AND (((process_path="*\\powershell.exe" OR process_path="*\\pwsh.exe")) OR ((process_name="PowerShell.EXE" OR process_name="pwsh.dll"))))

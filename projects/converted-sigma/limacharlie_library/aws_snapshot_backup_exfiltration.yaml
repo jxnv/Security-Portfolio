@@ -1,0 +1,22 @@
+# Title: AWS Snapshot Backup Exfiltration
+# ID: abae8fec-57bd-4f87-aff6-6e3db989843d
+# Status: test
+# Level: medium
+# Author: Darin Smith
+# Date: 2021-05-17
+# Tags: attack.exfiltration, attack.t1537
+# Description: Detects the modification of an EC2 snapshot's permissions to enable access from another account
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# LimaCharlie Detection & Response Rule
+# Name: AWS Snapshot Backup Exfiltration
+detect:
+  event: NEW_PROCESS
+  op: and
+  rules:
+    # Filter logic:
+    # (eventSource="ec2.amazonaws.com" AND eventName="ModifySnapshotAttribute")
+respond:
+  - action: report
+    name: AWS Snapshot Backup Exfiltration
+

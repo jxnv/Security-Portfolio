@@ -1,0 +1,23 @@
+// Title: Launch Agent/Daemon Execution Via Launchctl
+// ID: ae9d710f-dcd1-4f75-a0a5-93a73b5dda0e
+// Status: test
+// Level: medium
+// Author: Pratinav Chandra
+// Date: 2024-05-13
+// Tags: attack.privilege-escalation, attack.execution, attack.persistence, attack.t1569.001, attack.t1543.001, attack.t1543.004
+// Description: Detects the execution of programs as Launch Agents or Launch Daemons using launchctl on macOS.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule ae9d710f_dcd1_4f75_a0a5_93a73b5dda0e {
+  meta:
+    title = "Launch Agent/Daemon Execution Via Launchctl"
+    description = "Detects the execution of programs as Launch Agents or Launch Daemons using launchctl on macOS."
+    author = "Pratinav Chandra"
+    severity = "MEDIUM"
+
+  events:
+    ($e.target.process.file.full_path = /.*/launchctl$/ nocase and ($e.target.process.command_line = /.*submit.*/ nocase or $e.target.process.command_line = /.*load.*/ nocase or $e.target.process.command_line = /.*start.*/ nocase))
+
+  condition:
+    $e
+}

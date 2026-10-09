@@ -1,0 +1,12 @@
+# Title: Legitimate Application Writing Files In Uncommon Location
+# ID: 1cf465a1-2609-4c15-9b66-c32dbe4bfd67
+# Status: experimental
+# Level: high
+# Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+# Date: 2025-12-10
+# Tags: attack.stealth, attack.t1218, attack.command-and-control, attack.t1105
+# Description: Detects legitimate applications writing any type of file to uncommon or suspicious locations that are not typical for application data storage or execution.
+# Adversaries may leverage legitimate applications (Living off the Land Binaries - LOLBins) to drop or download malicious files to uncommon locations on the system to evade detection by security solutions.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((process_name:*\\eqnedt32.exe OR process_name:*\\wordpad.exe OR process_name:*\\wordview.exe OR process_name:*\\cmdl32.exe OR process_name:*\\certutil.exe OR process_name:*\\certoc.exe OR process_name:*\\CertReq.exe OR process_name:*\\bitsadmin.exe OR process_name:*\\Desktopimgdownldr.exe OR process_name:*\\esentutl.exe OR process_name:*\\expand.exe OR process_name:*\\extrac32.exe OR process_name:*\\replace.exe OR process_name:*\\mshta.exe OR process_name:*\\ftp.exe OR process_name:*\\Ldifde.exe OR process_name:*\\RdrCEF.exe OR process_name:*\\hh.exe OR process_name:*\\finger.exe OR process_name:*\\findstr.exe)) AND ((filemod_name:*:\\Perflogs* OR filemod_name:*:\\ProgramData\\* OR filemod_name:*:\\Temp\\* OR filemod_name:*:\\Users\\Public\\* OR filemod_name:*:\\Windows\\* OR filemod_name:*\\$Recycle.Bin\\* OR filemod_name:*\\AppData\\Local\\* OR filemod_name:*\\AppData\\Roaming\\* OR filemod_name:*\\Contacts\\* OR filemod_name:*\\Desktop\\* OR filemod_name:*\\Favorites\\* OR filemod_name:*\\Favourites\\* OR filemod_name:*\\inetpub\\wwwroot\\* OR filemod_name:*\\Music\\* OR filemod_name:*\\Pictures\\* OR filemod_name:*\\Start Menu\\Programs\\Startup\\* OR filemod_name:*\\Users\\Default\\* OR filemod_name:*\\Videos\\*)))

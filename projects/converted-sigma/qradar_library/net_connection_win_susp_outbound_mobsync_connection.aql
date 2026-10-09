@@ -1,0 +1,11 @@
+-- Title: Microsoft Sync Center Suspicious Network Connections
+-- ID: 9f2cc74d-78af-4eb2-bb64-9cd1d292b87b
+-- Status: test
+-- Level: medium
+-- Author: elhoim
+-- Date: 2022-04-28
+-- Tags: attack.privilege-escalation, attack.stealth, attack.t1055, attack.t1218, attack.execution
+-- Description: Detects suspicious connections from Microsoft Sync Center to non-private IPs.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM events WHERE ((Image ILIKE '%\\mobsync.exe') AND NOT (((INCIDR('127.0.0.0/8', DestinationIp) OR INCIDR('10.0.0.0/8', DestinationIp) OR INCIDR('172.16.0.0/12', DestinationIp) OR INCIDR('192.168.0.0/16', DestinationIp) OR INCIDR('169.254.0.0/16', DestinationIp) OR INCIDR('::1/128', DestinationIp) OR INCIDR('fe80::/10', DestinationIp) OR INCIDR('fc00::/7', DestinationIp)))))

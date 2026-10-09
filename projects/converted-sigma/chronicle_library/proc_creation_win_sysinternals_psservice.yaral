@@ -1,0 +1,23 @@
+// Title: Sysinternals PsService Execution
+// ID: 3371f518-5fe3-4cf6-a14b-2a0ae3fd8a4f
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-06-16
+// Tags: attack.privilege-escalation, attack.discovery, attack.persistence, attack.t1543.003
+// Description: Detects usage of Sysinternals PsService which can be abused for service reconnaissance and tampering
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 3371f518_5fe3_4cf6_a14b_2a0ae3fd8a4f {
+  meta:
+    title = "Sysinternals PsService Execution"
+    description = "Detects usage of Sysinternals PsService which can be abused for service reconnaissance and tampering"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.process.file.name = "psservice.exe") or (($e.target.process.file.full_path = /.*\\PsService.exe$/ nocase or $e.target.process.file.full_path = /.*\\PsService64.exe$/ nocase or $e.target.process.file.full_path = /.*\\PsService64a.exe$/ nocase)))
+
+  condition:
+    $e
+}

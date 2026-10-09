@@ -1,0 +1,19 @@
+# Title: Suspicious Msiexec Quiet Install From Remote Location
+# ID: 8150732a-0c9d-4a99-82b9-9efb9b90c40c
+# Status: test
+# Level: medium
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-10-28
+# Tags: attack.stealth, attack.t1218.007
+# Description: Detects usage of Msiexec.exe to install packages hosted remotely quietly
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Suspicious Msiexec Quiet Install From Remote Location
+def rule(event):
+    # Detection Logic:
+    # ((((CommandLine="*-i*" OR CommandLine="*/i*" OR CommandLine="*-package*" OR CommandLine="*/package*" OR CommandLine="*-a*" OR CommandLine="*/a*" OR CommandLine="*-j*" OR CommandLine="*/j*")) AND ((Image="*\\msiexec.exe") OR (OriginalFileName="msiexec.exe")) AND ((CommandLine="*-q*" OR CommandLine="*/q*")) AND ((CommandLine="*http*" OR CommandLine="*\\\\\\\\*"))) AND NOT (((CommandLine="*\\AppData\\Local\\Temp\\OpenOffice*" AND CommandLine="*Installation Files\\openoffice*"))))
+    return True
+
+def title(event):
+    return "Suspicious Msiexec Quiet Install From Remote Location"
+

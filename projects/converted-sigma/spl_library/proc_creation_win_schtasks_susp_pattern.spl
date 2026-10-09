@@ -1,0 +1,11 @@
+# Title: Suspicious Command Patterns In Scheduled Task Creation
+# ID: f2c64357-b1d2-41b7-849f-34d2682c0fad
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems)
+# Date: 2022-02-23
+# Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.t1053.005
+# Description: Detects scheduled task creation using "schtasks" that contain potentially suspicious or uncommon commands
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog ((process_path="*\\schtasks.exe" AND process_exec="*/Create *") AND ((((process_exec="*/sc minute *" OR process_exec="*/ru system *")) AND ((process_exec="*cmd /c*" OR process_exec="*cmd /k*" OR process_exec="*cmd /r*" OR process_exec="*cmd.exe /c *" OR process_exec="*cmd.exe /k *" OR process_exec="*cmd.exe /r *"))) OR ((process_exec="* -decode *" OR process_exec="* -enc *" OR process_exec="* -w hidden *" OR process_exec="* bypass *" OR process_exec="* IEX*" OR process_exec="*.DownloadData*" OR process_exec="*.DownloadFile*" OR process_exec="*.DownloadString*" OR process_exec="*/c start /min *" OR process_exec="*FromBase64String*" OR process_exec="*mshta http*" OR process_exec="*mshta.exe http*")) OR (((process_exec="*:\\ProgramData\\*" OR process_exec="*:\\Temp\\*" OR process_exec="*:\\Tmp\\*" OR process_exec="*:\\Users\\Public\\*" OR process_exec="*:\\Windows\\Temp\\*" OR process_exec="*\\AppData\\*" OR process_exec="*%AppData%*" OR process_exec="*%Temp%*" OR process_exec="*%tmp%*")) AND ((process_exec="*cscript*" OR process_exec="*curl*" OR process_exec="*wscript*")))))

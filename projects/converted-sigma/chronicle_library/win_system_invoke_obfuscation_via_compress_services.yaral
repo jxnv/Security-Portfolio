@@ -1,0 +1,23 @@
+// Title: Invoke-Obfuscation COMPRESS OBFUSCATION - System
+// ID: 175997c5-803c-4b08-8bb0-70b099f47595
+// Status: test
+// Level: medium
+// Author: Timur Zinniatullin, oscd.community
+// Date: 2020-10-18
+// Tags: attack.stealth, attack.t1027, attack.execution, attack.t1059.001
+// Description: Detects Obfuscated Powershell via COMPRESS OBFUSCATION
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 175997c5_803c_4b08_8bb0_70b099f47595 {
+  meta:
+    title = "Invoke-Obfuscation COMPRESS OBFUSCATION - System"
+    description = "Detects Obfuscated Powershell via COMPRESS OBFUSCATION"
+    author = "Timur Zinniatullin, oscd.community"
+    severity = "MEDIUM"
+
+  events:
+    ($e.Provider_Name = "Service Control Manager" and $e.EventID = 7045 and ($e.ImagePath = /.*new-object.*/ nocase and $e.ImagePath = /.*text.encoding]::ascii.*/ nocase and $e.ImagePath = /.*readtoend.*/ nocase) and ($e.ImagePath = /.*:system.io.compression.deflatestream.*/ nocase or $e.ImagePath = /.*system.io.streamreader.*/ nocase))
+
+  condition:
+    $e
+}

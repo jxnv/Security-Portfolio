@@ -1,0 +1,23 @@
+// Title: Powershell Base64 Encoded MpPreference Cmdlet
+// ID: c6fb44c6-71f5-49e6-9462-1425d328aee3
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-03-04
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects base64 encoded "MpPreference" PowerShell cmdlet code that tries to modifies or tamper with Windows Defender AV
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule c6fb44c6_71f5_49e6_9462_1425d328aee3 {
+  meta:
+    title = "Powershell Base64 Encoded MpPreference Cmdlet"
+    description = "Detects base64 encoded "MpPreference" PowerShell cmdlet code that tries to modifies or tamper with Windows Defender AV"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*QWRkLU1wUHJlZmVyZW5jZS.*/ nocase or $e.target.process.command_line = /.*FkZC1NcFByZWZlcmVuY2Ug.*/ nocase or $e.target.process.command_line = /.*BZGQtTXBQcmVmZXJlbmNlI.*/ nocase or $e.target.process.command_line = /.*U2V0LU1wUHJlZmVyZW5jZS.*/ nocase or $e.target.process.command_line = /.*NldC1NcFByZWZlcmVuY2Ug.*/ nocase or $e.target.process.command_line = /.*TZXQtTXBQcmVmZXJlbmNlI.*/ nocase or $e.target.process.command_line = /.*YWRkLW1wcHJlZmVyZW5jZS.*/ nocase or $e.target.process.command_line = /.*FkZC1tcHByZWZlcmVuY2Ug.*/ nocase or $e.target.process.command_line = /.*hZGQtbXBwcmVmZXJlbmNlI.*/ nocase or $e.target.process.command_line = /.*c2V0LW1wcHJlZmVyZW5jZS.*/ nocase or $e.target.process.command_line = /.*NldC1tcHByZWZlcmVuY2Ug.*/ nocase or $e.target.process.command_line = /.*zZXQtbXBwcmVmZXJlbmNlI.*/ nocase)) or (($e.target.process.command_line = /.*QQBkAGQALQBNAHAAUAByAGUAZgBlAHIAZQBuAGMAZQAgA.*/ nocase or $e.target.process.command_line = /.*EAZABkAC0ATQBwAFAAcgBlAGYAZQByAGUAbgBjAGUAIA.*/ nocase or $e.target.process.command_line = /.*BAGQAZAAtAE0AcABQAHIAZQBmAGUAcgBlAG4AYwBlACAA.*/ nocase or $e.target.process.command_line = /.*UwBlAHQALQBNAHAAUAByAGUAZgBlAHIAZQBuAGMAZQAgA.*/ nocase or $e.target.process.command_line = /.*MAZQB0AC0ATQBwAFAAcgBlAGYAZQByAGUAbgBjAGUAIA.*/ nocase or $e.target.process.command_line = /.*TAGUAdAAtAE0AcABQAHIAZQBmAGUAcgBlAG4AYwBlACAA.*/ nocase or $e.target.process.command_line = /.*YQBkAGQALQBtAHAAcAByAGUAZgBlAHIAZQBuAGMAZQAgA.*/ nocase or $e.target.process.command_line = /.*EAZABkAC0AbQBwAHAAcgBlAGYAZQByAGUAbgBjAGUAIA.*/ nocase or $e.target.process.command_line = /.*hAGQAZAAtAG0AcABwAHIAZQBmAGUAcgBlAG4AYwBlACAA.*/ nocase or $e.target.process.command_line = /.*cwBlAHQALQBtAHAAcAByAGUAZgBlAHIAZQBuAGMAZQAgA.*/ nocase or $e.target.process.command_line = /.*MAZQB0AC0AbQBwAHAAcgBlAGYAZQByAGUAbgBjAGUAIA.*/ nocase or $e.target.process.command_line = /.*zAGUAdAAtAG0AcABwAHIAZQBmAGUAcgBlAG4AYwBlACAA.*/ nocase)))
+
+  condition:
+    $e
+}

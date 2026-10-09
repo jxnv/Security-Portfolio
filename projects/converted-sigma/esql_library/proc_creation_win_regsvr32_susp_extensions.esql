@@ -1,0 +1,11 @@
+// Title: Regsvr32 DLL Execution With Suspicious File Extension
+// ID: 089fc3d2-71e8-4763-a8a5-c97fbb0a403e
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), frack113
+// Date: 2021-11-29
+// Tags: attack.stealth, attack.t1218.010
+// Description: Detects the execution of REGSVR32.exe with DLL files masquerading as other files
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE (((process.command_line LIKE "%.bin" OR process.command_line LIKE "%.bmp" OR process.command_line LIKE "%.cr2" OR process.command_line LIKE "%.dat" OR process.command_line LIKE "%.eps" OR process.command_line LIKE "%.gif" OR process.command_line LIKE "%.ico" OR process.command_line LIKE "%.jpeg" OR process.command_line LIKE "%.jpg" OR process.command_line LIKE "%.log" OR process.command_line LIKE "%.nef" OR process.command_line LIKE "%.orf" OR process.command_line LIKE "%.png" OR process.command_line LIKE "%.raw" OR process.command_line LIKE "%.rtf" OR process.command_line LIKE "%.sr2" OR process.command_line LIKE "%.temp" OR process.command_line LIKE "%.tif" OR process.command_line LIKE "%.tiff" OR process.command_line LIKE "%.tmp" OR process.command_line LIKE "%.txt")) AND ((process.executable LIKE "%\\regsvr32.exe") OR (process.pe.original_file_name == "REGSVR32.EXE")))

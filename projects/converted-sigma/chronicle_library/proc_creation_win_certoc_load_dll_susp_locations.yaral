@@ -1,0 +1,23 @@
+// Title: Suspicious DLL Loaded via CertOC.EXE
+// ID: 84232095-ecca-4015-b0d7-7726507ee793
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-02-15
+// Tags: attack.stealth, attack.t1218
+// Description: Detects when a user installs certificates by using CertOC.exe to load the target DLL file.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 84232095_ecca_4015_b0d7_7726507ee793 {
+  meta:
+    title = "Suspicious DLL Loaded via CertOC.EXE"
+    description = "Detects when a user installs certificates by using CertOC.exe to load the target DLL file."
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.command_line = /.* -LoadDLL .*/ nocase) and (($e.target.process.file.full_path = /.*\\certoc.exe$/ nocase) or ($e.target.process.file.name = "CertOC.exe")) and (($e.target.process.command_line = /.*\\Appdata\\Local\\Temp\\.*/ nocase or $e.target.process.command_line = /.*\\Desktop\\.*/ nocase or $e.target.process.command_line = /.*\\Downloads\\.*/ nocase or $e.target.process.command_line = /.*\\Users\\Public\\.*/ nocase or $e.target.process.command_line = /.*C:\\Windows\\Tasks\\.*/ nocase or $e.target.process.command_line = /.*C:\\Windows\\Temp\\.*/ nocase)))
+
+  condition:
+    $e
+}

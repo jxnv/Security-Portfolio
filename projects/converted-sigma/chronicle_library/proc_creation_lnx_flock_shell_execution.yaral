@@ -1,0 +1,23 @@
+// Title: Shell Execution via Flock - Linux
+// ID: 4b09c71e-4269-4111-9cdd-107d8867f0cc
+// Status: test
+// Level: high
+// Author: Li Ling, Andy Parkidomo, Robert Rakowski, Blake Hartstein (Bloomberg L.P.)
+// Date: 2024-09-02
+// Tags: attack.discovery, attack.t1083
+// Description: Detects the use of the "flock" command to execute a shell. Such behavior may be associated with privilege escalation, unauthorized command execution, or to break out from restricted environments.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 4b09c71e_4269_4111_9cdd_107d8867f0cc {
+  meta:
+    title = "Shell Execution via Flock - Linux"
+    description = "Detects the use of the "flock" command to execute a shell. Such behavior may be associated with privilege escalation, unauthorized command execution, or to break out from restricted environments."
+    author = "Li Ling, Andy Parkidomo, Robert Rakowski, Blake Hartstein (Bloomberg L.P.)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*/bin/bash.*/ nocase or $e.target.process.command_line = /.*/bin/dash.*/ nocase or $e.target.process.command_line = /.*/bin/fish.*/ nocase or $e.target.process.command_line = /.*/bin/sh.*/ nocase or $e.target.process.command_line = /.*/bin/zsh.*/ nocase)) and ($e.target.process.file.full_path = /.*/flock$/ nocase and $e.target.process.command_line = /.* -u .*/ nocase))
+
+  condition:
+    $e
+}

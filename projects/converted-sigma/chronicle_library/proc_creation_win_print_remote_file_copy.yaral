@@ -1,0 +1,23 @@
+// Title: Abusing Print Executable
+// ID: bafac3d6-7de9-4dd9-8874-4a1194b493ed
+// Status: test
+// Level: medium
+// Author: Furkan CALISKAN, @caliskanfurkan_, @oscd_initiative
+// Date: 2020-10-05
+// Tags: attack.stealth, attack.t1218
+// Description: Attackers can use print.exe for remote file copy
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule bafac3d6_7de9_4dd9_8874_4a1194b493ed {
+  meta:
+    title = "Abusing Print Executable"
+    description = "Attackers can use print.exe for remote file copy"
+    author = "Furkan CALISKAN, @caliskanfurkan_, @oscd_initiative"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.process.file.full_path = /.*\\print.exe$/ nocase and $e.target.process.command_line = /^print.*/ nocase and ($e.target.process.command_line = /.*/D.*/ nocase and $e.target.process.command_line = /.*.exe.*/ nocase)) and not(($e.target.process.command_line = /.*print.exe.*/ nocase)))
+
+  condition:
+    $e
+}

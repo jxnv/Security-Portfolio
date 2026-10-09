@@ -1,0 +1,11 @@
+// Title: Disable Security Tools
+// ID: ff39f1a6-84ac-476f-a1af-37fcdf53d7c0
+// Status: test
+// Level: medium
+// Author: Daniil Yugoslavskiy, oscd.community
+// Date: 2020-10-19
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects disabling security tools
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where (((process.executable = "/bin/launchctl" AND process.command_line like "%unload%") AND ((process.command_line like "%com.objective-see.lulu.plist%" OR process.command_line like "%com.objective-see.blockblock.plist%" OR process.command_line like "%com.google.santad.plist%" OR process.command_line like "%com.carbonblack.defense.daemon.plist%" OR process.command_line like "%com.carbonblack.daemon.plist%" OR process.command_line like "%at.obdev.littlesnitchd.plist%" OR process.command_line like "%com.tenablesecurity.nessusagent.plist%" OR process.command_line like "%com.opendns.osx.RoamingClientConfigUpdater.plist%" OR process.command_line like "%com.crowdstrike.falcond.plist%" OR process.command_line like "%com.crowdstrike.userdaemon.plist%" OR process.command_line like "%osquery%" OR process.command_line like "%filebeat%" OR process.command_line like "%auditbeat%" OR process.command_line like "%packetbeat%" OR process.command_line like "%td-agent%"))) OR (process.executable = "/usr/sbin/spctl" AND process.command_line like "%disable%"))

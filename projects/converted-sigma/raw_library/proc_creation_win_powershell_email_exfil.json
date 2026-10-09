@@ -1,0 +1,33 @@
+{
+  "title": "Email Exifiltration Via Powershell",
+  "id": "312d0384-401c-4b8b-abdf-685ffba9a332",
+  "status": "test",
+  "description": "Detects email exfiltration via powershell cmdlets",
+  "author": "Nasreddine Bencherchali (Nextron Systems),  Azure-Sentinel (idea)",
+  "date": "2022-09-09",
+  "tags": [
+    "attack.exfiltration"
+  ],
+  "level": "high",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection": {
+      "Image|endswith": [
+        "\\powershell.exe",
+        "\\pwsh.exe"
+      ],
+      "CommandLine|contains|all": [
+        "Add-PSSnapin",
+        "Get-Recipient",
+        "-ExpandProperty",
+        "EmailAddresses",
+        "SmtpAddress",
+        "-hidetableheaders"
+      ]
+    },
+    "condition": "selection"
+  }
+}

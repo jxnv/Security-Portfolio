@@ -1,0 +1,11 @@
+// Title: System Information Discovery via Registry Queries
+// ID: 0022869c-49f7-4ff2-ba03-85ac42ddac58
+// Status: experimental
+// Level: low
+// Author: lazarg
+// Date: 2025-06-12
+// Tags: attack.discovery, attack.t1082
+// Description: Detects attempts to query system information directly from the Windows Registry.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE ((((process.executable LIKE "%\\powershell.exe" OR process.executable LIKE "%\\pwsh.exe") AND (process.command_line LIKE "%Get-ItemPropertyValue%" OR process.command_line LIKE "%gpv%")) OR (process.executable LIKE "%\\reg.exe" AND process.command_line LIKE "%query%" AND (process.command_line LIKE "%-v%" OR process.command_line LIKE "%/v%"))) AND ((process.command_line LIKE "%\\SOFTWARE\\Microsoft\\Windows Defender%" OR process.command_line LIKE "%\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion%" OR process.command_line LIKE "%\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall%" OR process.command_line LIKE "%\\SYSTEM\\CurrentControlSet\\Control\\TimeZoneInformation%" OR process.command_line LIKE "%\\SYSTEM\\CurrentControlSet\\Services%")))

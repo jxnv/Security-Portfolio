@@ -1,0 +1,23 @@
+// Title: Firewall Rule Deleted Via Netsh.EXE
+// ID: 1a5fefe6-734f-452e-a07d-fc1c35bce4b2
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-08-14
+// Tags: attack.defense-impairment, attack.t1686.003
+// Description: Detects the removal of a port or application rule in the Windows Firewall configuration using netsh
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 1a5fefe6_734f_452e_a07d_fc1c35bce4b2 {
+  meta:
+    title = "Firewall Rule Deleted Via Netsh.EXE"
+    description = "Detects the removal of a port or application rule in the Windows Firewall configuration using netsh"
+    author = "frack113"
+    severity = "MEDIUM"
+
+  events:
+    (((($e.target.process.command_line = /.*firewall.*/ nocase and $e.target.process.command_line = /.*delete .*/ nocase)) and (($e.target.process.file.full_path = /.*\\netsh.exe$/ nocase) or ($e.target.process.file.name = "netsh.exe"))) and not((($e.principal.process.file.full_path = /.*\\instup.exe$/ nocase and $e.target.process.command_line = /.*advfirewall firewall delete rule name=\"Avast Antivirus Admin Client\".*/ nocase) or ($e.principal.process.file.full_path = /.*\\Dropbox.exe$/ nocase and $e.target.process.command_line = /.*name=Dropbox.*/ nocase))))
+
+  condition:
+    $e
+}

@@ -1,0 +1,11 @@
+// Title: Suspicious Child Process Of Veeam Dabatase
+// ID: d55b793d-f847-4eea-b59a-5ab09908ac90
+// Status: test
+// Level: critical
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-05-04
+// Tags: attack.initial-access, attack.persistence, attack.privilege-escalation
+// Description: Detects suspicious child processes of the Veeam service process. This could indicate potential RCE or SQL Injection.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((ParentImage ENDSWITH "\\sqlservr.exe" AND ParentCommandLine CONTAINS "VEEAMSQL") AND (((Image ENDSWITH "\\cmd.exe" OR Image ENDSWITH "\\powershell.exe" OR Image ENDSWITH "\\pwsh.exe" OR Image ENDSWITH "\\wsl.exe" OR Image ENDSWITH "\\wt.exe") AND (CommandLine CONTAINS "-ex " OR CommandLine CONTAINS "bypass" OR CommandLine CONTAINS "cscript" OR CommandLine CONTAINS "DownloadString" OR CommandLine CONTAINS "http://" OR CommandLine CONTAINS "https://" OR CommandLine CONTAINS "mshta" OR CommandLine CONTAINS "regsvr32" OR CommandLine CONTAINS "rundll32" OR CommandLine CONTAINS "wscript" OR CommandLine CONTAINS "copy ")) OR ((Image ENDSWITH "\\net.exe" OR Image ENDSWITH "\\net1.exe" OR Image ENDSWITH "\\netstat.exe" OR Image ENDSWITH "\\nltest.exe" OR Image ENDSWITH "\\ping.exe" OR Image ENDSWITH "\\tasklist.exe" OR Image ENDSWITH "\\whoami.exe"))))

@@ -1,0 +1,23 @@
+// Title: Rundll32 InstallScreenSaver Execution
+// ID: 15bd98ea-55f4-4d37-b09a-e7caa0fa2221
+// Status: test
+// Level: medium
+// Author: Christopher Peacock @securepeacock, SCYTHE @scythe_io, TactiKoolSec
+// Date: 2022-04-28
+// Tags: attack.stealth, attack.t1218.011
+// Description: An attacker may execute an application as a SCR File using rundll32.exe desk.cpl,InstallScreenSaver
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 15bd98ea_55f4_4d37_b09a_e7caa0fa2221 {
+  meta:
+    title = "Rundll32 InstallScreenSaver Execution"
+    description = "An attacker may execute an application as a SCR File using rundll32.exe desk.cpl,InstallScreenSaver"
+    author = "Christopher Peacock @securepeacock, SCYTHE @scythe_io, TactiKoolSec"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.process.command_line = /.*InstallScreenSaver.*/ nocase) and (($e.target.process.file.full_path = /.*\\rundll32.exe$/ nocase) or ($e.target.process.file.name = "RUNDLL32.EXE")))
+
+  condition:
+    $e
+}

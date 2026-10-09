@@ -1,0 +1,29 @@
+{
+  "title": "Malicious DLL File Dropped in the Teams or OneDrive Folder",
+  "id": "1908fcc1-1b92-4272-8214-0fbaf2fa5163",
+  "status": "test",
+  "description": "Detects creation of a malicious DLL file in the location where the OneDrive or Team applications\nUpon execution of the Teams or OneDrive application, the dropped malicious DLL file (\"iphlpapi.dll\") is sideloaded\n",
+  "author": "frack113",
+  "date": "2022-08-12",
+  "tags": [
+    "attack.persistence",
+    "attack.privilege-escalation",
+    "attack.execution",
+    "attack.stealth",
+    "attack.t1574.001"
+  ],
+  "level": "high",
+  "logsource": {
+    "category": "file_event",
+    "product": "windows"
+  },
+  "detection": {
+    "selection": {
+      "TargetFilename|contains|all": [
+        "iphlpapi.dll",
+        "\\AppData\\Local\\Microsoft"
+      ]
+    },
+    "condition": "selection"
+  }
+}

@@ -1,0 +1,11 @@
+-- Title: Live Memory Dump Using Powershell
+-- ID: cd185561-4760-45d6-a63e-a51325112cae
+-- Status: test
+-- Level: high
+-- Author: Max Altgelt (Nextron Systems)
+-- Date: 2021-09-21
+-- Tags: attack.credential-access, attack.t1003
+-- Description: Detects usage of a PowerShell command to dump the live memory of a Windows machine
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE ((ScriptBlockText ILIKE '%Get-StorageDiagnosticInfo%' AND ScriptBlockText ILIKE '%-IncludeLiveDump%'))

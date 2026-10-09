@@ -1,0 +1,25 @@
+{
+  "title": "Potential Packet Capture Activity Via Start-NetEventSession - ScriptBlock",
+  "id": "da34e323-1e65-42db-83be-a6725ac2caa3",
+  "status": "test",
+  "description": "Detects the execution of powershell scripts with calls to the \"Start-NetEventSession\" cmdlet. Which allows an attacker to start event and packet capture for a network event session.\nAdversaries may attempt to capture network to gather information over the course of an operation.\nData captured via this technique may include user credentials, especially those sent over an insecure, unencrypted protocol.\n",
+  "author": "frack113",
+  "date": "2024-05-12",
+  "tags": [
+    "attack.credential-access",
+    "attack.discovery",
+    "attack.t1040"
+  ],
+  "level": "medium",
+  "logsource": {
+    "product": "windows",
+    "category": "ps_script",
+    "definition": "Requirements: Script Block Logging must be enabled"
+  },
+  "detection": {
+    "selection": {
+      "ScriptBlockText|contains": "Start-NetEventSession"
+    },
+    "condition": "selection"
+  }
+}

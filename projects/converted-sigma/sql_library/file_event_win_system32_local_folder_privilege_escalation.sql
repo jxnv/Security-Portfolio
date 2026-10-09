@@ -1,0 +1,11 @@
+-- Title: Potential Privilege Escalation Attempt Via .Exe.Local Technique
+-- ID: 07a99744-56ac-40d2-97b7-2095967b0e03
+-- Status: test
+-- Level: high
+-- Author: Nasreddine Bencherchali (Nextron Systems), Subhash P (@pbssubhash)
+-- Date: 2022-12-16
+-- Tags: attack.persistence, attack.privilege-escalation, attack.stealth
+-- Description: Detects potential privilege escalation attempt via the creation of the "*.Exe.Local" folder inside the "System32" directory in order to sideload "comctl32.dll"
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE ((TargetFilename ILIKE 'C:\\Windows\\System32\\logonUI.exe.local%' OR TargetFilename ILIKE 'C:\\Windows\\System32\\werFault.exe.local%' OR TargetFilename ILIKE 'C:\\Windows\\System32\\consent.exe.local%' OR TargetFilename ILIKE 'C:\\Windows\\System32\\narrator.exe.local%' OR TargetFilename ILIKE 'C:\\Windows\\System32\\wermgr.exe.local%') AND TargetFilename ILIKE '%\\comctl32.dll')

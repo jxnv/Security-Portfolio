@@ -1,0 +1,35 @@
+{
+  "title": "File And SubFolder Enumeration Via Dir Command",
+  "id": "7c9340a9-e2ee-4e43-94c5-c54ebbea1006",
+  "status": "test",
+  "description": "Detects usage of the \"dir\" command part of Windows CMD with the \"/S\" command line flag in order to enumerate files in a specified directory and all subdirectories.\n",
+  "author": "frack113",
+  "date": "2021-12-13",
+  "tags": [
+    "attack.discovery",
+    "attack.t1217"
+  ],
+  "level": "low",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_cmd": [
+      {
+        "Image|endswith": "\\cmd.exe"
+      },
+      {
+        "OriginalFileName": "Cmd.Exe"
+      }
+    ],
+    "selection_cli": {
+      "CommandLine|contains|windash": "-s",
+      "CommandLine|contains": "dir "
+    },
+    "filter_main_rmdir": {
+      "CommandLine|contains": "rmdir"
+    },
+    "condition": "all of selection_* and not 1 of filter_main_*"
+  }
+}

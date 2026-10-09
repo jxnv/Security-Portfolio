@@ -1,0 +1,11 @@
+# Title: Potential Adplus.EXE Abuse
+# ID: 2f869d59-7f6a-4931-992c-cce556ff2d53
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-06-09
+# Tags: attack.execution, attack.credential-access, attack.t1003.001
+# Description: Detects execution of "AdPlus.exe", a binary that is part of the Windows SDK that can be used as a LOLBIN in order to dump process memory and execute arbitrary commands.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog (((process_exec="* -hang *" OR process_exec="* -pn *" OR process_exec="* -pmn *" OR process_exec="* -p *" OR process_exec="* -po *" OR process_exec="* -c *" OR process_exec="* -sc *")) AND ((process_path="*\\adplus.exe") OR (process_name="Adplus.exe")))

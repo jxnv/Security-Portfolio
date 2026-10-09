@@ -1,0 +1,11 @@
+# Title: Rundll32 Execution With Uncommon DLL Extension
+# ID: c3a99af4-35a9-4668-879e-c09aeb4f2bdf
+# Status: test
+# Level: medium
+# Author: Tim Shelton, Florian Roth (Nextron Systems), Yassine Oukessou
+# Date: 2022-01-13
+# Tags: attack.stealth, attack.t1218.011
+# Description: Detects the execution of rundll32 with a command line that doesn't contain a common extension
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog (((process_path="*\\rundll32.exe") OR (process_name="RUNDLL32.EXE")) AND NOT (((process_exec="") OR (((process_exec="*.cpl *" OR process_exec="*.cpl,*" OR process_exec="*.cpl\"*" OR process_exec="*.cpl'*" OR process_exec="*.dll *" OR process_exec="*.dll,*" OR process_exec="*.dll\"*" OR process_exec="*.dll'*" OR process_exec="*.inf *" OR process_exec="*.inf,*" OR process_exec="*.inf\"*" OR process_exec="*.inf'*")) OR ((process_exec="*.cpl" OR process_exec="*.dll" OR process_exec="*.inf"))) OR (process_exec="* -localserver *") OR (NOT process_exec=*) OR (parent_process_path="*\\msiexec.exe" AND (process_exec="*:\\Windows\\Installer\\*" AND process_exec="*.tmp*" AND process_exec="*zzzzInvokeManagedCustomActionOutOfProc*")))) AND NOT (((parent_process_exec="*:\\Users\\*" AND parent_process_exec="*\\AppData\\Local\\Microsoft\\EdgeUpdate\\Install\\{*" AND parent_process_exec="*\\EDGEMITMP_*" AND parent_process_exec="*.tmp\\setup.exe*" AND parent_process_exec="*--install-archive=*" AND parent_process_exec="*--previous-version=*" AND parent_process_exec="*--msedgewebview --verbose-logging --do-not-launch-msedge --user-level*"))))

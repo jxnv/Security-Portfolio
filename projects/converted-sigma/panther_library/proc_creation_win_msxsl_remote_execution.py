@@ -1,0 +1,19 @@
+# Title: Remote XSL Execution Via Msxsl.EXE
+# ID: 75d0a94e-6252-448d-a7be-d953dff527bb
+# Status: test
+# Level: high
+# Author: Swachchhanda Shrawan Poudel
+# Date: 2023-11-09
+# Tags: attack.stealth, attack.t1220
+# Description: Detects the execution of the "msxsl" binary with an "http" keyword in the command line. This might indicate a potential remote execution of XSL files.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Remote XSL Execution Via Msxsl.EXE
+def rule(event):
+    # Detection Logic:
+    # (Image="*\\msxsl.exe" AND CommandLine="*http*")
+    return True
+
+def title(event):
+    return "Remote XSL Execution Via Msxsl.EXE"
+

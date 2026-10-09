@@ -1,0 +1,19 @@
+# Title: AppLocker Application Would Have Been Blocked
+# ID: 557e3bd3-7f21-495d-8d50-7c8bdfb8041c
+# Status: experimental
+# Level: medium
+# Author: heyyanu
+# Date: 2026-03-26
+# Tags: attack.execution, attack.t1204.002, attack.t1059.001, attack.t1059.003, attack.t1059.005, attack.t1059.006, attack.t1059.007
+# Description: Detects when AppLocker "Audit only" enforcement mode reports that an Application, DLL, Script, MSI, or Packaged-App would have been blocked if AppLocker "Enforce rules" enforcement mode was enabled.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: AppLocker Application Would Have Been Blocked
+def rule(event):
+    # Detection Logic:
+    # ((EventID="8003" OR EventID="8006" OR EventID="8021" OR EventID="8024"))
+    return True
+
+def title(event):
+    return "AppLocker Application Would Have Been Blocked"
+

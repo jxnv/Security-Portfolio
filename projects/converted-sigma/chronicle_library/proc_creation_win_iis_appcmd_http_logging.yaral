@@ -1,0 +1,23 @@
+// Title: Disable Windows IIS HTTP Logging
+// ID: e4ed6030-ffe5-4e6a-8a8a-ab3c1ab9d94e
+// Status: test
+// Level: high
+// Author: frack113
+// Date: 2022-01-09
+// Tags: attack.defense-impairment, attack.t1685.001
+// Description: Disables HTTP logging on a Windows IIS web server as seen by Threat Group 3390 (Bronze Union)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule e4ed6030_ffe5_4e6a_8a8a_ab3c1ab9d94e {
+  meta:
+    title = "Disable Windows IIS HTTP Logging"
+    description = "Disables HTTP logging on a Windows IIS web server as seen by Threat Group 3390 (Bronze Union)"
+    author = "frack113"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*set.*/ nocase and $e.target.process.command_line = /.*config.*/ nocase and $e.target.process.command_line = /.*section:httplogging.*/ nocase and $e.target.process.command_line = /.*dontLog:true.*/ nocase)) and (($e.target.process.file.full_path = /.*\\appcmd.exe$/ nocase) or ($e.target.process.file.name = "appcmd.exe")))
+
+  condition:
+    $e
+}

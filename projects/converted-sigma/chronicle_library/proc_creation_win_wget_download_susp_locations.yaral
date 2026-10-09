@@ -1,0 +1,23 @@
+// Title: Suspicious File Download From IP Via Wget.EXE - Paths
+// ID: 40aa399c-7b02-4715-8e5f-73572b493f33
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2024-02-23
+// Tags: attack.execution
+// Description: Detects potentially suspicious file downloads directly from IP addresses and stored in suspicious locations using Wget.exe
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 40aa399c_7b02_4715_8e5f_73572b493f33 {
+  meta:
+    title = "Suspicious File Download From IP Via Wget.EXE - Paths"
+    description = "Detects potentially suspicious file downloads directly from IP addresses and stored in suspicious locations using Wget.exe"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /\s-O\s/ nocase) or ($e.target.process.command_line = /.*--output-document.*/ nocase)) and ($e.target.process.command_line = /.*http.*/ nocase) and (($e.target.process.file.full_path = /.*\\wget.exe$/ nocase) or ($e.target.process.file.name = "wget.exe")) and ($e.target.process.command_line = /://[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/ nocase) and ((($e.target.process.command_line = /.*:\\PerfLogs\\.*/ nocase or $e.target.process.command_line = /.*:\\Temp\\.*/ nocase or $e.target.process.command_line = /.*:\\Users\\Public\\.*/ nocase or $e.target.process.command_line = /.*:\\Windows\\Help\\.*/ nocase or $e.target.process.command_line = /.*:\\Windows\\Temp\\.*/ nocase or $e.target.process.command_line = /.*\\Temporary Internet.*/ nocase)) or (($e.target.process.command_line = /.*:\\Users\\.*/ nocase and $e.target.process.command_line = /.*\\Favorites\\.*/ nocase)) or (($e.target.process.command_line = /.*:\\Users\\.*/ nocase and $e.target.process.command_line = /.*\\Favourites\\.*/ nocase)) or (($e.target.process.command_line = /.*:\\Users\\.*/ nocase and $e.target.process.command_line = /.*\\Contacts\\.*/ nocase)) or (($e.target.process.command_line = /.*:\\Users\\.*/ nocase and $e.target.process.command_line = /.*\\Pictures\\.*/ nocase))))
+
+  condition:
+    $e
+}

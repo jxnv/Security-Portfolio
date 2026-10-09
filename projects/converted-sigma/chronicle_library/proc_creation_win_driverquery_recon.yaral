@@ -1,0 +1,23 @@
+// Title: Potential Recon Activity Using DriverQuery.EXE
+// ID: 9fc3072c-dc8f-4bf7-b231-18950000fadd
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-01-19
+// Tags: attack.discovery
+// Description: Detect usage of the "driverquery" utility to perform reconnaissance on installed drivers
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 9fc3072c_dc8f_4bf7_b231_18950000fadd {
+  meta:
+    title = "Potential Recon Activity Using DriverQuery.EXE"
+    description = "Detect usage of the "driverquery" utility to perform reconnaissance on installed drivers"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.file.full_path = /.*driverquery.exe$/ nocase) or ($e.target.process.file.name = "drvqry.exe")) and ((($e.principal.process.file.full_path = /.*\\cscript.exe$/ nocase or $e.principal.process.file.full_path = /.*\\mshta.exe$/ nocase or $e.principal.process.file.full_path = /.*\\regsvr32.exe$/ nocase or $e.principal.process.file.full_path = /.*\\rundll32.exe$/ nocase or $e.principal.process.file.full_path = /.*\\wscript.exe$/ nocase)) or (($e.principal.process.file.full_path = /.*\\AppData\\Local\\.*/ nocase or $e.principal.process.file.full_path = /.*\\Users\\Public\\.*/ nocase or $e.principal.process.file.full_path = /.*\\Windows\\Temp\\.*/ nocase))))
+
+  condition:
+    $e
+}

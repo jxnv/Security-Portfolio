@@ -1,0 +1,11 @@
+// Title: Local Groups Discovery - MacOs
+// ID: 89bb1f97-c7b9-40e8-b52b-7d6afbd67276
+// Status: test
+// Level: informational
+// Author: Ömer Günal, Alejandro Ortuno, oscd.community
+// Date: 2020-10-11
+// Tags: attack.discovery, attack.t1069.001
+// Description: Detects enumeration of local system groups
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+DeviceProcessEvents | where ((FolderPath endswith "/dscacheutil" and (ProcessCommandLine contains "-q" and ProcessCommandLine contains "group")) or (FolderPath endswith "/cat" and ProcessCommandLine contains "/etc/group") or (FolderPath endswith "/dscl" and (ProcessCommandLine contains "-list" and ProcessCommandLine contains "/groups")))

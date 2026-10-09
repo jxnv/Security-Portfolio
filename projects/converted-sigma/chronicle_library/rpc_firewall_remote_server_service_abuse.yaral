@@ -1,0 +1,23 @@
+// Title: Remote Server Service Abuse
+// ID: b6ea3cc7-542f-43ef-bbe4-980fbed444c7
+// Status: test
+// Level: high
+// Author: Sagie Dulce, Dekel Paz
+// Date: 2022-01-01
+// Tags: attack.lateral-movement
+// Description: Detects remote RPC calls to possibly abuse remote encryption service via MS-SRVS
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule b6ea3cc7_542f_43ef_bbe4_980fbed444c7 {
+  meta:
+    title = "Remote Server Service Abuse"
+    description = "Detects remote RPC calls to possibly abuse remote encryption service via MS-SRVS"
+    author = "Sagie Dulce, Dekel Paz"
+    severity = "HIGH"
+
+  events:
+    ($e.EventLog = "RPCFW" and $e.EventID = 3 and $e.InterfaceUuid = "4b324fc8-1670-01d3-1278-5a47bf6ee188")
+
+  condition:
+    $e
+}

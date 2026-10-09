@@ -1,0 +1,54 @@
+{
+  "title": "PUA - Restic Backup Tool Execution",
+  "id": "6ddff2e8-ea1a-45d0-8938-93dfc1d67ae7",
+  "status": "experimental",
+  "description": "Detects the execution of the Restic backup tool, which can be used for data exfiltration.\nThreat actors may leverage Restic to back up and exfiltrate sensitive data to remote storage locations, including cloud services.\nIf not legitimately used in the enterprise environment, its presence may indicate malicious activity.\n",
+  "author": "Nounou Mbeiri, Swachchhanda Shrawan Poudel (Nextron Systems)",
+  "date": "2025-10-17",
+  "tags": [
+    "attack.exfiltration",
+    "attack.t1048",
+    "attack.t1567.002"
+  ],
+  "level": "high",
+  "logsource": {
+    "product": "windows",
+    "category": "process_creation"
+  },
+  "detection": {
+    "selection_specific": [
+      {
+        "CommandLine|contains|all": [
+          "--password-file",
+          "init",
+          " -r "
+        ]
+      },
+      {
+        "CommandLine|contains|all": [
+          "--use-fs-snapshot",
+          "backup",
+          " -r "
+        ]
+      }
+    ],
+    "selection_restic": {
+      "CommandLine|contains": [
+        "sftp:",
+        "rest:http",
+        "s3:s3.",
+        "s3.http",
+        "azure:",
+        " gs:",
+        "rclone:",
+        "swift:",
+        " b2:"
+      ],
+      "CommandLine|contains|all": [
+        " init ",
+        " -r "
+      ]
+    },
+    "condition": "1 of selection_*"
+  }
+}

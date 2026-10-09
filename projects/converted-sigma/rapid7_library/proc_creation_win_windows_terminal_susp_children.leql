@@ -1,0 +1,11 @@
+// Title: Suspicious WindowsTerminal Child Processes
+// ID: 8de89e52-f6e1-4b5b-afd1-41ecfa300d48
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-07-25
+// Tags: attack.execution, attack.persistence
+// Description: Detects suspicious children spawned via the Windows Terminal application which could be a sign of persistence via WindowsTerminal (see references section)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((where(ParentImage IENDSWITH "\\WindowsTerminal.exe") OR where(ParentImage IENDSWITH "\\wt.exe"))) AND (((where(Image IENDSWITH "\\rundll32.exe") OR where(Image IENDSWITH "\\regsvr32.exe") OR where(Image IENDSWITH "\\certutil.exe") OR where(Image IENDSWITH "\\cscript.exe") OR where(Image IENDSWITH "\\wscript.exe") OR where(Image IENDSWITH "\\csc.exe"))) OR ((where(Image ICONTAINS "C:\\Users\\Public\\") OR where(Image ICONTAINS "\\Downloads\\") OR where(Image ICONTAINS "\\Desktop\\") OR where(Image ICONTAINS "\\AppData\\Local\\Temp\\") OR where(Image ICONTAINS "\\Windows\\TEMP\\"))) OR ((where(CommandLine ICONTAINS " iex ") OR where(CommandLine ICONTAINS " icm") OR where(CommandLine ICONTAINS "Invoke-") OR where(CommandLine ICONTAINS "Import-Module ") OR where(CommandLine ICONTAINS "ipmo ") OR where(CommandLine ICONTAINS "DownloadString(") OR where(CommandLine ICONTAINS " /c ") OR where(CommandLine ICONTAINS " /k ") OR where(CommandLine ICONTAINS " /r "))))) AND NOT ((((where(CommandLine ICONTAINS "Import-Module") AND where(CommandLine ICONTAINS "Microsoft.VisualStudio.DevShell.dll") AND where(CommandLine ICONTAINS "Enter-VsDevShell"))) OR ((where(CommandLine ICONTAINS "\\AppData\\Local\\Packages\\Microsoft.WindowsTerminal_") AND where(CommandLine ICONTAINS "\\LocalState\\settings.json"))) OR ((where(CommandLine ICONTAINS "C:\\Program Files\\Microsoft Visual Studio\\") AND where(CommandLine ICONTAINS "\\Common7\\Tools\\VsDevCmd.bat"))))))

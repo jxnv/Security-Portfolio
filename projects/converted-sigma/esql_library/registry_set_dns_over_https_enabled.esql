@@ -1,0 +1,13 @@
+// Title: DNS-over-HTTPS Enabled by Registry
+// ID: 04b45a8a-d11d-49e4-9acc-4a1b524407a5
+// Status: test
+// Level: medium
+// Author: Austin Songer
+// Date: 2021-07-22
+// Tags: attack.persistence, attack.stealth, attack.defense-impairment, attack.t1140, attack.t1112
+// Description: Detects when a user enables DNS-over-HTTPS.
+// This can be used to hide internet activity or be used to hide the process of exfiltrating data.
+// With this enabled organization will lose visibility into data such as query type, response and originating IP that are used to determine bad actors.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE ((registry.path LIKE "%\\SOFTWARE\\Google\\Chrome\\DnsOverHttpsMode" AND registry.data.strings == "secure") OR (registry.path LIKE "%\\SOFTWARE\\Policies\\Microsoft\\Edge\\BuiltInDnsClientEnabled" AND registry.data.strings == "DWORD (0x00000001)") OR (registry.path LIKE "%\\SOFTWARE\\Policies\\Mozilla\\Firefox\\DNSOverHTTPS\\Enabled" AND registry.data.strings == "DWORD (0x00000001)"))

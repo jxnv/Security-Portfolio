@@ -1,0 +1,11 @@
+// Title: Suspicious Scheduled Task Creation
+// ID: 3a734d25-df5c-4b99-8034-af1ddb5883a4
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-12-05
+// Tags: attack.execution, attack.privilege-escalation, attack.persistence, attack.t1053.005
+// Description: Detects suspicious scheduled task creation events. Based on attributes such as paths, commands line flags, etc.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where (((TaskContent like "%regsvr32%" OR TaskContent like "%rundll32%" OR TaskContent like "%cmd.exe</Command>%" OR TaskContent like "%cmd</Command>%" OR TaskContent like "%<Arguments>/c %" OR TaskContent like "%<Arguments>/k %" OR TaskContent like "%<Arguments>/r %" OR TaskContent like "%powershell%" OR TaskContent like "%pwsh%" OR TaskContent like "%mshta%" OR TaskContent like "%wscript%" OR TaskContent like "%cscript%" OR TaskContent like "%certutil%" OR TaskContent like "%bitsadmin%" OR TaskContent like "%bash.exe%" OR TaskContent like "%bash %" OR TaskContent like "%scrcons%" OR TaskContent like "%wmic %" OR TaskContent like "%wmic.exe%" OR TaskContent like "%forfiles%" OR TaskContent like "%scriptrunner%" OR TaskContent like "%hh.exe%")) AND (winlog.event_id = "4698") AND ((TaskContent like "%\\AppData\\Local\\Temp\\%" OR TaskContent like "%\\AppData\\Roaming\\%" OR TaskContent like "%\\Users\\Public\\%" OR TaskContent like "%\\WINDOWS\\Temp\\%" OR TaskContent like "%C:\\Temp\\%" OR TaskContent like "%\\Desktop\\%" OR TaskContent like "%\\Downloads\\%" OR TaskContent like "%\\Temporary Internet%" OR TaskContent like "%C:\\ProgramData\\%" OR TaskContent like "%C:\\Perflogs\\%")))

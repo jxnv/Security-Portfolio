@@ -1,0 +1,63 @@
+{
+  "title": "Potentially Suspicious Execution Of PDQDeployRunner",
+  "id": "12b8e9f5-96b2-41e1-9a42-8c6779a5c184",
+  "status": "test",
+  "description": "Detects suspicious execution of \"PDQDeployRunner\" which is part of the PDQDeploy service stack that is responsible for executing commands and packages on a remote machines",
+  "author": "Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2022-07-22",
+  "tags": [
+    "attack.execution"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_parent": {
+      "ParentImage|contains": "\\PDQDeployRunner-"
+    },
+    "selection_child": [
+      {
+        "Image|endswith": [
+          "\\bash.exe",
+          "\\certutil.exe",
+          "\\cmd.exe",
+          "\\csc.exe",
+          "\\cscript.exe",
+          "\\dllhost.exe",
+          "\\mshta.exe",
+          "\\msiexec.exe",
+          "\\regsvr32.exe",
+          "\\rundll32.exe",
+          "\\scriptrunner.exe",
+          "\\wmic.exe",
+          "\\wscript.exe",
+          "\\wsl.exe"
+        ]
+      },
+      {
+        "Image|contains": [
+          ":\\ProgramData\\",
+          ":\\Users\\Public\\",
+          ":\\Windows\\TEMP\\",
+          "\\AppData\\Local\\Temp"
+        ]
+      },
+      {
+        "CommandLine|contains": [
+          " -decode ",
+          " -enc ",
+          " -encodedcommand ",
+          " -w hidden",
+          "DownloadString",
+          "FromBase64String",
+          "http",
+          "iex ",
+          "Invoke-"
+        ]
+      }
+    ],
+    "condition": "all of selection_*"
+  }
+}

@@ -1,0 +1,23 @@
+// Title: Suspicious TSCON Start as SYSTEM
+// ID: 9847f263-4a81-424f-970c-875dab15b79b
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2018-03-17
+// Tags: attack.command-and-control, attack.t1219.002
+// Description: Detects a tscon.exe start as LOCAL SYSTEM
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 9847f263_4a81_424f_970c_875dab15b79b {
+  meta:
+    title = "Suspicious TSCON Start as SYSTEM"
+    description = "Detects a tscon.exe start as LOCAL SYSTEM"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.target.user.userid = /.*AUTHORI.*/ nocase or $e.target.user.userid = /.*AUTORI.*/ nocase) and $e.target.process.file.full_path = /.*\\tscon.exe$/ nocase)
+
+  condition:
+    $e
+}

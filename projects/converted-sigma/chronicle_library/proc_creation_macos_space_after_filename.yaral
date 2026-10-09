@@ -1,0 +1,23 @@
+// Title: Space After Filename - macOS
+// ID: b6e2a2e3-2d30-43b1-a4ea-071e36595690
+// Status: test
+// Level: low
+// Author: remotephone
+// Date: 2021-11-20
+// Tags: attack.stealth, attack.t1036.006
+// Description: Detects attempts to masquerade as legitimate files by adding a space to the end of the filename.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule b6e2a2e3_2d30_43b1_a4ea_071e36595690 {
+  meta:
+    title = "Space After Filename - macOS"
+    description = "Detects attempts to masquerade as legitimate files by adding a space to the end of the filename."
+    author = "remotephone"
+    severity = "LOW"
+
+  events:
+    (($e.target.process.command_line = /.* $/ nocase) or ($e.target.process.file.full_path = /.* $/ nocase))
+
+  condition:
+    $e
+}

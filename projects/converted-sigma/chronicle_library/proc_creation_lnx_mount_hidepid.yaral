@@ -1,0 +1,23 @@
+// Title: Mount Execution With Hidepid Parameter
+// ID: ec52985a-d024-41e3-8ff6-14169039a0b3
+// Status: test
+// Level: medium
+// Author: Joseliyo Sanchez, @Joseliyo_Jstnk
+// Date: 2023-01-12
+// Tags: attack.credential-access, attack.stealth, attack.t1564
+// Description: Detects execution of the "mount" command with "hidepid" parameter to make invisible processes to other users from the system
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule ec52985a_d024_41e3_8ff6_14169039a0b3 {
+  meta:
+    title = "Mount Execution With Hidepid Parameter"
+    description = "Detects execution of the "mount" command with "hidepid" parameter to make invisible processes to other users from the system"
+    author = "Joseliyo Sanchez, @Joseliyo_Jstnk"
+    severity = "MEDIUM"
+
+  events:
+    ($e.target.process.file.full_path = /.*/mount$/ nocase and ($e.target.process.command_line = /.*hidepid=2.*/ nocase and $e.target.process.command_line = /.* -o .*/ nocase))
+
+  condition:
+    $e
+}

@@ -1,0 +1,11 @@
+// Title: QuickAssist Execution
+// ID: e20b5b14-ce93-4230-88af-981983ef6e74
+// Status: experimental
+// Level: low
+// Author: Muhammad Faisal (@faisalusuf)
+// Date: 2024-12-19
+// Tags: attack.command-and-control, attack.t1219.002
+// Description: Detects the execution of Microsoft Quick Assist tool "QuickAssist.exe". This utility can be used by attackers to gain remote access.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter (action_process_image_path endswith "\\QuickAssist.exe")

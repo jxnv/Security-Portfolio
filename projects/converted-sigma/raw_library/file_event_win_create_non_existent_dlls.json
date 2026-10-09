@@ -1,0 +1,39 @@
+{
+  "title": "Creation Of Non-Existent System DLL",
+  "id": "df6ecb8b-7822-4f4b-b412-08f524b4576c",
+  "status": "test",
+  "description": "Detects creation of specific system DLL files that are  usually not present on the system (or at least not in system directories) but may be loaded by legitimate processes.\nPhantom DLL hijacking involves placing malicious DLLs with names of non-existent system binaries in locations where legitimate applications may search for them, leading to execution of the malicious DLLs.\nThus, the creation of such DLLs may indicate preparation for phantom DLL hijacking attacks.\n",
+  "author": "Nasreddine Bencherchali (Nextron Systems), fornotes",
+  "date": "2022-12-01",
+  "tags": [
+    "attack.persistence",
+    "attack.privilege-escalation",
+    "attack.execution",
+    "attack.stealth",
+    "attack.t1574.001"
+  ],
+  "level": "medium",
+  "logsource": {
+    "product": "windows",
+    "category": "file_event"
+  },
+  "detection": {
+    "selection": {
+      "TargetFilename|endswith": [
+        ":\\Windows\\System32\\axeonoffhelper.dll",
+        ":\\Windows\\System32\\cdpsgshims.dll",
+        ":\\Windows\\System32\\oci.dll",
+        ":\\Windows\\System32\\offdmpsvc.dll",
+        ":\\Windows\\System32\\shellchromeapi.dll",
+        ":\\Windows\\System32\\TSMSISrv.dll",
+        ":\\Windows\\System32\\TSVIPSrv.dll",
+        ":\\Windows\\System32\\wbem\\wbemcomn.dll",
+        ":\\Windows\\System32\\WLBSCTRL.dll",
+        ":\\Windows\\System32\\wow64log.dll",
+        ":\\Windows\\System32\\WptsExtensions.dll",
+        "\\SprintCSP.dll"
+      ]
+    },
+    "condition": "selection"
+  }
+}

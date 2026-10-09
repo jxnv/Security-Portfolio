@@ -1,0 +1,11 @@
+# Title: Suspicious Environment Variable Has Been Registered
+# ID: 966315ef-c5e1-4767-ba25-fce9c8de3660
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-12-20
+# Tags: attack.persistence, attack.stealth
+# Description: Detects the creation of user-specific or system-wide environment variables via the registry. Which contains suspicious commands and strings
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((((Details == "powershell" OR Details == "pwsh")) OR ((Details CONTAINS "\\AppData\\Local\\Temp\\" OR Details CONTAINS "C:\\Users\\Public\\" OR Details CONTAINS "TVqQAAMAAAAEAAAA" OR Details CONTAINS "TVpQAAIAAAAEAA8A" OR Details CONTAINS "TVqAAAEAAAAEABAA" OR Details CONTAINS "TVoAAAAAAAAAAAAA" OR Details CONTAINS "TVpTAQEAAAAEAAAA" OR Details CONTAINS "SW52b2tlL" OR Details CONTAINS "ludm9rZS" OR Details CONTAINS "JbnZva2Ut" OR Details CONTAINS "SQBuAHYAbwBrAGUALQ" OR Details CONTAINS "kAbgB2AG8AawBlAC0A" OR Details CONTAINS "JAG4AdgBvAGsAZQAtA")) OR ((Details="SUVY*" OR Details="SQBFAF*" OR Details="SQBuAH*" OR Details="cwBhA*" OR Details="aWV4*" OR Details="aQBlA*" OR Details="R2V0*" OR Details="dmFy*" OR Details="dgBhA*" OR Details="dXNpbm*" OR Details="H4sIA*" OR Details="Y21k*" OR Details="cABhAH*" OR Details="Qzpc*" OR Details="Yzpc*"))) AND (TargetObject CONTAINS "\\Environment\\"))

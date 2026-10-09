@@ -1,0 +1,47 @@
+{
+  "title": "Computer Discovery And Export Via Get-ADComputer Cmdlet",
+  "id": "435e10e4-992a-4281-96f3-38b11106adde",
+  "status": "test",
+  "description": "Detects usage of the Get-ADComputer cmdlet to collect computer information and output it to a file",
+  "author": "Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2022-11-10",
+  "tags": [
+    "attack.discovery",
+    "attack.t1033"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_img": [
+      {
+        "Image|endswith": [
+          "\\powershell.exe",
+          "\\pwsh.exe"
+        ]
+      },
+      {
+        "OriginalFileName": [
+          "PowerShell.EXE",
+          "pwsh.dll"
+        ]
+      }
+    ],
+    "selection_cli": {
+      "CommandLine|contains|all": [
+        "Get-ADComputer ",
+        " -Filter \\*"
+      ],
+      "CommandLine|contains": [
+        " > ",
+        " | Select ",
+        "Out-File",
+        "Set-Content",
+        "Add-Content"
+      ]
+    },
+    "condition": "all of selection_*"
+  }
+}

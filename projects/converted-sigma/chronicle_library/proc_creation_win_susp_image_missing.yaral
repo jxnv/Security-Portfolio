@@ -1,0 +1,25 @@
+// Title: Execution Of Non-Existing File
+// ID: 71158e3f-df67-472b-930e-7d287acaa3e1
+// Status: test
+// Level: high
+// Author: Max Altgelt (Nextron Systems)
+// Date: 2021-12-09
+// Tags: attack.stealth, attack.privilege-escalation, attack.t1055
+// Description: Detects process creation events where the Image field lacks an absolute path,
+// which occurs when the backing file no longer exists on disk at the time of
+// logging - commonly caused by Process Ghosting or other unorthodox process creation techniques.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 71158e3f_df67_472b_930e_7d287acaa3e1 {
+  meta:
+    title = "Execution Of Non-Existing File"
+    description = "Detects process creation events where the Image field lacks an absolute path, which occurs when the backing file no longer exists on disk at the time of logging - commonly caused by Process Ghosting or other unorthodox process creation techniques."
+    author = "Max Altgelt (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (not(($e.target.process.file.full_path = /.*\\.*/ nocase)) and not((((($e.target.process.file.full_path = "MemCompression" or $e.target.process.file.full_path = "Registry" or $e.target.process.file.full_path = "System" or $e.target.process.file.full_path = "vmmem" or $e.target.process.file.full_path = "vmmemWSL")) or (($e.target.process.command_line = "MemCompression" or $e.target.process.command_line = "Registry" or $e.target.process.command_line = "vmmem" or $e.target.process.command_line = "vmmemWSL"))) or (($e.target.process.file.full_path = "-" or $e.target.process.file.full_path = "")) or (not ($e.target.process.file.full_path = /.*/)))))
+
+  condition:
+    $e
+}

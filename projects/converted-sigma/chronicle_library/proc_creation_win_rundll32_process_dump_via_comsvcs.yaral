@@ -1,0 +1,23 @@
+// Title: Process Memory Dump Via Comsvcs.DLL
+// ID: 646ea171-dded-4578-8a4d-65e9822892e3
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Modexp, Nasreddine Bencherchali (Nextron Systems), Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2020-02-18
+// Tags: attack.credential-access, attack.stealth, attack.t1036, attack.t1003.001, car.2013-05-009
+// Description: Detects a process memory dump via "comsvcs.dll" using rundll32, covering multiple different techniques (ordinal, minidump function, etc.)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 646ea171_dded_4578_8a4d_65e9822892e3 {
+  meta:
+    title = "Process Memory Dump Via Comsvcs.DLL"
+    description = "Detects a process memory dump via "comsvcs.dll" using rundll32, covering multiple different techniques (ordinal, minidump function, etc.)"
+    author = "Florian Roth (Nextron Systems), Modexp, Nasreddine Bencherchali (Nextron Systems), Swachchhanda Shrawan Poudel (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (((($e.target.process.file.full_path = /.*\\rundll32.exe$/ nocase) or ($e.target.process.file.name = "RUNDLL32.EXE") or ($e.target.process.command_line = /.*rundll32.*/ nocase)) and (($e.target.process.command_line = /.*comsvcs.*/ nocase and $e.target.process.command_line = /.*full.*/ nocase) and ($e.target.process.command_line = /.*#-.*/ nocase or $e.target.process.command_line = /.*#+.*/ nocase or $e.target.process.command_line = /.*#24.*/ nocase or $e.target.process.command_line = /.*24 .*/ nocase or $e.target.process.command_line = /.*MiniDump.*/ nocase or $e.target.process.command_line = /.*#65560.*/ nocase))) or (($e.target.process.command_line = /.*24.*/ nocase and $e.target.process.command_line = /.*comsvcs.*/ nocase and $e.target.process.command_line = /.*full.*/ nocase) and ($e.target.process.command_line = /.* #.*/ nocase or $e.target.process.command_line = /.*,#.*/ nocase or $e.target.process.command_line = /.*, #.*/ nocase or $e.target.process.command_line = /.*\"#.*/ nocase)))
+
+  condition:
+    $e
+}

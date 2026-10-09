@@ -1,0 +1,11 @@
+-- Title: HackTool - RedMimicry Winnti Playbook Execution
+-- ID: 95022b85-ff2a-49fa-939a-d7b8f56eeb9b
+-- Status: test
+-- Level: high
+-- Author: Alexander Rausch
+-- Date: 2020-06-24
+-- Tags: attack.execution, attack.stealth, attack.t1106, attack.t1059.003, attack.t1218.011
+-- Description: Detects actions caused by the RedMimicry Winnti playbook a automated breach emulations utility
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE ((Image ILIKE '%\\rundll32.exe' OR Image ILIKE '%\\cmd.exe') AND (CommandLine ILIKE '%gthread-3.6.dll%' OR CommandLine ILIKE '%\\Windows\\Temp\\tmp.bat%' OR CommandLine ILIKE '%sigcmm-2.4.dll%'))

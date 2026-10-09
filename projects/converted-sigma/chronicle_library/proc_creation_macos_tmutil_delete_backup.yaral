@@ -1,0 +1,24 @@
+// Title: Time Machine Backup Deletion Attempt Via Tmutil - MacOS
+// ID: 452df256-da78-427a-866f-49fa04417d74
+// Status: test
+// Level: medium
+// Author: Pratinav Chandra
+// Date: 2024-05-29
+// Tags: attack.impact, attack.t1490
+// Description: Detects deletion attempts of MacOS Time Machine backups via the native backup utility "tmutil".
+// An adversary may perform this action before launching a ransonware attack to prevent the victim from restoring their files.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 452df256_da78_427a_866f_49fa04417d74 {
+  meta:
+    title = "Time Machine Backup Deletion Attempt Via Tmutil - MacOS"
+    description = "Detects deletion attempts of MacOS Time Machine backups via the native backup utility "tmutil". An adversary may perform this action before launching a ransonware attack to prevent the victim from restoring their files."
+    author = "Pratinav Chandra"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.process.command_line = /.*delete.*/ nocase) and (($e.target.process.file.full_path = /.*/tmutil$/ nocase) or ($e.target.process.command_line = /.*tmutil.*/ nocase)))
+
+  condition:
+    $e
+}

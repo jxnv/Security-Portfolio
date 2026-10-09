@@ -1,0 +1,23 @@
+// Title: Security Support Provider (SSP) Added to LSA Configuration
+// ID: eeb30123-9fbd-4ee8-aaa0-2e545bbed6dc
+// Status: test
+// Level: high
+// Author: iwillkeepwatch
+// Date: 2019-01-18
+// Tags: attack.privilege-escalation, attack.persistence, attack.t1547.005
+// Description: Detects the addition of a SSP to the registry. Upon a reboot or API call, SSP DLLs gain access to encrypted and plaintext passwords stored in Windows.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule eeb30123_9fbd_4ee8_aaa0_2e545bbed6dc {
+  meta:
+    title = "Security Support Provider (SSP) Added to LSA Configuration"
+    description = "Detects the addition of a SSP to the registry. Upon a reboot or API call, SSP DLLs gain access to encrypted and plaintext passwords stored in Windows."
+    author = "iwillkeepwatch"
+    severity = "HIGH"
+
+  events:
+    ((($e.TargetObject = /.*\\Control\\Lsa\\Security Packages$/ nocase or $e.TargetObject = /.*\\Control\\Lsa\\OSConfig\\Security Packages$/ nocase)) and not(((not ($e.target.process.file.full_path = /.*/)) or (($e.target.process.file.full_path = "C:\\Windows\\system32\\msiexec.exe" or $e.target.process.file.full_path = "C:\\Windows\\syswow64\\MsiExec.exe")))))
+
+  condition:
+    $e
+}

@@ -1,0 +1,27 @@
+{
+  "title": "Suspicious PowerShell Mailbox Export to Share - PS",
+  "id": "4a241dea-235b-4a7e-8d76-50d817b146c4",
+  "status": "test",
+  "description": "Detects usage of the powerShell New-MailboxExportRequest Cmdlet to exports a mailbox to a remote or local share, as used in ProxyShell exploitations",
+  "author": "Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2022-10-26",
+  "tags": [
+    "attack.exfiltration"
+  ],
+  "level": "critical",
+  "logsource": {
+    "product": "windows",
+    "category": "ps_script",
+    "definition": "Requirements: Script Block Logging must be enabled"
+  },
+  "detection": {
+    "selection": {
+      "ScriptBlockText|contains|all": [
+        "New-MailboxExportRequest",
+        " -Mailbox ",
+        " -FilePath \\\\\\\\"
+      ]
+    },
+    "condition": "selection"
+  }
+}

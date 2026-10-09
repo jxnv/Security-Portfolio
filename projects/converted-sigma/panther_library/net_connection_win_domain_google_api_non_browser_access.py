@@ -1,0 +1,19 @@
+# Title: Suspicious Non-Browser Network Communication With Google API
+# ID: 7e9cf7b6-e827-11ed-a05b-0242ac120003
+# Status: experimental
+# Level: medium
+# Author: Gavin Knapp
+# Date: 2023-05-01
+# Tags: attack.command-and-control, attack.t1102
+# Description: Detects a non-browser process interacting with the Google API which could indicate the use of a covert C2 such as Google Sheet C2 (GC2-sheet)
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Suspicious Non-Browser Network Communication With Google API
+def rule(event):
+    # Detection Logic:
+    # (((DestinationHostname="*drive.googleapis.com*" OR DestinationHostname="*oauth2.googleapis.com*" OR DestinationHostname="*sheets.googleapis.com*" OR DestinationHostname="*www.googleapis.com*")) AND NOT (((Image="") OR (NOT Image=*))) AND NOT (((Image="*\\brave.exe") OR ((Image="*:\\Program Files\\Google\\Chrome\\Application\\chrome.exe" OR Image="*:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe")) OR ((Image="*:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\*") OR ((Image="*:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe" OR Image="*:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe" OR Image="*\\WindowsApps\\MicrosoftEdge.exe"))) OR ((Image="*:\\Program Files (x86)\\Microsoft\\EdgeCore\\*" OR Image="*:\\Program Files\\Microsoft\\EdgeCore\\*") AND (Image="*\\msedge.exe" OR Image="*\\msedgewebview2.exe")) OR ((Image="*:\\Program Files\\Mozilla Firefox\\firefox.exe" OR Image="*:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe")) OR (Image="*:\\Program Files\\Google\\Drive File Stream\\*" AND Image="*\\GoogleDriveFS.exe") OR (Image="*\\GoogleUpdate.exe") OR ((Image="*:\\Program Files (x86)\\Internet Explorer\\iexplore.exe" OR Image="*:\\Program Files\\Internet Explorer\\iexplore.exe")) OR (Image="*\\maxthon.exe") OR (Image="*\\opera.exe") OR (Image="*\\outlook.exe") OR (Image="*\\safari.exe") OR (Image="*\\seamonkey.exe") OR (Image="*\\vivaldi.exe") OR (Image="*\\whale.exe"))))
+    return True
+
+def title(event):
+    return "Suspicious Non-Browser Network Communication With Google API"
+

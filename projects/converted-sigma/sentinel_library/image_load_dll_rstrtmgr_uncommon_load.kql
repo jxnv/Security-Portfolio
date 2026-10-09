@@ -1,0 +1,13 @@
+// Title: Load Of RstrtMgr.DLL By An Uncommon Process
+// ID: 3669afd2-9891-4534-a626-e5cf03810a61
+// Status: test
+// Level: low
+// Author: Luc Génaux
+// Date: 2023-11-28
+// Tags: attack.impact, attack.defense-impairment, attack.t1486, attack.t1685
+// Description: Detects the load of RstrtMgr DLL (Restart Manager) by an uncommon process.
+// This library has been used during ransomware campaigns to kill processes that would prevent file encryption by locking them (e.g. Conti ransomware, Cactus ransomware). It has also recently been seen used by the BiBi wiper for Windows.
+// It could also be used for anti-analysis purposes by shut downing specific processes.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+DeviceProcessEvents | where (((ImageLoaded endswith "\\RstrtMgr.dll") or (ProcessVersionInfoOriginalFileName == "RstrtMgr.dll")) and not(((FolderPath startswith "C:\\Windows\\Temp\\") or ((FolderPath startswith "C:\\$WINDOWS.~BT\\" or FolderPath startswith "C:\\$WinREAgent\\" or FolderPath startswith "C:\\Program Files (x86)\\" or FolderPath startswith "C:\\Program Files\\" or FolderPath startswith "C:\\ProgramData\\" or FolderPath startswith "C:\\Windows\\explorer.exe" or FolderPath startswith "C:\\Windows\\SoftwareDistribution\\" or FolderPath startswith "C:\\Windows\\SysNative\\" or FolderPath startswith "C:\\Windows\\System32\\" or FolderPath startswith "C:\\Windows\\SysWOW64\\" or FolderPath startswith "C:\\Windows\\WinSxS\\" or FolderPath startswith "C:\\WUDownloadCache\\")) or (FolderPath startswith "C:\\Users\\" and (FolderPath contains "\\AppData\\Local\\Temp\\is-" and FolderPath contains ".tmp\\") and FolderPath endswith ".tmp"))) and not(((FolderPath startswith "C:\\Users\\" and (FolderPath endswith "\\AppData\\Local\\Microsoft\\OneDrive\\OneDrive.exe" or FolderPath endswith "\\AppData\\Local\\Microsoft\\OneDrive\\OneDriveStandaloneUpdater.exe")) or (FolderPath startswith "C:\\Users\\" and FolderPath contains "\\AppData\\Local\\Microsoft\\OneDrive\\" and FolderPath endswith "\\OneDrive.Sync.Service.exe"))))

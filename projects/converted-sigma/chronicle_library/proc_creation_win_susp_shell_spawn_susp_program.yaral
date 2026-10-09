@@ -1,0 +1,23 @@
+// Title: Windows Shell/Scripting Processes Spawning Suspicious Programs
+// ID: 3a6586ad-127a-4d3b-a677-1e6eacdf8fde
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Tim Shelton
+// Date: 2018-04-06
+// Tags: attack.execution, attack.stealth, attack.t1059.005, attack.t1059.001, attack.t1218
+// Description: Detects suspicious child processes of a Windows shell and scripting processes such as wscript, rundll32, powershell, mshta...etc.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 3a6586ad_127a_4d3b_a677_1e6eacdf8fde {
+  meta:
+    title = "Windows Shell/Scripting Processes Spawning Suspicious Programs"
+    description = "Detects suspicious child processes of a Windows shell and scripting processes such as wscript, rundll32, powershell, mshta...etc."
+    author = "Florian Roth (Nextron Systems), Tim Shelton"
+    severity = "HIGH"
+
+  events:
+    ((($e.principal.process.file.full_path = /.*\\mshta.exe$/ nocase or $e.principal.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.principal.process.file.full_path = /.*\\pwsh.exe$/ nocase or $e.principal.process.file.full_path = /.*\\rundll32.exe$/ nocase or $e.principal.process.file.full_path = /.*\\cscript.exe$/ nocase or $e.principal.process.file.full_path = /.*\\wscript.exe$/ nocase or $e.principal.process.file.full_path = /.*\\wmiprvse.exe$/ nocase or $e.principal.process.file.full_path = /.*\\regsvr32.exe$/ nocase) and ($e.target.process.file.full_path = /.*\\schtasks.exe$/ nocase or $e.target.process.file.full_path = /.*\\nslookup.exe$/ nocase or $e.target.process.file.full_path = /.*\\certutil.exe$/ nocase or $e.target.process.file.full_path = /.*\\bitsadmin.exe$/ nocase or $e.target.process.file.full_path = /.*\\mshta.exe$/ nocase)) and not(((($e.principal.process.command_line = /.*\\Program Files\\Amazon\\WorkSpacesConfig\\Scripts\\setup-scheduledtask.ps1.*/ nocase or $e.principal.process.command_line = /.*\\Program Files\\Amazon\\WorkSpacesConfig\\Scripts\\set-selfhealing.ps1.*/ nocase or $e.principal.process.command_line = /.*\\Program Files\\Amazon\\WorkSpacesConfig\\Scripts\\check-workspacehealth.ps1.*/ nocase or $e.principal.process.command_line = /.*\\nessus_.*/ nocase)) or ($e.CurrentDirectory = /.*\\ccmcache\\.*/ nocase) or ($e.target.process.command_line = /.*\\nessus_.*/ nocase) or ($e.principal.process.file.full_path = /.*\\mshta.exe$/ nocase and $e.target.process.file.full_path = /.*\\mshta.exe$/ nocase and ($e.principal.process.command_line = /.*C:\\MEM_Configmgr_.*/ nocase and $e.principal.process.command_line = /.*\\splash.hta.*/ nocase and $e.principal.process.command_line = /.*{1E460BD7-F1C3-4B2E-88BF-4E770A288AF5}.*/ nocase) and ($e.target.process.command_line = /.*C:\\MEM_Configmgr_.*/ nocase and $e.target.process.command_line = /.*\\SMSSETUP\\BIN\\.*/ nocase and $e.target.process.command_line = /.*\\autorun.hta.*/ nocase and $e.target.process.command_line = /.*{1E460BD7-F1C3-4B2E-88BF-4E770A288AF5}.*/ nocase)))))
+
+  condition:
+    $e
+}

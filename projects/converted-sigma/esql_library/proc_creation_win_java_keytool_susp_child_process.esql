@@ -1,0 +1,11 @@
+// Title: Suspicious Shells Spawn by Java Utility Keytool
+// ID: 90fb5e62-ca1f-4e22-b42e-cc521874c938
+// Status: test
+// Level: high
+// Author: Andreas Hunkeler (@Karneades)
+// Date: 2021-12-22
+// Tags: attack.initial-access, attack.persistence, attack.privilege-escalation
+// Description: Detects suspicious shell spawn from Java utility keytool process (e.g. adselfservice plus exploitation)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE (process.parent.executable LIKE "%\\keytool.exe" AND (process.executable LIKE "%\\cmd.exe" OR process.executable LIKE "%\\sh.exe" OR process.executable LIKE "%\\bash.exe" OR process.executable LIKE "%\\powershell.exe" OR process.executable LIKE "%\\pwsh.exe" OR process.executable LIKE "%\\schtasks.exe" OR process.executable LIKE "%\\certutil.exe" OR process.executable LIKE "%\\whoami.exe" OR process.executable LIKE "%\\bitsadmin.exe" OR process.executable LIKE "%\\wscript.exe" OR process.executable LIKE "%\\cscript.exe" OR process.executable LIKE "%\\scrcons.exe" OR process.executable LIKE "%\\regsvr32.exe" OR process.executable LIKE "%\\hh.exe" OR process.executable LIKE "%\\wmic.exe" OR process.executable LIKE "%\\mshta.exe" OR process.executable LIKE "%\\rundll32.exe" OR process.executable LIKE "%\\forfiles.exe" OR process.executable LIKE "%\\scriptrunner.exe" OR process.executable LIKE "%\\mftrace.exe" OR process.executable LIKE "%\\AppVLP.exe" OR process.executable LIKE "%\\systeminfo.exe" OR process.executable LIKE "%\\reg.exe" OR process.executable LIKE "%\\query.exe"))

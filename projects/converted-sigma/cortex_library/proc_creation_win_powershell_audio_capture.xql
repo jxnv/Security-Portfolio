@@ -1,0 +1,11 @@
+// Title: Audio Capture via PowerShell
+// ID: 932fb0d8-692b-4b0f-a26e-5643a50fe7d6
+// Status: test
+// Level: medium
+// Author: E.M. Anhaus (originally from Atomic Blue Detections, Endgame), oscd.community, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2019-10-24
+// Tags: attack.collection, attack.t1123
+// Description: Detects audio capture via PowerShell Cmdlet.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter ((action_process_image_command_line contains "WindowsAudioDevice-Powershell-Cmdlet" or action_process_image_command_line contains "Toggle-AudioDevice" or action_process_image_command_line contains "Get-AudioDevice " or action_process_image_command_line contains "Set-AudioDevice " or action_process_image_command_line contains "Write-AudioDevice "))

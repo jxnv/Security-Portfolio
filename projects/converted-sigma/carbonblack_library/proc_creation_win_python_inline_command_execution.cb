@@ -1,0 +1,11 @@
+# Title: Python Inline Command Execution
+# ID: 899133d5-4d7c-4a7f-94ee-27355c879d90
+# Status: test
+# Level: medium
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2023-01-02
+# Tags: attack.execution, attack.t1059
+# Description: Detects execution of python using the "-c" flag. This is could be used as a way to launch a reverse shell or execute live python code.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((cmdline:* -c*) AND ((OriginalFileName:"python.exe") OR ((process_name:*python.exe OR process_name:*python3.exe OR process_name:*python2.exe)))) AND -((((parent_name:C:\\Program Files\\Python* OR parent_name:C:\\Program Files (x86)\\Python*) AND parent_name:*\\python.exe AND ParentCommandLine:*-E -s -m ensurepip -U --default-pip*) OR ((parent_name:C:\\Program Files\\Python* OR parent_name:C:\\Program Files (x86)\\Python*) AND (cmdline:*-W ignore::DeprecationWarning* AND cmdline:*['install', '--no-cache-dir', '--no-index', '--find-links',* AND cmdline:*'--upgrade', 'pip'*)))) AND -((((cmdline:*<pip-setuptools-caller>* AND cmdline:*exec(compile(*)) OR ((parent_name:*\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe) OR ((parent_name:"C:\\Program Files\\Microsoft VS Code\\Code.exe" OR parent_name:"C:\\Program Files (x86)\\Microsoft VS Code\\Code.exe"))))))

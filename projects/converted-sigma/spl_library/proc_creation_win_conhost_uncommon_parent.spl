@@ -1,0 +1,11 @@
+# Title: Conhost Spawned By Uncommon Parent Process
+# ID: cbb9e3d1-2386-4e59-912e-62f1484f7a89
+# Status: test
+# Level: medium
+# Author: Tim Rauch, Elastic (idea)
+# Date: 2022-09-28
+# Tags: attack.execution, attack.t1059
+# Description: Detects when the Console Window Host (conhost.exe) process is spawned by an uncommon parent process, which could be indicative of potential code injection activity.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog ((process_path="*\\conhost.exe" AND (parent_process_path="*\\explorer.exe" OR parent_process_path="*\\lsass.exe" OR parent_process_path="*\\regsvr32.exe" OR parent_process_path="*\\rundll32.exe" OR parent_process_path="*\\services.exe" OR parent_process_path="*\\smss.exe" OR parent_process_path="*\\spoolsv.exe" OR parent_process_path="*\\svchost.exe" OR parent_process_path="*\\userinit.exe" OR parent_process_path="*\\wininit.exe" OR parent_process_path="*\\winlogon.exe")) AND NOT (((parent_process_exec="*-k apphost -s AppHostSvc*" OR parent_process_exec="*-k imgsvc*" OR parent_process_exec="*-k localService -p -s RemoteRegistry*" OR parent_process_exec="*-k LocalSystemNetworkRestricted -p -s NgcSvc*" OR parent_process_exec="*-k NetSvcs -p -s NcaSvc*" OR parent_process_exec="*-k netsvcs -p -s NetSetupSvc*" OR parent_process_exec="*-k netsvcs -p -s wlidsvc*" OR parent_process_exec="*-k NetworkService -p -s DoSvc*" OR parent_process_exec="*-k wsappx -p -s AppXSvc*" OR parent_process_exec="*-k wsappx -p -s ClipSVC*" OR parent_process_exec="*-k wusvcs -p -s WaaSMedicSvc*"))) AND NOT (((parent_process_exec="*C:\\Program Files (x86)\\Dropbox\\Client\\*" OR parent_process_exec="*C:\\Program Files\\Dropbox\\Client\\*"))))

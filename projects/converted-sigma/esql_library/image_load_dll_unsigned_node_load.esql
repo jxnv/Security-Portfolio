@@ -1,0 +1,14 @@
+// Title: Unsigned .node File Loaded
+// ID: e5f5c693-52d7-4de5-88ae-afbfbce85595
+// Status: experimental
+// Level: medium
+// Author: Jonathan Beierle (@hullabrian)
+// Date: 2025-11-22
+// Tags: attack.execution, attack.privilege-escalation, attack.persistence, attack.stealth, attack.t1129, attack.t1574.001, attack.t1036.005
+// Description: Detects the loading of unsigned .node files.
+// Adversaries may abuse a lack of .node integrity checking to execute arbitrary code inside of trusted applications such as Slack.
+// .node files are native add-ons for Electron-based applications, which are commonly used for desktop applications like Slack, Discord, and Visual Studio Code.
+// This technique has been observed in the DripLoader malware, which uses unsigned .node files to load malicious native code into Electron applications.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE (((ImageLoaded LIKE "%.node") AND ((Signed == "false") OR (SignatureStatus == "Unavailable"))) AND NOT ((((process.executable LIKE "%C:\\Program Files (x86)\\%" OR process.executable LIKE "%C:\\Program Files\\%" OR process.executable LIKE "%\\AppData\\Local\\Programs\\%") AND process.executable LIKE "%\\Evernote\\Evernote.exe" AND ImageLoaded LIKE "%\\Evernote\\resources\\app%") OR (process.executable LIKE "%\\Microsoft VS Code\\Code.exe%" AND ImageLoaded LIKE "%\\Microsoft VS Code\\resources\\app\\node_modules%") OR (process.executable LIKE "%\\Code.exe" AND ImageLoaded LIKE "%.vscode\\extensions\\ms-toolsai.jupyter-%" AND (ImageLoaded LIKE "%\\electron.napi.node" OR ImageLoaded LIKE "%\\node.napi.glibc.node")))))

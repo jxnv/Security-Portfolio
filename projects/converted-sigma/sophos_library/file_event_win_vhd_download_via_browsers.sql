@@ -1,0 +1,12 @@
+-- Title: VHD Image Download Via Browser
+-- ID: 8468111a-ef07-4654-903b-b863a80bbc95
+-- Status: test
+-- Level: medium
+-- Author: frack113, Christopher Peacock '@securepeacock', SCYTHE '@scythe_io'
+-- Date: 2021-10-25
+-- Tags: attack.resource-development, attack.t1587.001
+-- Description: Detects creation of ".vhd"/".vhdx" files by browser processes.
+-- Malware can use mountable Virtual Hard Disk ".vhd" files to encapsulate payloads and evade security controls.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE ((Image ILIKE '%\\brave.exe' OR Image ILIKE '%\\chrome.exe' OR Image ILIKE '%\\firefox.exe' OR Image ILIKE '%\\iexplore.exe' OR Image ILIKE '%\\maxthon.exe' OR Image ILIKE '%\\MicrosoftEdge.exe' OR Image ILIKE '%\\msedge.exe' OR Image ILIKE '%\\msedgewebview2.exe' OR Image ILIKE '%\\opera.exe' OR Image ILIKE '%\\safari.exe' OR Image ILIKE '%\\seamonkey.exe' OR Image ILIKE '%\\vivaldi.exe' OR Image ILIKE '%\\whale.exe') AND TargetFilename ILIKE '%.vhd%')

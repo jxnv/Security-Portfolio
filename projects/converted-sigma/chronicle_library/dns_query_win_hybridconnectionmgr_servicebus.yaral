@@ -1,0 +1,23 @@
+// Title: DNS HybridConnectionManager Service Bus
+// ID: 7bd3902d-8b8b-4dd4-838a-c6862d40150d
+// Status: test
+// Level: high
+// Author: Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research)
+// Date: 2021-04-12
+// Tags: attack.persistence, attack.t1554
+// Description: Detects Azure Hybrid Connection Manager services querying the Azure service bus service
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 7bd3902d_8b8b_4dd4_838a_c6862d40150d {
+  meta:
+    title = "DNS HybridConnectionManager Service Bus"
+    description = "Detects Azure Hybrid Connection Manager services querying the Azure service bus service"
+    author = "Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research)"
+    severity = "HIGH"
+
+  events:
+    ($e.QueryName = /.*servicebus.windows.net.*/ nocase and $e.target.process.file.full_path = /.*HybridConnectionManager.*/ nocase)
+
+  condition:
+    $e
+}

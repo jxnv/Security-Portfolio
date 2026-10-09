@@ -1,0 +1,11 @@
+// Title: User Added To Admin Group Via Sysadminctl
+// ID: 652c098d-dc11-4ba6-8566-c20e89042f2b
+// Status: test
+// Level: medium
+// Author: Sohan G (D4rkCiph3r)
+// Date: 2023-03-19
+// Tags: attack.persistence, attack.initial-access, attack.privilege-escalation, attack.stealth, attack.t1078.003
+// Description: Detects attempts to create and add an account to the admin group via "sysadminctl"
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter (action_process_image_path endswith "/sysadminctl" and (action_process_image_command_line contains " -addUser " and action_process_image_command_line contains " -admin "))

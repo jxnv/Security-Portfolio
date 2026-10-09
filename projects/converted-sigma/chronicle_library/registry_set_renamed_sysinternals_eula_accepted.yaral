@@ -1,0 +1,23 @@
+// Title: Usage of Renamed Sysinternals Tools - RegistrySet
+// ID: 8023f872-3f1d-4301-a384-801889917ab4
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-24
+// Tags: attack.resource-development, attack.t1588.002
+// Description: Detects non-sysinternals tools setting the "accepteula" key which normally is set on sysinternals tool execution
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 8023f872_3f1d_4301_a384_801889917ab4 {
+  meta:
+    title = "Usage of Renamed Sysinternals Tools - RegistrySet"
+    description = "Detects non-sysinternals tools setting the "accepteula" key which normally is set on sysinternals tool execution"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.TargetObject = /.*\\PsExec.*/ nocase or $e.TargetObject = /.*\\ProcDump.*/ nocase or $e.TargetObject = /.*\\Handle.*/ nocase or $e.TargetObject = /.*\\LiveKd.*/ nocase or $e.TargetObject = /.*\\Process Explorer.*/ nocase or $e.TargetObject = /.*\\PsLoglist.*/ nocase or $e.TargetObject = /.*\\PsPasswd.*/ nocase or $e.TargetObject = /.*\\Active Directory Explorer.*/ nocase) and $e.TargetObject = /.*\\EulaAccepted$/ nocase) and not((($e.target.process.file.full_path = /.*\\PsExec.exe$/ nocase or $e.target.process.file.full_path = /.*\\PsExec64.exe$/ nocase or $e.target.process.file.full_path = /.*\\PsExec64a.exe$/ nocase or $e.target.process.file.full_path = /.*\\procdump.exe$/ nocase or $e.target.process.file.full_path = /.*\\procdump64.exe$/ nocase or $e.target.process.file.full_path = /.*\\procdump64a.exe$/ nocase or $e.target.process.file.full_path = /.*\\handle.exe$/ nocase or $e.target.process.file.full_path = /.*\\handle64.exe$/ nocase or $e.target.process.file.full_path = /.*\\handle64a.exe$/ nocase or $e.target.process.file.full_path = /.*\\livekd.exe$/ nocase or $e.target.process.file.full_path = /.*\\livekd64.exe$/ nocase or $e.target.process.file.full_path = /.*\\procexp.exe$/ nocase or $e.target.process.file.full_path = /.*\\procexp64.exe$/ nocase or $e.target.process.file.full_path = /.*\\procexp64a.exe$/ nocase or $e.target.process.file.full_path = /.*\\psloglist.exe$/ nocase or $e.target.process.file.full_path = /.*\\psloglist64.exe$/ nocase or $e.target.process.file.full_path = /.*\\psloglist64a.exe$/ nocase or $e.target.process.file.full_path = /.*\\pspasswd.exe$/ nocase or $e.target.process.file.full_path = /.*\\pspasswd64.exe$/ nocase or $e.target.process.file.full_path = /.*\\pspasswd64a.exe$/ nocase or $e.target.process.file.full_path = /.*\\ADExplorer.exe$/ nocase or $e.target.process.file.full_path = /.*\\ADExplorer64.exe$/ nocase or $e.target.process.file.full_path = /.*\\ADExplorer64a.exe$/ nocase))) and not((not ($e.target.process.file.full_path = /.*/))))
+
+  condition:
+    $e
+}

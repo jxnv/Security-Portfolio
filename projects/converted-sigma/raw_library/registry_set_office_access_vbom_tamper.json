@@ -1,0 +1,25 @@
+{
+  "title": "Trust Access Disable For VBApplications",
+  "id": "1a5c46e9-f32f-42f7-b2bc-6e9084db7fbf",
+  "status": "test",
+  "description": "Detects registry changes to Microsoft Office \"AccessVBOM\" to a value of \"1\" which disables trust access for VBA on the victim machine and lets attackers execute malicious macros without any Microsoft Office warnings.",
+  "author": "Trent Liffick (@tliffick), Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2020-05-22",
+  "tags": [
+    "attack.persistence",
+    "attack.defense-impairment",
+    "attack.t1112"
+  ],
+  "level": "high",
+  "logsource": {
+    "category": "registry_set",
+    "product": "windows"
+  },
+  "detection": {
+    "selection": {
+      "TargetObject|endswith": "\\Security\\AccessVBOM",
+      "Details": "DWORD (0x00000001)"
+    },
+    "condition": "selection"
+  }
+}

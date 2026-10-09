@@ -1,0 +1,19 @@
+# Title: Potential Iviewers.DLL Sideloading
+# ID: 4c21b805-4dd7-469f-b47d-7383a8fcb437
+# Status: test
+# Level: high
+# Author: X__Junior (Nextron Systems)
+# Date: 2023-03-21
+# Tags: attack.persistence, attack.privilege-escalation, attack.execution, attack.stealth, attack.t1574.001
+# Description: Detects potential DLL sideloading of "iviewers.dll" (OLE/COM Object Interface Viewer)
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Potential Iviewers.DLL Sideloading
+def rule(event):
+    # Detection Logic:
+    # ((ImageLoaded="*\\iviewers.dll") AND NOT (((ImageLoaded="C:\\Program Files (x86)\\Windows Kits\\*" OR ImageLoaded="C:\\Program Files\\Windows Kits\\*"))))
+    return True
+
+def title(event):
+    return "Potential Iviewers.DLL Sideloading"
+

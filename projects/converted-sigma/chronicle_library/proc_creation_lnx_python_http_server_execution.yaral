@@ -1,0 +1,25 @@
+// Title: Python WebServer Execution - Linux
+// ID: 3f0f5957-04f8-4792-ad89-192b0303bde6
+// Status: experimental
+// Level: medium
+// Author: Mohamed LAKRI
+// Date: 2025-10-17
+// Tags: attack.exfiltration, attack.t1048.003
+// Description: Detects the execution of Python web servers via command line interface (CLI).
+// After gaining access to target systems, adversaries may use Python's built-in HTTP server modules to quickly establish a web server without requiring additional software.
+// This technique is commonly used in post-exploitation scenarios as it provides a simple method for transferring files between the compromised host and attacker-controlled systems.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 3f0f5957_04f8_4792_ad89_192b0303bde6 {
+  meta:
+    title = "Python WebServer Execution - Linux"
+    description = "Detects the execution of Python web servers via command line interface (CLI). After gaining access to target systems, adversaries may use Python's built-in HTTP server modules to quickly establish a web server without requiring additional software. This technique is commonly used in post-exploitation scenarios as it provides a simple method for transferring files between the compromised host and attacker-controlled systems."
+    author = "Mohamed LAKRI"
+    severity = "MEDIUM"
+
+  events:
+    (((($e.target.process.file.full_path = /.*/python$/ nocase or $e.target.process.file.full_path = /.*/python2$/ nocase or $e.target.process.file.full_path = /.*/python3$/ nocase)) or (($e.target.process.file.full_path = /.*/python2..*/ nocase or $e.target.process.file.full_path = /.*/python3..*/ nocase))) and (($e.target.process.command_line = /.*http.server.*/ nocase or $e.target.process.command_line = /.*SimpleHTTPServer.*/ nocase)))
+
+  condition:
+    $e
+}

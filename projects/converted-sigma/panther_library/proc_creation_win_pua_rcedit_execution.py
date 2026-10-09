@@ -1,0 +1,19 @@
+# Title: PUA - Potential PE Metadata Tamper Using Rcedit
+# ID: 0c92f2e6-f08f-4b73-9216-ecb0ca634689
+# Status: test
+# Level: medium
+# Author: Micah Babinski
+# Date: 2022-12-11
+# Tags: attack.stealth, attack.t1036.003, attack.t1036, attack.t1027.005, attack.t1027
+# Description: Detects the use of rcedit to potentially alter executable PE metadata properties, which could conceal efforts to rename system utilities for defense evasion.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: PUA - Potential PE Metadata Tamper Using Rcedit
+def rule(event):
+    # Detection Logic:
+    # (((CommandLine="*OriginalFileName*" OR CommandLine="*CompanyName*" OR CommandLine="*FileDescription*" OR CommandLine="*ProductName*" OR CommandLine="*ProductVersion*" OR CommandLine="*LegalCopyright*")) AND (CommandLine="*--set-*") AND (((Image="*\\rcedit-x64.exe" OR Image="*\\rcedit-x86.exe")) OR (Description="Edit resources of exe") OR (Product="rcedit")))
+    return True
+
+def title(event):
+    return "PUA - Potential PE Metadata Tamper Using Rcedit"
+

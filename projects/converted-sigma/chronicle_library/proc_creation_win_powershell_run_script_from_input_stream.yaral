@@ -1,0 +1,23 @@
+// Title: Run PowerShell Script from Redirected Input Stream
+// ID: c83bf4b5-cdf0-437c-90fa-43d734f7c476
+// Status: test
+// Level: high
+// Author: Moriarty Meng (idea), Anton Kutepov (rule), oscd.community
+// Date: 2020-10-17
+// Tags: attack.execution, attack.t1059
+// Description: Detects PowerShell script execution via input stream redirect
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule c83bf4b5_cdf0_437c_90fa_43d734f7c476 {
+  meta:
+    title = "Run PowerShell Script from Redirected Input Stream"
+    description = "Detects PowerShell script execution via input stream redirect"
+    author = "Moriarty Meng (idea), Anton Kutepov (rule), oscd.community"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase) and $e.target.process.command_line = /\s-\s*</ nocase)
+
+  condition:
+    $e
+}

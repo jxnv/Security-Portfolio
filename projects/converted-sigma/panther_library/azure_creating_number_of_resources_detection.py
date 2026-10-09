@@ -1,0 +1,19 @@
+# Title: Number Of Resource Creation Or Deployment Activities
+# ID: d2d901db-7a75-45a1-bc39-0cbf00812192
+# Status: test
+# Level: medium
+# Author: sawwinnnaung
+# Date: 2020-05-07
+# Tags: attack.privilege-escalation, attack.persistence, attack.t1098
+# Description: Number of VM creations or deployment activities occur in Azure via the azureactivity log.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Number Of Resource Creation Or Deployment Activities
+def rule(event):
+    # Detection Logic:
+    # ("Microsoft.Compute/virtualMachines/write" OR "Microsoft.Resources/deployments/write")
+    return True
+
+def title(event):
+    return "Number Of Resource Creation Or Deployment Activities"
+

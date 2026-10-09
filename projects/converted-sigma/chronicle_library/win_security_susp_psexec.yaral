@@ -1,0 +1,23 @@
+// Title: Suspicious PsExec Execution
+// ID: c462f537-a1e3-41a6-b5fc-b2c2cef9bf82
+// Status: test
+// Level: high
+// Author: Samir Bousseaden
+// Date: 2019-04-03
+// Tags: attack.lateral-movement, attack.t1021.002
+// Description: detects execution of psexec or paexec with renamed service name, this rule helps to filter out the noise if psexec is used for legit purposes or if attacker uses a different psexec client other than sysinternal one
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule c462f537_a1e3_41a6_b5fc_b2c2cef9bf82 {
+  meta:
+    title = "Suspicious PsExec Execution"
+    description = "detects execution of psexec or paexec with renamed service name, this rule helps to filter out the noise if psexec is used for legit purposes or if attacker uses a different psexec client other than sysinternal one"
+    author = "Samir Bousseaden"
+    severity = "HIGH"
+
+  events:
+    (($e.EventID = 5145 and $e.ShareName = "\\\\\\\\\\*\\\\IPC$" and ($e.RelativeTargetName = /.*-stdin$/ nocase or $e.RelativeTargetName = /.*-stdout$/ nocase or $e.RelativeTargetName = /.*-stderr$/ nocase)) and not(($e.RelativeTargetName = /^PSEXESVC.*/ nocase)))
+
+  condition:
+    $e
+}

@@ -1,0 +1,23 @@
+// Title: Renamed AutoHotkey.EXE Execution
+// ID: 0f16d9cf-0616-45c8-8fad-becc11b5a41c
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali
+// Date: 2023-02-07
+// Tags: attack.stealth
+// Description: Detects execution of a renamed autohotkey.exe binary based on PE metadata fields
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 0f16d9cf_0616_45c8_8fad_becc11b5a41c {
+  meta:
+    title = "Renamed AutoHotkey.EXE Execution"
+    description = "Detects execution of a renamed autohotkey.exe binary based on PE metadata fields"
+    author = "Nasreddine Bencherchali"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.Product = /.*AutoHotkey.*/ nocase) or ($e.Description = /.*AutoHotkey.*/ nocase) or (($e.target.process.file.name = "AutoHotkey.exe" or $e.target.process.file.name = "AutoHotkey.rc"))) and not(((($e.target.process.file.full_path = /.*\\AutoHotkey.exe$/ nocase or $e.target.process.file.full_path = /.*\\AutoHotkey32.exe$/ nocase or $e.target.process.file.full_path = /.*\\AutoHotkey32_UIA.exe$/ nocase or $e.target.process.file.full_path = /.*\\AutoHotkey64.exe$/ nocase or $e.target.process.file.full_path = /.*\\AutoHotkey64_UIA.exe$/ nocase or $e.target.process.file.full_path = /.*\\AutoHotkeyA32.exe$/ nocase or $e.target.process.file.full_path = /.*\\AutoHotkeyA32_UIA.exe$/ nocase or $e.target.process.file.full_path = /.*\\AutoHotkeyU32.exe$/ nocase or $e.target.process.file.full_path = /.*\\AutoHotkeyU32_UIA.exe$/ nocase or $e.target.process.file.full_path = /.*\\AutoHotkeyU64.exe$/ nocase or $e.target.process.file.full_path = /.*\\AutoHotkeyU64_UIA.exe$/ nocase)) or ($e.target.process.file.full_path = /.*\\AutoHotkey.*/ nocase))))
+
+  condition:
+    $e
+}

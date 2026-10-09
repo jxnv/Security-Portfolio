@@ -1,0 +1,19 @@
+# Title: Install Root Certificate
+# ID: 78a80655-a51e-4669-bc6b-e9d206a462ee
+# Status: test
+# Level: low
+# Author: Ömer Günal, oscd.community
+# Date: 2020-10-05
+# Tags: attack.defense-impairment, attack.t1553.004
+# Description: Detects installation of new certificate on the system which attackers may use to avoid warnings when connecting to controlled web servers or C2s
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Install Root Certificate
+def rule(event):
+    # Detection Logic:
+    # ((Image="*/update-ca-certificates" OR Image="*/update-ca-trust"))
+    return True
+
+def title(event):
+    return "Install Root Certificate"
+

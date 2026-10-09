@@ -1,0 +1,11 @@
+-- Title: Dump Ntds.dit To Suspicious Location
+-- ID: 94dc4390-6b7c-4784-8ffc-335334404650
+-- Status: test
+-- Level: medium
+-- Author: Nasreddine Bencherchali (Nextron Systems)
+-- Date: 2022-08-14
+-- Tags: attack.execution
+-- Description: Detects potential abuse of ntdsutil to dump ntds.dit database to a suspicious location
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM file WHERE (((Data LIKE '%:\\ntds.dit%' OR Data LIKE '%\\Appdata\\%' OR Data LIKE '%\\Desktop\\%' OR Data LIKE '%\\Downloads\\%' OR Data LIKE '%\\Perflogs\\%' OR Data LIKE '%\\Temp\\%' OR Data LIKE '%\\Users\\Public\\%')) AND (Provider_Name = 'ESENT' AND EventID = '325' AND Data LIKE '%ntds.dit%'))

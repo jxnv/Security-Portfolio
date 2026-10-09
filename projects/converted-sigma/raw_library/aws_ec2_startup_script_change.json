@@ -1,0 +1,27 @@
+{
+  "title": "AWS EC2 Startup Shell Script Change",
+  "id": "1ab3c5ed-5baf-417b-bb6b-78ca33f6c3df",
+  "status": "test",
+  "description": "Detects changes to the EC2 instance startup script. The shell script will be executed as root/SYSTEM every time the specific instances are booted up.",
+  "author": "faloker",
+  "date": "2020-02-12",
+  "tags": [
+    "attack.execution",
+    "attack.t1059.001",
+    "attack.t1059.003",
+    "attack.t1059.004"
+  ],
+  "level": "high",
+  "logsource": {
+    "product": "aws",
+    "service": "cloudtrail"
+  },
+  "detection": {
+    "selection_source": {
+      "eventSource": "ec2.amazonaws.com",
+      "requestParameters.attribute": "userData",
+      "eventName": "ModifyInstanceAttribute"
+    },
+    "condition": "selection_source"
+  }
+}

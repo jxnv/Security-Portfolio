@@ -1,0 +1,11 @@
+// Title: Suspicious Commands Linux
+// ID: 1543ae20-cbdf-4ec1-8d12-7664d667a825
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems)
+// Date: 2017-12-12
+// Tags: attack.execution, attack.t1059.004
+// Description: Detects relevant commands often related to malware or hacking activity
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((type == "EXECVE" AND a0 == "chmod" AND a1 == "777") OR (type == "EXECVE" AND a0 == "chmod" AND a1 == "u+s") OR (type == "EXECVE" AND a0 == "cp" AND a1 == "/bin/ksh") OR (type == "EXECVE" AND a0 == "cp" AND a1 == "/bin/sh"))

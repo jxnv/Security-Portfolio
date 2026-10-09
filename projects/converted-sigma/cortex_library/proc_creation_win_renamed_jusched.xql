@@ -1,0 +1,11 @@
+// Title: Renamed Jusched.EXE Execution
+// ID: edd8a48c-1b9f-4ba1-83aa-490338cd1ccb
+// Status: test
+// Level: high
+// Author: Markus Neis, Swisscom
+// Date: 2019-06-04
+// Tags: attack.execution, attack.stealth, attack.t1036.003
+// Description: Detects the execution of a renamed "jusched.exe" as seen used by the cobalt group
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter (((Description = "Java Update Scheduler" or Description = "Java(TM) Update Scheduler")) and not ((action_process_image_path endswith "\\jusched.exe")))

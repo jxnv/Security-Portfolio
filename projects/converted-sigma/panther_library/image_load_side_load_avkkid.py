@@ -1,0 +1,19 @@
+# Title: Potential AVKkid.DLL Sideloading
+# ID: 952ed57c-8f99-453d-aee0-53a49c22f95d
+# Status: test
+# Level: medium
+# Author: X__Junior (Nextron Systems)
+# Date: 2023-08-03
+# Tags: attack.persistence, attack.privilege-escalation, attack.execution, attack.stealth, attack.t1574.001
+# Description: Detects potential DLL sideloading of "AVKkid.dll"
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Potential AVKkid.DLL Sideloading
+def rule(event):
+    # Detection Logic:
+    # ((ImageLoaded="*\\AVKkid.dll") AND NOT (((Image="*C:\\Program Files (x86)\\G DATA\\*" OR Image="*C:\\Program Files\\G DATA\\*") AND Image="*\\AVKKid.exe" AND (ImageLoaded="C:\\Program Files (x86)\\G DATA\\*" OR ImageLoaded="C:\\Program Files\\G DATA\\*"))))
+    return True
+
+def title(event):
+    return "Potential AVKkid.DLL Sideloading"
+

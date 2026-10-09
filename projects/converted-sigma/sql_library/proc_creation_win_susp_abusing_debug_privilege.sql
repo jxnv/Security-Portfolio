@@ -1,0 +1,11 @@
+-- Title: Abused Debug Privilege by Arbitrary Parent Processes
+-- ID: d522eca2-2973-4391-a3e0-ef0374321dae
+-- Status: test
+-- Level: high
+-- Author: Semanur Guneysu @semanurtg, oscd.community
+-- Date: 2020-10-28
+-- Tags: attack.privilege-escalation, attack.t1548
+-- Description: Detection of unusual child processes by different system processes
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE (((((Image ILIKE '%\\powershell.exe' OR Image ILIKE '%\\pwsh.exe' OR Image ILIKE '%\\cmd.exe')) OR ((OriginalFileName = 'PowerShell.EXE' OR OriginalFileName = 'pwsh.dll' OR OriginalFileName = 'Cmd.Exe'))) AND ((ParentImage ILIKE '%\\winlogon.exe' OR ParentImage ILIKE '%\\services.exe' OR ParentImage ILIKE '%\\lsass.exe' OR ParentImage ILIKE '%\\csrss.exe' OR ParentImage ILIKE '%\\smss.exe' OR ParentImage ILIKE '%\\wininit.exe' OR ParentImage ILIKE '%\\spoolsv.exe' OR ParentImage ILIKE '%\\searchindexer.exe') AND (User ILIKE '%AUTHORI%' OR User ILIKE '%AUTORI%'))) AND NOT (((CommandLine ILIKE '% route %' AND CommandLine ILIKE '% ADD %'))))

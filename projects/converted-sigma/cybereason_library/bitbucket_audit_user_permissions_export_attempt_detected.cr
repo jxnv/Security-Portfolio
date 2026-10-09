@@ -1,0 +1,11 @@
+// Title: Bitbucket User Permissions Export Attempt
+// ID: 87cc6698-3e07-4ba2-9b43-a85a73e151e2
+// Status: test
+// Level: medium
+// Author: Muhammad Faisal (@faisalusuf)
+// Date: 2024-02-25
+// Tags: attack.reconnaissance, attack.collection, attack.discovery, attack.t1213, attack.t1082, attack.t1591.004
+// Description: Detects user permission data export attempt.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(auditType.category == "Users and groups" AND (auditType.action == "User details export failed" OR auditType.action == "User details export started" OR auditType.action == "User details exported"))

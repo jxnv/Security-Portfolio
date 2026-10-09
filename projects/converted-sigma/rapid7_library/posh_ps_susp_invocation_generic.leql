@@ -1,0 +1,11 @@
+// Title: Suspicious PowerShell Invocations - Generic
+// ID: ed965133-513f-41d9-a441-e38076a0798f
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2017-03-12
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects suspicious PowerShell invocation command parameters
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(ScriptBlockText ICONTAINS " -enc ") OR where(ScriptBlockText ICONTAINS " -EncodedCommand ") OR where(ScriptBlockText ICONTAINS " -ec "))) AND ((where(ScriptBlockText ICONTAINS " -w hidden ") OR where(ScriptBlockText ICONTAINS " -window hidden ") OR where(ScriptBlockText ICONTAINS " -windowstyle hidden ") OR where(ScriptBlockText ICONTAINS " -w 1 "))) AND ((where(ScriptBlockText ICONTAINS " -noni ") OR where(ScriptBlockText ICONTAINS " -noninteractive "))))

@@ -1,0 +1,23 @@
+// Title: Renamed Microsoft Teams Execution
+// ID: 88f46b67-14d4-4f45-ac2c-d66984f22191
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2024-07-12
+// Tags: attack.stealth
+// Description: Detects the execution of a renamed Microsoft Teams binary.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 88f46b67_14d4_4f45_ac2c_d66984f22191 {
+  meta:
+    title = "Renamed Microsoft Teams Execution"
+    description = "Detects the execution of a renamed Microsoft Teams binary."
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.file.name = "msteams.exe" or $e.target.process.file.name = "teams.exe")) and not((($e.target.process.file.full_path = /.*\\msteams.exe$/ nocase or $e.target.process.file.full_path = /.*\\teams.exe$/ nocase))))
+
+  condition:
+    $e
+}

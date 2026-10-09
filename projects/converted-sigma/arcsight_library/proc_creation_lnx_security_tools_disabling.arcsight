@@ -1,0 +1,11 @@
+// Title: Disabling Security Tools
+// ID: e3a8a052-111f-4606-9aee-f28ebeb76776
+// Status: test
+// Level: medium
+// Author: Ömer Günal, Alejandro Ortuno, oscd.community
+// Date: 2020-06-17
+// Tags: attack.defense-impairment, attack.t1686
+// Description: Detects disabling security tools
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((Image ENDSWITH "/service" AND (CommandLine CONTAINS "cbdaemon" AND CommandLine CONTAINS "stop")) OR (Image ENDSWITH "/chkconfig" AND (CommandLine CONTAINS "cbdaemon" AND CommandLine CONTAINS "off")) OR (Image ENDSWITH "/systemctl" AND (CommandLine CONTAINS "cbdaemon" AND CommandLine CONTAINS "stop")) OR (Image ENDSWITH "/systemctl" AND (CommandLine CONTAINS "cbdaemon" AND CommandLine CONTAINS "disable")) OR (Image ENDSWITH "/systemctl" AND (CommandLine CONTAINS "stop" AND CommandLine CONTAINS "falcon-sensor")) OR (Image ENDSWITH "/systemctl" AND (CommandLine CONTAINS "disable" AND CommandLine CONTAINS "falcon-sensor")) OR (Image ENDSWITH "/systemctl" AND (CommandLine CONTAINS "firewalld" AND CommandLine CONTAINS "stop")) OR (Image ENDSWITH "/systemctl" AND (CommandLine CONTAINS "firewalld" AND CommandLine CONTAINS "disable")) OR (Image ENDSWITH "/service" AND (CommandLine CONTAINS "iptables" AND CommandLine CONTAINS "stop")) OR (Image ENDSWITH "/service" AND (CommandLine CONTAINS "ip6tables" AND CommandLine CONTAINS "stop")) OR (Image ENDSWITH "/chkconfig" AND (CommandLine CONTAINS "iptables" AND CommandLine CONTAINS "stop")) OR (Image ENDSWITH "/chkconfig" AND (CommandLine CONTAINS "ip6tables" AND CommandLine CONTAINS "stop")) OR (Image ENDSWITH "/setenforce" AND CommandLine CONTAINS "0"))

@@ -1,0 +1,19 @@
+# Title: Exports Registry Key To an Alternate Data Stream
+# ID: 0d7a9363-af70-4e7b-a3b7-1a176b7fbe84
+# Status: test
+# Level: high
+# Author: Oddvar Moe, Sander Wiebing, oscd.community
+# Date: 2020-10-07
+# Tags: attack.stealth, attack.t1564.004
+# Description: Exports the target Registry key and hides it in the specified alternate data stream.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Exports Registry Key To an Alternate Data Stream
+def rule(event):
+    # Detection Logic:
+    # (Image="*\\regedit.exe")
+    return True
+
+def title(event):
+    return "Exports Registry Key To an Alternate Data Stream"
+

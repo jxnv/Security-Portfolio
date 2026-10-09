@@ -1,0 +1,22 @@
+# Title: Potentially Suspicious Child Process Of Regsvr32
+# ID: 6f0947a4-1c5e-4e0d-8ac7-53159b8f23ca
+# Status: test
+# Level: high
+# Author: elhoim, Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-05-05
+# Tags: attack.stealth, attack.t1218.010
+# Description: Detects potentially suspicious child processes of "regsvr32.exe".
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# LimaCharlie Detection & Response Rule
+# Name: Potentially Suspicious Child Process Of Regsvr32
+detect:
+  event: process_creation
+  op: and
+  rules:
+    # Filter logic:
+    # ((ParentImage="*\\regsvr32.exe" AND (Image="*\\calc.exe" OR Image="*\\cscript.exe" OR Image="*\\explorer.exe" OR Image="*\\mshta.exe" OR Image="*\\net.exe" OR Image="*\\net1.exe" OR Image="*\\nltest.exe" OR Image="*\\notepad.exe" OR Image="*\\powershell.exe" OR Image="*\\pwsh.exe" OR Image="*\\reg.exe" OR Image="*\\schtasks.exe" OR Image="*\\werfault.exe" OR Image="*\\wscript.exe")) AND NOT ((Image="*\\werfault.exe" AND CommandLine="* -u -p *")))
+respond:
+  - action: report
+    name: Potentially Suspicious Child Process Of Regsvr32
+

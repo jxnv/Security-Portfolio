@@ -1,0 +1,14 @@
+// Title: Potential ClickFix Execution Pattern - Registry
+// ID: f5fe36cf-f1ec-4c23-903d-09a3110f6bbb
+// Status: experimental
+// Level: high
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-03-25
+// Tags: attack.execution, attack.t1204.001
+// Description: Detects potential ClickFix malware execution patterns by monitoring registry modifications in RunMRU keys containing HTTP/HTTPS links.
+// ClickFix is known to be distributed through phishing campaigns and uses techniques like clipboard hijacking and fake CAPTCHA pages.
+// Through the fakecaptcha pages, the adversary tricks users into opening the Run dialog box and pasting clipboard-hijacked content,
+// such as one-liners that execute remotely hosted malicious files or scripts.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where (((Details matches "*http://*" or Details matches "*https://*")) and (TargetObject matches "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\RunMRU\\*") and (((Details matches "*account*" or Details matches "*anti-bot*" or Details matches "*botcheck*" or Details matches "*captcha*" or Details matches "*challenge*" or Details matches "*confirmation*" or Details matches "*fraud*" or Details matches "*human*" or Details matches "*identification*" or Details matches "*identificator*" or Details matches "*identity*" or Details matches "*robot*" or Details matches "*validation*" or Details matches "*verification*" or Details matches "*verify*")) or ((Details matches "*%comspec%*" or Details matches "*bitsadmin*" or Details matches "*certutil*" or Details matches "*cmd*" or Details matches "*cscript*" or Details matches "*curl*" or Details matches "*finger*" or Details matches "*mshta*" or Details matches "*powershell*" or Details matches "*pwsh*" or Details matches "*regsvr32*" or Details matches "*rundll32*" or Details matches "*schtasks*" or Details matches "*wget*" or Details matches "*wscript*"))))

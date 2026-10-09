@@ -1,0 +1,11 @@
+// Title: LSASS Access Detected via Attack Surface Reduction
+// ID: a0a278fe-2c0e-4de2-ac3c-c68b08a9ba98
+// Status: test
+// Level: high
+// Author: Markus Neis
+// Date: 2018-08-26
+// Tags: attack.credential-access, attack.t1003.001
+// Description: Detects Access to LSASS Process
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where ((EventID = "1121" and Path matches "*\\lsass.exe") and !((((ProcessName matches "C:\\Windows\\System32\\DriverStore\\*" or ProcessName matches "C:\\WINDOWS\\Installer\\*" or ProcessName matches "C:\\Program Files\\*" or ProcessName matches "C:\\Program Files (x86)\\*")) or ((ProcessName = "C:\\Windows\\System32\\atiesrxx.exe" or ProcessName = "C:\\Windows\\System32\\CompatTelRunner.exe" or ProcessName = "C:\\Windows\\System32\\msiexec.exe" or ProcessName = "C:\\Windows\\System32\\nvwmi64.exe" or ProcessName = "C:\\Windows\\System32\\svchost.exe" or ProcessName = "C:\\Windows\\System32\\Taskmgr.exe" or ProcessName = "C:\\Windows\\System32\\wbem\\WmiPrvSE.exe" or ProcessName = "C:\\Windows\\SysWOW64\\msiexec.exe")) or (ProcessName matches "C:\\Windows\\Temp\\asgard2-agent\\*" and (ProcessName matches "*\\thor64.exe" or ProcessName matches "*\\thor.exe")))))

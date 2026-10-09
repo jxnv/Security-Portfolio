@@ -1,0 +1,12 @@
+// Title: Potential DLL Sideloading Of Non-Existent DLLs From System Folders
+// ID: 6b98b92b-4f00-4f62-b4fe-4d1920215771
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems), SBousseaden
+// Date: 2022-12-09
+// Tags: attack.persistence, attack.privilege-escalation, attack.execution, attack.stealth, attack.t1574.001
+// Description: Detects loading of specific system DLL files that are usually not present on the system (or at least not in system directories) but may be loaded by legitimate processes, potentially indicating phantom DLL hijacking attempts.
+// Phantom DLL hijacking involves placing malicious DLLs with names of non-existent system binaries in locations where legitimate applications may search for them, leading to execution of the malicious DLLs.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter (((ImageLoaded endswith ":\\Windows\\System32\\axeonoffhelper.dll" or ImageLoaded endswith ":\\Windows\\System32\\cdpsgshims.dll" or ImageLoaded endswith ":\\Windows\\System32\\oci.dll" or ImageLoaded endswith ":\\Windows\\System32\\offdmpsvc.dll" or ImageLoaded endswith ":\\Windows\\System32\\shellchromeapi.dll" or ImageLoaded endswith ":\\Windows\\System32\\TSMSISrv.dll" or ImageLoaded endswith ":\\Windows\\System32\\TSVIPSrv.dll" or ImageLoaded endswith ":\\Windows\\System32\\wbem\\wbemcomn.dll" or ImageLoaded endswith ":\\Windows\\System32\\WLBSCTRL.dll" or ImageLoaded endswith ":\\Windows\\System32\\wow64log.dll" or ImageLoaded endswith ":\\Windows\\System32\\WptsExtensions.dll")) and not ((Signed = "true" and SignatureStatus = "Valid" and Signature = "Microsoft Windows")))

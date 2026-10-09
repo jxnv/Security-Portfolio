@@ -1,0 +1,12 @@
+-- Title: Bitbucket User Login Failure Via SSH
+-- ID: d3f90469-fb05-42ce-b67d-0fded91bbef3
+-- Status: test
+-- Level: medium
+-- Author: Muhammad Faisal (@faisalusuf)
+-- Date: 2024-02-25
+-- Tags: attack.lateral-movement, attack.credential-access, attack.t1021.004, attack.t1110
+-- Description: Detects SSH user login access failures.
+-- Please note that this rule can be noisy and is recommended to use with correlation based on "author.name" field.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE (auditType.category = 'Authentication' AND auditType.action = 'User login failed(SSH)')

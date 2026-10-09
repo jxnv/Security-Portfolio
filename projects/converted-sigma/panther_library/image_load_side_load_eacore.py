@@ -1,0 +1,19 @@
+# Title: Potential EACore.DLL Sideloading
+# ID: edd3ddc3-386f-4ba5-9ada-4376b2cfa7b5
+# Status: test
+# Level: high
+# Author: X__Junior (Nextron Systems)
+# Date: 2023-08-03
+# Tags: attack.persistence, attack.privilege-escalation, attack.execution, attack.stealth, attack.t1574.001
+# Description: Detects potential DLL sideloading of "EACore.dll"
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Potential EACore.DLL Sideloading
+def rule(event):
+    # Detection Logic:
+    # ((ImageLoaded="*\\EACore.dll") AND NOT (((Image="*C:\\Program Files\\Electronic Arts\\EA Desktop\\*" AND Image="*\\EACoreServer.exe*") AND ImageLoaded="C:\\Program Files\\Electronic Arts\\EA Desktop\\*")))
+    return True
+
+def title(event):
+    return "Potential EACore.DLL Sideloading"
+

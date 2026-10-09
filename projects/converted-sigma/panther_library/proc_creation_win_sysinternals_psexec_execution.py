@@ -1,0 +1,19 @@
+# Title: Psexec Execution
+# ID: 730fc21b-eaff-474b-ad23-90fd265d4988
+# Status: test
+# Level: medium
+# Author: omkar72
+# Date: 2020-10-30
+# Tags: attack.execution, attack.lateral-movement, attack.t1569, attack.t1021
+# Description: Detects user accept agreement execution in psexec commandline
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Psexec Execution
+def rule(event):
+    # Detection Logic:
+    # ((Image="*\\psexec.exe") OR (OriginalFileName="psexec.c"))
+    return True
+
+def title(event):
+    return "Psexec Execution"
+

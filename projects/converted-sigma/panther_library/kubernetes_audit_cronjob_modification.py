@@ -1,0 +1,21 @@
+# Title: Kubernetes CronJob/Job Modification
+# ID: 0c9b3bda-41a6-4442-9345-356ae86343dc
+# Status: test
+# Level: medium
+# Author: kelnage
+# Date: 2024-07-11
+# Tags: attack.persistence, attack.privilege-escalation, attack.execution
+# Description: Detects when a Kubernetes CronJob or Job is created or modified.
+# A Kubernetes Job creates one or more pods to accomplish a specific task, and a CronJob creates Jobs on a recurring schedule.
+# An adversary can take advantage of this Kubernetes object to schedule Jobs to run containers that execute malicious code within a cluster, allowing them to achieve persistence.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Kubernetes CronJob/Job Modification
+def rule(event):
+    # Detection Logic:
+    # (objectRef.apiGroup="batch" AND (objectRef.resource="cronjobs" OR objectRef.resource="jobs") AND (verb="create" OR verb="delete" OR verb="patch" OR verb="replace" OR verb="update"))
+    return True
+
+def title(event):
+    return "Kubernetes CronJob/Job Modification"
+

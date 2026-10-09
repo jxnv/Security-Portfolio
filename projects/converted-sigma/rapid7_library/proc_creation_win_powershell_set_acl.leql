@@ -1,0 +1,11 @@
+// Title: PowerShell Script Change Permission Via Set-Acl
+// ID: bdeb2cff-af74-4094-8426-724dc937f20a
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-10-18
+// Tags: attack.stealth
+// Description: Detects PowerShell execution to set the ACL of a file or a folder
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(CommandLine ICONTAINS "Set-Acl ") AND where(CommandLine ICONTAINS "-AclObject ") AND where(CommandLine ICONTAINS "-Path "))) AND (((where(OriginalFileName = "PowerShell.EXE") OR where(OriginalFileName = "pwsh.dll"))) OR ((where(Image IENDSWITH "\\powershell.exe") OR where(Image IENDSWITH "\\pwsh.exe")))))

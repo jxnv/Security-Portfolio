@@ -1,0 +1,23 @@
+// Title: Successful IIS Shortname Fuzzing Scan
+// ID: 7cb02516-6d95-4ffc-8eee-162075e111ac
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2021-10-06
+// Tags: attack.initial-access, attack.t1190
+// Description: When IIS uses an old .Net Framework it's possible to enumerate folders with the symbol "~"
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 7cb02516_6d95_4ffc_8eee_162075e111ac {
+  meta:
+    title = "Successful IIS Shortname Fuzzing Scan"
+    description = "When IIS uses an old .Net Framework it's possible to enumerate folders with the symbol "~""
+    author = "frack113"
+    severity = "MEDIUM"
+
+  events:
+    ($e.cs-uri-query = /.*~1.*/ nocase and $e.cs-uri-query = /.*a.aspx$/ nocase and ($e.cs-method = "GET" or $e.cs-method = "OPTIONS") and ($e.sc-status = 200 or $e.sc-status = 301))
+
+  condition:
+    $e
+}

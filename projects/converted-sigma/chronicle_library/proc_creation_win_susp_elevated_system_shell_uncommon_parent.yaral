@@ -1,0 +1,23 @@
+// Title: Elevated System Shell Spawned From Uncommon Parent Location
+// ID: 178e615d-e666-498b-9630-9ed363038101
+// Status: test
+// Level: medium
+// Author: frack113, Tim Shelton (update fp)
+// Date: 2022-12-05
+// Tags: attack.privilege-escalation, attack.execution, attack.t1059
+// Description: Detects when a shell program such as the Windows command prompt or PowerShell is launched with system privileges from a uncommon parent location.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 178e615d_e666_498b_9630_9ed363038101 {
+  meta:
+    title = "Elevated System Shell Spawned From Uncommon Parent Location"
+    description = "Detects when a shell program such as the Windows command prompt or PowerShell is launched with system privileges from a uncommon parent location."
+    author = "frack113, Tim Shelton (update fp)"
+    severity = "MEDIUM"
+
+  events:
+    ((((($e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\powershell_ise.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase or $e.target.process.file.full_path = /.*\\cmd.exe$/ nocase)) or (($e.target.process.file.name = "PowerShell.EXE" or $e.target.process.file.name = "powershell_ise.EXE" or $e.target.process.file.name = "pwsh.dll" or $e.target.process.file.name = "Cmd.Exe"))) and (($e.target.user.userid = /.*AUTHORI.*/ nocase or $e.target.user.userid = /.*AUTORI.*/ nocase) and $e.LogonId = "0x3e7")) and not(((($e.principal.process.file.full_path = /.*:\\Program Files (x86)\\.*/ nocase or $e.principal.process.file.full_path = /.*:\\Program Files\\.*/ nocase or $e.principal.process.file.full_path = /.*:\\ProgramData\\.*/ nocase or $e.principal.process.file.full_path = /.*:\\Windows\\System32\\.*/ nocase or $e.principal.process.file.full_path = /.*:\\Windows\\SysWOW64\\.*/ nocase or $e.principal.process.file.full_path = /.*:\\Windows\\Temp\\.*/ nocase or $e.principal.process.file.full_path = /.*:\\Windows\\WinSxS\\.*/ nocase)) or (($e.principal.process.file.full_path = "" or $e.principal.process.file.full_path = "-")) or (not ($e.principal.process.file.full_path = /.*/)))) and not((($e.target.process.command_line = /.*:\\WINDOWS\\system32\\cmd.exe /c \".*/ nocase and $e.CurrentDirectory = /.*:\\WINDOWS\\Temp\\asgard2-agent\\.*/ nocase) or ($e.principal.process.file.full_path = /.*:\\IBM\\SpectrumProtect\\webserver\\scripts\\.*/ nocase and $e.target.process.command_line = /.*:\\IBM\\SpectrumProtect\\webserver\\scripts\\.*/ nocase) or ($e.principal.process.file.full_path = /.*:\\ManageEngine\\ADManager Plus\\pgsql\\bin\\postgres.exe$/ nocase and $e.target.process.file.full_path = /.*\\cmd.exe$/ nocase))))
+
+  condition:
+    $e
+}

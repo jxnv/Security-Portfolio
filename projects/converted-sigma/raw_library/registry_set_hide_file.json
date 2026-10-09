@@ -1,0 +1,27 @@
+{
+  "title": "Displaying Hidden Files Feature Disabled",
+  "id": "5a5152f1-463f-436b-b2f5-8eceb3964b42",
+  "status": "test",
+  "description": "Detects modifications to the \"Hidden\" and \"ShowSuperHidden\" explorer registry values in order to disable showing of hidden files and system files.\nThis technique is abused by several malware families to hide their files from normal users.\n",
+  "author": "frack113",
+  "date": "2022-04-02",
+  "tags": [
+    "attack.stealth",
+    "attack.t1564.001"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "registry_set",
+    "product": "windows"
+  },
+  "detection": {
+    "selection": {
+      "TargetObject|endswith": [
+        "\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\ShowSuperHidden",
+        "\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\Hidden"
+      ],
+      "Details": "DWORD (0x00000000)"
+    },
+    "condition": "selection"
+  }
+}

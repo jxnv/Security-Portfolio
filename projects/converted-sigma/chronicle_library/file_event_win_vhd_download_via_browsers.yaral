@@ -1,0 +1,24 @@
+// Title: VHD Image Download Via Browser
+// ID: 8468111a-ef07-4654-903b-b863a80bbc95
+// Status: test
+// Level: medium
+// Author: frack113, Christopher Peacock '@securepeacock', SCYTHE '@scythe_io'
+// Date: 2021-10-25
+// Tags: attack.resource-development, attack.t1587.001
+// Description: Detects creation of ".vhd"/".vhdx" files by browser processes.
+// Malware can use mountable Virtual Hard Disk ".vhd" files to encapsulate payloads and evade security controls.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 8468111a_ef07_4654_903b_b863a80bbc95 {
+  meta:
+    title = "VHD Image Download Via Browser"
+    description = "Detects creation of ".vhd"/".vhdx" files by browser processes. Malware can use mountable Virtual Hard Disk ".vhd" files to encapsulate payloads and evade security controls."
+    author = "frack113, Christopher Peacock '@securepeacock', SCYTHE '@scythe_io'"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.process.file.full_path = /.*\\brave.exe$/ nocase or $e.target.process.file.full_path = /.*\\chrome.exe$/ nocase or $e.target.process.file.full_path = /.*\\firefox.exe$/ nocase or $e.target.process.file.full_path = /.*\\iexplore.exe$/ nocase or $e.target.process.file.full_path = /.*\\maxthon.exe$/ nocase or $e.target.process.file.full_path = /.*\\MicrosoftEdge.exe$/ nocase or $e.target.process.file.full_path = /.*\\msedge.exe$/ nocase or $e.target.process.file.full_path = /.*\\msedgewebview2.exe$/ nocase or $e.target.process.file.full_path = /.*\\opera.exe$/ nocase or $e.target.process.file.full_path = /.*\\safari.exe$/ nocase or $e.target.process.file.full_path = /.*\\seamonkey.exe$/ nocase or $e.target.process.file.full_path = /.*\\vivaldi.exe$/ nocase or $e.target.process.file.full_path = /.*\\whale.exe$/ nocase) and $e.target.file.full_path = /.*.vhd.*/ nocase)
+
+  condition:
+    $e
+}

@@ -1,0 +1,19 @@
+# Title: Windows Defender Exclusions Added
+# ID: 1321dc4e-a1fe-481d-a016-52c45f0c8b4f
+# Status: stable
+# Level: medium
+# Author: Christian Burkard (Nextron Systems)
+# Date: 2021-07-06
+# Tags: attack.defense-impairment, attack.t1685
+# Description: Detects the Setting of Windows Defender Exclusions
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Windows Defender Exclusions Added
+def rule(event):
+    # Detection Logic:
+    # (EventID="5007" AND NewValue="*\\Microsoft\\Windows Defender\\Exclusions*")
+    return True
+
+def title(event):
+    return "Windows Defender Exclusions Added"
+

@@ -1,0 +1,11 @@
+// Title: Local Accounts Discovery
+// ID: 502b42de-4306-40b4-9596-6f590c81f073
+// Status: test
+// Level: low
+// Author: Timur Zinniatullin, Daniil Yugoslavskiy, oscd.community
+// Date: 2019-10-21
+// Tags: attack.discovery, attack.t1033, attack.t1087.001
+// Description: Local accounts, System Owner/User discovery using operating systems utilities
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((Image ENDSWITH "\\cmd.exe" AND (CommandLine CONTAINS " /c" AND CommandLine CONTAINS "dir " AND CommandLine CONTAINS "\\Users\\")) AND NOT ((CommandLine CONTAINS " rmdir "))) OR (((Image ENDSWITH "\\net.exe" OR Image ENDSWITH "\\net1.exe") AND CommandLine CONTAINS "user") AND NOT (((CommandLine CONTAINS "/domain" OR CommandLine CONTAINS "/add" OR CommandLine CONTAINS "/delete" OR CommandLine CONTAINS "/active" OR CommandLine CONTAINS "/expires" OR CommandLine CONTAINS "/passwordreq" OR CommandLine CONTAINS "/scriptpath" OR CommandLine CONTAINS "/times" OR CommandLine CONTAINS "/workstations")))) OR ((Image ENDSWITH "\\cmdkey.exe" AND CommandLine CONTAINS " /l") OR (((Image ENDSWITH "\\whoami.exe" OR Image ENDSWITH "\\quser.exe" OR Image ENDSWITH "\\qwinsta.exe")) OR ((OriginalFileName EQ "whoami.exe" OR OriginalFileName EQ "quser.exe" OR OriginalFileName EQ "qwinsta.exe"))) OR (Image ENDSWITH "\\wmic.exe" AND (CommandLine CONTAINS "useraccount" AND CommandLine CONTAINS "get"))))

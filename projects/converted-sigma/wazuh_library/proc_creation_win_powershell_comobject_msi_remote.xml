@@ -1,0 +1,16 @@
+<!--
+  Title: PowerShell MSI Install via WindowsInstaller COM From Remote Location
+  ID: 222720a7-047f-4054-baa5-bab9be757db0
+  Status: experimental
+  Level: medium
+  Author: Meroujan Antonyan (vx3r)
+  Date: 2025-06-05
+  Description: Detects the execution of PowerShell commands that attempt to install MSI packages via the Windows Installer COM object (`WindowsInstaller.Installer`) hosted remotely. This could be indication of malicious software deployment or lateral movement attempts using Windows Installer functionality. And the usage of WindowsInstaller COM object rather than msiexec could be an attempt to bypass the detection.
+-->
+
+<group name="sigma_converted,">
+  <rule id="100001" level="5">
+    <description>PowerShell MSI Install via WindowsInstaller COM From Remote Location</description>
+    <match>((((CommandLine=\"*-ComObject*\" AND CommandLine=\"*InstallProduct(*\")) AND (((Image=\"*\\\\powershell_ise.exe\" OR Image=\"*\\\\p</match>
+  </rule>
+</group>

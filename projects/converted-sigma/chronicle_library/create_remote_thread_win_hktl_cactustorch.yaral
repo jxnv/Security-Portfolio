@@ -1,0 +1,23 @@
+// Title: HackTool - CACTUSTORCH Remote Thread Creation
+// ID: 2e4e488a-6164-4811-9ea1-f960c7359c40
+// Status: test
+// Level: high
+// Author: @SBousseaden (detection), Thomas Patzke (rule)
+// Date: 2019-02-01
+// Tags: attack.privilege-escalation, attack.execution, attack.stealth, attack.t1055.012, attack.t1059.005, attack.t1059.007, attack.t1218.005
+// Description: Detects remote thread creation from CACTUSTORCH as described in references.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 2e4e488a_6164_4811_9ea1_f960c7359c40 {
+  meta:
+    title = "HackTool - CACTUSTORCH Remote Thread Creation"
+    description = "Detects remote thread creation from CACTUSTORCH as described in references."
+    author = "@SBousseaden (detection), Thomas Patzke (rule)"
+    severity = "HIGH"
+
+  events:
+    (($e.SourceImage = /.*\\System32\\cscript.exe$/ nocase or $e.SourceImage = /.*\\System32\\wscript.exe$/ nocase or $e.SourceImage = /.*\\System32\\mshta.exe$/ nocase or $e.SourceImage = /.*\\winword.exe$/ nocase or $e.SourceImage = /.*\\excel.exe$/ nocase) and $e.TargetImage = /.*\\SysWOW64\\.*/ nocase and not ($e.StartModule = /.*/))
+
+  condition:
+    $e
+}

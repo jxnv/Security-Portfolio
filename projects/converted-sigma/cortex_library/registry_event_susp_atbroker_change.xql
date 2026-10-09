@@ -1,0 +1,11 @@
+// Title: Atbroker Registry Change
+// ID: 9577edbb-851f-4243-8c91-1d5b50c1a39b
+// Status: test
+// Level: medium
+// Author: Mateusz Wydra, oscd.community
+// Date: 2020-10-13
+// Tags: attack.privilege-escalation, attack.stealth, attack.t1218, attack.persistence, attack.t1547
+// Description: Detects creation/modification of Assistive Technology applications and persistence with usage of 'at'
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter (((TargetObject contains "Software\\Microsoft\\Windows NT\\CurrentVersion\\Accessibility\\ATs" or TargetObject contains "Software\\Microsoft\\Windows NT\\CurrentVersion\\Accessibility\\Configuration")) and not (((action_process_image_path = "C:\\Windows\\system32\\atbroker.exe" and TargetObject contains "\\Microsoft\\Windows NT\\CurrentVersion\\Accessibility\\Configuration" and Details = "(Empty)") or (action_process_image_path startswith "C:\\Windows\\Installer\\MSI" and TargetObject contains "Software\\Microsoft\\Windows NT\\CurrentVersion\\Accessibility\\ATs"))))

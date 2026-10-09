@@ -1,0 +1,11 @@
+-- Title: Cisco Discovery
+-- ID: 9705a6a1-6db6-4a16-a987-15b7151e299b
+-- Status: test
+-- Level: low
+-- Author: Austin Clark
+-- Date: 2019-08-12
+-- Tags: attack.discovery, attack.t1083, attack.t1201, attack.t1057, attack.t1018, attack.t1082, attack.t1016, attack.t1049, attack.t1033, attack.t1124
+-- Description: Find information about network devices that is not stored in config files
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE ("dir" OR "show arp" OR "show cdp" OR "show clock" OR "show ip interface" OR "show ip route" OR "show ip sockets" OR "show processes" OR "show ssh" OR "show users" OR "show version")

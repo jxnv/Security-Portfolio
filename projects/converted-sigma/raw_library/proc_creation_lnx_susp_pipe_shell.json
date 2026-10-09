@@ -1,0 +1,44 @@
+{
+  "title": "Linux Shell Pipe to Shell",
+  "id": "880973f3-9708-491c-a77b-2a35a1921158",
+  "status": "test",
+  "description": "Detects suspicious process command line that starts with a shell that executes something and finally gets piped into another shell",
+  "author": "Florian Roth (Nextron Systems)",
+  "date": "2022-03-14",
+  "tags": [
+    "attack.stealth",
+    "attack.t1140"
+  ],
+  "level": "medium",
+  "logsource": {
+    "product": "linux",
+    "category": "process_creation"
+  },
+  "detection": {
+    "selection": {
+      "CommandLine|startswith": [
+        "sh -c ",
+        "bash -c "
+      ]
+    },
+    "selection_exec": [
+      {
+        "CommandLine|contains": [
+          "| bash ",
+          "| sh ",
+          "|bash ",
+          "|sh "
+        ]
+      },
+      {
+        "CommandLine|endswith": [
+          "| bash",
+          "| sh",
+          "|bash",
+          " |sh"
+        ]
+      }
+    ],
+    "condition": "all of selection*"
+  }
+}

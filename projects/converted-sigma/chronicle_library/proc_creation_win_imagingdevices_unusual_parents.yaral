@@ -1,0 +1,23 @@
+// Title: ImagingDevices Unusual Parent/Child Processes
+// ID: f11f2808-adb4-46c0-802a-8660db50fa99
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-09-27
+// Tags: attack.execution, attack.stealth
+// Description: Detects unusual parent or children of the ImagingDevices.exe (Windows Contacts) process as seen being used with Bumblebee activity
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule f11f2808_adb4_46c0_802a_8660db50fa99 {
+  meta:
+    title = "ImagingDevices Unusual Parent/Child Processes"
+    description = "Detects unusual parent or children of the ImagingDevices.exe (Windows Contacts) process as seen being used with Bumblebee activity"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.principal.process.file.full_path = /.*\\ImagingDevices.exe$/ nocase) or (($e.principal.process.file.full_path = /.*\\WmiPrvSE.exe$/ nocase or $e.principal.process.file.full_path = /.*\\svchost.exe$/ nocase or $e.principal.process.file.full_path = /.*\\dllhost.exe$/ nocase) and $e.target.process.file.full_path = /.*\\ImagingDevices.exe$/ nocase))
+
+  condition:
+    $e
+}

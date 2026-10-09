@@ -1,0 +1,11 @@
+-- Title: OneNote Attachment File Dropped In Suspicious Location
+-- ID: 7fd164ba-126a-4d9c-9392-0d4f7c243df0
+-- Status: test
+-- Level: medium
+-- Author: Nasreddine Bencherchali (Nextron Systems)
+-- Date: 2023-01-22
+-- Tags: attack.stealth
+-- Description: Detects creation of files with the ".one"/".onepkg" extension in suspicious or uncommon locations. This could be a sign of attackers abusing OneNote attachments
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM file WHERE (((TargetFilename LIKE '%\\AppData\\Local\\Temp\\%' OR TargetFilename LIKE '%\\Users\\Public\\%' OR TargetFilename LIKE '%\\Windows\\Temp\\%' OR TargetFilename LIKE '%:\\Temp\\%') AND (TargetFilename="*.one" OR TargetFilename="*.onepkg")) AND NOT ((Image LIKE '%:\\Program Files\\Microsoft Office\\%' AND Image="*\\ONENOTE.EXE")))

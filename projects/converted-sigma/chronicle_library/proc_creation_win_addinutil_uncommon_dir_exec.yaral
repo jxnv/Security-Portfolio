@@ -1,0 +1,23 @@
+// Title: AddinUtil.EXE Execution From Uncommon Directory
+// ID: 6120ac2a-a34b-42c0-a9bd-1fb9f459f348
+// Status: test
+// Level: medium
+// Author: Michael McKinley (@McKinleyMike), Tony Latteri (@TheLatteri)
+// Date: 2023-09-18
+// Tags: attack.stealth, attack.t1218
+// Description: Detects execution of the Add-In deployment cache updating utility (AddInutil.exe) from a non-standard directory.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 6120ac2a_a34b_42c0_a9bd_1fb9f459f348 {
+  meta:
+    title = "AddinUtil.EXE Execution From Uncommon Directory"
+    description = "Detects execution of the Add-In deployment cache updating utility (AddInutil.exe) from a non-standard directory."
+    author = "Michael McKinley (@McKinleyMike), Tony Latteri (@TheLatteri)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.file.full_path = /.*\\addinutil.exe$/ nocase) or ($e.target.process.file.name = "AddInUtil.exe")) and not((($e.target.process.file.full_path = /.*:\\Windows\\Microsoft.NET\\Framework\\.*/ nocase or $e.target.process.file.full_path = /.*:\\Windows\\Microsoft.NET\\Framework64\\.*/ nocase or $e.target.process.file.full_path = /.*:\\Windows\\Microsoft.NET\\FrameworkArm\\.*/ nocase or $e.target.process.file.full_path = /.*:\\Windows\\Microsoft.NET\\FrameworkArm64\\.*/ nocase or $e.target.process.file.full_path = /.*:\\Windows\\WinSxS\\.*/ nocase))))
+
+  condition:
+    $e
+}

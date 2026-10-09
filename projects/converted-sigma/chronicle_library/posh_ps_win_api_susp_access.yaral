@@ -1,0 +1,25 @@
+// Title: Potential WinAPI Calls Via PowerShell Scripts
+// ID: 03d83090-8cba-44a0-b02f-0b756a050306
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems), Nikita Nazarov, oscd.community
+// Date: 2020-10-06
+// Tags: attack.execution, attack.t1059.001, attack.t1106, attack.stealth, attack.t1620
+// Description: Detects usage of WinAPI functions in PowerShell scripts.
+// It may indicate attempts to perform actions such as process injection, token stealing, or other malicious activities that leverage Windows API calls.
+// These techniques are commonly used to evade traditional file-based detections by loading and executing code directly in memory.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 03d83090_8cba_44a0_b02f_0b756a050306 {
+  meta:
+    title = "Potential WinAPI Calls Via PowerShell Scripts"
+    description = "Detects usage of WinAPI functions in PowerShell scripts. It may indicate attempts to perform actions such as process injection, token stealing, or other malicious activities that leverage Windows API calls. These techniques are commonly used to evade traditional file-based detections by loading and executing code directly in memory."
+    author = "Nasreddine Bencherchali (Nextron Systems), Nikita Nazarov, oscd.community"
+    severity = "HIGH"
+
+  events:
+    ((($e.ScriptBlockText = /.*OpenProcessToken.*/ nocase and $e.ScriptBlockText = /.*DuplicateTokenEx.*/ nocase and $e.ScriptBlockText = /.*CloseHandle.*/ nocase)) or (($e.ScriptBlockText = /.*VirtualAlloc.*/ nocase and $e.ScriptBlockText = /.*OpenProcess.*/ nocase and $e.ScriptBlockText = /.*WriteProcessMemory.*/ nocase and $e.ScriptBlockText = /.*CreateRemoteThread.*/ nocase)) or (($e.ScriptBlockText = /.*VirtualAlloc.*/ nocase and $e.ScriptBlockText = /.*GetDelegateForFunctionPointer.*/ nocase and $e.ScriptBlockText = /.*Marshal.Copy.*/ nocase)) or (($e.ScriptBlockText = /.*WriteProcessMemory.*/ nocase and $e.ScriptBlockText = /.*VirtualAlloc.*/ nocase and $e.ScriptBlockText = /.*ReadProcessMemory.*/ nocase and $e.ScriptBlockText = /.*VirtualFree.*/ nocase)) or (($e.ScriptBlockText = /.*OpenProcessToken.*/ nocase and $e.ScriptBlockText = /.*LookupPrivilegeValue.*/ nocase and $e.ScriptBlockText = /.*AdjustTokenPrivileges.*/ nocase)))
+
+  condition:
+    $e
+}

@@ -1,0 +1,19 @@
+# Title: Modification of IE Registry Settings
+# ID: d88d0ab2-e696-4d40-a2ed-9790064e66b3
+# Status: test
+# Level: low
+# Author: frack113
+# Date: 2022-01-22
+# Tags: attack.persistence, attack.defense-impairment, attack.t1112
+# Description: Detects modification of the registry settings used for Internet Explorer and other Windows components that use these settings. An attacker can abuse this registry key to add a domain to the trusted sites Zone or insert JavaScript for persistence
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Modification of IE Registry Settings
+def rule(event):
+    # Detection Logic:
+    # ((TargetObject="*\\Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings*") AND NOT (((Details="Binary Data") OR (Details="DWORD*") OR (NOT Details=*) OR ((Details="Cookie:" OR Details="Visited:" OR Details="(Empty)")) OR ((TargetObject="*\\Cache*" OR TargetObject="*\\ZoneMap*" OR TargetObject="*\\WpadDecision*")))) AND NOT ((TargetObject="*\\Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\Accepted Documents*")))
+    return True
+
+def title(event):
+    return "Modification of IE Registry Settings"
+

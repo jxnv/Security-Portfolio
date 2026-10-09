@@ -1,0 +1,34 @@
+{
+  "title": "New Root Certificate Installed Via Certutil.EXE",
+  "id": "d2125259-ddea-4c1c-9c22-977eb5b29cf0",
+  "status": "test",
+  "description": "Detects execution of \"certutil\" with the \"addstore\" flag in order to install a new certificate on the system.\nAdversaries may install a root certificate on a compromised system to avoid warnings when connecting to adversary controlled web servers.\n",
+  "author": "oscd.community, @redcanary, Zach Stanford @svch0st",
+  "date": "2023-03-05",
+  "tags": [
+    "attack.defense-impairment",
+    "attack.t1553.004"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_img": [
+      {
+        "Image|endswith": "\\certutil.exe"
+      },
+      {
+        "OriginalFileName": "CertUtil.exe"
+      }
+    ],
+    "selection_cli_add": {
+      "CommandLine|contains|windash": "-addstore"
+    },
+    "selection_cli_store": {
+      "CommandLine|contains": "root"
+    },
+    "condition": "all of selection_*"
+  }
+}

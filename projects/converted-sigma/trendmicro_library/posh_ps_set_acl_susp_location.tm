@@ -1,0 +1,11 @@
+// Title: PowerShell Set-Acl On Windows Folder - PsScript
+// ID: 3bf1d859-3a7e-44cb-8809-a99e066d3478
+// Status: test
+// Level: high
+// Author: frack113, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-07-18
+// Tags: attack.defense-impairment, attack.t1222
+// Description: Detects PowerShell scripts to set the ACL to a file in the Windows folder
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((ScriptBlockText: "*Set-Acl *" AND ScriptBlockText: "*-AclObject *")) AND ((ScriptBlockText: "*-Path \"C:\\Windows*" OR ScriptBlockText: "*-Path \"C:/Windows*" OR ScriptBlockText: "*-Path 'C:\\Windows*" OR ScriptBlockText: "*-Path 'C:/Windows*" OR ScriptBlockText: "*-Path C:\\\\Windows*" OR ScriptBlockText: "*-Path C:/Windows*" OR ScriptBlockText: "*-Path $env:windir*" OR ScriptBlockText: "*-Path \"$env:windir*" OR ScriptBlockText: "*-Path '$env:windir*")) AND ((ScriptBlockText: "*FullControl*" OR ScriptBlockText: "*Allow*")))

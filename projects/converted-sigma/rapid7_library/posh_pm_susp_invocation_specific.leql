@@ -1,0 +1,11 @@
+// Title: Suspicious PowerShell Invocations - Specific - PowerShell Module
+// ID: 8ff28fdd-e2fa-4dfa-aeda-ef3d61c62090
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Jonhnathan Ribeiro
+// Date: 2017-03-05
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects suspicious PowerShell invocation command parameters
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((where(ContextInfo ICONTAINS "-nop") AND where(ContextInfo ICONTAINS " -w ") AND where(ContextInfo ICONTAINS "hidden") AND where(ContextInfo ICONTAINS " -c ") AND where(ContextInfo ICONTAINS "[Convert]::FromBase64String"))) OR ((where(ContextInfo ICONTAINS " -w ") AND where(ContextInfo ICONTAINS "hidden") AND where(ContextInfo ICONTAINS "-ep") AND where(ContextInfo ICONTAINS "bypass") AND where(ContextInfo ICONTAINS "-Enc"))) OR ((where(ContextInfo ICONTAINS " -w ") AND where(ContextInfo ICONTAINS "hidden") AND where(ContextInfo ICONTAINS "-noni") AND where(ContextInfo ICONTAINS "-nop") AND where(ContextInfo ICONTAINS " -c ") AND where(ContextInfo ICONTAINS "iex") AND where(ContextInfo ICONTAINS "New-Object"))) OR ((where(ContextInfo ICONTAINS "iex") AND where(ContextInfo ICONTAINS "New-Object") AND where(ContextInfo ICONTAINS "Net.WebClient") AND where(ContextInfo ICONTAINS ".Download"))) OR ((where(ContextInfo ICONTAINS "powershell") AND where(ContextInfo ICONTAINS "reg") AND where(ContextInfo ICONTAINS "add")) AND (where(ContextInfo ICONTAINS "\\software\\microsoft\\windows\\currentversion\\run") OR where(ContextInfo ICONTAINS "\\software\\wow6432node\\microsoft\\windows\\currentversion\\run") OR where(ContextInfo ICONTAINS "\\software\\microsoft\\windows\\currentversion\\policies\\explorer\\run"))) OR ((where(ContextInfo ICONTAINS "bypass") AND where(ContextInfo ICONTAINS "-noprofile") AND where(ContextInfo ICONTAINS "-windowstyle") AND where(ContextInfo ICONTAINS "hidden") AND where(ContextInfo ICONTAINS "new-object") AND where(ContextInfo ICONTAINS "system.net.webclient") AND where(ContextInfo ICONTAINS ".download")))) AND NOT (((where(ContextInfo ICONTAINS "(New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1") OR where(ContextInfo ICONTAINS "Write-ChocolateyWarning")))))

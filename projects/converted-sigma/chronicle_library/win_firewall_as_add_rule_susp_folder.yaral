@@ -1,0 +1,23 @@
+// Title: New Firewall Rule Added In Windows Firewall Exception List For Potential Suspicious Application
+// ID: 9e2575e7-2cb9-4da1-adc8-ed94221dca5e
+// Status: test
+// Level: high
+// Author: frack113
+// Date: 2023-02-26
+// Tags: attack.defense-impairment, attack.t1686.003
+// Description: Detects the addition of a new rule to the Windows Firewall exception list for an application located in a potentially suspicious location.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 9e2575e7_2cb9_4da1_adc8_ed94221dca5e {
+  meta:
+    title = "New Firewall Rule Added In Windows Firewall Exception List For Potential Suspicious Application"
+    description = "Detects the addition of a new rule to the Windows Firewall exception list for an application located in a potentially suspicious location."
+    author = "frack113"
+    severity = "HIGH"
+
+  events:
+    ((($e.EventID = 2004 or $e.EventID = 2071 or $e.EventID = 2097) and ($e.ApplicationPath = /.*:\\PerfLogs\\.*/ nocase or $e.ApplicationPath = /.*:\\Temp\\.*/ nocase or $e.ApplicationPath = /.*:\\Tmp\\.*/ nocase or $e.ApplicationPath = /.*:\\Users\\Public\\.*/ nocase or $e.ApplicationPath = /.*:\\Windows\\Tasks\\.*/ nocase or $e.ApplicationPath = /.*:\\Windows\\Temp\\.*/ nocase or $e.ApplicationPath = /.*\\AppData\\Local\\Temp\\.*/ nocase)) and not(($e.Action = 2)))
+
+  condition:
+    $e
+}

@@ -1,0 +1,32 @@
+{
+  "title": "Potential PendingFileRenameOperations Tampering",
+  "id": "4eec988f-7bf0-49f1-8675-1e6a510b3a2a",
+  "status": "test",
+  "description": "Detect changes to the \"PendingFileRenameOperations\" registry key from uncommon or suspicious images locations to stage currently used files for rename or deletion after reboot.\n",
+  "author": "frack113",
+  "date": "2023-01-27",
+  "tags": [
+    "attack.stealth",
+    "attack.t1036.003"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "registry_set",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_main": {
+      "TargetObject|contains": "\\CurrentControlSet\\Control\\Session Manager\\PendingFileRenameOperations"
+    },
+    "selection_susp_paths": {
+      "Image|contains": "\\Users\\Public\\"
+    },
+    "selection_susp_images": {
+      "Image|endswith": [
+        "\\reg.exe",
+        "\\regedit.exe"
+      ]
+    },
+    "condition": "selection_main and 1 of selection_susp_*"
+  }
+}

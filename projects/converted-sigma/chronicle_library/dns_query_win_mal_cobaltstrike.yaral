@@ -1,0 +1,23 @@
+// Title: Suspicious Cobalt Strike DNS Beaconing - Sysmon
+// ID: f356a9c4-effd-4608-bbf8-408afd5cd006
+// Status: test
+// Level: critical
+// Author: Florian Roth (Nextron Systems)
+// Date: 2021-11-09
+// Tags: attack.command-and-control, attack.t1071.004
+// Description: Detects a program that invoked suspicious DNS queries known from Cobalt Strike beacons
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule f356a9c4_effd_4608_bbf8_408afd5cd006 {
+  meta:
+    title = "Suspicious Cobalt Strike DNS Beaconing - Sysmon"
+    description = "Detects a program that invoked suspicious DNS queries known from Cobalt Strike beacons"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "CRITICAL"
+
+  events:
+    ((($e.QueryName = /^aaa.stage..*/ nocase or $e.QueryName = /^post.1.*/ nocase)) or ($e.QueryName = /.*.stage.123456..*/ nocase))
+
+  condition:
+    $e
+}

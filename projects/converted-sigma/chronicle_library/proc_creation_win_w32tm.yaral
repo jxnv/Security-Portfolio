@@ -1,0 +1,23 @@
+// Title: Use of W32tm as Timer
+// ID: 6da2c9f5-7c53-401b-aacb-92c040ce1215
+// Status: test
+// Level: high
+// Author: frack113
+// Date: 2022-09-25
+// Tags: attack.discovery, attack.t1124
+// Description: When configured with suitable command line arguments, w32tm can act as a delay mechanism
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 6da2c9f5_7c53_401b_aacb_92c040ce1215 {
+  meta:
+    title = "Use of W32tm as Timer"
+    description = "When configured with suitable command line arguments, w32tm can act as a delay mechanism"
+    author = "frack113"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*/stripchart.*/ nocase and $e.target.process.command_line = /.*/computer:.*/ nocase and $e.target.process.command_line = /.*/period:.*/ nocase and $e.target.process.command_line = /.*/dataonly.*/ nocase and $e.target.process.command_line = /.*/samples:.*/ nocase)) and (($e.target.process.file.full_path = /.*\\w32tm.exe$/ nocase) or ($e.target.process.file.name = "w32time.dll")))
+
+  condition:
+    $e
+}

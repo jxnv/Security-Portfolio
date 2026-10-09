@@ -1,0 +1,23 @@
+// Title: Greedy File Deletion Using Del
+// ID: 204b17ae-4007-471b-917b-b917b315c5db
+// Status: test
+// Level: medium
+// Author: frack113 , X__Junior (Nextron Systems)
+// Date: 2021-12-02
+// Tags: attack.stealth, attack.t1070.004
+// Description: Detects execution of the "del" builtin command to remove files using greedy/wildcard expression. This is often used by malware to delete content of folders that perhaps contains the initial malware infection or to delete evidence.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 204b17ae_4007_471b_917b_b917b315c5db {
+  meta:
+    title = "Greedy File Deletion Using Del"
+    description = "Detects execution of the "del" builtin command to remove files using greedy/wildcard expression. This is often used by malware to delete content of folders that perhaps contains the initial malware infection or to delete evidence."
+    author = "frack113 , X__Junior (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.command_line = /.*del .*/ nocase or $e.target.process.command_line = /.*erase .*/ nocase)) and (($e.target.process.command_line = /.*\\\\\\*.au3.*/ nocase or $e.target.process.command_line = /.*\\\\\\*.dll.*/ nocase or $e.target.process.command_line = /.*\\\\\\*.exe.*/ nocase or $e.target.process.command_line = /.*\\\\\\*.js.*/ nocase)) and (($e.target.process.file.full_path = /.*\\cmd.exe$/ nocase) or ($e.target.process.file.name = "Cmd.Exe")))
+
+  condition:
+    $e
+}

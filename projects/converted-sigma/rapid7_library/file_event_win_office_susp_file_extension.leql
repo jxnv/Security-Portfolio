@@ -1,0 +1,11 @@
+// Title: File With Uncommon Extension Created By An Office Application
+// ID: c7a74c80-ba5a-486e-9974-ab9e682bc5e4
+// Status: test
+// Level: high
+// Author: Vadim Khrykov (ThreatIntel), Cyb3rEng (Rule), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2021-08-23
+// Tags: attack.t1204.002, attack.execution
+// Description: Detects the creation of files with an executable or script extension by an Office application.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((where(Image IENDSWITH "\\excel.exe") OR where(Image IENDSWITH "\\msaccess.exe") OR where(Image IENDSWITH "\\mspub.exe") OR where(Image IENDSWITH "\\powerpnt.exe") OR where(Image IENDSWITH "\\visio.exe") OR where(Image IENDSWITH "\\winword.exe"))) AND ((where(TargetFilename IENDSWITH ".bat") OR where(TargetFilename IENDSWITH ".cmd") OR where(TargetFilename IENDSWITH ".com") OR where(TargetFilename IENDSWITH ".dll") OR where(TargetFilename IENDSWITH ".exe") OR where(TargetFilename IENDSWITH ".hta") OR where(TargetFilename IENDSWITH ".ocx") OR where(TargetFilename IENDSWITH ".proj") OR where(TargetFilename IENDSWITH ".ps1") OR where(TargetFilename IENDSWITH ".scf") OR where(TargetFilename IENDSWITH ".scr") OR where(TargetFilename IENDSWITH ".sys") OR where(TargetFilename IENDSWITH ".vbe") OR where(TargetFilename IENDSWITH ".vbs") OR where(TargetFilename IENDSWITH ".wsf") OR where(TargetFilename IENDSWITH ".wsh")))) AND NOT ((where(TargetFilename ICONTAINS "\\AppData\\Local\\assembly\\tmp\\") AND where(TargetFilename IENDSWITH ".dll"))) AND NOT ((((where(TargetFilename ICONTAINS "C:\\Users\\") AND where(TargetFilename ICONTAINS "\\AppData\\Local\\Microsoft\\Office\\") AND where(TargetFilename ICONTAINS "\\BackstageInAppNavCache\\")) AND where(TargetFilename IENDSWITH ".com")) OR (where(Image IENDSWITH "\\winword.exe") AND where(TargetFilename ICONTAINS "\\AppData\\Local\\Temp\\webexdelta\\") AND (where(TargetFilename IENDSWITH ".dll") OR where(TargetFilename IENDSWITH ".exe"))) OR ((where(TargetFilename ICONTAINS "C:\\Users\\") AND where(TargetFilename ICONTAINS "\\AppData\\Local\\Microsoft\\Office\\") AND where(TargetFilename ICONTAINS "\\WebServiceCache\\AllUsers")) AND where(TargetFilename IENDSWITH ".com")))))

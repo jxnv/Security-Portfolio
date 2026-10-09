@@ -1,0 +1,11 @@
+-- Title: Remote Access Tool - ScreenConnect Installation Execution
+-- ID: 75bfe6e6-cd8e-429e-91d3-03921e1d7962
+-- Status: test
+-- Level: medium
+-- Author: Florian Roth (Nextron Systems)
+-- Date: 2021-02-11
+-- Tags: attack.persistence, attack.initial-access, attack.t1133
+-- Description: Detects ScreenConnect program starts that establish a remote access to a system.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM processes WHERE ((CommandLine LIKE '%e=Access&%' AND CommandLine LIKE '%y=Guest&%' AND CommandLine LIKE '%&p=%' AND CommandLine LIKE '%&c=%' AND CommandLine LIKE '%&k=%'))

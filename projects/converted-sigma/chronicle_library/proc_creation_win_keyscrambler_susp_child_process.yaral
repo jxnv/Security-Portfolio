@@ -1,0 +1,23 @@
+// Title: Potentially Suspicious Child Process of KeyScrambler.exe
+// ID: ca5583e9-8f80-46ac-ab91-7f314d13b984
+// Status: test
+// Level: medium
+// Author: Swachchhanda Shrawan Poudel
+// Date: 2024-05-13
+// Tags: attack.persistence, attack.execution, attack.privilege-escalation, attack.stealth, attack.t1203, attack.t1574.001
+// Description: Detects potentially suspicious child processes of KeyScrambler.exe
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule ca5583e9_8f80_46ac_ab91_7f314d13b984 {
+  meta:
+    title = "Potentially Suspicious Child Process of KeyScrambler.exe"
+    description = "Detects potentially suspicious child processes of KeyScrambler.exe"
+    author = "Swachchhanda Shrawan Poudel"
+    severity = "MEDIUM"
+
+  events:
+    (((($e.target.process.file.full_path = /.*\\cmd.exe$/ nocase or $e.target.process.file.full_path = /.*\\cscript.exe$/ nocase or $e.target.process.file.full_path = /.*\\mshta.exe$/ nocase or $e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase or $e.target.process.file.full_path = /.*\\regsvr32.exe$/ nocase or $e.target.process.file.full_path = /.*\\rundll32.exe$/ nocase or $e.target.process.file.full_path = /.*\\wscript.exe$/ nocase)) or (($e.target.process.file.name = "Cmd.Exe" or $e.target.process.file.name = "cscript.exe" or $e.target.process.file.name = "mshta.exe" or $e.target.process.file.name = "PowerShell.EXE" or $e.target.process.file.name = "pwsh.dll" or $e.target.process.file.name = "regsvr32.exe" or $e.target.process.file.name = "RUNDLL32.EXE" or $e.target.process.file.name = "wscript.exe"))) and ($e.principal.process.file.full_path = /.*\\KeyScrambler.exe$/ nocase))
+
+  condition:
+    $e
+}

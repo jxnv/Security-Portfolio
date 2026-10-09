@@ -1,0 +1,23 @@
+// Title: Potential SPN Enumeration Via Setspn.EXE
+// ID: 1eeed653-dbc8-4187-ad0c-eeebb20e6599
+// Status: test
+// Level: medium
+// Author: Markus Neis, keepwatch
+// Date: 2018-11-14
+// Tags: attack.credential-access, attack.t1558.003
+// Description: Detects service principal name (SPN) enumeration used for Kerberoasting
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 1eeed653_dbc8_4187_ad0c_eeebb20e6599 {
+  meta:
+    title = "Potential SPN Enumeration Via Setspn.EXE"
+    description = "Detects service principal name (SPN) enumeration used for Kerberoasting"
+    author = "Markus Neis, keepwatch"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.command_line = /.* -q .*/ nocase or $e.target.process.command_line = /.* /q .*/ nocase)) and (($e.target.process.file.full_path = /.*\\setspn.exe$/ nocase) or ($e.target.process.file.name = "setspn.exe") or (($e.Description = /.*Query or reset the computer.*/ nocase and $e.Description = /.*SPN attribute.*/ nocase))))
+
+  condition:
+    $e
+}

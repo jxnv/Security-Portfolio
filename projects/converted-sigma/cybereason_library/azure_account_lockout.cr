@@ -1,0 +1,11 @@
+// Title: Account Lockout
+// ID: 2b7d6fc0-71ac-4cf7-8ed1-b5788ee5257a
+// Status: test
+// Level: medium
+// Author: AlertIQ
+// Date: 2021-10-10
+// Tags: attack.credential-access, attack.t1110
+// Description: Identifies user account which has been locked because the user tried to sign in too many times with an incorrect user ID or password.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(ResultType == "50053")

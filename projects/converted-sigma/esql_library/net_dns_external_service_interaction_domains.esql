@@ -1,0 +1,22 @@
+// Title: DNS Query to External Service Interaction Domains
+// ID: aff715fa-4dd5-497a-8db3-910bea555566
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Matt Kelly (list of domains)
+// Date: 2022-06-07
+// Tags: attack.initial-access, attack.t1190, attack.reconnaissance, attack.t1595.002
+// Description: Detects DNS queries to well-known out-of-band application security testing (OAST) and callback domains.
+// These services (e.g. Burp Collaborator, interactsh, canarytokens, dnslog.cn) are used by security
+// researchers and attackers alike to confirm blind vulnerabilities such as SSRF, XXE, blind RCE, and
+// Log4Shell-style injections, where the exploit payload triggers an external DNS lookup to a controlled domain.
+// 
+// A detection indicates that a host on your network resolved one of these domains, which may mean:
+//     (1) an attacker is actively probing or exploiting a vulnerable service and using the callback to
+//     confirm code execution or data exfiltration,
+//     (2) a security scanner (e.g. Nuclei, Gobies) is running against internal targets.
+// 
+// Investigate the source host, the full DNS query string (the unique subdomain prefix encodes the callback session),
+// and any concurrent outbound connections or process activity to determine intent.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE (((query LIKE "%.burpcollaborator.net" OR query LIKE "%.canarytokens.com" OR query LIKE "%.ceye.io" OR query LIKE "%.ddns.1433.eu.org" OR query LIKE "%.ddns.bypass.eu.org" OR query LIKE "%.ddns.xn--gg8h.eu.org" OR query LIKE "%.digimg.store" OR query LIKE "%.dns.su18.org" OR query LIKE "%.dnshook.site" OR query LIKE "%.dnslog.cn" OR query LIKE "%.dnslog.ink" OR query LIKE "%.gobygo.net" OR query LIKE "%.instances.httpworkbench.com" OR query LIKE "%.interact.sh" OR query LIKE "%.log.dnslog.pp.ua" OR query LIKE "%.log.dnslog.qzz.io" OR query LIKE "%.log.dnslogs.dpdns.org" OR query LIKE "%.log.javaweb.org" OR query LIKE "%.log.nat.cloudns.ph" OR query LIKE "%.oast.fun" OR query LIKE "%.oast.live" OR query LIKE "%.oast.me" OR query LIKE "%.oast.online" OR query LIKE "%.oast.pro" OR query LIKE "%.oast.site" OR query LIKE "%.oastify.com" OR query LIKE "%.p8.lol" OR query LIKE "%.requestbin.net")) AND NOT ((query LIKE "%polling.oastify.com%")))

@@ -1,0 +1,11 @@
+# Title: HackTool - SharpImpersonation Execution
+# ID: f89b08d0-77ad-4728-817b-9b16c5a69c7a
+# Status: test
+# Level: high
+# Author: Sai Prashanth Pulisetti @pulisettis, Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-12-27
+# Tags: attack.privilege-escalation, attack.stealth, attack.t1134.001, attack.t1134.003
+# Description: Detects execution of the SharpImpersonation tool. Which can be used to manipulate tokens on a Windows computers remotely (PsExec/WmiExec) or interactively
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog ((((process_exec="* user:*" AND process_exec="* binary:*")) OR ((process_exec="* user:*" AND process_exec="* shellcode:*")) OR ((process_exec="* technique:CreateProcessAsUserW*" OR process_exec="* technique:ImpersonateLoggedOnuser*"))) OR ((process_path="*\\SharpImpersonation.exe") OR (process_name="SharpImpersonation.exe")))

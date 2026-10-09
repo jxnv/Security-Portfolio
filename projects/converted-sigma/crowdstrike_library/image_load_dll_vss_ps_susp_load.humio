@@ -1,0 +1,13 @@
+// Title: Suspicious Volume Shadow Copy VSS_PS.dll Load
+// ID: 333cdbe8-27bb-4246-bf82-b41a0dca4b70
+// Status: test
+// Level: high
+// Author: Markus Neis, @markus_neis
+// Date: 2021-07-07
+// Tags: attack.impact, attack.t1490
+// Description: Detects the image load of vss_ps.dll by uncommon executables. This DLL is used by the Volume Shadow Copy Service (VSS) to manage shadow copies of files and volumes.
+// It is often abused by attackers to delete or manipulate shadow copies, which can hinder forensic investigations and data recovery efforts.
+// The fact that it is loaded by processes that are not typically associated with VSS operations can indicate suspicious activity.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((ImageLoaded = /.*\\vss_ps.dll/i) and not(((not(ImageFileName = *)) or (ImageFileName = /C:\\Windows\\.*/i and (ImageFileName = /.*\\clussvc.exe/i or ImageFileName = /.*\\dismhost.exe/i or ImageFileName = /.*\\dllhost.exe/i or ImageFileName = /.*\\inetsrv\\appcmd.exe/i or ImageFileName = /.*\\inetsrv\\iissetup.exe/i or ImageFileName = /.*\\msiexec.exe/i or ImageFileName = /.*\\rundll32.exe/i or ImageFileName = /.*\\searchindexer.exe/i or ImageFileName = /.*\\srtasks.exe/i or ImageFileName = /.*\\svchost.exe/i or ImageFileName = /.*\\System32\\SystemPropertiesAdvanced.exe/i or ImageFileName = /.*\\taskhostw.exe/i or ImageFileName = /.*\\thor.exe/i or ImageFileName = /.*\\thor64.exe/i or ImageFileName = /.*\\tiworker.exe/i or ImageFileName = /.*\\vssvc.exe/i or ImageFileName = /.*\\vssadmin.exe/i or ImageFileName = /.*\\WmiPrvSE.exe/i or ImageFileName = /.*\\wsmprovhost.exe/i)) or (CommandLine = /C:\\$WinREAgent\\Scratch\\.*/i and CommandLine = /*\\dismhost.exe {*/i))) and not(((ImageFileName = /C:\\Program Files\\.*/i or ImageFileName = /C:\\Program Files (x86)\\.*/i))))

@@ -1,0 +1,32 @@
+{
+  "title": "Azure Login Bypassing Conditional Access Policies",
+  "id": "13f2d3f5-6497-44a7-bf5f-dc13ffafe5dc",
+  "status": "experimental",
+  "description": "Detects a successful login to the Microsoft Intune Company Portal which could allow bypassing Conditional Access Policies and InTune device trust using a tool like TokenSmith.\n",
+  "author": "Josh Nickels, Marius Rothenb\u00fccher",
+  "date": "2025-01-08",
+  "tags": [
+    "attack.privilege-escalation",
+    "attack.persistence",
+    "attack.initial-access",
+    "attack.stealth",
+    "attack.t1078"
+  ],
+  "level": "high",
+  "logsource": {
+    "service": "audit",
+    "product": "m365"
+  },
+  "detection": {
+    "selection": {
+      "Operation": "UserLoggedIn",
+      "ApplicationId": "9ba1a5c7-f17a-4de9-a1f1-6178c8d51223",
+      "ResultStatus": "Success",
+      "RequestType": "Cmsi:Cmsi"
+    },
+    "filter_main_bjectid": {
+      "ObjectId": "0000000a-0000-0000-c000-000000000000"
+    },
+    "condition": "selection and not 1 of filter_main_*"
+  }
+}

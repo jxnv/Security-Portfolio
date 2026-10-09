@@ -1,0 +1,11 @@
+// Title: BITS Transfer Job Downloading File Potential Suspicious Extension
+// ID: b85e5894-9b19-4d86-8c87-a2f3b81f0521
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-03-01
+// Tags: attack.persistence, attack.execution, attack.stealth, attack.t1197
+// Description: Detects new BITS transfer job saving local files with potential suspicious extensions
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter ((EventID = 16403 and (LocalName endswith ".bat" or LocalName endswith ".dll" or LocalName endswith ".exe" or LocalName endswith ".hta" or LocalName endswith ".ps1" or LocalName endswith ".psd1" or LocalName endswith ".sh" or LocalName endswith ".vbe" or LocalName endswith ".vbs")) and not ((LocalName contains "\\AppData\\" and RemoteName contains ".com")))

@@ -1,0 +1,23 @@
+// Title: Automated Collection Command PowerShell
+// ID: c1dda054-d638-4c16-afc8-53e007f3fbc5
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2021-07-28
+// Tags: attack.collection, attack.t1119
+// Description: Once established within a system or network, an adversary may use automated techniques for collecting internal data.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule c1dda054_d638_4c16_afc8_53e007f3fbc5 {
+  meta:
+    title = "Automated Collection Command PowerShell"
+    description = "Once established within a system or network, an adversary may use automated techniques for collecting internal data."
+    author = "frack113"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.ScriptBlockText = /.*Get-ChildItem.*/ nocase and $e.ScriptBlockText = /.* -Recurse .*/ nocase and $e.ScriptBlockText = /.* -Include .*/ nocase)) and (($e.ScriptBlockText = /.*.doc.*/ nocase or $e.ScriptBlockText = /.*.docx.*/ nocase or $e.ScriptBlockText = /.*.xls.*/ nocase or $e.ScriptBlockText = /.*.xlsx.*/ nocase or $e.ScriptBlockText = /.*.ppt.*/ nocase or $e.ScriptBlockText = /.*.pptx.*/ nocase or $e.ScriptBlockText = /.*.rtf.*/ nocase or $e.ScriptBlockText = /.*.pdf.*/ nocase or $e.ScriptBlockText = /.*.txt.*/ nocase)))
+
+  condition:
+    $e
+}

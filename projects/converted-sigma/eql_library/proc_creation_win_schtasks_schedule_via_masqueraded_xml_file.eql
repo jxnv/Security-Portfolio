@@ -1,0 +1,11 @@
+// Title: Suspicious Scheduled Task Creation via Masqueraded XML File
+// ID: dd2a821e-3b07-4d3b-a9ac-929fe4c6ca0c
+// Status: test
+// Level: medium
+// Author: Swachchhanda Shrawan Poudel, Elastic (idea)
+// Date: 2023-04-20
+// Tags: attack.privilege-escalation, attack.execution, attack.persistence, attack.stealth, attack.t1036.005, attack.t1053.005
+// Description: Detects the creation of a scheduled task using the "-XML" flag with a file without the '.xml' extension. This behavior could be indicative of potential defense evasion attempt during persistence
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where ((((process.command_line like "*_/create*" or process.command_line like "*_-create*")) and ((process.command_line like "*_/xml*" or process.command_line like "*_-xml*")) and ((process.executable endswith "\\schtasks.exe") or (process.pe.original_file_name == "schtasks.exe"))) and not (((process.command_line like "*_.xml*") or (process.parent.executable endswith "\\rundll32.exe" and (process.parent.command_line like "*_:\\WINDOWS\\Installer\\MSI*" and process.parent.command_line like "*_.tmp,zzzzInvokeManagedCustomActionOutOfProc*")) or ((IntegrityLevel == "System" or IntegrityLevel == "S-1-16-16384")))) and not (((process.parent.executable endswith ":\\ProgramData\\OEM\\UpgradeTool\\CareCenter_*\\BUnzip\\Setup_msi.exe" or process.parent.executable endswith ":\\Program Files\\Axis Communications\\AXIS Camera Station\\SetupActions.exe" or process.parent.executable endswith ":\\Program Files\\Axis Communications\\AXIS Device Manager\\AdmSetupActions.exe" or process.parent.executable endswith ":\\Program Files (x86)\\Zemana\\AntiMalware\\AntiMalware.exe" or process.parent.executable endswith ":\\Program Files\\Dell\\SupportAssist\\pcdrcui.exe"))))

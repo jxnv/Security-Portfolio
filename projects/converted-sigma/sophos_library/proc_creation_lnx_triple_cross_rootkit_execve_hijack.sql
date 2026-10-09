@@ -1,0 +1,11 @@
+-- Title: Triple Cross eBPF Rootkit Execve Hijack
+-- ID: 0326c3c8-7803-4a0f-8c5c-368f747f7c3e
+-- Status: test
+-- Level: high
+-- Author: Nasreddine Bencherchali (Nextron Systems)
+-- Date: 2022-07-05
+-- Tags: attack.privilege-escalation, attack.stealth
+-- Description: Detects execution of a the file "execve_hijack" which is used by the Triple Cross rootkit as a way to elevate privileges
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE (Image ILIKE '%/sudo' AND CommandLine ILIKE '%execve_hijack%')

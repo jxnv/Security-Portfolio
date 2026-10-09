@@ -1,0 +1,23 @@
+// Title: Winrar Compressing Dump Files
+// ID: 1ac14d38-3dfc-4635-92c7-e3fd1c5f5bfc
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-01-04
+// Tags: attack.collection, attack.t1560.001
+// Description: Detects execution of WinRAR in order to compress a file with a ".dmp"/".dump" extension, which could be a step in a process of dump file exfiltration.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 1ac14d38_3dfc_4635_92c7_e3fd1c5f5bfc {
+  meta:
+    title = "Winrar Compressing Dump Files"
+    description = "Detects execution of WinRAR in order to compress a file with a ".dmp"/".dump" extension, which could be a step in a process of dump file exfiltration."
+    author = "Florian Roth (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.command_line = /.*.dmp.*/ nocase or $e.target.process.command_line = /.*.dump.*/ nocase or $e.target.process.command_line = /.*.hdmp.*/ nocase)) and ((($e.target.process.file.full_path = /.*\\rar.exe$/ nocase or $e.target.process.file.full_path = /.*\\winrar.exe$/ nocase)) or ($e.Description = "Command line RAR")))
+
+  condition:
+    $e
+}

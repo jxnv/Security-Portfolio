@@ -1,0 +1,23 @@
+// Title: Suspicious Scheduled Task Creation via Masqueraded XML File
+// ID: dd2a821e-3b07-4d3b-a9ac-929fe4c6ca0c
+// Status: test
+// Level: medium
+// Author: Swachchhanda Shrawan Poudel, Elastic (idea)
+// Date: 2023-04-20
+// Tags: attack.privilege-escalation, attack.execution, attack.persistence, attack.stealth, attack.t1036.005, attack.t1053.005
+// Description: Detects the creation of a scheduled task using the "-XML" flag with a file without the '.xml' extension. This behavior could be indicative of potential defense evasion attempt during persistence
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule dd2a821e_3b07_4d3b_a9ac_929fe4c6ca0c {
+  meta:
+    title = "Suspicious Scheduled Task Creation via Masqueraded XML File"
+    description = "Detects the creation of a scheduled task using the "-XML" flag with a file without the '.xml' extension. This behavior could be indicative of potential defense evasion attempt during persistence"
+    author = "Swachchhanda Shrawan Poudel, Elastic (idea)"
+    severity = "MEDIUM"
+
+  events:
+    (((($e.target.process.command_line = /.*/create.*/ nocase or $e.target.process.command_line = /.*-create.*/ nocase)) and (($e.target.process.command_line = /.*/xml.*/ nocase or $e.target.process.command_line = /.*-xml.*/ nocase)) and (($e.target.process.file.full_path = /.*\\schtasks.exe$/ nocase) or ($e.target.process.file.name = "schtasks.exe"))) and not((($e.target.process.command_line = /.*.xml.*/ nocase) or ($e.principal.process.file.full_path = /.*\\rundll32.exe$/ nocase and ($e.principal.process.command_line = /.*:\\WINDOWS\\Installer\\MSI.*/ nocase and $e.principal.process.command_line = /.*.tmp,zzzzInvokeManagedCustomActionOutOfProc.*/ nocase)) or (($e.IntegrityLevel = "System" or $e.IntegrityLevel = "S-1-16-16384")))) and not((($e.principal.process.file.full_path = /.*:\\ProgramData\\OEM\\UpgradeTool\\CareCenter_*\\BUnzip\\Setup_msi.exe$/ nocase or $e.principal.process.file.full_path = /.*:\\Program Files\\Axis Communications\\AXIS Camera Station\\SetupActions.exe$/ nocase or $e.principal.process.file.full_path = /.*:\\Program Files\\Axis Communications\\AXIS Device Manager\\AdmSetupActions.exe$/ nocase or $e.principal.process.file.full_path = /.*:\\Program Files (x86)\\Zemana\\AntiMalware\\AntiMalware.exe$/ nocase or $e.principal.process.file.full_path = /.*:\\Program Files\\Dell\\SupportAssist\\pcdrcui.exe$/ nocase))))
+
+  condition:
+    $e
+}

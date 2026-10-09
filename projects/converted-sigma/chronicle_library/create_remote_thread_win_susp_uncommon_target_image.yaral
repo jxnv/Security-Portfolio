@@ -1,0 +1,23 @@
+// Title: Remote Thread Creation In Uncommon Target Image
+// ID: a1a144b7-5c9b-4853-a559-2172be8d4a03
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-03-16
+// Tags: attack.privilege-escalation, attack.stealth, attack.t1055.003
+// Description: Detects uncommon target processes for remote thread creation
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule a1a144b7_5c9b_4853_a559_2172be8d4a03 {
+  meta:
+    title = "Remote Thread Creation In Uncommon Target Image"
+    description = "Detects uncommon target processes for remote thread creation"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.TargetImage = /.*\\calc.exe$/ nocase or $e.TargetImage = /.*\\calculator.exe$/ nocase or $e.TargetImage = /.*\\mspaint.exe$/ nocase or $e.TargetImage = /.*\\notepad.exe$/ nocase or $e.TargetImage = /.*\\ping.exe$/ nocase or $e.TargetImage = /.*\\sethc.exe$/ nocase or $e.TargetImage = /.*\\spoolsv.exe$/ nocase or $e.TargetImage = /.*\\wordpad.exe$/ nocase or $e.TargetImage = /.*\\write.exe$/ nocase)) and not((($e.SourceImage = "C:\\Windows\\System32\\csrss.exe") or (($e.SourceImage = "C:\\Windows\\System32\\explorer.exe" or $e.SourceImage = "C:\\Windows\\System32\\OpenWith.exe") and $e.TargetImage = "C:\\Windows\\System32\\notepad.exe") or ($e.SourceImage = "C:\\Windows\\System32\\AtBroker.exe" and $e.TargetImage = "C:\\Windows\\System32\\Sethc.exe"))) and not((($e.StartFunction = "EtwpNotificationThread") or ($e.SourceImage = /.*unknown process.*/ nocase) or ($e.SourceImage = "C:\\Program Files\\VMware\\VMware Tools\\vmtoolsd.exe" and $e.StartFunction = "GetCommandLineW" and ($e.TargetImage = "C:\\Windows\\System32\\notepad.exe" or $e.TargetImage = "C:\\Windows\\System32\\spoolsv.exe")) or ($e.SourceImage = "C:\\Program Files\\Xerox\\XeroxPrintExperience\\CommonFiles\\XeroxPrintJobEventManagerService.exe" and $e.StartFunction = "LoadLibraryW" and $e.TargetImage = "C:\\Windows\\System32\\spoolsv.exe"))))
+
+  condition:
+    $e
+}

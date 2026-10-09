@@ -1,0 +1,35 @@
+// Title: RDP Sensitive Settings Changed
+// ID: 3f6b7b62-61aa-45db-96bd-9c31b36b653c
+// Status: test
+// Level: high
+// Author: Samir Bousseaden, David ANDRE, Roberto Rodriguez @Cyb3rWard0g, Nasreddine Bencherchali
+// Date: 2022-08-06
+// Tags: attack.persistence, attack.defense-impairment, attack.t1112
+// Description: Detects tampering of RDP Terminal Service/Server sensitive settings.
+// Such as allowing unauthorized users access to a system via the 'fAllowUnsolicited' or enabling RDP via 'fDenyTSConnections', etc.
+// 
+// Below is a list of registry keys/values that are monitored by this rule:
+// 
+// - Shadow: Used to enable Remote Desktop shadowing, which allows an administrator to view or control a user's session.
+// - DisableRemoteDesktopAntiAlias: Disables anti-aliasing for remote desktop sessions.
+// - DisableSecuritySettings: Disables certain security settings for Remote Desktop connections.
+// - fAllowUnsolicited: Allows unsolicited remote assistance offers.
+// - fAllowUnsolicitedFullControl: Allows unsolicited remote assistance offers with full control.
+// - InitialProgram: Specifies a program to run automatically when a user logs on to a remote computer.
+// - ServiceDll: Used in RDP hijacking techniques to specify a custom DLL to be loaded by the Terminal Services service.
+// - SecurityLayer: Specifies the security layer used for RDP connections.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 3f6b7b62_61aa_45db_96bd_9c31b36b653c {
+  meta:
+    title = "RDP Sensitive Settings Changed"
+    description = "Detects tampering of RDP Terminal Service/Server sensitive settings. Such as allowing unauthorized users access to a system via the 'fAllowUnsolicited' or enabling RDP via 'fDenyTSConnections', etc.  Below is a list of registry keys/values that are monitored by this rule:  - Shadow: Used to enable Remote Desktop shadowing, which allows an administrator to view or control a user's session. - DisableRemoteDesktopAntiAlias: Disables anti-aliasing for remote desktop sessions. - DisableSecuritySettings: Disables certain security settings for Remote Desktop connections. - fAllowUnsolicited: Allows unsolicited remote assistance offers. - fAllowUnsolicitedFullControl: Allows unsolicited remote assistance offers with full control. - InitialProgram: Specifies a program to run automatically when a user logs on to a remote computer. - ServiceDll: Used in RDP hijacking techniques to specify a custom DLL to be loaded by the Terminal Services service. - SecurityLayer: Specifies the security layer used for RDP connections."
+    author = "Samir Bousseaden, David ANDRE, Roberto Rodriguez @Cyb3rWard0g, Nasreddine Bencherchali"
+    severity = "HIGH"
+
+  events:
+    (((($e.TargetObject = /.*\\Control\\Terminal Server\\.*/ nocase or $e.TargetObject = /.*\\Windows NT\\Terminal Services\\.*/ nocase) and $e.TargetObject = /.*\\Shadow$/ nocase and ($e.Details = "DWORD (0x00000001)" or $e.Details = "DWORD (0x00000002)" or $e.Details = "DWORD (0x00000003)" or $e.Details = "DWORD (0x00000004)")) or (($e.TargetObject = /.*\\Control\\Terminal Server\\.*/ nocase or $e.TargetObject = /.*\\Windows NT\\Terminal Services\\.*/ nocase) and ($e.TargetObject = /.*\\DisableRemoteDesktopAntiAlias$/ nocase or $e.TargetObject = /.*\\DisableSecuritySettings$/ nocase or $e.TargetObject = /.*\\fAllowUnsolicited$/ nocase or $e.TargetObject = /.*\\fAllowUnsolicitedFullControl$/ nocase) and $e.Details = "DWORD (0x00000001)") or (($e.TargetObject = /.*\\Control\\Terminal Server\\InitialProgram.*/ nocase or $e.TargetObject = /.*\\Control\\Terminal Server\\WinStations\\RDP-Tcp\\InitialProgram.*/ nocase or $e.TargetObject = /.*\\services\\TermService\\Parameters\\ServiceDll.*/ nocase or $e.TargetObject = /.*\\Terminal Server\\WinStations\\RDP-Tcp\\SecurityLayer.*/ nocase or $e.TargetObject = /.*\\Windows NT\\Terminal Services\\InitialProgram.*/ nocase))) and not(($e.TargetObject = /.*\\SecurityLayer$/ nocase and $e.Details = "DWORD (0x00000002)")))
+
+  condition:
+    $e
+}

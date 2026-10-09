@@ -1,0 +1,11 @@
+// Title: Windows Shell/Scripting Processes Spawning Suspicious Programs
+// ID: 3a6586ad-127a-4d3b-a677-1e6eacdf8fde
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Tim Shelton
+// Date: 2018-04-06
+// Tags: attack.execution, attack.stealth, attack.t1059.005, attack.t1059.001, attack.t1218
+// Description: Detects suspicious child processes of a Windows shell and scripting processes such as wscript, rundll32, powershell, mshta...etc.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(ParentImage IENDSWITH "\\mshta.exe") OR where(ParentImage IENDSWITH "\\powershell.exe") OR where(ParentImage IENDSWITH "\\pwsh.exe") OR where(ParentImage IENDSWITH "\\rundll32.exe") OR where(ParentImage IENDSWITH "\\cscript.exe") OR where(ParentImage IENDSWITH "\\wscript.exe") OR where(ParentImage IENDSWITH "\\wmiprvse.exe") OR where(ParentImage IENDSWITH "\\regsvr32.exe")) AND (where(Image IENDSWITH "\\schtasks.exe") OR where(Image IENDSWITH "\\nslookup.exe") OR where(Image IENDSWITH "\\certutil.exe") OR where(Image IENDSWITH "\\bitsadmin.exe") OR where(Image IENDSWITH "\\mshta.exe"))) AND NOT ((((where(ParentCommandLine ICONTAINS "\\Program Files\\Amazon\\WorkSpacesConfig\\Scripts\\setup-scheduledtask.ps1") OR where(ParentCommandLine ICONTAINS "\\Program Files\\Amazon\\WorkSpacesConfig\\Scripts\\set-selfhealing.ps1") OR where(ParentCommandLine ICONTAINS "\\Program Files\\Amazon\\WorkSpacesConfig\\Scripts\\check-workspacehealth.ps1") OR where(ParentCommandLine ICONTAINS "\\nessus_"))) OR (where(CurrentDirectory ICONTAINS "\\ccmcache\\")) OR (where(CommandLine ICONTAINS "\\nessus_")) OR (where(ParentImage IENDSWITH "\\mshta.exe") AND where(Image IENDSWITH "\\mshta.exe") AND (where(ParentCommandLine ICONTAINS "C:\\MEM_Configmgr_") AND where(ParentCommandLine ICONTAINS "\\splash.hta") AND where(ParentCommandLine ICONTAINS "{1E460BD7-F1C3-4B2E-88BF-4E770A288AF5}")) AND (where(CommandLine ICONTAINS "C:\\MEM_Configmgr_") AND where(CommandLine ICONTAINS "\\SMSSETUP\\BIN\\") AND where(CommandLine ICONTAINS "\\autorun.hta") AND where(CommandLine ICONTAINS "{1E460BD7-F1C3-4B2E-88BF-4E770A288AF5}"))))))

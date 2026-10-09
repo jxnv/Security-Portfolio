@@ -1,0 +1,23 @@
+// Title: Potential Amazon SSM Agent Hijacking
+// ID: d20ee2f4-822c-4827-9e15-41500b1fff10
+// Status: test
+// Level: medium
+// Author: Muhammad Faisal
+// Date: 2023-08-02
+// Tags: attack.command-and-control, attack.persistence, attack.t1219.002
+// Description: Detects potential Amazon SSM agent hijack attempts as outlined in the Mitiga research report.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule d20ee2f4_822c_4827_9e15_41500b1fff10 {
+  meta:
+    title = "Potential Amazon SSM Agent Hijacking"
+    description = "Detects potential Amazon SSM agent hijack attempts as outlined in the Mitiga research report."
+    author = "Muhammad Faisal"
+    severity = "MEDIUM"
+
+  events:
+    ($e.target.process.file.full_path = /.*\\amazon-ssm-agent.exe$/ nocase and ($e.target.process.command_line = /.*-register .*/ nocase and $e.target.process.command_line = /.*-code .*/ nocase and $e.target.process.command_line = /.*-id .*/ nocase and $e.target.process.command_line = /.*-region .*/ nocase))
+
+  condition:
+    $e
+}

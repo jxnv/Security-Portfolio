@@ -1,0 +1,11 @@
+// Title: Potential SMB Relay Attack Tool Execution
+// ID: 5589ab4f-a767-433c-961d-c91f3f704db1
+// Status: test
+// Level: critical
+// Author: Florian Roth (Nextron Systems)
+// Date: 2021-07-24
+// Tags: attack.collection, attack.execution, attack.credential-access, attack.t1557.001
+// Description: Detects different hacktools used for relay attacks on Windows for privilege escalation
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(CommandLine ICONTAINS ".exe -c \"{") AND where(CommandLine IENDSWITH "}\" -z")) OR ((where(Image ICONTAINS "PetitPotam") OR where(Image ICONTAINS "RottenPotato") OR where(Image ICONTAINS "HotPotato") OR where(Image ICONTAINS "JuicyPotato") OR where(Image ICONTAINS "\\just_dce_") OR where(Image ICONTAINS "Juicy Potato") OR where(Image ICONTAINS "\\temp\\rot.exe") OR where(Image ICONTAINS "\\Potato.exe") OR where(Image ICONTAINS "\\SpoolSample.exe") OR where(Image ICONTAINS "\\Responder.exe") OR where(Image ICONTAINS "\\smbrelayx") OR where(Image ICONTAINS "\\ntlmrelayx") OR where(Image ICONTAINS "\\LocalPotato"))) OR ((where(CommandLine ICONTAINS "Invoke-Tater") OR where(CommandLine ICONTAINS " smbrelay") OR where(CommandLine ICONTAINS " ntlmrelay") OR where(CommandLine ICONTAINS "cme smb ") OR where(CommandLine ICONTAINS " /ntlm:NTLMhash ") OR where(CommandLine ICONTAINS "Invoke-PetitPotam") OR where(CommandLine ICONTAINS ".exe -t * -p ")))) AND NOT (((where(Image ICONTAINS "HotPotatoes6") OR where(Image ICONTAINS "HotPotatoes7") OR where(Image ICONTAINS "HotPotatoes ")))))

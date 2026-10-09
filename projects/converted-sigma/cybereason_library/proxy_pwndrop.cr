@@ -1,0 +1,11 @@
+// Title: PwnDrp Access
+// ID: 2b1ee7e4-89b6-4739-b7bb-b811b6607e5e
+// Status: test
+// Level: critical
+// Author: Florian Roth (Nextron Systems)
+// Date: 2020-04-15
+// Tags: attack.command-and-control, attack.t1071.001, attack.t1102.001, attack.t1102.003
+// Description: Detects downloads from PwnDrp web servers developed for red team testing and most likely also used for criminal activity
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(c-uri contains "/pwndrop/")

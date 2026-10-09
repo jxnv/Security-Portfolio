@@ -1,0 +1,22 @@
+-- Title: DNS Query to External Service Interaction Domains
+-- ID: aff715fa-4dd5-497a-8db3-910bea555566
+-- Status: test
+-- Level: high
+-- Author: Florian Roth (Nextron Systems), Matt Kelly (list of domains)
+-- Date: 2022-06-07
+-- Tags: attack.initial-access, attack.t1190, attack.reconnaissance, attack.t1595.002
+-- Description: Detects DNS queries to well-known out-of-band application security testing (OAST) and callback domains.
+-- These services (e.g. Burp Collaborator, interactsh, canarytokens, dnslog.cn) are used by security
+-- researchers and attackers alike to confirm blind vulnerabilities such as SSRF, XXE, blind RCE, and
+-- Log4Shell-style injections, where the exploit payload triggers an external DNS lookup to a controlled domain.
+-- 
+-- A detection indicates that a host on your network resolved one of these domains, which may mean:
+--     (1) an attacker is actively probing or exploiting a vulnerable service and using the callback to
+--     confirm code execution or data exfiltration,
+--     (2) a security scanner (e.g. Nuclei, Gobies) is running against internal targets.
+-- 
+-- Investigate the source host, the full DNS query string (the unique subdomain prefix encodes the callback session),
+-- and any concurrent outbound connections or process activity to determine intent.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE (((query ILIKE '%.burpcollaborator.net' OR query ILIKE '%.canarytokens.com' OR query ILIKE '%.ceye.io' OR query ILIKE '%.ddns.1433.eu.org' OR query ILIKE '%.ddns.bypass.eu.org' OR query ILIKE '%.ddns.xn--gg8h.eu.org' OR query ILIKE '%.digimg.store' OR query ILIKE '%.dns.su18.org' OR query ILIKE '%.dnshook.site' OR query ILIKE '%.dnslog.cn' OR query ILIKE '%.dnslog.ink' OR query ILIKE '%.gobygo.net' OR query ILIKE '%.instances.httpworkbench.com' OR query ILIKE '%.interact.sh' OR query ILIKE '%.log.dnslog.pp.ua' OR query ILIKE '%.log.dnslog.qzz.io' OR query ILIKE '%.log.dnslogs.dpdns.org' OR query ILIKE '%.log.javaweb.org' OR query ILIKE '%.log.nat.cloudns.ph' OR query ILIKE '%.oast.fun' OR query ILIKE '%.oast.live' OR query ILIKE '%.oast.me' OR query ILIKE '%.oast.online' OR query ILIKE '%.oast.pro' OR query ILIKE '%.oast.site' OR query ILIKE '%.oastify.com' OR query ILIKE '%.p8.lol' OR query ILIKE '%.requestbin.net')) AND NOT ((query ILIKE '%polling.oastify.com%')))

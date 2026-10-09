@@ -1,0 +1,14 @@
+// Title: Potential ClickFix Execution Pattern - Registry
+// ID: f5fe36cf-f1ec-4c23-903d-09a3110f6bbb
+// Status: experimental
+// Level: high
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-03-25
+// Tags: attack.execution, attack.t1204.001
+// Description: Detects potential ClickFix malware execution patterns by monitoring registry modifications in RunMRU keys containing HTTP/HTTPS links.
+// ClickFix is known to be distributed through phishing campaigns and uses techniques like clipboard hijacking and fake CAPTCHA pages.
+// Through the fakecaptcha pages, the adversary tricks users into opening the Run dialog box and pasting clipboard-hijacked content,
+// such as one-liners that execute remotely hosted malicious files or scripts.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((Details CONTAINS "http://" OR Details CONTAINS "https://")) AND (TargetObject CONTAINS "\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\RunMRU\\") AND (((Details CONTAINS "account" OR Details CONTAINS "anti-bot" OR Details CONTAINS "botcheck" OR Details CONTAINS "captcha" OR Details CONTAINS "challenge" OR Details CONTAINS "confirmation" OR Details CONTAINS "fraud" OR Details CONTAINS "human" OR Details CONTAINS "identification" OR Details CONTAINS "identificator" OR Details CONTAINS "identity" OR Details CONTAINS "robot" OR Details CONTAINS "validation" OR Details CONTAINS "verification" OR Details CONTAINS "verify")) OR ((Details CONTAINS "%comspec%" OR Details CONTAINS "bitsadmin" OR Details CONTAINS "certutil" OR Details CONTAINS "cmd" OR Details CONTAINS "cscript" OR Details CONTAINS "curl" OR Details CONTAINS "finger" OR Details CONTAINS "mshta" OR Details CONTAINS "powershell" OR Details CONTAINS "pwsh" OR Details CONTAINS "regsvr32" OR Details CONTAINS "rundll32" OR Details CONTAINS "schtasks" OR Details CONTAINS "wget" OR Details CONTAINS "wscript"))))

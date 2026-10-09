@@ -1,0 +1,11 @@
+// Title: Suspicious Reverse Shell Command Line
+// ID: 738d9bcf-6999-4fdb-b4ac-3033037db8ab
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2019-04-02
+// Tags: attack.execution, attack.t1059.004
+// Description: Detects suspicious shell commands or program code that may be executed or used in command line to establish a reverse shell
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+SecurityEvent | where (* has "BEGIN {s = \"/inet/tcp/0/" or * has "bash -i >& /dev/tcp/" or * has "bash -i >& /dev/udp/" or * has "sh -i >$ /dev/udp/" or * has "sh -i >$ /dev/tcp/" or * has "&& while read line 0<&5; do" or * has "/bin/bash -c exec 5<>/dev/tcp/" or * has "/bin/bash -c exec 5<>/dev/udp/" or * has "nc -e /bin/sh " or * has "/bin/sh | nc" or * has "rm -f backpipe; mknod /tmp/backpipe p && nc " or * has ";socket(S,PF_INET,SOCK_STREAM,getprotobyname(\"tcp\"));if(connect(S,sockaddr_in($p,inet_aton($i))))" or * has ";STDIN->fdopen($c,r);$~->fdopen($c,w);system$_ while<>;" or * has "/bin/sh -i <&3 >&3 2>&3" or * has "uname -a; w; id; /bin/bash -i" or * has "$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2); $stream.Write($sendbyte,0,$sendbyte.Length); $stream.Flush()};" or * has ";os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);os.putenv('HISTFILE','/dev/null');" or * has ".to_i;exec sprintf(\"/bin/sh -i <&%d >&%d 2>&%d\",f,f,f)" or * has ";while(cmd=c.gets);IO.popen(cmd,\"r\"){|io|c.print" or * has "socat exec:'bash -li',pty,stderr,setsid,sigint,sane tcp:" or * has "rm -f /tmp/p; mknod /tmp/p p &&" or * has " | /bin/bash | telnet " or * has ",echo=0,raw tcp-listen:" or * has "nc -lvvp " or * has "xterm -display 1")

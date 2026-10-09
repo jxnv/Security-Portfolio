@@ -1,0 +1,11 @@
+# Title: Potential Defense Evasion Via Rename Of Highly Relevant Binaries
+# ID: 0ba1da6d-b6ce-4366-828c-18826c9de23e
+# Status: test
+# Level: high
+# Author: Matthew Green - @mgreen27, Florian Roth (Nextron Systems), frack113
+# Date: 2019-06-15
+# Tags: attack.stealth, attack.t1036.003, car.2013-05-009
+# Description: Detects the execution of a renamed binary often used by attackers or malware leveraging new Sysmon OriginalFileName datapoint.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog (((Description="Execute processes remotely") OR (Product="Sysinternals PsExec") OR ((Description="Windows PowerShell*" OR Description="pwsh*")) OR ((process_name="certutil.exe" OR process_name="cmstp.exe" OR process_name="cscript.exe" OR process_name="IE4UINIT.EXE" OR process_name="finger.exe" OR process_name="mshta.exe" OR process_name="msiexec.exe" OR process_name="msxsl.exe" OR process_name="powershell_ise.exe" OR process_name="powershell.exe" OR process_name="psexec.c" OR process_name="psexec.exe" OR process_name="psexesvc.exe" OR process_name="pwsh.dll" OR process_name="reg.exe" OR process_name="regsvr32.exe" OR process_name="rundll32.exe" OR process_name="WerMgr" OR process_name="wmic.exe" OR process_name="wscript.exe"))) AND NOT (((process_path="*\\certutil.exe" OR process_path="*\\cmstp.exe" OR process_path="*\\cscript.exe" OR process_path="*\\ie4uinit.exe" OR process_path="*\\finger.exe" OR process_path="*\\mshta.exe" OR process_path="*\\msiexec.exe" OR process_path="*\\msxsl.exe" OR process_path="*\\powershell_ise.exe" OR process_path="*\\powershell.exe" OR process_path="*\\psexec.exe" OR process_path="*\\psexec64.exe" OR process_path="*\\psexec64a.exe" OR process_path="*\\PSEXESVC.exe" OR process_path="*\\pwsh.exe" OR process_path="*\\reg.exe" OR process_path="*\\regsvr32.exe" OR process_path="*\\rundll32.exe" OR process_path="*\\wermgr.exe" OR process_path="*\\wmic.exe" OR process_path="*\\wscript.exe"))))

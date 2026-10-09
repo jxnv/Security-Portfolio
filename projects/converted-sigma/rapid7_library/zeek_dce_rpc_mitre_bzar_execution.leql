@@ -1,0 +1,11 @@
+// Title: MITRE BZAR Indicators for Execution
+// ID: b640c0b8-87f8-4daa-aef8-95a24261dd1d
+// Status: test
+// Level: medium
+// Author: @neu5ron, SOC Prime
+// Date: 2020-03-19
+// Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.t1047, attack.t1053.002, attack.t1569.002
+// Description: Windows DCE-RPC functions which indicate an execution techniques on the remote system. All credit for the Zeek mapping of the suspicious endpoint/operation field goes to MITRE
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((where(endpoint = "JobAdd") AND where(operation = "atsvc")) OR (where(endpoint = "svcctl") AND where(operation = "StartServiceW")) OR (where(endpoint = "ITaskSchedulerService") AND where(operation = "SchRpcEnableTask")) OR (where(endpoint = "ITaskSchedulerService") AND where(operation = "SchRpcRegisterTask")) OR (where(endpoint = "ITaskSchedulerService") AND where(operation = "SchRpcRun")) OR (where(endpoint = "IWbemServices") AND where(operation = "ExecMethod")) OR (where(endpoint = "IWbemServices") AND where(operation = "ExecMethodAsync")) OR (where(endpoint = "svcctl") AND where(operation = "CreateServiceA")) OR (where(endpoint = "svcctl") AND where(operation = "CreateServiceW")) OR (where(endpoint = "svcctl") AND where(operation = "StartServiceA")))

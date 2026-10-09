@@ -1,0 +1,11 @@
+// Title: Potentially Suspicious Regsvr32 HTTP IP Pattern
+// ID: 2dd2c217-bf68-437a-b57c-fe9fd01d5de8
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-01-11
+// Tags: attack.stealth, attack.t1218.010
+// Description: Detects regsvr32 execution to download and install DLLs located remotely where the address is an IP address.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where (((process.executable endswith "\\regsvr32.exe") or (process.pe.original_file_name == "REGSVR32.EXE")) and ((process.command_line like "*_ /i:http://1*" or process.command_line like "*_ /i:http://2*" or process.command_line like "*_ /i:http://3*" or process.command_line like "*_ /i:http://4*" or process.command_line like "*_ /i:http://5*" or process.command_line like "*_ /i:http://6*" or process.command_line like "*_ /i:http://7*" or process.command_line like "*_ /i:http://8*" or process.command_line like "*_ /i:http://9*" or process.command_line like "*_ /i:https://1*" or process.command_line like "*_ /i:https://2*" or process.command_line like "*_ /i:https://3*" or process.command_line like "*_ /i:https://4*" or process.command_line like "*_ /i:https://5*" or process.command_line like "*_ /i:https://6*" or process.command_line like "*_ /i:https://7*" or process.command_line like "*_ /i:https://8*" or process.command_line like "*_ /i:https://9*" or process.command_line like "*_ -i:http://1*" or process.command_line like "*_ -i:http://2*" or process.command_line like "*_ -i:http://3*" or process.command_line like "*_ -i:http://4*" or process.command_line like "*_ -i:http://5*" or process.command_line like "*_ -i:http://6*" or process.command_line like "*_ -i:http://7*" or process.command_line like "*_ -i:http://8*" or process.command_line like "*_ -i:http://9*" or process.command_line like "*_ -i:https://1*" or process.command_line like "*_ -i:https://2*" or process.command_line like "*_ -i:https://3*" or process.command_line like "*_ -i:https://4*" or process.command_line like "*_ -i:https://5*" or process.command_line like "*_ -i:https://6*" or process.command_line like "*_ -i:https://7*" or process.command_line like "*_ -i:https://8*" or process.command_line like "*_ -i:https://9*")))

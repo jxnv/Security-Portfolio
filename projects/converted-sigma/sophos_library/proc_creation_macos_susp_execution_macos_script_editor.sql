@@ -1,0 +1,11 @@
+-- Title: Suspicious Execution via macOS Script Editor
+-- ID: 6e4dcdd1-e48b-42f7-b2d8-3b413fc58cb4
+-- Status: test
+-- Level: medium
+-- Author: Tim Rauch (rule), Elastic (idea)
+-- Date: 2022-10-21
+-- Tags: attack.defense-impairment, attack.t1566, attack.t1566.002, attack.initial-access, attack.t1059, attack.t1059.002, attack.t1204, attack.t1204.001, attack.execution, attack.persistence, attack.t1553
+-- Description: Detects when the macOS Script Editor utility spawns an unusual child process.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE ((((Image ILIKE '%/curl' OR Image ILIKE '%/bash' OR Image ILIKE '%/sh' OR Image ILIKE '%/zsh' OR Image ILIKE '%/dash' OR Image ILIKE '%/fish' OR Image ILIKE '%/osascript' OR Image ILIKE '%/mktemp' OR Image ILIKE '%/chmod' OR Image ILIKE '%/php' OR Image ILIKE '%/nohup' OR Image ILIKE '%/openssl' OR Image ILIKE '%/plutil' OR Image ILIKE '%/PlistBuddy' OR Image ILIKE '%/xattr' OR Image ILIKE '%/sqlite' OR Image ILIKE '%/funzip' OR Image ILIKE '%/popen')) OR ((Image ILIKE '%python%' OR Image ILIKE '%perl%'))) AND (ParentImage ILIKE '%/Script Editor'))

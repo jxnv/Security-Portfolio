@@ -1,0 +1,45 @@
+{
+  "title": "Potentially Suspicious File Creation by OpenEDR's ITSMService",
+  "id": "9e4b7d3a-6f2c-4e9a-8d1b-3c5e7a9f2b4d",
+  "status": "experimental",
+  "description": "Detects the creation of potentially suspicious files by OpenEDR's ITSMService process.\nThe ITSMService is responsible for remote management operations and can create files on the system through the Process Explorer or file management features.\nWhile legitimate for IT operations, creation of executable or script files could indicate unauthorized file uploads, data staging, or malicious file deployment.\n",
+  "author": "@kostastsale",
+  "date": "2026-02-19",
+  "tags": [
+    "attack.command-and-control",
+    "attack.t1105",
+    "attack.lateral-movement",
+    "attack.t1570",
+    "attack.t1219"
+  ],
+  "level": "medium",
+  "logsource": {
+    "product": "windows",
+    "category": "file_event"
+  },
+  "detection": {
+    "selection_process": {
+      "Image|endswith": "\\COMODO\\Endpoint Manager\\ITSMService.exe"
+    },
+    "selection_suspicious_extensions": {
+      "TargetFilename|endswith": [
+        ".7z",
+        ".bat",
+        ".cmd",
+        ".com",
+        ".dll",
+        ".exe",
+        ".hta",
+        ".js",
+        ".pif",
+        ".ps1",
+        ".rar",
+        ".scr",
+        ".vbe",
+        ".vbs",
+        ".zip"
+      ]
+    },
+    "condition": "all of selection_*"
+  }
+}

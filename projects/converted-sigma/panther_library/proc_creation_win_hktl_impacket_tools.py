@@ -1,0 +1,19 @@
+# Title: HackTool - Impacket Tools Execution
+# ID: 4627c6ae-6899-46e2-aa0c-6ebcb1becd19
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems)
+# Date: 2021-07-24
+# Tags: attack.collection, attack.execution, attack.credential-access, attack.t1557.001
+# Description: Detects the execution of different compiled Windows binaries of the impacket toolset (based on names or part of their names - could lead to false positives)
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: HackTool - Impacket Tools Execution
+def rule(event):
+    # Detection Logic:
+    # (((Image="*\\goldenPac*" OR Image="*\\karmaSMB*" OR Image="*\\kintercept*" OR Image="*\\ntlmrelayx*" OR Image="*\\rpcdump*" OR Image="*\\samrdump*" OR Image="*\\secretsdump*" OR Image="*\\smbexec*" OR Image="*\\smbrelayx*" OR Image="*\\wmiexec*" OR Image="*\\wmipersist*")) OR ((Image="*\\atexec_windows.exe" OR Image="*\\dcomexec_windows.exe" OR Image="*\\dpapi_windows.exe" OR Image="*\\findDelegation_windows.exe" OR Image="*\\GetADUsers_windows.exe" OR Image="*\\GetNPUsers_windows.exe" OR Image="*\\getPac_windows.exe" OR Image="*\\getST_windows.exe" OR Image="*\\getTGT_windows.exe" OR Image="*\\GetUserSPNs_windows.exe" OR Image="*\\ifmap_windows.exe" OR Image="*\\mimikatz_windows.exe" OR Image="*\\netview_windows.exe" OR Image="*\\nmapAnswerMachine_windows.exe" OR Image="*\\opdump_windows.exe" OR Image="*\\psexec_windows.exe" OR Image="*\\rdp_check_windows.exe" OR Image="*\\sambaPipe_windows.exe" OR Image="*\\smbclient_windows.exe" OR Image="*\\smbserver_windows.exe" OR Image="*\\sniff_windows.exe" OR Image="*\\sniffer_windows.exe" OR Image="*\\split_windows.exe" OR Image="*\\ticketer_windows.exe")))
+    return True
+
+def title(event):
+    return "HackTool - Impacket Tools Execution"
+

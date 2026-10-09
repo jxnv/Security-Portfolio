@@ -1,0 +1,21 @@
+# Title: Remote Access Tool - TacticalRMM Agent Registration to Potentially Attacker-Controlled Server
+# ID: 2db93a3f-3249-4f73-9e68-0e77a0f8ae7e
+# Status: experimental
+# Level: medium
+# Author: Ahmed Nosir (@egycondor)
+# Date: 2025-05-29
+# Tags: attack.command-and-control, attack.t1219, attack.t1105
+# Description: Detects TacticalRMM agent installations where the --api, --auth, and related flags are used on the command line.
+# These parameters configure the agent to connect to a specific RMM server with authentication, client ID, and site ID.
+# This technique could indicate a threat actor attempting to register the agent with an attacker-controlled RMM infrastructure silently.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Remote Access Tool - TacticalRMM Agent Registration to Potentially Attacker-Controlled Server
+def rule(event):
+    # Detection Logic:
+    # (Image="*\\TacticalAgent\\tacticalrmm.exe*" AND (CommandLine="*--api*" AND CommandLine="*--auth*" AND CommandLine="*--client-id*" AND CommandLine="*--site-id*" AND CommandLine="*--agent-type*"))
+    return True
+
+def title(event):
+    return "Remote Access Tool - TacticalRMM Agent Registration to Potentially Attacker-Controlled Server"
+

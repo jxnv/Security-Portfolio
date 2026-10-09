@@ -1,0 +1,11 @@
+// Title: Remote Thread Creation In Uncommon Target Image
+// ID: a1a144b7-5c9b-4853-a559-2172be8d4a03
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-03-16
+// Tags: attack.privilege-escalation, attack.stealth, attack.t1055.003
+// Description: Detects uncommon target processes for remote thread creation
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((TargetImage endswithCIS "\\calc.exe" OR TargetImage endswithCIS "\\calculator.exe" OR TargetImage endswithCIS "\\mspaint.exe" OR TargetImage endswithCIS "\\notepad.exe" OR TargetImage endswithCIS "\\ping.exe" OR TargetImage endswithCIS "\\sethc.exe" OR TargetImage endswithCIS "\\spoolsv.exe" OR TargetImage endswithCIS "\\wordpad.exe" OR TargetImage endswithCIS "\\write.exe")) AND NOT (((SourceImage = "C:\\Windows\\System32\\csrss.exe") OR ((SourceImage = "C:\\Windows\\System32\\explorer.exe" OR SourceImage = "C:\\Windows\\System32\\OpenWith.exe") AND TargetImage = "C:\\Windows\\System32\\notepad.exe") OR (SourceImage = "C:\\Windows\\System32\\AtBroker.exe" AND TargetImage = "C:\\Windows\\System32\\Sethc.exe"))) AND NOT (((StartFunction = "EtwpNotificationThread") OR (SourceImage containsCIS "unknown process") OR (SourceImage = "C:\\Program Files\\VMware\\VMware Tools\\vmtoolsd.exe" AND StartFunction = "GetCommandLineW" AND (TargetImage = "C:\\Windows\\System32\\notepad.exe" OR TargetImage = "C:\\Windows\\System32\\spoolsv.exe")) OR (SourceImage = "C:\\Program Files\\Xerox\\XeroxPrintExperience\\CommonFiles\\XeroxPrintJobEventManagerService.exe" AND StartFunction = "LoadLibraryW" AND TargetImage = "C:\\Windows\\System32\\spoolsv.exe"))))

@@ -1,0 +1,11 @@
+// Title: Suspicious Scheduled Task Update
+// ID: 614cf376-6651-47c4-9dcc-6b9527f749f4
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-12-05
+// Tags: attack.execution, attack.privilege-escalation, attack.persistence, attack.t1053.005
+// Description: Detects update to a scheduled task event that contain suspicious keywords.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((TaskContentNew = /*regsvr32*/i or TaskContentNew = /*rundll32*/i or TaskContentNew = /*cmd.exe</Command>*/i or TaskContentNew = /*cmd</Command>*/i or TaskContentNew = /*<Arguments>/c */i or TaskContentNew = /*<Arguments>/k */i or TaskContentNew = /*<Arguments>/r */i or TaskContentNew = /*powershell*/i or TaskContentNew = /*pwsh*/i or TaskContentNew = /*mshta*/i or TaskContentNew = /*wscript*/i or TaskContentNew = /*cscript*/i or TaskContentNew = /*certutil*/i or TaskContentNew = /*bitsadmin*/i or TaskContentNew = /*bash.exe*/i or TaskContentNew = /*bash */i or TaskContentNew = /*scrcons*/i or TaskContentNew = /*wmic */i or TaskContentNew = /*wmic.exe*/i or TaskContentNew = /*forfiles*/i or TaskContentNew = /*scriptrunner*/i or TaskContentNew = /*hh.exe*/i)) and (EventID = 4702) and ((TaskContentNew = /*\\AppData\\Local\\Temp\\*/i or TaskContentNew = /*\\AppData\\Roaming\\*/i or TaskContentNew = /*\\Users\\Public\\*/i or TaskContentNew = /*\\WINDOWS\\Temp\\*/i or TaskContentNew = /*C:\\Temp\\*/i or TaskContentNew = /*\\Desktop\\*/i or TaskContentNew = /*\\Downloads\\*/i or TaskContentNew = /*\\Temporary Internet*/i or TaskContentNew = /*C:\\ProgramData\\*/i or TaskContentNew = /*C:\\Perflogs\\*/i)))

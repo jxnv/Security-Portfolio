@@ -1,0 +1,11 @@
+// Title: Registry Entries For Azorult Malware
+// ID: f7f9ab88-7557-4a69-b30e-0a8f91b3a0e7
+// Status: test
+// Level: critical
+// Author: Trent Liffick
+// Date: 2020-05-08
+// Tags: attack.persistence, attack.execution, attack.defense-impairment, attack.t1112
+// Description: Detects the presence of a registry key created during Azorult execution
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((EventID: "12" OR EventID: "13") AND TargetObject: "*SYSTEM\\*" AND TargetObject="*\\services\\localNETService")

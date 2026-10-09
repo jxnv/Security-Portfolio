@@ -1,0 +1,24 @@
+// Title: Suspicious Group And Account Reconnaissance Activity Using Net.EXE
+// ID: d95de845-b83c-4a9a-8a6a-4fc802ebf6c0
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems), omkar72, @svch0st, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2019-01-16
+// Tags: attack.discovery, attack.t1087.001, attack.t1087.002
+// Description: Detects suspicious reconnaissance command line activity on Windows systems using Net.EXE
+// Check if the user that executed the commands is suspicious (e.g. service accounts, LOCAL_SYSTEM)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule d95de845_b83c_4a9a_8a6a_4fc802ebf6c0 {
+  meta:
+    title = "Suspicious Group And Account Reconnaissance Activity Using Net.EXE"
+    description = "Detects suspicious reconnaissance command line activity on Windows systems using Net.EXE Check if the user that executed the commands is suspicious (e.g. service accounts, LOCAL_SYSTEM)"
+    author = "Florian Roth (Nextron Systems), omkar72, @svch0st, Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (((($e.target.process.file.full_path = /.*\\net.exe$/ nocase or $e.target.process.file.full_path = /.*\\net1.exe$/ nocase)) or (($e.target.process.file.name = "net.exe" or $e.target.process.file.name = "net1.exe"))) and ((((($e.target.process.command_line = /.*domain admins.*/ nocase or $e.target.process.command_line = /.* administrator.*/ nocase or $e.target.process.command_line = /.* administrateur.*/ nocase or $e.target.process.command_line = /.*enterprise admins.*/ nocase or $e.target.process.command_line = /.*Exchange Trusted Subsystem.*/ nocase or $e.target.process.command_line = /.*Remote Desktop Users.*/ nocase or $e.target.process.command_line = /.*Utilisateurs du Bureau à distance.*/ nocase or $e.target.process.command_line = /.*Usuarios de escritorio remoto.*/ nocase or $e.target.process.command_line = /.* /do.*/ nocase)) and (($e.target.process.command_line = /.* group .*/ nocase or $e.target.process.command_line = /.* localgroup .*/ nocase))) and not(($e.target.process.command_line = /.* /add.*/ nocase))) or (($e.target.process.command_line = /.* /do.*/ nocase) and ($e.target.process.command_line = /.* accounts .*/ nocase))))
+
+  condition:
+    $e
+}

@@ -1,0 +1,70 @@
+{
+  "title": "MSHTA Execution with Suspicious File Extensions",
+  "id": "cc7abbd0-762b-41e3-8a26-57ad50d2eea3",
+  "status": "test",
+  "description": "Detects execution of mshta.exe with file types that looks like they do not typically represent HTA (HTML Application) content,\nsuch as .png, .jpg, .zip, .pdf, and others, which are often polyglots. MSHTA is a legitimate Windows utility for executing HTML Applications\ncontaining VBScript or JScript. Threat actors often abuse this lolbin utility to download and\nexecute malicious scripts disguised as benign files or hosted under misleading extensions to evade detection.\n",
+  "author": "Diego Perez (@darkquassar), Markus Neis, Swisscom (Improve Rule), Swachchhanda Shrawan Poudel (Nextron Systems)",
+  "date": "2019-02-22",
+  "tags": [
+    "attack.stealth",
+    "attack.t1140",
+    "attack.t1218.005",
+    "attack.execution",
+    "attack.t1059.007",
+    "cve.2020-1599"
+  ],
+  "level": "high",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_img": [
+      {
+        "Image|endswith": "\\mshta.exe"
+      },
+      {
+        "OriginalFileName": "mshta.exe"
+      }
+    ],
+    "selection_cli": {
+      "CommandLine|contains": [
+        ".7z",
+        ".avi",
+        ".bat",
+        ".bmp",
+        ".conf",
+        ".csv",
+        ".dll",
+        ".doc",
+        ".gif",
+        ".gz",
+        ".ini",
+        ".jpe",
+        ".jpg",
+        ".json",
+        ".lnk",
+        ".log",
+        ".mkv",
+        ".mp3",
+        ".mp4",
+        ".pdf",
+        ".png",
+        ".ppt",
+        ".rar",
+        ".rtf",
+        ".svg",
+        ".tar",
+        ".tmp",
+        ".txt",
+        ".xls",
+        ".xml",
+        ".yaml",
+        ".yml",
+        ".zip",
+        "vbscript"
+      ]
+    },
+    "condition": "all of selection_*"
+  }
+}

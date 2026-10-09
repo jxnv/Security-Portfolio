@@ -1,0 +1,23 @@
+// Title: Potentially Suspicious Network Connection To Notion API
+// ID: 7e9cf7b6-e827-11ed-a05b-15959c120003
+// Status: test
+// Level: low
+// Author: Gavin Knapp
+// Date: 2023-05-03
+// Tags: attack.command-and-control, attack.t1102
+// Description: Detects a non-browser process communicating with the Notion API. This could indicate potential use of a covert C2 channel such as "OffensiveNotion C2"
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 7e9cf7b6_e827_11ed_a05b_15959c120003 {
+  meta:
+    title = "Potentially Suspicious Network Connection To Notion API"
+    description = "Detects a non-browser process communicating with the Notion API. This could indicate potential use of a covert C2 channel such as "OffensiveNotion C2""
+    author = "Gavin Knapp"
+    severity = "LOW"
+
+  events:
+    (($e.DestinationHostname = /.*api.notion.com.*/ nocase) and not((($e.target.process.file.full_path = /.*\\brave.exe$/ nocase) or (($e.target.process.file.full_path = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe" or $e.target.process.file.full_path = "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe")) or (($e.target.process.file.full_path = /^C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\.*/ nocase) or ($e.target.process.file.full_path = /.*\\WindowsApps\\MicrosoftEdge.exe$/ nocase) or (($e.target.process.file.full_path = "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe" or $e.target.process.file.full_path = "C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe"))) or (($e.target.process.file.full_path = /^C:\\Program Files (x86)\\Microsoft\\EdgeCore\\.*/ nocase or $e.target.process.file.full_path = /^C:\\Program Files\\Microsoft\\EdgeCore\\.*/ nocase) and ($e.target.process.file.full_path = /.*\\msedge.exe$/ nocase or $e.target.process.file.full_path = /.*\\msedgewebview2.exe$/ nocase)) or (($e.target.process.file.full_path = "C:\\Program Files\\Mozilla Firefox\\firefox.exe" or $e.target.process.file.full_path = "C:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe")) or (($e.target.process.file.full_path = "C:\\Program Files (x86)\\Internet Explorer\\iexplore.exe" or $e.target.process.file.full_path = "C:\\Program Files\\Internet Explorer\\iexplore.exe")) or ($e.target.process.file.full_path = /.*\\maxthon.exe$/ nocase) or ($e.target.process.file.full_path = /.*\\AppData\\Local\\Programs\\Notion\\Notion.exe$/ nocase) or ($e.target.process.file.full_path = /.*\\opera.exe$/ nocase) or ($e.target.process.file.full_path = /.*\\safari.exe$/ nocase) or ($e.target.process.file.full_path = /.*\\seamonkey.exe$/ nocase) or ($e.target.process.file.full_path = /.*\\vivaldi.exe$/ nocase) or ($e.target.process.file.full_path = /.*\\whale.exe$/ nocase))))
+
+  condition:
+    $e
+}

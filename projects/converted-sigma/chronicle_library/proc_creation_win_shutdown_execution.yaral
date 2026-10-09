@@ -1,0 +1,23 @@
+// Title: Suspicious Execution of Shutdown
+// ID: 34ebb878-1b15-4895-b352-ca2eeb99b274
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-01-01
+// Tags: attack.impact, attack.t1529
+// Description: Use of the commandline to shutdown or reboot windows
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 34ebb878_1b15_4895_b352_ca2eeb99b274 {
+  meta:
+    title = "Suspicious Execution of Shutdown"
+    description = "Use of the commandline to shutdown or reboot windows"
+    author = "frack113"
+    severity = "MEDIUM"
+
+  events:
+    ($e.target.process.file.full_path = /.*\\shutdown.exe$/ nocase and ($e.target.process.command_line = /.*/r .*/ nocase or $e.target.process.command_line = /.*/s .*/ nocase))
+
+  condition:
+    $e
+}

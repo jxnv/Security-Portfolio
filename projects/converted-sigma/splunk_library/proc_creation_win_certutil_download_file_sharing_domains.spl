@@ -1,0 +1,11 @@
+# Title: Suspicious File Downloaded From File-Sharing Website Via Certutil.EXE
+# ID: 42a5f1e7-9603-4f6d-97ae-3f37d130d794
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2023-02-15
+# Tags: attack.stealth, attack.t1027, attack.command-and-control, attack.t1105
+# Description: Detects the execution of certutil with certain flags that allow the utility to download files from file-sharing websites.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog (((process_exec="*urlcache *" OR process_exec="*verifyctl *" OR process_exec="*URL *")) AND ((process_exec="*.githubusercontent.com*" OR process_exec="*0x0.st*" OR process_exec="*anonfiles.com*" OR process_exec="*bashupload.com*" OR process_exec="*cdn.discordapp.com*" OR process_exec="*chunk.io*" OR process_exec="*ddns.net*" OR process_exec="*dl.dropboxusercontent.com*" OR process_exec="*ghostbin.co*" OR process_exec="*github.com*" OR process_exec="*glitch.me*" OR process_exec="*gofile.io*" OR process_exec="*hastebin.com*" OR process_exec="*mediafire.com*" OR process_exec="*mega.nz*" OR process_exec="*onrender.com*" OR process_exec="*pages.dev*" OR process_exec="*paste.ee*" OR process_exec="*pastebin.com*" OR process_exec="*pastebin.pl*" OR process_exec="*pastetext.net*" OR process_exec="*privatlab.com*" OR process_exec="*privatlab.net*" OR process_exec="*send.exploit.in*" OR process_exec="*sendspace.com*" OR process_exec="*storage.googleapis.com*" OR process_exec="*storjshare.io*" OR process_exec="*supabase.co*" OR process_exec="*temp.sh*" OR process_exec="*transfer.sh*" OR process_exec="*trycloudflare.com*" OR process_exec="*ufile.io*" OR process_exec="*w3spaces.com*" OR process_exec="*workers.dev*" OR process_exec="*x0.at*")) AND ((process_path="*\\certutil.exe") OR (process_name="CertUtil.exe")))

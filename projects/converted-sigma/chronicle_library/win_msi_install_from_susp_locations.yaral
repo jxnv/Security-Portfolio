@@ -1,0 +1,23 @@
+// Title: MSI Installation From Suspicious Locations
+// ID: c7c8aa1c-5aff-408e-828b-998e3620b341
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-31
+// Tags: attack.execution
+// Description: Detects MSI package installation from suspicious locations
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule c7c8aa1c_5aff_408e_828b_998e3620b341 {
+  meta:
+    title = "MSI Installation From Suspicious Locations"
+    description = "Detects MSI package installation from suspicious locations"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.Provider_Name = "MsiInstaller" and ($e.EventID = 1040 or $e.EventID = 1042) and ($e.Data = /.*:\\Windows\\TEMP\\.*/ nocase or $e.Data = /.*\\\\\\\\.*/ nocase or $e.Data = /.*\\Desktop\\.*/ nocase or $e.Data = /.*\\PerfLogs\\.*/ nocase or $e.Data = /.*\\Users\\Public\\.*/ nocase)) and not((($e.Data = /.*C:\\Windows\\TEMP\\UpdHealthTools.msi.*/ nocase) or ($e.Data = /.*\\AppData\\Local\\Temp\\WinGet\\.*/ nocase))))
+
+  condition:
+    $e
+}

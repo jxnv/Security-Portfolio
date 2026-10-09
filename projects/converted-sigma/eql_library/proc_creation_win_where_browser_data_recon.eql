@@ -1,0 +1,13 @@
+// Title: Suspicious Where Execution
+// ID: 725a9768-0f5e-4cb3-aec2-bc5719c6831a
+// Status: test
+// Level: low
+// Author: frack113, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2021-12-13
+// Tags: attack.discovery, attack.t1217
+// Description: Adversaries may enumerate browser bookmarks to learn more about compromised hosts.
+// Browser bookmarks may reveal personal information about users (ex: banking sites, interests, social media, etc.) as well as details about
+// internal network resources such as servers, tools/dashboards, or other related infrastructure.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where (((process.executable endswith "\\where.exe") or (process.pe.original_file_name == "where.exe")) and ((process.command_line like "*_places.sqlite*" or process.command_line like "*_cookies.sqlite*" or process.command_line like "*_formhistory.sqlite*" or process.command_line like "*_logins.json*" or process.command_line like "*_key4.db*" or process.command_line like "*_key3.db*" or process.command_line like "*_sessionstore.jsonlz4*" or process.command_line like "*_History*" or process.command_line like "*_Bookmarks*" or process.command_line like "*_Cookies*" or process.command_line like "*_Login Data*")))

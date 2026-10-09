@@ -1,0 +1,19 @@
+# Title: Suspicious File Creation Activity From Fake Recycle.Bin Folder
+# ID: cd8b36ac-8e4a-4c2f-a402-a29b8fbd5bca
+# Status: test
+# Level: high
+# Author: X__Junior (Nextron Systems)
+# Date: 2023-07-12
+# Tags: attack.persistence, attack.stealth
+# Description: Detects file write event from/to a fake recycle bin folder that is often used as a staging directory for malware
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Suspicious File Creation Activity From Fake Recycle.Bin Folder
+def rule(event):
+    # Detection Logic:
+    # (((Image="*RECYCLERS.BIN\\*" OR Image="*RECYCLER.BIN\\*")) OR ((TargetFilename="*RECYCLERS.BIN\\*" OR TargetFilename="*RECYCLER.BIN\\*")))
+    return True
+
+def title(event):
+    return "Suspicious File Creation Activity From Fake Recycle.Bin Folder"
+

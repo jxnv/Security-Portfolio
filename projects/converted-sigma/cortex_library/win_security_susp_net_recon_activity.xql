@@ -1,0 +1,11 @@
+// Title: Reconnaissance Activity
+// ID: 968eef52-9cff-4454-8992-1e74b9cbad6c
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Jack Croock (method), Jonhnathan Ribeiro (improvements), oscd.community
+// Date: 2017-03-07
+// Tags: attack.discovery, attack.t1087.002, attack.t1069.002, attack.s0039
+// Description: Detects activity as "net user administrator /domain" and "net group domain admins /domain"
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter (EventID = 4661 and AccessMask = "0x2d" and (ObjectType = "SAM_USER" or ObjectType = "SAM_GROUP") and ObjectName startswith "S-1-5-21-" and (ObjectName endswith "-500" or ObjectName endswith "-512"))

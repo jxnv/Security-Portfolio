@@ -1,0 +1,11 @@
+# Title: Suspicious Non-Browser Network Communication With Google API
+# ID: 7e9cf7b6-e827-11ed-a05b-0242ac120003
+# Status: experimental
+# Level: medium
+# Author: Gavin Knapp
+# Date: 2023-05-01
+# Tags: attack.command-and-control, attack.t1102
+# Description: Detects a non-browser process interacting with the Google API which could indicate the use of a covert C2 such as Google Sheet C2 (GC2-sheet)
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog (((DestinationHostname="*drive.googleapis.com*" OR DestinationHostname="*oauth2.googleapis.com*" OR DestinationHostname="*sheets.googleapis.com*" OR DestinationHostname="*www.googleapis.com*")) AND NOT (((process_path="") OR (NOT process_path=*))) AND NOT (((process_path="*\\brave.exe") OR ((process_path="*:\\Program Files\\Google\\Chrome\\Application\\chrome.exe" OR process_path="*:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe")) OR ((process_path="*:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\*") OR ((process_path="*:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe" OR process_path="*:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe" OR process_path="*\\WindowsApps\\MicrosoftEdge.exe"))) OR ((process_path="*:\\Program Files (x86)\\Microsoft\\EdgeCore\\*" OR process_path="*:\\Program Files\\Microsoft\\EdgeCore\\*") AND (process_path="*\\msedge.exe" OR process_path="*\\msedgewebview2.exe")) OR ((process_path="*:\\Program Files\\Mozilla Firefox\\firefox.exe" OR process_path="*:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe")) OR (process_path="*:\\Program Files\\Google\\Drive File Stream\\*" AND process_path="*\\GoogleDriveFS.exe") OR (process_path="*\\GoogleUpdate.exe") OR ((process_path="*:\\Program Files (x86)\\Internet Explorer\\iexplore.exe" OR process_path="*:\\Program Files\\Internet Explorer\\iexplore.exe")) OR (process_path="*\\maxthon.exe") OR (process_path="*\\opera.exe") OR (process_path="*\\outlook.exe") OR (process_path="*\\safari.exe") OR (process_path="*\\seamonkey.exe") OR (process_path="*\\vivaldi.exe") OR (process_path="*\\whale.exe"))))

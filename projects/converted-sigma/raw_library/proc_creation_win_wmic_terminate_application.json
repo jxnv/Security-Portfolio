@@ -1,0 +1,34 @@
+{
+  "title": "Application Termination Attempt via Wmic.EXE",
+  "id": "49d9671b-0a0a-4c09-8280-d215bfd30662",
+  "status": "test",
+  "description": "Detects an attempt to terminate a process via \"wmic\" with the \"call terminate\" flag. Adversaries may\nuse wmic to terminate security products or other applications on the compromised host. This event is\ntriggered on on attempt and process creation can be either successful or unsuccessful.\n",
+  "author": "Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2023-09-11",
+  "tags": [
+    "attack.execution",
+    "attack.t1047"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_img": [
+      {
+        "Image|endswith": "\\WMIC.exe"
+      },
+      {
+        "OriginalFileName": "wmic.exe"
+      }
+    ],
+    "selection_cli": {
+      "CommandLine|contains|all": [
+        "call",
+        "terminate"
+      ]
+    },
+    "condition": "all of selection_*"
+  }
+}

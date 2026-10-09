@@ -1,0 +1,23 @@
+// Title: Diskshadow Script Mode - Execution From Potential Suspicious Location
+// ID: fa1a7e52-3d02-435b-81b8-00da14dd66c1
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-09-15
+// Tags: attack.stealth, attack.t1218
+// Description: Detects execution of "Diskshadow.exe" in script mode using the "/s" flag where the script is located in a potentially suspicious location.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule fa1a7e52_3d02_435b_81b8_00da14dd66c1 {
+  meta:
+    title = "Diskshadow Script Mode - Execution From Potential Suspicious Location"
+    description = "Detects execution of "Diskshadow.exe" in script mode using the "/s" flag where the script is located in a potentially suspicious location."
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.command_line = /.*-s .*/ nocase or $e.target.process.command_line = /.*/s .*/ nocase)) and (($e.target.process.file.name = "diskshadow.exe") or ($e.target.process.file.full_path = /.*\\diskshadow.exe$/ nocase)) and (($e.target.process.command_line = /.*:\\Temp\\.*/ nocase or $e.target.process.command_line = /.*:\\Windows\\Temp\\.*/ nocase or $e.target.process.command_line = /.*\\AppData\\Local\\.*/ nocase or $e.target.process.command_line = /.*\\AppData\\Roaming\\.*/ nocase or $e.target.process.command_line = /.*\\ProgramData\\.*/ nocase or $e.target.process.command_line = /.*\\Users\\Public\\.*/ nocase)))
+
+  condition:
+    $e
+}

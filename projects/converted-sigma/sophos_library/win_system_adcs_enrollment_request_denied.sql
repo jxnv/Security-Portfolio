@@ -1,0 +1,12 @@
+-- Title: Active Directory Certificate Services Denied Certificate Enrollment Request
+-- ID: 994bfd6d-0a2e-481e-a861-934069fcf5f5
+-- Status: test
+-- Level: low
+-- Author: @SerkinValery
+-- Date: 2024-03-07
+-- Tags: attack.credential-access, attack.defense-impairment, attack.t1553.004
+-- Description: Detects denied requests by Active Directory Certificate Services.
+-- Example of these requests denial include issues with permissions on the certificate template or invalid signatures.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE (Provider_Name = 'Microsoft-Windows-CertificationAuthority' AND EventID = 53)

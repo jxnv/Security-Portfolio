@@ -1,0 +1,11 @@
+-- Title: Shell Invocation via Env Command - Linux
+-- ID: bed978f8-7f3a-432b-82c5-9286a9b3031a
+-- Status: test
+-- Level: high
+-- Author: Li Ling, Andy Parkidomo, Robert Rakowski, Blake Hartstein (Bloomberg L.P.)
+-- Date: 2024-09-02
+-- Tags: attack.execution, attack.t1059.004
+-- Description: Detects the use of the env command to invoke a shell. This may indicate an attempt to bypass restricted environments, escalate privileges, or execute arbitrary commands.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE (Image ILIKE '%/env' AND (CommandLine ILIKE '%/bin/bash%' OR CommandLine ILIKE '%/bin/dash%' OR CommandLine ILIKE '%/bin/fish%' OR CommandLine ILIKE '%/bin/sh%' OR CommandLine ILIKE '%/bin/zsh%'))

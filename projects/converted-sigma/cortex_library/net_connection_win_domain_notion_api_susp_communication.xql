@@ -1,0 +1,11 @@
+// Title: Potentially Suspicious Network Connection To Notion API
+// ID: 7e9cf7b6-e827-11ed-a05b-15959c120003
+// Status: test
+// Level: low
+// Author: Gavin Knapp
+// Date: 2023-05-03
+// Tags: attack.command-and-control, attack.t1102
+// Description: Detects a non-browser process communicating with the Notion API. This could indicate potential use of a covert C2 channel such as "OffensiveNotion C2"
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter ((DestinationHostname contains "api.notion.com") and not (((action_process_image_path endswith "\\brave.exe") or ((action_process_image_path = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe" or action_process_image_path = "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe")) or ((action_process_image_path startswith "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\") or (action_process_image_path endswith "\\WindowsApps\\MicrosoftEdge.exe") or ((action_process_image_path = "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe" or action_process_image_path = "C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe"))) or ((action_process_image_path startswith "C:\\Program Files (x86)\\Microsoft\\EdgeCore\\" or action_process_image_path startswith "C:\\Program Files\\Microsoft\\EdgeCore\\") and (action_process_image_path endswith "\\msedge.exe" or action_process_image_path endswith "\\msedgewebview2.exe")) or ((action_process_image_path = "C:\\Program Files\\Mozilla Firefox\\firefox.exe" or action_process_image_path = "C:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe")) or ((action_process_image_path = "C:\\Program Files (x86)\\Internet Explorer\\iexplore.exe" or action_process_image_path = "C:\\Program Files\\Internet Explorer\\iexplore.exe")) or (action_process_image_path endswith "\\maxthon.exe") or (action_process_image_path endswith "\\AppData\\Local\\Programs\\Notion\\Notion.exe") or (action_process_image_path endswith "\\opera.exe") or (action_process_image_path endswith "\\safari.exe") or (action_process_image_path endswith "\\seamonkey.exe") or (action_process_image_path endswith "\\vivaldi.exe") or (action_process_image_path endswith "\\whale.exe"))))

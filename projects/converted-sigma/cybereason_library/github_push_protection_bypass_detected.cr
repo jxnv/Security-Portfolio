@@ -1,0 +1,11 @@
+// Title: Github Push Protection Bypass Detected
+// ID: 02cf536a-cf21-4876-8842-4159c8aee3cc
+// Status: test
+// Level: low
+// Author: Muhammad Faisal (@faisalusuf)
+// Date: 2024-03-07
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects when a user bypasses the push protection on a secret detected by secret scanning.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(action contains "secret_scanning_push_protection.bypass")

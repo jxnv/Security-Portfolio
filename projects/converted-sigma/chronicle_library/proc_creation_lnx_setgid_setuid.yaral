@@ -1,0 +1,23 @@
+// Title: Setuid and Setgid
+// ID: c21c4eaa-ba2e-419a-92b2-8371703cbe21
+// Status: test
+// Level: low
+// Author: Ömer Günal
+// Date: 2020-06-16
+// Tags: attack.persistence, attack.privilege-escalation, attack.t1548.001
+// Description: Detects suspicious change of file privileges with chown and chmod commands
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule c21c4eaa_ba2e_419a_92b2_8371703cbe21 {
+  meta:
+    title = "Setuid and Setgid"
+    description = "Detects suspicious change of file privileges with chown and chmod commands"
+    author = "Ömer Günal"
+    severity = "LOW"
+
+  events:
+    ((($e.target.process.command_line = /.* chmod u+s.*/ nocase or $e.target.process.command_line = /.* chmod g+s.*/ nocase)) and ($e.target.process.command_line = /.*chown root.*/ nocase))
+
+  condition:
+    $e
+}

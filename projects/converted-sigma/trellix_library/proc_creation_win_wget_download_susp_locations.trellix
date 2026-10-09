@@ -1,0 +1,11 @@
+# Title: Suspicious File Download From IP Via Wget.EXE - Paths
+# ID: 40aa399c-7b02-4715-8e5f-73572b493f33
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2024-02-23
+# Tags: attack.execution
+# Description: Detects potentially suspicious file downloads directly from IP addresses and stored in suspicious locations using Wget.exe
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((CommandLine=regex("\\s-O\\s")) OR (CommandLine CONTAINS "--output-document")) AND (CommandLine CONTAINS "http") AND ((Image="*\\wget.exe") OR (OriginalFileName == "wget.exe")) AND (CommandLine=regex("://[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}")) AND (((CommandLine CONTAINS ":\\PerfLogs\\" OR CommandLine CONTAINS ":\\Temp\\" OR CommandLine CONTAINS ":\\Users\\Public\\" OR CommandLine CONTAINS ":\\Windows\\Help\\" OR CommandLine CONTAINS ":\\Windows\\Temp\\" OR CommandLine CONTAINS "\\Temporary Internet")) OR ((CommandLine CONTAINS ":\\Users\\" AND CommandLine CONTAINS "\\Favorites\\")) OR ((CommandLine CONTAINS ":\\Users\\" AND CommandLine CONTAINS "\\Favourites\\")) OR ((CommandLine CONTAINS ":\\Users\\" AND CommandLine CONTAINS "\\Contacts\\")) OR ((CommandLine CONTAINS ":\\Users\\" AND CommandLine CONTAINS "\\Pictures\\"))))

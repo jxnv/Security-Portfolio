@@ -1,0 +1,11 @@
+// Title: Execution via stordiag.exe
+// ID: 961e0abb-1b1e-4c84-a453-aafe56ad0d34
+// Status: test
+// Level: high
+// Author: Austin Songer (@austinsonger)
+// Date: 2021-10-21
+// Tags: attack.stealth, attack.t1218
+// Description: Detects the use of stordiag.exe to execute schtasks.exe systeminfo.exe and fltmc.exe
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((ParentImage ENDSWITH "\\stordiag.exe" AND (Image ENDSWITH "\\schtasks.exe" OR Image ENDSWITH "\\systeminfo.exe" OR Image ENDSWITH "\\fltmc.exe")) AND NOT (((ParentImage STARTSWITH "c:\\windows\\system32\\" OR ParentImage STARTSWITH "c:\\windows\\syswow64\\"))))

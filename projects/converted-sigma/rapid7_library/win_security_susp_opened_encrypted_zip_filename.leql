@@ -1,0 +1,11 @@
+// Title: Password Protected ZIP File Opened (Suspicious Filenames)
+// ID: 54f0434b-726f-48a1-b2aa-067df14516e4
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-05-09
+// Tags: attack.command-and-control, attack.stealth, attack.t1027, attack.t1105, attack.t1036
+// Description: Detects the extraction of password protected ZIP archives with suspicious file names. See the filename variable for more details on which file has been opened.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((where(EventID = "5379") AND where(TargetName ICONTAINS "Microsoft_Windows_Shell_ZipFolder:filename")) AND ((where(TargetName ICONTAINS "invoice") OR where(TargetName ICONTAINS "new order") OR where(TargetName ICONTAINS "rechnung") OR where(TargetName ICONTAINS "factura") OR where(TargetName ICONTAINS "delivery") OR where(TargetName ICONTAINS "purchase") OR where(TargetName ICONTAINS "order") OR where(TargetName ICONTAINS "payment"))))

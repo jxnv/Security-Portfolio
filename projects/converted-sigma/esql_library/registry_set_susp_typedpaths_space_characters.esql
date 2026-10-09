@@ -1,0 +1,11 @@
+// Title: Suspicious Space Characters in TypedPaths Registry Path - FileFix
+// ID: 8f2a5c3d-9e4b-4a7c-8d1f-2e5a6b9c3d7e
+// Status: experimental
+// Level: high
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-11-04
+// Tags: attack.execution, attack.stealth, attack.t1204.004, attack.t1027.010
+// Description: Detects the occurrence of numerous space characters in TypedPaths registry paths, which may indicate execution via phishing lures using file-fix techniques to hide malicious commands.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE ((registry.path LIKE "%\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\TypedPaths\\url1" AND registry.data.strings LIKE "%#%") AND ((registry.data.strings LIKE "%            %" OR registry.data.strings LIKE "%            %" OR registry.data.strings LIKE "%            %" OR registry.data.strings LIKE "%            %" OR registry.data.strings LIKE "%            %" OR registry.data.strings LIKE "%            %" OR registry.data.strings LIKE "%            %" OR registry.data.strings LIKE "%            %" OR registry.data.strings LIKE "%            %" OR registry.data.strings LIKE "%            %" OR registry.data.strings LIKE "%            %" OR registry.data.strings LIKE "%            %" OR registry.data.strings LIKE "%            %")))

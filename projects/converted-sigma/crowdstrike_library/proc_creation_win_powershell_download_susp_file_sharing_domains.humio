@@ -1,0 +1,11 @@
+// Title: Potentially Suspicious File Download From File Sharing Domain Via PowerShell.EXE
+// ID: b6e04788-29e1-4557-bb14-77f761848ab8
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2024-02-23
+// Tags: attack.execution
+// Description: Detects potentially suspicious file downloads from file sharing domains using PowerShell.exe
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((CommandLine = /*.DownloadString(*/i or CommandLine = /*.DownloadFile(*/i or CommandLine = /*Invoke-WebRequest */i or CommandLine = /*iwr */i or CommandLine = /*wget */i)) and (((ImageFileName = /.*\\powershell.exe/i or ImageFileName = /.*\\pwsh.exe/i)) or ((OriginalFilename = "PowerShell.EXE" or OriginalFilename = "pwsh.dll"))) and ((CommandLine = /*0x0.st*/i or CommandLine = /*anonfiles.com*/i or CommandLine = /*bashupload.com*/i or CommandLine = /*cdn.discordapp.com*/i or CommandLine = /*chunk.io*/i or CommandLine = /*ddns.net*/i or CommandLine = /*dl.dropboxusercontent.com*/i or CommandLine = /*ghostbin.co*/i or CommandLine = /*glitch.me*/i or CommandLine = /*gofile.io*/i or CommandLine = /*hastebin.com*/i or CommandLine = /*mediafire.com*/i or CommandLine = /*mega.nz*/i or CommandLine = /*onrender.com*/i or CommandLine = /*pages.dev*/i or CommandLine = /*paste.ee*/i or CommandLine = /*pastebin.com*/i or CommandLine = /*pastebin.pl*/i or CommandLine = /*pastetext.net*/i or CommandLine = /*pixeldrain.com*/i or CommandLine = /*privatlab.com*/i or CommandLine = /*privatlab.net*/i or CommandLine = /*send.exploit.in*/i or CommandLine = /*sendspace.com*/i or CommandLine = /*storage.googleapis.com*/i or CommandLine = /*storjshare.io*/i or CommandLine = /*supabase.co*/i or CommandLine = /*temp.sh*/i or CommandLine = /*transfer.sh*/i or CommandLine = /*trycloudflare.com*/i or CommandLine = /*ufile.io*/i or CommandLine = /*w3spaces.com*/i or CommandLine = /*workers.dev*/i or CommandLine = /*x0.at*/i)))

@@ -1,0 +1,24 @@
+// Title: Hide Schedule Task Via Index Value Tamper
+// ID: 5b16df71-8615-4f7f-ac9b-6c43c0509e61
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-26
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects when the "index" value of a scheduled task is modified from the registry
+// Which effectively hides it from any tooling such as "schtasks /query" (Read the referenced link for more information about the effects of this technique)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 5b16df71_8615_4f7f_ac9b_6c43c0509e61 {
+  meta:
+    title = "Hide Schedule Task Via Index Value Tamper"
+    description = "Detects when the "index" value of a scheduled task is modified from the registry Which effectively hides it from any tooling such as "schtasks /query" (Read the referenced link for more information about the effects of this technique)"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.TargetObject = /.*\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Schedule\\TaskCache\\Tree\\.*/ nocase and $e.TargetObject = /.*Index.*/ nocase) and $e.Details = "DWORD (0x00000000)")
+
+  condition:
+    $e
+}

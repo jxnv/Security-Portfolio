@@ -1,0 +1,11 @@
+// Title: PsExec Service Child Process Execution as LOCAL SYSTEM
+// ID: 7c0dcd3d-acf8-4f71-9570-f448b0034f94
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-07-21
+// Tags: attack.execution
+// Description: Detects suspicious launch of the PSEXESVC service on this system and a sub process run as LOCAL_SYSTEM (-s), which means that someone remotely started a command on this system running it with highest privileges and not only the privileges of the login user account (e.g. the administrator account)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(ParentBaseFileName = "C:\\Windows\\PSEXESVC.exe" and (UserName = /*AUTHORI*/i or UserName = /*AUTORI*/i))

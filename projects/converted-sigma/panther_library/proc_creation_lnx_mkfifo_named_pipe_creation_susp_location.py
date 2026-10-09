@@ -1,0 +1,19 @@
+# Title: Potentially Suspicious Named Pipe Created Via Mkfifo
+# ID: 999c3b12-0a8c-40b6-8e13-dd7d62b75c7a
+# Status: test
+# Level: medium
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2023-06-16
+# Tags: attack.execution
+# Description: Detects the creation of a new named pipe using the "mkfifo" utility in a potentially suspicious location
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Potentially Suspicious Named Pipe Created Via Mkfifo
+def rule(event):
+    # Detection Logic:
+    # (Image="*/mkfifo" AND CommandLine="* /tmp/*")
+    return True
+
+def title(event):
+    return "Potentially Suspicious Named Pipe Created Via Mkfifo"
+

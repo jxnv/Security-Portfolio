@@ -1,0 +1,23 @@
+// Title: PUA - NSudo Execution
+// ID: 771d1eb5-9587-4568-95fb-9ec44153a012
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali
+// Date: 2022-01-24
+// Tags: attack.execution, attack.t1569.002, attack.s0029
+// Description: Detects the use of NSudo tool for command execution
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 771d1eb5_9587_4568_95fb_9ec44153a012 {
+  meta:
+    title = "PUA - NSudo Execution"
+    description = "Detects the use of NSudo tool for command execution"
+    author = "Florian Roth (Nextron Systems), Nasreddine Bencherchali"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*-U:S .*/ nocase or $e.target.process.command_line = /.*-U:T .*/ nocase or $e.target.process.command_line = /.*-U:E .*/ nocase or $e.target.process.command_line = /.*-P:E .*/ nocase or $e.target.process.command_line = /.*-M:S .*/ nocase or $e.target.process.command_line = /.*-M:H .*/ nocase or $e.target.process.command_line = /.*-U=S .*/ nocase or $e.target.process.command_line = /.*-U=T .*/ nocase or $e.target.process.command_line = /.*-U=E .*/ nocase or $e.target.process.command_line = /.*-P=E .*/ nocase or $e.target.process.command_line = /.*-M=S .*/ nocase or $e.target.process.command_line = /.*-M=H .*/ nocase or $e.target.process.command_line = /.*-ShowWindowMode:Hide.*/ nocase)) and ((($e.target.process.file.full_path = /.*\\NSudo.exe$/ nocase or $e.target.process.file.full_path = /.*\\NSudoLC.exe$/ nocase or $e.target.process.file.full_path = /.*\\NSudoLG.exe$/ nocase)) or (($e.target.process.file.name = "NSudo.exe" or $e.target.process.file.name = "NSudoLC.exe" or $e.target.process.file.name = "NSudoLG.exe"))))
+
+  condition:
+    $e
+}

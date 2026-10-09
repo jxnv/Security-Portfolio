@@ -1,0 +1,11 @@
+// Title: Suspicious Volume Shadow Copy Vssapi.dll Load
+// ID: 37774c23-25a1-4adb-bb6d-8bb9fd59c0f8
+// Status: test
+// Level: high
+// Author: frack113
+// Date: 2022-10-31
+// Tags: attack.impact, attack.t1490
+// Description: Detects the image load of VSS DLL by uncommon executables
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((ImageLoaded ENDSWITH "\\vssapi.dll") AND NOT (((NOT Image=*) OR ((Image STARTSWITH "C:\\Program Files\\" OR Image STARTSWITH "C:\\Program Files (x86)\\")) OR (((Image EQ "C:\\Windows\\explorer.exe" OR Image EQ "C:\\Windows\\ImmersiveControlPanel\\SystemSettings.exe" OR Image EQ "C:\\Windows\\servicing\\TrustedInstaller.exe")) OR ((Image STARTSWITH "C:\\Windows\\System32\\" OR Image STARTSWITH "C:\\Windows\\SysWOW64\\" OR Image STARTSWITH "C:\\Windows\\Temp\\{" OR Image STARTSWITH "C:\\Windows\\WinSxS\\" OR Image STARTSWITH "C:\\$WinREAgent\\Scratch\\"))))) AND NOT ((((Image CONTAINS "\\temp\\is-" AND Image CONTAINS "\\avira_system_speedup.tmp")) OR (Image STARTSWITH "C:\\ProgramData\\Package Cache\\"))))

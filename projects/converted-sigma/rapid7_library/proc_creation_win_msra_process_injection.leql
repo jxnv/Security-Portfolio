@@ -1,0 +1,11 @@
+// Title: Potential Process Injection Via Msra.EXE
+// ID: 744a188b-0415-4792-896f-11ddb0588dbc
+// Status: test
+// Level: high
+// Author: Alexander McDonald
+// Date: 2022-06-24
+// Tags: attack.privilege-escalation, attack.stealth, attack.t1055
+// Description: Detects potential process injection via Microsoft Remote Asssistance (Msra.exe) by looking at suspicious child processes spawned from the aforementioned process. It has been a target used by many threat actors and used for discovery and persistence tactics
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(where(ParentImage IENDSWITH "\\msra.exe") AND where(ParentCommandLine IENDSWITH "msra.exe") AND (where(Image IENDSWITH "\\arp.exe") OR where(Image IENDSWITH "\\cmd.exe") OR where(Image IENDSWITH "\\net.exe") OR where(Image IENDSWITH "\\netstat.exe") OR where(Image IENDSWITH "\\nslookup.exe") OR where(Image IENDSWITH "\\route.exe") OR where(Image IENDSWITH "\\schtasks.exe") OR where(Image IENDSWITH "\\whoami.exe")))

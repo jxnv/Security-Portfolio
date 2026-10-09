@@ -1,0 +1,23 @@
+// Title: Conhost Spawned By Uncommon Parent Process
+// ID: cbb9e3d1-2386-4e59-912e-62f1484f7a89
+// Status: test
+// Level: medium
+// Author: Tim Rauch, Elastic (idea)
+// Date: 2022-09-28
+// Tags: attack.execution, attack.t1059
+// Description: Detects when the Console Window Host (conhost.exe) process is spawned by an uncommon parent process, which could be indicative of potential code injection activity.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule cbb9e3d1_2386_4e59_912e_62f1484f7a89 {
+  meta:
+    title = "Conhost Spawned By Uncommon Parent Process"
+    description = "Detects when the Console Window Host (conhost.exe) process is spawned by an uncommon parent process, which could be indicative of potential code injection activity."
+    author = "Tim Rauch, Elastic (idea)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.process.file.full_path = /.*\\conhost.exe$/ nocase and ($e.principal.process.file.full_path = /.*\\explorer.exe$/ nocase or $e.principal.process.file.full_path = /.*\\lsass.exe$/ nocase or $e.principal.process.file.full_path = /.*\\regsvr32.exe$/ nocase or $e.principal.process.file.full_path = /.*\\rundll32.exe$/ nocase or $e.principal.process.file.full_path = /.*\\services.exe$/ nocase or $e.principal.process.file.full_path = /.*\\smss.exe$/ nocase or $e.principal.process.file.full_path = /.*\\spoolsv.exe$/ nocase or $e.principal.process.file.full_path = /.*\\svchost.exe$/ nocase or $e.principal.process.file.full_path = /.*\\userinit.exe$/ nocase or $e.principal.process.file.full_path = /.*\\wininit.exe$/ nocase or $e.principal.process.file.full_path = /.*\\winlogon.exe$/ nocase)) and not((($e.principal.process.command_line = /.*-k apphost -s AppHostSvc.*/ nocase or $e.principal.process.command_line = /.*-k imgsvc.*/ nocase or $e.principal.process.command_line = /.*-k localService -p -s RemoteRegistry.*/ nocase or $e.principal.process.command_line = /.*-k LocalSystemNetworkRestricted -p -s NgcSvc.*/ nocase or $e.principal.process.command_line = /.*-k NetSvcs -p -s NcaSvc.*/ nocase or $e.principal.process.command_line = /.*-k netsvcs -p -s NetSetupSvc.*/ nocase or $e.principal.process.command_line = /.*-k netsvcs -p -s wlidsvc.*/ nocase or $e.principal.process.command_line = /.*-k NetworkService -p -s DoSvc.*/ nocase or $e.principal.process.command_line = /.*-k wsappx -p -s AppXSvc.*/ nocase or $e.principal.process.command_line = /.*-k wsappx -p -s ClipSVC.*/ nocase or $e.principal.process.command_line = /.*-k wusvcs -p -s WaaSMedicSvc.*/ nocase))) and not((($e.principal.process.command_line = /.*C:\\Program Files (x86)\\Dropbox\\Client\\.*/ nocase or $e.principal.process.command_line = /.*C:\\Program Files\\Dropbox\\Client\\.*/ nocase))))
+
+  condition:
+    $e
+}

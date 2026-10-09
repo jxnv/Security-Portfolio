@@ -1,0 +1,11 @@
+# Title: Powershell Token Obfuscation - Process Creation
+# ID: deb9b646-a508-44ee-b7c9-d8965921c6b6
+# Status: test
+# Level: high
+# Author: frack113
+# Date: 2022-12-27
+# Tags: attack.stealth, attack.t1027.009
+# Description: Detects TOKEN OBFUSCATION technique from Invoke-Obfuscation
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog (((regex process_exec="(?i)\\w+`(?:\\w+|-|.)`[\\w+|\\s]") OR (regex process_exec="(?i)\"(?:\\{\\d\\})+\"\\s*-f") OR (regex process_exec="(?i)(?i)\\$\\{`?e`?n`?v`?:`?p`?a`?t`?h`?\\}")) AND NOT ((process_exec="*${env:path}*")))

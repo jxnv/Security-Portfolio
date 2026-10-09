@@ -1,0 +1,12 @@
+// Title: Unsigned DLL Loaded by Windows Utility
+// ID: b5de0c9a-6f19-43e0-af4e-55ad01f550af
+// Status: test
+// Level: medium
+// Author: Swachchhanda Shrawan Poudel
+// Date: 2024-02-28
+// Tags: attack.stealth, attack.t1218.011, attack.t1218.010
+// Description: Detects windows utilities loading an unsigned or untrusted DLL.
+// Adversaries often abuse those programs to proxy execution of malicious code.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((Image ENDSWITH "\\InstallUtil.exe" OR Image ENDSWITH "\\RegAsm.exe" OR Image ENDSWITH "\\RegSvcs.exe" OR Image ENDSWITH "\\regsvr32.exe" OR Image ENDSWITH "\\rundll32.exe")) AND NOT ((((Image STARTSWITH "C:\\Windows\\SysWOW64\\" OR Image STARTSWITH "C:\\Windows\\System32\\" OR Image STARTSWITH "C:\\Windows\\Microsoft.NET\\Framework64") AND Image ENDSWITH "\\RegAsm.exe" AND ImageLoaded ENDSWITH ".dll" AND ImageLoaded STARTSWITH "C:\\Windows\\assembly\\NativeImages") OR ((SignatureStatus EQ "errorChaining" OR SignatureStatus EQ "errorCode_endpoint" OR SignatureStatus EQ "errorExpired" OR SignatureStatus EQ "trusted" OR SignatureStatus EQ "Valid")) OR ((SignatureStatus EQ "" OR SignatureStatus EQ "-")) OR (NOT SignatureStatus=*) OR (Signed EQ "true") OR ((Signed EQ "" OR Signed EQ "-")) OR (NOT Signed=*) OR ((Image EQ "C:\\Windows\\SysWOW64\\rundll32.exe" OR Image EQ "C:\\Windows\\System32\\rundll32.exe") AND ImageLoaded STARTSWITH "C:\\Windows\\Installer\\" AND (ImageLoaded ENDSWITH ".tmp-\\Microsoft.Deployment.WindowsInstaller.dll" OR ImageLoaded ENDSWITH ".tmp-\\Avira.OE.Setup.CustomActions.dll")))) AND NOT (((Image EQ "C:\\Windows\\SysWOW64\\regsvr32.exe" OR Image EQ "C:\\Windows\\System32\\regsvr32.exe") AND (ImageLoaded STARTSWITH "C:\\Program Files (x86)\\K-Lite Codec Pack\\" OR ImageLoaded STARTSWITH "C:\\Program Files\\K-Lite Codec Pack\\"))))

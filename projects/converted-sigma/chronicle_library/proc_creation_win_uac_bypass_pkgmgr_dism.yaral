@@ -1,0 +1,23 @@
+// Title: UAC Bypass Using PkgMgr and DISM
+// ID: a743ceba-c771-4d75-97eb-8a90f7f4844c
+// Status: test
+// Level: high
+// Author: Christian Burkard (Nextron Systems)
+// Date: 2021-08-23
+// Tags: attack.privilege-escalation, attack.t1548.002
+// Description: Detects the pattern of UAC Bypass using pkgmgr.exe and dism.exe (UACMe 23)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule a743ceba_c771_4d75_97eb_8a90f7f4844c {
+  meta:
+    title = "UAC Bypass Using PkgMgr and DISM"
+    description = "Detects the pattern of UAC Bypass using pkgmgr.exe and dism.exe (UACMe 23)"
+    author = "Christian Burkard (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ($e.principal.process.file.full_path = /.*\\pkgmgr.exe$/ nocase and $e.target.process.file.full_path = /.*\\dism.exe$/ nocase and ($e.IntegrityLevel = "High" or $e.IntegrityLevel = "System" or $e.IntegrityLevel = "S-1-16-16384" or $e.IntegrityLevel = "S-1-16-12288"))
+
+  condition:
+    $e
+}

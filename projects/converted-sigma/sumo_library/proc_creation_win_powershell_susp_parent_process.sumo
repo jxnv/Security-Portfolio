@@ -1,0 +1,11 @@
+// Title: Suspicious PowerShell Parent Process
+// ID: 754ed792-634f-40ae-b3bc-e0448d33f695
+// Status: test
+// Level: high
+// Author: Teymur Kheirkhabarov, Harish Segar
+// Date: 2020-03-20
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects a suspicious or uncommon parent processes of PowerShell
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where (((ParentImage matches "*tomcat*") or ((ParentImage matches "*\\amigo.exe" or ParentImage matches "*\\browser.exe" or ParentImage matches "*\\chrome.exe" or ParentImage matches "*\\firefox.exe" or ParentImage matches "*\\httpd.exe" or ParentImage matches "*\\iexplore.exe" or ParentImage matches "*\\jbosssvc.exe" or ParentImage matches "*\\microsoftedge.exe" or ParentImage matches "*\\microsoftedgecp.exe" or ParentImage matches "*\\MicrosoftEdgeSH.exe" or ParentImage matches "*\\mshta.exe" or ParentImage matches "*\\nginx.exe" or ParentImage matches "*\\outlook.exe" or ParentImage matches "*\\php-cgi.exe" or ParentImage matches "*\\regsvr32.exe" or ParentImage matches "*\\rundll32.exe" or ParentImage matches "*\\safari.exe" or ParentImage matches "*\\services.exe" or ParentImage matches "*\\sqlagent.exe" or ParentImage matches "*\\sqlserver.exe" or ParentImage matches "*\\sqlservr.exe" or ParentImage matches "*\\vivaldi.exe" or ParentImage matches "*\\w3wp.exe"))) and (((Image matches "*\\powershell.exe" or Image matches "*\\pwsh.exe")) or ((CommandLine matches "*/c powershell*" or CommandLine matches "*/c pwsh*")) or (Description = "Windows PowerShell") or (Product = "PowerShell Core 6") or ((OriginalFileName = "PowerShell.EXE" or OriginalFileName = "pwsh.dll"))))

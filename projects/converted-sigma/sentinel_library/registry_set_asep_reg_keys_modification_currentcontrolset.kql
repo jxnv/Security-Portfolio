@@ -1,0 +1,11 @@
+// Title: CurrentControlSet Autorun Keys Modification
+// ID: f674e36a-4b91-431e-8aef-f8a96c2aca35
+// Status: test
+// Level: medium
+// Author: Victor Sergeev, Daniil Yugoslavskiy, Gleb Sukhodolskiy, Timur Zinniatullin, oscd.community, Tim Shelton, frack113 (split)
+// Date: 2019-10-25
+// Tags: attack.privilege-escalation, attack.persistence, attack.t1547.001
+// Description: Detects modification of autostart extensibility point (ASEP) in registry.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+DeviceProcessEvents | where (((RegistryKey contains "\\SYSTEM\\CurrentControlSet\\Control") and ((RegistryKey contains "\\Terminal Server\\WinStations\\RDP-Tcp\\InitialProgram" or RegistryKey contains "\\Terminal Server\\Wds\\rdpwd\\StartupPrograms" or RegistryKey contains "\\SecurityProviders\\SecurityProviders" or RegistryKey contains "\\SafeBoot\\AlternateShell" or RegistryKey contains "\\Print\\Providers" or RegistryKey contains "\\Print\\Monitors" or RegistryKey contains "\\NetworkProvider\\Order" or RegistryKey contains "\\Lsa\\Notification Packages" or RegistryKey contains "\\Lsa\\Authentication Packages" or RegistryKey contains "\\BootVerificationProgram\\ImagePath"))) and not(((FolderPath == "C:\\Windows\\System32\\spoolsv.exe" and RegistryKey contains "\\Print\\Monitors\\CutePDF Writer Monitor" and (RegistryValueData == "cpwmon64_v40.dll" or RegistryValueData == "CutePDF Writer")) or (RegistryValueData == "(Empty)") or (FolderPath == "C:\\Windows\\System32\\spoolsv.exe" and RegistryKey contains "Print\\Monitors\\Appmon\\Ports\\Microsoft.Office.OneNote_" and (AccountName contains "AUTHORI" or AccountName contains "AUTORI")) or (FolderPath == "C:\\Windows\\System32\\poqexec.exe" and RegistryKey endswith "\\NetworkProvider\\Order\\ProviderOrder") or (FolderPath == "C:\\Windows\\System32\\spoolsv.exe" and RegistryKey endswith "\\Print\\Monitors\\MONVNC\\Driver" and RegistryValueData == "VNCpm.dll"))))

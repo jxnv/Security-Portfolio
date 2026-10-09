@@ -1,0 +1,19 @@
+# Title: PUA - Advanced Port Scanner Execution
+# ID: 54773c5f-f1cc-4703-9126-2f797d96a69d
+# Status: test
+# Level: medium
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2021-12-18
+# Tags: attack.discovery, attack.t1046, attack.t1135
+# Description: Detects the use of Advanced Port Scanner.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: PUA - Advanced Port Scanner Execution
+def rule(event):
+    # Detection Logic:
+    # (((CommandLine="*/portable*" AND CommandLine="*/lng*")) OR ((Image="*\\advanced_port_scanner*") OR (OriginalFileName="*advanced_port_scanner*") OR (Description="*Advanced Port Scanner*")))
+    return True
+
+def title(event):
+    return "PUA - Advanced Port Scanner Execution"
+

@@ -1,0 +1,13 @@
+// Title: Suspicious Process Access to LSASS with Dbgcore/Dbghelp DLLs
+// ID: 9f5c1d59-33be-4e60-bcab-85d2f566effd
+// Status: experimental
+// Level: high
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-11-27
+// Tags: attack.credential-access, attack.defense-impairment, attack.t1003.001, attack.t1685
+// Description: Detects suspicious process access to LSASS.exe from processes located in uncommon locations with dbgcore.dll or dbghelp.dll in the call trace.
+// These DLLs contain functions like MiniDumpWriteDump that can be abused for credential dumping purposes. While modern tools like Mimikatz have moved to using ntdll.dll,
+// dbgcore.dll and dbghelp.dll are still used by basic credential dumping utilities and legacy tools for LSASS memory access and process suspension techniques.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where ((TargetImage matches "*\\lsass.exe" and (CallTrace matches "*dbgcore.dll*" or CallTrace matches "*dbghelp.dll*")) and ((SourceImage matches "*:\\Perflogs\\*" or SourceImage matches "*:\\Temp\\*" or SourceImage matches "*:\\Users\\Public\\*" or SourceImage matches "*\\$Recycle.Bin\\*" or SourceImage matches "*\\AppData\\Roaming\\*" or SourceImage matches "*\\Contacts\\*" or SourceImage matches "*\\Desktop\\*" or SourceImage matches "*\\Documents\\*" or SourceImage matches "*\\Downloads\\*" or SourceImage matches "*\\Favorites\\*" or SourceImage matches "*\\Favourites\\*" or SourceImage matches "*\\inetpub\\wwwroot\\*" or SourceImage matches "*\\Music\\*" or SourceImage matches "*\\Pictures\\*" or SourceImage matches "*\\Start Menu\\Programs\\Startup\\*" or SourceImage matches "*\\Users\\Default\\*" or SourceImage matches "*\\Videos\\*" or SourceImage matches "*\\Windows\\Temp\\*")))

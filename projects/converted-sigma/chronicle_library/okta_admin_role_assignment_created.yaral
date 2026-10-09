@@ -1,0 +1,23 @@
+// Title: Okta Admin Role Assignment Created
+// ID: 139bdd4b-9cd7-49ba-a2f4-744d0a8f5d8c
+// Status: test
+// Level: medium
+// Author: Nikita Khalimonenkov
+// Date: 2023-01-19
+// Tags: attack.persistence
+// Description: Detects when a new admin role assignment is created. Which could be a sign of privilege escalation or persistence
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 139bdd4b_9cd7_49ba_a2f4_744d0a8f5d8c {
+  meta:
+    title = "Okta Admin Role Assignment Created"
+    description = "Detects when a new admin role assignment is created. Which could be a sign of privilege escalation or persistence"
+    author = "Nikita Khalimonenkov"
+    severity = "MEDIUM"
+
+  events:
+    ($e.eventType = "iam.resourceset.bindings.add")
+
+  condition:
+    $e
+}

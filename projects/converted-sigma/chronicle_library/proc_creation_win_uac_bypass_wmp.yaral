@@ -1,0 +1,23 @@
+// Title: UAC Bypass Using Windows Media Player - Process
+// ID: 0058b9e5-bcd7-40d4-9205-95ca5a16d7b2
+// Status: test
+// Level: high
+// Author: Christian Burkard (Nextron Systems)
+// Date: 2021-08-23
+// Tags: attack.privilege-escalation, attack.t1548.002
+// Description: Detects the pattern of UAC Bypass using Windows Media Player osksupport.dll (UACMe 32)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 0058b9e5_bcd7_40d4_9205_95ca5a16d7b2 {
+  meta:
+    title = "UAC Bypass Using Windows Media Player - Process"
+    description = "Detects the pattern of UAC Bypass using Windows Media Player osksupport.dll (UACMe 32)"
+    author = "Christian Burkard (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.file.full_path = "C:\\Program Files\\Windows Media Player\\osk.exe") or ($e.target.process.file.full_path = "C:\\Windows\\System32\\cmd.exe" and $e.principal.process.command_line = "\"C:\\Windows\\system32\\mmc.exe\" \"C:\\Windows\\system32\\eventvwr.msc\" /s")) and (($e.IntegrityLevel = "High" or $e.IntegrityLevel = "System" or $e.IntegrityLevel = "S-1-16-16384" or $e.IntegrityLevel = "S-1-16-12288")))
+
+  condition:
+    $e
+}

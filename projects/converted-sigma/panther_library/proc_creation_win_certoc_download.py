@@ -1,0 +1,19 @@
+# Title: File Download via CertOC.EXE
+# ID: 70ad0861-d1fe-491c-a45f-fa48148a300d
+# Status: test
+# Level: medium
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-05-16
+# Tags: attack.command-and-control, attack.t1105
+# Description: Detects when a user downloads a file by using CertOC.exe
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: File Download via CertOC.EXE
+def rule(event):
+    # Detection Logic:
+    # (((CommandLine="*-GetCACAPS*" AND CommandLine="*http*")) AND ((Image="*\\certoc.exe") OR (OriginalFileName="CertOC.exe")))
+    return True
+
+def title(event):
+    return "File Download via CertOC.EXE"
+

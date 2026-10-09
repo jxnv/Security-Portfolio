@@ -1,0 +1,11 @@
+// Title: BloodHound Collection Files
+// ID: 02773bed-83bf-469f-b7ff-e676e7d78bab
+// Status: test
+// Level: high
+// Author: C.J. May
+// Date: 2022-08-09
+// Tags: attack.discovery, attack.t1087.001, attack.t1087.002, attack.t1482, attack.t1069.001, attack.t1069.002, attack.execution, attack.t1059.001
+// Description: Detects default file names outputted by the BloodHound collection tool SharpHound
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where (((file.path="*BloodHound.zip" OR file.path="*_computers.json" OR file.path="*_containers.json" OR file.path="*_gpos.json" OR file.path="*_groups.json" OR file.path="*_ous.json" OR file.path="*_users.json")) AND NOT ((process.executable="*\\svchost.exe" AND file.path="C:\\Program Files\\WindowsApps\\Microsoft.*" AND file.path="*\\pocket_containers.json")))

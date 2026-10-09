@@ -1,0 +1,23 @@
+// Title: DotNet CLR DLL Loaded By Scripting Applications
+// ID: 4508a70e-97ef-4300-b62b-ff27992990ea
+// Status: test
+// Level: high
+// Author: omkar72, oscd.community
+// Date: 2020-10-14
+// Tags: attack.execution, attack.privilege-escalation, attack.stealth, attack.t1055
+// Description: Detects .NET CLR DLLs being loaded by scripting applications such as wscript or cscript. This could be an indication of potential suspicious execution.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 4508a70e_97ef_4300_b62b_ff27992990ea {
+  meta:
+    title = "DotNet CLR DLL Loaded By Scripting Applications"
+    description = "Detects .NET CLR DLLs being loaded by scripting applications such as wscript or cscript. This could be an indication of potential suspicious execution."
+    author = "omkar72, oscd.community"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.file.full_path = /.*\\cmstp.exe$/ nocase or $e.target.process.file.full_path = /.*\\cscript.exe$/ nocase or $e.target.process.file.full_path = /.*\\mshta.exe$/ nocase or $e.target.process.file.full_path = /.*\\msxsl.exe$/ nocase or $e.target.process.file.full_path = /.*\\regsvr32.exe$/ nocase or $e.target.process.file.full_path = /.*\\wmic.exe$/ nocase or $e.target.process.file.full_path = /.*\\wscript.exe$/ nocase) and ($e.ImageLoaded = /.*\\clr.dll$/ nocase or $e.ImageLoaded = /.*\\mscoree.dll$/ nocase or $e.ImageLoaded = /.*\\mscorlib.dll$/ nocase))
+
+  condition:
+    $e
+}

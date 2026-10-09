@@ -1,0 +1,23 @@
+// Title: Potential Product Reconnaissance Via Wmic.EXE
+// ID: 15434e33-5027-4914-88d5-3d4145ec25a9
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali
+// Date: 2023-02-14
+// Tags: attack.execution, attack.t1047
+// Description: Detects the execution of WMIC in order to get a list of firewall and antivirus products
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 15434e33_5027_4914_88d5_3d4145ec25a9 {
+  meta:
+    title = "Potential Product Reconnaissance Via Wmic.EXE"
+    description = "Detects the execution of WMIC in order to get a list of firewall and antivirus products"
+    author = "Nasreddine Bencherchali"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.command_line = /.*Product.*/ nocase) and (($e.target.process.file.full_path = /.*\\wmic.exe$/ nocase) or ($e.target.process.file.name = "wmic.exe"))) and not(((($e.target.process.command_line = /.* uninstall.*/ nocase or $e.target.process.command_line = /.* install.*/ nocase)) or ($e.target.process.command_line = /.*csproduct.*/ nocase))))
+
+  condition:
+    $e
+}

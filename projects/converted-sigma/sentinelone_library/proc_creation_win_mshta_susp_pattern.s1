@@ -1,0 +1,11 @@
+// Title: Suspicious Mshta.EXE Execution Patterns
+// ID: e32f92d1-523e-49c3-9374-bdb13b46a3ba
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2021-07-17
+// Tags: attack.execution, attack.t1106
+// Description: Detects suspicious mshta process execution patterns
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((src.process.image.path endswithCIS "\\mshta.exe") OR (OriginalFileName = "MSHTA.EXE")) AND ((src.process.parent.image.path endswithCIS "\\cmd.exe" OR src.process.parent.image.path endswithCIS "\\cscript.exe" OR src.process.parent.image.path endswithCIS "\\powershell.exe" OR src.process.parent.image.path endswithCIS "\\pwsh.exe" OR src.process.parent.image.path endswithCIS "\\regsvr32.exe" OR src.process.parent.image.path endswithCIS "\\rundll32.exe" OR src.process.parent.image.path endswithCIS "\\wscript.exe") AND (src.process.cmdline containsCIS "\\AppData\\Local\\" OR src.process.cmdline containsCIS "C:\\ProgramData\\" OR src.process.cmdline containsCIS "C:\\Users\\Public\\" OR src.process.cmdline containsCIS "C:\\Windows\\Temp\\"))) OR (((src.process.image.path endswithCIS "\\mshta.exe") OR (OriginalFileName = "MSHTA.EXE")) AND NOT ((((src.process.image.path startswithCIS "C:\\Windows\\System32\\" OR src.process.image.path startswithCIS "C:\\Windows\\SysWOW64\\")) OR ((src.process.cmdline containsCIS ".htm" OR src.process.cmdline containsCIS ".hta")) OR ((src.process.cmdline endswithCIS "mshta.exe" OR src.process.cmdline endswithCIS "mshta"))))))

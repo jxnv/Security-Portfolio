@@ -1,0 +1,19 @@
+# Title: Disabling Security Tools - Builtin
+# ID: 49f5dfc1-f92e-4d34-96fa-feba3f6acf36
+# Status: test
+# Level: medium
+# Author: Ömer Günal, Alejandro Ortuno, oscd.community
+# Date: 2020-06-17
+# Tags: attack.defense-impairment, attack.t1686
+# Description: Detects disabling security tools
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Disabling Security Tools - Builtin
+def rule(event):
+    # Detection Logic:
+    # ("stopping iptables" OR "stopping ip6tables" OR "stopping firewalld" OR "stopping cbdaemon" OR "stopping falcon-sensor")
+    return True
+
+def title(event):
+    return "Disabling Security Tools - Builtin"
+

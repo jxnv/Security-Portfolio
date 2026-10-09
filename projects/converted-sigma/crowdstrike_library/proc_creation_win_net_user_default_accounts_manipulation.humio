@@ -1,0 +1,11 @@
+// Title: Suspicious Manipulation Of Default Accounts Via Net.EXE
+// ID: 5b768e71-86f2-4879-b448-81061cbae951
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-09-01
+// Tags: attack.collection, attack.t1560.001
+// Description: Detects suspicious manipulations of default accounts such as 'administrator' and 'guest'. For example 'enable' or 'disable' accounts or change the password...etc
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((((ImageFileName = /.*\\net.exe/i or ImageFileName = /.*\\net1.exe/i)) or ((OriginalFilename = "net.exe" or OriginalFilename = "net1.exe"))) and (CommandLine = /* user */i) and ((CommandLine = /* Järjestelmänvalvoja */i or CommandLine = /* Rendszergazda */i or CommandLine = /* Администратор */i or CommandLine = /* Administrateur */i or CommandLine = /* Administrador */i or CommandLine = /* Administratör */i or CommandLine = /* Administrator */i or CommandLine = /* guest */i or CommandLine = /* DefaultAccount */i or CommandLine = /* \"Järjestelmänvalvoja\" */i or CommandLine = /* \"Rendszergazda\" */i or CommandLine = /* \"Администратор\" */i or CommandLine = /* \"Administrateur\" */i or CommandLine = /* \"Administrador\" */i or CommandLine = /* \"Administratör\" */i or CommandLine = /* \"Administrator\" */i or CommandLine = /* \"guest\" */i or CommandLine = /* \"DefaultAccount\" */i or CommandLine = /* 'Järjestelmänvalvoja' */i or CommandLine = /* 'Rendszergazda' */i or CommandLine = /* 'Администратор' */i or CommandLine = /* 'Administrateur' */i or CommandLine = /* 'Administrador' */i or CommandLine = /* 'Administratör' */i or CommandLine = /* 'Administrator' */i or CommandLine = /* 'guest' */i or CommandLine = /* 'DefaultAccount' */i))) and not(((CommandLine = /*guest*/i and CommandLine = /*/active no*/i))))

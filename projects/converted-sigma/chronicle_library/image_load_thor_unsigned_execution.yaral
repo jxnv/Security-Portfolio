@@ -1,0 +1,23 @@
+// Title: Suspicious Unsigned Thor Scanner Execution
+// ID: ea5c131b-380d-49f9-aeb3-920694da4d4b
+// Status: stable
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-10-29
+// Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.stealth, attack.t1574.001
+// Description: Detects loading and execution of an unsigned thor scanner binary.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule ea5c131b_380d_49f9_aeb3_920694da4d4b {
+  meta:
+    title = "Suspicious Unsigned Thor Scanner Execution"
+    description = "Detects loading and execution of an unsigned thor scanner binary."
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.file.full_path = /.*\\thor.exe$/ nocase or $e.target.process.file.full_path = /.*\\thor64.exe$/ nocase) and ($e.ImageLoaded = /.*\\thor.exe$/ nocase or $e.ImageLoaded = /.*\\thor64.exe$/ nocase)) and not(($e.Signed = "true" and $e.SignatureStatus = "valid" and $e.Signature = "Nextron Systems GmbH")))
+
+  condition:
+    $e
+}

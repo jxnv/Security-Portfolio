@@ -1,0 +1,19 @@
+# Title: Unsigned Image Loaded Into LSASS Process
+# ID: 857c8db3-c89b-42fb-882b-f681c7cf4da2
+# Status: test
+# Level: medium
+# Author: Teymur Kheirkhabarov, oscd.community
+# Date: 2019-10-22
+# Tags: attack.credential-access, attack.t1003.001
+# Description: Loading unsigned image (DLL, EXE) into LSASS process
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Unsigned Image Loaded Into LSASS Process
+def rule(event):
+    # Detection Logic:
+    # (Image="*\\lsass.exe" AND Signed="false")
+    return True
+
+def title(event):
+    return "Unsigned Image Loaded Into LSASS Process"
+

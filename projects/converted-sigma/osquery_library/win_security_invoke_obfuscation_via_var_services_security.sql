@@ -1,0 +1,11 @@
+-- Title: Invoke-Obfuscation VAR++ LAUNCHER OBFUSCATION - Security
+-- ID: 4c54ba8f-73d2-4d40-8890-d9cf1dca3d30
+-- Status: test
+-- Level: high
+-- Author: Timur Zinniatullin, oscd.community
+-- Date: 2020-10-13
+-- Tags: attack.stealth, attack.t1027, attack.execution, attack.t1059.001
+-- Description: Detects Obfuscated Powershell via VAR++ LAUNCHER
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM file WHERE (EventID = '4697' AND (ServiceFileName LIKE '%&&set%' AND ServiceFileName LIKE '%cmd%' AND ServiceFileName LIKE '%/c%' AND ServiceFileName LIKE '%-f%') AND (ServiceFileName LIKE '%{0}%' OR ServiceFileName LIKE '%{1}%' OR ServiceFileName LIKE '%{2}%' OR ServiceFileName LIKE '%{3}%' OR ServiceFileName LIKE '%{4}%' OR ServiceFileName LIKE '%{5}%'))

@@ -1,0 +1,11 @@
+// Title: Disable Security Tools
+// ID: ff39f1a6-84ac-476f-a1af-37fcdf53d7c0
+// Status: test
+// Level: medium
+// Author: Daniil Yugoslavskiy, oscd.community
+// Date: 2020-10-19
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects disabling security tools
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where (((Image = "/bin/launchctl" and CommandLine matches "*unload*") and ((CommandLine matches "*com.objective-see.lulu.plist*" or CommandLine matches "*com.objective-see.blockblock.plist*" or CommandLine matches "*com.google.santad.plist*" or CommandLine matches "*com.carbonblack.defense.daemon.plist*" or CommandLine matches "*com.carbonblack.daemon.plist*" or CommandLine matches "*at.obdev.littlesnitchd.plist*" or CommandLine matches "*com.tenablesecurity.nessusagent.plist*" or CommandLine matches "*com.opendns.osx.RoamingClientConfigUpdater.plist*" or CommandLine matches "*com.crowdstrike.falcond.plist*" or CommandLine matches "*com.crowdstrike.userdaemon.plist*" or CommandLine matches "*osquery*" or CommandLine matches "*filebeat*" or CommandLine matches "*auditbeat*" or CommandLine matches "*packetbeat*" or CommandLine matches "*td-agent*"))) or (Image = "/usr/sbin/spctl" and CommandLine matches "*disable*"))

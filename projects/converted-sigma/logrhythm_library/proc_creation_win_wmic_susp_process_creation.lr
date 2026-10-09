@@ -1,0 +1,11 @@
+# Title: Suspicious Process Created Via Wmic.EXE
+# ID: 3c89a1e8-0fba-449e-8f1b-8409d6267ec8
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+# Date: 2020-10-12
+# Tags: attack.execution, attack.t1047
+# Description: Detects WMIC executing "process call create" with suspicious calls to processes such as "rundll32", "regsrv32", etc.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((CommandLine="*process *" AND CommandLine="*call *" AND CommandLine="*create *") AND (CommandLine="*rundll32*" OR CommandLine="*bitsadmin*" OR CommandLine="*regsvr32*" OR CommandLine="*cmd.exe /c *" OR CommandLine="*cmd.exe /k *" OR CommandLine="*cmd.exe /r *" OR CommandLine="*cmd /c *" OR CommandLine="*cmd /k *" OR CommandLine="*cmd /r *" OR CommandLine="*powershell*" OR CommandLine="*pwsh*" OR CommandLine="*certutil*" OR CommandLine="*cscript*" OR CommandLine="*wscript*" OR CommandLine="*mshta*" OR CommandLine="*\\Users\\Public\\*" OR CommandLine="*\\Windows\\Temp\\*" OR CommandLine="*\\AppData\\Local\\*" OR CommandLine="*%temp%*" OR CommandLine="*%tmp%*" OR CommandLine="*%ProgramData%*" OR CommandLine="*%appdata%*" OR CommandLine="*%comspec%*" OR CommandLine="*%localappdata%*"))

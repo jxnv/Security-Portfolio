@@ -1,0 +1,11 @@
+// Title: Potential Netcat Reverse Shell Execution
+// ID: 7f734ed0-4f47-46c0-837f-6ee62505abd9
+// Status: test
+// Level: high
+// Author: @d4ns4n_, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-04-07
+// Tags: attack.execution, attack.t1059
+// Description: Detects execution of netcat with the "-e" or "-c" flags followed by common shells, which are commonly used to spawn reverse shells.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where (((process.command_line like "% -c %" OR process.command_line like "% -e %")) AND ((process.executable="*/nc.openbsd" OR process.executable="*/nc.traditional" OR process.executable="*/nc" OR process.executable="*/ncat" OR process.executable="*/netcat.openbsd" OR process.executable="*/netcat.traditional" OR process.executable="*/netcat")) AND ((process.command_line like "% ash%" OR process.command_line like "% bash%" OR process.command_line like "% bsh%" OR process.command_line like "% csh%" OR process.command_line like "% ksh%" OR process.command_line like "% pdksh%" OR process.command_line like "% sh%" OR process.command_line like "% tcsh%" OR process.command_line like "%/bin/ash%" OR process.command_line like "%/bin/bash%" OR process.command_line like "%/bin/bsh%" OR process.command_line like "%/bin/csh%" OR process.command_line like "%/bin/ksh%" OR process.command_line like "%/bin/pdksh%" OR process.command_line like "%/bin/sh%" OR process.command_line like "%/bin/tcsh%" OR process.command_line like "%/bin/zsh%" OR process.command_line like "%$IFSash%" OR process.command_line like "%$IFSbash%" OR process.command_line like "%$IFSbsh%" OR process.command_line like "%$IFScsh%" OR process.command_line like "%$IFSksh%" OR process.command_line like "%$IFSpdksh%" OR process.command_line like "%$IFSsh%" OR process.command_line like "%$IFStcsh%" OR process.command_line like "%$IFSzsh%")))

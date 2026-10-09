@@ -1,0 +1,35 @@
+{
+  "title": "Potential Suspicious PowerShell Keywords",
+  "id": "1f49f2ab-26bc-48b3-96cc-dcffbc93eadf",
+  "status": "test",
+  "description": "Detects potentially suspicious keywords that could indicate the use of a PowerShell exploitation framework",
+  "author": "Florian Roth (Nextron Systems), Perez Diego (@darkquassar), Tuan Le (NCSGroup)",
+  "date": "2019-02-11",
+  "tags": [
+    "attack.execution",
+    "attack.t1059.001"
+  ],
+  "level": "medium",
+  "logsource": {
+    "product": "windows",
+    "category": "ps_script",
+    "definition": "Requirements: Script Block Logging must be enabled"
+  },
+  "detection": {
+    "selection": {
+      "ScriptBlockText|contains": [
+        "System.Reflection.Assembly.Load($",
+        "[System.Reflection.Assembly]::Load($",
+        "[Reflection.Assembly]::Load($",
+        "System.Reflection.AssemblyName",
+        "Reflection.Emit.AssemblyBuilderAccess",
+        "Reflection.Emit.CustomAttributeBuilder",
+        "Runtime.InteropServices.UnmanagedType",
+        "Runtime.InteropServices.DllImportAttribute",
+        "SuspendThread",
+        "rundll32"
+      ]
+    },
+    "condition": "selection"
+  }
+}

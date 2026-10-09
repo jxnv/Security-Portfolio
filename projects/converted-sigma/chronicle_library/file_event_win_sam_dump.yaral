@@ -1,0 +1,23 @@
+// Title: Potential SAM Database Dump
+// ID: 4e87b8e2-2ee9-4b2a-a715-4727d297ece0
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-02-11
+// Tags: attack.credential-access, attack.t1003.002
+// Description: Detects the creation of files that look like exports of the local SAM (Security Account Manager)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 4e87b8e2_2ee9_4b2a_a715_4727d297ece0 {
+  meta:
+    title = "Potential SAM Database Dump"
+    description = "Detects the creation of files that look like exports of the local SAM (Security Account Manager)"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.file.full_path = /.*\\Temp\\sam$/ nocase or $e.target.file.full_path = /.*\\sam.sav$/ nocase or $e.target.file.full_path = /.*\\Intel\\sam$/ nocase or $e.target.file.full_path = /.*\\sam.hive$/ nocase or $e.target.file.full_path = /.*\\Perflogs\\sam$/ nocase or $e.target.file.full_path = /.*\\ProgramData\\sam$/ nocase or $e.target.file.full_path = /.*\\Users\\Public\\sam$/ nocase or $e.target.file.full_path = /.*\\AppData\\Local\\sam$/ nocase or $e.target.file.full_path = /.*\\AppData\\Roaming\\sam$/ nocase or $e.target.file.full_path = /.*_ShadowSteal.zip$/ nocase or $e.target.file.full_path = /.*\\Documents\\SAM.export$/ nocase or $e.target.file.full_path = /.*:\\sam$/ nocase)) or (($e.target.file.full_path = /.*\\hive_sam_.*/ nocase or $e.target.file.full_path = /.*\\sam.save.*/ nocase or $e.target.file.full_path = /.*\\sam.export.*/ nocase or $e.target.file.full_path = /.*\\~reg_sam.save.*/ nocase or $e.target.file.full_path = /.*\\sam_backup.*/ nocase or $e.target.file.full_path = /.*\\sam.bck.*/ nocase or $e.target.file.full_path = /.*\\sam.backup.*/ nocase)))
+
+  condition:
+    $e
+}

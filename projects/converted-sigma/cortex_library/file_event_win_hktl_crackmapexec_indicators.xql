@@ -1,0 +1,11 @@
+// Title: HackTool - CrackMapExec File Indicators
+// ID: 736ffa74-5f6f-44ca-94ef-1c0df4f51d2a
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2024-03-11
+// Tags: attack.credential-access, attack.t1003.001
+// Description: Detects file creation events with filename patterns used by CrackMapExec.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter ((action_file_path startswith "C:\\Windows\\Temp\\") and (((action_file_path ~= "\\\\[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\\.txt$") or (action_file_path ~= "\\\\[a-zA-Z]{8}\\.tmp$")) or ((action_file_path endswith "\\temp.ps1" or action_file_path endswith "\\msol.ps1"))))

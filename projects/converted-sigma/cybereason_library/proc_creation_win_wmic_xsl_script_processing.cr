@@ -1,0 +1,13 @@
+// Title: XSL Script Execution Via WMIC.EXE
+// ID: 05c36dd6-79d6-4a9a-97da-3db20298ab2d
+// Status: test
+// Level: medium
+// Author: Timur Zinniatullin, oscd.community, Swachchhanda Shrawan Poudel
+// Date: 2019-10-21
+// Tags: attack.stealth, attack.t1047, attack.t1220, attack.execution, attack.t1059.005, attack.t1059.007
+// Description: Detects the execution of WMIC with the "format" flag to potentially load local XSL files.
+// Adversaries abuse this functionality to execute arbitrary files while potentially bypassing application whitelisting defenses.
+// Extensible Stylesheet Language (XSL) files are commonly used to describe the processing and rendering of data within XML files.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((CommandLine contains "-format:" OR CommandLine contains "/format:")) AND ((Image="*\\wmic.exe") OR (OriginalFileName == "wmic.exe") OR ((Hashes contains "IMPHASH=1B1A3F43BF37B5BFE60751F2EE2F326E" OR Hashes contains "IMPHASH=37777A96245A3C74EB217308F3546F4C" OR Hashes contains "IMPHASH=9D87C9D67CE724033C0B40CC4CA1B206" OR Hashes contains "IMPHASH=B12619881D79C3ACADF45E752A58554A" OR Hashes contains "IMPHASH=16A48C3CABF98A9DC1BF02C07FE1EA00")))) AND NOT ((((CommandLine contains "Format:List" OR CommandLine contains "Format:htable" OR CommandLine contains "Format:hform" OR CommandLine contains "Format:table" OR CommandLine contains "Format:mof" OR CommandLine contains "Format:value" OR CommandLine contains "Format:rawxml" OR CommandLine contains "Format:xml" OR CommandLine contains "Format:csv")) OR ((CommandLine contains "://" OR CommandLine contains "\\\\\\\\")))))

@@ -1,0 +1,12 @@
+// Title: Wlrmdr.EXE Uncommon Argument Or Child Process
+// ID: 9cfc00b6-bfb7-49ce-9781-ef78503154bb
+// Status: experimental
+// Level: medium
+// Author: frack113, manasmbellani
+// Date: 2022-02-16
+// Tags: attack.stealth, attack.t1218
+// Description: Detects the execution of "Wlrmdr.exe" with the "-u" command line flag which allows anything passed to it to be an argument of the ShellExecute API, which would allow an attacker to execute arbitrary binaries.
+// This detection also focuses on any uncommon child processes spawned from "Wlrmdr.exe" as a supplement for those that posses "ParentImage" telemetry.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where ((process.parent.executable endswith "\\wlrmdr.exe") or ((((process.command_line like "*_-a *" or process.command_line like "*_/a *")) and ((process.command_line like "*_-f *" or process.command_line like "*_/f *")) and ((process.command_line like "*_-m *" or process.command_line like "*_/m *")) and ((process.command_line like "*_-s *" or process.command_line like "*_/s *")) and ((process.command_line like "*_-t *" or process.command_line like "*_/t *")) and ((process.command_line like "*_-u *" or process.command_line like "*_/u *")) and ((process.executable endswith "\\wlrmdr.exe") or (process.pe.original_file_name == "WLRMNDR.EXE"))) and not ((((process.parent.executable == "" or process.parent.executable == "-")) or (process.parent.executable == null) or (process.parent.executable == "C:\\Windows\\System32\\winlogon.exe")))))

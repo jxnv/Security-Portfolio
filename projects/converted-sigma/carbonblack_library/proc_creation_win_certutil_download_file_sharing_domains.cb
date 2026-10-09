@@ -1,0 +1,11 @@
+# Title: Suspicious File Downloaded From File-Sharing Website Via Certutil.EXE
+# ID: 42a5f1e7-9603-4f6d-97ae-3f37d130d794
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2023-02-15
+# Tags: attack.stealth, attack.t1027, attack.command-and-control, attack.t1105
+# Description: Detects the execution of certutil with certain flags that allow the utility to download files from file-sharing websites.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((cmdline:*urlcache * OR cmdline:*verifyctl * OR cmdline:*URL *)) AND ((cmdline:*.githubusercontent.com* OR cmdline:*0x0.st* OR cmdline:*anonfiles.com* OR cmdline:*bashupload.com* OR cmdline:*cdn.discordapp.com* OR cmdline:*chunk.io* OR cmdline:*ddns.net* OR cmdline:*dl.dropboxusercontent.com* OR cmdline:*ghostbin.co* OR cmdline:*github.com* OR cmdline:*glitch.me* OR cmdline:*gofile.io* OR cmdline:*hastebin.com* OR cmdline:*mediafire.com* OR cmdline:*mega.nz* OR cmdline:*onrender.com* OR cmdline:*pages.dev* OR cmdline:*paste.ee* OR cmdline:*pastebin.com* OR cmdline:*pastebin.pl* OR cmdline:*pastetext.net* OR cmdline:*privatlab.com* OR cmdline:*privatlab.net* OR cmdline:*send.exploit.in* OR cmdline:*sendspace.com* OR cmdline:*storage.googleapis.com* OR cmdline:*storjshare.io* OR cmdline:*supabase.co* OR cmdline:*temp.sh* OR cmdline:*transfer.sh* OR cmdline:*trycloudflare.com* OR cmdline:*ufile.io* OR cmdline:*w3spaces.com* OR cmdline:*workers.dev* OR cmdline:*x0.at*)) AND ((process_name:*\\certutil.exe) OR (OriginalFileName:"CertUtil.exe")))

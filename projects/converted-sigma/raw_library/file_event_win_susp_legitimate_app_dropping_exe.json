@@ -1,0 +1,45 @@
+{
+  "title": "Legitimate Application Dropped Executable",
+  "id": "f0540f7e-2db3-4432-b9e0-3965486744bc",
+  "status": "test",
+  "description": "Detects LOLBINs and applications that should not legitimately drop executable or executable-equivalent files to disk.\nThis may indicate malware staging, process injection, or abuse of a trusted binary for payload delivery.\n",
+  "author": "frack113, Florian Roth (Nextron Systems)",
+  "date": "2022-08-21",
+  "tags": [
+    "attack.stealth",
+    "attack.t1218"
+  ],
+  "level": "high",
+  "logsource": {
+    "product": "windows",
+    "category": "file_event"
+  },
+  "detection": {
+    "selection": {
+      "Image|endswith": [
+        "\\eqnedt32.exe",
+        "\\wordpad.exe",
+        "\\wordview.exe",
+        "\\certutil.exe",
+        "\\certoc.exe",
+        "\\CertReq.exe",
+        "\\Desktopimgdownldr.exe",
+        "\\esentutl.exe",
+        "\\mshta.exe",
+        "\\AcroRd32.exe",
+        "\\RdrCEF.exe",
+        "\\hh.exe",
+        "\\finger.exe"
+      ],
+      "TargetFilename|endswith": [
+        ".com",
+        ".dll",
+        ".exe",
+        ".jar",
+        ".ocx",
+        ".pyc"
+      ]
+    },
+    "condition": "selection"
+  }
+}

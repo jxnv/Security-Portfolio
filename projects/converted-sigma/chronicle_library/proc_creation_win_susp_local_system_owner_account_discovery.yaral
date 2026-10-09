@@ -1,0 +1,23 @@
+// Title: Local Accounts Discovery
+// ID: 502b42de-4306-40b4-9596-6f590c81f073
+// Status: test
+// Level: low
+// Author: Timur Zinniatullin, Daniil Yugoslavskiy, oscd.community
+// Date: 2019-10-21
+// Tags: attack.discovery, attack.t1033, attack.t1087.001
+// Description: Local accounts, System Owner/User discovery using operating systems utilities
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 502b42de_4306_40b4_9596_6f590c81f073 {
+  meta:
+    title = "Local Accounts Discovery"
+    description = "Local accounts, System Owner/User discovery using operating systems utilities"
+    author = "Timur Zinniatullin, Daniil Yugoslavskiy, oscd.community"
+    severity = "LOW"
+
+  events:
+    ((($e.target.process.file.full_path = /.*\\cmd.exe$/ nocase and ($e.target.process.command_line = /.* /c.*/ nocase and $e.target.process.command_line = /.*dir .*/ nocase and $e.target.process.command_line = /.*\\Users\\.*/ nocase)) and not(($e.target.process.command_line = /.* rmdir .*/ nocase))) or ((($e.target.process.file.full_path = /.*\\net.exe$/ nocase or $e.target.process.file.full_path = /.*\\net1.exe$/ nocase) and $e.target.process.command_line = /.*user.*/ nocase) and not((($e.target.process.command_line = /.*/domain.*/ nocase or $e.target.process.command_line = /.*/add.*/ nocase or $e.target.process.command_line = /.*/delete.*/ nocase or $e.target.process.command_line = /.*/active.*/ nocase or $e.target.process.command_line = /.*/expires.*/ nocase or $e.target.process.command_line = /.*/passwordreq.*/ nocase or $e.target.process.command_line = /.*/scriptpath.*/ nocase or $e.target.process.command_line = /.*/times.*/ nocase or $e.target.process.command_line = /.*/workstations.*/ nocase)))) or (($e.target.process.file.full_path = /.*\\cmdkey.exe$/ nocase and $e.target.process.command_line = /.* /l.*/ nocase) or ((($e.target.process.file.full_path = /.*\\whoami.exe$/ nocase or $e.target.process.file.full_path = /.*\\quser.exe$/ nocase or $e.target.process.file.full_path = /.*\\qwinsta.exe$/ nocase)) or (($e.target.process.file.name = "whoami.exe" or $e.target.process.file.name = "quser.exe" or $e.target.process.file.name = "qwinsta.exe"))) or ($e.target.process.file.full_path = /.*\\wmic.exe$/ nocase and ($e.target.process.command_line = /.*useraccount.*/ nocase and $e.target.process.command_line = /.*get.*/ nocase))))
+
+  condition:
+    $e
+}

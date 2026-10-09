@@ -1,0 +1,11 @@
+// Title: Suspicious Command Patterns In Scheduled Task Creation
+// ID: f2c64357-b1d2-41b7-849f-34d2682c0fad
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-02-23
+// Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.t1053.005
+// Description: Detects scheduled task creation using "schtasks" that contain potentially suspicious or uncommon commands
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((where(Image IENDSWITH "\\schtasks.exe") AND where(CommandLine ICONTAINS "/Create ")) AND ((((where(CommandLine ICONTAINS "/sc minute ") OR where(CommandLine ICONTAINS "/ru system "))) AND ((where(CommandLine ICONTAINS "cmd /c") OR where(CommandLine ICONTAINS "cmd /k") OR where(CommandLine ICONTAINS "cmd /r") OR where(CommandLine ICONTAINS "cmd.exe /c ") OR where(CommandLine ICONTAINS "cmd.exe /k ") OR where(CommandLine ICONTAINS "cmd.exe /r ")))) OR ((where(CommandLine ICONTAINS " -decode ") OR where(CommandLine ICONTAINS " -enc ") OR where(CommandLine ICONTAINS " -w hidden ") OR where(CommandLine ICONTAINS " bypass ") OR where(CommandLine ICONTAINS " IEX") OR where(CommandLine ICONTAINS ".DownloadData") OR where(CommandLine ICONTAINS ".DownloadFile") OR where(CommandLine ICONTAINS ".DownloadString") OR where(CommandLine ICONTAINS "/c start /min ") OR where(CommandLine ICONTAINS "FromBase64String") OR where(CommandLine ICONTAINS "mshta http") OR where(CommandLine ICONTAINS "mshta.exe http"))) OR (((where(CommandLine ICONTAINS ":\\ProgramData\\") OR where(CommandLine ICONTAINS ":\\Temp\\") OR where(CommandLine ICONTAINS ":\\Tmp\\") OR where(CommandLine ICONTAINS ":\\Users\\Public\\") OR where(CommandLine ICONTAINS ":\\Windows\\Temp\\") OR where(CommandLine ICONTAINS "\\AppData\\") OR where(CommandLine ICONTAINS "%AppData%") OR where(CommandLine ICONTAINS "%Temp%") OR where(CommandLine ICONTAINS "%tmp%"))) AND ((where(CommandLine ICONTAINS "cscript") OR where(CommandLine ICONTAINS "curl") OR where(CommandLine ICONTAINS "wscript"))))))

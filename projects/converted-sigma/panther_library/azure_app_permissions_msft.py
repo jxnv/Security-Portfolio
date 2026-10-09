@@ -1,0 +1,19 @@
+# Title: App Granted Microsoft Permissions
+# ID: c1d147ae-a951-48e5-8b41-dcd0170c7213
+# Status: test
+# Level: high
+# Author: Bailey Bercik '@baileybercik', Mark Morowczynski '@markmorow'
+# Date: 2022-07-10
+# Tags: attack.credential-access, attack.t1528
+# Description: Detects when an application is granted delegated or app role permissions for Microsoft Graph, Exchange, Sharepoint, or Azure AD
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: App Granted Microsoft Permissions
+def rule(event):
+    # Detection Logic:
+    # ((properties.message="Add delegated permission grant" OR properties.message="Add app role assignment to service principal"))
+    return True
+
+def title(event):
+    return "App Granted Microsoft Permissions"
+

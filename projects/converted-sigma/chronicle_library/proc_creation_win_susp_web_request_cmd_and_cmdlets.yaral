@@ -1,0 +1,23 @@
+// Title: Usage Of Web Request Commands And Cmdlets
+// ID: 9fc51a3c-81b3-4fa7-b35f-7c02cf10fd2d
+// Status: test
+// Level: medium
+// Author: James Pemberton / @4A616D6573, Endgame, JHasenbusch, oscd.community, Austin Songer @austinsonger
+// Date: 2019-10-24
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects the use of various web request commands with commandline tools and Windows PowerShell cmdlets (including aliases) via CommandLine
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 9fc51a3c_81b3_4fa7_b35f_7c02cf10fd2d {
+  meta:
+    title = "Usage Of Web Request Commands And Cmdlets"
+    description = "Detects the use of various web request commands with commandline tools and Windows PowerShell cmdlets (including aliases) via CommandLine"
+    author = "James Pemberton / @4A616D6573, Endgame, JHasenbusch, oscd.community, Austin Songer @austinsonger"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.process.command_line = /.*[System.Net.WebRequest]::create.*/ nocase or $e.target.process.command_line = /.*curl .*/ nocase or $e.target.process.command_line = /.*Invoke-RestMethod.*/ nocase or $e.target.process.command_line = /.*Invoke-WebRequest.*/ nocase or $e.target.process.command_line = /.* irm .*/ nocase or $e.target.process.command_line = /.*iwr .*/ nocase or $e.target.process.command_line = /.*Resume-BitsTransfer.*/ nocase or $e.target.process.command_line = /.*Start-BitsTransfer.*/ nocase or $e.target.process.command_line = /.*wget .*/ nocase or $e.target.process.command_line = /.*WinHttp.WinHttpRequest.*/ nocase))
+
+  condition:
+    $e
+}

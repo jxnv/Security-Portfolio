@@ -1,0 +1,23 @@
+// Title: Process Creation Using Sysnative Folder
+// ID: 3c1b5fb0-c72f-45ba-abd1-4d4c353144ab
+// Status: test
+// Level: medium
+// Author: Max Altgelt (Nextron Systems)
+// Date: 2022-08-23
+// Tags: attack.privilege-escalation, attack.stealth, attack.t1055
+// Description: Detects process creation events that use the Sysnative folder (common for CobaltStrike spawns)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 3c1b5fb0_c72f_45ba_abd1_4d4c353144ab {
+  meta:
+    title = "Process Creation Using Sysnative Folder"
+    description = "Detects process creation events that use the Sysnative folder (common for CobaltStrike spawns)"
+    author = "Max Altgelt (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.command_line = /.*:\\Windows\\Sysnative\\.*/ nocase) or ($e.target.process.file.full_path = /.*:\\Windows\\Sysnative\\.*/ nocase)) and not((($e.target.process.file.full_path = /.*C:\\Windows\\Microsoft.NET\\Framework64\\v.*/ nocase or $e.target.process.file.full_path = /.*C:\\Windows\\Microsoft.NET\\Framework\\v.*/ nocase or $e.target.process.file.full_path = /.*C:\\Windows\\Microsoft.NET\\FrameworkArm\\v.*/ nocase or $e.target.process.file.full_path = /.*C:\\Windows\\Microsoft.NET\\FrameworkArm64\\v.*/ nocase) and $e.target.process.file.full_path = /.*\\ngen.exe$/ nocase and $e.target.process.command_line = /.*install.*/ nocase)) and not((($e.target.process.command_line = /.*\"C:\\Windows\\sysnative\\cmd.exe\".*/ nocase and $e.target.process.command_line = /.*\\xampp\\.*/ nocase and $e.target.process.command_line = /.*\\catalina_start.bat.*/ nocase))))
+
+  condition:
+    $e
+}

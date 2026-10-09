@@ -1,0 +1,11 @@
+// Title: Suspicious Download From Direct IP Via Bitsadmin
+// ID: 99c840f2-2012-46fd-9141-c761987550ef
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-06-28
+// Tags: attack.persistence, attack.execution, attack.stealth, attack.t1197, attack.s0190, attack.t1036.003
+// Description: Detects usage of bitsadmin downloading a file using an URL that contains an IP
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((CommandLine contains "://1" OR CommandLine contains "://2" OR CommandLine contains "://3" OR CommandLine contains "://4" OR CommandLine contains "://5" OR CommandLine contains "://6" OR CommandLine contains "://7" OR CommandLine contains "://8" OR CommandLine contains "://9")) AND ((CommandLine contains " /transfer " OR CommandLine contains " /create " OR CommandLine contains " /addfile ")) AND ((Image="*\\bitsadmin.exe") OR (OriginalFileName == "bitsadmin.exe"))) AND NOT ((CommandLine contains "://7-")))

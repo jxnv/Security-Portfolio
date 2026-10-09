@@ -1,0 +1,31 @@
+{
+  "title": "Suspicious History File Operations - Linux",
+  "id": "eae8ce9f-bde9-47a6-8e79-f20d18419910",
+  "status": "test",
+  "description": "Detects commandline operations on shell history files",
+  "author": "Mikhail Larin, oscd.community",
+  "date": "2020-10-17",
+  "tags": [
+    "attack.credential-access",
+    "attack.t1552.003"
+  ],
+  "level": "medium",
+  "logsource": {
+    "product": "linux",
+    "service": "auditd"
+  },
+  "detection": {
+    "execve": {
+      "type": "EXECVE"
+    },
+    "history": [
+      ".bash_history",
+      ".zsh_history",
+      ".zhistory",
+      ".history",
+      ".sh_history",
+      "fish_history"
+    ],
+    "condition": "execve and history"
+  }
+}

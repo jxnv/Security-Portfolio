@@ -1,0 +1,34 @@
+{
+  "title": "Execution via stordiag.exe",
+  "id": "961e0abb-1b1e-4c84-a453-aafe56ad0d34",
+  "status": "test",
+  "description": "Detects the use of stordiag.exe to execute schtasks.exe systeminfo.exe and fltmc.exe",
+  "author": "Austin Songer (@austinsonger)",
+  "date": "2021-10-21",
+  "tags": [
+    "attack.stealth",
+    "attack.t1218"
+  ],
+  "level": "high",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection": {
+      "ParentImage|endswith": "\\stordiag.exe",
+      "Image|endswith": [
+        "\\schtasks.exe",
+        "\\systeminfo.exe",
+        "\\fltmc.exe"
+      ]
+    },
+    "filter": {
+      "ParentImage|startswith": [
+        "c:\\windows\\system32\\",
+        "c:\\windows\\syswow64\\"
+      ]
+    },
+    "condition": "selection and not filter"
+  }
+}

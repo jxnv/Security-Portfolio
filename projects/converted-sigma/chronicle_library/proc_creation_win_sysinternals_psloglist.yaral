@@ -1,0 +1,23 @@
+// Title: Suspicious Use of PsLogList
+// ID: aae1243f-d8af-40d8-ab20-33fc6d0c55bc
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2021-12-18
+// Tags: attack.discovery, attack.t1087, attack.t1087.001, attack.t1087.002
+// Description: Detects usage of the PsLogList utility to dump event log in order to extract admin accounts and perform account discovery or delete events logs
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule aae1243f_d8af_40d8_ab20_33fc6d0c55bc {
+  meta:
+    title = "Suspicious Use of PsLogList"
+    description = "Detects usage of the PsLogList utility to dump event log in order to extract admin accounts and perform account discovery or delete events logs"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.command_line = /.* security.*/ nocase or $e.target.process.command_line = /.* application.*/ nocase or $e.target.process.command_line = /.* system.*/ nocase)) and (($e.target.process.command_line = /.* -d.*/ nocase or $e.target.process.command_line = /.* -x.*/ nocase or $e.target.process.command_line = /.* -s.*/ nocase or $e.target.process.command_line = /.* -c.*/ nocase or $e.target.process.command_line = /.* -g.*/ nocase)) and (($e.target.process.file.name = "psloglist.exe") or (($e.target.process.file.full_path = /.*\\psloglist.exe$/ nocase or $e.target.process.file.full_path = /.*\\psloglist64.exe$/ nocase or $e.target.process.file.full_path = /.*\\psloglist64a.exe$/ nocase))))
+
+  condition:
+    $e
+}

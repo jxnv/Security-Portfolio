@@ -1,0 +1,11 @@
+// Title: CurrentControlSet Autorun Keys Modification
+// ID: f674e36a-4b91-431e-8aef-f8a96c2aca35
+// Status: test
+// Level: medium
+// Author: Victor Sergeev, Daniil Yugoslavskiy, Gleb Sukhodolskiy, Timur Zinniatullin, oscd.community, Tim Shelton, frack113 (split)
+// Date: 2019-10-25
+// Tags: attack.privilege-escalation, attack.persistence, attack.t1547.001
+// Description: Detects modification of autostart extensibility point (ASEP) in registry.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where (((TargetObject matches "*\\SYSTEM\\CurrentControlSet\\Control*") and ((TargetObject matches "*\\Terminal Server\\WinStations\\RDP-Tcp\\InitialProgram*" or TargetObject matches "*\\Terminal Server\\Wds\\rdpwd\\StartupPrograms*" or TargetObject matches "*\\SecurityProviders\\SecurityProviders*" or TargetObject matches "*\\SafeBoot\\AlternateShell*" or TargetObject matches "*\\Print\\Providers*" or TargetObject matches "*\\Print\\Monitors*" or TargetObject matches "*\\NetworkProvider\\Order*" or TargetObject matches "*\\Lsa\\Notification Packages*" or TargetObject matches "*\\Lsa\\Authentication Packages*" or TargetObject matches "*\\BootVerificationProgram\\ImagePath*"))) and !(((Image = "C:\\Windows\\System32\\spoolsv.exe" and TargetObject matches "*\\Print\\Monitors\\CutePDF Writer Monitor*" and (Details = "cpwmon64_v40.dll" or Details = "CutePDF Writer")) or (Details = "(Empty)") or (Image = "C:\\Windows\\System32\\spoolsv.exe" and TargetObject matches "*Print\\Monitors\\Appmon\\Ports\\Microsoft.Office.OneNote_*" and (User matches "*AUTHORI*" or User matches "*AUTORI*")) or (Image = "C:\\Windows\\System32\\poqexec.exe" and TargetObject matches "*\\NetworkProvider\\Order\\ProviderOrder") or (Image = "C:\\Windows\\System32\\spoolsv.exe" and TargetObject matches "*\\Print\\Monitors\\MONVNC\\Driver" and Details = "VNCpm.dll"))))

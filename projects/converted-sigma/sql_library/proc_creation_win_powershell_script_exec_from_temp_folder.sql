@@ -1,0 +1,11 @@
+-- Title: Potentially Suspicious Powershell Script Execution From Temp Folder
+-- ID: a6a39bdb-935c-4f0a-ab77-35f4bbf44d33
+-- Status: test
+-- Level: medium
+-- Author: Florian Roth (Nextron Systems), Max Altgelt (Nextron Systems), Tim Shelton
+-- Date: 2021-07-14
+-- Tags: attack.execution, attack.t1059.001
+-- Description: Detects a potentially suspicious powershell script executions from temporary folder
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE (((Image ILIKE '%\\powershell.exe' OR Image ILIKE '%\\pwsh.exe') AND (CommandLine ILIKE '%\\Windows\\Temp%' OR CommandLine ILIKE '%\\Temporary Internet%' OR CommandLine ILIKE '%\\AppData\\Local\\Temp%' OR CommandLine ILIKE '%\\AppData\\Roaming\\Temp%' OR CommandLine ILIKE '%%TEMP%%' OR CommandLine ILIKE '%%TMP%%' OR CommandLine ILIKE '%%LocalAppData%\\Temp%')) AND NOT (((CommandLine ILIKE '%\\Windows\\system32\\config\\systemprofile\\AppData\\Local\\Temp\\Amazon\\EC2-Windows\\%') OR ((ParentImage = 'C:\\Windows\\System32\\Msiexec.exe' OR ParentImage = 'C:\\Windows\\SysWOW64\\Msiexec.exe') AND Image ILIKE '%\\powershell.exe' AND (CommandLine ILIKE '%-NoProfile -ExecutionPolicy Bypass -Command%' AND CommandLine ILIKE '%AppData\\Local\\Temp\\%' AND CommandLine ILIKE '%Install-Chocolatey.ps1%')) OR ((CommandLine ILIKE '% >%' OR CommandLine ILIKE '%Out-File%' OR CommandLine ILIKE '%ConvertTo-Json%')) OR (CommandLine ILIKE '%-WindowStyle hidden -Verb runAs%'))))

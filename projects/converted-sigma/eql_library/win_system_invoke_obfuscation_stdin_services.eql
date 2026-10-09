@@ -1,0 +1,11 @@
+// Title: Invoke-Obfuscation STDIN+ Launcher - System
+// ID: 72862bf2-0eb1-11eb-adc1-0242ac120002
+// Status: test
+// Level: high
+// Author: Jonathan Cheong, oscd.community
+// Date: 2020-10-15
+// Tags: attack.stealth, attack.t1027, attack.execution, attack.t1059.001
+// Description: Detects Obfuscated use of stdin to execute PowerShell
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+any where ((winlog.provider_name == "Service Control Manager" and winlog.event_id == 7045 and (ImagePath like "*_cmd*" and ImagePath like "*_powershell*") and (ImagePath like "*_/c*" or ImagePath like "*_/r*")) and ((ImagePath like "*_noexit*") or ((ImagePath like "*_input*" and ImagePath like "*_$*"))))

@@ -1,0 +1,13 @@
+// Title: User Shell Folders Registry Modification via CommandLine
+// ID: 8f3ab69a-aa22-4943-aa58-e0a52fdf6818
+// Status: experimental
+// Level: high
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2026-01-05
+// Tags: attack.persistence, attack.privilege-escalation, attack.defense-impairment, attack.t1547.001, attack.t1112
+// Description: Detects modifications to User Shell Folders registry values via reg.exe or PowerShell, which could indicate persistence attempts.
+// Attackers may modify User Shell Folders registry values to point to malicious executables or scripts that will be executed during startup.
+// This technique is often used to maintain persistence on a compromised system by ensuring that malicious payloads are executed automatically.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(CommandLine ICONTAINS " add ") OR where(CommandLine ICONTAINS "New-ItemProperty") OR where(CommandLine ICONTAINS "Set-ItemProperty") OR where(CommandLine ICONTAINS "si "))) AND ((where(CommandLine ICONTAINS "\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders") OR where(CommandLine ICONTAINS "\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User Shell Folders"))) AND (where(CommandLine ICONTAINS "Startup")) AND (((where(Image IENDSWITH "\\powershell.exe") OR where(Image IENDSWITH "\\pwsh.exe") OR where(Image IENDSWITH "\\reg.exe"))) OR ((where(OriginalFileName = "powershell.exe") OR where(OriginalFileName = "pwsh.dll") OR where(OriginalFileName = "reg.exe")))))

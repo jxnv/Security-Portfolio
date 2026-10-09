@@ -1,0 +1,12 @@
+// Title: ManageEngine Endpoint Central Dctask64.EXE Potential Abuse
+// ID: 6345b048-8441-43a7-9bed-541133633d7a
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2020-01-28
+// Tags: attack.privilege-escalation, attack.stealth, attack.t1055.001
+// Description: Detects the execution of "dctask64.exe", a signed binary by ZOHO Corporation part of ManageEngine Endpoint Central.
+// This binary can be abused for DLL injection, arbitrary command and process execution.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter (((action_process_image_command_line contains " executecmd64 " or action_process_image_command_line contains " invokeexe " or action_process_image_command_line contains " injectDll ")) and ((action_process_image_path endswith "\\dctask64.exe") or ((Hashes contains "IMPHASH=6834B1B94E49701D77CCB3C0895E1AFD" or Hashes contains "IMPHASH=1BB6F93B129F398C7C4A76BB97450BBA" or Hashes contains "IMPHASH=FAA2AC19875FADE461C8D89DCF2710A3" or Hashes contains "IMPHASH=F1039CED4B91572AB7847D26032E6BBF"))))

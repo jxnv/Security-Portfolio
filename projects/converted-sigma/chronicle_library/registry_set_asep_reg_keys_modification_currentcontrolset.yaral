@@ -1,0 +1,23 @@
+// Title: CurrentControlSet Autorun Keys Modification
+// ID: f674e36a-4b91-431e-8aef-f8a96c2aca35
+// Status: test
+// Level: medium
+// Author: Victor Sergeev, Daniil Yugoslavskiy, Gleb Sukhodolskiy, Timur Zinniatullin, oscd.community, Tim Shelton, frack113 (split)
+// Date: 2019-10-25
+// Tags: attack.privilege-escalation, attack.persistence, attack.t1547.001
+// Description: Detects modification of autostart extensibility point (ASEP) in registry.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule f674e36a_4b91_431e_8aef_f8a96c2aca35 {
+  meta:
+    title = "CurrentControlSet Autorun Keys Modification"
+    description = "Detects modification of autostart extensibility point (ASEP) in registry."
+    author = "Victor Sergeev, Daniil Yugoslavskiy, Gleb Sukhodolskiy, Timur Zinniatullin, oscd.community, Tim Shelton, frack113 (split)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.TargetObject = /.*\\SYSTEM\\CurrentControlSet\\Control.*/ nocase) and (($e.TargetObject = /.*\\Terminal Server\\WinStations\\RDP-Tcp\\InitialProgram.*/ nocase or $e.TargetObject = /.*\\Terminal Server\\Wds\\rdpwd\\StartupPrograms.*/ nocase or $e.TargetObject = /.*\\SecurityProviders\\SecurityProviders.*/ nocase or $e.TargetObject = /.*\\SafeBoot\\AlternateShell.*/ nocase or $e.TargetObject = /.*\\Print\\Providers.*/ nocase or $e.TargetObject = /.*\\Print\\Monitors.*/ nocase or $e.TargetObject = /.*\\NetworkProvider\\Order.*/ nocase or $e.TargetObject = /.*\\Lsa\\Notification Packages.*/ nocase or $e.TargetObject = /.*\\Lsa\\Authentication Packages.*/ nocase or $e.TargetObject = /.*\\BootVerificationProgram\\ImagePath.*/ nocase))) and not((($e.target.process.file.full_path = "C:\\Windows\\System32\\spoolsv.exe" and $e.TargetObject = /.*\\Print\\Monitors\\CutePDF Writer Monitor.*/ nocase and ($e.Details = "cpwmon64_v40.dll" or $e.Details = "CutePDF Writer")) or ($e.Details = "(Empty)") or ($e.target.process.file.full_path = "C:\\Windows\\System32\\spoolsv.exe" and $e.TargetObject = /.*Print\\Monitors\\Appmon\\Ports\\Microsoft.Office.OneNote_.*/ nocase and ($e.target.user.userid = /.*AUTHORI.*/ nocase or $e.target.user.userid = /.*AUTORI.*/ nocase)) or ($e.target.process.file.full_path = "C:\\Windows\\System32\\poqexec.exe" and $e.TargetObject = /.*\\NetworkProvider\\Order\\ProviderOrder$/ nocase) or ($e.target.process.file.full_path = "C:\\Windows\\System32\\spoolsv.exe" and $e.TargetObject = /.*\\Print\\Monitors\\MONVNC\\Driver$/ nocase and $e.Details = "VNCpm.dll"))))
+
+  condition:
+    $e
+}

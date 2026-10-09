@@ -1,0 +1,23 @@
+// Title: Split A File Into Pieces - Linux
+// ID: 2dad0cba-c62a-4a4f-949f-5f6ecd619769
+// Status: test
+// Level: low
+// Author: Igor Fits, oscd.community
+// Date: 2020-10-15
+// Tags: attack.exfiltration, attack.t1030
+// Description: Detection use of the command "split" to split files into parts and possible transfer.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 2dad0cba_c62a_4a4f_949f_5f6ecd619769 {
+  meta:
+    title = "Split A File Into Pieces - Linux"
+    description = "Detection use of the command "split" to split files into parts and possible transfer."
+    author = "Igor Fits, oscd.community"
+    severity = "LOW"
+
+  events:
+    ($e.type = "SYSCALL" and $e.comm = "split")
+
+  condition:
+    $e
+}

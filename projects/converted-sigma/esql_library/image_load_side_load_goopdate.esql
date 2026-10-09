@@ -1,0 +1,11 @@
+// Title: Potential Goopdate.DLL Sideloading
+// ID: b6188d2f-b3c4-4d2c-a17d-9706e0851af0
+// Status: test
+// Level: medium
+// Author: X__Junior (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-05-15
+// Tags: attack.persistence, attack.privilege-escalation, attack.execution, attack.stealth, attack.t1574.001
+// Description: Detects potential DLL sideloading of "goopdate.dll", a DLL used by googleupdate.exe
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE ((ImageLoaded LIKE "%\\goopdate.dll") AND NOT (((ImageLoaded LIKE "C:\\Program Files (x86)\\%" OR ImageLoaded LIKE "C:\\Program Files\\%"))) AND NOT ((((process.executable LIKE "%\\AppData\\Local\\Temp\\GUM%" AND process.executable LIKE "%.tmp\\Dropbox%") AND (ImageLoaded LIKE "%\\AppData\\Local\\Temp\\GUM%" AND ImageLoaded LIKE "%.tmp\\goopdate.dll%")) OR ((process.executable LIKE "%\\AppData\\Local\\Temp\\GUM%" OR process.executable LIKE "%:\\Windows\\SystemTemp\\GUM%") AND process.executable LIKE "%.tmp\\GoogleUpdate.exe" AND (ImageLoaded LIKE "%\\AppData\\Local\\Temp\\GUM%" OR ImageLoaded LIKE "%:\\Windows\\SystemTemp\\GUM%")))))

@@ -1,0 +1,24 @@
+// Title: Msiexec Quiet Installation
+// ID: 79a87aa6-e4bd-42fc-a5bb-5e6fbdcd62f5
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-01-16
+// Tags: attack.stealth, attack.t1218.007
+// Description: Adversaries may abuse msiexec.exe to proxy execution of malicious payloads.
+// Msiexec.exe is the command-line utility for the Windows Installer and is thus commonly associated with executing installation packages (.msi)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 79a87aa6_e4bd_42fc_a5bb_5e6fbdcd62f5 {
+  meta:
+    title = "Msiexec Quiet Installation"
+    description = "Adversaries may abuse msiexec.exe to proxy execution of malicious payloads. Msiexec.exe is the command-line utility for the Windows Installer and is thus commonly associated with executing installation packages (.msi)"
+    author = "frack113"
+    severity = "MEDIUM"
+
+  events:
+    (((($e.target.process.command_line = /.*-i.*/ nocase or $e.target.process.command_line = /.*/i.*/ nocase or $e.target.process.command_line = /.*-package.*/ nocase or $e.target.process.command_line = /.*/package.*/ nocase or $e.target.process.command_line = /.*-a.*/ nocase or $e.target.process.command_line = /.*/a.*/ nocase or $e.target.process.command_line = /.*-j.*/ nocase or $e.target.process.command_line = /.*/j.*/ nocase)) and (($e.target.process.file.full_path = /.*\\msiexec.exe$/ nocase) or ($e.target.process.file.name = "msiexec.exe")) and (($e.target.process.command_line = /.*-q.*/ nocase or $e.target.process.command_line = /.*/q.*/ nocase))) and not((($e.principal.process.file.full_path = "C:\\Windows\\CCM\\Ccm32BitLauncher.exe" and ($e.IntegrityLevel = "System" or $e.IntegrityLevel = "S-1-16-16384")) or ($e.principal.process.file.full_path = /^C:\\Windows\\Temp\\.*/ nocase))) and not((($e.principal.process.file.full_path = /^C:\\Users\\.*/ nocase and $e.principal.process.file.full_path = /.*\\AppData\\Local\\Temp\\.*/ nocase) or ($e.principal.process.file.full_path = /.*C:\\Windows\\System32\\wsl.exe$/ nocase and $e.target.process.file.full_path = /.*C:\\Windows\\System32\\msiexec.exe$/ nocase))))
+
+  condition:
+    $e
+}

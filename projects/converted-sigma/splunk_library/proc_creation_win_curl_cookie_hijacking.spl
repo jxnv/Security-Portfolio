@@ -1,0 +1,11 @@
+# Title: Potential Cookies Session Hijacking
+# ID: 5a6e1e16-07de-48d8-8aae-faa766c05e88
+# Status: test
+# Level: medium
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2023-07-27
+# Tags: attack.execution
+# Description: Detects execution of "curl.exe" with the "-c" flag in order to save cookie data.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog (((regex process_exec="(?i)\\s-c\\s") OR (process_exec="*--cookie-jar*")) AND ((process_path="*\\curl.exe") OR (process_name="curl.exe")))

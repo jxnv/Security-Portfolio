@@ -1,0 +1,27 @@
+{
+  "title": "Password Protected ZIP File Opened",
+  "id": "00ba9da1-b510-4f6b-b258-8d338836180f",
+  "status": "test",
+  "description": "Detects the extraction of password protected ZIP archives. See the filename variable for more details on which file has been opened.",
+  "author": "Florian Roth (Nextron Systems)",
+  "date": "2022-05-09",
+  "tags": [
+    "attack.stealth",
+    "attack.t1027"
+  ],
+  "level": "medium",
+  "logsource": {
+    "product": "windows",
+    "service": "security"
+  },
+  "detection": {
+    "selection": {
+      "EventID": 5379,
+      "TargetName|contains": "Microsoft_Windows_Shell_ZipFolder:filename"
+    },
+    "filter": {
+      "TargetName|contains": "\\Temporary Internet Files\\Content.Outlook"
+    },
+    "condition": "selection and not filter"
+  }
+}

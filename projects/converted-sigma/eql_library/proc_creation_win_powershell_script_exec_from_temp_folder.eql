@@ -1,0 +1,11 @@
+// Title: Potentially Suspicious Powershell Script Execution From Temp Folder
+// ID: a6a39bdb-935c-4f0a-ab77-35f4bbf44d33
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems), Max Altgelt (Nextron Systems), Tim Shelton
+// Date: 2021-07-14
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects a potentially suspicious powershell script executions from temporary folder
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where (((process.executable endswith "\\powershell.exe" or process.executable endswith "\\pwsh.exe") and (process.command_line like "*_\\Windows\\Temp*" or process.command_line like "*_\\Temporary Internet*" or process.command_line like "*_\\AppData\\Local\\Temp*" or process.command_line like "*_\\AppData\\Roaming\\Temp*" or process.command_line like "*_%TEMP%*" or process.command_line like "*_%TMP%*" or process.command_line like "*_%LocalAppData%\\Temp*")) and not (((process.command_line like "*_\\Windows\\system32\\config\\systemprofile\\AppData\\Local\\Temp\\Amazon\\EC2-Windows\\*") or ((process.parent.executable == "C:\\Windows\\System32\\Msiexec.exe" or process.parent.executable == "C:\\Windows\\SysWOW64\\Msiexec.exe") and process.executable endswith "\\powershell.exe" and (process.command_line like "*_-NoProfile -ExecutionPolicy Bypass -Command*" and process.command_line like "*_AppData\\Local\\Temp\\*" and process.command_line like "*_Install-Chocolatey.ps1*")) or ((process.command_line like "*_ >*" or process.command_line like "*_Out-File*" or process.command_line like "*_ConvertTo-Json*")) or (process.command_line like "*_-WindowStyle hidden -Verb runAs*"))))

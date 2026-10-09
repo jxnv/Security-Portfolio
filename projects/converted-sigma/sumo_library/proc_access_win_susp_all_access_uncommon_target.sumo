@@ -1,0 +1,11 @@
+// Title: Uncommon Process Access Rights For Target Image
+// ID: a24e5861-c6ca-4fde-a93c-ba9256feddf0
+// Status: test
+// Level: low
+// Author: Nasreddine Bencherchali (Nextron Systems), frack113
+// Date: 2024-05-27
+// Tags: attack.privilege-escalation, attack.stealth, attack.t1055.011
+// Description: Detects process access request to uncommon target images with a "PROCESS_ALL_ACCESS" access mask.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where ((TargetImage matches "*\\calc.exe" or TargetImage matches "*\\calculator.exe" or TargetImage matches "*\\mspaint.exe" or TargetImage matches "*\\notepad.exe" or TargetImage matches "*\\ping.exe" or TargetImage matches "*\\wordpad.exe" or TargetImage matches "*\\write.exe") and GrantedAccess = "0x1FFFFF")

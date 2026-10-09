@@ -1,0 +1,11 @@
+// Title: Disabling Security Tools
+// ID: e3a8a052-111f-4606-9aee-f28ebeb76776
+// Status: test
+// Level: medium
+// Author: Ömer Günal, Alejandro Ortuno, oscd.community
+// Date: 2020-06-17
+// Tags: attack.defense-impairment, attack.t1686
+// Description: Detects disabling security tools
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((where(Image IENDSWITH "/service") AND (where(CommandLine ICONTAINS "cbdaemon") AND where(CommandLine ICONTAINS "stop"))) OR (where(Image IENDSWITH "/chkconfig") AND (where(CommandLine ICONTAINS "cbdaemon") AND where(CommandLine ICONTAINS "off"))) OR (where(Image IENDSWITH "/systemctl") AND (where(CommandLine ICONTAINS "cbdaemon") AND where(CommandLine ICONTAINS "stop"))) OR (where(Image IENDSWITH "/systemctl") AND (where(CommandLine ICONTAINS "cbdaemon") AND where(CommandLine ICONTAINS "disable"))) OR (where(Image IENDSWITH "/systemctl") AND (where(CommandLine ICONTAINS "stop") AND where(CommandLine ICONTAINS "falcon-sensor"))) OR (where(Image IENDSWITH "/systemctl") AND (where(CommandLine ICONTAINS "disable") AND where(CommandLine ICONTAINS "falcon-sensor"))) OR (where(Image IENDSWITH "/systemctl") AND (where(CommandLine ICONTAINS "firewalld") AND where(CommandLine ICONTAINS "stop"))) OR (where(Image IENDSWITH "/systemctl") AND (where(CommandLine ICONTAINS "firewalld") AND where(CommandLine ICONTAINS "disable"))) OR (where(Image IENDSWITH "/service") AND (where(CommandLine ICONTAINS "iptables") AND where(CommandLine ICONTAINS "stop"))) OR (where(Image IENDSWITH "/service") AND (where(CommandLine ICONTAINS "ip6tables") AND where(CommandLine ICONTAINS "stop"))) OR (where(Image IENDSWITH "/chkconfig") AND (where(CommandLine ICONTAINS "iptables") AND where(CommandLine ICONTAINS "stop"))) OR (where(Image IENDSWITH "/chkconfig") AND (where(CommandLine ICONTAINS "ip6tables") AND where(CommandLine ICONTAINS "stop"))) OR (where(Image IENDSWITH "/setenforce") AND where(CommandLine ICONTAINS "0")))

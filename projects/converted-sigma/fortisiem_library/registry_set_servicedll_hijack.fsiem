@@ -1,0 +1,12 @@
+# Title: ServiceDll Hijack
+# ID: 612e47e9-8a59-43a6-b404-f48683f45bd6
+# Status: test
+# Level: medium
+# Author: frack113
+# Date: 2022-02-04
+# Tags: attack.persistence, attack.privilege-escalation, attack.t1543.003
+# Description: Detects changes to the "ServiceDLL" value related to a service in the registry.
+# This is often used as a method of persistence.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((TargetObject CONTAIN "\\System\\" AND TargetObject CONTAIN "ControlSet" AND TargetObject CONTAIN "\\Services\\") AND TargetObject="*\\Parameters\\ServiceDll") AND NOT (((Image = "C:\\Windows\\system32\\lsass.exe" AND TargetObject="*\\Services\\NTDS\\Parameters\\ServiceDll" AND Details = "%%systemroot%%\\system32\\ntdsa.dll") OR (Image = "C:\\Windows\\System32\\poqexec.exe") OR (Details = "C:\\Windows\\system32\\spool\\drivers\\x64\\3\\PrintConfig.dll") OR (Image="*\\regsvr32.exe" AND TargetObject="*\\Services\\PrintNotify\\Parameters\\ServiceDll" AND Details="C:\\WINDOWS\\System32\\DriverStore\\FileRepository\\*" AND Details="*\\arm64\\PrintConfig.dll"))) AND NOT ((Image="*\\regsvr32.exe" AND Details = "C:\\Windows\\System32\\STAgent.dll")))

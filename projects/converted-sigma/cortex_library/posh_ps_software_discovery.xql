@@ -1,0 +1,11 @@
+// Title: Detected Windows Software Discovery - PowerShell
+// ID: 2650dd1a-eb2a-412d-ac36-83f06c4f2282
+// Status: test
+// Level: medium
+// Author: Nikita Nazarov, oscd.community
+// Date: 2020-10-16
+// Tags: attack.discovery, attack.t1518
+// Description: Adversaries may attempt to enumerate software for a variety of reasons, such as figuring out what security measures are present or if the compromised system has a version of software that is vulnerable.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter ((ScriptBlockText contains "get-itemProperty" and ScriptBlockText contains "\\software\\" and ScriptBlockText contains "select-object" and ScriptBlockText contains "format-table"))

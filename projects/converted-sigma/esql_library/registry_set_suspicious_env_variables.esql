@@ -1,0 +1,11 @@
+// Title: Suspicious Environment Variable Has Been Registered
+// ID: 966315ef-c5e1-4767-ba25-fce9c8de3660
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-12-20
+// Tags: attack.persistence, attack.stealth
+// Description: Detects the creation of user-specific or system-wide environment variables via the registry. Which contains suspicious commands and strings
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE ((((registry.data.strings == "powershell" OR registry.data.strings == "pwsh")) OR ((registry.data.strings LIKE "%\\AppData\\Local\\Temp\\%" OR registry.data.strings LIKE "%C:\\Users\\Public\\%" OR registry.data.strings LIKE "%TVqQAAMAAAAEAAAA%" OR registry.data.strings LIKE "%TVpQAAIAAAAEAA8A%" OR registry.data.strings LIKE "%TVqAAAEAAAAEABAA%" OR registry.data.strings LIKE "%TVoAAAAAAAAAAAAA%" OR registry.data.strings LIKE "%TVpTAQEAAAAEAAAA%" OR registry.data.strings LIKE "%SW52b2tlL%" OR registry.data.strings LIKE "%ludm9rZS%" OR registry.data.strings LIKE "%JbnZva2Ut%" OR registry.data.strings LIKE "%SQBuAHYAbwBrAGUALQ%" OR registry.data.strings LIKE "%kAbgB2AG8AawBlAC0A%" OR registry.data.strings LIKE "%JAG4AdgBvAGsAZQAtA%")) OR ((registry.data.strings LIKE "SUVY%" OR registry.data.strings LIKE "SQBFAF%" OR registry.data.strings LIKE "SQBuAH%" OR registry.data.strings LIKE "cwBhA%" OR registry.data.strings LIKE "aWV4%" OR registry.data.strings LIKE "aQBlA%" OR registry.data.strings LIKE "R2V0%" OR registry.data.strings LIKE "dmFy%" OR registry.data.strings LIKE "dgBhA%" OR registry.data.strings LIKE "dXNpbm%" OR registry.data.strings LIKE "H4sIA%" OR registry.data.strings LIKE "Y21k%" OR registry.data.strings LIKE "cABhAH%" OR registry.data.strings LIKE "Qzpc%" OR registry.data.strings LIKE "Yzpc%"))) AND (registry.path LIKE "%\\Environment\\%"))

@@ -1,0 +1,23 @@
+// Title: System Restore Registry Modification via CommandLine
+// ID: 7c06ab9b-b1d2-4ba9-b06e-09491ded20d9
+// Status: experimental
+// Level: high
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2026-03-11
+// Tags: attack.impact, attack.t1490
+// Description: Detects system restore registry modification via command line, which can be used by adversaries to disable system restore on the computer.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 7c06ab9b_b1d2_4ba9_b06e_09491ded20d9 {
+  meta:
+    title = "System Restore Registry Modification via CommandLine"
+    description = "Detects system restore registry modification via command line, which can be used by adversaries to disable system restore on the computer."
+    author = "Swachchhanda Shrawan Poudel (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.* add .*/ nocase or $e.target.process.command_line = /.*Set-ItemProperty.*/ nocase or $e.target.process.command_line = /.*New-ItemProperty.*/ nocase)) and (($e.target.process.command_line = /.*DisableConfig.*/ nocase or $e.target.process.command_line = /.*DisableSR.*/ nocase)) and (($e.target.process.command_line = /.*\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\SystemRestore.*/ nocase or $e.target.process.command_line = /.*\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\SystemRestore.*/ nocase)) and ((($e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase or $e.target.process.file.full_path = /.*\\reg.exe$/ nocase)) or (($e.target.process.file.name = "powershell.exe" or $e.target.process.file.name = "pwsh.dll" or $e.target.process.file.name = "reg.exe"))))
+
+  condition:
+    $e
+}

@@ -1,0 +1,43 @@
+{
+  "title": "Potentially Suspicious Child Process Of Regsvr32",
+  "id": "6f0947a4-1c5e-4e0d-8ac7-53159b8f23ca",
+  "status": "test",
+  "description": "Detects potentially suspicious child processes of \"regsvr32.exe\".",
+  "author": "elhoim, Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2022-05-05",
+  "tags": [
+    "attack.stealth",
+    "attack.t1218.010"
+  ],
+  "level": "high",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection": {
+      "ParentImage|endswith": "\\regsvr32.exe",
+      "Image|endswith": [
+        "\\calc.exe",
+        "\\cscript.exe",
+        "\\explorer.exe",
+        "\\mshta.exe",
+        "\\net.exe",
+        "\\net1.exe",
+        "\\nltest.exe",
+        "\\notepad.exe",
+        "\\powershell.exe",
+        "\\pwsh.exe",
+        "\\reg.exe",
+        "\\schtasks.exe",
+        "\\werfault.exe",
+        "\\wscript.exe"
+      ]
+    },
+    "filter_main_werfault": {
+      "Image|endswith": "\\werfault.exe",
+      "CommandLine|contains": " -u -p "
+    },
+    "condition": "selection and not 1 of filter_main_*"
+  }
+}

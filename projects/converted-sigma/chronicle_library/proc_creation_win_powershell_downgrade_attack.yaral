@@ -1,0 +1,23 @@
+// Title: Potential PowerShell Downgrade Attack
+// ID: b3512211-c67e-4707-bedc-66efc7848863
+// Status: test
+// Level: medium
+// Author: Harish Segar (rule)
+// Date: 2020-03-20
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects PowerShell downgrade attack by comparing the host versions with the actually used engine version 2.0
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule b3512211_c67e_4707_bedc_66efc7848863 {
+  meta:
+    title = "Potential PowerShell Downgrade Attack"
+    description = "Detects PowerShell downgrade attack by comparing the host versions with the actually used engine version 2.0"
+    author = "Harish Segar (rule)"
+    severity = "MEDIUM"
+
+  events:
+    ($e.target.process.file.full_path = /.*\\powershell.exe$/ nocase and ($e.target.process.command_line = /.* -version 2 .*/ nocase or $e.target.process.command_line = /.* -versio 2 .*/ nocase or $e.target.process.command_line = /.* -versi 2 .*/ nocase or $e.target.process.command_line = /.* -vers 2 .*/ nocase or $e.target.process.command_line = /.* -ver 2 .*/ nocase or $e.target.process.command_line = /.* -ve 2 .*/ nocase or $e.target.process.command_line = /.* -v 2 .*/ nocase))
+
+  condition:
+    $e
+}

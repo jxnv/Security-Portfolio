@@ -1,0 +1,11 @@
+# Title: File Download Via Bitsadmin To A Suspicious Target Folder
+# ID: 2ddef153-167b-4e89-86b6-757a9e65dcac
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-06-28
+# Tags: attack.persistence, attack.execution, attack.stealth, attack.t1197, attack.s0190, attack.t1036.003, attack.command-and-control, attack.t1105
+# Description: Detects usage of bitsadmin downloading a file to a suspicious target folder
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog (((process_exec="* /transfer *" OR process_exec="* /create *" OR process_exec="* /addfile *")) AND ((process_exec="*:\\Perflogs*" OR process_exec="*:\\ProgramData\\*" OR process_exec="*:\\Temp\\*" OR process_exec="*:\\Users\\Public\\*" OR process_exec="*:\\Windows\\*" OR process_exec="*\\$Recycle.Bin\\*" OR process_exec="*\\AppData\\Local\\*" OR process_exec="*\\AppData\\Roaming\\*" OR process_exec="*\\Contacts\\*" OR process_exec="*\\Desktop\\*" OR process_exec="*\\Favorites\\*" OR process_exec="*\\Favourites\\*" OR process_exec="*\\inetpub\\wwwroot\\*" OR process_exec="*\\Music\\*" OR process_exec="*\\Pictures\\*" OR process_exec="*\\Start Menu\\Programs\\Startup\\*" OR process_exec="*\\Users\\Default\\*" OR process_exec="*\\Videos\\*" OR process_exec="*%ProgramData%*" OR process_exec="*%public%*" OR process_exec="*%temp%*" OR process_exec="*%tmp%*")) AND ((process_path="*\\bitsadmin.exe") OR (process_name="bitsadmin.exe")))

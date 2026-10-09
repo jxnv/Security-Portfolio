@@ -1,0 +1,23 @@
+// Title: DNS Query for Anonfiles.com Domain - DNS Client
+// ID: 29f171d7-aa47-42c7-9c7b-3c87938164d9
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-01-16
+// Tags: attack.exfiltration, attack.t1567.002
+// Description: Detects DNS queries for anonfiles.com, which is an anonymous file upload platform often used for malicious purposes
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 29f171d7_aa47_42c7_9c7b_3c87938164d9 {
+  meta:
+    title = "DNS Query for Anonfiles.com Domain - DNS Client"
+    description = "Detects DNS queries for anonfiles.com, which is an anonymous file upload platform often used for malicious purposes"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ($e.EventID = 3008 and $e.QueryName = /.*.anonfiles.com.*/ nocase)
+
+  condition:
+    $e
+}

@@ -1,0 +1,37 @@
+{
+  "title": "Suspicious Service Installation",
+  "id": "1d61f71d-59d2-479e-9562-4ff5f4ead16b",
+  "status": "test",
+  "description": "Detects suspicious service installation commands",
+  "author": "pH-T (Nextron Systems), Florian Roth (Nextron Systems)",
+  "date": "2022-03-18",
+  "tags": [
+    "attack.persistence",
+    "attack.privilege-escalation",
+    "car.2013-09-005",
+    "attack.t1543.003"
+  ],
+  "level": "high",
+  "logsource": {
+    "product": "windows",
+    "service": "system"
+  },
+  "detection": {
+    "selection": {
+      "Provider_Name": "Service Control Manager",
+      "EventID": 7045,
+      "ImagePath|contains": [
+        " -nop ",
+        " -sta ",
+        " -w hidden ",
+        ":\\Temp\\",
+        ".downloadfile(",
+        ".downloadstring(",
+        "\\ADMIN$\\",
+        "\\Perflogs\\",
+        "&&"
+      ]
+    },
+    "condition": "selection"
+  }
+}

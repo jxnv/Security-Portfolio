@@ -1,0 +1,24 @@
+// Title: JScript Compiler Execution
+// ID: 52788a70-f1da-40dd-8fbd-73b5865d6568
+// Status: test
+// Level: low
+// Author: frack113
+// Date: 2022-05-02
+// Tags: attack.execution, attack.stealth, attack.t1127
+// Description: Detects the execution of the "jsc.exe" (JScript Compiler).
+// Attacker might abuse this in order to compile JScript files on the fly and bypassing application whitelisting.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 52788a70_f1da_40dd_8fbd_73b5865d6568 {
+  meta:
+    title = "JScript Compiler Execution"
+    description = "Detects the execution of the "jsc.exe" (JScript Compiler). Attacker might abuse this in order to compile JScript files on the fly and bypassing application whitelisting."
+    author = "frack113"
+    severity = "LOW"
+
+  events:
+    (($e.target.process.file.full_path = /.*\\jsc.exe$/ nocase) or ($e.target.process.file.name = "jsc.exe"))
+
+  condition:
+    $e
+}

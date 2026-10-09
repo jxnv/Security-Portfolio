@@ -1,0 +1,11 @@
+// Title: Suspicious WebDav Client Execution Via Rundll32.EXE
+// ID: 982e9f2d-1a85-4d5b-aea4-31f5e97c6555
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems), Florian Roth (Nextron Systems)
+// Date: 2023-03-16
+// Tags: attack.exfiltration, attack.t1048.003, cve.2023-23397
+// Description: Detects "svchost.exe" spawning "rundll32.exe" with command arguments like C:\windows\system32\davclnt.dll,DavSetCookie. This could be an indicator of exfiltration or use of WebDav to launch code (hosted on WebDav Server) or potentially a sign of exploitation of CVE-2023-23397
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE ((process.parent.executable LIKE "%\\svchost.exe" AND process.parent.command_line LIKE "%-s WebClient%" AND process.executable LIKE "%\\rundll32.exe" AND process.command_line LIKE "%C:\\windows\\system32\\davclnt.dll,DavSetCookie%" AND process.command_line RLIKE "://\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}") AND NOT (((process.command_line LIKE "%://10.%" OR process.command_line LIKE "%://192.168.%" OR process.command_line LIKE "%://172.16.%" OR process.command_line LIKE "%://172.17.%" OR process.command_line LIKE "%://172.18.%" OR process.command_line LIKE "%://172.19.%" OR process.command_line LIKE "%://172.20.%" OR process.command_line LIKE "%://172.21.%" OR process.command_line LIKE "%://172.22.%" OR process.command_line LIKE "%://172.23.%" OR process.command_line LIKE "%://172.24.%" OR process.command_line LIKE "%://172.25.%" OR process.command_line LIKE "%://172.26.%" OR process.command_line LIKE "%://172.27.%" OR process.command_line LIKE "%://172.28.%" OR process.command_line LIKE "%://172.29.%" OR process.command_line LIKE "%://172.30.%" OR process.command_line LIKE "%://172.31.%" OR process.command_line LIKE "%://127.%" OR process.command_line LIKE "%://169.254.%"))))

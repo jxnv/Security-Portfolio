@@ -1,0 +1,19 @@
+# Title: Registry Persistence Mechanisms in Recycle Bin
+# ID: 277efb8f-60be-4f10-b4d3-037802f37167
+# Status: test
+# Level: high
+# Author: frack113
+# Date: 2021-11-18
+# Tags: attack.privilege-escalation, attack.persistence, attack.t1547
+# Description: Detects persistence registry keys for Recycle Bin
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Registry Persistence Mechanisms in Recycle Bin
+def rule(event):
+    # Detection Logic:
+    # ((EventType="RenameKey" AND NewName="*\\CLSID\\{645FF040-5081-101B-9F08-00AA002F954E}\\shell\\open*") OR (EventType="SetValue" AND TargetObject="*\\CLSID\\{645FF040-5081-101B-9F08-00AA002F954E}\\shell\\open\\command\\(Default)*"))
+    return True
+
+def title(event):
+    return "Registry Persistence Mechanisms in Recycle Bin"
+

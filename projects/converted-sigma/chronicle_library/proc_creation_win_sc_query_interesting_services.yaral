@@ -1,0 +1,24 @@
+// Title: Interesting Service Enumeration Via Sc.EXE
+// ID: e83e8899-c9b2-483b-b355-5decc942b959
+// Status: test
+// Level: low
+// Author: Swachchhanda Shrawan Poudel
+// Date: 2024-02-12
+// Tags: attack.t1003, attack.credential-access
+// Description: Detects the enumeration and query of interesting and in some cases sensitive services on the system via "sc.exe".
+// Attackers often try to enumerate the services currently running on a system in order to find different attack vectors.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule e83e8899_c9b2_483b_b355_5decc942b959 {
+  meta:
+    title = "Interesting Service Enumeration Via Sc.EXE"
+    description = "Detects the enumeration and query of interesting and in some cases sensitive services on the system via "sc.exe". Attackers often try to enumerate the services currently running on a system in order to find different attack vectors."
+    author = "Swachchhanda Shrawan Poudel"
+    severity = "LOW"
+
+  events:
+    (($e.target.process.command_line = /.*query.*/ nocase) and ($e.target.process.command_line = /.*termservice.*/ nocase) and (($e.target.process.file.full_path = /.*\\sc.exe$/ nocase) or ($e.target.process.file.name = "sc.exe")))
+
+  condition:
+    $e
+}

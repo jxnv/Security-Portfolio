@@ -1,0 +1,11 @@
+// Title: Suspicious Msiexec Quiet Install From Remote Location
+// ID: 8150732a-0c9d-4a99-82b9-9efb9b90c40c
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-10-28
+// Tags: attack.stealth, attack.t1218.007
+// Description: Detects usage of Msiexec.exe to install packages hosted remotely quietly
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+DeviceProcessEvents | where ((((ProcessCommandLine contains "-i" or ProcessCommandLine contains "/i" or ProcessCommandLine contains "-package" or ProcessCommandLine contains "/package" or ProcessCommandLine contains "-a" or ProcessCommandLine contains "/a" or ProcessCommandLine contains "-j" or ProcessCommandLine contains "/j")) and ((FolderPath endswith "\\msiexec.exe") or (ProcessVersionInfoOriginalFileName == "msiexec.exe")) and ((ProcessCommandLine contains "-q" or ProcessCommandLine contains "/q")) and ((ProcessCommandLine contains "http" or ProcessCommandLine contains "\\\\\\\\"))) and not(((ProcessCommandLine contains "\\AppData\\Local\\Temp\\OpenOffice" and ProcessCommandLine contains "Installation Files\\openoffice"))))

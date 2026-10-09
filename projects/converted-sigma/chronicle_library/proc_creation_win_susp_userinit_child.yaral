@@ -1,0 +1,23 @@
+// Title: Suspicious Userinit Child Process
+// ID: b655a06a-31c0-477a-95c2-3726b83d649d
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems), Samir Bousseaden (idea)
+// Date: 2019-06-17
+// Tags: attack.privilege-escalation, attack.stealth, attack.t1055
+// Description: Detects a suspicious child process of userinit
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule b655a06a_31c0_477a_95c2_3726b83d649d {
+  meta:
+    title = "Suspicious Userinit Child Process"
+    description = "Detects a suspicious child process of userinit"
+    author = "Florian Roth (Nextron Systems), Samir Bousseaden (idea)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.principal.process.file.full_path = /.*\\userinit.exe$/ nocase) and not(((($e.target.process.file.full_path = /.*\\explorer.exe$/ nocase) or ($e.target.process.file.name = "explorer.exe") or ($e.target.process.command_line = "C:\\Windows\\Explorer.EXE")) or ($e.target.process.command_line = /.*\\netlogon\\.*/ nocase) or (not ($e.target.process.file.full_path = /.*/)))))
+
+  condition:
+    $e
+}

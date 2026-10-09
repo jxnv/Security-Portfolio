@@ -1,0 +1,11 @@
+# Title: Suspicious Spool Service Child Process
+# ID: dcdbc940-0bff-46b2-95f3-2d73f848e33b
+# Status: test
+# Level: high
+# Author: Justin C. (@endisphotic), @dreadphones (detection), Thomas Patzke (Sigma rule)
+# Date: 2021-07-11
+# Tags: attack.execution, attack.t1203, attack.privilege-escalation, attack.t1068
+# Description: Detects suspicious print spool service (spoolsv.exe) child processes.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((parent_name:*\\spoolsv.exe AND (IntegrityLevel:"System" OR IntegrityLevel:"S-1-16-16384")) AND (((process_name:*\\gpupdate.exe OR process_name:*\\whoami.exe OR process_name:*\\nltest.exe OR process_name:*\\taskkill.exe OR process_name:*\\wmic.exe OR process_name:*\\taskmgr.exe OR process_name:*\\sc.exe OR process_name:*\\findstr.exe OR process_name:*\\curl.exe OR process_name:*\\wget.exe OR process_name:*\\certutil.exe OR process_name:*\\bitsadmin.exe OR process_name:*\\accesschk.exe OR process_name:*\\wevtutil.exe OR process_name:*\\bcdedit.exe OR process_name:*\\fsutil.exe OR process_name:*\\cipher.exe OR process_name:*\\schtasks.exe OR process_name:*\\write.exe OR process_name:*\\wuauclt.exe OR process_name:*\\systeminfo.exe OR process_name:*\\reg.exe OR process_name:*\\query.exe)) OR (((process_name:*\\net.exe OR process_name:*\\net1.exe)) AND -((cmdline:*start*))) OR ((process_name:*\\cmd.exe) AND -(((cmdline:*.spl* OR cmdline:*route add* OR cmdline:*program files*)))) OR ((process_name:*\\netsh.exe) AND -(((cmdline:*add portopening* OR cmdline:*rule name*)))) OR (((process_name:*\\powershell.exe OR process_name:*\\pwsh.exe)) AND -((cmdline:*.spl*))) OR ((cmdline:*rundll32.exe) AND ((process_name:*\\rundll32.exe) OR (OriginalFileName:"RUNDLL32.EXE")))))

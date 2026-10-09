@@ -1,0 +1,11 @@
+// Title: LOL-Binary Copied From System Directory
+// ID: f5d19838-41b5-476c-98d8-ba8af4929ee2
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-08-29
+// Tags: attack.stealth, attack.t1036.003
+// Description: Detects a suspicious copy operation that tries to copy a known LOLBIN from system (System32, SysWOW64, WinSxS) directories to another on disk in order to bypass detections based on locations.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where (((process.executable endswith "\\cmd.exe" and process.command_line like "*_copy *") or (((process.executable endswith "\\robocopy.exe" or process.executable endswith "\\xcopy.exe")) or ((process.pe.original_file_name == "robocopy.exe" or process.pe.original_file_name == "XCOPY.EXE"))) or ((process.executable endswith "\\powershell.exe" or process.executable endswith "\\pwsh.exe") and (process.command_line like "*_copy-item*" or process.command_line like "*_ copy *" or process.command_line like "*_cpi *" or process.command_line like "*_ cp *"))) and (((process.command_line like "*_\\bitsadmin.exe*" or process.command_line like "*_\\calc.exe*" or process.command_line like "*_\\certutil.exe*" or process.command_line like "*_\\cmdl32.exe*" or process.command_line like "*_\\cscript.exe*" or process.command_line like "*_\\mshta.exe*" or process.command_line like "*_\\rundll32.exe*" or process.command_line like "*_\\wscript.exe*" or process.command_line like "*_\\ie4uinit.exe*")) and ((process.command_line like "*_\\System32*" or process.command_line like "*_\\SysWOW64*" or process.command_line like "*_\\WinSxS*"))))

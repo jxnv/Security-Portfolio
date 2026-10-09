@@ -1,0 +1,36 @@
+{
+  "title": "Suspicious Machine Account Replication - DcSync Indicator",
+  "id": "611eab06-a145-4dfa-a295-3ccc5c20f59a",
+  "status": "test",
+  "description": "Detects suspicious Active Directory Replication Service (ADRS) requests originating from\na machine account (SubjectUserName ending in '$') rather than a legitimate Domain Controller.\n\nUnder normal operation, only Domain Controllers initiate replication requests carrying the\nDS-Replication-Get-Changes-All right. If a threat actor obtains valid machine account\ncredentials \u2014 for example by abusing certificate-based authentication (PKINIT) to\nimpersonate a DC after exploiting a CA vulnerability such as CVE-2026-54121 (Certighost),\nwhere a temporary machine account is created to request a DC certificate and then used to\nperform DCSync \u2014 they can dump all domain credential material including the krbtgt hash.\n",
+  "author": "Benjamin Delpy, Florian Roth (Nextron Systems), Scott Dermett, Sorina Ionescu",
+  "date": "2018-06-03",
+  "tags": [
+    "attack.credential-access",
+    "attack.s0002",
+    "attack.t1003.006",
+    "cve.2026-54121"
+  ],
+  "level": "medium",
+  "logsource": {
+    "product": "windows",
+    "service": "security",
+    "definition": "Requirements: A SACL must be configured on the domain NC root object (e.g. DC=domain,DC=com)\nto generate Event 4662. Add via ADSI Edit: navigate to the domain NC root \u2192 Properties \u2192\nSecurity \u2192 Advanced \u2192 Auditing \u2192 add an ACE for Everyone, Type: Success, Applies to:\nThis object only, rights: DS-Replication-Get-Changes and DS-Replication-Get-Changes-All.\nThe OS audit subcategory must also be enabled:\nauditpol /set /subcategory:\"Directory Service Access\" /success:enable\n"
+  },
+  "detection": {
+    "selection": {
+      "EventID": 4662,
+      "Properties|contains": [
+        "1131f6ad-9c07-11d1-f79f-00c04fc2dcd2",
+        "1131f6aa-9c07-11d1-f79f-00c04fc2dcd2",
+        "9923a32a-3607-11d2-b9be-0000f87a36b2",
+        "89e95b76-444d-4c62-991a-0facbeda640c"
+      ],
+      "SubjectUserName|endswith": "$"
+    },
+    "filter_main_subject_usersid": {
+      "SubjectUserSid|startswith": "S-1-5-18"
+    },
+    "condition": "selection and not 1 of filter_main_*"
+  }
+}

@@ -1,0 +1,23 @@
+// Title: Publisher Attachment File Dropped In Suspicious Location
+// ID: 3d2a2d59-929c-4b78-8c1a-145dfe9e07b1
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-02-08
+// Tags: attack.stealth
+// Description: Detects creation of files with the ".pub" extension in suspicious or uncommon locations. This could be a sign of attackers abusing Publisher documents
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 3d2a2d59_929c_4b78_8c1a_145dfe9e07b1 {
+  meta:
+    title = "Publisher Attachment File Dropped In Suspicious Location"
+    description = "Detects creation of files with the ".pub" extension in suspicious or uncommon locations. This could be a sign of attackers abusing Publisher documents"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.file.full_path = /.*\\AppData\\Local\\Temp\\.*/ nocase or $e.target.file.full_path = /.*\\Users\\Public\\.*/ nocase or $e.target.file.full_path = /.*\\Windows\\Temp\\.*/ nocase or $e.target.file.full_path = /.*C:\\Temp\\.*/ nocase) and $e.target.file.full_path = /.*.pub$/ nocase)
+
+  condition:
+    $e
+}

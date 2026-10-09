@@ -1,0 +1,23 @@
+// Title: BITS Transfer Job Download From File Sharing Domains
+// ID: d635249d-86b5-4dad-a8c7-d7272b788586
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-06-28
+// Tags: attack.persistence, attack.execution, attack.stealth, attack.t1197
+// Description: Detects BITS transfer job downloading files from a file sharing domain.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule d635249d_86b5_4dad_a8c7_d7272b788586 {
+  meta:
+    title = "BITS Transfer Job Download From File Sharing Domains"
+    description = "Detects BITS transfer job downloading files from a file sharing domain."
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ($e.EventID = 16403 and ($e.RemoteName = /.*.githubusercontent.com.*/ nocase or $e.RemoteName = /.*0x0.st.*/ nocase or $e.RemoteName = /.*anonfiles.com.*/ nocase or $e.RemoteName = /.*bashupload.com.*/ nocase or $e.RemoteName = /.*cdn.discordapp.com.*/ nocase or $e.RemoteName = /.*chunk.io.*/ nocase or $e.RemoteName = /.*ddns.net.*/ nocase or $e.RemoteName = /.*dl.dropboxusercontent.com.*/ nocase or $e.RemoteName = /.*ghostbin.co.*/ nocase or $e.RemoteName = /.*github.com.*/ nocase or $e.RemoteName = /.*glitch.me.*/ nocase or $e.RemoteName = /.*gofile.io.*/ nocase or $e.RemoteName = /.*hastebin.com.*/ nocase or $e.RemoteName = /.*mediafire.com.*/ nocase or $e.RemoteName = /.*mega.nz.*/ nocase or $e.RemoteName = /.*onrender.com.*/ nocase or $e.RemoteName = /.*pages.dev.*/ nocase or $e.RemoteName = /.*paste.ee.*/ nocase or $e.RemoteName = /.*pastebin.com.*/ nocase or $e.RemoteName = /.*pastebin.pl.*/ nocase or $e.RemoteName = /.*pastetext.net.*/ nocase or $e.RemoteName = /.*pixeldrain.com.*/ nocase or $e.RemoteName = /.*privatlab.com.*/ nocase or $e.RemoteName = /.*privatlab.net.*/ nocase or $e.RemoteName = /.*send.exploit.in.*/ nocase or $e.RemoteName = /.*sendspace.com.*/ nocase or $e.RemoteName = /.*storage.googleapis.com.*/ nocase or $e.RemoteName = /.*storjshare.io.*/ nocase or $e.RemoteName = /.*supabase.co.*/ nocase or $e.RemoteName = /.*temp.sh.*/ nocase or $e.RemoteName = /.*transfer.sh.*/ nocase or $e.RemoteName = /.*trycloudflare.com.*/ nocase or $e.RemoteName = /.*ufile.io.*/ nocase or $e.RemoteName = /.*w3spaces.com.*/ nocase or $e.RemoteName = /.*workers.dev.*/ nocase or $e.RemoteName = /.*x0.at.*/ nocase))
+
+  condition:
+    $e
+}

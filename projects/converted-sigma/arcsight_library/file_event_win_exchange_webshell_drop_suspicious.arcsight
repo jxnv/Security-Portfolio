@@ -1,0 +1,11 @@
+// Title: Suspicious File Drop by Exchange
+// ID: 6b269392-9eba-40b5-acb6-55c882b20ba6
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-10-04
+// Tags: attack.persistence, attack.t1190, attack.initial-access, attack.t1505.003
+// Description: Detects suspicious file type dropped by an Exchange component in IIS
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((Image ENDSWITH "\\w3wp.exe" AND CommandLine CONTAINS "MSExchange") AND ((TargetFilename ENDSWITH ".aspx" OR TargetFilename ENDSWITH ".asp" OR TargetFilename ENDSWITH ".ashx" OR TargetFilename ENDSWITH ".ps1" OR TargetFilename ENDSWITH ".bat" OR TargetFilename ENDSWITH ".exe" OR TargetFilename ENDSWITH ".dll" OR TargetFilename ENDSWITH ".vbs")))

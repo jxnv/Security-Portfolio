@@ -1,0 +1,11 @@
+// Title: Regsvr32 DLL Execution With Suspicious File Extension
+// ID: 089fc3d2-71e8-4763-a8a5-c97fbb0a403e
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), frack113
+// Date: 2021-11-29
+// Tags: attack.stealth, attack.t1218.010
+// Description: Detects the execution of REGSVR32.exe with DLL files masquerading as other files
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((src.process.cmdline endswithCIS ".bin" OR src.process.cmdline endswithCIS ".bmp" OR src.process.cmdline endswithCIS ".cr2" OR src.process.cmdline endswithCIS ".dat" OR src.process.cmdline endswithCIS ".eps" OR src.process.cmdline endswithCIS ".gif" OR src.process.cmdline endswithCIS ".ico" OR src.process.cmdline endswithCIS ".jpeg" OR src.process.cmdline endswithCIS ".jpg" OR src.process.cmdline endswithCIS ".log" OR src.process.cmdline endswithCIS ".nef" OR src.process.cmdline endswithCIS ".orf" OR src.process.cmdline endswithCIS ".png" OR src.process.cmdline endswithCIS ".raw" OR src.process.cmdline endswithCIS ".rtf" OR src.process.cmdline endswithCIS ".sr2" OR src.process.cmdline endswithCIS ".temp" OR src.process.cmdline endswithCIS ".tif" OR src.process.cmdline endswithCIS ".tiff" OR src.process.cmdline endswithCIS ".tmp" OR src.process.cmdline endswithCIS ".txt")) AND ((src.process.image.path endswithCIS "\\regsvr32.exe") OR (OriginalFileName = "REGSVR32.EXE")))

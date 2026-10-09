@@ -1,0 +1,11 @@
+// Title: PUA - Advanced IP Scanner Execution
+// ID: bef37fa2-f205-4a7b-b484-0759bfd5f86f
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems), @ROxPinTeddy
+// Date: 2020-05-12
+// Tags: attack.discovery, attack.t1046, attack.t1135
+// Description: Detects the use of Advanced IP Scanner. Seems to be a popular tool for ransomware groups.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where (((process.command_line like "*_/portable*" and process.command_line like "*_/lng*")) or ((process.executable like "*_\\advanced_ip_scanner*") or (process.pe.original_file_name like "*_advanced_ip_scanner*") or (Description like "*_Advanced IP Scanner*")))

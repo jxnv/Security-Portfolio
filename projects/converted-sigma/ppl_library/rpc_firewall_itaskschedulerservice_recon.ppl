@@ -1,0 +1,11 @@
+// Title: Remote Schedule Task Recon via ITaskSchedulerService
+// ID: 7f7c49eb-2977-4ac8-8ab0-ab1bae14730e
+// Status: test
+// Level: high
+// Author: Sagie Dulce, Dekel Paz
+// Date: 2022-01-01
+// Tags: attack.discovery
+// Description: Detects remote RPC calls to read information about scheduled tasks
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where ((EventLog = "RPCFW" AND winlog.event_id = "3" AND InterfaceUuid = "86d35949-83c9-4044-b424-db363231fd0c") AND NOT (((OpNum = "1" OR OpNum = "3" OR OpNum = "4" OR OpNum = "10" OR OpNum = "11" OR OpNum = "12" OR OpNum = "13" OR OpNum = "14" OR OpNum = "15"))))

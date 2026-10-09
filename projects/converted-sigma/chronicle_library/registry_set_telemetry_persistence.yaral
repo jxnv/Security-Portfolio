@@ -1,0 +1,26 @@
+// Title: Potential Registry Persistence Attempt Via Windows Telemetry
+// ID: 73a883d0-0348-4be4-a8d8-51031c2564f8
+// Status: test
+// Level: high
+// Author: Lednyov Alexey, oscd.community, Sreeman
+// Date: 2020-10-16
+// Tags: attack.privilege-escalation, attack.execution, attack.persistence, attack.t1053.005
+// Description: Detects potential persistence behavior using the windows telemetry registry key.
+// Windows telemetry makes use of the binary CompatTelRunner.exe to run a variety of commands and perform the actual telemetry collections.
+// This binary was created to be easily extensible, and to that end, it relies on the registry to instruct on which commands to run.
+// The problem is, it will run any arbitrary command without restriction of location or type.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 73a883d0_0348_4be4_a8d8_51031c2564f8 {
+  meta:
+    title = "Potential Registry Persistence Attempt Via Windows Telemetry"
+    description = "Detects potential persistence behavior using the windows telemetry registry key. Windows telemetry makes use of the binary CompatTelRunner.exe to run a variety of commands and perform the actual telemetry collections. This binary was created to be easily extensible, and to that end, it relies on the registry to instruct on which commands to run. The problem is, it will run any arbitrary command without restriction of location or type."
+    author = "Lednyov Alexey, oscd.community, Sreeman"
+    severity = "HIGH"
+
+  events:
+    (($e.TargetObject = /.*\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\AppCompatFlags\\TelemetryController\\.*/ nocase and $e.TargetObject = /.*\\Command$/ nocase and ($e.Details = /.*.bat.*/ nocase or $e.Details = /.*.bin.*/ nocase or $e.Details = /.*.cmd.*/ nocase or $e.Details = /.*.dat.*/ nocase or $e.Details = /.*.dll.*/ nocase or $e.Details = /.*.exe.*/ nocase or $e.Details = /.*.hta.*/ nocase or $e.Details = /.*.jar.*/ nocase or $e.Details = /.*.js.*/ nocase or $e.Details = /.*.msi.*/ nocase or $e.Details = /.*.ps.*/ nocase or $e.Details = /.*.sh.*/ nocase or $e.Details = /.*.vb.*/ nocase)) and not((($e.Details = /.*\\system32\\CompatTelRunner.exe.*/ nocase or $e.Details = /.*\\system32\\DeviceCensus.exe.*/ nocase))))
+
+  condition:
+    $e
+}

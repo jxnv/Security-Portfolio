@@ -1,0 +1,19 @@
+# Title: Potential Commandline Obfuscation Using Escape Characters
+# ID: f0cdd048-82dc-4f7a-8a7a-b87a52b6d0fd
+# Status: test
+# Level: medium
+# Author: juju4
+# Date: 2018-12-11
+# Tags: attack.stealth, attack.t1140
+# Description: Detects potential commandline obfuscation using known escape characters
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Potential Commandline Obfuscation Using Escape Characters
+def rule(event):
+    # Detection Logic:
+    # ((CommandLine="*h^t^t^p*" OR CommandLine="*h\"t\"t\"p*"))
+    return True
+
+def title(event):
+    return "Potential Commandline Obfuscation Using Escape Characters"
+

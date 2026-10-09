@@ -1,0 +1,19 @@
+# Title: File Creation In Suspicious Directory By Msdt.EXE
+# ID: 318557a5-150c-4c8d-b70e-a9910e199857
+# Status: test
+# Level: high
+# Author: Vadim Varganov, Florian Roth (Nextron Systems)
+# Date: 2022-08-24
+# Tags: attack.privilege-escalation, attack.persistence, attack.t1547.001, cve.2022-30190
+# Description: Detects msdt.exe creating files in suspicious directories which could be a sign of exploitation of either Follina or Dogwalk vulnerabilities
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: File Creation In Suspicious Directory By Msdt.EXE
+def rule(event):
+    # Detection Logic:
+    # (Image="*\\msdt.exe" AND (TargetFilename="*\\Desktop\\*" OR TargetFilename="*\\Start Menu\\Programs\\Startup\\*" OR TargetFilename="*C:\\PerfLogs\\*" OR TargetFilename="*C:\\ProgramData\\*" OR TargetFilename="*C:\\Users\\Public\\*"))
+    return True
+
+def title(event):
+    return "File Creation In Suspicious Directory By Msdt.EXE"
+

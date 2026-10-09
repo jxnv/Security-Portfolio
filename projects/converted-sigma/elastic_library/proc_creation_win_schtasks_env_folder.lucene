@@ -1,0 +1,11 @@
+# Title: Schedule Task Creation From Env Variable Or Potentially Suspicious Path Via Schtasks.EXE
+# ID: 81325ce1-be01-4250-944f-b4789644556f
+# Status: test
+# Level: medium
+# Author: Florian Roth (Nextron Systems)
+# Date: 2022-02-21
+# Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.t1053.005
+# Description: Detects Schtask creations that point to a suspicious folder or an environment variable often used by malware
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((((process.command_line:*:\\Perflogs* OR process.command_line:*:\\Users\\All Users\\* OR process.command_line:*:\\Users\\Default\\* OR process.command_line:*:\\Users\\Public* OR process.command_line:*:\\Windows\\Temp* OR process.command_line:*\\AppData\\Local\\* OR process.command_line:*\\AppData\\Roaming\\* OR process.command_line:*%AppData%* OR process.command_line:*%Public%*)) AND (process.executable:*\\schtasks.exe AND process.command_line:* /create *)) OR ((process.parent.command_line:*\\svchost.exe -k netsvcs -p -s Schedule) AND ((process.command_line:*:\\Perflogs* OR process.command_line:*:\\Windows\\Temp* OR process.command_line:*\\Users\\Public* OR process.command_line:*%Public%*)))) AND NOT ((((process.command_line:*/Create /Xml * AND process.command_line:*\\Temp\\.CR.* AND process.command_line:*\\Avira_Security_Installation.xml*)) OR ((process.command_line:*/Create /F /TN* AND process.command_line:*/Xml * AND process.command_line:*\\Temp\\* AND process.command_line:*Avira_*) AND (process.command_line:*.tmp\\UpdateFallbackTask.xml* OR process.command_line:*.tmp\\WatchdogServiceControlManagerTimeout.xml* OR process.command_line:*.tmp\\SystrayAutostart.xml* OR process.command_line:*.tmp\\MaintenanceTask.xml*)) OR ((process.command_line:*\\Temp\\* AND process.command_line:*/Create /TN \"klcp_update\" /XML * AND process.command_line:*\\klcp_update_task.xml*)) OR ((process.parent.command_line:*unattended.ini*) OR (process.command_line:*update_task.xml*)) OR (process.command_line:*/Create /TN TVInstallRestore /TR*))))

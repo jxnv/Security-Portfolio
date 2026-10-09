@@ -1,0 +1,11 @@
+// Title: Potential Defense Evasion Via Raw Disk Access By Uncommon Tools
+// ID: db809f10-56ce-4420-8c86-d6a7d793c79c
+// Status: test
+// Level: low
+// Author: Teymur Kheirkhabarov, oscd.community
+// Date: 2019-10-22
+// Tags: attack.stealth, attack.t1006
+// Description: Detects raw disk access using uncommon tools or tools that are located in suspicious locations (heavy filtering is required), which could indicate possible defense evasion attempts
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(NOT (((where(Device ICONTAINS "floppy")) OR ((where(Image ISTARTSWITH "C:\\$WINDOWS.~BT\\") OR where(Image ISTARTSWITH "C:\\Program Files (x86)\\") OR where(Image ISTARTSWITH "C:\\Program Files\\") OR where(Image ISTARTSWITH "C:\\Windows\\CCM\\") OR where(Image ISTARTSWITH "C:\\Windows\\explorer.exe") OR where(Image ISTARTSWITH "C:\\Windows\\servicing\\") OR where(Image ISTARTSWITH "C:\\Windows\\SoftwareDistribution\\") OR where(Image ISTARTSWITH "C:\\Windows\\System32\\") OR where(Image ISTARTSWITH "C:\\Windows\\SystemApps\\") OR where(Image ISTARTSWITH "C:\\Windows\\SysWOW64\\") OR where(Image ISTARTSWITH "C:\\Windows\\uus\\") OR where(Image ISTARTSWITH "C:\\Windows\\WinSxS\\"))) OR (where(Image ISTARTSWITH "C:\\Users\\") AND (where(Image ICONTAINS "\\AppData\\") AND where(Image ICONTAINS "\\Microsoft\\"))) OR (NOT Image=*) OR (where(Image ISTARTSWITH "C:\\Windows\\Temp\\") AND (where(Image IENDSWITH "\\Executables\\SSDUpdate.exe") OR where(Image IENDSWITH "\\HostMetadata\\NVMEHostmetadata.exe"))) OR ((where(Image = "Registry") OR where(Image = "System"))) OR (where(Image = "C:\\Windows\\ImmersiveControlPanel\\SystemSettings.exe")) OR (where(Image ISTARTSWITH "C:\\$WinREAgent\\Scratch\\")) OR (where(Image ISTARTSWITH "C:\\ProgramData\\Microsoft\\Windows Defender\\Platform\\") AND (where(Image IENDSWITH "\\MsMpEng.exe") OR where(Image IENDSWITH "\\MpDefenderCoreService.exe"))))) AND NOT (((where(Image ISTARTSWITH "C:\\Users\\") AND where(Image ICONTAINS "\\AppData\\Local\\Keybase\\upd.exe")) OR (where(Image ISTARTSWITH "C:\\Users\\") AND where(Image ICONTAINS "\\AppData\\Local\\GitHubDesktop\\app-") AND where(Image IENDSWITH "\\resources\\app\\git\\mingw64\\bin\\git.exe")) OR (where(Image ISTARTSWITH "C:\\Windows\\Temp\\asgard2-agent\\") AND where(Image IENDSWITH "\\thor.exe")))))

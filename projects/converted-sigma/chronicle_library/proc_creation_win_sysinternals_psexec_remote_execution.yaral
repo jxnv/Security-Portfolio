@@ -1,0 +1,23 @@
+// Title: Potential PsExec Remote Execution
+// ID: ea011323-7045-460b-b2d7-0f7442ea6b38
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-02-28
+// Tags: attack.resource-development, attack.t1587.001
+// Description: Detects potential psexec command that initiate execution on a remote systems via common commandline flags used by the utility
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule ea011323_7045_460b_b2d7_0f7442ea6b38 {
+  meta:
+    title = "Potential PsExec Remote Execution"
+    description = "Detects potential psexec command that initiate execution on a remote systems via common commandline flags used by the utility"
+    author = "Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*accepteula.*/ nocase and $e.target.process.command_line = /.* -u .*/ nocase and $e.target.process.command_line = /.* -p .*/ nocase and $e.target.process.command_line = /.* \\\\\\\\.*/ nocase)) and not((($e.target.process.command_line = /.*\\\\\\\\localhost.*/ nocase or $e.target.process.command_line = /.*\\\\\\\\127..*/ nocase))))
+
+  condition:
+    $e
+}

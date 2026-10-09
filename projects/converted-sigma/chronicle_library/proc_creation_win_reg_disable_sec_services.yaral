@@ -1,0 +1,23 @@
+// Title: Security Service Disabled Via Reg.EXE
+// ID: 5e95028c-5229-4214-afae-d653d573d0ec
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), John Lambert (idea), elhoim
+// Date: 2021-07-14
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects execution of "reg.exe" to disable security services such as Windows Defender.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 5e95028c_5229_4214_afae_d653d573d0ec {
+  meta:
+    title = "Security Service Disabled Via Reg.EXE"
+    description = "Detects execution of "reg.exe" to disable security services such as Windows Defender."
+    author = "Florian Roth (Nextron Systems), John Lambert (idea), elhoim"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*d 4.*/ nocase and $e.target.process.command_line = /.*v Start.*/ nocase) and ($e.target.process.command_line = /.*\\AppIDSvc.*/ nocase or $e.target.process.command_line = /.*\\MsMpSvc.*/ nocase or $e.target.process.command_line = /.*\\NisSrv.*/ nocase or $e.target.process.command_line = /.*\\SecurityHealthService.*/ nocase or $e.target.process.command_line = /.*\\Sense.*/ nocase or $e.target.process.command_line = /.*\\UsoSvc.*/ nocase or $e.target.process.command_line = /.*\\WdBoot.*/ nocase or $e.target.process.command_line = /.*\\WdFilter.*/ nocase or $e.target.process.command_line = /.*\\WdNisDrv.*/ nocase or $e.target.process.command_line = /.*\\WdNisSvc.*/ nocase or $e.target.process.command_line = /.*\\WinDefend.*/ nocase or $e.target.process.command_line = /.*\\wscsvc.*/ nocase or $e.target.process.command_line = /.*\\wuauserv.*/ nocase)) and (($e.target.process.command_line = /.*reg.*/ nocase and $e.target.process.command_line = /.*add.*/ nocase)))
+
+  condition:
+    $e
+}

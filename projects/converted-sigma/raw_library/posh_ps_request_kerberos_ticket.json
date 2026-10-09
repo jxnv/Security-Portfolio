@@ -1,0 +1,24 @@
+{
+  "title": "Suspicious Kerberos Ticket Request via PowerShell Script - ScriptBlock",
+  "id": "a861d835-af37-4930-bcd6-5b178bfb54df",
+  "status": "test",
+  "description": "Detects PowerShell scripts that utilize native PowerShell Identity modules to request Kerberos tickets.\nThis behavior is typically seen during a Kerberoasting or silver ticket attack. A TGS request is issued by\nthe KerberosRequestorSecurityToken constructor, resulting tickets are cached in LSA and become\nextractable by other tools later on.\n",
+  "author": "frack113",
+  "date": "2021-12-28",
+  "tags": [
+    "attack.credential-access",
+    "attack.t1558.003"
+  ],
+  "level": "high",
+  "logsource": {
+    "product": "windows",
+    "category": "ps_script",
+    "definition": "Requirements: Script Block Logging must be enabled"
+  },
+  "detection": {
+    "selection": {
+      "ScriptBlockText|contains": "System.IdentityModel.Tokens.KerberosRequestorSecurityToken"
+    },
+    "condition": "selection"
+  }
+}

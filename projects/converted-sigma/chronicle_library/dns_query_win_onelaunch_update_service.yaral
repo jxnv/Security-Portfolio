@@ -1,0 +1,24 @@
+// Title: DNS Query Request To OneLaunch Update Service
+// ID: df68f791-ad95-447f-a271-640a0dab9cf8
+// Status: test
+// Level: low
+// Author: Josh Nickels
+// Date: 2024-02-26
+// Tags: attack.credential-access, attack.collection, attack.t1056
+// Description: Detects DNS query requests to "update.onelaunch.com". This domain is associated with the OneLaunch adware application.
+// When the OneLaunch application is installed it will attempt to get updates from this domain.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule df68f791_ad95_447f_a271_640a0dab9cf8 {
+  meta:
+    title = "DNS Query Request To OneLaunch Update Service"
+    description = "Detects DNS query requests to "update.onelaunch.com". This domain is associated with the OneLaunch adware application. When the OneLaunch application is installed it will attempt to get updates from this domain."
+    author = "Josh Nickels"
+    severity = "LOW"
+
+  events:
+    ($e.QueryName = "update.onelaunch.com" and $e.target.process.file.full_path = /.*\\OneLaunch.exe$/ nocase)
+
+  condition:
+    $e
+}

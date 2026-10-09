@@ -1,0 +1,23 @@
+// Title: Wab/Wabmig Unusual Parent Or Child Processes
+// ID: 63d1ccc0-2a43-4f4b-9289-361b308991ff
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-12
+// Tags: attack.execution, attack.stealth
+// Description: Detects unusual parent or children of the wab.exe (Windows Contacts) and Wabmig.exe (Microsoft Address Book Import Tool) processes as seen being used with bumblebee activity
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 63d1ccc0_2a43_4f4b_9289_361b308991ff {
+  meta:
+    title = "Wab/Wabmig Unusual Parent Or Child Processes"
+    description = "Detects unusual parent or children of the wab.exe (Windows Contacts) and Wabmig.exe (Microsoft Address Book Import Tool) processes as seen being used with bumblebee activity"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.principal.process.file.full_path = /.*\\wab.exe$/ nocase or $e.principal.process.file.full_path = /.*\\wabmig.exe$/ nocase)) or (($e.principal.process.file.full_path = /.*\\WmiPrvSE.exe$/ nocase or $e.principal.process.file.full_path = /.*\\svchost.exe$/ nocase or $e.principal.process.file.full_path = /.*\\dllhost.exe$/ nocase) and ($e.target.process.file.full_path = /.*\\wab.exe$/ nocase or $e.target.process.file.full_path = /.*\\wabmig.exe$/ nocase)))
+
+  condition:
+    $e
+}

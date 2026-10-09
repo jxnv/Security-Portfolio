@@ -1,0 +1,23 @@
+// Title: Windows Processes Suspicious Parent Directory
+// ID: 96036718-71cc-4027-a538-d1587e0006a7
+// Status: test
+// Level: low
+// Author: vburov
+// Date: 2019-02-23
+// Tags: attack.stealth, attack.t1036.003, attack.t1036.005
+// Description: Detect suspicious parent processes of well-known Windows processes
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 96036718_71cc_4027_a538_d1587e0006a7 {
+  meta:
+    title = "Windows Processes Suspicious Parent Directory"
+    description = "Detect suspicious parent processes of well-known Windows processes"
+    author = "vburov"
+    severity = "LOW"
+
+  events:
+    ((($e.target.process.file.full_path = /.*\\svchost.exe$/ nocase or $e.target.process.file.full_path = /.*\\taskhost.exe$/ nocase or $e.target.process.file.full_path = /.*\\lsm.exe$/ nocase or $e.target.process.file.full_path = /.*\\lsass.exe$/ nocase or $e.target.process.file.full_path = /.*\\services.exe$/ nocase or $e.target.process.file.full_path = /.*\\lsaiso.exe$/ nocase or $e.target.process.file.full_path = /.*\\csrss.exe$/ nocase or $e.target.process.file.full_path = /.*\\wininit.exe$/ nocase or $e.target.process.file.full_path = /.*\\winlogon.exe$/ nocase)) and not(((($e.principal.process.file.full_path = /.*\\Windows Defender\\.*/ nocase or $e.principal.process.file.full_path = /.*\\Microsoft Security Client\\.*/ nocase) and $e.principal.process.file.full_path = /.*\\MsMpEng.exe$/ nocase) or ((not ($e.principal.process.file.full_path = /.*/)) or (($e.principal.process.file.full_path = "" or $e.principal.process.file.full_path = "-"))) or ((($e.principal.process.file.full_path = /.*\\SavService.exe$/ nocase or $e.principal.process.file.full_path = /.*\\ngen.exe$/ nocase)) or (($e.principal.process.file.full_path = /.*\\System32\\.*/ nocase or $e.principal.process.file.full_path = /.*\\SysWOW64\\.*/ nocase))))))
+
+  condition:
+    $e
+}

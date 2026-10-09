@@ -1,0 +1,23 @@
+// Title: Suspicious PowerShell In Registry Run Keys
+// ID: 8d85cf08-bf97-4260-ba49-986a2a65129c
+// Status: test
+// Level: medium
+// Author: frack113, Florian Roth (Nextron Systems)
+// Date: 2022-03-17
+// Tags: attack.privilege-escalation, attack.persistence, attack.t1547.001
+// Description: Detects potential PowerShell commands or code within registry run keys
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 8d85cf08_bf97_4260_ba49_986a2a65129c {
+  meta:
+    title = "Suspicious PowerShell In Registry Run Keys"
+    description = "Detects potential PowerShell commands or code within registry run keys"
+    author = "frack113, Florian Roth (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.TargetObject = /.*\\Software\\Microsoft\\Windows\\CurrentVersion\\Run.*/ nocase or $e.TargetObject = /.*\\Software\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Run.*/ nocase or $e.TargetObject = /.*\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run.*/ nocase) and ($e.Details = /.*powershell.*/ nocase or $e.Details = /.*pwsh .*/ nocase or $e.Details = /.*FromBase64String.*/ nocase or $e.Details = /.*.DownloadFile(.*/ nocase or $e.Details = /.*.DownloadString(.*/ nocase or $e.Details = /.* -w hidden .*/ nocase or $e.Details = /.* -w 1 .*/ nocase or $e.Details = /.*-windowstyle hidden.*/ nocase or $e.Details = /.*-window hidden.*/ nocase or $e.Details = /.* -nop .*/ nocase or $e.Details = /.* -encodedcommand .*/ nocase or $e.Details = /.*-ExecutionPolicy Bypass.*/ nocase or $e.Details = /.*Invoke-Expression.*/ nocase or $e.Details = /.*IEX (.*/ nocase or $e.Details = /.*Invoke-Command.*/ nocase or $e.Details = /.*ICM -.*/ nocase or $e.Details = /.*Invoke-WebRequest.*/ nocase or $e.Details = /.*IWR .*/ nocase or $e.Details = /.*Invoke-RestMethod.*/ nocase or $e.Details = /.*IRM .*/ nocase or $e.Details = /.* -noni .*/ nocase or $e.Details = /.* -noninteractive .*/ nocase))
+
+  condition:
+    $e
+}

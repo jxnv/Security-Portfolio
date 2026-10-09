@@ -1,0 +1,23 @@
+// Title: Potentially Suspicious NTFS Symlink Behavior Modification
+// ID: c0b2768a-dd06-4671-8339-b16ca8d1f27f
+// Status: test
+// Level: medium
+// Author: frack113, The DFIR Report
+// Date: 2022-03-02
+// Tags: attack.execution, attack.defense-impairment, attack.t1059, attack.t1222.001
+// Description: Detects the modification of NTFS symbolic link behavior using fsutil, which could be used to enable remote to local or remote to remote symlinks for potential attacks.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule c0b2768a_dd06_4671_8339_b16ca8d1f27f {
+  meta:
+    title = "Potentially Suspicious NTFS Symlink Behavior Modification"
+    description = "Detects the modification of NTFS symbolic link behavior using fsutil, which could be used to enable remote to local or remote to remote symlinks for potential attacks."
+    author = "frack113, The DFIR Report"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.command_line = /.*fsutil.*/ nocase and $e.target.process.command_line = /.*behavior.*/ nocase and $e.target.process.command_line = /.*set.*/ nocase and $e.target.process.command_line = /.*SymlinkEvaluation.*/ nocase)) and ((($e.target.process.file.full_path = /.*\\cmd.exe$/ nocase or $e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase)) or (($e.target.process.file.name = "Cmd.Exe" or $e.target.process.file.name = "PowerShell.EXE" or $e.target.process.file.name = "pwsh.dll"))) and (($e.target.process.command_line = /.*R2L:1.*/ nocase or $e.target.process.command_line = /.*R2R:1.*/ nocase or $e.target.process.command_line = /.*L2L:1.*/ nocase)))
+
+  condition:
+    $e
+}

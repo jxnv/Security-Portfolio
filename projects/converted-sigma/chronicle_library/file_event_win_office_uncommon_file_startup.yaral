@@ -1,0 +1,23 @@
+// Title: Uncommon File Created In Office Startup Folder
+// ID: a10a2c40-2c4d-49f8-b557-1a946bc55d9d
+// Status: test
+// Level: high
+// Author: frack113, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-06-05
+// Tags: attack.resource-development, attack.t1587.001
+// Description: Detects the creation of a file with an uncommon extension in an Office application startup folder
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule a10a2c40_2c4d_49f8_b557_1a946bc55d9d {
+  meta:
+    title = "Uncommon File Created In Office Startup Folder"
+    description = "Detects the creation of a file with an uncommon extension in an Office application startup folder"
+    author = "frack113, Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((((($e.target.file.full_path = /.*\\Microsoft\\Word\\STARTUP.*/ nocase) or (($e.target.file.full_path = /.*\\Office.*/ nocase and $e.target.file.full_path = /.*\\Program Files.*/ nocase and $e.target.file.full_path = /.*\\STARTUP.*/ nocase))) and not((($e.target.file.full_path = /.*.docb$/ nocase or $e.target.file.full_path = /.*.docm$/ nocase or $e.target.file.full_path = /.*.docx$/ nocase or $e.target.file.full_path = /.*.dotm$/ nocase or $e.target.file.full_path = /.*.mdb$/ nocase or $e.target.file.full_path = /.*.mdw$/ nocase or $e.target.file.full_path = /.*.pdf$/ nocase or $e.target.file.full_path = /.*.wll$/ nocase or $e.target.file.full_path = /.*.wwl$/ nocase)))) or ((($e.target.file.full_path = /.*\\Microsoft\\Excel\\XLSTART.*/ nocase) or (($e.target.file.full_path = /.*\\Office.*/ nocase and $e.target.file.full_path = /.*\\Program Files.*/ nocase and $e.target.file.full_path = /.*\\XLSTART.*/ nocase))) and not((($e.target.file.full_path = /.*.xll$/ nocase or $e.target.file.full_path = /.*.xls$/ nocase or $e.target.file.full_path = /.*.xlsm$/ nocase or $e.target.file.full_path = /.*.xlsx$/ nocase or $e.target.file.full_path = /.*.xlt$/ nocase or $e.target.file.full_path = /.*.xltm$/ nocase or $e.target.file.full_path = /.*.xlw$/ nocase))))) and not(((($e.target.process.file.full_path = /.*:\\Program Files\\Microsoft Office\\.*/ nocase or $e.target.process.file.full_path = /.*:\\Program Files (x86)\\Microsoft Office\\.*/ nocase) and ($e.target.process.file.full_path = /.*\\winword.exe$/ nocase or $e.target.process.file.full_path = /.*\\excel.exe$/ nocase)) or ($e.target.process.file.full_path = /.*:\\Program Files\\Common Files\\Microsoft Shared\\ClickToRun\\.*/ nocase and $e.target.process.file.full_path = /.*\\OfficeClickToRun.exe$/ nocase))))
+
+  condition:
+    $e
+}

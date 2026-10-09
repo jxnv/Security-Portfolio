@@ -1,0 +1,24 @@
+{
+  "title": "COM Object Execution via Xwizard.EXE",
+  "id": "53d4bb30-3f36-4e8a-b078-69d36c4a79ff",
+  "status": "test",
+  "description": "Detects the execution of Xwizard tool with the \"RunWizard\" flag and a GUID like argument.\nThis utility can be abused in order to run custom COM object created in the registry.\n",
+  "author": "Ensar \u015eamil, @sblmsrsn, @oscd_initiative, Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2020-10-07",
+  "tags": [
+    "attack.stealth",
+    "attack.t1218"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection": {
+      "CommandLine": "RunWizard",
+      "CommandLine|re": "\\{[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}\\}"
+    },
+    "condition": "selection"
+  }
+}

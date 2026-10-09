@@ -1,0 +1,35 @@
+{
+  "title": "OneNote Attachment File Dropped In Suspicious Location",
+  "id": "7fd164ba-126a-4d9c-9392-0d4f7c243df0",
+  "status": "test",
+  "description": "Detects creation of files with the \".one\"/\".onepkg\" extension in suspicious or uncommon locations. This could be a sign of attackers abusing OneNote attachments",
+  "author": "Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2023-01-22",
+  "tags": [
+    "attack.stealth"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "file_event",
+    "product": "windows"
+  },
+  "detection": {
+    "selection": {
+      "TargetFilename|contains": [
+        "\\AppData\\Local\\Temp\\",
+        "\\Users\\Public\\",
+        "\\Windows\\Temp\\",
+        ":\\Temp\\"
+      ],
+      "TargetFilename|endswith": [
+        ".one",
+        ".onepkg"
+      ]
+    },
+    "filter_main_onenote": {
+      "Image|contains": ":\\Program Files\\Microsoft Office\\",
+      "Image|endswith": "\\ONENOTE.EXE"
+    },
+    "condition": "selection and not 1 of filter_main_*"
+  }
+}

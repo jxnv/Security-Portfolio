@@ -1,0 +1,12 @@
+// Title: Xwizard.EXE Execution From Non-Default Location
+// ID: 193d5ccd-6f59-40c6-b5b0-8e32d5ddd3d1
+// Status: test
+// Level: high
+// Author: Christian Burkard (Nextron Systems)
+// Date: 2021-09-20
+// Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.stealth, attack.t1574.001
+// Description: Detects the execution of Xwizard tool from a non-default directory.
+// When executed from a non-default directory, this utility can be abused in order to side load a custom version of "xwizards.dll".
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where (((Image matches "*\\xwizard.exe") or (OriginalFileName = "xwizard.exe")) and !(((Image matches "C:\\Windows\\System32\\*" or Image matches "C:\\Windows\\SysWOW64\\*" or Image matches "C:\\Windows\\WinSxS\\*"))))

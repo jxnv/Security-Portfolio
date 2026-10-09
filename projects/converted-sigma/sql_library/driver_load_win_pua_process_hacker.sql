@@ -1,0 +1,11 @@
+-- Title: PUA - Process Hacker Driver Load
+-- ID: 67add051-9ee7-4ad3-93ba-42935615ae8d
+-- Status: test
+-- Level: high
+-- Author: Florian Roth (Nextron Systems)
+-- Date: 2022-11-16
+-- Tags: attack.persistence, attack.privilege-escalation, cve.2021-21551, attack.t1543
+-- Description: Detects driver load of the Process Hacker tool
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE ((ImageLoaded ILIKE '%\\kprocesshacker.sys') OR ((Hashes ILIKE '%IMPHASH=821D74031D3F625BCBD0DF08B70F1E77%' OR Hashes ILIKE '%IMPHASH=F86759BB4DE4320918615DC06E998A39%' OR Hashes ILIKE '%IMPHASH=0A64EEB85419257D0CE32BD5D55C3A18%' OR Hashes ILIKE '%IMPHASH=6E7B34DFC017700B1517B230DF6FF0D0%')))

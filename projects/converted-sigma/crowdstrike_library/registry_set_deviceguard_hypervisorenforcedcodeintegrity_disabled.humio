@@ -1,0 +1,11 @@
+// Title: Windows Hypervisor Enforced Code Integrity Disabled
+// ID: 8b7273a4-ba5d-4d8a-b04f-11f2900d043a
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems), Anish Bogati
+// Date: 2023-03-14
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects changes to the HypervisorEnforcedCodeIntegrity registry key and the "Enabled" value being set to 0 in order to disable the Hypervisor Enforced Code Integrity feature. This allows an attacker to load unsigned and untrusted code to be run in the kernel
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((TargetObject = /.*\\Control\\DeviceGuard\\HypervisorEnforcedCodeIntegrity/i or TargetObject = /.*\\Control\\DeviceGuard\\Scenarios\\HypervisorEnforcedCodeIntegrity\\Enabled/i or TargetObject = /.*\\Microsoft\\Windows\\DeviceGuard\\HypervisorEnforcedCodeIntegrity/i) and Details = "DWORD (0x00000000)")

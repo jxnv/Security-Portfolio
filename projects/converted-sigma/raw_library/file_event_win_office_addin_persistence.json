@@ -1,0 +1,40 @@
+{
+  "title": "Potential Persistence Via Microsoft Office Add-In",
+  "id": "8e1cb247-6cf6-42fa-b440-3f27d57e9936",
+  "status": "test",
+  "description": "Detects potential persistence activity via startup add-ins that load when Microsoft Office starts (.wll/.xll are simply .dll fit for Word or Excel).",
+  "author": "NVISO",
+  "date": "2020-05-11",
+  "tags": [
+    "attack.persistence",
+    "attack.t1137.006"
+  ],
+  "level": "high",
+  "logsource": {
+    "category": "file_event",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_wlldropped": {
+      "TargetFilename|contains": "\\Microsoft\\Word\\Startup\\",
+      "TargetFilename|endswith": ".wll"
+    },
+    "selection_xlldropped": {
+      "TargetFilename|contains": "\\Microsoft\\Excel\\Startup\\",
+      "TargetFilename|endswith": ".xll"
+    },
+    "selection_xladropped": {
+      "TargetFilename|contains": "Microsoft\\Excel\\XLSTART\\",
+      "TargetFilename|endswith": ".xlam"
+    },
+    "selection_generic": {
+      "TargetFilename|contains": "\\Microsoft\\Addins\\",
+      "TargetFilename|endswith": [
+        ".xlam",
+        ".xla",
+        ".ppam"
+      ]
+    },
+    "condition": "1 of selection_*"
+  }
+}

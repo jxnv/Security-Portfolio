@@ -1,0 +1,12 @@
+// Title: Suspicious File Write to SharePoint Layouts Directory
+// ID: 1f0489be-b496-4ddf-b3a9-5900f2044e9c
+// Status: experimental
+// Level: high
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-07-24
+// Tags: attack.initial-access, attack.t1190, attack.persistence, attack.t1505.003
+// Description: Detects suspicious file writes to SharePoint layouts directory which could indicate webshell activity or post-exploitation.
+// This behavior has been observed in the exploitation of SharePoint vulnerabilities such as CVE-2025-49704, CVE-2025-49706 or CVE-2025-53770.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((Image ENDSWITH "\\cmd.exe" OR Image ENDSWITH "\\powershell_ise.exe" OR Image ENDSWITH "\\powershell.exe" OR Image ENDSWITH "\\pwsh.exe" OR Image ENDSWITH "\\w3wp.exe") AND (TargetFilename STARTSWITH "C:\\Program Files\\Common Files\\Microsoft Shared\\Web Server Extensions\\" OR TargetFilename STARTSWITH "C:\\Program Files (x86)\\Common Files\\Microsoft Shared\\Web Server Extensions\\") AND (TargetFilename CONTAINS "\\15\\TEMPLATE\\LAYOUTS\\" OR TargetFilename CONTAINS "\\16\\TEMPLATE\\LAYOUTS\\") AND (TargetFilename ENDSWITH ".asax" OR TargetFilename ENDSWITH ".ascx" OR TargetFilename ENDSWITH ".ashx" OR TargetFilename ENDSWITH ".asmx" OR TargetFilename ENDSWITH ".asp" OR TargetFilename ENDSWITH ".aspx" OR TargetFilename ENDSWITH ".bat" OR TargetFilename ENDSWITH ".cmd" OR TargetFilename ENDSWITH ".cer" OR TargetFilename ENDSWITH ".config" OR TargetFilename ENDSWITH ".hta" OR TargetFilename ENDSWITH ".js" OR TargetFilename ENDSWITH ".jsp" OR TargetFilename ENDSWITH ".jspx" OR TargetFilename ENDSWITH ".php" OR TargetFilename ENDSWITH ".ps1" OR TargetFilename ENDSWITH ".vbs"))

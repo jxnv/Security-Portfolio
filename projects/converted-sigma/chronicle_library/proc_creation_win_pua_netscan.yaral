@@ -1,0 +1,24 @@
+// Title: PUA - SoftPerfect Netscan Execution
+// ID: ca387a8e-1c84-4da3-9993-028b45342d30
+// Status: test
+// Level: medium
+// Author: @d4ns4n_ (Wuerth-Phoenix)
+// Date: 2024-04-25
+// Tags: attack.discovery, attack.t1046
+// Description: Detects usage of SoftPerfect's "netscan.exe". An application for scanning networks.
+// It is actively used in-the-wild by threat actors to inspect and understand the network architecture of a victim.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule ca387a8e_1c84_4da3_9993_028b45342d30 {
+  meta:
+    title = "PUA - SoftPerfect Netscan Execution"
+    description = "Detects usage of SoftPerfect's "netscan.exe". An application for scanning networks. It is actively used in-the-wild by threat actors to inspect and understand the network architecture of a victim."
+    author = "@d4ns4n_ (Wuerth-Phoenix)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.process.file.full_path = /.*\\netscan.exe$/ nocase) or ($e.Product = "Network Scanner") or ($e.Description = "Application for scanning networks"))
+
+  condition:
+    $e
+}

@@ -1,0 +1,11 @@
+// Title: Suspicious Mshta.EXE Execution Patterns
+// ID: e32f92d1-523e-49c3-9374-bdb13b46a3ba
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2021-07-17
+// Tags: attack.execution, attack.t1106
+// Description: Detects suspicious mshta process execution patterns
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((where(Image IENDSWITH "\\mshta.exe")) OR (where(OriginalFileName = "MSHTA.EXE"))) AND ((where(ParentImage IENDSWITH "\\cmd.exe") OR where(ParentImage IENDSWITH "\\cscript.exe") OR where(ParentImage IENDSWITH "\\powershell.exe") OR where(ParentImage IENDSWITH "\\pwsh.exe") OR where(ParentImage IENDSWITH "\\regsvr32.exe") OR where(ParentImage IENDSWITH "\\rundll32.exe") OR where(ParentImage IENDSWITH "\\wscript.exe")) AND (where(CommandLine ICONTAINS "\\AppData\\Local\\") OR where(CommandLine ICONTAINS "C:\\ProgramData\\") OR where(CommandLine ICONTAINS "C:\\Users\\Public\\") OR where(CommandLine ICONTAINS "C:\\Windows\\Temp\\")))) OR (((where(Image IENDSWITH "\\mshta.exe")) OR (where(OriginalFileName = "MSHTA.EXE"))) AND NOT ((((where(Image ISTARTSWITH "C:\\Windows\\System32\\") OR where(Image ISTARTSWITH "C:\\Windows\\SysWOW64\\"))) OR ((where(CommandLine ICONTAINS ".htm") OR where(CommandLine ICONTAINS ".hta"))) OR ((where(CommandLine IENDSWITH "mshta.exe") OR where(CommandLine IENDSWITH "mshta")))))))

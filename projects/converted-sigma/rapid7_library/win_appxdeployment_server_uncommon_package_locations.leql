@@ -1,0 +1,11 @@
+// Title: AppX Located in Uncommon Directory Added to Deployment Pipeline
+// ID: c977cb50-3dff-4a9f-b873-9290f56132f1
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-01-11
+// Tags: attack.stealth
+// Description: Detects an appx package that was added to the pipeline of the "to be processed" packages that is located in uncommon locations.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((where(EventID = "854")) AND NOT ((((where(Path ICONTAINS ":/Program%20Files") OR where(Path ICONTAINS ":/Windows/System32/") OR where(Path ICONTAINS ":\\Program Files (x86)\\") OR where(Path ICONTAINS ":\\Program Files\\") OR where(Path ICONTAINS ":\\Windows\\ImmersiveControlPanel\\") OR where(Path ICONTAINS ":\\Windows\\PrintDialog\\") OR where(Path ICONTAINS ":\\Windows\\SystemApps\\") OR where(Path ICONTAINS "AppData/Local/Temp/WinGet/Microsoft.Winget.Source") OR where(Path ICONTAINS "x-windowsupdate://"))) OR ((where(Path ICONTAINS "https://installer.teams.static.microsoft/") OR where(Path ICONTAINS "https://res.cdn.office.net") OR where(Path ICONTAINS "https://statics.teams.cdn.live.net/") OR where(Path ICONTAINS "https://statics.teams.cdn.office.net/") OR where(Path ICONTAINS "microsoft.com"))))) AND NOT (((where(Path ICONTAINS "AppData\\Local\\Microsoft\\OneDrive\\")) OR ((where(Path ICONTAINS "AppData/Local/Temp/WinGet/Microsoft.Winget.Source") OR where(Path ICONTAINS "AppData\\Local\\Temp\\WinGet\\Microsoft.Winget.Source"))) OR (where(Path ICONTAINS "x-windowsupdate://")))))

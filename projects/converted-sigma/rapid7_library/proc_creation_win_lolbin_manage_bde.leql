@@ -1,0 +1,11 @@
+// Title: Potential Manage-bde.wsf Abuse To Proxy Execution
+// ID: c363385c-f75d-4753-a108-c1a8e28bdbda
+// Status: test
+// Level: high
+// Author: oscd.community, Natalia Shornikova, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2020-10-13
+// Tags: attack.stealth, attack.t1216
+// Description: Detects potential abuse of the "manage-bde.wsf" script as a LOLBIN to proxy execution
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(CommandLine ICONTAINS "manage-bde.wsf")) AND ((where(Image IENDSWITH "\\wscript.exe")) OR (where(OriginalFileName = "wscript.exe")))) OR (((where(ParentImage IENDSWITH "\\cscript.exe") OR where(ParentImage IENDSWITH "\\wscript.exe")) AND where(ParentCommandLine ICONTAINS "manage-bde.wsf")) AND NOT ((where(Image IENDSWITH "\\cmd.exe")))))

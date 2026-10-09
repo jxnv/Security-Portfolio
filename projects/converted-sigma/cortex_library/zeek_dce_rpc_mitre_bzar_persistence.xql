@@ -1,0 +1,11 @@
+// Title: MITRE BZAR Indicators for Persistence
+// ID: 53389db6-ba46-48e3-a94c-e0f2cefe1583
+// Status: test
+// Level: medium
+// Author: @neu5ron, SOC Prime
+// Date: 2020-03-19
+// Tags: attack.privilege-escalation, attack.persistence, attack.t1547.004
+// Description: Windows DCE-RPC functions which indicate a persistence techniques on the remote system. All credit for the Zeek mapping of the suspicious endpoint/operation field goes to MITRE.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter ((endpoint = "spoolss" and operation = "RpcAddMonitor") or (endpoint = "spoolss" and operation = "RpcAddPrintProcessor") or (endpoint = "IRemoteWinspool" and operation = "RpcAsyncAddMonitor") or (endpoint = "IRemoteWinspool" and operation = "RpcAsyncAddPrintProcessor") or (endpoint = "ISecLogon" and operation = "SeclCreateProcessWithLogonW") or (endpoint = "ISecLogon" and operation = "SeclCreateProcessWithLogonExW"))

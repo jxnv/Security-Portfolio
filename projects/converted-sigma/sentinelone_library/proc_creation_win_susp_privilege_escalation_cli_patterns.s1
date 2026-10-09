@@ -1,0 +1,11 @@
+// Title: Suspicious RunAs-Like Flag Combination
+// ID: 50d66fb0-03f8-4da0-8add-84e77d12a020
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-11-11
+// Tags: attack.privilege-escalation
+// Description: Detects suspicious command line flags that let the user set a target user and command as e.g. seen in PsExec-like tools
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((src.process.cmdline containsCIS " -c cmd" OR src.process.cmdline containsCIS " -c \"cmd" OR src.process.cmdline containsCIS " -c powershell" OR src.process.cmdline containsCIS " -c \"powershell" OR src.process.cmdline containsCIS " --command cmd" OR src.process.cmdline containsCIS " --command powershell" OR src.process.cmdline containsCIS " -c whoami" OR src.process.cmdline containsCIS " -c wscript" OR src.process.cmdline containsCIS " -c cscript")) AND ((src.process.cmdline containsCIS " -u system " OR src.process.cmdline containsCIS " --user system " OR src.process.cmdline containsCIS " -u NT" OR src.process.cmdline containsCIS " -u \"NT" OR src.process.cmdline containsCIS " -u 'NT" OR src.process.cmdline containsCIS " --system " OR src.process.cmdline containsCIS " -u administrator ")))

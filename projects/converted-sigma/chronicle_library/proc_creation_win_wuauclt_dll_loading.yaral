@@ -1,0 +1,23 @@
+// Title: Proxy Execution Via Wuauclt.EXE
+// ID: af77cf95-c469-471c-b6a0-946c685c4798
+// Status: test
+// Level: high
+// Author: Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research), Florian Roth (Nextron Systems), Sreeman, FPT.EagleEye Team
+// Date: 2020-10-12
+// Tags: attack.stealth, attack.t1218, attack.execution
+// Description: Detects the use of the Windows Update Client binary (wuauclt.exe) for proxy execution.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule af77cf95_c469_471c_b6a0_946c685c4798 {
+  meta:
+    title = "Proxy Execution Via Wuauclt.EXE"
+    description = "Detects the use of the Windows Update Client binary (wuauclt.exe) for proxy execution."
+    author = "Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research), Florian Roth (Nextron Systems), Sreeman, FPT.EagleEye Team"
+    severity = "HIGH"
+
+  events:
+    (((($e.target.process.command_line = /.*UpdateDeploymentProvider.*/ nocase and $e.target.process.command_line = /.*RunHandlerComServer.*/ nocase)) and (($e.target.process.file.full_path = /.*\\wuauclt.exe$/ nocase) or ($e.target.process.file.name = "wuauclt.exe"))) and not((($e.target.process.command_line = /.* /UpdateDeploymentProvider UpdateDeploymentProvider.dll .*/ nocase) or (($e.target.process.command_line = /.*:\\Windows\\UUS\\Packages\\Preview\\amd64\\updatedeploy.dll /ClassId.*/ nocase or $e.target.process.command_line = /.*:\\Windows\\UUS\\amd64\\UpdateDeploy.dll /ClassId.*/ nocase)) or (($e.target.process.command_line = /.*:\\Windows\\WinSxS\\.*/ nocase and $e.target.process.command_line = /.*\\UpdateDeploy.dll /ClassId .*/ nocase)) or ($e.target.process.command_line = /.* wuaueng.dll .*/ nocase))))
+
+  condition:
+    $e
+}

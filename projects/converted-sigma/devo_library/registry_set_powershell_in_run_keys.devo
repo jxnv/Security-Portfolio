@@ -1,0 +1,11 @@
+// Title: Suspicious PowerShell In Registry Run Keys
+// ID: 8d85cf08-bf97-4260-ba49-986a2a65129c
+// Status: test
+// Level: medium
+// Author: frack113, Florian Roth (Nextron Systems)
+// Date: 2022-03-17
+// Tags: attack.privilege-escalation, attack.persistence, attack.t1547.001
+// Description: Detects potential PowerShell commands or code within registry run keys
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+from siem.events where ((contains(TargetObject, "\\Software\\Microsoft\\Windows\\CurrentVersion\\Run") OR contains(TargetObject, "\\Software\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Run") OR contains(TargetObject, "\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run")) AND (contains(Details, "powershell") OR contains(Details, "pwsh ") OR contains(Details, "FromBase64String") OR contains(Details, ".DownloadFile(") OR contains(Details, ".DownloadString(") OR contains(Details, " -w hidden ") OR contains(Details, " -w 1 ") OR contains(Details, "-windowstyle hidden") OR contains(Details, "-window hidden") OR contains(Details, " -nop ") OR contains(Details, " -encodedcommand ") OR contains(Details, "-ExecutionPolicy Bypass") OR contains(Details, "Invoke-Expression") OR contains(Details, "IEX (") OR contains(Details, "Invoke-Command") OR contains(Details, "ICM -") OR contains(Details, "Invoke-WebRequest") OR contains(Details, "IWR ") OR contains(Details, "Invoke-RestMethod") OR contains(Details, "IRM ") OR contains(Details, " -noni ") OR contains(Details, " -noninteractive ")))

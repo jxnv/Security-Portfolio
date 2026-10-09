@@ -1,0 +1,35 @@
+{
+  "title": "Suspicious Run Key from Download",
+  "id": "9c5037d1-c568-49b3-88c7-9846a5bdc2be",
+  "status": "test",
+  "description": "Detects the suspicious RUN keys created by software located in Download or temporary Outlook/Internet Explorer directories",
+  "author": "Florian Roth (Nextron Systems), Swachchhanda Shrawan Poude (Nextron Systems)",
+  "date": "2019-10-01",
+  "tags": [
+    "attack.privilege-escalation",
+    "attack.persistence",
+    "attack.t1547.001"
+  ],
+  "level": "high",
+  "logsource": {
+    "category": "registry_event",
+    "product": "windows"
+  },
+  "detection": {
+    "selection": {
+      "Image|contains": [
+        "\\AppData\\Local\\Packages\\Microsoft.Outlook_",
+        "\\AppData\\Local\\Microsoft\\Olk\\Attachments\\",
+        "\\Downloads\\",
+        "\\Temporary Internet Files\\Content.Outlook\\",
+        "\\Local Settings\\Temporary Internet Files\\"
+      ],
+      "TargetObject|contains": [
+        "\\Software\\Microsoft\\Windows\\CurrentVersion\\Run",
+        "\\Software\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Run",
+        "\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run"
+      ]
+    },
+    "condition": "selection"
+  }
+}

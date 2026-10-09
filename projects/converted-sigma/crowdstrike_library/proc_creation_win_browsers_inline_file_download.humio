@@ -1,0 +1,11 @@
+// Title: File Download From Browser Process Via Inline URL
+// ID: 94771a71-ba41-4b6e-a757-b531372eaab6
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-01-11
+// Tags: attack.command-and-control, attack.t1105
+// Description: Detects execution of a browser process with a URL argument pointing to a file with a potentially interesting extension. This can be abused to download arbitrary files or to hide from the user for example by launching the browser in a minimized state.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((CommandLine = /.*.7z/i or CommandLine = /.*.dat/i or CommandLine = /.*.dll/i or CommandLine = /.*.exe/i or CommandLine = /.*.hta/i or CommandLine = /.*.ps1/i or CommandLine = /.*.psm1/i or CommandLine = /.*.txt/i or CommandLine = /.*.vbe/i or CommandLine = /.*.vbs/i or CommandLine = /.*.zip/i)) or ((CommandLine = /*.7z\"*/i or CommandLine = /*.dat\"*/i or CommandLine = /*.dll\"*/i or CommandLine = /*.hta\"*/i or CommandLine = /*.ps1\"*/i or CommandLine = /*.psm1\"*/i or CommandLine = /*.txt\"*/i or CommandLine = /*.vbe\"*/i or CommandLine = /*.vbs\"*/i or CommandLine = /*.zip\"*/i))) and (CommandLine = /*http*/i) and ((ImageFileName = /.*\\brave.exe/i or ImageFileName = /.*\\chrome.exe/i or ImageFileName = /.*\\msedge.exe/i or ImageFileName = /.*\\opera.exe/i or ImageFileName = /.*\\vivaldi.exe/i)))

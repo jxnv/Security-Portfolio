@@ -1,0 +1,11 @@
+// Title: NTDS.DIT Creation By Uncommon Process
+// ID: 11b1ed55-154d-4e82-8ad7-83739298f720
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-01-11
+// Tags: attack.credential-access, attack.t1003.002, attack.t1003.003
+// Description: Detects creation of a file named "ntds.dit" (Active Directory Database) by an uncommon process or a process located in a suspicious directory
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((TargetFilename ENDSWITH "\\ntds.dit") AND (((Image ENDSWITH "\\cmd.exe" OR Image ENDSWITH "\\cscript.exe" OR Image ENDSWITH "\\mshta.exe" OR Image ENDSWITH "\\powershell.exe" OR Image ENDSWITH "\\pwsh.exe" OR Image ENDSWITH "\\regsvr32.exe" OR Image ENDSWITH "\\rundll32.exe" OR Image ENDSWITH "\\wscript.exe" OR Image ENDSWITH "\\wsl.exe" OR Image ENDSWITH "\\wt.exe")) OR ((Image CONTAINS "\\AppData\\" OR Image CONTAINS "\\Temp\\" OR Image CONTAINS "\\Public\\" OR Image CONTAINS "\\PerfLogs\\"))))

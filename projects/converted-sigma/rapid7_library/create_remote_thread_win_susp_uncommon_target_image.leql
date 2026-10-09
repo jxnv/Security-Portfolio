@@ -1,0 +1,11 @@
+// Title: Remote Thread Creation In Uncommon Target Image
+// ID: a1a144b7-5c9b-4853-a559-2172be8d4a03
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-03-16
+// Tags: attack.privilege-escalation, attack.stealth, attack.t1055.003
+// Description: Detects uncommon target processes for remote thread creation
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(TargetImage IENDSWITH "\\calc.exe") OR where(TargetImage IENDSWITH "\\calculator.exe") OR where(TargetImage IENDSWITH "\\mspaint.exe") OR where(TargetImage IENDSWITH "\\notepad.exe") OR where(TargetImage IENDSWITH "\\ping.exe") OR where(TargetImage IENDSWITH "\\sethc.exe") OR where(TargetImage IENDSWITH "\\spoolsv.exe") OR where(TargetImage IENDSWITH "\\wordpad.exe") OR where(TargetImage IENDSWITH "\\write.exe"))) AND NOT (((where(SourceImage = "C:\\Windows\\System32\\csrss.exe")) OR ((where(SourceImage = "C:\\Windows\\System32\\explorer.exe") OR where(SourceImage = "C:\\Windows\\System32\\OpenWith.exe")) AND where(TargetImage = "C:\\Windows\\System32\\notepad.exe")) OR (where(SourceImage = "C:\\Windows\\System32\\AtBroker.exe") AND where(TargetImage = "C:\\Windows\\System32\\Sethc.exe")))) AND NOT (((where(StartFunction = "EtwpNotificationThread")) OR (where(SourceImage ICONTAINS "unknown process")) OR (where(SourceImage = "C:\\Program Files\\VMware\\VMware Tools\\vmtoolsd.exe") AND where(StartFunction = "GetCommandLineW") AND (where(TargetImage = "C:\\Windows\\System32\\notepad.exe") OR where(TargetImage = "C:\\Windows\\System32\\spoolsv.exe"))) OR (where(SourceImage = "C:\\Program Files\\Xerox\\XeroxPrintExperience\\CommonFiles\\XeroxPrintJobEventManagerService.exe") AND where(StartFunction = "LoadLibraryW") AND where(TargetImage = "C:\\Windows\\System32\\spoolsv.exe")))))

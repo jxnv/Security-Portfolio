@@ -1,0 +1,11 @@
+// Title: Suspicious WebDav Client Execution Via Rundll32.EXE
+// ID: 982e9f2d-1a85-4d5b-aea4-31f5e97c6555
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems), Florian Roth (Nextron Systems)
+// Date: 2023-03-16
+// Tags: attack.exfiltration, attack.t1048.003, cve.2023-23397
+// Description: Detects "svchost.exe" spawning "rundll32.exe" with command arguments like C:\windows\system32\davclnt.dll,DavSetCookie. This could be an indicator of exfiltration or use of WebDav to launch code (hosted on WebDav Server) or potentially a sign of exploitation of CVE-2023-23397
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter ((actor_process_image_path endswith "\\svchost.exe" and actor_process_command_line contains "-s WebClient" and action_process_image_path endswith "\\rundll32.exe" and action_process_image_command_line contains "C:\\windows\\system32\\davclnt.dll,DavSetCookie" and action_process_image_command_line ~= "://\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}") and not (((action_process_image_command_line contains "://10." or action_process_image_command_line contains "://192.168." or action_process_image_command_line contains "://172.16." or action_process_image_command_line contains "://172.17." or action_process_image_command_line contains "://172.18." or action_process_image_command_line contains "://172.19." or action_process_image_command_line contains "://172.20." or action_process_image_command_line contains "://172.21." or action_process_image_command_line contains "://172.22." or action_process_image_command_line contains "://172.23." or action_process_image_command_line contains "://172.24." or action_process_image_command_line contains "://172.25." or action_process_image_command_line contains "://172.26." or action_process_image_command_line contains "://172.27." or action_process_image_command_line contains "://172.28." or action_process_image_command_line contains "://172.29." or action_process_image_command_line contains "://172.30." or action_process_image_command_line contains "://172.31." or action_process_image_command_line contains "://127." or action_process_image_command_line contains "://169.254."))))

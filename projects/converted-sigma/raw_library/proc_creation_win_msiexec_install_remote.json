@@ -1,0 +1,51 @@
+{
+  "title": "Suspicious Msiexec Quiet Install From Remote Location",
+  "id": "8150732a-0c9d-4a99-82b9-9efb9b90c40c",
+  "status": "test",
+  "description": "Detects usage of Msiexec.exe to install packages hosted remotely quietly",
+  "author": "Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2022-10-28",
+  "tags": [
+    "attack.stealth",
+    "attack.t1218.007"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_img": [
+      {
+        "Image|endswith": "\\msiexec.exe"
+      },
+      {
+        "OriginalFileName": "msiexec.exe"
+      }
+    ],
+    "selection_cli": {
+      "CommandLine|contains|windash": [
+        "-i",
+        "-package",
+        "-a",
+        "-j"
+      ]
+    },
+    "selection_quiet": {
+      "CommandLine|contains|windash": "-q"
+    },
+    "selection_remote": {
+      "CommandLine|contains": [
+        "http",
+        "\\\\\\\\"
+      ]
+    },
+    "filter_optional_openoffice": {
+      "CommandLine|contains|all": [
+        "\\AppData\\Local\\Temp\\OpenOffice",
+        "Installation Files\\openoffice"
+      ]
+    },
+    "condition": "all of selection_* and not 1 of filter_optional_*"
+  }
+}

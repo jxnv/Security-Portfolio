@@ -1,0 +1,12 @@
+// Title: Cmd.EXE Missing Space Characters Execution Anomaly
+// ID: a16980c2-0c56-4de0-9a79-17971979efdd
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-08-23
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects Windows command lines that miss a space before or after the /c flag when running a command using the cmd.exe.
+// This could be a sign of obfuscation of a fat finger problem (typo by the developer).
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((CommandLine = /*cmd.exe/c*/i or CommandLine = /*\\cmd/c*/i or CommandLine = /*\"cmd/c*/i or CommandLine = /*cmd.exe/k*/i or CommandLine = /*\\cmd/k*/i or CommandLine = /*\"cmd/k*/i or CommandLine = /*cmd.exe/r*/i or CommandLine = /*\\cmd/r*/i or CommandLine = /*\"cmd/r*/i)) or ((CommandLine = /*/cwhoami*/i or CommandLine = /*/cpowershell*/i or CommandLine = /*/cschtasks*/i or CommandLine = /*/cbitsadmin*/i or CommandLine = /*/ccertutil*/i or CommandLine = /*/kwhoami*/i or CommandLine = /*/kpowershell*/i or CommandLine = /*/kschtasks*/i or CommandLine = /*/kbitsadmin*/i or CommandLine = /*/kcertutil*/i)) or ((CommandLine = /*cmd.exe /c*/i or CommandLine = /*cmd /c*/i or CommandLine = /*cmd.exe /k*/i or CommandLine = /*cmd /k*/i or CommandLine = /*cmd.exe /r*/i or CommandLine = /*cmd /r*/i))) and not((((CommandLine = /*AppData\\Local\\Programs\\Microsoft VS Code\\resources\\app\\node_modules*/i) or (CommandLine = /.*cmd.exe/c ./i) or (CommandLine = "cmd.exe /c") or (CommandLine = "cmd /c")) or ((CommandLine = /*cmd.exe /c */i or CommandLine = /*cmd /c */i or CommandLine = /*cmd.exe /k */i or CommandLine = /*cmd /k */i or CommandLine = /*cmd.exe /r */i or CommandLine = /*cmd /r */i)))))

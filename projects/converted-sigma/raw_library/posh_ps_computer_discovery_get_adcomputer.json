@@ -1,0 +1,33 @@
+{
+  "title": "Computer Discovery And Export Via Get-ADComputer Cmdlet - PowerShell",
+  "id": "db885529-903f-4c5d-9864-28fe199e6370",
+  "status": "test",
+  "description": "Detects usage of the Get-ADComputer cmdlet to collect computer information and output it to a file",
+  "author": "Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2022-11-17",
+  "tags": [
+    "attack.discovery",
+    "attack.t1033"
+  ],
+  "level": "medium",
+  "logsource": {
+    "product": "windows",
+    "category": "ps_script",
+    "definition": "Requirements: Script Block Logging must be enabled"
+  },
+  "detection": {
+    "selection": {
+      "ScriptBlockText|contains|all": [
+        "Get-ADComputer ",
+        " -Filter \\*"
+      ],
+      "ScriptBlockText|contains": [
+        " | Select ",
+        "Out-File",
+        "Set-Content",
+        "Add-Content"
+      ]
+    },
+    "condition": "selection"
+  }
+}

@@ -1,0 +1,11 @@
+// Title: Suspicious Binary In User Directory Spawned From Office Application
+// ID: aa3a6f94-890e-4e22-b634-ffdfd54792cc
+// Status: test
+// Level: high
+// Author: Jason Lynch
+// Date: 2019-04-02
+// Tags: attack.execution, attack.t1204.002, attack.g0046, car.2013-05-002
+// Description: Detects an executable in the users directory started from one of the Microsoft Office suite applications (Word, Excel, PowerPoint, Publisher, Visio)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where (((process.parent.executable endswith "\\WINWORD.EXE" or process.parent.executable endswith "\\EXCEL.EXE" or process.parent.executable endswith "\\POWERPNT.exe" or process.parent.executable endswith "\\MSPUB.exe" or process.parent.executable endswith "\\VISIO.exe" or process.parent.executable endswith "\\MSACCESS.exe" or process.parent.executable endswith "\\EQNEDT32.exe") and process.executable startswith "C:\\users\\" and process.executable endswith ".exe") and not ((process.executable endswith "\\Teams.exe")))

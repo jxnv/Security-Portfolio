@@ -1,0 +1,13 @@
+-- Title: Potential Packet Capture Activity Via Start-NetEventSession - ScriptBlock
+-- ID: da34e323-1e65-42db-83be-a6725ac2caa3
+-- Status: test
+-- Level: medium
+-- Author: frack113
+-- Date: 2024-05-12
+-- Tags: attack.credential-access, attack.discovery, attack.t1040
+-- Description: Detects the execution of powershell scripts with calls to the "Start-NetEventSession" cmdlet. Which allows an attacker to start event and packet capture for a network event session.
+-- Adversaries may attempt to capture network to gather information over the course of an operation.
+-- Data captured via this technique may include user credentials, especially those sent over an insecure, unencrypted protocol.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE (ScriptBlockText ILIKE '%Start-NetEventSession%')

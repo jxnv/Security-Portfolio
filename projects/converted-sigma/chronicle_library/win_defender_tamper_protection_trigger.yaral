@@ -1,0 +1,23 @@
+// Title: Microsoft Defender Tamper Protection Trigger
+// ID: 49e5bc24-8b86-49f1-b743-535f332c2856
+// Status: stable
+// Level: high
+// Author: Bhabesh Raj, Nasreddine Bencherchali
+// Date: 2021-07-05
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects blocked attempts to change any of Defender's settings such as "Real Time Monitoring" and "Behavior Monitoring"
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 49e5bc24_8b86_49f1_b743_535f332c2856 {
+  meta:
+    title = "Microsoft Defender Tamper Protection Trigger"
+    description = "Detects blocked attempts to change any of Defender's settings such as "Real Time Monitoring" and "Behavior Monitoring""
+    author = "Bhabesh Raj, Nasreddine Bencherchali"
+    severity = "HIGH"
+
+  events:
+    ($e.EventID = 5013 and ($e.Value = /.*\\Windows Defender\\DisableAntiSpyware$/ nocase or $e.Value = /.*\\Windows Defender\\DisableAntiVirus$/ nocase or $e.Value = /.*\\Windows Defender\\Scan\\DisableArchiveScanning$/ nocase or $e.Value = /.*\\Windows Defender\\Scan\\DisableScanningNetworkFiles$/ nocase or $e.Value = /.*\\Real-Time Protection\\DisableRealtimeMonitoring$/ nocase or $e.Value = /.*\\Real-Time Protection\\DisableBehaviorMonitoring$/ nocase or $e.Value = /.*\\Real-Time Protection\\DisableIOAVProtection$/ nocase or $e.Value = /.*\\Real-Time Protection\\DisableScriptScanning$/ nocase))
+
+  condition:
+    $e
+}

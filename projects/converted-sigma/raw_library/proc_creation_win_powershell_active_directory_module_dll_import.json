@@ -1,0 +1,44 @@
+{
+  "title": "Potential Active Directory Enumeration Using AD Module - ProcCreation",
+  "id": "70bc5215-526f-4477-963c-a47a5c9ebd12",
+  "status": "test",
+  "description": "Detects usage of the \"Import-Module\" cmdlet to load the \"Microsoft.ActiveDirectory.Management.dl\" DLL. Which is often used by attackers to perform AD enumeration.",
+  "author": "frack113",
+  "date": "2023-01-22",
+  "tags": [
+    "attack.reconnaissance",
+    "attack.discovery",
+    "attack.impact"
+  ],
+  "level": "medium",
+  "logsource": {
+    "product": "windows",
+    "category": "process_creation"
+  },
+  "detection": {
+    "selection_img": [
+      {
+        "Image|endswith": [
+          "\\powershell.exe",
+          "\\pwsh.exe"
+        ]
+      },
+      {
+        "OriginalFileName": [
+          "PowerShell.EXE",
+          "pwsh.dll"
+        ]
+      }
+    ],
+    "selection_cmdlet": {
+      "CommandLine|contains": [
+        "Import-Module ",
+        "ipmo "
+      ]
+    },
+    "selection_dll": {
+      "CommandLine|contains": "Microsoft.ActiveDirectory.Management.dll"
+    },
+    "condition": "all of selection_*"
+  }
+}

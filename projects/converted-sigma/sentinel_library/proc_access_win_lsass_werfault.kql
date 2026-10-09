@@ -1,0 +1,11 @@
+// Title: Credential Dumping Attempt Via WerFault
+// ID: e5b33f7d-eb93-48b6-9851-09e1e610b6d7
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-06-27
+// Tags: attack.credential-access, attack.t1003.001, attack.s0002
+// Description: Detects process LSASS memory dump using Mimikatz, NanoDump, Invoke-Mimikatz, Procdump or Taskmgr based on the CallTrace pointing to ntdll.dll, dbghelp.dll or dbgcore.dll for win10, server2016 and up.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+DeviceProcessEvents | where (SourceImage endswith "\\WerFault.exe" and TargetImage endswith "\\lsass.exe" and GrantedAccess == "0x1FFFFF")

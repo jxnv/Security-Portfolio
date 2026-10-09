@@ -1,0 +1,11 @@
+-- Title: Bash Interactive Shell
+-- ID: 6104e693-a7d6-4891-86cb-49a258523559
+-- Status: test
+-- Level: low
+-- Author: @d4ns4n_
+-- Date: 2023-04-07
+-- Tags: attack.execution
+-- Description: Detects execution of the bash shell with the interactive flag "-i".
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE (Image ILIKE '%/bash' AND CommandLine ILIKE '% -i %')

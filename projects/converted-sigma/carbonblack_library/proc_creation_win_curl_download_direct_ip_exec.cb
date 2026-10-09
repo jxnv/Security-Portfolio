@@ -1,0 +1,11 @@
+# Title: File Download From IP URL Via Curl.EXE
+# ID: 9cc85849-3b02-4cb5-b371-3a1ff54f2218
+# Status: test
+# Level: medium
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2023-10-18
+# Tags: attack.execution
+# Description: Detects file downloads directly from IP address URL using curl.exe
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((((cmdline:* -O* OR cmdline:*--remote-name* OR cmdline:*--output*)) AND (cmdline:*http*) AND ((process_name:*\\curl.exe) OR (OriginalFileName:"curl.exe")) AND (cmdline=regex("://[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}"))) AND -(((cmdline:*.bat OR cmdline:*.bat\" OR cmdline:*.dat OR cmdline:*.dat\" OR cmdline:*.dll OR cmdline:*.dll\" OR cmdline:*.exe OR cmdline:*.exe\" OR cmdline:*.gif OR cmdline:*.gif\" OR cmdline:*.hta OR cmdline:*.hta\" OR cmdline:*.jpeg OR cmdline:*.jpeg\" OR cmdline:*.log OR cmdline:*.log\" OR cmdline:*.msi OR cmdline:*.msi\" OR cmdline:*.png OR cmdline:*.png\" OR cmdline:*.ps1 OR cmdline:*.ps1\" OR cmdline:*.psm1 OR cmdline:*.psm1\" OR cmdline:*.vbe OR cmdline:*.vbe\" OR cmdline:*.vbs OR cmdline:*.vbs\" OR cmdline:*.bat' OR cmdline:*.dat' OR cmdline:*.dll' OR cmdline:*.exe' OR cmdline:*.gif' OR cmdline:*.hta' OR cmdline:*.jpeg' OR cmdline:*.log' OR cmdline:*.msi' OR cmdline:*.png' OR cmdline:*.ps1' OR cmdline:*.psm1' OR cmdline:*.vbe' OR cmdline:*.vbs'))))

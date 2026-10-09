@@ -1,0 +1,19 @@
+# Title: Backup Catalog Deleted
+# ID: 9703792d-fd9a-456d-a672-ff92efe4806a
+# Status: test
+# Level: medium
+# Author: Florian Roth (Nextron Systems), Tom U. @c_APT_ure (collection)
+# Date: 2017-05-12
+# Tags: attack.stealth, attack.t1070.004
+# Description: Detects backup catalog deletions
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Backup Catalog Deleted
+def rule(event):
+    # Detection Logic:
+    # (EventID="524" AND Provider_Name="Microsoft-Windows-Backup")
+    return True
+
+def title(event):
+    return "Backup Catalog Deleted"
+

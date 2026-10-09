@@ -1,0 +1,11 @@
+// Title: Suspicious Debugger Registration Cmdline
+// ID: ae215552-081e-44c7-805f-be16f975c8a2
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), oscd.community, Jonhnathan Ribeiro
+// Date: 2019-09-06
+// Tags: attack.persistence, attack.privilege-escalation, attack.t1546.008
+// Description: Detects the registration of a debugger for a program that is available in the logon screen (sticky key backdoor).
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((where(CommandLine ICONTAINS "\\CurrentVersion\\Image File Execution Options\\")) AND ((where(CommandLine ICONTAINS "sethc.exe") OR where(CommandLine ICONTAINS "utilman.exe") OR where(CommandLine ICONTAINS "osk.exe") OR where(CommandLine ICONTAINS "magnify.exe") OR where(CommandLine ICONTAINS "narrator.exe") OR where(CommandLine ICONTAINS "displayswitch.exe") OR where(CommandLine ICONTAINS "atbroker.exe") OR where(CommandLine ICONTAINS "HelpPane.exe"))))

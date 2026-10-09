@@ -1,0 +1,23 @@
+// Title: Suspicious Windows Defender Registry Key Tampering Via Reg.EXE
+// ID: 452bce90-6fb0-43cc-97a5-affc283139b3
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Swachchhanda Shrawan Poudel, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-03-22
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects the usage of "reg.exe" to tamper with different Windows Defender registry keys in order to disable some important features related to protection and detection
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 452bce90_6fb0_43cc_97a5_affc283139b3 {
+  meta:
+    title = "Suspicious Windows Defender Registry Key Tampering Via Reg.EXE"
+    description = "Detects the usage of "reg.exe" to tamper with different Windows Defender registry keys in order to disable some important features related to protection and detection"
+    author = "Florian Roth (Nextron Systems), Swachchhanda Shrawan Poudel, Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (((($e.target.process.file.full_path = /.*\\reg.exe$/ nocase) or ($e.target.process.file.name = "reg.exe")) and (($e.target.process.command_line = /.*SOFTWARE\\Microsoft\\Windows Defender\\.*/ nocase or $e.target.process.command_line = /.*SOFTWARE\\Policies\\Microsoft\\Windows Defender Security Center.*/ nocase or $e.target.process.command_line = /.*SOFTWARE\\Policies\\Microsoft\\Windows Defender\\.*/ nocase))) and ((($e.target.process.command_line = /.* add .*/ nocase and $e.target.process.command_line = /.*d 0.*/ nocase) and ($e.target.process.command_line = /.*DisallowExploitProtectionOverride.*/ nocase or $e.target.process.command_line = /.*EnableControlledFolderAccess.*/ nocase or $e.target.process.command_line = /.*MpEnablePus.*/ nocase or $e.target.process.command_line = /.*PUAProtection.*/ nocase or $e.target.process.command_line = /.*SpynetReporting.*/ nocase or $e.target.process.command_line = /.*SubmitSamplesConsent.*/ nocase or $e.target.process.command_line = /.*TamperProtection.*/ nocase)) or (($e.target.process.command_line = /.* add .*/ nocase and $e.target.process.command_line = /.*d 1.*/ nocase) and ($e.target.process.command_line = /.*DisableAccess.*/ nocase or $e.target.process.command_line = /.*DisableAntiSpyware.*/ nocase or $e.target.process.command_line = /.*DisableAntiSpywareRealtimeProtection.*/ nocase or $e.target.process.command_line = /.*DisableAntiVirus.*/ nocase or $e.target.process.command_line = /.*DisableAntiVirusSignatures.*/ nocase or $e.target.process.command_line = /.*DisableArchiveScanning.*/ nocase or $e.target.process.command_line = /.*DisableBehaviorMonitoring.*/ nocase or $e.target.process.command_line = /.*DisableBlockAtFirstSeen.*/ nocase or $e.target.process.command_line = /.*DisableCloudProtection.*/ nocase or $e.target.process.command_line = /.*DisableConfig.*/ nocase or $e.target.process.command_line = /.*DisableEnhancedNotifications.*/ nocase or $e.target.process.command_line = /.*DisableIntrusionPreventionSystem.*/ nocase or $e.target.process.command_line = /.*DisableIOAVProtection.*/ nocase or $e.target.process.command_line = /.*DisableNetworkProtection.*/ nocase or $e.target.process.command_line = /.*DisableOnAccessProtection.*/ nocase or $e.target.process.command_line = /.*DisablePrivacyMode.*/ nocase or $e.target.process.command_line = /.*DisableRealtimeMonitoring.*/ nocase or $e.target.process.command_line = /.*DisableRoutinelyTakingAction.*/ nocase or $e.target.process.command_line = /.*DisableScanOnRealtimeEnable.*/ nocase or $e.target.process.command_line = /.*DisableScriptScanning.*/ nocase or $e.target.process.command_line = /.*DisableSecurityCenter.*/ nocase or $e.target.process.command_line = /.*Notification_Suppress.*/ nocase or $e.target.process.command_line = /.*SignatureDisableUpdateOnStartupWithoutEngine.*/ nocase))))
+
+  condition:
+    $e
+}

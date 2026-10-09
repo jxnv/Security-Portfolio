@@ -1,0 +1,11 @@
+// Title: GCP Break-glass Container Workload Deployed
+// ID: 76737c19-66ee-4c07-b65a-a03301d1573d
+// Status: test
+// Level: medium
+// Author: Bryan Lim
+// Date: 2024-01-12
+// Tags: attack.privilege-escalation, attack.t1548
+// Description: Detects the deployment of workloads that are deployed by using the break-glass flag to override Binary Authorization controls.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((data.protoPayload.resource.type: "k8s_cluster" AND (data.protoPayload.logName: "cloudaudit.googleapis.com/activity" OR data.protoPayload.logName: "cloudaudit.googleapis.com%2Factivity") AND data.protoPayload.methodName: "io.k8s.core.v1.pods.create") AND ("image-policy.k8s.io/break-glass"))

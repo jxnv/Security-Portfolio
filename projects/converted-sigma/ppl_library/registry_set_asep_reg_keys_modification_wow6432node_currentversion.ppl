@@ -1,0 +1,11 @@
+// Title: Wow6432Node Windows NT CurrentVersion Autorun Keys Modification
+// ID: 480421f9-417f-4d3b-9552-fd2728443ec8
+// Status: test
+// Level: medium
+// Author: Victor Sergeev, Daniil Yugoslavskiy, Gleb Sukhodolskiy, Timur Zinniatullin, oscd.community, Tim Shelton, frack113 (split)
+// Date: 2019-10-25
+// Tags: attack.privilege-escalation, attack.persistence, attack.t1547.001
+// Description: Detects modification of autostart extensibility point (ASEP) in registry.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where ((((registry.path like "%\\Windows\\Appinit_Dlls%" OR registry.path like "%\\Image File Execution Options%" OR registry.path like "%\\Drivers32%")) AND (registry.path like "%\\SOFTWARE\\Wow6432Node\\Microsoft\\Windows NT\\CurrentVersion%")) AND NOT (((registry.data.strings = "(Empty)") OR (registry.data.strings="*\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options") OR (NOT registry.data.strings=*))))

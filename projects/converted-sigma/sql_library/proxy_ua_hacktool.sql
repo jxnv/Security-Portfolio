@@ -1,0 +1,11 @@
+-- Title: Hack Tool User Agent
+-- ID: c42a3073-30fb-48ae-8c99-c23ada84b103
+-- Status: test
+-- Level: high
+-- Author: Florian Roth (Nextron Systems)
+-- Date: 2017-07-08
+-- Tags: attack.initial-access, attack.t1190, attack.credential-access, attack.t1110
+-- Description: Detects suspicious user agent strings user by hack tools in proxy logs
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE ((c-useragent ILIKE '%(hydra)%' OR c-useragent ILIKE '% arachni/%' OR c-useragent ILIKE '% BFAC %' OR c-useragent ILIKE '% brutus %' OR c-useragent ILIKE '% cgichk %' OR c-useragent ILIKE '%core-project/1.0%' OR c-useragent ILIKE '% crimscanner/%' OR c-useragent ILIKE '%datacha0s%' OR c-useragent ILIKE '%dirbuster%' OR c-useragent ILIKE '%domino hunter%' OR c-useragent ILIKE '%dotdotpwn%' OR c-useragent ILIKE '%FHScan Core%' OR c-useragent ILIKE '%floodgate%' OR c-useragent ILIKE '%get-minimal%' OR c-useragent ILIKE '%gootkit auto-rooter scanner%' OR c-useragent ILIKE '%grendel-scan%' OR c-useragent ILIKE '% inspath %' OR c-useragent ILIKE '%internet ninja%' OR c-useragent ILIKE '%jaascois%' OR c-useragent ILIKE '% zmeu %' OR c-useragent ILIKE '%masscan%' OR c-useragent ILIKE '% metis %' OR c-useragent ILIKE '%morfeus fucking scanner%' OR c-useragent ILIKE '%n-stealth%' OR c-useragent ILIKE '%nsauditor%' OR c-useragent ILIKE '%pmafind%' OR c-useragent ILIKE '%security scan%' OR c-useragent ILIKE '%springenwerk%' OR c-useragent ILIKE '%teh forest lobster%' OR c-useragent ILIKE '%toata dragostea%' OR c-useragent ILIKE '% vega/%' OR c-useragent ILIKE '%voideye%' OR c-useragent ILIKE '%webshag%' OR c-useragent ILIKE '%webvulnscan%' OR c-useragent ILIKE '% whcc/%' OR c-useragent ILIKE '% Havij%' OR c-useragent ILIKE '%absinthe%' OR c-useragent ILIKE '%bsqlbf%' OR c-useragent ILIKE '%mysqloit%' OR c-useragent ILIKE '%pangolin%' OR c-useragent ILIKE '%sql power injector%' OR c-useragent ILIKE '%sqlmap%' OR c-useragent ILIKE '%sqlninja%' OR c-useragent ILIKE '%uil2pn%' OR c-useragent ILIKE '%ruler%' OR c-useragent ILIKE '%Mozilla/5.0 (Windows; U; Windows NT 5.1; pt-PT; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 (.NET CLR 3.5.30729)%'))

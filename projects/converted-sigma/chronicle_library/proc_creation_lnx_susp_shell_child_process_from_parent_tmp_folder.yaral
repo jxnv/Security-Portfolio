@@ -1,0 +1,23 @@
+// Title: Shell Execution Of Process Located In Tmp Directory
+// ID: 2fade0b6-7423-4835-9d4f-335b39b83867
+// Status: test
+// Level: high
+// Author: Joseliyo Sanchez, @Joseliyo_Jstnk
+// Date: 2023-06-02
+// Tags: attack.execution
+// Description: Detects execution of shells from a parent process located in a temporary (/tmp) directory
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 2fade0b6_7423_4835_9d4f_335b39b83867 {
+  meta:
+    title = "Shell Execution Of Process Located In Tmp Directory"
+    description = "Detects execution of shells from a parent process located in a temporary (/tmp) directory"
+    author = "Joseliyo Sanchez, @Joseliyo_Jstnk"
+    severity = "HIGH"
+
+  events:
+    ($e.principal.process.file.full_path = /^/tmp/.*/ nocase and ($e.target.process.file.full_path = /.*/bash$/ nocase or $e.target.process.file.full_path = /.*/csh$/ nocase or $e.target.process.file.full_path = /.*/dash$/ nocase or $e.target.process.file.full_path = /.*/fish$/ nocase or $e.target.process.file.full_path = /.*/ksh$/ nocase or $e.target.process.file.full_path = /.*/sh$/ nocase or $e.target.process.file.full_path = /.*/zsh$/ nocase))
+
+  condition:
+    $e
+}

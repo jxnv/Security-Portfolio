@@ -1,0 +1,12 @@
+// Title: Suspicious Child Process of Notepad++ Updater - GUP.Exe
+// ID: bb0e87ce-c89f-4857-84fa-095e4483e9cb
+// Status: experimental
+// Level: high
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2026-02-03
+// Tags: attack.collection, attack.credential-access, attack.t1195.002, attack.initial-access, attack.t1557
+// Description: Detects suspicious child process creation by the Notepad++ updater process (gup.exe).
+// This could indicate potential exploitation of the updater component to deliver unwanted malware.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((ParentImage ENDSWITH "\\gup.exe") AND (((CommandLine CONTAINS "bitsadmin" OR CommandLine CONTAINS "certutil" OR CommandLine CONTAINS "curl" OR CommandLine CONTAINS "finger" OR CommandLine CONTAINS "forfiles" OR CommandLine CONTAINS "regsvr32" OR CommandLine CONTAINS "rundll32" OR CommandLine CONTAINS "wget")) OR ((Image ENDSWITH "\\cmd.exe" OR Image ENDSWITH "\\powershell.exe" OR Image ENDSWITH "\\pwsh.exe" OR Image ENDSWITH "\\cscript.exe" OR Image ENDSWITH "\\wscript.exe" OR Image ENDSWITH "\\mshta.exe"))))

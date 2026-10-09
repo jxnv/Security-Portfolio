@@ -1,0 +1,11 @@
+// Title: Potential Provlaunch.EXE Binary Proxy Execution Abuse
+// ID: 7f5d1c9a-3e83-48df-95a7-2b98aae6c13c
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems), Swachchhanda Shrawan Poudel
+// Date: 2023-08-08
+// Tags: attack.stealth, attack.t1218
+// Description: Detects child processes of "provlaunch.exe" which might indicate potential abuse to proxy execution.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((where(ParentImage IENDSWITH "\\provlaunch.exe")) AND NOT ((((where(Image IENDSWITH "\\calc.exe") OR where(Image IENDSWITH "\\cmd.exe") OR where(Image IENDSWITH "\\cscript.exe") OR where(Image IENDSWITH "\\mshta.exe") OR where(Image IENDSWITH "\\notepad.exe") OR where(Image IENDSWITH "\\powershell.exe") OR where(Image IENDSWITH "\\pwsh.exe") OR where(Image IENDSWITH "\\regsvr32.exe") OR where(Image IENDSWITH "\\rundll32.exe") OR where(Image IENDSWITH "\\wscript.exe"))) OR ((where(Image ICONTAINS ":\\PerfLogs\\") OR where(Image ICONTAINS ":\\Temp\\") OR where(Image ICONTAINS ":\\Users\\Public\\") OR where(Image ICONTAINS "\\AppData\\Temp\\") OR where(Image ICONTAINS "\\Windows\\System32\\Tasks\\") OR where(Image ICONTAINS "\\Windows\\Tasks\\") OR where(Image ICONTAINS "\\Windows\\Temp\\"))))))

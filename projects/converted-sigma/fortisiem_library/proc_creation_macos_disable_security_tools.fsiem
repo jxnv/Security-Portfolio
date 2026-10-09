@@ -1,0 +1,11 @@
+# Title: Disable Security Tools
+# ID: ff39f1a6-84ac-476f-a1af-37fcdf53d7c0
+# Status: test
+# Level: medium
+# Author: Daniil Yugoslavskiy, oscd.community
+# Date: 2020-10-19
+# Tags: attack.defense-impairment, attack.t1685
+# Description: Detects disabling security tools
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((Image = "/bin/launchctl" AND CommandLine CONTAIN "unload") AND ((CommandLine CONTAIN "com.objective-see.lulu.plist" OR CommandLine CONTAIN "com.objective-see.blockblock.plist" OR CommandLine CONTAIN "com.google.santad.plist" OR CommandLine CONTAIN "com.carbonblack.defense.daemon.plist" OR CommandLine CONTAIN "com.carbonblack.daemon.plist" OR CommandLine CONTAIN "at.obdev.littlesnitchd.plist" OR CommandLine CONTAIN "com.tenablesecurity.nessusagent.plist" OR CommandLine CONTAIN "com.opendns.osx.RoamingClientConfigUpdater.plist" OR CommandLine CONTAIN "com.crowdstrike.falcond.plist" OR CommandLine CONTAIN "com.crowdstrike.userdaemon.plist" OR CommandLine CONTAIN "osquery" OR CommandLine CONTAIN "filebeat" OR CommandLine CONTAIN "auditbeat" OR CommandLine CONTAIN "packetbeat" OR CommandLine CONTAIN "td-agent"))) OR (Image = "/usr/sbin/spctl" AND CommandLine CONTAIN "disable"))

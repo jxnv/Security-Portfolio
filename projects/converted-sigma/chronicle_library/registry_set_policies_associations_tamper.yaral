@@ -1,0 +1,23 @@
+// Title: Potential Attachment Manager Settings Associations Tamper
+// ID: a9b6c011-ab69-4ddb-bc0a-c4f21c80ec47
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-01
+// Tags: attack.defense-impairment
+// Description: Detects tampering with attachment manager settings policies associations to lower the default file type risks (See reference for more information)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule a9b6c011_ab69_4ddb_bc0a_c4f21c80ec47 {
+  meta:
+    title = "Potential Attachment Manager Settings Associations Tamper"
+    description = "Detects tampering with attachment manager settings policies associations to lower the default file type risks (See reference for more information)"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.TargetObject = /.*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Associations\\.*/ nocase) and (($e.TargetObject = /.*\\DefaultFileTypeRisk$/ nocase and $e.Details = "DWORD (0x00006152)") or ($e.TargetObject = /.*\\LowRiskFileTypes$/ nocase and ($e.Details = /.*.zip;.*/ nocase or $e.Details = /.*.rar;.*/ nocase or $e.Details = /.*.exe;.*/ nocase or $e.Details = /.*.bat;.*/ nocase or $e.Details = /.*.com;.*/ nocase or $e.Details = /.*.cmd;.*/ nocase or $e.Details = /.*.reg;.*/ nocase or $e.Details = /.*.msi;.*/ nocase or $e.Details = /.*.htm;.*/ nocase or $e.Details = /.*.html;.*/ nocase))))
+
+  condition:
+    $e
+}

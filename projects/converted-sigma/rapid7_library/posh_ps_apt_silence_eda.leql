@@ -1,0 +1,11 @@
+// Title: Silence.EDA Detection
+// ID: 3ceb2083-a27f-449a-be33-14ec1b7cc973
+// Status: test
+// Level: critical
+// Author: Alina Stepchenkova, Group-IB, oscd.community
+// Date: 2019-11-01
+// Tags: attack.execution, attack.t1059.001, attack.command-and-control, attack.t1071.004, attack.t1572, attack.impact, attack.t1529, attack.g0091, attack.s0363
+// Description: Detects Silence EmpireDNSAgent as described in the Group-IP report
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(ScriptBlockText ICONTAINS "System.Diagnostics.Process") AND where(ScriptBlockText ICONTAINS "Stop-Computer") AND where(ScriptBlockText ICONTAINS "Restart-Computer") AND where(ScriptBlockText ICONTAINS "Exception in execution") AND where(ScriptBlockText ICONTAINS "$cmdargs") AND where(ScriptBlockText ICONTAINS "Close-Dnscat2Tunnel"))) AND ((where(ScriptBlockText ICONTAINS "set type=$LookupType`nserver") AND where(ScriptBlockText ICONTAINS "$Command | nslookup 2>&1 | Out-String") AND where(ScriptBlockText ICONTAINS "New-RandomDNSField") AND where(ScriptBlockText ICONTAINS "[Convert]::ToString($SYNOptions, 16)") AND where(ScriptBlockText ICONTAINS "$Session.Dead = $True") AND where(ScriptBlockText ICONTAINS "$Session[\"Driver\"] -eq"))))

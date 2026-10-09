@@ -1,0 +1,23 @@
+// Title: Rare Remote Thread Creation By Uncommon Source Image
+// ID: 02d1d718-dd13-41af-989d-ea85c7fab93f
+// Status: test
+// Level: high
+// Author: Perez Diego (@darkquassar), oscd.community
+// Date: 2019-10-27
+// Tags: attack.privilege-escalation, attack.stealth, attack.t1055
+// Description: Detects uncommon processes creating remote threads.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 02d1d718_dd13_41af_989d_ea85c7fab93f {
+  meta:
+    title = "Rare Remote Thread Creation By Uncommon Source Image"
+    description = "Detects uncommon processes creating remote threads."
+    author = "Perez Diego (@darkquassar), oscd.community"
+    severity = "HIGH"
+
+  events:
+    ((($e.SourceImage = /.*\\bash.exe$/ nocase or $e.SourceImage = /.*\\cscript.exe$/ nocase or $e.SourceImage = /.*\\cvtres.exe$/ nocase or $e.SourceImage = /.*\\defrag.exe$/ nocase or $e.SourceImage = /.*\\dialer.exe$/ nocase or $e.SourceImage = /.*\\dnx.exe$/ nocase or $e.SourceImage = /.*\\esentutl.exe$/ nocase or $e.SourceImage = /.*\\excel.exe$/ nocase or $e.SourceImage = /.*\\expand.exe$/ nocase or $e.SourceImage = /.*\\find.exe$/ nocase or $e.SourceImage = /.*\\findstr.exe$/ nocase or $e.SourceImage = /.*\\forfiles.exe$/ nocase or $e.SourceImage = /.*\\gpupdate.exe$/ nocase or $e.SourceImage = /.*\\hh.exe$/ nocase or $e.SourceImage = /.*\\installutil.exe$/ nocase or $e.SourceImage = /.*\\lync.exe$/ nocase or $e.SourceImage = /.*\\makecab.exe$/ nocase or $e.SourceImage = /.*\\mDNSResponder.exe$/ nocase or $e.SourceImage = /.*\\monitoringhost.exe$/ nocase or $e.SourceImage = /.*\\msbuild.exe$/ nocase or $e.SourceImage = /.*\\mshta.exe$/ nocase or $e.SourceImage = /.*\\mspaint.exe$/ nocase or $e.SourceImage = /.*\\outlook.exe$/ nocase or $e.SourceImage = /.*\\ping.exe$/ nocase or $e.SourceImage = /.*\\provtool.exe$/ nocase or $e.SourceImage = /.*\\python.exe$/ nocase or $e.SourceImage = /.*\\regsvr32.exe$/ nocase or $e.SourceImage = /.*\\robocopy.exe$/ nocase or $e.SourceImage = /.*\\runonce.exe$/ nocase or $e.SourceImage = /.*\\sapcimc.exe$/ nocase or $e.SourceImage = /.*\\smartscreen.exe$/ nocase or $e.SourceImage = /.*\\spoolsv.exe$/ nocase or $e.SourceImage = /.*\\tstheme.exe$/ nocase or $e.SourceImage = /.*\\userinit.exe$/ nocase or $e.SourceImage = /.*\\vssadmin.exe$/ nocase or $e.SourceImage = /.*\\vssvc.exe$/ nocase or $e.SourceImage = /.*\\w3wp.exe$/ nocase or $e.SourceImage = /.*\\winscp.exe$/ nocase or $e.SourceImage = /.*\\winword.exe$/ nocase or $e.SourceImage = /.*\\wmic.exe$/ nocase or $e.SourceImage = /.*\\wscript.exe$/ nocase)) and not(((($e.SourceImage = "C:\\Windows\\System32\\Defrag.exe" or $e.SourceImage = "C:\\Windows\\System32\\makecab.exe") and $e.TargetImage = "C:\\Windows\\System32\\conhost.exe") or (($e.SourceImage = /^C:\\Program Files\\Microsoft Office\\.*/ nocase or $e.SourceImage = /^C:\\Program Files (x86)\\Microsoft Office\\.*/ nocase) and $e.TargetImage = "System") or ($e.SourceImage = "C:\\Windows\\System32\\provtool.exe" and $e.TargetImage = "C:\\Windows\\System32\\svchost.exe") or ($e.SourceImage = "C:\\Windows\\System32\\provtool.exe" and $e.TargetImage = "System") or ($e.SourceImage = "C:\\Windows\\System32\\userinit.exe" and $e.TargetImage = "C:\\Windows\\explorer.exe") or ($e.SourceImage = /.*\\WINWORD.EXE$/ nocase and ($e.TargetImage = /^C:\\Program Files (x86)\\.*/ nocase or $e.TargetImage = /^C:\\Program Files\\.*/ nocase)))) and not(($e.SourceImage = /.*\\SysWOW64\\explorer.exe$/ nocase and ($e.TargetImage = "C:\\Program Files (x86)\\VMware\\VMware Tools\\vmtoolsd.exe" or $e.TargetImage = "C:\\Program Files\\VMware\\VMware Tools\\vmtoolsd.exe"))))
+
+  condition:
+    $e
+}

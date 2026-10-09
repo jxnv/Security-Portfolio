@@ -1,0 +1,29 @@
+{
+  "title": "Network Connection Initiated Via Notepad.EXE",
+  "id": "e81528db-fc02-45e8-8e98-4e84aba1f10b",
+  "status": "test",
+  "description": "Detects a network connection that is initiated by the \"notepad.exe\" process.\nThis might be a sign of process injection from a beacon process or something similar.\nNotepad rarely initiates a network communication except when printing documents for example.\n",
+  "author": "EagleEye Team",
+  "date": "2020-05-14",
+  "tags": [
+    "attack.privilege-escalation",
+    "attack.command-and-control",
+    "attack.execution",
+    "attack.stealth",
+    "attack.t1055"
+  ],
+  "level": "high",
+  "logsource": {
+    "category": "network_connection",
+    "product": "windows"
+  },
+  "detection": {
+    "selection": {
+      "Image|endswith": "\\notepad.exe"
+    },
+    "filter_optional_printing": {
+      "DestinationPort": 9100
+    },
+    "condition": "selection and not 1 of filter_optional_*"
+  }
+}

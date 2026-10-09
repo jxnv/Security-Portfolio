@@ -1,0 +1,11 @@
+// Title: HackTool - CrackMapExec Execution
+// ID: 42a993dd-bb3e-48c8-b372-4d6684c4106c
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-02-25
+// Tags: attack.execution, attack.persistence, attack.privilege-escalation, attack.credential-access, attack.discovery, attack.t1047, attack.t1053, attack.t1059.003, attack.t1059.001, attack.t1110, attack.t1201
+// Description: This rule detect common flag combinations used by CrackMapExec in order to detect its use even if the binary has been replaced.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter (((action_process_image_path endswith "\\crackmapexec.exe") or ((action_process_image_command_line contains " --local-auth" and action_process_image_command_line contains " -u " and action_process_image_command_line contains " -x ")) or ((action_process_image_command_line contains " --local-auth" and action_process_image_command_line contains " -u " and action_process_image_command_line contains " -p " and action_process_image_command_line contains " -H 'NTHASH'")) or ((action_process_image_command_line contains " mssql " and action_process_image_command_line contains " -u " and action_process_image_command_line contains " -p " and action_process_image_command_line contains " -M " and action_process_image_command_line contains " -d ")) or ((action_process_image_command_line contains " smb " and action_process_image_command_line contains " -u " and action_process_image_command_line contains " -H " and action_process_image_command_line contains " -M " and action_process_image_command_line contains " -o ")) or ((action_process_image_command_line contains " smb " and action_process_image_command_line contains " -u " and action_process_image_command_line contains " -p " and action_process_image_command_line contains " --local-auth")) or (action_process_image_command_line contains " -M pe_inject ")) or (((action_process_image_command_line contains " --local-auth" and action_process_image_command_line contains " -u " and action_process_image_command_line contains " -p ")) and ((action_process_image_command_line contains " 10." and action_process_image_command_line contains " 192.168." and action_process_image_command_line contains "/24 "))))

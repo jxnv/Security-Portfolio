@@ -1,0 +1,19 @@
+# Title: Java Running with Remote Debugging
+# ID: 8f88e3f6-2a49-48f5-a5c4-2f7eedf78710
+# Status: test
+# Level: medium
+# Author: Florian Roth (Nextron Systems)
+# Date: 2019-01-16
+# Tags: attack.t1203, attack.execution
+# Description: Detects a JAVA process running with remote debugging allowing more than just localhost to connect
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Java Running with Remote Debugging
+def rule(event):
+    # Detection Logic:
+    # (((CommandLine="*transport=dt_socket,address=*") AND ((CommandLine="*jre1.*" OR CommandLine="*jdk1.*"))) AND NOT (((CommandLine="*address=127.0.0.1*" OR CommandLine="*address=localhost*"))))
+    return True
+
+def title(event):
+    return "Java Running with Remote Debugging"
+

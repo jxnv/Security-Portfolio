@@ -1,0 +1,12 @@
+// Title: Outbound RDP Connections Over Non-Standard Tools
+// ID: ed74fe75-7594-4b4b-ae38-e38e3fd2eb23
+// Status: test
+// Level: high
+// Author: Markus Neis
+// Date: 2019-05-15
+// Tags: attack.lateral-movement, attack.t1021.001, car.2013-07-002
+// Description: Detects Non-Standard tools initiating a connection over port 3389 indicating possible lateral movement.
+// An initial baseline is required before using this utility to exclude third party RDP tooling that you might use.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+network where ((destination.port == 3389 and Initiated == "true") and not (((process.executable == "C:\\Windows\\System32\\mstsc.exe" or process.executable == "C:\\Windows\\SysWOW64\\mstsc.exe"))) and not ((((process.executable endswith "\\Avast Software\\Avast\\AvastSvc.exe" or process.executable endswith "\\Avast\\AvastSvc.exe")) or (process.executable == "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe") or (process.executable == "C:\\Windows\\System32\\dns.exe" and source.port == 53 and Protocol == "udp") or (process.executable == "") or (process.executable == "C:\\Program Files\\Mozilla Firefox\\firefox.exe") or (process.executable == null) or (process.executable endswith "\\Ranger\\SentinelRanger.exe") or (process.executable startswith "C:\\Program Files\\SplunkUniversalForwarder\\bin\\") or (process.executable endswith "\\RDCMan.exe") or ((process.executable endswith "\\FSAssessment.exe" or process.executable endswith "\\FSDiscovery.exe" or process.executable endswith "\\MobaRTE.exe" or process.executable endswith "\\mRemote.exe" or process.executable endswith "\\mRemoteNG.exe" or process.executable endswith "\\Passwordstate.exe" or process.executable endswith "\\RemoteDesktopManager.exe" or process.executable endswith "\\RemoteDesktopManager64.exe" or process.executable endswith "\\RemoteDesktopManagerFree.exe" or process.executable endswith "\\RSSensor.exe" or process.executable endswith "\\RTS2App.exe" or process.executable endswith "\\RTSApp.exe" or process.executable endswith "\\spiceworks-finder.exe" or process.executable endswith "\\Terminals.exe" or process.executable endswith "\\ws_TunnelService.exe")) or ((process.executable endswith "\\thor.exe" or process.executable endswith "\\thor64.exe")) or ((process.executable == "C:\\Program Files\\TSplus\\Java\\bin\\HTML5service.exe" or process.executable == "C:\\Program Files (x86)\\TSplus\\Java\\bin\\HTML5service.exe")) or (process.executable == "<unknown process>"))))

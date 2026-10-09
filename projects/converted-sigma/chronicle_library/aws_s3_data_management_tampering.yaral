@@ -1,0 +1,23 @@
+// Title: AWS S3 Data Management Tampering
+// ID: 78b3756a-7804-4ef7-8555-7b9024a02e2d
+// Status: test
+// Level: low
+// Author: Austin Songer @austinsonger
+// Date: 2021-07-24
+// Tags: attack.exfiltration, attack.t1537
+// Description: Detects when a user tampers with S3 data management in Amazon Web Services.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 78b3756a_7804_4ef7_8555_7b9024a02e2d {
+  meta:
+    title = "AWS S3 Data Management Tampering"
+    description = "Detects when a user tampers with S3 data management in Amazon Web Services."
+    author = "Austin Songer @austinsonger"
+    severity = "LOW"
+
+  events:
+    ($e.eventSource = "s3.amazonaws.com" and ($e.eventName = "PutBucketLogging" or $e.eventName = "PutBucketWebsite" or $e.eventName = "PutEncryptionConfiguration" or $e.eventName = "PutLifecycleConfiguration" or $e.eventName = "PutReplicationConfiguration" or $e.eventName = "ReplicateObject" or $e.eventName = "RestoreObject"))
+
+  condition:
+    $e
+}

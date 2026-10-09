@@ -1,0 +1,23 @@
+// Title: Suspicious Volume Shadow Copy Vssapi.dll Load
+// ID: 37774c23-25a1-4adb-bb6d-8bb9fd59c0f8
+// Status: test
+// Level: high
+// Author: frack113
+// Date: 2022-10-31
+// Tags: attack.impact, attack.t1490
+// Description: Detects the image load of VSS DLL by uncommon executables
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 37774c23_25a1_4adb_bb6d_8bb9fd59c0f8 {
+  meta:
+    title = "Suspicious Volume Shadow Copy Vssapi.dll Load"
+    description = "Detects the image load of VSS DLL by uncommon executables"
+    author = "frack113"
+    severity = "HIGH"
+
+  events:
+    (($e.ImageLoaded = /.*\\vssapi.dll$/ nocase) and not(((not ($e.target.process.file.full_path = /.*/)) or (($e.target.process.file.full_path = /^C:\\Program Files\\.*/ nocase or $e.target.process.file.full_path = /^C:\\Program Files (x86)\\.*/ nocase)) or ((($e.target.process.file.full_path = "C:\\Windows\\explorer.exe" or $e.target.process.file.full_path = "C:\\Windows\\ImmersiveControlPanel\\SystemSettings.exe" or $e.target.process.file.full_path = "C:\\Windows\\servicing\\TrustedInstaller.exe")) or (($e.target.process.file.full_path = /^C:\\Windows\\System32\\.*/ nocase or $e.target.process.file.full_path = /^C:\\Windows\\SysWOW64\\.*/ nocase or $e.target.process.file.full_path = /^C:\\Windows\\Temp\\{.*/ nocase or $e.target.process.file.full_path = /^C:\\Windows\\WinSxS\\.*/ nocase or $e.target.process.file.full_path = /^C:\\$WinREAgent\\Scratch\\.*/ nocase))))) and not(((($e.target.process.file.full_path = /.*\\temp\\is-.*/ nocase and $e.target.process.file.full_path = /.*\\avira_system_speedup.tmp.*/ nocase)) or ($e.target.process.file.full_path = /^C:\\ProgramData\\Package Cache\\.*/ nocase))))
+
+  condition:
+    $e
+}

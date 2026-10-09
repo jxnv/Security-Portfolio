@@ -1,0 +1,23 @@
+// Title: Veeam Backup Database Suspicious Query
+// ID: 696bfb54-227e-4602-ac5b-30d9d2053312
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-05-04
+// Tags: attack.collection, attack.t1005
+// Description: Detects potentially suspicious SQL queries using SQLCmd targeting the Veeam backup databases in order to steal information.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 696bfb54_227e_4602_ac5b_30d9d2053312 {
+  meta:
+    title = "Veeam Backup Database Suspicious Query"
+    description = "Detects potentially suspicious SQL queries using SQLCmd targeting the Veeam backup databases in order to steal information."
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.command_line = /.*BackupRepositories.*/ nocase or $e.target.process.command_line = /.*Backups.*/ nocase or $e.target.process.command_line = /.*Credentials.*/ nocase or $e.target.process.command_line = /.*HostCreds.*/ nocase or $e.target.process.command_line = /.*SmbFileShares.*/ nocase or $e.target.process.command_line = /.*Ssh_creds.*/ nocase or $e.target.process.command_line = /.*VSphereInfo.*/ nocase)) and ($e.target.process.file.full_path = /.*\\sqlcmd.exe$/ nocase and ($e.target.process.command_line = /.*VeeamBackup.*/ nocase and $e.target.process.command_line = /.*From .*/ nocase)))
+
+  condition:
+    $e
+}

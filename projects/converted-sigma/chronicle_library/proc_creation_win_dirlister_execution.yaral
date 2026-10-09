@@ -1,0 +1,23 @@
+// Title: DirLister Execution
+// ID: b4dc61f5-6cce-468e-a608-b48b469feaa2
+// Status: test
+// Level: low
+// Author: frack113
+// Date: 2022-08-20
+// Tags: attack.discovery, attack.t1083
+// Description: Detect the usage of "DirLister.exe" a utility for quickly listing folder or drive contents. It was seen used by BlackCat ransomware to create a list of accessible directories and files.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule b4dc61f5_6cce_468e_a608_b48b469feaa2 {
+  meta:
+    title = "DirLister Execution"
+    description = "Detect the usage of "DirLister.exe" a utility for quickly listing folder or drive contents. It was seen used by BlackCat ransomware to create a list of accessible directories and files."
+    author = "frack113"
+    severity = "LOW"
+
+  events:
+    (($e.target.process.file.name = "DirLister.exe") or ($e.target.process.file.full_path = /.*\\DirLister.exe$/ nocase))
+
+  condition:
+    $e
+}

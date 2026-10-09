@@ -1,0 +1,23 @@
+// Title: PUA - Advanced Port Scanner Execution
+// ID: 54773c5f-f1cc-4703-9126-2f797d96a69d
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2021-12-18
+// Tags: attack.discovery, attack.t1046, attack.t1135
+// Description: Detects the use of Advanced Port Scanner.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 54773c5f_f1cc_4703_9126_2f797d96a69d {
+  meta:
+    title = "PUA - Advanced Port Scanner Execution"
+    description = "Detects the use of Advanced Port Scanner."
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.command_line = /.*/portable.*/ nocase and $e.target.process.command_line = /.*/lng.*/ nocase)) or (($e.target.process.file.full_path = /.*\\advanced_port_scanner.*/ nocase) or ($e.target.process.file.name = /.*advanced_port_scanner.*/ nocase) or ($e.Description = /.*Advanced Port Scanner.*/ nocase)))
+
+  condition:
+    $e
+}

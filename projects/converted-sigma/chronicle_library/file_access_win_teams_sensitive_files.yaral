@@ -1,0 +1,23 @@
+// Title: Microsoft Teams Sensitive File Access By Uncommon Applications
+// ID: 65744385-8541-44a6-8630-ffc824d7d4cc
+// Status: test
+// Level: medium
+// Author: @SerkinValery
+// Date: 2024-07-22
+// Tags: attack.credential-access, attack.t1528
+// Description: Detects file access attempts to sensitive Microsoft teams files (leveldb, cookies) by an uncommon process.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 65744385_8541_44a6_8630_ffc824d7d4cc {
+  meta:
+    title = "Microsoft Teams Sensitive File Access By Uncommon Applications"
+    description = "Detects file access attempts to sensitive Microsoft teams files (leveldb, cookies) by an uncommon process."
+    author = "@SerkinValery"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.FileName = /.*\\Microsoft\\Teams\\Cookies.*/ nocase or $e.FileName = /.*\\Microsoft\\Teams\\Local Storage\\leveldb.*/ nocase)) and not(($e.target.process.file.full_path = /.*\\Microsoft\\Teams\\current\\Teams.exe$/ nocase)))
+
+  condition:
+    $e
+}

@@ -1,0 +1,11 @@
+// Title: Potentially Suspicious Electron Application CommandLine
+// ID: 378a05d8-963c-46c9-bcce-13c7657eac99
+// Status: test
+// Level: medium
+// Author: frack113, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-09-05
+// Tags: attack.execution
+// Description: Detects potentially suspicious CommandLine of electron apps (teams, discord, slack, etc.). This could be a sign of abuse to proxy execution through a signed binary.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+DeviceProcessEvents | where (((ProcessCommandLine contains "--browser-subprocess-path" or ProcessCommandLine contains "--gpu-launcher" or ProcessCommandLine contains "--renderer-cmd-prefix" or ProcessCommandLine contains "--utility-cmd-prefix")) and (((FolderPath endswith "\\chrome.exe" or FolderPath endswith "\\code.exe" or FolderPath endswith "\\discord.exe" or FolderPath endswith "\\GitHubDesktop.exe" or FolderPath endswith "\\keybase.exe" or FolderPath endswith "\\msedge_proxy.exe" or FolderPath endswith "\\msedge.exe" or FolderPath endswith "\\msedgewebview2.exe" or FolderPath endswith "\\msteams.exe" or FolderPath endswith "\\slack.exe" or FolderPath endswith "\\Teams.exe")) or ((ProcessVersionInfoOriginalFileName == "chrome.exe" or ProcessVersionInfoOriginalFileName == "code.exe" or ProcessVersionInfoOriginalFileName == "discord.exe" or ProcessVersionInfoOriginalFileName == "GitHubDesktop.exe" or ProcessVersionInfoOriginalFileName == "keybase.exe" or ProcessVersionInfoOriginalFileName == "msedge_proxy.exe" or ProcessVersionInfoOriginalFileName == "msedge.exe" or ProcessVersionInfoOriginalFileName == "msedgewebview2.exe" or ProcessVersionInfoOriginalFileName == "msteams.exe" or ProcessVersionInfoOriginalFileName == "slack.exe" or ProcessVersionInfoOriginalFileName == "Teams.exe"))))

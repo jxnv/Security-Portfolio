@@ -1,0 +1,13 @@
+// Title: Potential Homoglyph Attack Using Lookalike Characters in Filename
+// ID: 4f1707b1-b50b-45b4-b5a2-3978b5a5d0d6
+// Status: test
+// Level: medium
+// Author: Micah Babinski, @micahbabinski
+// Date: 2023-05-08
+// Tags: attack.stealth, attack.t1036, attack.t1036.003
+// Description: Detects the presence of unicode characters which are homoglyphs, or identical in appearance, to ASCII letter characters.
+// This is used as an obfuscation and masquerading techniques. Only "perfect" homoglyphs are included; these are characters that
+// are indistinguishable from ASCII characters and thus may make excellent candidates for homoglyph attack characters.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((TargetFilename contains "а" OR TargetFilename contains "е" OR TargetFilename contains "о" OR TargetFilename contains "р" OR TargetFilename contains "с" OR TargetFilename contains "х" OR TargetFilename contains "ѕ" OR TargetFilename contains "і" OR TargetFilename contains "ӏ" OR TargetFilename contains "ј" OR TargetFilename contains "һ" OR TargetFilename contains "ԁ" OR TargetFilename contains "ԛ" OR TargetFilename contains "ԝ" OR TargetFilename contains "ο")) OR ((TargetFilename contains "А" OR TargetFilename contains "В" OR TargetFilename contains "Е" OR TargetFilename contains "К" OR TargetFilename contains "М" OR TargetFilename contains "Н" OR TargetFilename contains "О" OR TargetFilename contains "Р" OR TargetFilename contains "С" OR TargetFilename contains "Т" OR TargetFilename contains "Х" OR TargetFilename contains "Ѕ" OR TargetFilename contains "І" OR TargetFilename contains "Ј" OR TargetFilename contains "Ү" OR TargetFilename contains "Ӏ" OR TargetFilename contains "Ԍ" OR TargetFilename contains "Ԛ" OR TargetFilename contains "Ԝ" OR TargetFilename contains "Α" OR TargetFilename contains "Β" OR TargetFilename contains "Ε" OR TargetFilename contains "Ζ" OR TargetFilename contains "Η" OR TargetFilename contains "Ι" OR TargetFilename contains "Κ" OR TargetFilename contains "Μ" OR TargetFilename contains "Ν" OR TargetFilename contains "Ο" OR TargetFilename contains "Ρ" OR TargetFilename contains "Τ" OR TargetFilename contains "Υ" OR TargetFilename contains "Χ")))

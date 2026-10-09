@@ -1,0 +1,11 @@
+# Title: Potential Active Directory Enumeration Using AD Module - ProcCreation
+# ID: 70bc5215-526f-4477-963c-a47a5c9ebd12
+# Status: test
+# Level: medium
+# Author: frack113
+# Date: 2023-01-22
+# Tags: attack.reconnaissance, attack.discovery, attack.impact
+# Description: Detects usage of the "Import-Module" cmdlet to load the "Microsoft.ActiveDirectory.Management.dl" DLL. Which is often used by attackers to perform AD enumeration.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog (((process_exec="*Import-Module *" OR process_exec="*ipmo *")) AND (process_exec="*Microsoft.ActiveDirectory.Management.dll*") AND (((process_path="*\\powershell.exe" OR process_path="*\\pwsh.exe")) OR ((process_name="PowerShell.EXE" OR process_name="pwsh.dll"))))

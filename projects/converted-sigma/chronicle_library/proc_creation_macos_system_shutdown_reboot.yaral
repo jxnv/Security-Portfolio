@@ -1,0 +1,23 @@
+// Title: System Shutdown/Reboot - MacOs
+// ID: 40b1fbe2-18ea-4ee7-be47-0294285811de
+// Status: test
+// Level: informational
+// Author: Igor Fits, Mikhail Larin, oscd.community
+// Date: 2020-10-19
+// Tags: attack.impact, attack.t1529
+// Description: Adversaries may shutdown/reboot systems to interrupt access to, or aid in the destruction of, those systems.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 40b1fbe2_18ea_4ee7_be47_0294285811de {
+  meta:
+    title = "System Shutdown/Reboot - MacOs"
+    description = "Adversaries may shutdown/reboot systems to interrupt access to, or aid in the destruction of, those systems."
+    author = "Igor Fits, Mikhail Larin, oscd.community"
+    severity = "INFORMATIONAL"
+
+  events:
+    (($e.target.process.file.full_path = /.*/shutdown$/ nocase or $e.target.process.file.full_path = /.*/reboot$/ nocase or $e.target.process.file.full_path = /.*/halt$/ nocase))
+
+  condition:
+    $e
+}

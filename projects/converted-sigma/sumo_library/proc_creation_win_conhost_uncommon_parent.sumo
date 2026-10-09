@@ -1,0 +1,11 @@
+// Title: Conhost Spawned By Uncommon Parent Process
+// ID: cbb9e3d1-2386-4e59-912e-62f1484f7a89
+// Status: test
+// Level: medium
+// Author: Tim Rauch, Elastic (idea)
+// Date: 2022-09-28
+// Tags: attack.execution, attack.t1059
+// Description: Detects when the Console Window Host (conhost.exe) process is spawned by an uncommon parent process, which could be indicative of potential code injection activity.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where ((Image matches "*\\conhost.exe" and (ParentImage matches "*\\explorer.exe" or ParentImage matches "*\\lsass.exe" or ParentImage matches "*\\regsvr32.exe" or ParentImage matches "*\\rundll32.exe" or ParentImage matches "*\\services.exe" or ParentImage matches "*\\smss.exe" or ParentImage matches "*\\spoolsv.exe" or ParentImage matches "*\\svchost.exe" or ParentImage matches "*\\userinit.exe" or ParentImage matches "*\\wininit.exe" or ParentImage matches "*\\winlogon.exe")) and !(((ParentCommandLine matches "*-k apphost -s AppHostSvc*" or ParentCommandLine matches "*-k imgsvc*" or ParentCommandLine matches "*-k localService -p -s RemoteRegistry*" or ParentCommandLine matches "*-k LocalSystemNetworkRestricted -p -s NgcSvc*" or ParentCommandLine matches "*-k NetSvcs -p -s NcaSvc*" or ParentCommandLine matches "*-k netsvcs -p -s NetSetupSvc*" or ParentCommandLine matches "*-k netsvcs -p -s wlidsvc*" or ParentCommandLine matches "*-k NetworkService -p -s DoSvc*" or ParentCommandLine matches "*-k wsappx -p -s AppXSvc*" or ParentCommandLine matches "*-k wsappx -p -s ClipSVC*" or ParentCommandLine matches "*-k wusvcs -p -s WaaSMedicSvc*"))) and !(((ParentCommandLine matches "*C:\\Program Files (x86)\\Dropbox\\Client\\*" or ParentCommandLine matches "*C:\\Program Files\\Dropbox\\Client\\*"))))

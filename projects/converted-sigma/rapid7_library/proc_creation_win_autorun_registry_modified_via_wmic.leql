@@ -1,0 +1,11 @@
+// Title: Suspicious Autorun Registry Modified via WMI
+// ID: c80e66d8-1780-48a9-b412-46663fd21ac0
+// Status: experimental
+// Level: high
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-02-17
+// Tags: attack.privilege-escalation, attack.execution, attack.persistence, attack.t1547.001, attack.t1047
+// Description: Detects suspicious activity where the WMIC process is used to create an autorun registry entry via reg.exe, which is often indicative of persistence mechanisms employed by malware.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((where(CommandLine ICONTAINS "reg") AND where(CommandLine ICONTAINS " add ")) AND (where(CommandLine ICONTAINS "\\Software\\Microsoft\\Windows\\CurrentVersion\\Run") OR where(CommandLine ICONTAINS "\\Software\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Run") OR where(CommandLine ICONTAINS "\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run"))) AND ((where(Image IENDSWITH "\\wmic.exe")) OR (where(OriginalFileName = "wmic.exe")) OR (where(ParentImage IENDSWITH "\\wmiprvse.exe")))) AND (((where(CommandLine ICONTAINS ":\\Perflogs") OR where(CommandLine ICONTAINS ":\\ProgramData'") OR where(CommandLine ICONTAINS ":\\Windows\\Temp") OR where(CommandLine ICONTAINS ":\\Temp") OR where(CommandLine ICONTAINS "\\AppData\\Local\\Temp") OR where(CommandLine ICONTAINS "\\AppData\\Roaming") OR where(CommandLine ICONTAINS ":\\$Recycle.bin") OR where(CommandLine ICONTAINS ":\\Users\\Default") OR where(CommandLine ICONTAINS ":\\Users\\public") OR where(CommandLine ICONTAINS "%temp%") OR where(CommandLine ICONTAINS "%tmp%") OR where(CommandLine ICONTAINS "%Public%") OR where(CommandLine ICONTAINS "%AppData%"))) OR ((where(CommandLine ICONTAINS ":\\Users\\")) AND ((where(CommandLine ICONTAINS "\\Favorites") OR where(CommandLine ICONTAINS "\\Favourites") OR where(CommandLine ICONTAINS "\\Contacts") OR where(CommandLine ICONTAINS "\\Music") OR where(CommandLine ICONTAINS "\\Pictures") OR where(CommandLine ICONTAINS "\\Documents") OR where(CommandLine ICONTAINS "\\Photos"))))))

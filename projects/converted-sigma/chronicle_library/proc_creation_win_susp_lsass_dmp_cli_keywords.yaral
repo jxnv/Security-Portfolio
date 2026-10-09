@@ -1,0 +1,23 @@
+// Title: LSASS Dump Keyword In CommandLine
+// ID: ffa6861c-4461-4f59-8a41-578c39f3f23e
+// Status: test
+// Level: high
+// Author: E.M. Anhaus, Tony Lambert, oscd.community, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2019-10-24
+// Tags: attack.credential-access, attack.t1003.001
+// Description: Detects the presence of the keywords "lsass" and ".dmp" in the commandline, which could indicate a potential attempt to dump or create a dump of the lsass process.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule ffa6861c_4461_4f59_8a41_578c39f3f23e {
+  meta:
+    title = "LSASS Dump Keyword In CommandLine"
+    description = "Detects the presence of the keywords "lsass" and ".dmp" in the commandline, which could indicate a potential attempt to dump or create a dump of the lsass process."
+    author = "E.M. Anhaus, Tony Lambert, oscd.community, Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*lsass.dmp.*/ nocase or $e.target.process.command_line = /.*lsass.zip.*/ nocase or $e.target.process.command_line = /.*lsass.rar.*/ nocase or $e.target.process.command_line = /.*Andrew.dmp.*/ nocase or $e.target.process.command_line = /.*Coredump.dmp.*/ nocase or $e.target.process.command_line = /.*NotLSASS.zip.*/ nocase or $e.target.process.command_line = /.*lsass_2.*/ nocase or $e.target.process.command_line = /.*lsassdump.*/ nocase or $e.target.process.command_line = /.*lsassdmp.*/ nocase)) or (($e.target.process.command_line = /.*lsass.*/ nocase and $e.target.process.command_line = /.*.dmp.*/ nocase)) or (($e.target.process.command_line = /.*SQLDmpr.*/ nocase and $e.target.process.command_line = /.*.mdmp.*/ nocase)) or (($e.target.process.command_line = /.*nanodump.*/ nocase and $e.target.process.command_line = /.*.dmp.*/ nocase)))
+
+  condition:
+    $e
+}

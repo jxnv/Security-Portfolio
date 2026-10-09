@@ -1,0 +1,23 @@
+// Title: Group Has Been Deleted Via Groupdel
+// ID: 8a46f16c-8c4c-82d1-b121-0fdd3ba70a84
+// Status: test
+// Level: medium
+// Author: Tuan Le (NCSGroup)
+// Date: 2022-12-26
+// Tags: attack.impact, attack.t1531
+// Description: Detects execution of the "groupdel" binary. Which is used to delete a group. This is sometimes abused by threat actors in order to cover their tracks
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 8a46f16c_8c4c_82d1_b121_0fdd3ba70a84 {
+  meta:
+    title = "Group Has Been Deleted Via Groupdel"
+    description = "Detects execution of the "groupdel" binary. Which is used to delete a group. This is sometimes abused by threat actors in order to cover their tracks"
+    author = "Tuan Le (NCSGroup)"
+    severity = "MEDIUM"
+
+  events:
+    ($e.target.process.file.full_path = /.*/groupdel$/ nocase)
+
+  condition:
+    $e
+}

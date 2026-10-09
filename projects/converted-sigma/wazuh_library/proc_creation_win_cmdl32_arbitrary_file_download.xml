@@ -1,0 +1,16 @@
+<!--
+  Title: Potential Arbitrary File Download Via Cmdl32.EXE
+  ID: f37aba28-a9e6-4045-882c-d5004043b337
+  Status: test
+  Level: medium
+  Author: frack113
+  Date: 2021-11-03
+  Description: Detects execution of Cmdl32 with the "/vpn" and "/lan" flags. Attackers can abuse this utility in order to download arbitrary files via a configuration file. Inspect the location and the content of the file passed as an argument in order to determine if it is suspicious.
+-->
+
+<group name="sigma_converted,">
+  <rule id="100001" level="5">
+    <description>Potential Arbitrary File Download Via Cmdl32.EXE</description>
+    <match>(((CommandLine=\"*/vpn*\" AND CommandLine=\"*/lan*\")) AND ((Image=\"*\\\\cmdl32.exe\") OR (OriginalFileName=\"CMDL32.EXE\")))</match>
+  </rule>
+</group>

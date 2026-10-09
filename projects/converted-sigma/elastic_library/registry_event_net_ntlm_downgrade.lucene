@@ -1,0 +1,11 @@
+# Title: NetNTLM Downgrade Attack - Registry
+# ID: d67572a0-e2ec-45d6-b8db-c100d14b8ef2
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems), wagga, Nasreddine Bencherchali (Splunk STRT)
+# Date: 2018-03-20
+# Tags: attack.persistence, attack.defense-impairment, attack.t1685, attack.t1112
+# Description: Detects NetNTLM downgrade attack
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((registry.path:*SYSTEM\\* AND registry.path:*ControlSet* AND registry.path:*\\Control\\Lsa*)) AND ((registry.path:*\\lmcompatibilitylevel AND (registry.data.strings:"DWORD (0x00000000)" OR registry.data.strings:"DWORD (0x00000001)" OR registry.data.strings:"DWORD (0x00000002)")) OR (registry.path:*\\NtlmMinClientSec AND (registry.data.strings:"DWORD (0x00000000)" OR registry.data.strings:"DWORD (0x00000010)" OR registry.data.strings:"DWORD (0x00000020)" OR registry.data.strings:"DWORD (0x00000030)")) OR (registry.path:*\\RestrictSendingNTLMTraffic)))

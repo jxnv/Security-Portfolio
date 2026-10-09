@@ -1,0 +1,29 @@
+{
+  "title": "Sysmon Configuration Modification",
+  "id": "1f2b5353-573f-4880-8e33-7d04dcf97744",
+  "status": "test",
+  "description": "Detects when an attacker tries to hide from Sysmon by disabling or stopping it",
+  "author": "frack113",
+  "date": "2021-06-04",
+  "tags": [
+    "attack.stealth",
+    "attack.t1564"
+  ],
+  "level": "high",
+  "logsource": {
+    "product": "windows",
+    "category": "sysmon_status"
+  },
+  "detection": {
+    "selection_stop": {
+      "State": "Stopped"
+    },
+    "selection_conf": [
+      "Sysmon config state changed"
+    ],
+    "filter": {
+      "State": "Started"
+    },
+    "condition": "1 of selection_* and not filter"
+  }
+}

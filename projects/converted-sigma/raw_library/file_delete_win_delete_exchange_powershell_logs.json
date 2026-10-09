@@ -1,0 +1,24 @@
+{
+  "title": "Exchange PowerShell Cmdlet History Deleted",
+  "id": "a55349d8-9588-4c5a-8e3b-1925fe2a4ffe",
+  "status": "test",
+  "description": "Detects the deletion of the Exchange PowerShell cmdlet History logs which may indicate an attempt to destroy forensic evidence",
+  "author": "Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2022-10-26",
+  "tags": [
+    "attack.stealth",
+    "attack.t1070"
+  ],
+  "level": "high",
+  "logsource": {
+    "category": "file_delete",
+    "product": "windows"
+  },
+  "detection": {
+    "selection": {
+      "TargetFilename|startswith": "\\Logging\\CmdletInfra\\LocalPowerShell\\Cmdlet\\",
+      "TargetFilename|contains": "_Cmdlet_"
+    },
+    "condition": "selection"
+  }
+}

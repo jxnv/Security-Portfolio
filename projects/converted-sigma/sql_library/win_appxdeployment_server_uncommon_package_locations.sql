@@ -1,0 +1,11 @@
+-- Title: AppX Located in Uncommon Directory Added to Deployment Pipeline
+-- ID: c977cb50-3dff-4a9f-b873-9290f56132f1
+-- Status: test
+-- Level: medium
+-- Author: Nasreddine Bencherchali (Nextron Systems)
+-- Date: 2023-01-11
+-- Tags: attack.stealth
+-- Description: Detects an appx package that was added to the pipeline of the "to be processed" packages that is located in uncommon locations.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE ((EventID = 854) AND NOT ((((Path ILIKE '%:/Program%20Files%' OR Path ILIKE '%:/Windows/System32/%' OR Path ILIKE '%:\\Program Files (x86)\\%' OR Path ILIKE '%:\\Program Files\\%' OR Path ILIKE '%:\\Windows\\ImmersiveControlPanel\\%' OR Path ILIKE '%:\\Windows\\PrintDialog\\%' OR Path ILIKE '%:\\Windows\\SystemApps\\%' OR Path ILIKE '%AppData/Local/Temp/WinGet/Microsoft.Winget.Source%' OR Path ILIKE '%x-windowsupdate://%')) OR ((Path ILIKE '%https://installer.teams.static.microsoft/%' OR Path ILIKE '%https://res.cdn.office.net%' OR Path ILIKE '%https://statics.teams.cdn.live.net/%' OR Path ILIKE '%https://statics.teams.cdn.office.net/%' OR Path ILIKE '%microsoft.com%')))) AND NOT (((Path ILIKE '%AppData\\Local\\Microsoft\\OneDrive\\%') OR ((Path ILIKE '%AppData/Local/Temp/WinGet/Microsoft.Winget.Source%' OR Path ILIKE '%AppData\\Local\\Temp\\WinGet\\Microsoft.Winget.Source%')) OR (Path ILIKE '%x-windowsupdate://%'))))

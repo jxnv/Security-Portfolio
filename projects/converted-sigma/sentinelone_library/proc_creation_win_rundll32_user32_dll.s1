@@ -1,0 +1,11 @@
+// Title: Suspicious Workstation Locking via Rundll32
+// ID: 3b5b0213-0460-4e3f-8937-3abf98ff7dcc
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-06-04
+// Tags: attack.stealth
+// Description: Detects a suspicious call to the user32.dll function that locks the user workstation
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((src.process.cmdline containsCIS "user32.dll,") AND ((src.process.image.path endswithCIS "\\rundll32.exe") OR (OriginalFileName = "RUNDLL32.EXE")) AND (src.process.parent.image.path endswithCIS "\\cmd.exe") AND (src.process.cmdline containsCIS "LockWorkStation"))

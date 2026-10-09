@@ -1,0 +1,11 @@
+// Title: Windows Credential Manager Access via VaultCmd
+// ID: 58f50261-c53b-4c88-bd12-1d71f12eda4c
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-04-08
+// Tags: attack.credential-access, attack.t1555.004
+// Description: List credentials currently stored in Windows Credential Manager via the native Windows utility vaultcmd.exe
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter ((action_process_image_command_line contains "/listcreds:") and ((action_process_image_path endswith "\\VaultCmd.exe") or (action_process_image_name = "VAULTCMD.EXE")))

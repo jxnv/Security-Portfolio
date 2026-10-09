@@ -1,0 +1,23 @@
+// Title: HackTool - Empire PowerShell Launch Parameters
+// ID: 79f4ede3-402e-41c8-bc3e-ebbf5f162581
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2019-04-20
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects suspicious powershell command line parameters used in Empire
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 79f4ede3_402e_41c8_bc3e_ebbf5f162581 {
+  meta:
+    title = "HackTool - Empire PowerShell Launch Parameters"
+    description = "Detects suspicious powershell command line parameters used in Empire"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.command_line = /.* -NoP -sta -NonI -W Hidden -Enc .*/ nocase or $e.target.process.command_line = /.* -noP -sta -w 1 -enc .*/ nocase or $e.target.process.command_line = /.* -NoP -NonI -W Hidden -enc .*/ nocase or $e.target.process.command_line = /.* -noP -sta -w 1 -enc.*/ nocase or $e.target.process.command_line = /.* -enc  SQB.*/ nocase or $e.target.process.command_line = /.* -nop -exec bypass -EncodedCommand .*/ nocase))
+
+  condition:
+    $e
+}

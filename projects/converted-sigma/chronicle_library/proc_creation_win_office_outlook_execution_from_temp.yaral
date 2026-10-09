@@ -1,0 +1,23 @@
+// Title: Suspicious Execution From Outlook Temporary Folder
+// ID: a018fdc3-46a3-44e5-9afb-2cd4af1d4b39
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2019-10-01
+// Tags: attack.initial-access, attack.t1566.001
+// Description: Detects a suspicious program execution in Outlook temp folder
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule a018fdc3_46a3_44e5_9afb_2cd4af1d4b39 {
+  meta:
+    title = "Suspicious Execution From Outlook Temporary Folder"
+    description = "Detects a suspicious program execution in Outlook temp folder"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ($e.target.process.file.full_path = /.*\\Temporary Internet Files\\Content.Outlook\\.*/ nocase)
+
+  condition:
+    $e
+}

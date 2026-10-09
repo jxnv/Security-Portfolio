@@ -1,0 +1,11 @@
+// Title: Suspicious Manipulation Of Default Accounts Via Net.EXE
+// ID: 5b768e71-86f2-4879-b448-81061cbae951
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-09-01
+// Tags: attack.collection, attack.t1560.001
+// Description: Detects suspicious manipulations of default accounts such as 'administrator' and 'guest'. For example 'enable' or 'disable' accounts or change the password...etc
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where (((((process.executable endswith "\\net.exe" or process.executable endswith "\\net1.exe")) or ((process.pe.original_file_name == "net.exe" or process.pe.original_file_name == "net1.exe"))) and (process.command_line like "*_ user *") and ((process.command_line like "*_ Järjestelmänvalvoja *" or process.command_line like "*_ Rendszergazda *" or process.command_line like "*_ Администратор *" or process.command_line like "*_ Administrateur *" or process.command_line like "*_ Administrador *" or process.command_line like "*_ Administratör *" or process.command_line like "*_ Administrator *" or process.command_line like "*_ guest *" or process.command_line like "*_ DefaultAccount *" or process.command_line like "*_ \"Järjestelmänvalvoja\" *" or process.command_line like "*_ \"Rendszergazda\" *" or process.command_line like "*_ \"Администратор\" *" or process.command_line like "*_ \"Administrateur\" *" or process.command_line like "*_ \"Administrador\" *" or process.command_line like "*_ \"Administratör\" *" or process.command_line like "*_ \"Administrator\" *" or process.command_line like "*_ \"guest\" *" or process.command_line like "*_ \"DefaultAccount\" *" or process.command_line like "*_ 'Järjestelmänvalvoja' *" or process.command_line like "*_ 'Rendszergazda' *" or process.command_line like "*_ 'Администратор' *" or process.command_line like "*_ 'Administrateur' *" or process.command_line like "*_ 'Administrador' *" or process.command_line like "*_ 'Administratör' *" or process.command_line like "*_ 'Administrator' *" or process.command_line like "*_ 'guest' *" or process.command_line like "*_ 'DefaultAccount' *"))) and not (((process.command_line like "*_guest*" and process.command_line like "*_/active no*"))))

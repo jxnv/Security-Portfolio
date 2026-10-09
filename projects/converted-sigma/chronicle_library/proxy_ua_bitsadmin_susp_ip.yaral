@@ -1,0 +1,23 @@
+// Title: Bitsadmin to Uncommon IP Server Address
+// ID: 8ccd35a2-1c7c-468b-b568-ac6cdf80eec3
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-06-10
+// Tags: attack.command-and-control, attack.execution, attack.stealth, attack.t1071.001, attack.persistence, attack.t1197, attack.s0190
+// Description: Detects Bitsadmin connections to IP addresses instead of FQDN names
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 8ccd35a2_1c7c_468b_b568_ac6cdf80eec3 {
+  meta:
+    title = "Bitsadmin to Uncommon IP Server Address"
+    description = "Detects Bitsadmin connections to IP addresses instead of FQDN names"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ($e.c-useragent = /^Microsoft BITS/.*/ nocase and ($e.cs-host = /.*1$/ nocase or $e.cs-host = /.*2$/ nocase or $e.cs-host = /.*3$/ nocase or $e.cs-host = /.*4$/ nocase or $e.cs-host = /.*5$/ nocase or $e.cs-host = /.*6$/ nocase or $e.cs-host = /.*7$/ nocase or $e.cs-host = /.*8$/ nocase or $e.cs-host = /.*9$/ nocase))
+
+  condition:
+    $e
+}

@@ -1,0 +1,23 @@
+// Title: PowerShell Script With File Upload Capabilities
+// ID: d2e3f2f6-7e09-4bf2-bc5d-90186809e7fb
+// Status: test
+// Level: low
+// Author: frack113
+// Date: 2022-01-07
+// Tags: attack.exfiltration, attack.t1020
+// Description: Detects PowerShell scripts leveraging the "Invoke-WebRequest" cmdlet to send data via either "PUT" or "POST" method.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule d2e3f2f6_7e09_4bf2_bc5d_90186809e7fb {
+  meta:
+    title = "PowerShell Script With File Upload Capabilities"
+    description = "Detects PowerShell scripts leveraging the "Invoke-WebRequest" cmdlet to send data via either "PUT" or "POST" method."
+    author = "frack113"
+    severity = "LOW"
+
+  events:
+    ((($e.ScriptBlockText = /.*Invoke-RestMethod.*/ nocase or $e.ScriptBlockText = /.*Invoke-WebRequest.*/ nocase or $e.ScriptBlockText = /.*irm .*/ nocase or $e.ScriptBlockText = /.*iwr .*/ nocase)) and (($e.ScriptBlockText = /.*-Method \"POST\".*/ nocase or $e.ScriptBlockText = /.*-Method \"PUT\".*/ nocase or $e.ScriptBlockText = /.*-Method POST.*/ nocase or $e.ScriptBlockText = /.*-Method PUT.*/ nocase or $e.ScriptBlockText = /.*-Method 'POST'.*/ nocase or $e.ScriptBlockText = /.*-Method 'PUT'.*/ nocase)))
+
+  condition:
+    $e
+}

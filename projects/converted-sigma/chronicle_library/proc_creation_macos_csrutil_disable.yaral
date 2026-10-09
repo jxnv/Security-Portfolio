@@ -1,0 +1,23 @@
+// Title: System Integrity Protection (SIP) Disabled
+// ID: 3603f18a-ec15-43a1-9af2-d196c8a7fec6
+// Status: test
+// Level: medium
+// Author: Joseliyo Sanchez, @Joseliyo_Jstnk
+// Date: 2024-01-02
+// Tags: attack.discovery, attack.t1518.001
+// Description: Detects the use of csrutil to disable the Configure System Integrity Protection (SIP). This technique is used in post-exploit scenarios.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 3603f18a_ec15_43a1_9af2_d196c8a7fec6 {
+  meta:
+    title = "System Integrity Protection (SIP) Disabled"
+    description = "Detects the use of csrutil to disable the Configure System Integrity Protection (SIP). This technique is used in post-exploit scenarios."
+    author = "Joseliyo Sanchez, @Joseliyo_Jstnk"
+    severity = "MEDIUM"
+
+  events:
+    ($e.target.process.file.full_path = /.*/csrutil$/ nocase and $e.target.process.command_line = /.*disable.*/ nocase)
+
+  condition:
+    $e
+}

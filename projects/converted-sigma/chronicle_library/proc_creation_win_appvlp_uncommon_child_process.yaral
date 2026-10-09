@@ -1,0 +1,26 @@
+// Title: Uncommon Child Process Of Appvlp.EXE
+// ID: 9c7e131a-0f2c-4ae0-9d43-b04f4e266d43
+// Status: test
+// Level: medium
+// Author: Sreeman
+// Date: 2020-03-13
+// Tags: attack.stealth, attack.t1218, attack.execution
+// Description: Detects uncommon child processes of Appvlp.EXE
+// Appvlp or the Application Virtualization Utility is included with Microsoft Office. Attackers are able to abuse "AppVLP" to execute shell commands.
+// Normally, this binary is used for Application Virtualization, but it can also be abused to circumvent the ASR file path rule folder
+// or to mark a file as a system file.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 9c7e131a_0f2c_4ae0_9d43_b04f4e266d43 {
+  meta:
+    title = "Uncommon Child Process Of Appvlp.EXE"
+    description = "Detects uncommon child processes of Appvlp.EXE Appvlp or the Application Virtualization Utility is included with Microsoft Office. Attackers are able to abuse "AppVLP" to execute shell commands. Normally, this binary is used for Application Virtualization, but it can also be abused to circumvent the ASR file path rule folder or to mark a file as a system file."
+    author = "Sreeman"
+    severity = "MEDIUM"
+
+  events:
+    (($e.principal.process.file.full_path = /.*\\appvlp.exe$/ nocase) and not((($e.target.process.file.full_path = /.*:\\Windows\\SysWOW64\\rundll32.exe$/ nocase or $e.target.process.file.full_path = /.*:\\Windows\\System32\\rundll32.exe$/ nocase))) and not((($e.target.process.file.full_path = /.*:\\Program Files\\Microsoft Office.*/ nocase and $e.target.process.file.full_path = /.*\\msoasb.exe$/ nocase) or ($e.target.process.file.full_path = /.*:\\Program Files\\Microsoft Office.*/ nocase and $e.target.process.file.full_path = /.*\\MSOUC.EXE$/ nocase) or (($e.target.process.file.full_path = /.*:\\Program Files\\Microsoft Office.*/ nocase and $e.target.process.file.full_path = /.*\\SkypeSrv\\.*/ nocase) and $e.target.process.file.full_path = /.*\\SKYPESERVER.EXE$/ nocase))))
+
+  condition:
+    $e
+}

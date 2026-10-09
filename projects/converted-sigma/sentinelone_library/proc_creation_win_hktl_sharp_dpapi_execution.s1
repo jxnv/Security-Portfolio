@@ -1,0 +1,12 @@
+// Title: HackTool - SharpDPAPI Execution
+// ID: c7d33b50-f690-4b51-8cfb-0fb912a31e57
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2024-06-26
+// Tags: attack.privilege-escalation, attack.stealth, attack.t1134.001, attack.t1134.003
+// Description: Detects the execution of the SharpDPAPI tool based on CommandLine flags and PE metadata.
+// SharpDPAPI is a C# port of some DPAPI functionality from the Mimikatz project.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((src.process.image.path endswithCIS "\\SharpDPAPI.exe") OR (OriginalFileName = "SharpDPAPI.exe")) OR (((src.process.cmdline containsCIS " backupkey " OR src.process.cmdline containsCIS " blob " OR src.process.cmdline containsCIS " certificates " OR src.process.cmdline containsCIS " credentials " OR src.process.cmdline containsCIS " keepass " OR src.process.cmdline containsCIS " masterkeys " OR src.process.cmdline containsCIS " rdg " OR src.process.cmdline containsCIS " vaults ")) AND (((src.process.cmdline containsCIS " /file:" OR src.process.cmdline containsCIS " /machine" OR src.process.cmdline containsCIS " /mkfile:" OR src.process.cmdline containsCIS " /password:" OR src.process.cmdline containsCIS " /pvk:" OR src.process.cmdline containsCIS " /server:" OR src.process.cmdline containsCIS " /target:" OR src.process.cmdline containsCIS " /unprotect")) OR ((src.process.cmdline containsCIS " {" AND src.process.cmdline containsCIS "}:")))))

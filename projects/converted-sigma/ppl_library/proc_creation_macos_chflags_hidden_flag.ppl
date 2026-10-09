@@ -1,0 +1,12 @@
+// Title: Hidden Flag Set On File/Directory Via Chflags - MacOS
+// ID: 3b2c1059-ae5f-40b6-b5d4-6106d3ac20fe
+// Status: test
+// Level: medium
+// Author: Omar Khaled (@beacon_exe)
+// Date: 2024-08-21
+// Tags: attack.credential-access, attack.command-and-control, attack.stealth, attack.t1218, attack.t1564.004, attack.t1552.001, attack.t1105
+// Description: Detects the execution of the "chflags" utility with the "hidden" flag, in order to hide files on MacOS.
+// When a file or directory has this hidden flag set, it becomes invisible to the default file listing commands and in graphical file browsers.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where (process.executable="*/chflags" AND process.command_line like "%hidden %")

@@ -1,0 +1,23 @@
+// Title: Renamed CreateDump Utility Execution
+// ID: 1a1ed54a-2ba4-4221-94d5-01dee560d71e
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-09-20
+// Tags: attack.stealth, attack.t1036, attack.t1003.001, attack.credential-access
+// Description: Detects uses of a renamed legitimate createdump.exe LOLOBIN utility to dump process memory
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 1a1ed54a_2ba4_4221_94d5_01dee560d71e {
+  meta:
+    title = "Renamed CreateDump Utility Execution"
+    description = "Detects uses of a renamed legitimate createdump.exe LOLOBIN utility to dump process memory"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((((($e.target.process.command_line = /.* -u .*/ nocase and $e.target.process.command_line = /.* -f .*/ nocase and $e.target.process.command_line = /.*.dmp.*/ nocase)) or (($e.target.process.command_line = /.* --full .*/ nocase and $e.target.process.command_line = /.* --name .*/ nocase and $e.target.process.command_line = /.*.dmp.*/ nocase))) or ($e.target.process.file.name = "FX_VER_INTERNALNAME_STR")) and not(($e.target.process.file.full_path = /.*\\createdump.exe$/ nocase)))
+
+  condition:
+    $e
+}

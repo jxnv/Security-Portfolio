@@ -1,0 +1,11 @@
+-- Title: WSL Child Process Anomaly
+-- ID: 2267fe65-0681-42ad-9a6d-46553d3f3480
+-- Status: test
+-- Level: medium
+-- Author: Nasreddine Bencherchali (Nextron Systems)
+-- Date: 2023-01-23
+-- Tags: attack.execution, attack.stealth, attack.t1218, attack.t1202
+-- Description: Detects uncommon or suspicious child processes spawning from a WSL process. This could indicate an attempt to evade parent/child relationship detections or persistence attempts via cron using WSL
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE (((ParentImage ILIKE '%\\wsl.exe' OR ParentImage ILIKE '%\\wslhost.exe')) AND (((Image ILIKE '%\\calc.exe' OR Image ILIKE '%\\cmd.exe' OR Image ILIKE '%\\cscript.exe' OR Image ILIKE '%\\mshta.exe' OR Image ILIKE '%\\powershell.exe' OR Image ILIKE '%\\pwsh.exe' OR Image ILIKE '%\\regsvr32.exe' OR Image ILIKE '%\\rundll32.exe' OR Image ILIKE '%\\wscript.exe')) OR ((Image ILIKE '%\\AppData\\Local\\Temp\\%' OR Image ILIKE '%C:\\Users\\Public\\%' OR Image ILIKE '%C:\\Windows\\Temp\\%' OR Image ILIKE '%C:\\Temp\\%' OR Image ILIKE '%\\Downloads\\%' OR Image ILIKE '%\\Desktop\\%'))))

@@ -1,0 +1,21 @@
+# Title: Registry Modification Attempt Via VBScript - PowerShell
+# ID: 2a0a169d-cc66-43ce-9ae2-6e678e54e46a
+# Status: experimental
+# Level: medium
+# Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+# Date: 2025-08-13
+# Tags: attack.persistence, attack.execution, attack.defense-impairment, attack.t1112, attack.t1059.005
+# Description: Detects attempts to modify the registry using VBScript's CreateObject("Wscript.shell") and RegWrite methods embedded within PowerShell scripts or commands.
+# Threat actors commonly embed VBScript code within PowerShell to perform registry modifications, attempting to evade detection that monitors for direct registry access through traditional tools.
+# This technique can be used for persistence, defense evasion, and privilege escalation by modifying registry keys without using regedit.exe, reg.exe, or PowerShell's native registry cmdlets.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Registry Modification Attempt Via VBScript - PowerShell
+def rule(event):
+    # Detection Logic:
+    # ((ScriptBlockText="*CreateObject*" AND ScriptBlockText="*Wscript.shell*" AND ScriptBlockText="*.RegWrite*"))
+    return True
+
+def title(event):
+    return "Registry Modification Attempt Via VBScript - PowerShell"
+

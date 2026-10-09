@@ -1,0 +1,11 @@
+// Title: PUA - NPS Tunneling Tool Execution
+// ID: 68d37776-61db-42f5-bf54-27e87072d17e
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-10-08
+// Tags: attack.command-and-control, attack.t1090
+// Description: Detects the use of NPS, a port forwarding and intranet penetration proxy server
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((CommandLine = /* -server=*/i and CommandLine = /* -vkey=*/i and CommandLine = /* -password=*/i)) or (CommandLine = /* -config=npc*/i) or ((Hashes = /*MD5=AE8ACF66BFE3A44148964048B826D005*/i or Hashes = /*SHA1=CEA49E9B9B67F3A13AD0BE1C2655293EA3C18181*/i or Hashes = /*SHA256=5A456283392FFCEEEACA3D3426C306EB470304637520D72FED1CC1FEBBBD6856*/i)) or (ImageFileName = /.*\\npc.exe/i))

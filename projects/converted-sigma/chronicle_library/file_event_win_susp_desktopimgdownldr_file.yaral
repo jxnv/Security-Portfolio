@@ -1,0 +1,23 @@
+// Title: Suspicious Desktopimgdownldr Target File
+// ID: fc4f4817-0c53-4683-a4ee-b17a64bc1039
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2020-07-03
+// Tags: attack.command-and-control, attack.t1105
+// Description: Detects a suspicious Microsoft desktopimgdownldr file creation that stores a file to a suspicious location or contains a file with a suspicious extension
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule fc4f4817_0c53_4683_a4ee_b17a64bc1039 {
+  meta:
+    title = "Suspicious Desktopimgdownldr Target File"
+    description = "Detects a suspicious Microsoft desktopimgdownldr file creation that stores a file to a suspicious location or contains a file with a suspicious extension"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.file.full_path = /.*\\svchost.exe$/ nocase and $e.target.file.full_path = /.*\\Personalization\\LockScreenImage\\.*/ nocase) and not(($e.target.file.full_path = /.*C:\\Windows\\.*/ nocase)) and not((($e.target.file.full_path = /.*.jpg.*/ nocase or $e.target.file.full_path = /.*.jpeg.*/ nocase or $e.target.file.full_path = /.*.png.*/ nocase))))
+
+  condition:
+    $e
+}

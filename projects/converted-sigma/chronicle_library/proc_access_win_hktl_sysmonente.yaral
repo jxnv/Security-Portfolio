@@ -1,0 +1,23 @@
+// Title: HackTool - SysmonEnte Execution
+// ID: d29ada0f-af45-4f27-8f32-f7b77c3dbc4e
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-09-07
+// Tags: attack.defense-impairment, attack.t1685.001
+// Description: Detects the use of SysmonEnte, a tool to attack the integrity of Sysmon
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule d29ada0f_af45_4f27_8f32_f7b77c3dbc4e {
+  meta:
+    title = "HackTool - SysmonEnte Execution"
+    description = "Detects the use of SysmonEnte, a tool to attack the integrity of Sysmon"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (((($e.TargetImage = /.*:\\Windows\\Sysmon.exe.*/ nocase or $e.TargetImage = /.*:\\Windows\\Sysmon64.exe.*/ nocase or $e.TargetImage = /.*:\\Windows\\Sysmon64a.exe.*/ nocase) and $e.GrantedAccess = "0x1400") and not(((($e.SourceImage = /.*:\\Program Files (x86)\\.*/ nocase or $e.SourceImage = /.*:\\Program Files\\.*/ nocase or $e.SourceImage = /.*:\\Windows\\System32\\.*/ nocase or $e.SourceImage = /.*:\\Windows\\SysWOW64\\.*/ nocase)) or ($e.SourceImage = /.*:\\ProgramData\\Microsoft\\Windows Defender\\Platform\\.*/ nocase and $e.SourceImage = /.*\\MsMpEng.exe$/ nocase)))) or ($e.CallTrace = "Ente"))
+
+  condition:
+    $e
+}

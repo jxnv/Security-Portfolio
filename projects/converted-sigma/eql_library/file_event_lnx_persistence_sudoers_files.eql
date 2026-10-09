@@ -1,0 +1,12 @@
+// Title: Persistence Via Sudoers Files
+// ID: ddb26b76-4447-4807-871f-1b035b2bfa5d
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-07-05
+// Tags: attack.privilege-escalation, attack.persistence, attack.t1548.003
+// Description: Detects the creation or modification of the main "/etc/sudoers" file or files within the "/etc/sudoers.d/" directory on Linux systems.
+// Adversaries may alter sudoers configuration to execute commands with elevated privileges without supplying a password.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+file where (((file.path == "/etc/sudoers") or (file.path startswith "/etc/sudoers.d/")) and not ((process.executable endswith "/usr/bin/dpkg" and file.path == "/etc/sudoers.d/README.dpkg-new")))

@@ -1,0 +1,11 @@
+# Title: Windows Event Log Access Tampering Via Registry
+# ID: ba226dcf-d390-4642-b9af-b534872f1156
+# Status: experimental
+# Level: high
+# Author: X__Junior
+# Date: 2025-01-16
+# Tags: attack.privilege-escalation, attack.persistence, attack.defense-impairment, attack.t1547.001, attack.t1112
+# Description: Detects changes to the Windows EventLog channel permission values. It focuses on changes to the Security Descriptor Definition Language (SDDL) string, as modifications to these values can restrict access to specific users or groups, potentially aiding in defense evasion by controlling who can view or modify a event log channel. Upon execution, the user shouldn't be able to access the event log channel via the event viewer or via utilities such as "Get-EventLog" or "wevtutil".
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((TargetObject CONTAIN "\\SYSTEM\\CurrentControlSet\\Services\\EventLog\\" AND TargetObject="*\\CustomSD") OR ((TargetObject CONTAIN "\\Policies\\Microsoft\\Windows\\EventLog\\" OR TargetObject CONTAIN "\\Microsoft\\Windows\\CurrentVersion\\WINEVT\\Channels") AND TargetObject="*\\ChannelAccess")) AND ((Details CONTAIN "D:(D;") OR ((Details CONTAIN "D:(" AND Details CONTAIN ")(D;"))) AND NOT (((Image="C:\\Windows\\WinSxS\\*" AND Image="*\\TiWorker.exe") OR (Image = "C:\\Windows\\servicing\\TrustedInstaller.exe"))) AND NOT (((Image = "") OR (NOT Image=*))))

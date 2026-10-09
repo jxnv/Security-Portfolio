@@ -1,0 +1,11 @@
+// Title: SCM Database Privileged Operation
+// ID: dae8171c-5ec6-4396-b210-8466585b53e9
+// Status: test
+// Level: medium
+// Author: Roberto Rodriguez @Cyb3rWard0g, Tim Shelton
+// Date: 2019-08-15
+// Tags: attack.privilege-escalation, attack.t1548
+// Description: Detects non-system users performing privileged operation os the SCM database
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((EventID == "4674" AND ObjectType == "SC_MANAGER OBJECT" AND ObjectName == "servicesactive" AND PrivilegeList == "SeTakeOwnershipPrivilege") AND NOT ((SubjectLogonId == "0x3e4" AND ProcessName="*:\\Windows\\System32\\services.exe")))

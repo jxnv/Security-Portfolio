@@ -1,0 +1,11 @@
+// Title: Schedule Task Creation From Env Variable Or Potentially Suspicious Path Via Schtasks.EXE
+// ID: 81325ce1-be01-4250-944f-b4789644556f
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-02-21
+// Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.t1053.005
+// Description: Detects Schtask creations that point to a suspicious folder or an environment variable often used by malware
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where (((((process.command_line like "*_:\\Perflogs*" or process.command_line like "*_:\\Users\\All Users\\*" or process.command_line like "*_:\\Users\\Default\\*" or process.command_line like "*_:\\Users\\Public*" or process.command_line like "*_:\\Windows\\Temp*" or process.command_line like "*_\\AppData\\Local\\*" or process.command_line like "*_\\AppData\\Roaming\\*" or process.command_line like "*_%AppData%*" or process.command_line like "*_%Public%*")) and (process.executable endswith "\\schtasks.exe" and process.command_line like "*_ /create *")) or ((process.parent.command_line endswith "\\svchost.exe -k netsvcs -p -s Schedule") and ((process.command_line like "*_:\\Perflogs*" or process.command_line like "*_:\\Windows\\Temp*" or process.command_line like "*_\\Users\\Public*" or process.command_line like "*_%Public%*")))) and not ((((process.command_line like "*_/Create /Xml *" and process.command_line like "*_\\Temp\\.CR.*" and process.command_line like "*_\\Avira_Security_Installation.xml*")) or ((process.command_line like "*_/Create /F /TN*" and process.command_line like "*_/Xml *" and process.command_line like "*_\\Temp\\*" and process.command_line like "*_Avira_*") and (process.command_line like "*_.tmp\\UpdateFallbackTask.xml*" or process.command_line like "*_.tmp\\WatchdogServiceControlManagerTimeout.xml*" or process.command_line like "*_.tmp\\SystrayAutostart.xml*" or process.command_line like "*_.tmp\\MaintenanceTask.xml*")) or ((process.command_line like "*_\\Temp\\*" and process.command_line like "*_/Create /TN \"klcp_update\" /XML *" and process.command_line like "*_\\klcp_update_task.xml*")) or ((process.parent.command_line like "*_unattended.ini*") or (process.command_line like "*_update_task.xml*")) or (process.command_line like "*_/Create /TN TVInstallRestore /TR*"))))

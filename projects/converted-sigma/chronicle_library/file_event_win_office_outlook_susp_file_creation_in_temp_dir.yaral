@@ -1,0 +1,24 @@
+// Title: Suspicious File Created in Outlook Temporary Directory
+// ID: fabb0e80-030c-4e3e-a104-d09676991ac3
+// Status: experimental
+// Level: high
+// Author: Florian Roth (Nextron Systems), Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-07-22
+// Tags: attack.initial-access, attack.t1566.001
+// Description: Detects the creation of files with suspicious file extensions in the temporary directory that Outlook uses when opening attachments.
+// This can be used to detect spear-phishing campaigns that use suspicious files as attachments, which may contain malicious code.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule fabb0e80_030c_4e3e_a104_d09676991ac3 {
+  meta:
+    title = "Suspicious File Created in Outlook Temporary Directory"
+    description = "Detects the creation of files with suspicious file extensions in the temporary directory that Outlook uses when opening attachments. This can be used to detect spear-phishing campaigns that use suspicious files as attachments, which may contain malicious code."
+    author = "Florian Roth (Nextron Systems), Swachchhanda Shrawan Poudel (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.file.full_path = /.*.cpl$/ nocase or $e.target.file.full_path = /.*.hta$/ nocase or $e.target.file.full_path = /.*.iso$/ nocase or $e.target.file.full_path = /.*.rdp$/ nocase or $e.target.file.full_path = /.*.svg$/ nocase or $e.target.file.full_path = /.*.vba$/ nocase or $e.target.file.full_path = /.*.vbe$/ nocase or $e.target.file.full_path = /.*.vbs$/ nocase)) and ((($e.target.file.full_path = /.*\\AppData\\Local\\Packages\\Microsoft.Outlook_.*/ nocase or $e.target.file.full_path = /.*\\AppData\\Local\\Microsoft\\Olk\\Attachments\\.*/ nocase)) or (($e.target.file.full_path = /.*\\AppData\\Local\\Microsoft\\Windows\\.*/ nocase and $e.target.file.full_path = /.*\\Content.Outlook\\.*/ nocase))))
+
+  condition:
+    $e
+}

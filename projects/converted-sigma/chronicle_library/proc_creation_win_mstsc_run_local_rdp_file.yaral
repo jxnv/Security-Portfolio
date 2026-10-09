@@ -1,0 +1,23 @@
+// Title: Mstsc.EXE Execution With Local RDP File
+// ID: 5fdce3ac-e7f9-4ecd-a3aa-a4d78ebbf0af
+// Status: test
+// Level: low
+// Author: Nasreddine Bencherchali (Nextron Systems), Christopher Peacock @securepeacock
+// Date: 2023-04-18
+// Tags: attack.command-and-control, attack.t1219.002
+// Description: Detects potential RDP connection via Mstsc using a local ".rdp" file
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 5fdce3ac_e7f9_4ecd_a3aa_a4d78ebbf0af {
+  meta:
+    title = "Mstsc.EXE Execution With Local RDP File"
+    description = "Detects potential RDP connection via Mstsc using a local ".rdp" file"
+    author = "Nasreddine Bencherchali (Nextron Systems), Christopher Peacock @securepeacock"
+    severity = "LOW"
+
+  events:
+    (((($e.target.process.command_line = /.*.rdp$/ nocase or $e.target.process.command_line = /.*.rdp\"$/ nocase)) and (($e.target.process.file.full_path = /.*\\mstsc.exe$/ nocase) or ($e.target.process.file.name = "mstsc.exe"))) and not(($e.principal.process.file.full_path = "C:\\Windows\\System32\\lxss\\wslhost.exe" and $e.target.process.command_line = /.*C:\\ProgramData\\Microsoft\\WSL\\wslg.rdp.*/ nocase)))
+
+  condition:
+    $e
+}

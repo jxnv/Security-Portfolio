@@ -1,0 +1,11 @@
+// Title: Suspicious Processes Spawned by Java.EXE
+// ID: 0d34ed8b-1c12-4ff2-828c-16fc860b766d
+// Status: test
+// Level: high
+// Author: Andreas Hunkeler (@Karneades), Florian Roth
+// Date: 2021-12-17
+// Tags: attack.initial-access, attack.persistence, attack.privilege-escalation
+// Description: Detects suspicious processes spawned from a Java host process which could indicate a sign of exploitation (e.g. log4j)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where (process.parent.executable endswith "\\java.exe" and (process.executable endswith "\\AppVLP.exe" or process.executable endswith "\\bitsadmin.exe" or process.executable endswith "\\certutil.exe" or process.executable endswith "\\cscript.exe" or process.executable endswith "\\curl.exe" or process.executable endswith "\\forfiles.exe" or process.executable endswith "\\hh.exe" or process.executable endswith "\\mftrace.exe" or process.executable endswith "\\mshta.exe" or process.executable endswith "\\net.exe" or process.executable endswith "\\net1.exe" or process.executable endswith "\\query.exe" or process.executable endswith "\\reg.exe" or process.executable endswith "\\regsvr32.exe" or process.executable endswith "\\rundll32.exe" or process.executable endswith "\\schtasks.exe" or process.executable endswith "\\scrcons.exe" or process.executable endswith "\\scriptrunner.exe" or process.executable endswith "\\sh.exe" or process.executable endswith "\\systeminfo.exe" or process.executable endswith "\\whoami.exe" or process.executable endswith "\\wmic.exe" or process.executable endswith "\\wscript.exe"))

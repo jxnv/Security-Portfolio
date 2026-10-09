@@ -1,0 +1,16 @@
+<!--
+  Title: Registry Tampering by Potentially Suspicious Processes
+  ID: 7f4c43f9-b1a5-4c7d-b24a-b41bf3a3ebf2
+  Status: experimental
+  Level: medium
+  Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+  Date: 2025-08-13
+  Description: Detects suspicious registry modifications made by suspicious processes such as script engine processes such as WScript, or CScript etc. These processes are rarely used for legitimate registry modifications, and their activity may indicate an attempt to modify the registry without using standard tools like regedit.exe or reg.exe, potentially for evasion and persistence.
+-->
+
+<group name="sigma_converted,">
+  <rule id="100001" level="5">
+    <description>Registry Tampering by Potentially Suspicious Processes</description>
+    <match>(((Image=\"*\\\\mshta.exe\" OR Image=\"*\\\\wscript.exe\" OR Image=\"*\\\\cscript.exe\")) AND NOT (((Details=\"Binary Data\") OR (NOT </match>
+  </rule>
+</group>

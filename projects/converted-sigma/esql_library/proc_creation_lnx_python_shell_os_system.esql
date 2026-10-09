@@ -1,0 +1,11 @@
+// Title: Inline Python Execution - Spawn Shell Via OS System Library
+// ID: 2d2f44ff-4611-4778-a8fc-323a0e9850cc
+// Status: test
+// Level: high
+// Author: Li Ling, Andy Parkidomo, Robert Rakowski, Blake Hartstein (Bloomberg L.P.)
+// Date: 2024-09-02
+// Tags: attack.execution, attack.t1059
+// Description: Detects execution of inline Python code via the "-c" in order to call the "system" function from the "os" library, and spawn a shell.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE (((process.command_line LIKE "% -c %" AND process.command_line LIKE "%os.system(%") AND (process.command_line LIKE "%/bin/bash%" OR process.command_line LIKE "%/bin/dash%" OR process.command_line LIKE "%/bin/fish%" OR process.command_line LIKE "%/bin/sh%" OR process.command_line LIKE "%/bin/zsh%")) AND (((process.executable LIKE "%/python" OR process.executable LIKE "%/python2" OR process.executable LIKE "%/python3")) OR ((process.executable LIKE "%/python2.%" OR process.executable LIKE "%/python3.%"))))

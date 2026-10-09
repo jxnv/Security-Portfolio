@@ -1,0 +1,23 @@
+// Title: Portable Gpg.EXE Execution
+// ID: 77df53a5-1d78-4f32-bc5a-0e7465bd8f41
+// Status: test
+// Level: medium
+// Author: frack113, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-08-06
+// Tags: attack.impact, attack.t1486
+// Description: Detects the execution of "gpg.exe" from uncommon location. Often used by ransomware and loaders to decrypt/encrypt data.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 77df53a5_1d78_4f32_bc5a_0e7465bd8f41 {
+  meta:
+    title = "Portable Gpg.EXE Execution"
+    description = "Detects the execution of "gpg.exe" from uncommon location. Often used by ransomware and loaders to decrypt/encrypt data."
+    author = "frack113, Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (((($e.target.process.file.full_path = /.*\\gpg.exe$/ nocase or $e.target.process.file.full_path = /.*\\gpg2.exe$/ nocase)) or ($e.target.process.file.name = "gpg.exe") or ($e.Description = "GnuPG’s OpenPGP tool")) and not((($e.target.process.file.full_path = /.*:\\Program Files (x86)\\GNU\\GnuPG\\bin\\.*/ nocase or $e.target.process.file.full_path = /.*:\\Program Files (x86)\\GnuPG VS-Desktop\\.*/ nocase or $e.target.process.file.full_path = /.*:\\Program Files (x86)\\GnuPG\\bin\\.*/ nocase or $e.target.process.file.full_path = /.*:\\Program Files (x86)\\Gpg4win\\bin\\.*/ nocase))))
+
+  condition:
+    $e
+}

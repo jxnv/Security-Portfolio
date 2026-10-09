@@ -1,0 +1,11 @@
+// Title: FileFix - Command Evidence in TypedPaths
+// ID: 4fee3d51-8069-4a4c-a0f7-924fcaff2c70
+// Status: experimental
+// Level: high
+// Author: Alfie Champion (delivr.to), Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-07-05
+// Tags: attack.execution, attack.t1204.004
+// Description: Detects commonly-used chained commands and strings in the most recent 'url' value of the 'TypedPaths' key, which could be indicative of a user being targeted by the FileFix technique.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((TargetObject = /.*\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\TypedPaths\\url1/i and (Details = /*#*/i and Details = /*http*/i)) and (((Details = /*account*/i or Details = /*anti-bot*/i or Details = /*botcheck*/i or Details = /*captcha*/i or Details = /*challenge*/i or Details = /*confirmation*/i or Details = /*fraud*/i or Details = /*human*/i or Details = /*identification*/i or Details = /*identificator*/i or Details = /*identity*/i or Details = /*robot*/i or Details = /*validation*/i or Details = /*verification*/i or Details = /*verify*/i)) or ((Details = /*%comspec%*/i or Details = /*bitsadmin*/i or Details = /*certutil*/i or Details = /*cmd*/i or Details = /*cscript*/i or Details = /*curl*/i or Details = /*finger*/i or Details = /*mshta*/i or Details = /*powershell*/i or Details = /*pwsh*/i or Details = /*regsvr32*/i or Details = /*rundll32*/i or Details = /*schtasks*/i or Details = /*wget*/i or Details = /*wscript*/i))))

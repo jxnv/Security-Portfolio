@@ -1,0 +1,24 @@
+// Title: Cleartext Protocol Usage
+// ID: d7fb8f0e-bd5f-45c2-b467-19571c490d7e
+// Status: stable
+// Level: low
+// Author: Alexandr Yampolskyi, SOC Prime, Tim Shelton
+// Date: 2019-03-26
+// Tags: attack.credential-access
+// Description: Ensure that all account usernames and authentication credentials are transmitted across networks using encrypted channels.
+// Ensure that an encryption is used for all sensitive information in transit. Ensure that an encrypted channels is used for all administrative account access.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule d7fb8f0e_bd5f_45c2_b467_19571c490d7e {
+  meta:
+    title = "Cleartext Protocol Usage"
+    description = "Ensure that all account usernames and authentication credentials are transmitted across networks using encrypted channels. Ensure that an encryption is used for all sensitive information in transit. Ensure that an encrypted channels is used for all administrative account access."
+    author = "Alexandr Yampolskyi, SOC Prime, Tim Shelton"
+    severity = "LOW"
+
+  events:
+    ((($e.dst_port = 8080 or $e.dst_port = 21 or $e.dst_port = 80 or $e.dst_port = 23 or $e.dst_port = 50000 or $e.dst_port = 1521 or $e.dst_port = 27017 or $e.dst_port = 3306 or $e.dst_port = 1433 or $e.dst_port = 11211 or $e.dst_port = 15672 or $e.dst_port = 5900 or $e.dst_port = 5901 or $e.dst_port = 5902 or $e.dst_port = 5903 or $e.dst_port = 5904)) and ((($e.action = "forward" or $e.action = "accept" or $e.action = 2)) or ($e.blocked = "false")))
+
+  condition:
+    $e
+}

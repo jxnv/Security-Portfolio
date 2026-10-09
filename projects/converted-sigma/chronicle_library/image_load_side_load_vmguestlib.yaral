@@ -1,0 +1,23 @@
+// Title: VMGuestLib DLL Sideload
+// ID: 70e8e9b4-6a93-4cb7-8cde-da69502e7aff
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-12-01
+// Tags: attack.persistence, attack.privilege-escalation, attack.execution, attack.stealth, attack.t1574.001
+// Description: Detects DLL sideloading of VMGuestLib.dll by the WmiApSrv service.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 70e8e9b4_6a93_4cb7_8cde_da69502e7aff {
+  meta:
+    title = "VMGuestLib DLL Sideload"
+    description = "Detects DLL sideloading of VMGuestLib.dll by the WmiApSrv service."
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.ImageLoaded = /.*\\VMware\\VMware Tools\\vmStatsProvider\\win32.*/ nocase and $e.ImageLoaded = /.*\\vmGuestLib.dll.*/ nocase) and $e.target.process.file.full_path = /.*\\Windows\\System32\\wbem\\WmiApSrv.exe$/ nocase) and not(($e.Signed = "true")))
+
+  condition:
+    $e
+}

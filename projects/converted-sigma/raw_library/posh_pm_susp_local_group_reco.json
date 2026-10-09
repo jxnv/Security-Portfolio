@@ -1,0 +1,61 @@
+{
+  "title": "Suspicious Get Local Groups Information",
+  "id": "cef24b90-dddc-4ae1-a09a-8764872f69fc",
+  "status": "test",
+  "description": "Detects the use of PowerShell modules and cmdlets to gather local group information.\nAdversaries may use local system permission groups to determine which groups exist and which users belong to a particular group such as the local administrators group.\n",
+  "author": "frack113",
+  "date": "2021-12-12",
+  "tags": [
+    "attack.discovery",
+    "attack.t1069.001"
+  ],
+  "level": "low",
+  "logsource": {
+    "product": "windows",
+    "category": "ps_module",
+    "definition": "0ad03ef1-f21b-4a79-8ce8-e6900c54b65b"
+  },
+  "detection": {
+    "selection_localgroup": [
+      {
+        "Payload|contains": [
+          "get-localgroup ",
+          "get-localgroupmember "
+        ]
+      },
+      {
+        "ContextInfo|contains": [
+          "get-localgroup ",
+          "get-localgroupmember "
+        ]
+      }
+    ],
+    "selection_wmi_module": [
+      {
+        "Payload|contains": [
+          "get-wmiobject ",
+          "gwmi ",
+          "get-ciminstance ",
+          "gcim "
+        ]
+      },
+      {
+        "ContextInfo|contains|all": [
+          "get-wmiobject ",
+          "gwmi ",
+          "get-ciminstance ",
+          "gcim "
+        ]
+      }
+    ],
+    "selection_wmi_class": [
+      {
+        "Payload|contains": "win32_group"
+      },
+      {
+        "ContextInfo|contains": "win32_group"
+      }
+    ],
+    "condition": "selection_localgroup or all of selection_wmi_*"
+  }
+}

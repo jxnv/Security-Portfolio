@@ -1,0 +1,13 @@
+# Title: Suspicious Modification Of Scheduled Tasks
+# ID: 1c0e41cd-21bb-4433-9acc-4a2cd6367b9b
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-07-28
+# Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.t1053.005
+# Description: Detects when an attacker tries to modify an already existing scheduled tasks to run from a suspicious location
+# Attackers can create a simple looking task in order to avoid detection on creation as it's often the most focused on
+# Instead they modify the task after creation to include their malicious payload
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog ((process_path="*\\schtasks.exe" AND (process_exec="* /Change *" AND process_exec="* /TN *")) AND ((process_exec="*regsvr32*" OR process_exec="*rundll32*" OR process_exec="*cmd /c *" OR process_exec="*cmd /k *" OR process_exec="*cmd /r *" OR process_exec="*cmd.exe /c *" OR process_exec="*cmd.exe /k *" OR process_exec="*cmd.exe /r *" OR process_exec="*powershell*" OR process_exec="*mshta*" OR process_exec="*wscript*" OR process_exec="*cscript*" OR process_exec="*certutil*" OR process_exec="*bitsadmin*" OR process_exec="*bash.exe*" OR process_exec="*bash *" OR process_exec="*scrcons*" OR process_exec="*wmic *" OR process_exec="*wmic.exe*" OR process_exec="*forfiles*" OR process_exec="*scriptrunner*" OR process_exec="*hh.exe*" OR process_exec="*hh *")) AND ((process_exec="*\\AppData\\Local\\Temp*" OR process_exec="*\\AppData\\Roaming\\*" OR process_exec="*\\Users\\Public\\*" OR process_exec="*\\WINDOWS\\Temp\\*" OR process_exec="*\\Desktop\\*" OR process_exec="*\\Downloads\\*" OR process_exec="*\\Temporary Internet*" OR process_exec="*C:\\ProgramData\\*" OR process_exec="*C:\\Perflogs\\*" OR process_exec="*%ProgramData%*" OR process_exec="*%appdata%*" OR process_exec="*%comspec%*" OR process_exec="*%localappdata%*")))

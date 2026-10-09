@@ -1,0 +1,11 @@
+-- Title: Suspicious Git Clone - Linux
+-- ID: cfec9d29-64ec-4a0f-9ffe-0fdb856d5446
+-- Status: test
+-- Level: medium
+-- Author: Nasreddine Bencherchali (Nextron Systems)
+-- Date: 2023-01-03
+-- Tags: attack.reconnaissance, attack.t1593.003
+-- Description: Detects execution of "git" in order to clone a remote repository that contain suspicious keywords which might be suspicious
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE ((Image ILIKE '%/git' AND CommandLine ILIKE '% clone %') AND ((CommandLine ILIKE '%exploit%' OR CommandLine ILIKE '%Vulns%' OR CommandLine ILIKE '%vulnerability%' OR CommandLine ILIKE '%RCE%' OR CommandLine ILIKE '%RemoteCodeExecution%' OR CommandLine ILIKE '%Invoke-%' OR CommandLine ILIKE '%CVE-%' OR CommandLine ILIKE '%poc-%' OR CommandLine ILIKE '%ProofOfConcept%' OR CommandLine ILIKE '%proxyshell%' OR CommandLine ILIKE '%log4shell%' OR CommandLine ILIKE '%eternalblue%' OR CommandLine ILIKE '%eternal-blue%' OR CommandLine ILIKE '%MS17-%')))

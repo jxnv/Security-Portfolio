@@ -1,0 +1,23 @@
+// Title: IE ZoneMap Setting Downgraded To MyComputer Zone For HTTP Protocols
+// ID: 3fd4c8d7-8362-4557-a8e6-83b29cc0d724
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems), Michael Haag (idea)
+// Date: 2023-09-05
+// Tags: attack.stealth
+// Description: Detects changes to Internet Explorer's (IE / Windows Internet properties) ZoneMap configuration of the "HTTP" and "HTTPS" protocols to point to the "My Computer" zone. This allows downloaded files from the Internet to be granted the same level of trust as files stored locally.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 3fd4c8d7_8362_4557_a8e6_83b29cc0d724 {
+  meta:
+    title = "IE ZoneMap Setting Downgraded To MyComputer Zone For HTTP Protocols"
+    description = "Detects changes to Internet Explorer's (IE / Windows Internet properties) ZoneMap configuration of the "HTTP" and "HTTPS" protocols to point to the "My Computer" zone. This allows downloaded files from the Internet to be granted the same level of trust as files stored locally."
+    author = "Nasreddine Bencherchali (Nextron Systems), Michael Haag (idea)"
+    severity = "HIGH"
+
+  events:
+    ($e.TargetObject = /.*\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\ZoneMap\\ProtocolDefaults.*/ nocase and ($e.TargetObject = /.*\\http$/ nocase or $e.TargetObject = /.*\\https$/ nocase) and $e.Details = /.*DWORD (0x00000000).*/ nocase)
+
+  condition:
+    $e
+}

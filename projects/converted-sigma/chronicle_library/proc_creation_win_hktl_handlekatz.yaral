@@ -1,0 +1,23 @@
+// Title: HackTool - HandleKatz LSASS Dumper Execution
+// ID: ca621ba5-54ab-4035-9942-d378e6fcde3c
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-08-18
+// Tags: attack.credential-access, attack.t1003.001
+// Description: Detects the use of HandleKatz, a tool that demonstrates the usage of cloned handles to Lsass in order to create an obfuscated memory dump of the same
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule ca621ba5_54ab_4035_9942_d378e6fcde3c {
+  meta:
+    title = "HackTool - HandleKatz LSASS Dumper Execution"
+    description = "Detects the use of HandleKatz, a tool that demonstrates the usage of cloned handles to Lsass in order to create an obfuscated memory dump of the same"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*--pid:.*/ nocase and $e.target.process.command_line = /.*--outfile:.*/ nocase) and ($e.target.process.command_line = /.*.dmp.*/ nocase or $e.target.process.command_line = /.*lsass.*/ nocase or $e.target.process.command_line = /.*.obf.*/ nocase or $e.target.process.command_line = /.*dump.*/ nocase)) or ($e.target.process.file.full_path = /.*\\loader.exe$/ nocase and $e.target.process.command_line = /.*--pid:.*/ nocase) or (($e.Hashes = /.*IMPHASH=38D9E015591BBFD4929E0D0F47FA0055.*/ nocase or $e.Hashes = /.*IMPHASH=0E2216679CA6E1094D63322E3412D650.*/ nocase)))
+
+  condition:
+    $e
+}

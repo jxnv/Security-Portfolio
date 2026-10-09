@@ -1,0 +1,24 @@
+// Title: Execution of Suspicious File Type Extension
+// ID: c09dad97-1c78-4f71-b127-7edb2b8e491a
+// Status: test
+// Level: medium
+// Author: Max Altgelt (Nextron Systems)
+// Date: 2021-12-09
+// Tags: attack.stealth
+// Description: Detects whether the image specified in a process creation event doesn't refer to an ".exe" (or other known executable extension) file. This can be caused by process ghosting or other unorthodox methods to start a process.
+// This rule might require some initial baselining to align with some third party tooling in the user environment.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule c09dad97_1c78_4f71_b127_7edb2b8e491a {
+  meta:
+    title = "Execution of Suspicious File Type Extension"
+    description = "Detects whether the image specified in a process creation event doesn't refer to an ".exe" (or other known executable extension) file. This can be caused by process ghosting or other unorthodox methods to start a process. This rule might require some initial baselining to align with some third party tooling in the user environment."
+    author = "Max Altgelt (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (not((($e.target.process.file.full_path = /.*.bin$/ nocase or $e.target.process.file.full_path = /.*.cgi$/ nocase or $e.target.process.file.full_path = /.*.com$/ nocase or $e.target.process.file.full_path = /.*.exe$/ nocase or $e.target.process.file.full_path = /.*.scr$/ nocase or $e.target.process.file.full_path = /.*.tmp$/ nocase))) and not((($e.target.process.file.full_path = /.*:\\$Extend\\$Deleted\\.*/ nocase) or ($e.target.process.file.full_path = /.*:\\Windows\\System32\\DriverStore\\FileRepository\\.*/ nocase) or (($e.target.process.file.full_path = "-" or $e.target.process.file.full_path = "")) or (($e.target.process.file.full_path = "System" or $e.target.process.file.full_path = "Registry" or $e.target.process.file.full_path = "MemCompression" or $e.target.process.file.full_path = "vmmem")) or ($e.target.process.file.full_path = /.*:\\Windows\\Installer\\MSI.*/ nocase) or ($e.target.process.file.full_path = /.*:\\Config.Msi\\.*/ nocase and ($e.target.process.file.full_path = /.*.rbf$/ nocase or $e.target.process.file.full_path = /.*.rbs$/ nocase)) or (not ($e.target.process.file.full_path = /.*/)) or (($e.principal.process.file.full_path = /.*:\\Windows\\Temp\\.*/ nocase) or ($e.target.process.file.full_path = /.*:\\Windows\\Temp\\.*/ nocase)))) and not((($e.principal.process.file.full_path = /.*:\\ProgramData\\Avira\\.*/ nocase) or ($e.principal.process.file.full_path = "C:\\Windows\\System32\\services.exe" and $e.target.process.file.full_path = /.*com.docker.service$/ nocase) or ($e.target.process.file.full_path = /.*:\\Program Files\\Mozilla Firefox\\.*/ nocase) or ($e.target.process.file.full_path = /.*\\LZMA_EXE$/ nocase) or (($e.target.process.file.full_path = /.*:\\Program Files (x86)\\MyQ\\Server\\pcltool.dll$/ nocase or $e.target.process.file.full_path = /.*:\\Program Files\\MyQ\\Server\\pcltool.dll$/ nocase)) or ($e.target.process.file.full_path = /.*NVIDIA\\NvBackend\\.*/ nocase and $e.target.process.file.full_path = /.*.dat$/ nocase) or (($e.target.process.file.full_path = /.*:\\Program Files (x86)\\WINPAKPRO\\.*/ nocase or $e.target.process.file.full_path = /.*:\\Program Files\\WINPAKPRO\\.*/ nocase) and $e.target.process.file.full_path = /.*.ngn$/ nocase) or (($e.target.process.file.full_path = /.*\\AppData\\Local\\Packages\\.*/ nocase and $e.target.process.file.full_path = /.*\\LocalState\\rootfs\\.*/ nocase)))))
+
+  condition:
+    $e
+}

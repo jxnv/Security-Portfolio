@@ -1,0 +1,32 @@
+{
+  "title": "Microsoft Excel Add-In Loaded From Uncommon Location",
+  "id": "af4c4609-5755-42fe-8075-4effb49f5d44",
+  "status": "test",
+  "description": "Detects Microsoft Excel loading an Add-In (.xll) file from an uncommon location",
+  "author": "Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2023-05-12",
+  "tags": [
+    "attack.execution",
+    "attack.t1204.002"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "image_load",
+    "product": "windows"
+  },
+  "detection": {
+    "selection": {
+      "Image|endswith": "\\excel.exe",
+      "ImageLoaded|contains": [
+        "\\Desktop\\",
+        "\\Downloads\\",
+        "\\Perflogs\\",
+        "\\Temp\\",
+        "\\Users\\Public\\",
+        "\\Windows\\Tasks\\"
+      ],
+      "ImageLoaded|endswith": ".xll"
+    },
+    "condition": "selection"
+  }
+}

@@ -1,0 +1,23 @@
+// Title: Potential Linux Process Code Injection Via DD Utility
+// ID: 4cad6c64-d6df-42d6-8dae-eb78defdc415
+// Status: test
+// Level: medium
+// Author: Joseph Kamau
+// Date: 2023-12-01
+// Tags: attack.privilege-escalation, attack.stealth, attack.t1055.009
+// Description: Detects the injection of code by overwriting the memory map of a Linux process using the "dd" Linux command.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 4cad6c64_d6df_42d6_8dae_eb78defdc415 {
+  meta:
+    title = "Potential Linux Process Code Injection Via DD Utility"
+    description = "Detects the injection of code by overwriting the memory map of a Linux process using the "dd" Linux command."
+    author = "Joseph Kamau"
+    severity = "MEDIUM"
+
+  events:
+    ($e.target.process.file.full_path = /.*/dd$/ nocase and ($e.target.process.command_line = /.*of=.*/ nocase and $e.target.process.command_line = /.*/proc/.*/ nocase and $e.target.process.command_line = /.*/mem.*/ nocase))
+
+  condition:
+    $e
+}

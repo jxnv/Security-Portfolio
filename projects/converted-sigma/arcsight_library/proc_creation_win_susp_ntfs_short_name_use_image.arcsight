@@ -1,0 +1,11 @@
+// Title: Use NTFS Short Name in Image
+// ID: 3ef5605c-9eb9-47b0-9a71-b727e6aa5c3b
+// Status: test
+// Level: medium
+// Author: frack113, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-06
+// Tags: attack.stealth, attack.t1564.004
+// Description: Detect use of the Windows 8.3 short name. Which could be used as a method to avoid Image based detection
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((Image CONTAINS "~1.bat" OR Image CONTAINS "~1.dll" OR Image CONTAINS "~1.exe" OR Image CONTAINS "~1.hta" OR Image CONTAINS "~1.js" OR Image CONTAINS "~1.msi" OR Image CONTAINS "~1.ps1" OR Image CONTAINS "~1.tmp" OR Image CONTAINS "~1.vbe" OR Image CONTAINS "~1.vbs" OR Image CONTAINS "~2.bat" OR Image CONTAINS "~2.dll" OR Image CONTAINS "~2.exe" OR Image CONTAINS "~2.hta" OR Image CONTAINS "~2.js" OR Image CONTAINS "~2.msi" OR Image CONTAINS "~2.ps1" OR Image CONTAINS "~2.tmp" OR Image CONTAINS "~2.vbe" OR Image CONTAINS "~2.vbs")) AND NOT ((ParentImage EQ "C:\\Windows\\explorer.exe")) AND NOT (((ParentImage ENDSWITH "\\thor\\thor64.exe") OR (Image ENDSWITH "\\VCREDI~1.EXE") OR (ParentImage ENDSWITH "\\WebEx\\WebexHost.exe") OR (Image EQ "C:\\PROGRA~1\\WinZip\\WZPREL~1.EXE"))))

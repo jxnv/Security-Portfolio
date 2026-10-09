@@ -1,0 +1,19 @@
+# Title: Windows Defender Submit Sample Feature Disabled
+# ID: 91903aba-1088-42ee-b680-d6d94fe002b0
+# Status: stable
+# Level: low
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-12-06
+# Tags: attack.defense-impairment, attack.t1685
+# Description: Detects disabling of the "Automatic Sample Submission" feature of Windows Defender.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Windows Defender Submit Sample Feature Disabled
+def rule(event):
+    # Detection Logic:
+    # (EventID="5007" AND NewValue="*\\Real-Time Protection\\SubmitSamplesConsent = 0x0*")
+    return True
+
+def title(event):
+    return "Windows Defender Submit Sample Feature Disabled"
+

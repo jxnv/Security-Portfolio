@@ -1,0 +1,23 @@
+// Title: Suspicious PowerShell Download and Execute Pattern
+// ID: e6c54d94-498c-4562-a37c-b469d8e9a275
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-02-28
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects suspicious PowerShell download patterns that are often used in malicious scripts, stagers or downloaders (make sure that your backend applies the strings case-insensitive)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule e6c54d94_498c_4562_a37c_b469d8e9a275 {
+  meta:
+    title = "Suspicious PowerShell Download and Execute Pattern"
+    description = "Detects suspicious PowerShell download patterns that are often used in malicious scripts, stagers or downloaders (make sure that your backend applies the strings case-insensitive)"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.command_line = /.*IEX ((New-Object Net.WebClient).DownloadString.*/ nocase or $e.target.process.command_line = /.*IEX (New-Object Net.WebClient).DownloadString.*/ nocase or $e.target.process.command_line = /.*IEX((New-Object Net.WebClient).DownloadString.*/ nocase or $e.target.process.command_line = /.*IEX(New-Object Net.WebClient).DownloadString.*/ nocase or $e.target.process.command_line = /.* -command (New-Object System.Net.WebClient).DownloadFile(.*/ nocase or $e.target.process.command_line = /.* -c (New-Object System.Net.WebClient).DownloadFile(.*/ nocase))
+
+  condition:
+    $e
+}

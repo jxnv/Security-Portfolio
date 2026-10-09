@@ -1,0 +1,19 @@
+# Title: Azure AD Account Credential Leaked
+# ID: 19128e5e-4743-48dc-bd97-52e5775af817
+# Status: test
+# Level: high
+# Author: Mark Morowczynski '@markmorow', Gloria Lee, '@gleeiamglo'
+# Date: 2023-09-03
+# Tags: attack.t1589, attack.reconnaissance
+# Description: Indicates that the user's valid credentials have been leaked.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Azure AD Account Credential Leaked
+def rule(event):
+    # Detection Logic:
+    # (riskEventType="leakedCredentials")
+    return True
+
+def title(event):
+    return "Azure AD Account Credential Leaked"
+

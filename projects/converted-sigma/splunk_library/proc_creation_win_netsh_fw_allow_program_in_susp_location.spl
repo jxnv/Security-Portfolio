@@ -1,0 +1,11 @@
+# Title: Suspicious Program Location Whitelisted In Firewall Via Netsh.EXE
+# ID: a35f5a72-f347-4e36-8895-9869b0d5fc6d
+# Status: test
+# Level: high
+# Author: Sander Wiebing, Jonhnathan Ribeiro, Daniil Yugoslavskiy, oscd.community
+# Date: 2020-05-25
+# Tags: attack.defense-impairment, attack.t1686.003
+# Description: Detects Netsh command execution that whitelists a program located in a suspicious location in the Windows Firewall
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog ((((process_exec="*firewall*" AND process_exec="*add*" AND process_exec="*allowedprogram*")) OR ((process_exec="*advfirewall*" AND process_exec="*firewall*" AND process_exec="*add*" AND process_exec="*rule*" AND process_exec="*action=allow*" AND process_exec="*program=*"))) AND ((process_path="*\\netsh.exe") OR (process_name="netsh.exe")) AND ((process_exec="*:\\$Recycle.bin\\*" OR process_exec="*:\\RECYCLER.BIN\\*" OR process_exec="*:\\RECYCLERS.BIN\\*" OR process_exec="*:\\SystemVolumeInformation\\*" OR process_exec="*:\\Temp\\*" OR process_exec="*:\\Users\\Default\\*" OR process_exec="*:\\Users\\Desktop\\*" OR process_exec="*:\\Users\\Public\\*" OR process_exec="*:\\Windows\\addins\\*" OR process_exec="*:\\Windows\\cursors\\*" OR process_exec="*:\\Windows\\debug\\*" OR process_exec="*:\\Windows\\drivers\\*" OR process_exec="*:\\Windows\\fonts\\*" OR process_exec="*:\\Windows\\help\\*" OR process_exec="*:\\Windows\\system32\\tasks\\*" OR process_exec="*:\\Windows\\Tasks\\*" OR process_exec="*:\\Windows\\Temp\\*" OR process_exec="*\\Downloads\\*" OR process_exec="*\\Local Settings\\Temporary Internet Files\\*" OR process_exec="*\\Temporary Internet Files\\Content.Outlook\\*" OR process_exec="*%Public%\\*" OR process_exec="*%TEMP%*" OR process_exec="*%TMP%*")))

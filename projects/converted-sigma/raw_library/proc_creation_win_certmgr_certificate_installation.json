@@ -1,0 +1,34 @@
+{
+  "title": "New Root Certificate Installed Via CertMgr.EXE",
+  "id": "ff992eac-6449-4c60-8c1d-91c9722a1d48",
+  "status": "test",
+  "description": "Detects execution of \"certmgr\" with the \"add\" flag in order to install a new certificate on the system.\nAdversaries may install a root certificate on a compromised system to avoid warnings when connecting to adversary controlled web servers.\n",
+  "author": "oscd.community, @redcanary, Zach Stanford @svch0st",
+  "date": "2023-03-05",
+  "tags": [
+    "attack.defense-impairment",
+    "attack.t1553.004"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_img": [
+      {
+        "Image|endswith": "\\CertMgr.exe"
+      },
+      {
+        "OriginalFileName": "CERTMGT.EXE"
+      }
+    ],
+    "selection_cli": {
+      "CommandLine|contains|all": [
+        "/add",
+        "root"
+      ]
+    },
+    "condition": "all of selection_*"
+  }
+}

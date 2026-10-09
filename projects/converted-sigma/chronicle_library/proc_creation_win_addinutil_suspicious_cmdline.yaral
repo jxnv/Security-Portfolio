@@ -1,0 +1,23 @@
+// Title: Suspicious AddinUtil.EXE CommandLine Execution
+// ID: 631b22a4-70f4-4e2f-9ea8-42f84d9df6d8
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems), Michael McKinley (@McKinleyMike), Tony Latteri (@TheLatteri)
+// Date: 2023-09-18
+// Tags: attack.stealth, attack.t1218
+// Description: Detects execution of the Add-In deployment cache updating utility (AddInutil.exe) with suspicious Addinroot or Pipelineroot paths. An adversary may execute AddinUtil.exe with uncommon Addinroot/Pipelineroot paths that point to the adversaries Addins.Store payload.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 631b22a4_70f4_4e2f_9ea8_42f84d9df6d8 {
+  meta:
+    title = "Suspicious AddinUtil.EXE CommandLine Execution"
+    description = "Detects execution of the Add-In deployment cache updating utility (AddInutil.exe) with suspicious Addinroot or Pipelineroot paths. An adversary may execute AddinUtil.exe with uncommon Addinroot/Pipelineroot paths that point to the adversaries Addins.Store payload."
+    author = "Nasreddine Bencherchali (Nextron Systems), Michael McKinley (@McKinleyMike), Tony Latteri (@TheLatteri)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.file.full_path = /.*\\addinutil.exe$/ nocase) or ($e.target.process.file.name = "AddInUtil.exe")) and (((($e.target.process.command_line = /.*-AddInRoot:.*/ nocase or $e.target.process.command_line = /.*-PipelineRoot:.*/ nocase)) and (($e.target.process.command_line = /.*\\AppData\\Local\\Temp\\.*/ nocase or $e.target.process.command_line = /.*\\Desktop\\.*/ nocase or $e.target.process.command_line = /.*\\Downloads\\.*/ nocase or $e.target.process.command_line = /.*\\Users\\Public\\.*/ nocase or $e.target.process.command_line = /.*\\Windows\\Temp\\.*/ nocase))) or (($e.target.process.command_line = /.*-AddInRoot:..*/ nocase or $e.target.process.command_line = /.*-AddInRoot:\".\".*/ nocase or $e.target.process.command_line = /.*-PipelineRoot:..*/ nocase or $e.target.process.command_line = /.*-PipelineRoot:\".\".*/ nocase) and ($e.CurrentDirectory = /.*\\AppData\\Local\\Temp\\.*/ nocase or $e.CurrentDirectory = /.*\\Desktop\\.*/ nocase or $e.CurrentDirectory = /.*\\Downloads\\.*/ nocase or $e.CurrentDirectory = /.*\\Users\\Public\\.*/ nocase or $e.CurrentDirectory = /.*\\Windows\\Temp\\.*/ nocase))))
+
+  condition:
+    $e
+}

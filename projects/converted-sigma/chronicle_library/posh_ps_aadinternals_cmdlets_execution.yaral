@@ -1,0 +1,23 @@
+// Title: AADInternals PowerShell Cmdlets Execution - PsScript
+// ID: 91e69562-2426-42ce-a647-711b8152ced6
+// Status: test
+// Level: high
+// Author: Austin Songer (@austinsonger), Nasreddine Bencherchali (Nextron Systems), Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2022-12-23
+// Tags: attack.execution, attack.reconnaissance, attack.discovery, attack.credential-access, attack.impact
+// Description: Detects ADDInternals Cmdlet execution. A tool for administering Azure AD and Office 365. Which can be abused by threat actors to attack Azure AD or Office 365.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 91e69562_2426_42ce_a647_711b8152ced6 {
+  meta:
+    title = "AADInternals PowerShell Cmdlets Execution - PsScript"
+    description = "Detects ADDInternals Cmdlet execution. A tool for administering Azure AD and Office 365. Which can be abused by threat actors to attack Azure AD or Office 365."
+    author = "Austin Songer (@austinsonger), Nasreddine Bencherchali (Nextron Systems), Swachchhanda Shrawan Poudel (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.ScriptBlockText = /.*Add-AADInt.*/ nocase or $e.ScriptBlockText = /.*ConvertTo-AADInt.*/ nocase or $e.ScriptBlockText = /.*Disable-AADInt.*/ nocase or $e.ScriptBlockText = /.*Enable-AADInt.*/ nocase or $e.ScriptBlockText = /.*Export-AADInt.*/ nocase or $e.ScriptBlockText = /.*Find-AADInt.*/ nocase or $e.ScriptBlockText = /.*Get-AADInt.*/ nocase or $e.ScriptBlockText = /.*Grant-AADInt.*/ nocase or $e.ScriptBlockText = /.*Initialize-AADInt.*/ nocase or $e.ScriptBlockText = /.*Install-AADInt.*/ nocase or $e.ScriptBlockText = /.*Invoke-AADInt.*/ nocase or $e.ScriptBlockText = /.*Join-AADInt.*/ nocase or $e.ScriptBlockText = /.*New-AADInt.*/ nocase or $e.ScriptBlockText = /.*Open-AADInt.*/ nocase or $e.ScriptBlockText = /.*Read-AADInt.*/ nocase or $e.ScriptBlockText = /.*Register-AADInt.*/ nocase or $e.ScriptBlockText = /.*Remove-AADInt.*/ nocase or $e.ScriptBlockText = /.*Reset-AADInt.*/ nocase or $e.ScriptBlockText = /.*Resolve-AADInt.*/ nocase or $e.ScriptBlockText = /.*Restore-AADInt.*/ nocase or $e.ScriptBlockText = /.*Save-AADInt.*/ nocase or $e.ScriptBlockText = /.*Search-AADInt.*/ nocase or $e.ScriptBlockText = /.*Send-AADInt.*/ nocase or $e.ScriptBlockText = /.*Set-AADInt.*/ nocase or $e.ScriptBlockText = /.*Start-AADInt.*/ nocase or $e.ScriptBlockText = /.*Unprotect-AADInt.*/ nocase or $e.ScriptBlockText = /.*Update-AADInt.*/ nocase))
+
+  condition:
+    $e
+}

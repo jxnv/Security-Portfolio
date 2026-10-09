@@ -1,0 +1,19 @@
+# Title: Roles Assigned Outside PIM
+# ID: b1bc08d1-8224-4758-a0e6-fbcfc98c73bb
+# Status: test
+# Level: high
+# Author: Mark Morowczynski '@markmorow', Gloria Lee, '@gleeiamglo'
+# Date: 2023-09-14
+# Tags: attack.initial-access, attack.stealth, attack.t1078, attack.persistence, attack.privilege-escalation
+# Description: Identifies when a privilege role assignment has taken place outside of PIM and may indicate an attack.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Roles Assigned Outside PIM
+def rule(event):
+    # Detection Logic:
+    # (riskEventType="rolesAssignedOutsidePrivilegedIdentityManagementAlertConfiguration")
+    return True
+
+def title(event):
+    return "Roles Assigned Outside PIM"
+

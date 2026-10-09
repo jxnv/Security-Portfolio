@@ -1,0 +1,23 @@
+// Title: Service Binary in Suspicious Folder
+// ID: a07f0359-4c90-4dc4-a681-8ffea40b4f47
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), frack113
+// Date: 2022-05-02
+// Tags: attack.persistence, attack.defense-impairment, attack.t1112
+// Description: Detect the creation of a service with a service binary located in a suspicious directory
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule a07f0359_4c90_4dc4_a681_8ffea40b4f47 {
+  meta:
+    title = "Service Binary in Suspicious Folder"
+    description = "Detect the creation of a service with a service binary located in a suspicious directory"
+    author = "Florian Roth (Nextron Systems), frack113"
+    severity = "HIGH"
+
+  events:
+    ((($e.TargetObject = /^HKLM\\System\\CurrentControlSet\\Services\\.*/ nocase and $e.TargetObject = /.*\\ImagePath$/ nocase and ($e.Details = /.*\\Users\\Public\\.*/ nocase or $e.Details = /.*\\Perflogs\\.*/ nocase or $e.Details = /.*\\ADMIN$\\.*/ nocase or $e.Details = /.*\\Temp\\.*/ nocase)) or ($e.TargetObject = /^HKLM\\System\\CurrentControlSet\\Services\\.*/ nocase and $e.TargetObject = /.*\\Start$/ nocase and ($e.target.process.file.full_path = /.*\\Users\\Public\\.*/ nocase or $e.target.process.file.full_path = /.*\\Perflogs\\.*/ nocase or $e.target.process.file.full_path = /.*\\ADMIN$\\.*/ nocase or $e.target.process.file.full_path = /.*\\Temp\\.*/ nocase) and ($e.Details = "DWORD (0x00000000)" or $e.Details = "DWORD (0x00000001)" or $e.Details = "DWORD (0x00000002)"))) and not(((($e.target.process.file.full_path = /.*\\Common Files\\.*/ nocase and $e.target.process.file.full_path = /.*\\Temp\\.*/ nocase)) or ($e.TargetObject = /.*\\CurrentControlSet\\Services\\MBAMInstallerService\\ImagePath$/ nocase and $e.Details = /.*\\AppData\\Local\\Temp\\MBAMInstallerService.exe\"$/ nocase and $e.target.process.file.full_path = "C:\\Windows\\system32\\services.exe"))))
+
+  condition:
+    $e
+}

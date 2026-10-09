@@ -1,0 +1,12 @@
+// Title: Permission Misconfiguration Reconnaissance Via Findstr.EXE
+// ID: 47e4bab7-c626-47dc-967b-255608c9a920
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-12
+// Tags: attack.credential-access, attack.t1552.006
+// Description: Detects usage of findstr with the "EVERYONE" or "BUILTIN" keywords.
+// This was seen being used in combination with "icacls" and other utilities to spot misconfigured files or folders permissions.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((where(CommandLine ICONTAINS "\"Everyone\"") OR where(CommandLine ICONTAINS "'Everyone'") OR where(CommandLine ICONTAINS "\"BUILTIN\\\\\"") OR where(CommandLine ICONTAINS "'BUILTIN\\'"))) AND (((where(Image IENDSWITH "\\find.exe") OR where(Image IENDSWITH "\\findstr.exe"))) OR ((where(OriginalFileName = "FIND.EXE") OR where(OriginalFileName = "FINDSTR.EXE"))))) OR ((where(CommandLine ICONTAINS "icacls ") AND where(CommandLine ICONTAINS "findstr ") AND where(CommandLine ICONTAINS "Everyone"))))

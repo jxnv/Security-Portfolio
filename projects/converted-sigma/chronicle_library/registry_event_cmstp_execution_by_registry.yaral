@@ -1,0 +1,24 @@
+// Title: CMSTP App Paths Registry Key Modification
+// ID: b6d235fc-1d38-4b12-adbe-325f06728f37
+// Status: stable
+// Level: high
+// Author: Nik Seetharaman
+// Date: 2018-07-16
+// Tags: attack.execution, attack.stealth, attack.t1218.003, attack.g0069, car.2019-04-001
+// Description: Detects modifications to the CMSTP App Paths registry key. This may indicate abuse of
+// Microsoft Connection Manager Profile Installer (CMSTP) for arbitrary code execution or UAC bypass.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule b6d235fc_1d38_4b12_adbe_325f06728f37 {
+  meta:
+    title = "CMSTP App Paths Registry Key Modification"
+    description = "Detects modifications to the CMSTP App Paths registry key. This may indicate abuse of Microsoft Connection Manager Profile Installer (CMSTP) for arbitrary code execution or UAC bypass."
+    author = "Nik Seetharaman"
+    severity = "HIGH"
+
+  events:
+    (($e.TargetObject = /.*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\cmmgr32.exe\\.*/ nocase) and not((($e.TargetObject = /.*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\cmmgr32.exe\\CmstpExtensionDll$/ nocase and ($e.Details = "C:\\Windows\\System32\\cmcfg32.dll" or $e.Details = "C:\\Windows\\SysWOW64\\cmcfg32.dll")) or ($e.Details = "(Empty)"))))
+
+  condition:
+    $e
+}

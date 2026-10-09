@@ -1,0 +1,11 @@
+-- Title: Whoami.EXE Execution From Privileged Process
+-- ID: 79ce34ca-af29-4d0e-b832-fc1b377020db
+-- Status: test
+-- Level: high
+-- Author: Florian Roth (Nextron Systems), Teymur Kheirkhabarov
+-- Date: 2022-01-28
+-- Tags: attack.privilege-escalation, attack.discovery, attack.t1033
+-- Description: Detects the execution of "whoami.exe" by privileged accounts that are often abused by threat actors
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE (((OriginalFileName = 'whoami.exe') OR (Image ILIKE '%\\whoami.exe')) AND ((User ILIKE '%AUTHORI%' OR User ILIKE '%AUTORI%' OR User ILIKE '%TrustedInstaller%')))

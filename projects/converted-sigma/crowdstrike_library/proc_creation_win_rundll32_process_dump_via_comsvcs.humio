@@ -1,0 +1,11 @@
+// Title: Process Memory Dump Via Comsvcs.DLL
+// ID: 646ea171-dded-4578-8a4d-65e9822892e3
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Modexp, Nasreddine Bencherchali (Nextron Systems), Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2020-02-18
+// Tags: attack.credential-access, attack.stealth, attack.t1036, attack.t1003.001, car.2013-05-009
+// Description: Detects a process memory dump via "comsvcs.dll" using rundll32, covering multiple different techniques (ordinal, minidump function, etc.)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((ImageFileName = /.*\\rundll32.exe/i) or (OriginalFilename = "RUNDLL32.EXE") or (CommandLine = /*rundll32*/i)) and ((CommandLine = /*comsvcs*/i and CommandLine = /*full*/i) and (CommandLine = /*#-*/i or CommandLine = /*#+*/i or CommandLine = /*#24*/i or CommandLine = /*24 */i or CommandLine = /*MiniDump*/i or CommandLine = /*#65560*/i))) or ((CommandLine = /*24*/i and CommandLine = /*comsvcs*/i and CommandLine = /*full*/i) and (CommandLine = /* #*/i or CommandLine = /*,#*/i or CommandLine = /*, #*/i or CommandLine = /*\"#*/i)))

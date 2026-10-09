@@ -1,0 +1,11 @@
+// Title: HTTP Request to Low Reputation TLD or Suspicious File Extension
+// ID: 68c2c604-92ad-468b-bf4a-aac49adad08c
+// Status: experimental
+// Level: medium
+// Author: @signalblur, Corelight
+// Date: 2025-02-26
+// Tags: attack.initial-access, attack.command-and-control
+// Description: Detects HTTP requests to low reputation TLDs (e.g. .xyz, .top, .ru) or ending in suspicious file extensions (.exe, .dll, .hta), which may indicate malicious activity.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where (((host matches "*.bid" or host matches "*.by" or host matches "*.cf" or host matches "*.click" or host matches "*.cm" or host matches "*.ga" or host matches "*.gq" or host matches "*.ir" or host matches "*.kp" or host matches "*.loan" or host matches "*.ml" or host matches "*.mm" or host matches "*.party" or host matches "*.pw" or host matches "*.ru" or host matches "*.su" or host matches "*.sy" or host matches "*.tk" or host matches "*.top" or host matches "*.tv" or host matches "*.ve" or host matches "*.work" or host matches "*.xyz")) and (((uri matches "*.bat" or uri matches "*.bin" or uri matches "*.cmd" or uri matches "*.cpl" or uri matches "*.dll" or uri matches "*.dylib" or uri matches "*.elf" or uri matches "*.exe" or uri matches "*.hta" or uri matches "*.iso" or uri matches "*.jar" or uri matches "*.js" or uri matches "*.lnk" or uri matches "*.msi" or uri matches "*.pif" or uri matches "*.ps1" or uri matches "*.py" or uri matches "*.reg" or uri matches "*.scr" or uri matches "*.sh" or uri matches "*.so" or uri matches "*.vbs" or uri matches "*.wsf")) or ((resp_mime_types = "application/vnd.microsoft.portable-executable" or resp_mime_types = "application/x-bat" or resp_mime_types = "application/x-dosexec" or resp_mime_types = "application/x-elf" or resp_mime_types = "application/x-iso9660-image" or resp_mime_types = "application/x-java-archive" or resp_mime_types = "application/x-ms-shortcut" or resp_mime_types = "application/x-msdos-program" or resp_mime_types = "application/x-msdownload" or resp_mime_types = "application/x-python-code" or resp_mime_types = "application/x-sh"))))

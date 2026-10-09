@@ -1,0 +1,26 @@
+// Title: NodeJS Execution of JavaScript File
+// ID: ba3874b9-0fae-465f-836c-eb5d071a1789
+// Status: experimental
+// Level: low
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-04-21
+// Tags: attack.execution, attack.t1059.007
+// Description: Detects execution of JavaScript or JSC files using NodeJs binary node.exe, that could be potentially suspicious.
+// Node.js is a popular open-source JavaScript runtime that runs code outside browsers and is widely used for both frontend and backend development.
+// Adversaries have been observed abusing Node.js to disguise malware as legitimate processes, evade security defenses, and maintain persistence within target systems.
+// Because Node.js is commonly used, this rule may generate false positives in some environments. However, if such activity is unusual in your environment, it is highly suspicious and warrants immediate investigation.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule ba3874b9_0fae_465f_836c_eb5d071a1789 {
+  meta:
+    title = "NodeJS Execution of JavaScript File"
+    description = "Detects execution of JavaScript or JSC files using NodeJs binary node.exe, that could be potentially suspicious. Node.js is a popular open-source JavaScript runtime that runs code outside browsers and is widely used for both frontend and backend development. Adversaries have been observed abusing Node.js to disguise malware as legitimate processes, evade security defenses, and maintain persistence within target systems. Because Node.js is commonly used, this rule may generate false positives in some environments. However, if such activity is unusual in your environment, it is highly suspicious and warrants immediate investigation."
+    author = "Swachchhanda Shrawan Poudel (Nextron Systems)"
+    severity = "LOW"
+
+  events:
+    (($e.target.process.command_line = /.*.js.*/ nocase) and (($e.target.process.file.full_path = /.*\\node.exe$/ nocase) or ($e.target.process.file.name = "node.exe") or ($e.Product = "Node.js")))
+
+  condition:
+    $e
+}

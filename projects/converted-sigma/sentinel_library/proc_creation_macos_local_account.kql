@@ -1,0 +1,12 @@
+// Title: Local System Accounts Discovery - MacOs
+// ID: ddf36b67-e872-4507-ab2e-46bda21b842c
+// Status: test
+// Level: low
+// Author: Alejandro Ortuno, oscd.community
+// Date: 2020-10-08
+// Tags: attack.discovery, attack.t1087.001
+// Description: Detects enumeration of local system accounts on MacOS systems.
+// This can be used by attackers to identify accounts for lateral movement or privilege escalation.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+DeviceProcessEvents | where ((FolderPath endswith "/dscacheutil" and (ProcessCommandLine contains "-q" and ProcessCommandLine contains "user")) or (FolderPath endswith "/dscl" and (ProcessCommandLine contains "list" and ProcessCommandLine contains "/users")) or (FolderPath endswith "/ls" and (ProcessCommandLine endswith "/Users" or ProcessCommandLine endswith "/Users'" or ProcessCommandLine endswith "/Users\"")) or (FolderPath endswith "/id") or ((FolderPath endswith "/who" or FolderPath endswith "/w" or FolderPath endswith "/users" or FolderPath endswith "/last")) or ((FolderPath endswith "/defaults" or FolderPath endswith "/plutil") and ProcessCommandLine contains "com.apple.loginwindow") or (FolderPath endswith "/lsof" and ProcessCommandLine contains "-u") or ((FolderPath endswith "/cat" or FolderPath endswith "/awk" or FolderPath endswith "/grep") and (ProcessCommandLine contains "/etc/passwd" or ProcessCommandLine contains "/etc/sudoers")) or (ProcessCommandLine contains "'*:0:'"))

@@ -1,0 +1,21 @@
+# Title: Renamed Schtasks Execution
+# ID: f91e51c9-f344-4b32-969b-0b6f6b8537d4
+# Status: experimental
+# Level: high
+# Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+# Date: 2025-11-27
+# Tags: attack.execution, attack.persistence, attack.privilege-escalation, attack.stealth, attack.t1036.003, attack.t1053.005
+# Description: Detects the execution of renamed schtasks.exe binary, which is a legitimate Windows utility used for scheduling tasks.
+# One of the very common persistence techniques is schedule malicious tasks using schtasks.exe.
+# Since, it is heavily abused, it is also heavily monitored by security products. To evade detection, threat actors may rename the schtasks.exe binary to schedule their malicious tasks.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Renamed Schtasks Execution
+def rule(event):
+    # Detection Logic:
+    # (((((CommandLine="* /tn *" OR CommandLine="* /tr *" OR CommandLine="* /sc *" OR CommandLine="* /st *" OR CommandLine="* /ru *" OR CommandLine="* /fo *")) AND ((CommandLine="* /create *" OR CommandLine="* /delete *" OR CommandLine="* /query *" OR CommandLine="* /change *" OR CommandLine="* /run *" OR CommandLine="* /end *"))) AND NOT ((CommandLine="*schtasks*")) AND NOT (((CommandLine="*openfiles*" AND CommandLine="* /query *" AND CommandLine="* /fo*")))) OR ((OriginalFileName="schtasks.exe") AND NOT ((Image="*\\schtasks.exe"))))
+    return True
+
+def title(event):
+    return "Renamed Schtasks Execution"
+

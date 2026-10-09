@@ -1,0 +1,19 @@
+# Title: Azure Owner Removed From Application or Service Principal
+# ID: 636e30d5-3736-42ea-96b1-e6e2f8429fd6
+# Status: test
+# Level: medium
+# Author: Austin Songer @austinsonger
+# Date: 2021-09-03
+# Tags: attack.stealth
+# Description: Identifies when a owner is was removed from a application or service principal in Azure.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Azure Owner Removed From Application or Service Principal
+def rule(event):
+    # Detection Logic:
+    # ((operationName="Remove owner from service principal" OR operationName="Remove owner from application"))
+    return True
+
+def title(event):
+    return "Azure Owner Removed From Application or Service Principal"
+

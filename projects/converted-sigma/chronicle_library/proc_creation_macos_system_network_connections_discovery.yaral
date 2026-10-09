@@ -1,0 +1,23 @@
+// Title: System Network Connections Discovery - MacOs
+// ID: 9a7a0393-2144-4626-9bf1-7c2f5a7321db
+// Status: test
+// Level: informational
+// Author: Daniil Yugoslavskiy, oscd.community
+// Date: 2020-10-19
+// Tags: attack.discovery, attack.t1049
+// Description: Detects usage of system utilities to discover system network connections
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 9a7a0393_2144_4626_9bf1_7c2f5a7321db {
+  meta:
+    title = "System Network Connections Discovery - MacOs"
+    description = "Detects usage of system utilities to discover system network connections"
+    author = "Daniil Yugoslavskiy, oscd.community"
+    severity = "INFORMATIONAL"
+
+  events:
+    (($e.target.process.file.full_path = /.*/who$/ nocase or $e.target.process.file.full_path = /.*/w$/ nocase or $e.target.process.file.full_path = /.*/last$/ nocase or $e.target.process.file.full_path = /.*/lsof$/ nocase or $e.target.process.file.full_path = /.*/netstat$/ nocase))
+
+  condition:
+    $e
+}

@@ -1,0 +1,11 @@
+# Title: Potential Data Exfiltration Activity Via CommandLine Tools
+# ID: 7d1aaf3d-4304-425c-b7c3-162055e0b3ab
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-08-02
+# Tags: attack.execution, attack.t1059.001
+# Description: Detects the use of various CLI utilities exfiltrating data via web requests
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog ((((process_path="*\\powershell_ise.exe" OR process_path="*\\powershell.exe" OR process_path="*\\pwsh.exe" OR process_path="*\\cmd.exe") AND (process_exec="*curl *" OR process_exec="*Invoke-RestMethod*" OR process_exec="*Invoke-WebRequest*" OR process_exec="*irm *" OR process_exec="*iwr *" OR process_exec="*wget *") AND (process_exec="* -ur*" AND process_exec="* -me*" AND process_exec="* -b*" AND process_exec="* POST *")) OR ((process_path="*\\curl.exe" AND process_exec="*--ur*") AND ((process_exec="* -d *" OR process_exec="* --data *"))) OR (process_path="*\\wget.exe" AND (process_exec="*--post-data*" OR process_exec="*--post-file*"))) AND (((regex process_exec="(?i)net\\s+view" OR regex process_exec="(?i)sc\\s+query")) OR ((process_exec="*Get-Content*" OR process_exec="*GetBytes*" OR process_exec="*hostname*" OR process_exec="*ifconfig*" OR process_exec="*ipconfig*" OR process_exec="*netstat*" OR process_exec="*nltest*" OR process_exec="*qprocess*" OR process_exec="*systeminfo*" OR process_exec="*tasklist*" OR process_exec="*ToBase64String*" OR process_exec="*whoami*")) OR ((process_exec="*type *" AND process_exec="* > *" AND process_exec="* C:\\*"))))

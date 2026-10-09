@@ -1,0 +1,11 @@
+// Title: ADSI-Cache File Creation By Uncommon Tool
+// ID: 75bf09fa-1dd7-4d18-9af9-dd9e492562eb
+// Status: test
+// Level: medium
+// Author: xknow @xknow_infosec, Tim Shelton
+// Date: 2019-03-24
+// Tags: attack.t1001.003, attack.command-and-control
+// Description: Detects the creation of an "Active Directory Schema Cache File" (.sch) file by an uncommon tool.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where ((file.path like "%\\Local\\Microsoft\\Windows\\SchCache\\%" AND file.path="*.sch") AND NOT (((((process.executable="*:\\Program Files\\Cylance\\Desktop\\CylanceSvc.exe" OR process.executable="*:\\Windows\\CCM\\CcmExec.exe" OR process.executable="*:\\windows\\system32\\dllhost.exe" OR process.executable="*:\\Windows\\system32\\dsac.exe" OR process.executable="*:\\Windows\\system32\\efsui.exe" OR process.executable="*:\\windows\\system32\\mmc.exe" OR process.executable="*:\\windows\\system32\\svchost.exe" OR process.executable="*:\\Windows\\System32\\wbem\\WmiPrvSE.exe" OR process.executable="*:\\windows\\system32\\WindowsPowerShell\\v1.0\\powershell.exe")) OR ((process.executable like "%:\\Windows\\ccmsetup\\autoupgrade\\ccmsetup%" OR process.executable like "%:\\Program Files\\SentinelOne\\Sentinel Agent%"))) OR ((process.executable like "%:\\Program Files\\%" AND process.executable like "%\\Microsoft Office%") AND process.executable="*\\OUTLOOK.EXE"))) AND NOT (((process.executable="*:\\Program Files\\Citrix\\Receiver StoreFront\\Services\\DefaultDomainServices\\Citrix.DeliveryServices.DomainServices.ServiceHost.exe") OR (process.executable="*\\LANDesk\\LDCLient\\ldapwhoami.exe"))))

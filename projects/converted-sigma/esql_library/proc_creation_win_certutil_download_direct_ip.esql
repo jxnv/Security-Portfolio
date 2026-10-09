@@ -1,0 +1,11 @@
+// Title: Suspicious File Downloaded From Direct IP Via Certutil.EXE
+// ID: 13e6fe51-d478-4c7e-b0f2-6da9b400a829
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-02-15
+// Tags: attack.stealth, attack.t1027, attack.command-and-control, attack.t1105
+// Description: Detects the execution of certutil with certain flags that allow the utility to download files from direct IPs.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE ((((process.command_line LIKE "%urlcache %" OR process.command_line LIKE "%verifyctl %" OR process.command_line LIKE "%URL %")) AND ((process.command_line LIKE "%://1%" OR process.command_line LIKE "%://2%" OR process.command_line LIKE "%://3%" OR process.command_line LIKE "%://4%" OR process.command_line LIKE "%://5%" OR process.command_line LIKE "%://6%" OR process.command_line LIKE "%://7%" OR process.command_line LIKE "%://8%" OR process.command_line LIKE "%://9%")) AND ((process.executable LIKE "%\\certutil.exe") OR (process.pe.original_file_name == "CertUtil.exe"))) AND NOT ((process.command_line LIKE "%://7-%")))

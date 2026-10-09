@@ -1,0 +1,12 @@
+// Title: Script Interpreter Execution From Suspicious Folder
+// ID: 1228c958-e64e-4e71-92ad-7d429f4138ba
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-02-08
+// Tags: attack.execution, attack.t1059
+// Description: Detects suspicious script execution from suspicious directories or folders accessible by environment variables that may indicate malware activity.
+// Script interpreters (cscript, wscript, mshta, powershell) executing from folders like Temp, Public, or user profile directories may suggest attempts to evade detection or execute malicious scripts.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((CommandLine CONTAINS " -ep bypass " OR CommandLine CONTAINS " -ExecutionPolicy bypass " OR CommandLine CONTAINS " -w hidden " OR CommandLine CONTAINS "/e:javascript " OR CommandLine CONTAINS "/e:Jscript " OR CommandLine CONTAINS "/e:vbscript ")) OR ((Image ENDSWITH "\\cscript.exe" OR Image ENDSWITH "\\mshta.exe" OR Image ENDSWITH "\\wscript.exe")) OR ((OriginalFileName EQ "cscript.exe" OR OriginalFileName EQ "mshta.exe" OR OriginalFileName EQ "wscript.exe"))) AND (((CommandLine CONTAINS ":\\Perflogs\\" OR CommandLine CONTAINS ":\\Users\\Public\\" OR CommandLine CONTAINS "\\%Public%" OR CommandLine CONTAINS "\\AppData\\Local\\Temp" OR CommandLine CONTAINS "\\AppData\\Roaming\\Temp" OR CommandLine CONTAINS "\\Temporary Internet" OR CommandLine CONTAINS "\\Windows\\Temp" OR CommandLine CONTAINS "\\Start Menu\\Programs\\Startup\\" OR CommandLine CONTAINS "%TEMP%" OR CommandLine CONTAINS "%TMP%" OR CommandLine CONTAINS "%LocalAppData%\\Temp")) OR (((CommandLine CONTAINS ":\\Users\\" AND CommandLine CONTAINS "\\Favorites\\")) OR ((CommandLine CONTAINS ":\\Users\\" AND CommandLine CONTAINS "\\Favourites\\")) OR ((CommandLine CONTAINS ":\\Users\\" AND CommandLine CONTAINS "\\Contacts\\")) OR ((CommandLine CONTAINS ":\\Users\\" AND CommandLine CONTAINS "\\Documents\\")) OR ((CommandLine CONTAINS ":\\Users\\" AND CommandLine CONTAINS "\\Music\\")) OR ((CommandLine CONTAINS ":\\Users\\" AND CommandLine CONTAINS "\\Pictures\\")) OR ((CommandLine CONTAINS ":\\Users\\" AND CommandLine CONTAINS "\\Videos\\")))) AND NOT (((ParentImage EQ "C:\\Windows\\System32\\Msiexec.exe" OR ParentImage EQ "C:\\Windows\\SysWOW64\\Msiexec.exe") AND Image ENDSWITH "\\powershell.exe" AND (CommandLine CONTAINS "-NoProfile -ExecutionPolicy Bypass -Command" AND CommandLine CONTAINS "AppData\\Local\\Temp\\" AND CommandLine CONTAINS "Install-Chocolatey.ps1"))))

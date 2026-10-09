@@ -1,0 +1,23 @@
+// Title: HackTool - Inveigh Execution
+// ID: b99a1518-1ad5-4f65-bc95-1ffff97a8fd0
+// Status: test
+// Level: critical
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-10-24
+// Tags: attack.credential-access, attack.t1003.001
+// Description: Detects the use of Inveigh a cross-platform .NET IPv4/IPv6 machine-in-the-middle tool
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule b99a1518_1ad5_4f65_bc95_1ffff97a8fd0 {
+  meta:
+    title = "HackTool - Inveigh Execution"
+    description = "Detects the use of Inveigh a cross-platform .NET IPv4/IPv6 machine-in-the-middle tool"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "CRITICAL"
+
+  events:
+    (($e.target.process.file.full_path = /.*\\Inveigh.exe$/ nocase) or (($e.target.process.file.name = "\\Inveigh.exe" or $e.target.process.file.name = "\\Inveigh.dll")) or ($e.Description = "Inveigh") or (($e.target.process.command_line = /.* -SpooferIP.*/ nocase or $e.target.process.command_line = /.* -ReplyToIPs .*/ nocase or $e.target.process.command_line = /.* -ReplyToDomains .*/ nocase or $e.target.process.command_line = /.* -ReplyToMACs .*/ nocase or $e.target.process.command_line = /.* -SnifferIP.*/ nocase)))
+
+  condition:
+    $e
+}

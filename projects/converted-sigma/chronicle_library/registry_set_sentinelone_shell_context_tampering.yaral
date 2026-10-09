@@ -1,0 +1,23 @@
+// Title: Potential SentinelOne Shell Context Menu Scan Command Tampering
+// ID: 6c304b02-06e6-402d-8be4-d5833cdf8198
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2024-03-06
+// Tags: attack.persistence
+// Description: Detects potentially suspicious changes to the SentinelOne context menu scan command by a process other than SentinelOne.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 6c304b02_06e6_402d_8be4_d5833cdf8198 {
+  meta:
+    title = "Potential SentinelOne Shell Context Menu Scan Command Tampering"
+    description = "Detects potentially suspicious changes to the SentinelOne context menu scan command by a process other than SentinelOne."
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.TargetObject = /.*\\shell\\SentinelOneScan\\command\\.*/ nocase) and not(((($e.target.process.file.full_path = /.*C:\\Program Files\\SentinelOne\\$/ nocase or $e.target.process.file.full_path = /.*C:\\Program Files (x86)\\SentinelOne\\$/ nocase)) or (($e.Details = /^C:\\Program Files\\SentinelOne\\Sentinel Agent.*/ nocase or $e.Details = /^C:\\Program Files (x86)\\SentinelOne\\Sentinel Agent.*/ nocase) and $e.Details = /.*\\SentinelScanFromContextMenu.exe.*/ nocase))))
+
+  condition:
+    $e
+}

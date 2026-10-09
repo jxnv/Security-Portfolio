@@ -1,0 +1,31 @@
+{
+  "title": "Deleted Data Overwritten Via Cipher.EXE",
+  "id": "4b046706-5789-4673-b111-66f25fe99534",
+  "status": "test",
+  "description": "Detects usage of the \"cipher\" built-in utility in order to overwrite deleted data from disk.\nAdversaries may destroy data and files on specific systems or in large numbers on a network to interrupt availability to systems, services, and network resources.\nData destruction is likely to render stored data irrecoverable by forensic techniques through overwriting files or data on local and remote drives\n",
+  "author": "frack113",
+  "date": "2021-12-26",
+  "tags": [
+    "attack.impact",
+    "attack.t1485"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_img": [
+      {
+        "OriginalFileName": "CIPHER.EXE"
+      },
+      {
+        "Image|endswith": "\\cipher.exe"
+      }
+    ],
+    "selection_cli": {
+      "CommandLine|contains": " /w:"
+    },
+    "condition": "all of selection_*"
+  }
+}

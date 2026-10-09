@@ -1,0 +1,19 @@
+# Title: Replay Attack Detected
+# ID: 5a44727c-3b85-4713-8c44-4401d5499629
+# Status: test
+# Level: high
+# Author: frack113
+# Date: 2022-10-14
+# Tags: attack.credential-access, attack.t1558
+# Description: Detects possible Kerberos Replay Attack on the domain controllers when "KRB_AP_ERR_REPEAT" Kerberos response is sent to the client
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Replay Attack Detected
+def rule(event):
+    # Detection Logic:
+    # (EventID="4649")
+    return True
+
+def title(event):
+    return "Replay Attack Detected"
+

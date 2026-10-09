@@ -1,0 +1,23 @@
+// Title: Symlink Etc Passwd
+// ID: c67fc22a-0be5-4b4f-aad5-2b32c4b69523
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2019-04-05
+// Tags: attack.t1204.001, attack.execution
+// Description: Detects suspicious command lines that look as if they would create symbolic links to /etc/passwd
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule c67fc22a_0be5_4b4f_aad5_2b32c4b69523 {
+  meta:
+    title = "Symlink Etc Passwd"
+    description = "Detects suspicious command lines that look as if they would create symbolic links to /etc/passwd"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ("ln -s -f /etc/passwd" or "ln -s /etc/passwd")
+
+  condition:
+    $e
+}

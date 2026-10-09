@@ -1,0 +1,21 @@
+# Title: System Disk And Volume Reconnaissance Via Wmic.EXE
+# ID: c79da740-5030-45ec-a2e0-479e824a562c
+# Status: test
+# Level: medium
+# Author: Stephen Lincoln '@slincoln-aiq' (AttackIQ)
+# Date: 2024-02-02
+# Tags: attack.execution, attack.discovery, attack.t1047, attack.t1082
+# Description: An adversary might use WMI to discover information about the system, such as the volume name, size,
+# free space, and other disk information. This can be done using the 'wmic' command-line utility and has been
+# observed being used by threat actors such as Volt Typhoon.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: System Disk And Volume Reconnaissance Via Wmic.EXE
+def rule(event):
+    # Detection Logic:
+    # ((((CommandLine="* volumename*" OR CommandLine="* logicaldisk*")) OR ((CommandLine="*path*" AND CommandLine="*win32_logicaldisk*")) OR ((CommandLine="* volume*" AND CommandLine="* list *"))) AND ((Image="*\\WMIC.exe") OR (OriginalFileName="wmic.exe")))
+    return True
+
+def title(event):
+    return "System Disk And Volume Reconnaissance Via Wmic.EXE"
+

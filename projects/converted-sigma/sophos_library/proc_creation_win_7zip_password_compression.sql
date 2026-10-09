@@ -1,0 +1,11 @@
+-- Title: Compress Data and Lock With Password for Exfiltration With 7-ZIP
+-- ID: 9fbf5927-5261-4284-a71d-f681029ea574
+-- Status: test
+-- Level: medium
+-- Author: frack113
+-- Date: 2021-07-27
+-- Tags: attack.collection, attack.t1560.001
+-- Description: An adversary may compress or encrypt data that is collected prior to exfiltration using 3rd party utilities
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE (((CommandLine ILIKE '% a %' OR CommandLine ILIKE '% u %')) AND ((Description ILIKE '%7-Zip%') OR ((Image ILIKE '%\\7z.exe' OR Image ILIKE '%\\7zr.exe' OR Image ILIKE '%\\7za.exe')) OR ((OriginalFileName = '7z.exe' OR OriginalFileName = '7za.exe' OR OriginalFileName = '7zr.exe'))) AND (CommandLine ILIKE '% -p%'))

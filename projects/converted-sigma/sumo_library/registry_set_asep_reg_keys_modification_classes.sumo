@@ -1,0 +1,14 @@
+// Title: Classes Autorun Keys Modification
+// ID: 9df5f547-c86a-433e-b533-f2794357e242
+// Status: test
+// Level: medium
+// Author: Victor Sergeev, Daniil Yugoslavskiy, Gleb Sukhodolskiy, Timur Zinniatullin, oscd.community, Tim Shelton, frack113 (split)
+// Date: 2019-10-25
+// Tags: attack.privilege-escalation, attack.persistence, attack.t1547.001
+// Description: Detects modification of Windows Registry Classes keys used for persistence.
+// Adversaries modify these autostart extensibility points (ASEP) to execute malicious code when file types are opened or actions are performed.
+// Various legitimate software also uses these keys. Currently, this rule only filters out known legitimate software paths,
+// thus it is recommended to review and tune filters for your environment to reduce false positives before deploying to production.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where (((TargetObject matches "*\\Software\\Classes*") and ((TargetObject matches "*\\Folder\\ShellEx\\ExtShellFolderViews*" or TargetObject matches "*\\Folder\\ShellEx\\DragDropHandlers*" or TargetObject matches "*\\Folder\\Shellex\\ColumnHandlers*" or TargetObject matches "*\\Filter*" or TargetObject matches "*\\Exefile\\Shell\\Open\\Command\\(Default)*" or TargetObject matches "*\\Directory\\Shellex\\DragDropHandlers*" or TargetObject matches "*\\Directory\\Shellex\\CopyHookHandlers*" or TargetObject matches "*\\CLSID\\{AC757296-3522-4E11-9862-C17BE5A1767E}\\Instance*" or TargetObject matches "*\\CLSID\\{ABE3B9A4-257D-4B97-BD1A-294AF496222E}\\Instance*" or TargetObject matches "*\\CLSID\\{7ED96837-96F0-4812-B211-F13C24117ED3}\\Instance*" or TargetObject matches "*\\CLSID\\{083863F1-70DE-11d0-BD40-00A0C911CE86}\\Instance*" or TargetObject matches "*\\Classes\\AllFileSystemObjects\\ShellEx\\DragDropHandlers*" or TargetObject matches "*\\.exe*" or TargetObject matches "*\\.cmd*" or TargetObject matches "*\\ShellEx\\PropertySheetHandlers*" or TargetObject matches "*\\ShellEx\\ContextMenuHandlers*"))) and !(((Image = "C:\\Windows\\System32\\drvinst.exe") or (Details = "(Empty)") or (isNull(Details)) or (Image = "C:\\Windows\\System32\\svchost.exe" and TargetObject matches "*\\lnkfile\\shellex\\ContextMenuHandlers\\*"))) and !((Details = "{807583E5-5146-11D5-A672-00B0D022E945}")))

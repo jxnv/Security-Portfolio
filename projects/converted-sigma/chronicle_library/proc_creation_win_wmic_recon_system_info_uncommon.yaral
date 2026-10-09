@@ -1,0 +1,26 @@
+// Title: Uncommon System Information Discovery Via Wmic.EXE
+// ID: 9d5a1274-922a-49d0-87f3-8c653483b909
+// Status: test
+// Level: medium
+// Author: TropChaud
+// Date: 2023-01-26
+// Tags: attack.discovery, attack.t1082
+// Description: Detects the use of the WMI command-line (WMIC) utility to identify and display various system information,
+// including OS, CPU, GPU, and disk drive names; memory capacity; display resolution; and baseboard, BIOS,
+// and GPU driver products/versions.
+// Some of these commands were used by Aurora Stealer in late 2022/early 2023.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 9d5a1274_922a_49d0_87f3_8c653483b909 {
+  meta:
+    title = "Uncommon System Information Discovery Via Wmic.EXE"
+    description = "Detects the use of the WMI command-line (WMIC) utility to identify and display various system information, including OS, CPU, GPU, and disk drive names; memory capacity; display resolution; and baseboard, BIOS, and GPU driver products/versions. Some of these commands were used by Aurora Stealer in late 2022/early 2023."
+    author = "TropChaud"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.command_line = /.*LOGICALDISK get Name,Size,FreeSpace.*/ nocase or $e.target.process.command_line = /.*os get Caption,OSArchitecture,Version.*/ nocase)) and (($e.Description = "WMI Commandline Utility") or ($e.target.process.file.name = "wmic.exe") or ($e.target.process.file.full_path = /.*\\WMIC.exe$/ nocase)))
+
+  condition:
+    $e
+}

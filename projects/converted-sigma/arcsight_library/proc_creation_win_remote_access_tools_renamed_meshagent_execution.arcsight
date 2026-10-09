@@ -1,0 +1,13 @@
+// Title: Remote Access Tool - Renamed MeshAgent Execution - Windows
+// ID: b471f462-eb0d-4832-be35-28d94bdb4780
+// Status: experimental
+// Level: high
+// Author: Norbert Jaśniewicz (AlphaSOC)
+// Date: 2025-05-19
+// Tags: attack.command-and-control, attack.stealth, attack.t1219.002, attack.t1036.003
+// Description: Detects the execution of a renamed instance of the Remote Monitoring and Management (RMM) tool, MeshAgent.
+// RMM tools such as MeshAgent are commonly utilized by IT administrators for legitimate remote support and system management.
+// However, malicious actors may exploit these tools by renaming them to bypass detection mechanisms, enabling unauthorized access and control over compromised systems.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((CommandLine CONTAINS "--meshServiceName") OR (OriginalFileName CONTAINS "meshagent")) AND NOT ((Image ENDSWITH "\\meshagent.exe")))

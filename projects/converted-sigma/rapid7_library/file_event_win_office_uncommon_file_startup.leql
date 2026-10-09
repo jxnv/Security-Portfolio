@@ -1,0 +1,11 @@
+// Title: Uncommon File Created In Office Startup Folder
+// ID: a10a2c40-2c4d-49f8-b557-1a946bc55d9d
+// Status: test
+// Level: high
+// Author: frack113, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-06-05
+// Tags: attack.resource-development, attack.t1587.001
+// Description: Detects the creation of a file with an uncommon extension in an Office application startup folder
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((((where(TargetFilename ICONTAINS "\\Microsoft\\Word\\STARTUP")) OR ((where(TargetFilename ICONTAINS "\\Office") AND where(TargetFilename ICONTAINS "\\Program Files") AND where(TargetFilename ICONTAINS "\\STARTUP")))) AND NOT (((where(TargetFilename IENDSWITH ".docb") OR where(TargetFilename IENDSWITH ".docm") OR where(TargetFilename IENDSWITH ".docx") OR where(TargetFilename IENDSWITH ".dotm") OR where(TargetFilename IENDSWITH ".mdb") OR where(TargetFilename IENDSWITH ".mdw") OR where(TargetFilename IENDSWITH ".pdf") OR where(TargetFilename IENDSWITH ".wll") OR where(TargetFilename IENDSWITH ".wwl"))))) OR (((where(TargetFilename ICONTAINS "\\Microsoft\\Excel\\XLSTART")) OR ((where(TargetFilename ICONTAINS "\\Office") AND where(TargetFilename ICONTAINS "\\Program Files") AND where(TargetFilename ICONTAINS "\\XLSTART")))) AND NOT (((where(TargetFilename IENDSWITH ".xll") OR where(TargetFilename IENDSWITH ".xls") OR where(TargetFilename IENDSWITH ".xlsm") OR where(TargetFilename IENDSWITH ".xlsx") OR where(TargetFilename IENDSWITH ".xlt") OR where(TargetFilename IENDSWITH ".xltm") OR where(TargetFilename IENDSWITH ".xlw")))))) AND NOT ((((where(Image ICONTAINS ":\\Program Files\\Microsoft Office\\") OR where(Image ICONTAINS ":\\Program Files (x86)\\Microsoft Office\\")) AND (where(Image IENDSWITH "\\winword.exe") OR where(Image IENDSWITH "\\excel.exe"))) OR (where(Image ICONTAINS ":\\Program Files\\Common Files\\Microsoft Shared\\ClickToRun\\") AND where(Image IENDSWITH "\\OfficeClickToRun.exe")))))

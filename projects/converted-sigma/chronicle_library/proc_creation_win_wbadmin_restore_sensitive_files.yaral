@@ -1,0 +1,24 @@
+// Title: Sensitive File Recovery From Backup Via Wbadmin.EXE
+// ID: 84972c80-251c-4c3a-9079-4f00aad93938
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems), frack113
+// Date: 2024-05-10
+// Tags: attack.credential-access, attack.t1003.003
+// Description: Detects the dump of highly sensitive files such as "NTDS.DIT" and "SECURITY" hive.
+// Attackers can leverage the "wbadmin" utility in order to dump sensitive files that might contain credential or sensitive information.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 84972c80_251c_4c3a_9079_4f00aad93938 {
+  meta:
+    title = "Sensitive File Recovery From Backup Via Wbadmin.EXE"
+    description = "Detects the dump of highly sensitive files such as "NTDS.DIT" and "SECURITY" hive. Attackers can leverage the "wbadmin" utility in order to dump sensitive files that might contain credential or sensitive information."
+    author = "Nasreddine Bencherchali (Nextron Systems), frack113"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.* recovery.*/ nocase and $e.target.process.command_line = /.*recoveryTarget.*/ nocase and $e.target.process.command_line = /.*itemtype:File.*/ nocase) and ($e.target.process.command_line = /.*\\config\\SAM.*/ nocase or $e.target.process.command_line = /.*\\config\\SECURITY.*/ nocase or $e.target.process.command_line = /.*\\config\\SYSTEM.*/ nocase or $e.target.process.command_line = /.*\\Windows\\NTDS\\NTDS.dit.*/ nocase)) and (($e.target.process.file.full_path = /.*\\wbadmin.exe$/ nocase) or ($e.target.process.file.name = "WBADMIN.EXE")))
+
+  condition:
+    $e
+}

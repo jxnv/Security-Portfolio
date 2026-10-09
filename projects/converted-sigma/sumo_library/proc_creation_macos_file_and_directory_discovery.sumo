@@ -1,0 +1,11 @@
+// Title: File and Directory Discovery - MacOS
+// ID: 089dbdf6-b960-4bcc-90e3-ffc3480c20f6
+// Status: test
+// Level: informational
+// Author: Daniil Yugoslavskiy, oscd.community
+// Date: 2020-10-19
+// Tags: attack.discovery, attack.t1083
+// Description: Detects usage of system utilities to discover files and directories
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where ((Image = "/usr/bin/file" and CommandLine matches /(.){200,}/) or (Image = "/usr/bin/find") or (Image = "/usr/bin/mdfind") or (Image = "/bin/ls" and CommandLine matches "*-R*") or 1=1)

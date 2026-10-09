@@ -1,0 +1,12 @@
+// Title: Removal of Potential COM Hijacking Registry Keys
+// ID: 96f697b0-b499-4e5d-9908-a67bec11cdb6
+// Status: test
+// Level: medium
+// Author: Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research)
+// Date: 2020-05-02
+// Tags: attack.persistence, attack.defense-impairment, attack.t1112
+// Description: Detects any deletion of entries in ".*\shell\open\command" registry keys.
+// These registry keys might have been used for COM hijacking activities by a threat actor or an attacker and the deletion could indicate steps to remove its tracks.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((TargetObject="*\\shell\\open\\command") AND NOT (((Image="*C:\\Windows\\explorer.exe") OR ((Image="C:\\Program Files\\*" OR Image="C:\\Program Files (x86)\\*")) OR ((Image == "C:\\Windows\\System32\\msiexec.exe" OR Image == "C:\\Windows\\SysWOW64\\msiexec.exe")) OR (Image == "C:\\Windows\\System32\\OpenWith.exe") OR (Image == "C:\\Windows\\system32\\svchost.exe"))) AND NOT ((((Image == "C:\\Program Files (x86)\\Avira\\Antivirus\\" OR Image == "C:\\Program Files\\Avira\\Antivirus\\") AND (TargetObject="*\\CLSID\\{305CA226-D286-468e-B848-2B2E8E697B74}\\Shell\\Open\\Command" OR TargetObject="*\\AntiVir.Keyfile\\shell\\open\\command")) OR (Image="*\\reg.exe" AND TargetObject="*\\Discord\\shell\\open\\command") OR (Image="*\\Dropbox.exe" AND TargetObject contains "\\Dropbox.") OR (Image="*C:\\eclipse\\eclipse.exe" AND TargetObject contains "_Classes\\eclipse+") OR (Image contains "\\Microsoft\\EdgeUpdate\\Install") OR (Image="*\\Everything.exe" AND TargetObject contains "\\Everything.") OR (((Image contains "AppData\\Local\\Temp" AND Image contains "\\setup.exe")) OR ((Image contains "\\Temp\\is-" AND Image contains "\\target.tmp"))) OR (Image="C:\\Program Files (x86)\\Java\\*" AND Image="*\\installer.exe" AND TargetObject contains "\\Classes\\WOW6432Node\\CLSID\\{4299124F-F2C3-41b4-9C73-9236B2AD0E8F}") OR (Image="*\\ninite.exe") OR (Image contains "peazip" AND TargetObject contains "\\PeaZip.") OR (Image="*\\Spotify.exe" AND TargetObject="*\\Spotify\\shell\\open\\command") OR ((Image contains "\\Temp" AND Image contains "\\TeamViewer")) OR (Image="C:\\Windows\\Installer\\MSI*") OR (Image="*\\AppData\\Local\\Temp\\Wireshark_uninstaller.exe" AND TargetObject contains "\\wireshark-capture-file\\"))))

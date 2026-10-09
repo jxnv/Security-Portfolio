@@ -1,0 +1,11 @@
+// Title: Uncommon File Created In Office Startup Folder
+// ID: a10a2c40-2c4d-49f8-b557-1a946bc55d9d
+// Status: test
+// Level: high
+// Author: frack113, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-06-05
+// Tags: attack.resource-development, attack.t1587.001
+// Description: Detects the creation of a file with an uncommon extension in an Office application startup folder
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((((TargetFilename CONTAINS "\\Microsoft\\Word\\STARTUP") OR ((TargetFilename CONTAINS "\\Office" AND TargetFilename CONTAINS "\\Program Files" AND TargetFilename CONTAINS "\\STARTUP"))) AND NOT (((TargetFilename ENDSWITH ".docb" OR TargetFilename ENDSWITH ".docm" OR TargetFilename ENDSWITH ".docx" OR TargetFilename ENDSWITH ".dotm" OR TargetFilename ENDSWITH ".mdb" OR TargetFilename ENDSWITH ".mdw" OR TargetFilename ENDSWITH ".pdf" OR TargetFilename ENDSWITH ".wll" OR TargetFilename ENDSWITH ".wwl")))) OR (((TargetFilename CONTAINS "\\Microsoft\\Excel\\XLSTART") OR ((TargetFilename CONTAINS "\\Office" AND TargetFilename CONTAINS "\\Program Files" AND TargetFilename CONTAINS "\\XLSTART"))) AND NOT (((TargetFilename ENDSWITH ".xll" OR TargetFilename ENDSWITH ".xls" OR TargetFilename ENDSWITH ".xlsm" OR TargetFilename ENDSWITH ".xlsx" OR TargetFilename ENDSWITH ".xlt" OR TargetFilename ENDSWITH ".xltm" OR TargetFilename ENDSWITH ".xlw"))))) AND NOT ((((Image CONTAINS ":\\Program Files\\Microsoft Office\\" OR Image CONTAINS ":\\Program Files (x86)\\Microsoft Office\\") AND (Image ENDSWITH "\\winword.exe" OR Image ENDSWITH "\\excel.exe")) OR (Image CONTAINS ":\\Program Files\\Common Files\\Microsoft Shared\\ClickToRun\\" AND Image ENDSWITH "\\OfficeClickToRun.exe"))))

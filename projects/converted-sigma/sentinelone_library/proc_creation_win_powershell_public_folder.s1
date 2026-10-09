@@ -1,0 +1,11 @@
+// Title: Execution of Powershell Script in Public Folder
+// ID: fb9d3ff7-7348-46ab-af8c-b55f5fbf39b4
+// Status: test
+// Level: high
+// Author: Max Altgelt (Nextron Systems)
+// Date: 2022-04-06
+// Tags: attack.execution, attack.t1059.001
+// Description: This rule detects execution of PowerShell scripts located in the "C:\Users\Public" folder
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((src.process.image.path endswithCIS "\\powershell.exe" OR src.process.image.path endswithCIS "\\pwsh.exe") AND (src.process.cmdline containsCIS "-f C:\\Users\\Public" OR src.process.cmdline containsCIS "-f \"C:\\Users\\Public" OR src.process.cmdline containsCIS "-f %Public%" OR src.process.cmdline containsCIS "-fi C:\\Users\\Public" OR src.process.cmdline containsCIS "-fi \"C:\\Users\\Public" OR src.process.cmdline containsCIS "-fi %Public%" OR src.process.cmdline containsCIS "-fil C:\\Users\\Public" OR src.process.cmdline containsCIS "-fil \"C:\\Users\\Public" OR src.process.cmdline containsCIS "-fil %Public%" OR src.process.cmdline containsCIS "-file C:\\Users\\Public" OR src.process.cmdline containsCIS "-file \"C:\\Users\\Public" OR src.process.cmdline containsCIS "-file %Public%"))

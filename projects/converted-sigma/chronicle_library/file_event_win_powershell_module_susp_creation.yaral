@@ -1,0 +1,23 @@
+// Title: Potential Suspicious PowerShell Module File Created
+// ID: e8a52bbd-bced-459f-bd93-64db45ce7657
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-05-09
+// Tags: attack.persistence
+// Description: Detects the creation of a new PowerShell module in the first folder of the module directory structure "\WindowsPowerShell\Modules\malware\malware.psm1". This is somewhat an uncommon practice as legitimate modules often includes a version folder.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule e8a52bbd_bced_459f_bd93_64db45ce7657 {
+  meta:
+    title = "Potential Suspicious PowerShell Module File Created"
+    description = "Detects the creation of a new PowerShell module in the first folder of the module directory structure "\WindowsPowerShell\Modules\malware\malware.psm1". This is somewhat an uncommon practice as legitimate modules often includes a version folder."
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.file.full_path = /.*\\\\WindowsPowerShell\\\\Modules\\\\*\\.ps$/ nocase or $e.target.file.full_path = /.*\\\\WindowsPowerShell\\\\Modules\\\\*\\.dll$/ nocase))
+
+  condition:
+    $e
+}

@@ -1,0 +1,11 @@
+// Title: Potential Perl Reverse Shell Execution
+// ID: 259df6bc-003f-4306-9f54-4ff1a08fa38e
+// Status: test
+// Level: high
+// Author: @d4ns4n_, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-04-07
+// Tags: attack.execution
+// Description: Detects execution of the perl binary with the "-e" flag and common strings related to potential reverse shell activity
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((where(CommandLine ICONTAINS "fdopen(") AND where(CommandLine ICONTAINS "::Socket::INET"))) OR ((where(CommandLine ICONTAINS "Socket") AND where(CommandLine ICONTAINS "connect") AND where(CommandLine ICONTAINS "open") AND where(CommandLine ICONTAINS "exec")))) AND (where(Image IENDSWITH "/perl") AND where(CommandLine ICONTAINS " -e ")))

@@ -1,0 +1,23 @@
+// Title: Potential Wazuh Security Platform DLL Sideloading
+// ID: db77ce78-7e28-4188-9337-cf30e2b3ba9f
+// Status: test
+// Level: medium
+// Author: X__Junior (Nextron Systems)
+// Date: 2023-03-13
+// Tags: attack.persistence, attack.privilege-escalation, attack.execution, attack.stealth, attack.t1574.001
+// Description: Detects potential DLL side loading of DLLs that are part of the Wazuh security platform
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule db77ce78_7e28_4188_9337_cf30e2b3ba9f {
+  meta:
+    title = "Potential Wazuh Security Platform DLL Sideloading"
+    description = "Detects potential DLL side loading of DLLs that are part of the Wazuh security platform"
+    author = "X__Junior (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.ImageLoaded = /.*\\libwazuhshared.dll$/ nocase or $e.ImageLoaded = /.*\\libwinpthread-1.dll$/ nocase)) and not((($e.ImageLoaded = /^C:\\Program Files\\.*/ nocase or $e.ImageLoaded = /^C:\\Program Files (x86)\\.*/ nocase))) and not((($e.ImageLoaded = /.*\\AppData\\Local\\.*/ nocase or $e.ImageLoaded = /.*\\ProgramData\\.*/ nocase) and $e.ImageLoaded = /.*\\mingw64\\bin\\libwinpthread-1.dll$/ nocase)))
+
+  condition:
+    $e
+}

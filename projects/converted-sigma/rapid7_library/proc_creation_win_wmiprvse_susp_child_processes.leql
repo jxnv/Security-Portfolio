@@ -1,0 +1,11 @@
+// Title: Suspicious WmiPrvSE Child Process
+// ID: 8a582fe2-0882-4b89-a82a-da6b2dc32937
+// Status: test
+// Level: high
+// Author: Vadim Khrykov (ThreatIntel), Cyb3rEng, Florian Roth (Nextron Systems)
+// Date: 2021-08-23
+// Tags: attack.execution, attack.stealth, attack.t1047, attack.t1204.002, attack.t1218.010
+// Description: Detects suspicious and uncommon child processes of WmiPrvSE
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((where(ParentImage IENDSWITH "\\wbem\\WmiPrvSE.exe")) AND (((where(Image IENDSWITH "\\certutil.exe") OR where(Image IENDSWITH "\\cscript.exe") OR where(Image IENDSWITH "\\mshta.exe") OR where(Image IENDSWITH "\\msiexec.exe") OR where(Image IENDSWITH "\\regsvr32.exe") OR where(Image IENDSWITH "\\rundll32.exe") OR where(Image IENDSWITH "\\verclsid.exe") OR where(Image IENDSWITH "\\wscript.exe"))) OR (where(Image IENDSWITH "\\cmd.exe") AND (where(CommandLine ICONTAINS "cscript") OR where(CommandLine ICONTAINS "mshta") OR where(CommandLine ICONTAINS "powershell") OR where(CommandLine ICONTAINS "pwsh") OR where(CommandLine ICONTAINS "regsvr32") OR where(CommandLine ICONTAINS "rundll32") OR where(CommandLine ICONTAINS "wscript")))) AND NOT (((where(Image IENDSWITH "\\msiexec.exe") AND where(CommandLine ICONTAINS "/i ")) OR (where(Image IENDSWITH "\\WerFault.exe")) OR (where(Image IENDSWITH "\\WmiPrvSE.exe")))))

@@ -1,0 +1,19 @@
+# Title: Suspicious Process Discovery With Get-Process
+# ID: af4c87ce-bdda-4215-b998-15220772e993
+# Status: test
+# Level: low
+# Author: frack113
+# Date: 2022-03-17
+# Tags: attack.discovery, attack.t1057
+# Description: Get the processes that are running on the local computer.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Suspicious Process Discovery With Get-Process
+def rule(event):
+    # Detection Logic:
+    # (ScriptBlockText="*Get-Process*")
+    return True
+
+def title(event):
+    return "Suspicious Process Discovery With Get-Process"
+

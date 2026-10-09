@@ -1,0 +1,19 @@
+# Title: Invoke-Obfuscation Via Use Rundll32 - Security
+# ID: cd0f7229-d16f-42de-8fe3-fba365fbcb3a
+# Status: test
+# Level: high
+# Author: Nikita Nazarov, oscd.community
+# Date: 2020-10-09
+# Tags: attack.stealth, attack.t1027, attack.execution, attack.t1059.001
+# Description: Detects Obfuscated Powershell via use Rundll32 in Scripts
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Invoke-Obfuscation Via Use Rundll32 - Security
+def rule(event):
+    # Detection Logic:
+    # (EventID="4697" AND (ServiceFileName="*&&*" AND ServiceFileName="*rundll32*" AND ServiceFileName="*shell32.dll*" AND ServiceFileName="*shellexec_rundll*") AND (ServiceFileName="*value*" OR ServiceFileName="*invoke*" OR ServiceFileName="*comspec*" OR ServiceFileName="*iex*"))
+    return True
+
+def title(event):
+    return "Invoke-Obfuscation Via Use Rundll32 - Security"
+

@@ -1,0 +1,11 @@
+-- Title: Arbitrary Binary Execution Using GUP Utility
+-- ID: d65aee4d-2292-4cea-b832-83accd6cfa43
+-- Status: test
+-- Level: medium
+-- Author: Nasreddine Bencherchali (Nextron Systems)
+-- Date: 2022-06-10
+-- Tags: attack.execution
+-- Description: Detects execution of the Notepad++ updater (gup) to launch other commands or executables
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE ((ParentImage ILIKE '%\\gup.exe' AND Image ILIKE '%\\explorer.exe') AND NOT (((Image ILIKE '%\\explorer.exe' AND CommandLine ILIKE '%\\Notepad++\\notepad++.exe%') OR (CommandLine IS NULL) OR (ParentImage ILIKE '%\\Notepad++\\updater\\%'))))

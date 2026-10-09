@@ -1,0 +1,11 @@
+// Title: Suspicious Download From File-Sharing Website Via Bitsadmin
+// ID: 8518ed3d-f7c9-4601-a26c-f361a4256a0c
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-06-28
+// Tags: attack.persistence, attack.execution, attack.stealth, attack.t1197, attack.s0190, attack.t1036.003, attack.command-and-control, attack.t1105
+// Description: Detects usage of bitsadmin downloading a file from a suspicious domain
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where (((CommandLine matches "*.githubusercontent.com*" or CommandLine matches "*0x0.st*" or CommandLine matches "*anonfiles.com*" or CommandLine matches "*bashupload.com*" or CommandLine matches "*cdn.discordapp.com*" or CommandLine matches "*chunk.io*" or CommandLine matches "*ddns.net*" or CommandLine matches "*dl.dropboxusercontent.com*" or CommandLine matches "*ghostbin.co*" or CommandLine matches "*github.com*" or CommandLine matches "*glitch.me*" or CommandLine matches "*gofile.io*" or CommandLine matches "*hastebin.com*" or CommandLine matches "*mediafire.com*" or CommandLine matches "*mega.nz*" or CommandLine matches "*onrender.com*" or CommandLine matches "*pages.dev*" or CommandLine matches "*paste.ee*" or CommandLine matches "*pastebin.com*" or CommandLine matches "*pastebin.pl*" or CommandLine matches "*pastetext.net*" or CommandLine matches "*privatlab.com*" or CommandLine matches "*privatlab.net*" or CommandLine matches "*send.exploit.in*" or CommandLine matches "*sendspace.com*" or CommandLine matches "*storage.googleapis.com*" or CommandLine matches "*storjshare.io*" or CommandLine matches "*supabase.co*" or CommandLine matches "*temp.sh*" or CommandLine matches "*transfer.sh*" or CommandLine matches "*trycloudflare.com*" or CommandLine matches "*ufile.io*" or CommandLine matches "*w3spaces.com*" or CommandLine matches "*workers.dev*" or CommandLine matches "*x0.at*")) and ((CommandLine matches "* /transfer *" or CommandLine matches "* /create *" or CommandLine matches "* /addfile *")) and ((Image matches "*\\bitsadmin.exe") or (OriginalFileName = "bitsadmin.exe")))

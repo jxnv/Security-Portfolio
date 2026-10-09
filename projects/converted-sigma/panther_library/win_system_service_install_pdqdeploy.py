@@ -1,0 +1,20 @@
+# Title: New PDQDeploy Service - Server Side
+# ID: ee9ca27c-9bd7-4cee-9b01-6e906be7cae3
+# Status: test
+# Level: medium
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-07-22
+# Tags: attack.persistence, attack.privilege-escalation, attack.t1543.003
+# Description: Detects a PDQDeploy service installation which indicates that PDQDeploy was installed on the machines.
+# PDQDeploy can be abused by attackers to remotely install packages or execute commands on target machines
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: New PDQDeploy Service - Server Side
+def rule(event):
+    # Detection Logic:
+    # ((Provider_Name="Service Control Manager" AND EventID="7045") AND ((ImagePath="*PDQDeployService.exe*") OR ((ServiceName="PDQDeploy" OR ServiceName="PDQ Deploy"))))
+    return True
+
+def title(event):
+    return "New PDQDeploy Service - Server Side"
+

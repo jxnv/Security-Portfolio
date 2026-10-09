@@ -1,0 +1,53 @@
+{
+  "title": "Potential Goopdate.DLL Sideloading",
+  "id": "b6188d2f-b3c4-4d2c-a17d-9706e0851af0",
+  "status": "test",
+  "description": "Detects potential DLL sideloading of \"goopdate.dll\", a DLL used by googleupdate.exe",
+  "author": "X__Junior (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2023-05-15",
+  "tags": [
+    "attack.persistence",
+    "attack.privilege-escalation",
+    "attack.execution",
+    "attack.stealth",
+    "attack.t1574.001"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "image_load",
+    "product": "windows"
+  },
+  "detection": {
+    "selection": {
+      "ImageLoaded|endswith": "\\goopdate.dll"
+    },
+    "filter_main_generic": {
+      "ImageLoaded|startswith": [
+        "C:\\Program Files (x86)\\",
+        "C:\\Program Files\\"
+      ]
+    },
+    "filter_optional_dropbox_installer_temp": {
+      "Image|contains|all": [
+        "\\AppData\\Local\\Temp\\GUM",
+        ".tmp\\Dropbox"
+      ],
+      "ImageLoaded|contains|all": [
+        "\\AppData\\Local\\Temp\\GUM",
+        ".tmp\\goopdate.dll"
+      ]
+    },
+    "filter_optional_googleupdate_temp": {
+      "Image|contains": [
+        "\\AppData\\Local\\Temp\\GUM",
+        ":\\Windows\\SystemTemp\\GUM"
+      ],
+      "Image|endswith": ".tmp\\GoogleUpdate.exe",
+      "ImageLoaded|contains": [
+        "\\AppData\\Local\\Temp\\GUM",
+        ":\\Windows\\SystemTemp\\GUM"
+      ]
+    },
+    "condition": "selection and not 1 of filter_main_* and not 1 of filter_optional_*"
+  }
+}

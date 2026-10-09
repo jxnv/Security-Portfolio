@@ -1,0 +1,11 @@
+// Title: Group Membership Reconnaissance Via Whoami.EXE
+// ID: bd8b828d-0dca-48e1-8a63-8a58ecf2644f
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-02-28
+// Tags: attack.discovery, attack.t1033
+// Description: Detects the execution of whoami.exe with the /group command line flag to show group membership for the current user, account type, security identifiers (SID), and attributes.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((CommandLine contains " /groups" OR CommandLine contains " -groups")) AND ((Image="*\\whoami.exe") OR (OriginalFileName == "whoami.exe")))

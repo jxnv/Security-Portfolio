@@ -1,0 +1,19 @@
+# Title: Potential Arbitrary Command Execution Using Msdt.EXE
+# ID: 258fc8ce-8352-443a-9120-8a11e4857fa5
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-05-29
+# Tags: attack.stealth, attack.t1202
+# Description: Detects processes leveraging the "ms-msdt" handler or the "msdt.exe" binary to execute arbitrary commands as seen in the follina (CVE-2022-30190) vulnerability
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Potential Arbitrary Command Execution Using Msdt.EXE
+def rule(event):
+    # Detection Logic:
+    # (((Image="*\\msdt.exe") OR (OriginalFileName="msdt.exe")) AND ((CommandLine="*IT_BrowseForFile=*") OR ((CommandLine="* PCWDiagnostic*") AND (CommandLine="* -af *"))))
+    return True
+
+def title(event):
+    return "Potential Arbitrary Command Execution Using Msdt.EXE"
+

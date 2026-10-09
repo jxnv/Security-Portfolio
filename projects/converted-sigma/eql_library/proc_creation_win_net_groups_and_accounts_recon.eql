@@ -1,0 +1,12 @@
+// Title: Suspicious Group And Account Reconnaissance Activity Using Net.EXE
+// ID: d95de845-b83c-4a9a-8a6a-4fc802ebf6c0
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems), omkar72, @svch0st, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2019-01-16
+// Tags: attack.discovery, attack.t1087.001, attack.t1087.002
+// Description: Detects suspicious reconnaissance command line activity on Windows systems using Net.EXE
+// Check if the user that executed the commands is suspicious (e.g. service accounts, LOCAL_SYSTEM)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where ((((process.executable endswith "\\net.exe" or process.executable endswith "\\net1.exe")) or ((process.pe.original_file_name == "net.exe" or process.pe.original_file_name == "net1.exe"))) and (((((process.command_line like "*_domain admins*" or process.command_line like "*_ administrator*" or process.command_line like "*_ administrateur*" or process.command_line like "*_enterprise admins*" or process.command_line like "*_Exchange Trusted Subsystem*" or process.command_line like "*_Remote Desktop Users*" or process.command_line like "*_Utilisateurs du Bureau à distance*" or process.command_line like "*_Usuarios de escritorio remoto*" or process.command_line like "*_ /do*")) and ((process.command_line like "*_ group *" or process.command_line like "*_ localgroup *"))) and not ((process.command_line like "*_ /add*"))) or ((process.command_line like "*_ /do*") and (process.command_line like "*_ accounts *"))))

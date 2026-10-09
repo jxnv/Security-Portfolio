@@ -1,0 +1,11 @@
+// Title: Uncommon File Created In Office Startup Folder
+// ID: a10a2c40-2c4d-49f8-b557-1a946bc55d9d
+// Status: test
+// Level: high
+// Author: frack113, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-06-05
+// Tags: attack.resource-development, attack.t1587.001
+// Description: Detects the creation of a file with an uncommon extension in an Office application startup folder
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE (((((file.path LIKE "%\\Microsoft\\Word\\STARTUP%") OR ((file.path LIKE "%\\Office%" AND file.path LIKE "%\\Program Files%" AND file.path LIKE "%\\STARTUP%"))) AND NOT (((file.path LIKE "%.docb" OR file.path LIKE "%.docm" OR file.path LIKE "%.docx" OR file.path LIKE "%.dotm" OR file.path LIKE "%.mdb" OR file.path LIKE "%.mdw" OR file.path LIKE "%.pdf" OR file.path LIKE "%.wll" OR file.path LIKE "%.wwl")))) OR (((file.path LIKE "%\\Microsoft\\Excel\\XLSTART%") OR ((file.path LIKE "%\\Office%" AND file.path LIKE "%\\Program Files%" AND file.path LIKE "%\\XLSTART%"))) AND NOT (((file.path LIKE "%.xll" OR file.path LIKE "%.xls" OR file.path LIKE "%.xlsm" OR file.path LIKE "%.xlsx" OR file.path LIKE "%.xlt" OR file.path LIKE "%.xltm" OR file.path LIKE "%.xlw"))))) AND NOT ((((process.executable LIKE "%:\\Program Files\\Microsoft Office\\%" OR process.executable LIKE "%:\\Program Files (x86)\\Microsoft Office\\%") AND (process.executable LIKE "%\\winword.exe" OR process.executable LIKE "%\\excel.exe")) OR (process.executable LIKE "%:\\Program Files\\Common Files\\Microsoft Shared\\ClickToRun\\%" AND process.executable LIKE "%\\OfficeClickToRun.exe"))))

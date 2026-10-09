@@ -1,0 +1,11 @@
+-- Title: Suspicious Msbuild Execution By Uncommon Parent Process
+-- ID: 33be4333-2c6b-44f4-ae28-102cdbde0a31
+-- Status: test
+-- Level: medium
+-- Author: frack113
+-- Date: 2022-11-17
+-- Tags: attack.stealth
+-- Description: Detects suspicious execution of 'Msbuild.exe' by a uncommon parent process
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE (((Image ILIKE '%\\MSBuild.exe') OR (OriginalFileName = 'MSBuild.exe')) AND NOT (((ParentImage ILIKE '%\\devenv.exe' OR ParentImage ILIKE '%\\cmd.exe' OR ParentImage ILIKE '%\\msbuild.exe' OR ParentImage ILIKE '%\\python.exe' OR ParentImage ILIKE '%\\explorer.exe' OR ParentImage ILIKE '%\\nuget.exe'))))

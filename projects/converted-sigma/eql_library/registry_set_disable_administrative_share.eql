@@ -1,0 +1,11 @@
+// Title: Disable Administrative Share Creation at Startup
+// ID: c7dcacd0-cc59-4004-b0a4-1d6cdebe6f3e
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-01-16
+// Tags: attack.stealth, attack.t1070.005
+// Description: Administrative shares are hidden network shares created by Microsoft Windows NT operating systems that grant system administrators remote access to every disk volume on a network-connected system
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+registry where (registry.path like "*_\\Services\\LanmanServer\\Parameters\\*" and (registry.path endswith "\\AutoShareWks" or registry.path endswith "\\AutoShareServer") and registry.data.strings == "DWORD (0x00000000)")

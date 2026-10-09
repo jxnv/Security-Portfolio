@@ -1,0 +1,11 @@
+// Title: Suspicious WmiPrvSE Child Process
+// ID: 8a582fe2-0882-4b89-a82a-da6b2dc32937
+// Status: test
+// Level: high
+// Author: Vadim Khrykov (ThreatIntel), Cyb3rEng, Florian Roth (Nextron Systems)
+// Date: 2021-08-23
+// Tags: attack.execution, attack.stealth, attack.t1047, attack.t1204.002, attack.t1218.010
+// Description: Detects suspicious and uncommon child processes of WmiPrvSE
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where ((process.parent.executable="*\\wbem\\WmiPrvSE.exe") AND (((process.executable="*\\certutil.exe" OR process.executable="*\\cscript.exe" OR process.executable="*\\mshta.exe" OR process.executable="*\\msiexec.exe" OR process.executable="*\\regsvr32.exe" OR process.executable="*\\rundll32.exe" OR process.executable="*\\verclsid.exe" OR process.executable="*\\wscript.exe")) OR (process.executable="*\\cmd.exe" AND (process.command_line like "%cscript%" OR process.command_line like "%mshta%" OR process.command_line like "%powershell%" OR process.command_line like "%pwsh%" OR process.command_line like "%regsvr32%" OR process.command_line like "%rundll32%" OR process.command_line like "%wscript%"))) AND NOT (((process.executable="*\\msiexec.exe" AND process.command_line like "%/i %") OR (process.executable="*\\WerFault.exe") OR (process.executable="*\\WmiPrvSE.exe"))))

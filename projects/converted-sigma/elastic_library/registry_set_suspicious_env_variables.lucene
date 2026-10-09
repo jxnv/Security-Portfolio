@@ -1,0 +1,11 @@
+# Title: Suspicious Environment Variable Has Been Registered
+# ID: 966315ef-c5e1-4767-ba25-fce9c8de3660
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-12-20
+# Tags: attack.persistence, attack.stealth
+# Description: Detects the creation of user-specific or system-wide environment variables via the registry. Which contains suspicious commands and strings
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((((registry.data.strings:"powershell" OR registry.data.strings:"pwsh")) OR ((registry.data.strings:*\\AppData\\Local\\Temp\\* OR registry.data.strings:*C:\\Users\\Public\\* OR registry.data.strings:*TVqQAAMAAAAEAAAA* OR registry.data.strings:*TVpQAAIAAAAEAA8A* OR registry.data.strings:*TVqAAAEAAAAEABAA* OR registry.data.strings:*TVoAAAAAAAAAAAAA* OR registry.data.strings:*TVpTAQEAAAAEAAAA* OR registry.data.strings:*SW52b2tlL* OR registry.data.strings:*ludm9rZS* OR registry.data.strings:*JbnZva2Ut* OR registry.data.strings:*SQBuAHYAbwBrAGUALQ* OR registry.data.strings:*kAbgB2AG8AawBlAC0A* OR registry.data.strings:*JAG4AdgBvAGsAZQAtA*)) OR ((registry.data.strings:SUVY* OR registry.data.strings:SQBFAF* OR registry.data.strings:SQBuAH* OR registry.data.strings:cwBhA* OR registry.data.strings:aWV4* OR registry.data.strings:aQBlA* OR registry.data.strings:R2V0* OR registry.data.strings:dmFy* OR registry.data.strings:dgBhA* OR registry.data.strings:dXNpbm* OR registry.data.strings:H4sIA* OR registry.data.strings:Y21k* OR registry.data.strings:cABhAH* OR registry.data.strings:Qzpc* OR registry.data.strings:Yzpc*))) AND (registry.path:*\\Environment\\*))

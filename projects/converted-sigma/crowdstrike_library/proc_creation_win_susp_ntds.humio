@@ -1,0 +1,11 @@
+// Title: Suspicious Process Patterns NTDS.DIT Exfil
+// ID: 8bc64091-6875-4881-aaf9-7bd25b5dda08
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-03-11
+// Tags: attack.credential-access, attack.t1003.003
+// Description: Detects suspicious process patterns used in NTDS.DIT exfiltration
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((CommandLine = /*ac i ntds*/i and CommandLine = /*create full*/i)) or ((CommandLine = /*/c copy */i and CommandLine = /*\\windows\\ntds\\ntds.dit*/i)) or ((CommandLine = /*activate instance ntds*/i and CommandLine = /*create full*/i)) or ((CommandLine = /*powershell*/i and CommandLine = /*ntds.dit*/i)) or (((ImageFileName = /.*\\NTDSDump.exe/i or ImageFileName = /.*\\NTDSDumpEx.exe/i)) or ((CommandLine = /*ntds.dit*/i and CommandLine = /*system.hiv*/i)) or (CommandLine = /*NTDSgrab.ps1*/i))) or ((((ParentBaseFileName = /*\\apache*/i or ParentBaseFileName = /*\\tomcat*/i or ParentBaseFileName = /*\\AppData\\*/i or ParentBaseFileName = /*\\Temp\\*/i or ParentBaseFileName = /*\\Public\\*/i or ParentBaseFileName = /*\\PerfLogs\\*/i)) or ((ImageFileName = /*\\apache*/i or ImageFileName = /*\\tomcat*/i or ImageFileName = /*\\AppData\\*/i or ImageFileName = /*\\Temp\\*/i or ImageFileName = /*\\Public\\*/i or ImageFileName = /*\\PerfLogs\\*/i))) and (CommandLine = /*ntds.dit*/i)))

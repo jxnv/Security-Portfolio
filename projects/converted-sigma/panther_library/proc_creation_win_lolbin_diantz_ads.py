@@ -1,0 +1,19 @@
+# Title: Suspicious Diantz Alternate Data Stream Execution
+# ID: 6b369ced-4b1d-48f1-b427-fdc0de0790bd
+# Status: test
+# Level: medium
+# Author: frack113
+# Date: 2021-11-26
+# Tags: attack.stealth, attack.t1564.004
+# Description: Compress target file into a cab file stored in the Alternate Data Stream (ADS) of the target file.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Suspicious Diantz Alternate Data Stream Execution
+def rule(event):
+    # Detection Logic:
+    # ((CommandLine="*diantz.exe*" AND CommandLine="*.cab*") AND CommandLine=regex(":[^\\\\]"))
+    return True
+
+def title(event):
+    return "Suspicious Diantz Alternate Data Stream Execution"
+

@@ -1,0 +1,11 @@
+// Title: File Download Via Bitsadmin To A Suspicious Target Folder
+// ID: 2ddef153-167b-4e89-86b6-757a9e65dcac
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-06-28
+// Tags: attack.persistence, attack.execution, attack.stealth, attack.t1197, attack.s0190, attack.t1036.003, attack.command-and-control, attack.t1105
+// Description: Detects usage of bitsadmin downloading a file to a suspicious target folder
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((CommandLine CONTAINS " /transfer " OR CommandLine CONTAINS " /create " OR CommandLine CONTAINS " /addfile ")) AND ((CommandLine CONTAINS ":\\Perflogs" OR CommandLine CONTAINS ":\\ProgramData\\" OR CommandLine CONTAINS ":\\Temp\\" OR CommandLine CONTAINS ":\\Users\\Public\\" OR CommandLine CONTAINS ":\\Windows\\" OR CommandLine CONTAINS "\\$Recycle.Bin\\" OR CommandLine CONTAINS "\\AppData\\Local\\" OR CommandLine CONTAINS "\\AppData\\Roaming\\" OR CommandLine CONTAINS "\\Contacts\\" OR CommandLine CONTAINS "\\Desktop\\" OR CommandLine CONTAINS "\\Favorites\\" OR CommandLine CONTAINS "\\Favourites\\" OR CommandLine CONTAINS "\\inetpub\\wwwroot\\" OR CommandLine CONTAINS "\\Music\\" OR CommandLine CONTAINS "\\Pictures\\" OR CommandLine CONTAINS "\\Start Menu\\Programs\\Startup\\" OR CommandLine CONTAINS "\\Users\\Default\\" OR CommandLine CONTAINS "\\Videos\\" OR CommandLine CONTAINS "%ProgramData%" OR CommandLine CONTAINS "%public%" OR CommandLine CONTAINS "%temp%" OR CommandLine CONTAINS "%tmp%")) AND ((Image="*\\bitsadmin.exe") OR (OriginalFileName EQUALS "bitsadmin.exe")))

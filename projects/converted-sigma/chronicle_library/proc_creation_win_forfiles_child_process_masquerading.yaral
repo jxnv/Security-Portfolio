@@ -1,0 +1,23 @@
+// Title: Forfiles.EXE Child Process Masquerading
+// ID: f53714ec-5077-420e-ad20-907ff9bb2958
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems), Anish Bogati
+// Date: 2024-01-05
+// Tags: attack.stealth, attack.t1036
+// Description: Detects the execution of "forfiles" from a non-default location, in order to potentially spawn a custom "cmd.exe" from the current working directory.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule f53714ec_5077_420e_ad20_907ff9bb2958 {
+  meta:
+    title = "Forfiles.EXE Child Process Masquerading"
+    description = "Detects the execution of "forfiles" from a non-default location, in order to potentially spawn a custom "cmd.exe" from the current working directory."
+    author = "Nasreddine Bencherchali (Nextron Systems), Anish Bogati"
+    severity = "HIGH"
+
+  events:
+    ((($e.principal.process.command_line = /.*.exe$/ nocase or $e.principal.process.command_line = /.*.exe\"$/ nocase) and $e.target.process.file.full_path = /.*\\cmd.exe$/ nocase and $e.target.process.command_line = /^/c echo \".*/ nocase) and not((($e.principal.process.file.full_path = /.*:\\Windows\\System32\\.*/ nocase or $e.principal.process.file.full_path = /.*:\\Windows\\SysWOW64\\.*/ nocase) and $e.principal.process.file.full_path = /.*\\forfiles.exe$/ nocase and ($e.target.process.file.full_path = /.*:\\Windows\\System32\\.*/ nocase or $e.target.process.file.full_path = /.*:\\Windows\\SysWOW64\\.*/ nocase) and $e.target.process.file.full_path = /.*\\cmd.exe$/ nocase)))
+
+  condition:
+    $e
+}

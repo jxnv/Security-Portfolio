@@ -1,0 +1,11 @@
+// Title: Legitimate Application Dropped Archive
+// ID: 654fcc6d-840d-4844-9b07-2c3300e54a26
+// Status: test
+// Level: high
+// Author: frack113, Florian Roth
+// Date: 2022-08-21
+// Tags: attack.stealth, attack.t1218
+// Description: Detects programs on a Windows system that should not write an archive to disk
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE ((process.executable LIKE "%\\winword.exe" OR process.executable LIKE "%\\excel.exe" OR process.executable LIKE "%\\powerpnt.exe" OR process.executable LIKE "%\\msaccess.exe" OR process.executable LIKE "%\\mspub.exe" OR process.executable LIKE "%\\eqnedt32.exe" OR process.executable LIKE "%\\visio.exe" OR process.executable LIKE "%\\wordpad.exe" OR process.executable LIKE "%\\wordview.exe" OR process.executable LIKE "%\\certutil.exe" OR process.executable LIKE "%\\certoc.exe" OR process.executable LIKE "%\\CertReq.exe" OR process.executable LIKE "%\\Desktopimgdownldr.exe" OR process.executable LIKE "%\\esentutl.exe" OR process.executable LIKE "%\\finger.exe" OR process.executable LIKE "%\\notepad.exe" OR process.executable LIKE "%\\AcroRd32.exe" OR process.executable LIKE "%\\RdrCEF.exe" OR process.executable LIKE "%\\mshta.exe" OR process.executable LIKE "%\\hh.exe") AND (file.path LIKE "%.zip" OR file.path LIKE "%.rar" OR file.path LIKE "%.7z" OR file.path LIKE "%.diagcab" OR file.path LIKE "%.appx"))

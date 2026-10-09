@@ -1,0 +1,12 @@
+// Title: Suspicious Wordpad Outbound Connections
+// ID: 786cdae8-fefb-4eb2-9227-04e34060db01
+// Status: test
+// Level: medium
+// Author: X__Junior (Nextron Systems)
+// Date: 2023-07-12
+// Tags: attack.command-and-control, attack.stealth
+// Description: Detects a network connection initiated by "wordpad.exe" over uncommon destination ports.
+// This might indicate potential process injection activity from a beacon or similar mechanisms.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+DeviceProcessEvents | where ((Initiated == "true" and FolderPath endswith "\\wordpad.exe") and not(((RemotePort == 80 or RemotePort == 139 or RemotePort == 443 or RemotePort == 445 or RemotePort == 465 or RemotePort == 587 or RemotePort == 993 or RemotePort == 995))))

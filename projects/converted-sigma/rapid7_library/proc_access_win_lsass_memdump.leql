@@ -1,0 +1,12 @@
+// Title: Potential Credential Dumping Activity Via LSASS
+// ID: 5ef9853e-4d0e-4a70-846f-a9ca37d876da
+// Status: test
+// Level: medium
+// Author: Samir Bousseaden, Michael Haag
+// Date: 2019-04-03
+// Tags: attack.credential-access, attack.t1003.001, attack.s0002
+// Description: Detects process access requests to the LSASS process with specific call trace calls and access masks.
+// This behaviour is expressed by many credential dumping tools such as Mimikatz, NanoDump, Invoke-Mimikatz, Procdump and even the Taskmgr dumping feature.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((where(TargetImage IENDSWITH "\\lsass.exe") AND (where(GrantedAccess ICONTAINS "0x1038") OR where(GrantedAccess ICONTAINS "0x1438") OR where(GrantedAccess ICONTAINS "0x143a") OR where(GrantedAccess ICONTAINS "0x1fffff")) AND (where(CallTrace ICONTAINS "dbgcore.dll") OR where(CallTrace ICONTAINS "dbghelp.dll") OR where(CallTrace ICONTAINS "kernel32.dll") OR where(CallTrace ICONTAINS "kernelbase.dll") OR where(CallTrace ICONTAINS "ntdll.dll"))) AND NOT (((where(SourceUser ICONTAINS "AUTHORI") OR where(SourceUser ICONTAINS "AUTORI")))) AND NOT ((((where(SourceImage IENDSWITH ":\\Windows\\Sysmon64.exe") OR where(SourceImage IENDSWITH ":\\Windows\\Sysmon64a.exe"))) OR ((where(CallTrace ICONTAINS ":\\Windows\\Temp\\asgard2-agent\\") AND where(CallTrace ICONTAINS "\\thor\\thor64.exe+") AND where(CallTrace ICONTAINS "|UNKNOWN(")) AND where(GrantedAccess = "0x103800")))))

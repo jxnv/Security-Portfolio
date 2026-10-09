@@ -1,0 +1,34 @@
+{
+  "title": "Driver/DLL Installation Via Odbcconf.EXE",
+  "id": "3f5491e2-8db8-496b-9e95-1029fce852d4",
+  "status": "test",
+  "description": "Detects execution of \"odbcconf\" with \"INSTALLDRIVER\" which installs a new ODBC driver. Attackers abuse this to install and run malicious DLLs.",
+  "author": "Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2023-05-22",
+  "tags": [
+    "attack.stealth",
+    "attack.t1218.008"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_img": [
+      {
+        "Image|endswith": "\\odbcconf.exe"
+      },
+      {
+        "OriginalFileName": "odbcconf.exe"
+      }
+    ],
+    "selection_cli": {
+      "CommandLine|contains|all": [
+        "INSTALLDRIVER ",
+        ".dll"
+      ]
+    },
+    "condition": "all of selection_*"
+  }
+}

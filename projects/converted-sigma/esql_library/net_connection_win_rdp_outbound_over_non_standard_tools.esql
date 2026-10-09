@@ -1,0 +1,12 @@
+// Title: Outbound RDP Connections Over Non-Standard Tools
+// ID: ed74fe75-7594-4b4b-ae38-e38e3fd2eb23
+// Status: test
+// Level: high
+// Author: Markus Neis
+// Date: 2019-05-15
+// Tags: attack.lateral-movement, attack.t1021.001, car.2013-07-002
+// Description: Detects Non-Standard tools initiating a connection over port 3389 indicating possible lateral movement.
+// An initial baseline is required before using this utility to exclude third party RDP tooling that you might use.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE ((destination.port == 3389 AND Initiated == "true") AND NOT (((process.executable == "C:\\Windows\\System32\\mstsc.exe" OR process.executable == "C:\\Windows\\SysWOW64\\mstsc.exe"))) AND NOT ((((process.executable LIKE "%\\Avast Software\\Avast\\AvastSvc.exe" OR process.executable LIKE "%\\Avast\\AvastSvc.exe")) OR (process.executable == "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe") OR (process.executable == "C:\\Windows\\System32\\dns.exe" AND source.port == 53 AND Protocol == "udp") OR (process.executable == "") OR (process.executable == "C:\\Program Files\\Mozilla Firefox\\firefox.exe") OR (process.executable IS NULL) OR (process.executable LIKE "%\\Ranger\\SentinelRanger.exe") OR (process.executable LIKE "C:\\Program Files\\SplunkUniversalForwarder\\bin\\%") OR (process.executable LIKE "%\\RDCMan.exe") OR ((process.executable LIKE "%\\FSAssessment.exe" OR process.executable LIKE "%\\FSDiscovery.exe" OR process.executable LIKE "%\\MobaRTE.exe" OR process.executable LIKE "%\\mRemote.exe" OR process.executable LIKE "%\\mRemoteNG.exe" OR process.executable LIKE "%\\Passwordstate.exe" OR process.executable LIKE "%\\RemoteDesktopManager.exe" OR process.executable LIKE "%\\RemoteDesktopManager64.exe" OR process.executable LIKE "%\\RemoteDesktopManagerFree.exe" OR process.executable LIKE "%\\RSSensor.exe" OR process.executable LIKE "%\\RTS2App.exe" OR process.executable LIKE "%\\RTSApp.exe" OR process.executable LIKE "%\\spiceworks-finder.exe" OR process.executable LIKE "%\\Terminals.exe" OR process.executable LIKE "%\\ws_TunnelService.exe")) OR ((process.executable LIKE "%\\thor.exe" OR process.executable LIKE "%\\thor64.exe")) OR ((process.executable == "C:\\Program Files\\TSplus\\Java\\bin\\HTML5service.exe" OR process.executable == "C:\\Program Files (x86)\\TSplus\\Java\\bin\\HTML5service.exe")) OR (process.executable == "<unknown process>"))))

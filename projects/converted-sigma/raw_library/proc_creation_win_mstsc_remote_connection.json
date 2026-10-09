@@ -1,0 +1,35 @@
+{
+  "title": "New Remote Desktop Connection Initiated Via Mstsc.EXE",
+  "id": "954f0af7-62dd-418f-b3df-a84bc2c7a774",
+  "status": "test",
+  "description": "Detects the usage of \"mstsc.exe\" with the \"/v\" flag to initiate a connection to a remote server.\nAdversaries may use valid accounts to log into a computer using the Remote Desktop Protocol (RDP). The adversary may then perform actions as the logged-on user.\n",
+  "author": "frack113",
+  "date": "2022-01-07",
+  "tags": [
+    "attack.lateral-movement",
+    "attack.t1021.001"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_img": [
+      {
+        "Image|endswith": "\\mstsc.exe"
+      },
+      {
+        "OriginalFileName": "mstsc.exe"
+      }
+    ],
+    "selection_cli": {
+      "CommandLine|contains|windash": " /v:"
+    },
+    "filter_optional_wsl": {
+      "ParentImage": "C:\\Windows\\System32\\lxss\\wslhost.exe",
+      "CommandLine|contains": "C:\\ProgramData\\Microsoft\\WSL\\wslg.rdp"
+    },
+    "condition": "all of selection_* and not 1 of filter_optional_*"
+  }
+}

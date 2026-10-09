@@ -1,0 +1,16 @@
+<!--
+  Title: Container With A hostPath Mount Created
+  ID: 402b955c-8fe0-4a8c-b635-622b4ac5f902
+  Status: test
+  Level: low
+  Author: Leo Tsaousis (@laripping)
+  Date: 2024-03-26
+  Description: Detects creation of a container with a hostPath mount. A hostPath volume mounts a directory or a file from the node to the container. Attackers who have permissions to create a new pod in the cluster may create one with a writable hostPath volume and chroot to escape to the underlying node.
+-->
+
+<group name="sigma_converted,">
+  <rule id="100001" level="5">
+    <description>Container With A hostPath Mount Created</description>
+    <match>(verb=\"create\" AND objectRef.resource=\"pods\" AND hostPath=\"*\")</match>
+  </rule>
+</group>

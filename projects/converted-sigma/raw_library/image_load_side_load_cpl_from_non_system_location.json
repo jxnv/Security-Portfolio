@@ -1,0 +1,38 @@
+{
+  "title": "System Control Panel Item Loaded From Uncommon Location",
+  "id": "2b140a5c-dc02-4bb8-b6b1-8bdb45714cde",
+  "status": "test",
+  "description": "Detects image load events of system control panel items (.cpl) from uncommon or non-system locations that may indicate DLL sideloading or other abuse techniques.\n",
+  "author": "Anish Bogati",
+  "date": "2024-01-09",
+  "tags": [
+    "attack.persistence",
+    "attack.privilege-escalation",
+    "attack.execution",
+    "attack.stealth",
+    "attack.t1574.001"
+  ],
+  "level": "high",
+  "logsource": {
+    "product": "windows",
+    "category": "image_load"
+  },
+  "detection": {
+    "selection": {
+      "ImageLoaded|endswith": [
+        "\\appwiz.cpl",
+        "\\bthprops.cpl",
+        "\\hdwwiz.cpl"
+      ]
+    },
+    "filter_main_legit_location": {
+      "ImageLoaded|startswith": [
+        "C:\\Windows\\Prefetch\\",
+        "C:\\Windows\\System32\\",
+        "C:\\Windows\\SysWOW64\\",
+        "C:\\Windows\\WinSxS\\"
+      ]
+    },
+    "condition": "selection and not 1 of filter_main_*"
+  }
+}

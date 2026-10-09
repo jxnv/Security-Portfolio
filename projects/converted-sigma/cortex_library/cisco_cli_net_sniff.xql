@@ -1,0 +1,11 @@
+// Title: Cisco Sniffing
+// ID: b9e1f193-d236-4451-aaae-2f3d2102120d
+// Status: test
+// Level: medium
+// Author: Austin Clark
+// Date: 2019-08-11
+// Tags: attack.credential-access, attack.discovery, attack.t1040
+// Description: Show when a monitor or a span/rspan is setup or modified
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter ("monitor capture point" or "set span" or "set rspan")

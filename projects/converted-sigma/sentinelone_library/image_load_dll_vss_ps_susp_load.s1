@@ -1,0 +1,13 @@
+// Title: Suspicious Volume Shadow Copy VSS_PS.dll Load
+// ID: 333cdbe8-27bb-4246-bf82-b41a0dca4b70
+// Status: test
+// Level: high
+// Author: Markus Neis, @markus_neis
+// Date: 2021-07-07
+// Tags: attack.impact, attack.t1490
+// Description: Detects the image load of vss_ps.dll by uncommon executables. This DLL is used by the Volume Shadow Copy Service (VSS) to manage shadow copies of files and volumes.
+// It is often abused by attackers to delete or manipulate shadow copies, which can hinder forensic investigations and data recovery efforts.
+// The fact that it is loaded by processes that are not typically associated with VSS operations can indicate suspicious activity.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((ImageLoaded endswithCIS "\\vss_ps.dll") AND NOT (((src.process.image.path is null) OR (src.process.image.path startswithCIS "C:\\Windows\\" AND (src.process.image.path endswithCIS "\\clussvc.exe" OR src.process.image.path endswithCIS "\\dismhost.exe" OR src.process.image.path endswithCIS "\\dllhost.exe" OR src.process.image.path endswithCIS "\\inetsrv\\appcmd.exe" OR src.process.image.path endswithCIS "\\inetsrv\\iissetup.exe" OR src.process.image.path endswithCIS "\\msiexec.exe" OR src.process.image.path endswithCIS "\\rundll32.exe" OR src.process.image.path endswithCIS "\\searchindexer.exe" OR src.process.image.path endswithCIS "\\srtasks.exe" OR src.process.image.path endswithCIS "\\svchost.exe" OR src.process.image.path endswithCIS "\\System32\\SystemPropertiesAdvanced.exe" OR src.process.image.path endswithCIS "\\taskhostw.exe" OR src.process.image.path endswithCIS "\\thor.exe" OR src.process.image.path endswithCIS "\\thor64.exe" OR src.process.image.path endswithCIS "\\tiworker.exe" OR src.process.image.path endswithCIS "\\vssvc.exe" OR src.process.image.path endswithCIS "\\vssadmin.exe" OR src.process.image.path endswithCIS "\\WmiPrvSE.exe" OR src.process.image.path endswithCIS "\\wsmprovhost.exe")) OR (src.process.cmdline startswithCIS "C:\\$WinREAgent\\Scratch\\" AND src.process.cmdline containsCIS "\\dismhost.exe {"))) AND NOT (((src.process.image.path startswithCIS "C:\\Program Files\\" OR src.process.image.path startswithCIS "C:\\Program Files (x86)\\"))))

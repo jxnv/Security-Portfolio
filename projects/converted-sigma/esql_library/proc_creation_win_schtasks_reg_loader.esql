@@ -1,0 +1,11 @@
+// Title: Scheduled Task Executing Payload from Registry
+// ID: 86588b36-c6d3-465f-9cee-8f9093e07798
+// Status: test
+// Level: medium
+// Author: X__Junior (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-07-18
+// Tags: attack.privilege-escalation, attack.execution, attack.persistence, attack.t1053.005, attack.t1059.001
+// Description: Detects the creation of a schtasks that potentially executes a payload stored in the Windows Registry using PowerShell.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE (((process.command_line LIKE "%/Create%") AND ((process.command_line LIKE "%Get-ItemProperty%" OR process.command_line LIKE "% gp %")) AND ((process.command_line LIKE "%HKCU:%" OR process.command_line LIKE "%HKLM:%" OR process.command_line LIKE "%registry::%" OR process.command_line LIKE "%HKEY_%")) AND ((process.executable LIKE "%\\schtasks.exe") OR (process.pe.original_file_name == "schtasks.exe"))) AND NOT (((process.command_line LIKE "%FromBase64String%" OR process.command_line LIKE "%encodedcommand%"))))

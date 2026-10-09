@@ -1,0 +1,23 @@
+// Title: Remote Schedule Task Recon via AtScv
+// ID: f177f2bc-5f3e-4453-b599-57eefce9a59c
+// Status: test
+// Level: high
+// Author: Sagie Dulce, Dekel Paz
+// Date: 2022-01-01
+// Tags: attack.discovery
+// Description: Detects remote RPC calls to read information about scheduled tasks via AtScv
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule f177f2bc_5f3e_4453_b599_57eefce9a59c {
+  meta:
+    title = "Remote Schedule Task Recon via AtScv"
+    description = "Detects remote RPC calls to read information about scheduled tasks via AtScv"
+    author = "Sagie Dulce, Dekel Paz"
+    severity = "HIGH"
+
+  events:
+    (($e.EventLog = "RPCFW" and $e.EventID = 3 and $e.InterfaceUuid = "1ff70682-0a51-30e8-076d-740be8cee98b") and not((($e.OpNum = 0 or $e.OpNum = 1))))
+
+  condition:
+    $e
+}

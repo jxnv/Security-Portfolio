@@ -1,0 +1,50 @@
+{
+  "title": "PUA - Potential PE Metadata Tamper Using Rcedit",
+  "id": "0c92f2e6-f08f-4b73-9216-ecb0ca634689",
+  "status": "test",
+  "description": "Detects the use of rcedit to potentially alter executable PE metadata properties, which could conceal efforts to rename system utilities for defense evasion.",
+  "author": "Micah Babinski",
+  "date": "2022-12-11",
+  "tags": [
+    "attack.stealth",
+    "attack.t1036.003",
+    "attack.t1036",
+    "attack.t1027.005",
+    "attack.t1027"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_img": [
+      {
+        "Image|endswith": [
+          "\\rcedit-x64.exe",
+          "\\rcedit-x86.exe"
+        ]
+      },
+      {
+        "Description": "Edit resources of exe"
+      },
+      {
+        "Product": "rcedit"
+      }
+    ],
+    "selection_flags": {
+      "CommandLine|contains": "--set-"
+    },
+    "selection_attributes": {
+      "CommandLine|contains": [
+        "OriginalFileName",
+        "CompanyName",
+        "FileDescription",
+        "ProductName",
+        "ProductVersion",
+        "LegalCopyright"
+      ]
+    },
+    "condition": "all of selection_*"
+  }
+}

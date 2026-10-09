@@ -1,0 +1,23 @@
+// Title: Suspicious MSHTA Child Process
+// ID: 03cc0c25-389f-4bf8-b48d-11878079f1ca
+// Status: test
+// Level: high
+// Author: Michael Haag
+// Date: 2019-01-16
+// Tags: attack.stealth, attack.t1218.005, car.2013-02-003, car.2013-03-001, car.2014-04-003
+// Description: Detects a suspicious process spawning from an "mshta.exe" process, which could be indicative of a malicious HTA script execution
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 03cc0c25_389f_4bf8_b48d_11878079f1ca {
+  meta:
+    title = "Suspicious MSHTA Child Process"
+    description = "Detects a suspicious process spawning from an "mshta.exe" process, which could be indicative of a malicious HTA script execution"
+    author = "Michael Haag"
+    severity = "HIGH"
+
+  events:
+    (((($e.target.process.file.full_path = /.*\\cmd.exe$/ nocase or $e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase or $e.target.process.file.full_path = /.*\\wscript.exe$/ nocase or $e.target.process.file.full_path = /.*\\cscript.exe$/ nocase or $e.target.process.file.full_path = /.*\\sh.exe$/ nocase or $e.target.process.file.full_path = /.*\\bash.exe$/ nocase or $e.target.process.file.full_path = /.*\\reg.exe$/ nocase or $e.target.process.file.full_path = /.*\\regsvr32.exe$/ nocase or $e.target.process.file.full_path = /.*\\bitsadmin.exe$/ nocase)) or (($e.target.process.file.name = "Cmd.Exe" or $e.target.process.file.name = "PowerShell.EXE" or $e.target.process.file.name = "pwsh.dll" or $e.target.process.file.name = "wscript.exe" or $e.target.process.file.name = "cscript.exe" or $e.target.process.file.name = "Bash.exe" or $e.target.process.file.name = "reg.exe" or $e.target.process.file.name = "REGSVR32.EXE" or $e.target.process.file.name = "bitsadmin.exe"))) and ($e.principal.process.file.full_path = /.*\\mshta.exe$/ nocase))
+
+  condition:
+    $e
+}

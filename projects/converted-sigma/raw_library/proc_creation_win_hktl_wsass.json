@@ -1,0 +1,29 @@
+{
+  "title": "HackTool - WSASS Execution",
+  "id": "589ac73f-8e12-409c-964e-31a2f5775ae2",
+  "status": "experimental",
+  "description": "Detects execution of WSASS, a tool used to dump LSASS memory on Windows systems by leveraging WER's\n(Windows Error Reporting) WerFaultSecure.EXE to bypass PPL (Protected Process Light) protections.\n",
+  "author": "Swachchhanda Shrawan Poudel (Nextron Systems)",
+  "date": "2025-11-23",
+  "tags": [
+    "attack.credential-access",
+    "attack.t1003.001"
+  ],
+  "level": "high",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_img": {
+      "Image|endswith": "\\wsass.exe"
+    },
+    "selection_hash": {
+      "Hashes|contains": "IMPHASH=32F5095C9BBDCACF28FD4060EB4DFC42"
+    },
+    "selection_cli": {
+      "CommandLine|re": "(?i)\\.exe[\\\"\\']?\\s+[^\\\"]{0,64}werfaultsecure\\.exe[\\\"\\']?\\s+\\d{2,10}"
+    },
+    "condition": "1 of selection_*"
+  }
+}

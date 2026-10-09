@@ -1,0 +1,11 @@
+// Title: Suspicious DumpMinitool Execution
+// ID: eb1c4225-1c23-4241-8dd4-051389fde4ce
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-04-06
+// Tags: attack.credential-access, attack.stealth, attack.t1036, attack.t1003.001
+// Description: Detects suspicious ways to use the "DumpMinitool.exe" binary
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((where(Image IENDSWITH "\\DumpMinitool.exe") OR where(Image IENDSWITH "\\DumpMinitool.x86.exe") OR where(Image IENDSWITH "\\DumpMinitool.arm64.exe"))) OR ((where(OriginalFileName = "DumpMinitool.exe") OR where(OriginalFileName = "DumpMinitool.x86.exe") OR where(OriginalFileName = "DumpMinitool.arm64.exe")))) AND (NOT (((where(Image ICONTAINS "\\Microsoft Visual Studio\\") OR where(Image ICONTAINS "\\Extensions\\")))) OR (where(CommandLine ICONTAINS ".txt")) OR (((where(CommandLine ICONTAINS " Full") OR where(CommandLine ICONTAINS " Mini") OR where(CommandLine ICONTAINS " WithHeap"))) AND NOT ((where(CommandLine ICONTAINS "--dumpType"))))))

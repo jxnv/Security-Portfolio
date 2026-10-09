@@ -1,0 +1,11 @@
+// Title: Shadow Copies Deletion Using Operating Systems Utilities
+// ID: c947b146-0abc-4c87-9c64-b17e9d7274a2
+// Status: stable
+// Level: high
+// Author: Florian Roth (Nextron Systems), Michael Haag, Teymur Kheirkhabarov, Daniil Yugoslavskiy, oscd.community, Andreas Hunkeler (@Karneades)
+// Date: 2019-10-22
+// Tags: attack.impact, attack.stealth, attack.t1070, attack.t1490
+// Description: Shadow Copies deletion using operating systems utilities
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE ((((process.command_line LIKE "%shadow%" AND process.command_line LIKE "%delete%")) AND (((process.executable LIKE "%\\powershell.exe" OR process.executable LIKE "%\\pwsh.exe" OR process.executable LIKE "%\\wmic.exe" OR process.executable LIKE "%\\vssadmin.exe" OR process.executable LIKE "%\\diskshadow.exe")) OR ((process.pe.original_file_name == "PowerShell.EXE" OR process.pe.original_file_name == "pwsh.dll" OR process.pe.original_file_name == "wmic.exe" OR process.pe.original_file_name == "VSSADMIN.EXE" OR process.pe.original_file_name == "diskshadow.exe")))) OR (((process.command_line LIKE "%delete%" AND process.command_line LIKE "%catalog%" AND process.command_line LIKE "%quiet%")) AND ((process.executable LIKE "%\\wbadmin.exe") OR (process.pe.original_file_name == "WBADMIN.EXE"))) OR (((process.command_line LIKE "%resize%" AND process.command_line LIKE "%shadowstorage%") AND (process.command_line LIKE "%unbounded%" OR process.command_line LIKE "%/MaxSize=%")) AND ((process.executable LIKE "%\\vssadmin.exe") OR (process.pe.original_file_name == "VSSADMIN.EXE"))))

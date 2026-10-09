@@ -1,0 +1,13 @@
+-- Title: Cmd Launched with Hidden Start Flags to Suspicious Targets
+-- ID: 5a6b7c8d-9e0f-1a2b-3c4d-5e6f7a8b9c0d
+-- Status: experimental
+-- Level: medium
+-- Author: Vladan Sekulic, Swachchhanda Shrawan Poudel (Nextron Systems)
+-- Date: 2026-01-24
+-- Tags: attack.stealth, attack.t1564.003
+-- Description: Detects cmd.exe executing commands with the "start" utility using "/b" (no window) or "/min" (minimized) flags.
+-- To reduce false positives from standard background tasks, detection is restricted to scenarios where the target is a known script extension or located in suspicious temporary/public directories.
+-- This technique was observed in Chaos, DarkSide, and Emotet malware campaigns.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE ((((CommandLine ILIKE '%start %' OR CommandLine ILIKE '%start/b%' OR CommandLine ILIKE '%start/min%')) AND ((CommandLine ILIKE '%/b %' OR CommandLine ILIKE '%-b %' OR CommandLine ILIKE '%/b\"%' OR CommandLine ILIKE '%-b\"%' OR CommandLine ILIKE '%/min %' OR CommandLine ILIKE '%-min %' OR CommandLine ILIKE '%/min\"%' OR CommandLine ILIKE '%-min\"%')) AND ((Image ILIKE '%\\cmd.exe') OR (OriginalFileName = 'Cmd.Exe'))) AND (((CommandLine ILIKE '%.bat%' OR CommandLine ILIKE '%.cmd%' OR CommandLine ILIKE '%.cpl%' OR CommandLine ILIKE '%.hta%' OR CommandLine ILIKE '%.js%' OR CommandLine ILIKE '%.ps1%' OR CommandLine ILIKE '%.scr%' OR CommandLine ILIKE '%.vbe%' OR CommandLine ILIKE '%.vbs%')) OR ((CommandLine ILIKE '% -nop %' OR CommandLine ILIKE '% -sta %' OR CommandLine ILIKE '%.downloadfile(%' OR CommandLine ILIKE '%.downloadstring(%' OR CommandLine ILIKE '%-noni %' OR CommandLine ILIKE '%-w hidden %')) OR ((CommandLine ILIKE '%:\\Perflogs\\%' OR CommandLine ILIKE '%:\\Temp\\%' OR CommandLine ILIKE '%:\\Users\\Default\\%' OR CommandLine ILIKE '%:\\Windows\\Temp\\%' OR CommandLine ILIKE '%\\AppData\\Roaming\\%' OR CommandLine ILIKE '%\\Contacts\\%' OR CommandLine ILIKE '%\\Documents\\%' OR CommandLine ILIKE '%\\Downloads\\%' OR CommandLine ILIKE '%\\Favorites\\%' OR CommandLine ILIKE '%\\Favourites\\%' OR CommandLine ILIKE '%\\inetpub\\%' OR CommandLine ILIKE '%\\Music\\%' OR CommandLine ILIKE '%\\Photos\\%' OR CommandLine ILIKE '%\\Temporary Internet\\%' OR CommandLine ILIKE '%\\Users\\Public\\%' OR CommandLine ILIKE '%\\Videos\\%'))))

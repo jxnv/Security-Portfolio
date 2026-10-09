@@ -1,0 +1,11 @@
+# Title: Uncommon New Firewall Rule Added In Windows Firewall Exception List
+# ID: cde0a575-7d3d-4a49-9817-b8004a7bf105
+# Status: test
+# Level: medium
+# Author: frack113
+# Date: 2022-02-19
+# Tags: attack.defense-impairment, attack.t1686.003
+# Description: Detects when a rule has been added to the Windows Firewall exception list
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((winlog.event_id:"2004" OR winlog.event_id:"2071" OR winlog.event_id:"2097")) AND NOT (((Action:"2") OR ((ApplicationPath:*C:\\PerfLogs\\* OR ApplicationPath:*C:\\Temp\\* OR ApplicationPath:*C:\\Tmp\\* OR ApplicationPath:*C:\\Users\\Public\\* OR ApplicationPath:*C:\\Windows\\Tasks\\* OR ApplicationPath:*C:\\Windows\\Temp\\* OR ApplicationPath:*\\AppData\\Local\\Temp\\*)) OR (ApplicationPath:C:\\Windows\\ehome\\* AND ModifyingApplication:"C:\\Windows\\System32\\oobe\\Setup.exe") OR ((ApplicationPath:C:\\Program Files (x86)\\* OR ApplicationPath:C:\\Program Files\\* OR ApplicationPath:C:\\Windows\\System32\\* OR ApplicationPath:C:\\Windows\\SysWOW64\\* OR ApplicationPath:C:\\Windows\\WinSxS\\*)) OR (NOT _exists_:ApplicationPath) OR (ApplicationPath:"SYSTEM" AND (ModifyingApplication:"C:\\Windows\\System32\\dllhost.exe" OR ModifyingApplication:"C:\\Windows\\System32\\oobe\\Setup.exe" OR ModifyingApplication:"C:\\Windows\\System32\\svchost.exe")) OR (ModifyingApplication:C:\\Windows\\WinSxS\\* AND ModifyingApplication:*\\TiWorker.exe))) AND NOT (((((ModifyingApplication:C:\\ProgramData\\Microsoft\\Windows Defender\\Platform\\* OR ModifyingApplication:C:\\Program Files\\Windows Defender\\*) AND ModifyingApplication:*\\MsMpEng.exe) OR ((ApplicationPath:C:\\ProgramData\\Microsoft\\Windows Defender\\Platform\\* OR ApplicationPath:C:\\Program Files\\Windows Defender\\*) AND ApplicationPath:*\\MsMpEng.exe)) OR ((ModifyingApplication:"C:\\Windows\\System32\\svchost.exe" OR ModifyingApplication:"C:\\Windows\\System32\\dllhost.exe") AND ApplicationPath:"") OR (ApplicationPath:C:\\Windows\\SystemApps\\* AND ModifyingApplication:"C:\\Windows\\System32\\svchost.exe"))))

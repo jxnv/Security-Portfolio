@@ -1,0 +1,23 @@
+// Title: Windows Binaries Write Suspicious Extensions
+// ID: b8fd0e93-ff58-4cbd-8f48-1c114e342e62
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-12
+// Tags: attack.stealth, attack.t1036
+// Description: Detects Windows executables that write files with suspicious extensions
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule b8fd0e93_ff58_4cbd_8f48_1c114e342e62 {
+  meta:
+    title = "Windows Binaries Write Suspicious Extensions"
+    description = "Detects Windows executables that write files with suspicious extensions"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (((($e.target.process.file.full_path = /.*\\csrss.exe$/ nocase or $e.target.process.file.full_path = /.*\\lsass.exe$/ nocase or $e.target.process.file.full_path = /.*\\RuntimeBroker.exe$/ nocase or $e.target.process.file.full_path = /.*\\sihost.exe$/ nocase or $e.target.process.file.full_path = /.*\\smss.exe$/ nocase or $e.target.process.file.full_path = /.*\\wininit.exe$/ nocase or $e.target.process.file.full_path = /.*\\winlogon.exe$/ nocase) and ($e.target.file.full_path = /.*.bat$/ nocase or $e.target.file.full_path = /.*.dll$/ nocase or $e.target.file.full_path = /.*.exe$/ nocase or $e.target.file.full_path = /.*.hta$/ nocase or $e.target.file.full_path = /.*.iso$/ nocase or $e.target.file.full_path = /.*.ps1$/ nocase or $e.target.file.full_path = /.*.txt$/ nocase or $e.target.file.full_path = /.*.vbe$/ nocase or $e.target.file.full_path = /.*.vbs$/ nocase)) or (($e.target.process.file.full_path = /.*\\dllhost.exe$/ nocase or $e.target.process.file.full_path = /.*\\rundll32.exe$/ nocase or $e.target.process.file.full_path = /.*\\svchost.exe$/ nocase) and ($e.target.file.full_path = /.*.bat$/ nocase or $e.target.file.full_path = /.*.hta$/ nocase or $e.target.file.full_path = /.*.iso$/ nocase or $e.target.file.full_path = /.*.ps1$/ nocase or $e.target.file.full_path = /.*.vbe$/ nocase or $e.target.file.full_path = /.*.vbs$/ nocase))) and not((($e.target.process.file.full_path = "C:\\Windows\\System32\\dllhost.exe" and ($e.target.file.full_path = /.*:\\Users\\.*/ nocase and $e.target.file.full_path = /.*\\AppData\\Local\\Temp\\__PSScriptPolicyTest_.*/ nocase) and $e.target.file.full_path = /.*.ps1$/ nocase) or ($e.target.process.file.full_path = "C:\\Windows\\system32\\svchost.exe" and ($e.target.file.full_path = /.*C:\\Program Files\\WindowsApps\\Clipchamp.*/ nocase and $e.target.file.full_path = /.*.ps1.*/ nocase)) or (($e.target.process.file.full_path = "C:\\Windows\\system32\\svchost.exe" or $e.target.process.file.full_path = "C:\\Windows\\SysWOW64\\svchost.exe") and ($e.target.file.full_path = /^C:\\Program Files\\WindowsApps\\Microsoft.PowerShellPreview.*/ nocase or $e.target.file.full_path = /^C:\\Program Files (x86)\\WindowsApps\\Microsoft.PowerShellPreview.*/ nocase) and $e.target.file.full_path = /.*.ps1$/ nocase) or ($e.target.process.file.full_path = "C:\\Windows\\system32\\svchost.exe" and ($e.target.file.full_path = /.*C:\\Windows\\System32\\GroupPolicy\\DataStore\\.*/ nocase and $e.target.file.full_path = /.*\\sysvol\\.*/ nocase and $e.target.file.full_path = /.*\\Policies\\.*/ nocase and $e.target.file.full_path = /.*\\Machine\\Scripts\\Startup\\.*/ nocase) and ($e.target.file.full_path = /.*.ps1$/ nocase or $e.target.file.full_path = /.*.bat$/ nocase)))))
+
+  condition:
+    $e
+}

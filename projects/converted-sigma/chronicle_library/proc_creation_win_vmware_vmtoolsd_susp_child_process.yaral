@@ -1,0 +1,23 @@
+// Title: VMToolsd Suspicious Child Process
+// ID: 5687f942-867b-4578-ade7-1e341c46e99a
+// Status: test
+// Level: high
+// Author: bohops, Bhabesh Raj
+// Date: 2021-10-08
+// Tags: attack.execution, attack.persistence, attack.t1059
+// Description: Detects suspicious child process creations of VMware Tools process which may indicate persistence setup
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 5687f942_867b_4578_ade7_1e341c46e99a {
+  meta:
+    title = "VMToolsd Suspicious Child Process"
+    description = "Detects suspicious child process creations of VMware Tools process which may indicate persistence setup"
+    author = "bohops, Bhabesh Raj"
+    severity = "HIGH"
+
+  events:
+    ((((($e.target.process.file.full_path = /.*\\cmd.exe$/ nocase or $e.target.process.file.full_path = /.*\\cscript.exe$/ nocase or $e.target.process.file.full_path = /.*\\mshta.exe$/ nocase or $e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase or $e.target.process.file.full_path = /.*\\regsvr32.exe$/ nocase or $e.target.process.file.full_path = /.*\\rundll32.exe$/ nocase or $e.target.process.file.full_path = /.*\\wscript.exe$/ nocase)) or (($e.target.process.file.name = "Cmd.Exe" or $e.target.process.file.name = "cscript.exe" or $e.target.process.file.name = "MSHTA.EXE" or $e.target.process.file.name = "PowerShell.EXE" or $e.target.process.file.name = "pwsh.dll" or $e.target.process.file.name = "REGSVR32.EXE" or $e.target.process.file.name = "RUNDLL32.EXE" or $e.target.process.file.name = "wscript.exe"))) and ($e.principal.process.file.full_path = /.*\\vmtoolsd.exe$/ nocase)) and not((($e.target.process.file.full_path = /.*\\cmd.exe$/ nocase and $e.target.process.command_line = "") or ($e.target.process.file.full_path = /.*\\cmd.exe$/ nocase and not ($e.target.process.command_line = /.*/)) or ($e.target.process.file.full_path = /.*\\cmd.exe$/ nocase and ($e.target.process.command_line = /.*\\VMware\\VMware Tools\\poweron-vm-default.bat.*/ nocase or $e.target.process.command_line = /.*\\VMware\\VMware Tools\\poweroff-vm-default.bat.*/ nocase or $e.target.process.command_line = /.*\\VMware\\VMware Tools\\resume-vm-default.bat.*/ nocase or $e.target.process.command_line = /.*\\VMware\\VMware Tools\\suspend-vm-default.bat.*/ nocase)))))
+
+  condition:
+    $e
+}

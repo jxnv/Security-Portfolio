@@ -1,0 +1,11 @@
+// Title: Potentially Suspicious Office Document Executed From Trusted Location
+// ID: f99abdf0-6283-4e71-bd2b-b5c048a94743
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-06-21
+// Tags: attack.stealth, attack.t1202
+// Description: Detects the execution of an Office application that points to a document that is located in a trusted location. Attackers often used this to avoid macro security and execute their malicious code.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where (((((Image matches "*\\EXCEL.EXE" or Image matches "*\\POWERPNT.EXE" or Image matches "*\\WINWORD.exe")) or ((OriginalFileName = "Excel.exe" or OriginalFileName = "POWERPNT.EXE" or OriginalFileName = "WinWord.exe"))) and ((ParentImage matches "*\\explorer.exe" or ParentImage matches "*\\dopus.exe")) and ((CommandLine matches "*\\AppData\\Roaming\\Microsoft\\Templates*" or CommandLine matches "*\\AppData\\Roaming\\Microsoft\\Word\\Startup\\*" or CommandLine matches "*\\Microsoft Office\\root\\Templates\\*" or CommandLine matches "*\\Microsoft Office\\Templates\\*"))) and !(((CommandLine matches "*.dotx" or CommandLine matches "*.xltx" or CommandLine matches "*.potx"))))

@@ -1,0 +1,60 @@
+{
+  "title": "Suspicious Volume Shadow Copy VSS_PS.dll Load",
+  "id": "333cdbe8-27bb-4246-bf82-b41a0dca4b70",
+  "status": "test",
+  "description": "Detects the image load of vss_ps.dll by uncommon executables. This DLL is used by the Volume Shadow Copy Service (VSS) to manage shadow copies of files and volumes.\nIt is often abused by attackers to delete or manipulate shadow copies, which can hinder forensic investigations and data recovery efforts.\nThe fact that it is loaded by processes that are not typically associated with VSS operations can indicate suspicious activity.\n",
+  "author": "Markus Neis, @markus_neis",
+  "date": "2021-07-07",
+  "tags": [
+    "attack.impact",
+    "attack.t1490"
+  ],
+  "level": "high",
+  "logsource": {
+    "category": "image_load",
+    "product": "windows"
+  },
+  "detection": {
+    "selection": {
+      "ImageLoaded|endswith": "\\vss_ps.dll"
+    },
+    "filter_main_legit": {
+      "Image|startswith": "C:\\Windows\\",
+      "Image|endswith": [
+        "\\clussvc.exe",
+        "\\dismhost.exe",
+        "\\dllhost.exe",
+        "\\inetsrv\\appcmd.exe",
+        "\\inetsrv\\iissetup.exe",
+        "\\msiexec.exe",
+        "\\rundll32.exe",
+        "\\searchindexer.exe",
+        "\\srtasks.exe",
+        "\\svchost.exe",
+        "\\System32\\SystemPropertiesAdvanced.exe",
+        "\\taskhostw.exe",
+        "\\thor.exe",
+        "\\thor64.exe",
+        "\\tiworker.exe",
+        "\\vssvc.exe",
+        "\\vssadmin.exe",
+        "\\WmiPrvSE.exe",
+        "\\wsmprovhost.exe"
+      ]
+    },
+    "filter_main_update": {
+      "CommandLine|startswith": "C:\\$WinREAgent\\Scratch\\",
+      "CommandLine|contains": "\\dismhost.exe {"
+    },
+    "filter_main_image_null": {
+      "Image": null
+    },
+    "filter_optional_programfiles": {
+      "Image|startswith": [
+        "C:\\Program Files\\",
+        "C:\\Program Files (x86)\\"
+      ]
+    },
+    "condition": "selection and not 1 of filter_main_* and not 1 of filter_optional_*"
+  }
+}

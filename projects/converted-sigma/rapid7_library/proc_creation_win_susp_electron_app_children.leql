@@ -1,0 +1,11 @@
+// Title: Suspicious Electron Application Child Processes
+// ID: f26eb764-fd89-464b-85e2-dc4a8e6e77b8
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-10-21
+// Tags: attack.execution
+// Description: Detects suspicious child processes of electron apps (teams, discord, slack, etc.). This could be a potential sign of ".asar" file tampering (See reference section for more information) or binary execution proxy through specific CLI arguments (see related rule)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(ParentImage IENDSWITH "\\chrome.exe") OR where(ParentImage IENDSWITH "\\discord.exe") OR where(ParentImage IENDSWITH "\\GitHubDesktop.exe") OR where(ParentImage IENDSWITH "\\keybase.exe") OR where(ParentImage IENDSWITH "\\msedge.exe") OR where(ParentImage IENDSWITH "\\msedgewebview2.exe") OR where(ParentImage IENDSWITH "\\msteams.exe") OR where(ParentImage IENDSWITH "\\slack.exe") OR where(ParentImage IENDSWITH "\\teams.exe"))) AND (((where(Image IENDSWITH "\\cmd.exe") OR where(Image IENDSWITH "\\cscript.exe") OR where(Image IENDSWITH "\\mshta.exe") OR where(Image IENDSWITH "\\powershell.exe") OR where(Image IENDSWITH "\\pwsh.exe") OR where(Image IENDSWITH "\\regsvr32.exe") OR where(Image IENDSWITH "\\whoami.exe") OR where(Image IENDSWITH "\\wscript.exe"))) OR ((where(Image ICONTAINS ":\\ProgramData\\") OR where(Image ICONTAINS ":\\Temp\\") OR where(Image ICONTAINS "\\AppData\\Local\\Temp\\") OR where(Image ICONTAINS "\\Users\\Public\\") OR where(Image ICONTAINS "\\Windows\\Temp\\")))) AND NOT ((where(ParentImage IENDSWITH "\\Discord.exe") AND where(Image IENDSWITH "\\cmd.exe") AND where(CommandLine ICONTAINS "\\NVSMI\\nvidia-smi.exe"))))

@@ -1,0 +1,11 @@
+// Title: Potential Initial Access via DLL Search Order Hijacking
+// ID: dbbd9f66-2ed3-4ca2-98a4-6ea985dd1a1c
+// Status: test
+// Level: medium
+// Author: Tim Rauch (rule), Elastic (idea)
+// Date: 2022-10-21
+// Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.stealth, attack.t1566, attack.t1566.001, attack.initial-access, attack.t1574, attack.t1574.001
+// Description: Detects attempts to create a DLL file to a known desktop application dependencies folder such as Slack, Teams or OneDrive and by an unusual process. This may indicate an attempt to load a malicious module via DLL search order hijacking.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE (((process.executable LIKE "%\\winword.exe" OR process.executable LIKE "%\\excel.exe" OR process.executable LIKE "%\\powerpnt.exe" OR process.executable LIKE "%\\MSACCESS.EXE" OR process.executable LIKE "%\\MSPUB.EXE" OR process.executable LIKE "%\\fltldr.exe" OR process.executable LIKE "%\\cmd.exe" OR process.executable LIKE "%\\certutil.exe" OR process.executable LIKE "%\\mshta.exe" OR process.executable LIKE "%\\cscript.exe" OR process.executable LIKE "%\\wscript.exe" OR process.executable LIKE "%\\curl.exe" OR process.executable LIKE "%\\powershell.exe" OR process.executable LIKE "%\\pwsh.exe") AND file.path LIKE "%.dll" AND (file.path LIKE "%\\Users\\%" AND file.path LIKE "%\\AppData\\%") AND (file.path LIKE "%\\Microsoft\\OneDrive\\%" OR file.path LIKE "%\\Microsoft OneDrive\\%" OR file.path LIKE "%\\Microsoft\\Teams\\%" OR file.path LIKE "%\\Local\\slack\\app-%" OR file.path LIKE "%\\Local\\Programs\\Microsoft VS Code\\%")) AND NOT ((process.executable LIKE "%\\cmd.exe" AND (file.path LIKE "%\\Users\\%" AND file.path LIKE "%\\AppData\\%" AND file.path LIKE "%\\Microsoft\\OneDrive\\%" AND file.path LIKE "%\\api-ms-win-core-%"))))

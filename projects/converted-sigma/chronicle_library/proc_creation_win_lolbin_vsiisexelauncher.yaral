@@ -1,0 +1,23 @@
+// Title: Use of VSIISExeLauncher.exe
+// ID: 18749301-f1c5-4efc-a4c3-276ff1f5b6f8
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-06-09
+// Tags: attack.execution, attack.stealth, attack.t1127
+// Description: The "VSIISExeLauncher.exe" binary part of the Visual Studio/VS Code can be used to execute arbitrary binaries
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 18749301_f1c5_4efc_a4c3_276ff1f5b6f8 {
+  meta:
+    title = "Use of VSIISExeLauncher.exe"
+    description = "The "VSIISExeLauncher.exe" binary part of the Visual Studio/VS Code can be used to execute arbitrary binaries"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.command_line = /.* -p .*/ nocase or $e.target.process.command_line = /.* -a .*/ nocase)) and (($e.target.process.file.full_path = /.*\\VSIISExeLauncher.exe$/ nocase) or ($e.target.process.file.name = "VSIISExeLauncher.exe")))
+
+  condition:
+    $e
+}

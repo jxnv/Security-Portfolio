@@ -1,0 +1,11 @@
+// Title: Weak Encryption Enabled and Kerberoast
+// ID: f6de9536-0441-4b3f-a646-f4e00f300ffd
+// Status: test
+// Level: high
+// Author: @neu5ron
+// Date: 2017-07-30
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects scenario where weak encryption is enabled for a user profile which could be used for hash/password cracking.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((EventID == "4738") AND ((((NewUacValue="*8???" OR NewUacValue="*9???" OR NewUacValue="*A???" OR NewUacValue="*B???" OR NewUacValue="*C???" OR NewUacValue="*D???" OR NewUacValue="*E???" OR NewUacValue="*F???")) AND NOT (((OldUacValue="*8???" OR OldUacValue="*9???" OR OldUacValue="*A???" OR OldUacValue="*B???" OR OldUacValue="*C???" OR OldUacValue="*D???" OR OldUacValue="*E???" OR OldUacValue="*F???")))) OR (((NewUacValue="*1????" OR NewUacValue="*3????" OR NewUacValue="*5????" OR NewUacValue="*7????" OR NewUacValue="*9????" OR NewUacValue="*B????" OR NewUacValue="*D????" OR NewUacValue="*F????")) AND NOT (((OldUacValue="*1????" OR OldUacValue="*3????" OR OldUacValue="*5????" OR OldUacValue="*7????" OR OldUacValue="*9????" OR OldUacValue="*B????" OR OldUacValue="*D????" OR OldUacValue="*F????")))) OR (((NewUacValue="*8??" OR NewUacValue="*9??" OR NewUacValue="*A??" OR NewUacValue="*B??" OR NewUacValue="*C??" OR NewUacValue="*D??" OR NewUacValue="*E??" OR NewUacValue="*F??")) AND NOT (((OldUacValue="*8??" OR OldUacValue="*9??" OR OldUacValue="*A??" OR OldUacValue="*B??" OR OldUacValue="*C??" OR OldUacValue="*D??" OR OldUacValue="*E??" OR OldUacValue="*F??"))))))

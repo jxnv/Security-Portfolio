@@ -1,0 +1,11 @@
+// Title: Suspicious Uninstall of Windows Defender Feature via PowerShell
+// ID: c443012c-7928-43bf-ac20-7eda5efe61ad
+// Status: experimental
+// Level: high
+// Author: yxinmiracle
+// Date: 2025-08-22
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects the use of PowerShell with Uninstall-WindowsFeature or Remove-WindowsFeature cmdlets to disable or remove the Windows Defender GUI feature, a common technique used by adversaries to evade defenses.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((CommandLine: "*Windows-Defender*") AND ((CommandLine: "*Uninstall-WindowsFeature*" OR CommandLine: "*Remove-WindowsFeature*")) AND (((Image="*\\powershell_ise.exe" OR Image="*\\powershell.exe" OR Image="*\\pwsh.exe")) OR ((OriginalFileName: "PowerShell_ISE.EXE" OR OriginalFileName: "PowerShell.EXE" OR OriginalFileName: "pwsh.dll"))))

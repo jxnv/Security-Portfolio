@@ -1,0 +1,12 @@
+# Title: Legitimate Application Writing Files In Uncommon Location
+# ID: 1cf465a1-2609-4c15-9b66-c32dbe4bfd67
+# Status: experimental
+# Level: high
+# Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+# Date: 2025-12-10
+# Tags: attack.stealth, attack.t1218, attack.command-and-control, attack.t1105
+# Description: Detects legitimate applications writing any type of file to uncommon or suspicious locations that are not typical for application data storage or execution.
+# Adversaries may leverage legitimate applications (Living off the Land Binaries - LOLBins) to drop or download malicious files to uncommon locations on the system to evade detection by security solutions.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((Image="*\\eqnedt32.exe" OR Image="*\\wordpad.exe" OR Image="*\\wordview.exe" OR Image="*\\cmdl32.exe" OR Image="*\\certutil.exe" OR Image="*\\certoc.exe" OR Image="*\\CertReq.exe" OR Image="*\\bitsadmin.exe" OR Image="*\\Desktopimgdownldr.exe" OR Image="*\\esentutl.exe" OR Image="*\\expand.exe" OR Image="*\\extrac32.exe" OR Image="*\\replace.exe" OR Image="*\\mshta.exe" OR Image="*\\ftp.exe" OR Image="*\\Ldifde.exe" OR Image="*\\RdrCEF.exe" OR Image="*\\hh.exe" OR Image="*\\finger.exe" OR Image="*\\findstr.exe")) AND ((TargetFilename contains ":\\Perflogs" OR TargetFilename contains ":\\ProgramData\\" OR TargetFilename contains ":\\Temp\\" OR TargetFilename contains ":\\Users\\Public\\" OR TargetFilename contains ":\\Windows\\" OR TargetFilename contains "\\$Recycle.Bin\\" OR TargetFilename contains "\\AppData\\Local\\" OR TargetFilename contains "\\AppData\\Roaming\\" OR TargetFilename contains "\\Contacts\\" OR TargetFilename contains "\\Desktop\\" OR TargetFilename contains "\\Favorites\\" OR TargetFilename contains "\\Favourites\\" OR TargetFilename contains "\\inetpub\\wwwroot\\" OR TargetFilename contains "\\Music\\" OR TargetFilename contains "\\Pictures\\" OR TargetFilename contains "\\Start Menu\\Programs\\Startup\\" OR TargetFilename contains "\\Users\\Default\\" OR TargetFilename contains "\\Videos\\")))

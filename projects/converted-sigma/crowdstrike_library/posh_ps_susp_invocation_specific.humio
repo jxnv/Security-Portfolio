@@ -1,0 +1,11 @@
+// Title: Suspicious PowerShell Invocations - Specific
+// ID: ae7fbf8e-f3cb-49fd-8db4-5f3bed522c71
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Jonhnathan Ribeiro
+// Date: 2017-03-05
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects suspicious PowerShell invocation command parameters
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((ScriptBlockText = /*-nop*/i and ScriptBlockText = /* -w */i and ScriptBlockText = /*hidden*/i and ScriptBlockText = /* -c */i and ScriptBlockText = /*[Convert]::FromBase64String*/i)) or ((ScriptBlockText = /* -w */i and ScriptBlockText = /*hidden*/i and ScriptBlockText = /*-ep*/i and ScriptBlockText = /*bypass*/i and ScriptBlockText = /*-Enc*/i)) or ((ScriptBlockText = /* -w */i and ScriptBlockText = /*hidden*/i and ScriptBlockText = /*-noni*/i and ScriptBlockText = /*-nop*/i and ScriptBlockText = /* -c */i and ScriptBlockText = /*iex*/i and ScriptBlockText = /*New-Object*/i)) or ((ScriptBlockText = /*iex*/i and ScriptBlockText = /*New-Object*/i and ScriptBlockText = /*Net.WebClient*/i and ScriptBlockText = /*.Download*/i)) or ((ScriptBlockText = /*powershell*/i and ScriptBlockText = /*reg*/i and ScriptBlockText = /*add*/i) and (ScriptBlockText = /*\\software\\microsoft\\windows\\currentversion\\run*/i or ScriptBlockText = /*\\software\\wow6432node\\microsoft\\windows\\currentversion\\run*/i or ScriptBlockText = /*\\software\\microsoft\\windows\\currentversion\\policies\\explorer\\run*/i)) or ((ScriptBlockText = /*bypass*/i and ScriptBlockText = /*-noprofile*/i and ScriptBlockText = /*-windowstyle*/i and ScriptBlockText = /*hidden*/i and ScriptBlockText = /*new-object*/i and ScriptBlockText = /*system.net.webclient*/i and ScriptBlockText = /*.download*/i))) and not(((ScriptBlockText = /*(New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1*/i or ScriptBlockText = /*(New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1')*/i or ScriptBlockText = /*Write-ChocolateyWarning*/i))))

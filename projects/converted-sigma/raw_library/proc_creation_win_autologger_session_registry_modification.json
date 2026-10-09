@@ -1,0 +1,53 @@
+{
+  "title": "Windows EventLog Autologger Session Registry Modification Via CommandLine",
+  "id": "d7b81144-b866-48a4-9bcc-275dc69d870e",
+  "status": "experimental",
+  "description": "Detects attempts to disable Windows EventLog autologger sessions via registry modification.\nThe AutoLogger event tracing session records events that occur early in the operating system boot process.\nApplications and device drivers can use the AutoLogger session to capture traces before the user logs in.\nAdversaries may disable these sessions to evade detection and prevent security monitoring of early boot activities and system events.\n",
+  "author": "Swachchhanda Shrawan Poudel (Nextron Systems)",
+  "date": "2025-12-25",
+  "tags": [
+    "attack.defense-impairment",
+    "attack.t1685.001"
+  ],
+  "level": "high",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_img": [
+      {
+        "Image|endswith": [
+          "\\reg.exe",
+          "\\powershell.exe",
+          "\\pwsh.exe"
+        ]
+      },
+      {
+        "OriginalFileName": [
+          "reg.exe",
+          "PowerShell.EXE",
+          "pwsh.dll"
+        ]
+      }
+    ],
+    "selection_cli_action": {
+      "CommandLine|contains": [
+        "add ",
+        "Set-ItemProperty",
+        "New-ItemProperty",
+        "si "
+      ]
+    },
+    "selection_cli_base": {
+      "CommandLine|contains": "\\Control\\WMI\\Autologger\\"
+    },
+    "selection_cli_key": {
+      "CommandLine|contains": [
+        "Start",
+        "Enabled"
+      ]
+    },
+    "condition": "all of selection_*"
+  }
+}

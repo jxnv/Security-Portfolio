@@ -1,0 +1,11 @@
+// Title: Potentially Suspicious Regsvr32 HTTP IP Pattern
+// ID: 2dd2c217-bf68-437a-b57c-fe9fd01d5de8
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-01-11
+// Tags: attack.stealth, attack.t1218.010
+// Description: Detects regsvr32 execution to download and install DLLs located remotely where the address is an IP address.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((src.process.image.path endswithCIS "\\regsvr32.exe") OR (OriginalFileName = "REGSVR32.EXE")) AND ((src.process.cmdline containsCIS " /i:http://1" OR src.process.cmdline containsCIS " /i:http://2" OR src.process.cmdline containsCIS " /i:http://3" OR src.process.cmdline containsCIS " /i:http://4" OR src.process.cmdline containsCIS " /i:http://5" OR src.process.cmdline containsCIS " /i:http://6" OR src.process.cmdline containsCIS " /i:http://7" OR src.process.cmdline containsCIS " /i:http://8" OR src.process.cmdline containsCIS " /i:http://9" OR src.process.cmdline containsCIS " /i:https://1" OR src.process.cmdline containsCIS " /i:https://2" OR src.process.cmdline containsCIS " /i:https://3" OR src.process.cmdline containsCIS " /i:https://4" OR src.process.cmdline containsCIS " /i:https://5" OR src.process.cmdline containsCIS " /i:https://6" OR src.process.cmdline containsCIS " /i:https://7" OR src.process.cmdline containsCIS " /i:https://8" OR src.process.cmdline containsCIS " /i:https://9" OR src.process.cmdline containsCIS " -i:http://1" OR src.process.cmdline containsCIS " -i:http://2" OR src.process.cmdline containsCIS " -i:http://3" OR src.process.cmdline containsCIS " -i:http://4" OR src.process.cmdline containsCIS " -i:http://5" OR src.process.cmdline containsCIS " -i:http://6" OR src.process.cmdline containsCIS " -i:http://7" OR src.process.cmdline containsCIS " -i:http://8" OR src.process.cmdline containsCIS " -i:http://9" OR src.process.cmdline containsCIS " -i:https://1" OR src.process.cmdline containsCIS " -i:https://2" OR src.process.cmdline containsCIS " -i:https://3" OR src.process.cmdline containsCIS " -i:https://4" OR src.process.cmdline containsCIS " -i:https://5" OR src.process.cmdline containsCIS " -i:https://6" OR src.process.cmdline containsCIS " -i:https://7" OR src.process.cmdline containsCIS " -i:https://8" OR src.process.cmdline containsCIS " -i:https://9")))

@@ -1,0 +1,11 @@
+# Title: Process Creation Using Sysnative Folder
+# ID: 3c1b5fb0-c72f-45ba-abd1-4d4c353144ab
+# Status: test
+# Level: medium
+# Author: Max Altgelt (Nextron Systems)
+# Date: 2022-08-23
+# Tags: attack.privilege-escalation, attack.stealth, attack.t1055
+# Description: Detects process creation events that use the Sysnative folder (common for CobaltStrike spawns)
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((cmdline:*:\\Windows\\Sysnative\\*) OR (process_name:*:\\Windows\\Sysnative\\*)) AND -(((process_name:*C:\\Windows\\Microsoft.NET\\Framework64\\v* OR process_name:*C:\\Windows\\Microsoft.NET\\Framework\\v* OR process_name:*C:\\Windows\\Microsoft.NET\\FrameworkArm\\v* OR process_name:*C:\\Windows\\Microsoft.NET\\FrameworkArm64\\v*) AND process_name:*\\ngen.exe AND cmdline:*install*)) AND -(((cmdline:*\"C:\\Windows\\sysnative\\cmd.exe\"* AND cmdline:*\\xampp\\* AND cmdline:*\\catalina_start.bat*))))

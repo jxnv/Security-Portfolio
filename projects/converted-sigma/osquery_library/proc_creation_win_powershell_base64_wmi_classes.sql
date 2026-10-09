@@ -1,0 +1,11 @@
+-- Title: PowerShell Base64 Encoded WMI Classes
+-- ID: 1816994b-42e1-4fb1-afd2-134d88184f71
+-- Status: test
+-- Level: high
+-- Author: Christian Burkard (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+-- Date: 2023-01-30
+-- Tags: attack.execution, attack.stealth, attack.t1059.001, attack.t1027
+-- Description: Detects calls to base64 encoded WMI class such as "Win32_ShadowCopy", "Win32_ScheduledJob", etc.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM processes WHERE ((((Image="*\\powershell.exe" OR Image="*\\pwsh.exe")) OR ((OriginalFileName = 'PowerShell.EXE' OR OriginalFileName = 'pwsh.dll'))) AND (((CommandLine LIKE '%VwBpAG4AMwAyAF8ATABvAGcAZwBlAGQATwBuAFUAcwBlAHIA%' OR CommandLine LIKE '%cAaQBuADMAMgBfAEwAbwBnAGcAZQBkAE8AbgBVAHMAZQByA%' OR CommandLine LIKE '%XAGkAbgAzADIAXwBMAG8AZwBnAGUAZABPAG4AVQBzAGUAcg%' OR CommandLine LIKE '%V2luMzJfTG9nZ2VkT25Vc2Vy%' OR CommandLine LIKE '%dpbjMyX0xvZ2dlZE9uVXNlc%' OR CommandLine LIKE '%XaW4zMl9Mb2dnZWRPblVzZX%')) OR ((CommandLine LIKE '%VwBpAG4AMwAyAF8AUAByAG8AYwBlAHMAcw%' OR CommandLine LIKE '%cAaQBuADMAMgBfAFAAcgBvAGMAZQBzAHMA%' OR CommandLine LIKE '%XAGkAbgAzADIAXwBQAHIAbwBjAGUAcwBzA%' OR CommandLine LIKE '%V2luMzJfUHJvY2Vzc%' OR CommandLine LIKE '%dpbjMyX1Byb2Nlc3%' OR CommandLine LIKE '%XaW4zMl9Qcm9jZXNz%')) OR ((CommandLine LIKE '%VwBpAG4AMwAyAF8AUwBjAGgAZQBkAHUAbABlAGQASgBvAGIA%' OR CommandLine LIKE '%cAaQBuADMAMgBfAFMAYwBoAGUAZAB1AGwAZQBkAEoAbwBiA%' OR CommandLine LIKE '%XAGkAbgAzADIAXwBTAGMAaABlAGQAdQBsAGUAZABKAG8AYg%' OR CommandLine LIKE '%V2luMzJfU2NoZWR1bGVkSm9i%' OR CommandLine LIKE '%dpbjMyX1NjaGVkdWxlZEpvY%' OR CommandLine LIKE '%XaW4zMl9TY2hlZHVsZWRKb2%')) OR ((CommandLine LIKE '%VwBpAG4AMwAyAF8AUwBoAGEAZABvAHcAYwBvAHAAeQ%' OR CommandLine LIKE '%cAaQBuADMAMgBfAFMAaABhAGQAbwB3AGMAbwBwAHkA%' OR CommandLine LIKE '%XAGkAbgAzADIAXwBTAGgAYQBkAG8AdwBjAG8AcAB5A%' OR CommandLine LIKE '%V2luMzJfU2hhZG93Y29we%' OR CommandLine LIKE '%dpbjMyX1NoYWRvd2NvcH%' OR CommandLine LIKE '%XaW4zMl9TaGFkb3djb3B5%')) OR ((CommandLine LIKE '%VwBpAG4AMwAyAF8AVQBzAGUAcgBBAGMAYwBvAHUAbgB0A%' OR CommandLine LIKE '%cAaQBuADMAMgBfAFUAcwBlAHIAQQBjAGMAbwB1AG4AdA%' OR CommandLine LIKE '%XAGkAbgAzADIAXwBVAHMAZQByAEEAYwBjAG8AdQBuAHQA%' OR CommandLine LIKE '%V2luMzJfVXNlckFjY291bn%' OR CommandLine LIKE '%dpbjMyX1VzZXJBY2NvdW50%' OR CommandLine LIKE '%XaW4zMl9Vc2VyQWNjb3Vud%'))))

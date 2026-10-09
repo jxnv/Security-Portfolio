@@ -1,0 +1,23 @@
+// Title: Suspicious PowerShell Parent Process
+// ID: 754ed792-634f-40ae-b3bc-e0448d33f695
+// Status: test
+// Level: high
+// Author: Teymur Kheirkhabarov, Harish Segar
+// Date: 2020-03-20
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects a suspicious or uncommon parent processes of PowerShell
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 754ed792_634f_40ae_b3bc_e0448d33f695 {
+  meta:
+    title = "Suspicious PowerShell Parent Process"
+    description = "Detects a suspicious or uncommon parent processes of PowerShell"
+    author = "Teymur Kheirkhabarov, Harish Segar"
+    severity = "HIGH"
+
+  events:
+    ((($e.principal.process.file.full_path = /.*tomcat.*/ nocase) or (($e.principal.process.file.full_path = /.*\\amigo.exe$/ nocase or $e.principal.process.file.full_path = /.*\\browser.exe$/ nocase or $e.principal.process.file.full_path = /.*\\chrome.exe$/ nocase or $e.principal.process.file.full_path = /.*\\firefox.exe$/ nocase or $e.principal.process.file.full_path = /.*\\httpd.exe$/ nocase or $e.principal.process.file.full_path = /.*\\iexplore.exe$/ nocase or $e.principal.process.file.full_path = /.*\\jbosssvc.exe$/ nocase or $e.principal.process.file.full_path = /.*\\microsoftedge.exe$/ nocase or $e.principal.process.file.full_path = /.*\\microsoftedgecp.exe$/ nocase or $e.principal.process.file.full_path = /.*\\MicrosoftEdgeSH.exe$/ nocase or $e.principal.process.file.full_path = /.*\\mshta.exe$/ nocase or $e.principal.process.file.full_path = /.*\\nginx.exe$/ nocase or $e.principal.process.file.full_path = /.*\\outlook.exe$/ nocase or $e.principal.process.file.full_path = /.*\\php-cgi.exe$/ nocase or $e.principal.process.file.full_path = /.*\\regsvr32.exe$/ nocase or $e.principal.process.file.full_path = /.*\\rundll32.exe$/ nocase or $e.principal.process.file.full_path = /.*\\safari.exe$/ nocase or $e.principal.process.file.full_path = /.*\\services.exe$/ nocase or $e.principal.process.file.full_path = /.*\\sqlagent.exe$/ nocase or $e.principal.process.file.full_path = /.*\\sqlserver.exe$/ nocase or $e.principal.process.file.full_path = /.*\\sqlservr.exe$/ nocase or $e.principal.process.file.full_path = /.*\\vivaldi.exe$/ nocase or $e.principal.process.file.full_path = /.*\\w3wp.exe$/ nocase))) and ((($e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase)) or (($e.target.process.command_line = /.*/c powershell.*/ nocase or $e.target.process.command_line = /.*/c pwsh.*/ nocase)) or ($e.Description = "Windows PowerShell") or ($e.Product = "PowerShell Core 6") or (($e.target.process.file.name = "PowerShell.EXE" or $e.target.process.file.name = "pwsh.dll"))))
+
+  condition:
+    $e
+}

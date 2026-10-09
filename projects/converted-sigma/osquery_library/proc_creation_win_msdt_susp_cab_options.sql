@@ -1,0 +1,11 @@
+-- Title: Suspicious Cabinet File Execution Via Msdt.EXE
+-- ID: dc4576d4-7467-424f-9eee-fd2b02855fe0
+-- Status: test
+-- Level: medium
+-- Author: Nasreddine Bencherchali (Nextron Systems), GossiTheDog, frack113
+-- Date: 2022-06-21
+-- Tags: attack.stealth, attack.t1202
+-- Description: Detects execution of msdt.exe using the "cab" flag which could indicates suspicious diagcab files with embedded answer files leveraging CVE-2022-30190
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM processes WHERE ((CommandLine LIKE '% -cab %') AND ((Image="*\\msdt.exe") OR (OriginalFileName = 'msdt.exe')))

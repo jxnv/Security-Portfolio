@@ -1,0 +1,22 @@
+# Title: File Download From IP Based URL Via CertOC.EXE
+# ID: b86f6dea-0b2f-41f5-bdcc-a057bd19cd6a
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2023-10-18
+# Tags: attack.command-and-control, attack.execution, attack.t1105
+# Description: Detects when a user downloads a file from an IP based URL using CertOC.exe
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# LimaCharlie Detection & Response Rule
+# Name: File Download From IP Based URL Via CertOC.EXE
+detect:
+  event: process_creation
+  op: and
+  rules:
+    # Filter logic:
+    # ((CommandLine="*-GetCACAPS*") AND ((Image="*\\certoc.exe") OR (OriginalFileName="CertOC.exe")) AND (CommandLine=regex("://[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}")))
+respond:
+  - action: report
+    name: File Download From IP Based URL Via CertOC.EXE
+

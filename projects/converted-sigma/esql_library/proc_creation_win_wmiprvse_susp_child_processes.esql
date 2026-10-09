@@ -1,0 +1,11 @@
+// Title: Suspicious WmiPrvSE Child Process
+// ID: 8a582fe2-0882-4b89-a82a-da6b2dc32937
+// Status: test
+// Level: high
+// Author: Vadim Khrykov (ThreatIntel), Cyb3rEng, Florian Roth (Nextron Systems)
+// Date: 2021-08-23
+// Tags: attack.execution, attack.stealth, attack.t1047, attack.t1204.002, attack.t1218.010
+// Description: Detects suspicious and uncommon child processes of WmiPrvSE
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE ((process.parent.executable LIKE "%\\wbem\\WmiPrvSE.exe") AND (((process.executable LIKE "%\\certutil.exe" OR process.executable LIKE "%\\cscript.exe" OR process.executable LIKE "%\\mshta.exe" OR process.executable LIKE "%\\msiexec.exe" OR process.executable LIKE "%\\regsvr32.exe" OR process.executable LIKE "%\\rundll32.exe" OR process.executable LIKE "%\\verclsid.exe" OR process.executable LIKE "%\\wscript.exe")) OR (process.executable LIKE "%\\cmd.exe" AND (process.command_line LIKE "%cscript%" OR process.command_line LIKE "%mshta%" OR process.command_line LIKE "%powershell%" OR process.command_line LIKE "%pwsh%" OR process.command_line LIKE "%regsvr32%" OR process.command_line LIKE "%rundll32%" OR process.command_line LIKE "%wscript%"))) AND NOT (((process.executable LIKE "%\\msiexec.exe" AND process.command_line LIKE "%/i %") OR (process.executable LIKE "%\\WerFault.exe") OR (process.executable LIKE "%\\WmiPrvSE.exe"))))

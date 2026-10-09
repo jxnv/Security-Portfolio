@@ -1,0 +1,23 @@
+// Title: ProcessHacker Privilege Elevation
+// ID: c4ff1eac-84ad-44dd-a6fb-d56a92fc43a9
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2021-05-27
+// Tags: attack.persistence, attack.execution, attack.privilege-escalation, attack.t1543.003, attack.t1569.002
+// Description: Detects a ProcessHacker tool that elevated privileges to a very high level
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule c4ff1eac_84ad_44dd_a6fb_d56a92fc43a9 {
+  meta:
+    title = "ProcessHacker Privilege Elevation"
+    description = "Detects a ProcessHacker tool that elevated privileges to a very high level"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ($e.Provider_Name = "Service Control Manager" and $e.EventID = 7045 and $e.ServiceName = /^ProcessHacker.*/ nocase and $e.AccountName = "LocalSystem")
+
+  condition:
+    $e
+}

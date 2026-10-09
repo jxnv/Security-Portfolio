@@ -1,0 +1,16 @@
+<!--
+  Title: WerFault LSASS Process Memory Dump
+  ID: c3e76af5-4ce0-4a14-9c9a-25ceb8fda182
+  Status: test
+  Level: high
+  Author: Florian Roth (Nextron Systems)
+  Date: 2022-06-27
+  Description: Detects WerFault creating a dump file with a name that indicates that the dump file could be an LSASS process memory, which contains user credentials
+-->
+
+<group name="sigma_converted,">
+  <rule id="100001" level="10">
+    <description>WerFault LSASS Process Memory Dump</description>
+    <match>(Image=\"C:\\\\WINDOWS\\\\system32\\\\WerFault.exe\" AND (TargetFilename=\"*\\\\lsass*\" OR TargetFilename=\"*lsass.exe*\"))</match>
+  </rule>
+</group>

@@ -1,0 +1,16 @@
+<!--
+  Title: LSASS Access From Potentially White-Listed Processes
+  ID: 4be8b654-0c01-4c9d-a10c-6b28467fc651
+  Status: test
+  Level: high
+  Author: Florian Roth (Nextron Systems)
+  Date: 2022-02-10
+  Description: Detects a possible process memory dump that uses a white-listed filename like TrolleyExpress.exe as a way to dump the LSASS process memory without Microsoft Defender interference
+-->
+
+<group name="sigma_converted,">
+  <rule id="100001" level="10">
+    <description>LSASS Access From Potentially White-Listed Processes</description>
+    <match>(TargetImage=\"*\\\\lsass.exe\" AND (SourceImage=\"*\\\\TrolleyExpress.exe\" OR SourceImage=\"*\\\\ProcessDump.exe\" OR SourceImage=</match>
+  </rule>
+</group>

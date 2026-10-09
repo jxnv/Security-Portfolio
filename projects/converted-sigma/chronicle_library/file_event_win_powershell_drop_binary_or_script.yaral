@@ -1,0 +1,23 @@
+// Title: Potential Binary Or Script Dropper Via PowerShell
+// ID: 7047d730-036f-4f40-b9d8-1c63e36d5e62
+// Status: test
+// Level: medium
+// Author: frack113, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-03-17
+// Tags: attack.persistence
+// Description: Detects PowerShell creating a binary executable or a script file.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 7047d730_036f_4f40_b9d8_1c63e36d5e62 {
+  meta:
+    title = "Potential Binary Or Script Dropper Via PowerShell"
+    description = "Detects PowerShell creating a binary executable or a script file."
+    author = "frack113, Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\powershell_ise.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase) and ($e.target.file.full_path = /.*.bat$/ nocase or $e.target.file.full_path = /.*.chm$/ nocase or $e.target.file.full_path = /.*.cmd$/ nocase or $e.target.file.full_path = /.*.com$/ nocase or $e.target.file.full_path = /.*.dll$/ nocase or $e.target.file.full_path = /.*.exe$/ nocase or $e.target.file.full_path = /.*.hta$/ nocase or $e.target.file.full_path = /.*.jar$/ nocase or $e.target.file.full_path = /.*.js$/ nocase or $e.target.file.full_path = /.*.ocx$/ nocase or $e.target.file.full_path = /.*.scr$/ nocase or $e.target.file.full_path = /.*.sys$/ nocase or $e.target.file.full_path = /.*.vbe$/ nocase or $e.target.file.full_path = /.*.vbs$/ nocase or $e.target.file.full_path = /.*.wsf$/ nocase)) and not((($e.target.file.full_path = /^C:\\Program Files\\PackageManagement\\ProviderAssemblies\\nuget\\.*/ nocase and $e.target.file.full_path = /.*\\Microsoft.PackageManagement.NuGetProvider.dll$/ nocase) or (($e.target.file.full_path = /^C:\\Windows\\Temp\\.*/ nocase or $e.target.file.full_path = /^C:\\Windows\\SystemTemp\\.*/ nocase) and ($e.target.file.full_path = /.*.dll$/ nocase or $e.target.file.full_path = /.*.exe$/ nocase)) or ($e.target.file.full_path = /^C:\\Users\\.*/ nocase and $e.target.file.full_path = /.*\\WindowsPowerShell\\Modules\\.*/ nocase and $e.target.file.full_path = /.*.dll$/ nocase) or ($e.target.file.full_path = /^C:\\Users\\.*/ nocase and $e.target.file.full_path = /.*\\AppData\\Local\\Temp\\.*/ nocase and ($e.target.file.full_path = /.*.dll$/ nocase or $e.target.file.full_path = /.*.exe$/ nocase)))))
+
+  condition:
+    $e
+}

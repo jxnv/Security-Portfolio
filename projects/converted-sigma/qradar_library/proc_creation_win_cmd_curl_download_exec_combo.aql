@@ -1,0 +1,11 @@
+-- Title: Curl Download And Execute Combination
+-- ID: 21dd6d38-2b18-4453-9404-a0fe4a0cc288
+-- Status: test
+-- Level: high
+-- Author: Sreeman, Nasreddine Bencherchali (Nextron Systems)
+-- Date: 2020-01-13
+-- Tags: attack.stealth, attack.t1218, attack.command-and-control, attack.t1105
+-- Description: Adversaries can use curl to download payloads remotely and execute them. Curl is included by default in Windows 10 build 17063 and later.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM events WHERE (CommandLine ILIKE '% -c %' AND (CommandLine ILIKE '%curl %' AND CommandLine ILIKE '%http%' AND CommandLine ILIKE '%-o%' AND CommandLine ILIKE '%&%'))

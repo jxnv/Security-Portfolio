@@ -1,0 +1,11 @@
+// Title: Potential Ruby Reverse Shell
+// ID: b8bdac18-c06e-4016-ac30-221553e74f59
+// Status: test
+// Level: medium
+// Author: @d4ns4n_
+// Date: 2023-04-07
+// Tags: attack.execution
+// Description: Detects execution of ruby with the "-e" flag and calls to "socket" related functions. This could be an indication of a potential attempt to setup a reverse shell
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+DeviceProcessEvents | where (FolderPath contains "ruby" and (ProcessCommandLine contains " -e" and ProcessCommandLine contains "rsocket" and ProcessCommandLine contains "TCPSocket") and (ProcessCommandLine contains " ash" or ProcessCommandLine contains " bash" or ProcessCommandLine contains " bsh" or ProcessCommandLine contains " csh" or ProcessCommandLine contains " ksh" or ProcessCommandLine contains " pdksh" or ProcessCommandLine contains " sh" or ProcessCommandLine contains " tcsh"))

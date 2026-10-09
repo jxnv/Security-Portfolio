@@ -1,0 +1,13 @@
+// Title: Potential WinAPI Calls Via PowerShell Scripts
+// ID: 03d83090-8cba-44a0-b02f-0b756a050306
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems), Nikita Nazarov, oscd.community
+// Date: 2020-10-06
+// Tags: attack.execution, attack.t1059.001, attack.t1106, attack.stealth, attack.t1620
+// Description: Detects usage of WinAPI functions in PowerShell scripts.
+// It may indicate attempts to perform actions such as process injection, token stealing, or other malicious activities that leverage Windows API calls.
+// These techniques are commonly used to evade traditional file-based detections by loading and executing code directly in memory.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(ScriptBlockText ICONTAINS "OpenProcessToken") AND where(ScriptBlockText ICONTAINS "DuplicateTokenEx") AND where(ScriptBlockText ICONTAINS "CloseHandle"))) OR ((where(ScriptBlockText ICONTAINS "VirtualAlloc") AND where(ScriptBlockText ICONTAINS "OpenProcess") AND where(ScriptBlockText ICONTAINS "WriteProcessMemory") AND where(ScriptBlockText ICONTAINS "CreateRemoteThread"))) OR ((where(ScriptBlockText ICONTAINS "VirtualAlloc") AND where(ScriptBlockText ICONTAINS "GetDelegateForFunctionPointer") AND where(ScriptBlockText ICONTAINS "Marshal.Copy"))) OR ((where(ScriptBlockText ICONTAINS "WriteProcessMemory") AND where(ScriptBlockText ICONTAINS "VirtualAlloc") AND where(ScriptBlockText ICONTAINS "ReadProcessMemory") AND where(ScriptBlockText ICONTAINS "VirtualFree"))) OR ((where(ScriptBlockText ICONTAINS "OpenProcessToken") AND where(ScriptBlockText ICONTAINS "LookupPrivilegeValue") AND where(ScriptBlockText ICONTAINS "AdjustTokenPrivileges"))))

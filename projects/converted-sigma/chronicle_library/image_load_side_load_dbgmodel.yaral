@@ -1,0 +1,23 @@
+// Title: Potential DLL Sideloading Of DbgModel.DLL
+// ID: fef394cd-f44d-4040-9b18-95d92fe278c0
+// Status: test
+// Level: medium
+// Author: Gary Lobermier
+// Date: 2024-07-11
+// Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.stealth, attack.t1574.001
+// Description: Detects potential DLL sideloading of "DbgModel.dll"
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule fef394cd_f44d_4040_9b18_95d92fe278c0 {
+  meta:
+    title = "Potential DLL Sideloading Of DbgModel.DLL"
+    description = "Detects potential DLL sideloading of "DbgModel.dll""
+    author = "Gary Lobermier"
+    severity = "MEDIUM"
+
+  events:
+    (($e.ImageLoaded = /.*\\dbgmodel.dll$/ nocase) and not((($e.ImageLoaded = /^C:\\Windows\\System32\\.*/ nocase or $e.ImageLoaded = /^C:\\Windows\\SysWOW64\\.*/ nocase or $e.ImageLoaded = /^C:\\Windows\\WinSxS\\.*/ nocase))) and not((($e.ImageLoaded = /^C:\\Program Files\\WindowsApps\\Microsoft.WinDbg_.*/ nocase) or (($e.ImageLoaded = /^C:\\Program Files (x86)\\Windows Kits\\.*/ nocase or $e.ImageLoaded = /^C:\\Program Files\\Windows Kits\\.*/ nocase)))))
+
+  condition:
+    $e
+}

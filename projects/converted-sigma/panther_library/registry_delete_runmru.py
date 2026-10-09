@@ -1,0 +1,21 @@
+# Title: RunMRU Registry Key Deletion - Registry
+# ID: 3a9b8c1e-5b2e-4f7a-9d1c-2a7f3b6e1c55
+# Status: experimental
+# Level: high
+# Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+# Date: 2025-09-25
+# Tags: attack.stealth, attack.t1070.003
+# Description: Detects attempts to delete the RunMRU registry key, which stores the history of commands executed via the run dialog.
+# In the clickfix techniques, the phishing lures instruct users to open a run dialog through (Win + R) and execute malicious commands.
+# Adversaries may delete this key to cover their tracks after executing commands.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: RunMRU Registry Key Deletion - Registry
+def rule(event):
+    # Detection Logic:
+    # (TargetObject="*\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\RunMRU")
+    return True
+
+def title(event):
+    return "RunMRU Registry Key Deletion - Registry"
+

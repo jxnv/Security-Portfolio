@@ -1,0 +1,11 @@
+// Title: Disabling Security Tools
+// ID: e3a8a052-111f-4606-9aee-f28ebeb76776
+// Status: test
+// Level: medium
+// Author: Ömer Günal, Alejandro Ortuno, oscd.community
+// Date: 2020-06-17
+// Tags: attack.defense-impairment, attack.t1686
+// Description: Detects disabling security tools
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+from siem.events where ((Image="*/service" AND (contains(CommandLine, "cbdaemon") AND contains(CommandLine, "stop"))) OR (Image="*/chkconfig" AND (contains(CommandLine, "cbdaemon") AND contains(CommandLine, "off"))) OR (Image="*/systemctl" AND (contains(CommandLine, "cbdaemon") AND contains(CommandLine, "stop"))) OR (Image="*/systemctl" AND (contains(CommandLine, "cbdaemon") AND contains(CommandLine, "disable"))) OR (Image="*/systemctl" AND (contains(CommandLine, "stop") AND contains(CommandLine, "falcon-sensor"))) OR (Image="*/systemctl" AND (contains(CommandLine, "disable") AND contains(CommandLine, "falcon-sensor"))) OR (Image="*/systemctl" AND (contains(CommandLine, "firewalld") AND contains(CommandLine, "stop"))) OR (Image="*/systemctl" AND (contains(CommandLine, "firewalld") AND contains(CommandLine, "disable"))) OR (Image="*/service" AND (contains(CommandLine, "iptables") AND contains(CommandLine, "stop"))) OR (Image="*/service" AND (contains(CommandLine, "ip6tables") AND contains(CommandLine, "stop"))) OR (Image="*/chkconfig" AND (contains(CommandLine, "iptables") AND contains(CommandLine, "stop"))) OR (Image="*/chkconfig" AND (contains(CommandLine, "ip6tables") AND contains(CommandLine, "stop"))) OR (Image="*/setenforce" AND contains(CommandLine, "0")))

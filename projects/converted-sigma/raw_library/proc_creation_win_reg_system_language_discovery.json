@@ -1,0 +1,34 @@
+{
+  "title": "System Language Discovery via Reg.Exe",
+  "id": "c43a5405-e8e1-4221-9ac9-dbe3fa14e886",
+  "status": "experimental",
+  "description": "Detects the usage of Reg.Exe to query system language settings.\nAttackers may discover the system language to determine the geographic location of victims, customize payloads for specific regions,\nor avoid targeting certain locales to evade detection.\n",
+  "author": "Marco Pedrinazzi (@pedrinazziM) (InTheCyber)",
+  "date": "2026-01-09",
+  "tags": [
+    "attack.discovery",
+    "attack.t1614.001"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_img": [
+      {
+        "Image|endswith": "\\reg.exe"
+      },
+      {
+        "OriginalFileName": "reg.exe"
+      }
+    ],
+    "selection_cli": {
+      "CommandLine|contains|all": [
+        "query",
+        "Control\\Nls\\Language"
+      ]
+    },
+    "condition": "all of selection_*"
+  }
+}

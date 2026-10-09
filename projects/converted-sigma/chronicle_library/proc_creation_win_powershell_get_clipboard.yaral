@@ -1,0 +1,23 @@
+// Title: PowerShell Get-Clipboard Cmdlet Via CLI
+// ID: b9aeac14-2ffd-4ad3-b967-1354a4e628c3
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2020-05-02
+// Tags: attack.collection, attack.t1115
+// Description: Detects usage of the 'Get-Clipboard' cmdlet via CLI
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule b9aeac14_2ffd_4ad3_b967_1354a4e628c3 {
+  meta:
+    title = "PowerShell Get-Clipboard Cmdlet Via CLI"
+    description = "Detects usage of the 'Get-Clipboard' cmdlet via CLI"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ($e.target.process.command_line = /.*Get-Clipboard.*/ nocase)
+
+  condition:
+    $e
+}

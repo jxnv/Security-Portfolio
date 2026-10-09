@@ -1,0 +1,11 @@
+# Title: Python Inline Command Execution
+# ID: 899133d5-4d7c-4a7f-94ee-27355c879d90
+# Status: test
+# Level: medium
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2023-01-02
+# Tags: attack.execution, attack.t1059
+# Description: Detects execution of python using the "-c" flag. This is could be used as a way to launch a reverse shell or execute live python code.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog (((process_exec="* -c*") AND ((process_name="python.exe") OR ((process_path="*python.exe" OR process_path="*python3.exe" OR process_path="*python2.exe")))) AND NOT ((((parent_process_path="C:\\Program Files\\Python*" OR parent_process_path="C:\\Program Files (x86)\\Python*") AND parent_process_path="*\\python.exe" AND parent_process_exec="*-E -s -m ensurepip -U --default-pip*") OR ((parent_process_path="C:\\Program Files\\Python*" OR parent_process_path="C:\\Program Files (x86)\\Python*") AND (process_exec="*-W ignore::DeprecationWarning*" AND process_exec="*['install', '--no-cache-dir', '--no-index', '--find-links',*" AND process_exec="*'--upgrade', 'pip'*")))) AND NOT ((((process_exec="*<pip-setuptools-caller>*" AND process_exec="*exec(compile(*")) OR ((parent_process_path="*\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe") OR ((parent_process_path="C:\\Program Files\\Microsoft VS Code\\Code.exe" OR parent_process_path="C:\\Program Files (x86)\\Microsoft VS Code\\Code.exe"))))))

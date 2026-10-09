@@ -1,0 +1,11 @@
+// Title: Python Inline Command Execution
+// ID: 899133d5-4d7c-4a7f-94ee-27355c879d90
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-01-02
+// Tags: attack.execution, attack.t1059
+// Description: Detects execution of python using the "-c" flag. This is could be used as a way to launch a reverse shell or execute live python code.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(CommandLine ICONTAINS " -c")) AND ((where(OriginalFileName = "python.exe")) OR ((where(Image IENDSWITH "python.exe") OR where(Image IENDSWITH "python3.exe") OR where(Image IENDSWITH "python2.exe"))))) AND NOT ((((where(ParentImage ISTARTSWITH "C:\\Program Files\\Python") OR where(ParentImage ISTARTSWITH "C:\\Program Files (x86)\\Python")) AND where(ParentImage IENDSWITH "\\python.exe") AND where(ParentCommandLine ICONTAINS "-E -s -m ensurepip -U --default-pip")) OR ((where(ParentImage ISTARTSWITH "C:\\Program Files\\Python") OR where(ParentImage ISTARTSWITH "C:\\Program Files (x86)\\Python")) AND (where(CommandLine ICONTAINS "-W ignore::DeprecationWarning") AND where(CommandLine ICONTAINS "['install', '--no-cache-dir', '--no-index', '--find-links',") AND where(CommandLine ICONTAINS "'--upgrade', 'pip'"))))) AND NOT ((((where(CommandLine ICONTAINS "<pip-setuptools-caller>") AND where(CommandLine ICONTAINS "exec(compile("))) OR ((where(ParentImage IENDSWITH "\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe")) OR ((where(ParentImage = "C:\\Program Files\\Microsoft VS Code\\Code.exe") OR where(ParentImage = "C:\\Program Files (x86)\\Microsoft VS Code\\Code.exe")))))))

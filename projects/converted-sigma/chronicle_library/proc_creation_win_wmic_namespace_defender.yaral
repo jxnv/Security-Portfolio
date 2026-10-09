@@ -1,0 +1,23 @@
+// Title: Potential Windows Defender Tampering Via Wmic.EXE
+// ID: 51cbac1e-eee3-4a90-b1b7-358efb81fa0a
+// Status: test
+// Level: high
+// Author: frack113
+// Date: 2022-12-11
+// Tags: attack.execution, attack.defense-impairment, attack.t1047, attack.t1685
+// Description: Detects potential tampering with Windows Defender settings such as adding exclusion using wmic
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 51cbac1e_eee3_4a90_b1b7_358efb81fa0a {
+  meta:
+    title = "Potential Windows Defender Tampering Via Wmic.EXE"
+    description = "Detects potential tampering with Windows Defender settings such as adding exclusion using wmic"
+    author = "frack113"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.command_line = /.*/Namespace:\\\\\\\\root\\\\Microsoft\\\\Windows\\\\Defender.*/ nocase) and (($e.target.process.file.name = "wmic.exe") or ($e.target.process.file.full_path = /.*\\WMIC.exe$/ nocase)))
+
+  condition:
+    $e
+}

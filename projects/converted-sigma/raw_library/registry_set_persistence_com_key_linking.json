@@ -1,0 +1,31 @@
+{
+  "title": "Potential COM Object Hijacking Via TreatAs Subkey - Registry",
+  "id": "9b0f8a61-91b2-464f-aceb-0527e0a45020",
+  "status": "test",
+  "description": "Detects COM object hijacking via TreatAs subkey",
+  "author": "Kutepov Anton, oscd.community",
+  "date": "2019-10-23",
+  "tags": [
+    "attack.privilege-escalation",
+    "attack.persistence",
+    "attack.t1546.015"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "registry_set",
+    "product": "windows"
+  },
+  "detection": {
+    "selection": {
+      "TargetObject|contains|all": [
+        "HKU\\",
+        "Classes\\CLSID\\",
+        "\\TreatAs"
+      ]
+    },
+    "filter_main_svchost": {
+      "Image": "C:\\WINDOWS\\system32\\svchost.exe"
+    },
+    "condition": "selection and not 1 of filter_main_*"
+  }
+}

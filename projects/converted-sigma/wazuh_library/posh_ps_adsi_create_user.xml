@@ -1,0 +1,16 @@
+<!--
+  Title: New User Account Creation Attempt Via ADSI
+  ID: e50d5d26-0cf6-4045-b82b-13c0a4e316be
+  Status: experimental
+  Level: medium
+  Author: William Gokah (idea), Raylee Hawkins, Swachchhanda Shrawan Poudel (Nextron Systems)
+  Date: 2026-08-13
+  Description: Detects an attempt to create a new user account via ADSI (Active Directory Service Interfaces) using either the WinNT or LDAP provider. This is an uncommon method to create user accounts and may indicate an attempt to evade detection by avoiding more commonly monitored commands such as "net user", "New-LocalUser" or "New-ADUser".
+-->
+
+<group name="sigma_converted,">
+  <rule id="100001" level="5">
+    <description>New User Account Creation Attempt Via ADSI</description>
+    <match>((ScriptBlockText=\"*[ADSI]*\") AND ((ScriptBlockText=\"*WinNT://*\" OR ScriptBlockText=\"*LDAP://*\")) AND ((ScriptBlockText=</match>
+  </rule>
+</group>

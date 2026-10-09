@@ -1,0 +1,45 @@
+{
+  "title": "External Remote SMB Logon from Public IP",
+  "id": "78d5cab4-557e-454f-9fb9-a222bd0d5edc",
+  "status": "test",
+  "description": "Detects successful logon from public IP address via SMB. This can indicate a publicly-exposed SMB port.",
+  "author": "Micah Babinski (@micahbabinski), Zach Mathis (@yamatosecurity)",
+  "date": "2023-01-19",
+  "tags": [
+    "attack.privilege-escalation",
+    "attack.persistence",
+    "attack.initial-access",
+    "attack.credential-access",
+    "attack.stealth",
+    "attack.t1133",
+    "attack.t1078",
+    "attack.t1110"
+  ],
+  "level": "high",
+  "logsource": {
+    "product": "windows",
+    "service": "security"
+  },
+  "detection": {
+    "selection": {
+      "EventID": 4624,
+      "LogonType": 3
+    },
+    "filter_main_local_ranges": {
+      "IpAddress|cidr": [
+        "::1/128",
+        "10.0.0.0/8",
+        "127.0.0.0/8",
+        "172.16.0.0/12",
+        "192.168.0.0/16",
+        "169.254.0.0/16",
+        "fc00::/7",
+        "fe80::/10"
+      ]
+    },
+    "filter_main_empty": {
+      "IpAddress": "-"
+    },
+    "condition": "selection and not 1 of filter_main_*"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "title": "Potentially Suspicious Execution From Tmp Folder",
+  "id": "312b42b1-bded-4441-8b58-163a3af58775",
+  "status": "test",
+  "description": "Detects a potentially suspicious execution of a process located in the '/tmp/' folder",
+  "author": "Joseliyo Sanchez, @Joseliyo_Jstnk",
+  "date": "2023-06-02",
+  "tags": [
+    "attack.stealth",
+    "attack.t1036"
+  ],
+  "level": "medium",
+  "logsource": {
+    "product": "linux",
+    "category": "process_creation"
+  },
+  "detection": {
+    "selection": {
+      "Image|startswith": "/tmp/"
+    },
+    "filter_optional_nextcloud": {
+      "Image|endswith": "/usr/bin/nextcloud"
+    },
+    "condition": "selection and not 1 of filter_optional_*"
+  }
+}

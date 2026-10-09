@@ -1,0 +1,23 @@
+// Title: Suspicious Start-Process PassThru
+// ID: 0718cd72-f316-4aa2-988f-838ea8533277
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-01-15
+// Tags: attack.stealth, attack.t1036.003
+// Description: Powershell use PassThru option to start in background
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 0718cd72_f316_4aa2_988f_838ea8533277 {
+  meta:
+    title = "Suspicious Start-Process PassThru"
+    description = "Powershell use PassThru option to start in background"
+    author = "frack113"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.ScriptBlockText = /.*Start-Process .*/ nocase or $e.ScriptBlockText = /.*saps .*/ nocase)) and (($e.ScriptBlockText = /.*-PassThru .*/ nocase and $e.ScriptBlockText = /.*-FilePath .*/ nocase)))
+
+  condition:
+    $e
+}

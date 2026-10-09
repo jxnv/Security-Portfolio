@@ -1,0 +1,23 @@
+// Title: HackTool - Dumpert Process Dumper Execution
+// ID: 2704ab9e-afe2-4854-a3b1-0c0706d03578
+// Status: test
+// Level: critical
+// Author: Florian Roth (Nextron Systems)
+// Date: 2020-02-04
+// Tags: attack.credential-access, attack.t1003.001
+// Description: Detects the use of Dumpert process dumper, which dumps the lsass.exe process memory
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 2704ab9e_afe2_4854_a3b1_0c0706d03578 {
+  meta:
+    title = "HackTool - Dumpert Process Dumper Execution"
+    description = "Detects the use of Dumpert process dumper, which dumps the lsass.exe process memory"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "CRITICAL"
+
+  events:
+    (($e.Hashes = /.*IMPHASH=09D278F9DE118EF09163C6140255C690.*/ nocase) or (($e.target.process.command_line = /.*Dumpert.dll.*/ nocase or $e.target.process.command_line = /.*Dumpert.exe.*/ nocase)))
+
+  condition:
+    $e
+}

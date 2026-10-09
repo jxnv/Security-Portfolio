@@ -1,0 +1,11 @@
+// Title: Potentially Suspicious ASP.NET Compilation Via AspNetCompiler
+// ID: 9f50fe98-fe5c-4a2d-86c7-fad7f63ed622
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-08-14
+// Tags: attack.execution, attack.stealth, attack.t1127
+// Description: Detects execution of "aspnet_compiler.exe" with potentially suspicious paths for compilation.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where ((process.executable like "*_:\\Windows\\Microsoft.NET\\Framework\\*" or process.executable like "*_:\\Windows\\Microsoft.NET\\Framework64\\*" or process.executable like "*_:\\Windows\\Microsoft.NET\\FrameworkArm\\*" or process.executable like "*_:\\Windows\\Microsoft.NET\\FrameworkArm64\\*") and process.executable endswith "\\aspnet_compiler.exe" and (process.command_line like "*_\\Users\\Public\\*" or process.command_line like "*_\\AppData\\Local\\Temp\\*" or process.command_line like "*_\\AppData\\Local\\Roaming\\*" or process.command_line like "*_:\\Temp\\*" or process.command_line like "*_:\\Windows\\Temp\\*" or process.command_line like "*_:\\Windows\\System32\\Tasks\\*" or process.command_line like "*_:\\Windows\\Tasks\\*"))

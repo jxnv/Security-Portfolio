@@ -1,0 +1,19 @@
+# Title: Visual Studio NodejsTools PressAnyKey Arbitrary Binary Execution
+# ID: a20391f8-76fb-437b-abc0-dba2df1952c6
+# Status: test
+# Level: medium
+# Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-01-11
+# Tags: attack.execution, attack.stealth, attack.t1218
+# Description: Detects child processes of Microsoft.NodejsTools.PressAnyKey.exe that can be used to execute any other binary
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Visual Studio NodejsTools PressAnyKey Arbitrary Binary Execution
+def rule(event):
+    # Detection Logic:
+    # (ParentImage="*\\Microsoft.NodejsTools.PressAnyKey.exe")
+    return True
+
+def title(event):
+    return "Visual Studio NodejsTools PressAnyKey Arbitrary Binary Execution"
+

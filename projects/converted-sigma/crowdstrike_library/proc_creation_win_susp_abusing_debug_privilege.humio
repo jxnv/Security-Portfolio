@@ -1,0 +1,11 @@
+// Title: Abused Debug Privilege by Arbitrary Parent Processes
+// ID: d522eca2-2973-4391-a3e0-ef0374321dae
+// Status: test
+// Level: high
+// Author: Semanur Guneysu @semanurtg, oscd.community
+// Date: 2020-10-28
+// Tags: attack.privilege-escalation, attack.t1548
+// Description: Detection of unusual child processes by different system processes
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((((ImageFileName = /.*\\powershell.exe/i or ImageFileName = /.*\\pwsh.exe/i or ImageFileName = /.*\\cmd.exe/i)) or ((OriginalFilename = "PowerShell.EXE" or OriginalFilename = "pwsh.dll" or OriginalFilename = "Cmd.Exe"))) and ((ParentBaseFileName = /.*\\winlogon.exe/i or ParentBaseFileName = /.*\\services.exe/i or ParentBaseFileName = /.*\\lsass.exe/i or ParentBaseFileName = /.*\\csrss.exe/i or ParentBaseFileName = /.*\\smss.exe/i or ParentBaseFileName = /.*\\wininit.exe/i or ParentBaseFileName = /.*\\spoolsv.exe/i or ParentBaseFileName = /.*\\searchindexer.exe/i) and (UserName = /*AUTHORI*/i or UserName = /*AUTORI*/i))) and not(((CommandLine = /* route */i and CommandLine = /* ADD */i))))

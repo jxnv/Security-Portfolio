@@ -1,0 +1,19 @@
+# Title: Changes to Device Registration Policy
+# ID: 9494bff8-959f-4440-bbce-fb87a208d517
+# Status: test
+# Level: high
+# Author: Michael Epping, '@mepples21'
+# Date: 2022-06-28
+# Tags: attack.privilege-escalation, attack.defense-impairment, attack.t1484
+# Description: Monitor and alert for changes to the device registration policy.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Changes to Device Registration Policy
+def rule(event):
+    # Detection Logic:
+    # (Category="Policy" AND ActivityDisplayName="Set device registration policies")
+    return True
+
+def title(event):
+    return "Changes to Device Registration Policy"
+

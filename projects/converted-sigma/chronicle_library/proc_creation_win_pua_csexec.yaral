@@ -1,0 +1,23 @@
+// Title: PUA - CsExec Execution
+// ID: d08a2711-ee8b-4323-bdec-b7d85e892b31
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-08-22
+// Tags: attack.resource-development, attack.t1587.001, attack.execution, attack.t1569.002
+// Description: Detects the use of the lesser known remote execution tool named CsExec a PsExec alternative
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule d08a2711_ee8b_4323_bdec_b7d85e892b31 {
+  meta:
+    title = "PUA - CsExec Execution"
+    description = "Detects the use of the lesser known remote execution tool named CsExec a PsExec alternative"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.file.full_path = /.*\\csexec.exe$/ nocase) or ($e.Description = "csexec"))
+
+  condition:
+    $e
+}

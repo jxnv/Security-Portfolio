@@ -1,0 +1,11 @@
+// Title: Usage of Renamed Sysinternals Tools - RegistrySet
+// ID: 8023f872-3f1d-4301-a384-801889917ab4
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-24
+// Tags: attack.resource-development, attack.t1588.002
+// Description: Detects non-sysinternals tools setting the "accepteula" key which normally is set on sysinternals tool execution
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(TargetObject ICONTAINS "\\PsExec") OR where(TargetObject ICONTAINS "\\ProcDump") OR where(TargetObject ICONTAINS "\\Handle") OR where(TargetObject ICONTAINS "\\LiveKd") OR where(TargetObject ICONTAINS "\\Process Explorer") OR where(TargetObject ICONTAINS "\\PsLoglist") OR where(TargetObject ICONTAINS "\\PsPasswd") OR where(TargetObject ICONTAINS "\\Active Directory Explorer")) AND where(TargetObject IENDSWITH "\\EulaAccepted")) AND NOT (((where(Image IENDSWITH "\\PsExec.exe") OR where(Image IENDSWITH "\\PsExec64.exe") OR where(Image IENDSWITH "\\PsExec64a.exe") OR where(Image IENDSWITH "\\procdump.exe") OR where(Image IENDSWITH "\\procdump64.exe") OR where(Image IENDSWITH "\\procdump64a.exe") OR where(Image IENDSWITH "\\handle.exe") OR where(Image IENDSWITH "\\handle64.exe") OR where(Image IENDSWITH "\\handle64a.exe") OR where(Image IENDSWITH "\\livekd.exe") OR where(Image IENDSWITH "\\livekd64.exe") OR where(Image IENDSWITH "\\procexp.exe") OR where(Image IENDSWITH "\\procexp64.exe") OR where(Image IENDSWITH "\\procexp64a.exe") OR where(Image IENDSWITH "\\psloglist.exe") OR where(Image IENDSWITH "\\psloglist64.exe") OR where(Image IENDSWITH "\\psloglist64a.exe") OR where(Image IENDSWITH "\\pspasswd.exe") OR where(Image IENDSWITH "\\pspasswd64.exe") OR where(Image IENDSWITH "\\pspasswd64a.exe") OR where(Image IENDSWITH "\\ADExplorer.exe") OR where(Image IENDSWITH "\\ADExplorer64.exe") OR where(Image IENDSWITH "\\ADExplorer64a.exe")))) AND NOT ((NOT Image=*)))

@@ -1,0 +1,24 @@
+// Title: HackTool - HollowReaper Execution
+// ID: 85d23b42-9a9d-4f8f-b3d7-d2733c1d58f5
+// Status: experimental
+// Level: high
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-07-01
+// Tags: attack.privilege-escalation, attack.stealth, attack.t1055.012
+// Description: Detects usage of HollowReaper, a process hollowing shellcode launcher used for stealth payload execution through process hollowing.
+// It replaces the memory of a legitimate process with custom shellcode, allowing the attacker to execute payloads under the guise of trusted binaries.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 85d23b42_9a9d_4f8f_b3d7_d2733c1d58f5 {
+  meta:
+    title = "HackTool - HollowReaper Execution"
+    description = "Detects usage of HollowReaper, a process hollowing shellcode launcher used for stealth payload execution through process hollowing. It replaces the memory of a legitimate process with custom shellcode, allowing the attacker to execute payloads under the guise of trusted binaries."
+    author = "Swachchhanda Shrawan Poudel (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ($e.target.process.file.full_path = /.*\\HollowReaper.exe$/ nocase)
+
+  condition:
+    $e
+}

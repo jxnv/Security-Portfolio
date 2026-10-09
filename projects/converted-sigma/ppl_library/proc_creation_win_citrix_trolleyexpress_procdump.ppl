@@ -1,0 +1,11 @@
+// Title: Process Access via TrolleyExpress Exclusion
+// ID: 4c0aaedc-154c-4427-ada0-d80ef9c9deb6
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-02-10
+// Tags: attack.stealth, attack.t1218.011, attack.credential-access, attack.t1003.001
+// Description: Detects a possible process memory dump that uses the white-listed Citrix TrolleyExpress.exe filename as a way to dump the lsass process memory
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where (((process.command_line like "%\\TrolleyExpress 7%" OR process.command_line like "%\\TrolleyExpress 8%" OR process.command_line like "%\\TrolleyExpress 9%" OR process.command_line like "%\\TrolleyExpress.exe 7%" OR process.command_line like "%\\TrolleyExpress.exe 8%" OR process.command_line like "%\\TrolleyExpress.exe 9%" OR process.command_line like "%\\TrolleyExpress.exe -ma %")) OR ((process.executable="*\\TrolleyExpress.exe") AND NOT (((NOT process.pe.original_file_name=*) OR (process.pe.original_file_name like "%CtxInstall%")))))

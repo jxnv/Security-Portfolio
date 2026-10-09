@@ -1,0 +1,23 @@
+// Title: Suspicious Scan Loop Network
+// ID: f8ad2e2c-40b6-4117-84d7-20b89896ab23
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-03-12
+// Tags: attack.execution, attack.t1059, attack.discovery, attack.t1018
+// Description: Adversaries may attempt to get a listing of other systems by IP address, hostname, or other logical identifier on a network that may be used for Lateral Movement from the current system
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule f8ad2e2c_40b6_4117_84d7_20b89896ab23 {
+  meta:
+    title = "Suspicious Scan Loop Network"
+    description = "Adversaries may attempt to get a listing of other systems by IP address, hostname, or other logical identifier on a network that may be used for Lateral Movement from the current system"
+    author = "frack113"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.command_line = /.*for .*/ nocase or $e.target.process.command_line = /.*foreach .*/ nocase)) and (($e.target.process.command_line = /.*nslookup.*/ nocase or $e.target.process.command_line = /.*ping.*/ nocase)))
+
+  condition:
+    $e
+}

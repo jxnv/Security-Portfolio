@@ -1,0 +1,23 @@
+// Title: Azure Login Bypassing Conditional Access Policies
+// ID: 13f2d3f5-6497-44a7-bf5f-dc13ffafe5dc
+// Status: experimental
+// Level: high
+// Author: Josh Nickels, Marius Rothenbücher
+// Date: 2025-01-08
+// Tags: attack.privilege-escalation, attack.persistence, attack.initial-access, attack.stealth, attack.t1078
+// Description: Detects a successful login to the Microsoft Intune Company Portal which could allow bypassing Conditional Access Policies and InTune device trust using a tool like TokenSmith.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 13f2d3f5_6497_44a7_bf5f_dc13ffafe5dc {
+  meta:
+    title = "Azure Login Bypassing Conditional Access Policies"
+    description = "Detects a successful login to the Microsoft Intune Company Portal which could allow bypassing Conditional Access Policies and InTune device trust using a tool like TokenSmith."
+    author = "Josh Nickels, Marius Rothenbücher"
+    severity = "HIGH"
+
+  events:
+    (($e.Operation = "UserLoggedIn" and $e.ApplicationId = "9ba1a5c7-f17a-4de9-a1f1-6178c8d51223" and $e.ResultStatus = "Success" and $e.RequestType = "Cmsi:Cmsi") and not(($e.ObjectId = "0000000a-0000-0000-c000-000000000000")))
+
+  condition:
+    $e
+}

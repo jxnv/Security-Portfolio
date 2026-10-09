@@ -1,0 +1,11 @@
+// Title: Suspicious PowerShell Parent Process
+// ID: 754ed792-634f-40ae-b3bc-e0448d33f695
+// Status: test
+// Level: high
+// Author: Teymur Kheirkhabarov, Harish Segar
+// Date: 2020-03-20
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects a suspicious or uncommon parent processes of PowerShell
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((ParentImage CONTAINS "tomcat") OR ((ParentImage ENDSWITH "\\amigo.exe" OR ParentImage ENDSWITH "\\browser.exe" OR ParentImage ENDSWITH "\\chrome.exe" OR ParentImage ENDSWITH "\\firefox.exe" OR ParentImage ENDSWITH "\\httpd.exe" OR ParentImage ENDSWITH "\\iexplore.exe" OR ParentImage ENDSWITH "\\jbosssvc.exe" OR ParentImage ENDSWITH "\\microsoftedge.exe" OR ParentImage ENDSWITH "\\microsoftedgecp.exe" OR ParentImage ENDSWITH "\\MicrosoftEdgeSH.exe" OR ParentImage ENDSWITH "\\mshta.exe" OR ParentImage ENDSWITH "\\nginx.exe" OR ParentImage ENDSWITH "\\outlook.exe" OR ParentImage ENDSWITH "\\php-cgi.exe" OR ParentImage ENDSWITH "\\regsvr32.exe" OR ParentImage ENDSWITH "\\rundll32.exe" OR ParentImage ENDSWITH "\\safari.exe" OR ParentImage ENDSWITH "\\services.exe" OR ParentImage ENDSWITH "\\sqlagent.exe" OR ParentImage ENDSWITH "\\sqlserver.exe" OR ParentImage ENDSWITH "\\sqlservr.exe" OR ParentImage ENDSWITH "\\vivaldi.exe" OR ParentImage ENDSWITH "\\w3wp.exe"))) AND (((Image ENDSWITH "\\powershell.exe" OR Image ENDSWITH "\\pwsh.exe")) OR ((CommandLine CONTAINS "/c powershell" OR CommandLine CONTAINS "/c pwsh")) OR (Description EQ "Windows PowerShell") OR (Product EQ "PowerShell Core 6") OR ((OriginalFileName EQ "PowerShell.EXE" OR OriginalFileName EQ "pwsh.dll"))))

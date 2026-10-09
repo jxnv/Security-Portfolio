@@ -1,0 +1,23 @@
+// Title: Invoke-Obfuscation RUNDLL LAUNCHER - PowerShell Module
+// ID: a23791fe-8846-485a-b16b-ca691e1b03d4
+// Status: test
+// Level: medium
+// Author: Timur Zinniatullin, oscd.community
+// Date: 2020-10-18
+// Tags: attack.stealth, attack.t1027, attack.execution, attack.t1059.001
+// Description: Detects Obfuscated Powershell via RUNDLL LAUNCHER
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule a23791fe_8846_485a_b16b_ca691e1b03d4 {
+  meta:
+    title = "Invoke-Obfuscation RUNDLL LAUNCHER - PowerShell Module"
+    description = "Detects Obfuscated Powershell via RUNDLL LAUNCHER"
+    author = "Timur Zinniatullin, oscd.community"
+    severity = "MEDIUM"
+
+  events:
+    (($e.Payload = /.*rundll32.exe.*/ nocase and $e.Payload = /.*shell32.dll.*/ nocase and $e.Payload = /.*shellexec_rundll.*/ nocase and $e.Payload = /.*powershell.*/ nocase))
+
+  condition:
+    $e
+}

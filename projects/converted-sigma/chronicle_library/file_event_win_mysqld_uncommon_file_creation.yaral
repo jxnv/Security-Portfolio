@@ -1,0 +1,24 @@
+// Title: Uncommon File Creation By Mysql Daemon Process
+// ID: c61daa90-3c1e-4f18-af62-8f288b5c9aaf
+// Status: test
+// Level: high
+// Author: Joseph Kamau
+// Date: 2024-05-27
+// Tags: attack.stealth
+// Description: Detects the creation of files with scripting or executable extensions by Mysql daemon.
+// Which could be an indicator of "User Defined Functions" abuse to download malware.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule c61daa90_3c1e_4f18_af62_8f288b5c9aaf {
+  meta:
+    title = "Uncommon File Creation By Mysql Daemon Process"
+    description = "Detects the creation of files with scripting or executable extensions by Mysql daemon. Which could be an indicator of "User Defined Functions" abuse to download malware."
+    author = "Joseph Kamau"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.file.full_path = /.*\\mysqld.exe$/ nocase or $e.target.process.file.full_path = /.*\\mysqld-nt.exe$/ nocase) and ($e.target.file.full_path = /.*.bat$/ nocase or $e.target.file.full_path = /.*.dat$/ nocase or $e.target.file.full_path = /.*.dll$/ nocase or $e.target.file.full_path = /.*.exe$/ nocase or $e.target.file.full_path = /.*.ps1$/ nocase or $e.target.file.full_path = /.*.psm1$/ nocase or $e.target.file.full_path = /.*.vbe$/ nocase or $e.target.file.full_path = /.*.vbs$/ nocase))
+
+  condition:
+    $e
+}

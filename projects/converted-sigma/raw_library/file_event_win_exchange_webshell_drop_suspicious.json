@@ -1,0 +1,38 @@
+{
+  "title": "Suspicious File Drop by Exchange",
+  "id": "6b269392-9eba-40b5-acb6-55c882b20ba6",
+  "status": "test",
+  "description": "Detects suspicious file type dropped by an Exchange component in IIS",
+  "author": "Florian Roth (Nextron Systems)",
+  "date": "2022-10-04",
+  "tags": [
+    "attack.persistence",
+    "attack.t1190",
+    "attack.initial-access",
+    "attack.t1505.003"
+  ],
+  "level": "medium",
+  "logsource": {
+    "product": "windows",
+    "category": "file_event"
+  },
+  "detection": {
+    "selection": {
+      "Image|endswith": "\\w3wp.exe",
+      "CommandLine|contains": "MSExchange"
+    },
+    "selection_types": {
+      "TargetFilename|endswith": [
+        ".aspx",
+        ".asp",
+        ".ashx",
+        ".ps1",
+        ".bat",
+        ".exe",
+        ".dll",
+        ".vbs"
+      ]
+    },
+    "condition": "all of selection*"
+  }
+}

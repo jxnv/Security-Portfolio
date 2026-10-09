@@ -1,0 +1,14 @@
+// Title: Classes Autorun Keys Modification
+// ID: 9df5f547-c86a-433e-b533-f2794357e242
+// Status: test
+// Level: medium
+// Author: Victor Sergeev, Daniil Yugoslavskiy, Gleb Sukhodolskiy, Timur Zinniatullin, oscd.community, Tim Shelton, frack113 (split)
+// Date: 2019-10-25
+// Tags: attack.privilege-escalation, attack.persistence, attack.t1547.001
+// Description: Detects modification of Windows Registry Classes keys used for persistence.
+// Adversaries modify these autostart extensibility points (ASEP) to execute malicious code when file types are opened or actions are performed.
+// Various legitimate software also uses these keys. Currently, this rule only filters out known legitimate software paths,
+// thus it is recommended to review and tune filters for your environment to reduce false positives before deploying to production.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter (((TargetObject contains "\\Software\\Classes") and ((TargetObject contains "\\Folder\\ShellEx\\ExtShellFolderViews" or TargetObject contains "\\Folder\\ShellEx\\DragDropHandlers" or TargetObject contains "\\Folder\\Shellex\\ColumnHandlers" or TargetObject contains "\\Filter" or TargetObject contains "\\Exefile\\Shell\\Open\\Command\\(Default)" or TargetObject contains "\\Directory\\Shellex\\DragDropHandlers" or TargetObject contains "\\Directory\\Shellex\\CopyHookHandlers" or TargetObject contains "\\CLSID\\{AC757296-3522-4E11-9862-C17BE5A1767E}\\Instance" or TargetObject contains "\\CLSID\\{ABE3B9A4-257D-4B97-BD1A-294AF496222E}\\Instance" or TargetObject contains "\\CLSID\\{7ED96837-96F0-4812-B211-F13C24117ED3}\\Instance" or TargetObject contains "\\CLSID\\{083863F1-70DE-11d0-BD40-00A0C911CE86}\\Instance" or TargetObject contains "\\Classes\\AllFileSystemObjects\\ShellEx\\DragDropHandlers" or TargetObject contains "\\.exe" or TargetObject contains "\\.cmd" or TargetObject contains "\\ShellEx\\PropertySheetHandlers" or TargetObject contains "\\ShellEx\\ContextMenuHandlers"))) and not (((action_process_image_path = "C:\\Windows\\System32\\drvinst.exe") or (Details = "(Empty)") or (Details = null) or (action_process_image_path = "C:\\Windows\\System32\\svchost.exe" and TargetObject contains "\\lnkfile\\shellex\\ContextMenuHandlers\\"))) and not ((Details = "{807583E5-5146-11D5-A672-00B0D022E945}")))

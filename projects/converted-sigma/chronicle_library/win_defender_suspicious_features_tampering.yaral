@@ -1,0 +1,23 @@
+// Title: Windows Defender Configuration Changes
+// ID: 801bd44f-ceed-4eb6-887c-11544633c0aa
+// Status: stable
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-12-06
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects suspicious changes to the Windows Defender configuration
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 801bd44f_ceed_4eb6_887c_11544633c0aa {
+  meta:
+    title = "Windows Defender Configuration Changes"
+    description = "Detects suspicious changes to the Windows Defender configuration"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ($e.EventID = 5007 and ($e.NewValue = /.*\\Windows Defender\\DisableAntiSpyware .*/ nocase or $e.NewValue = /.*\\Windows Defender\\Scan\\DisableRemovableDriveScanning .*/ nocase or $e.NewValue = /.*\\Windows Defender\\Scan\\DisableScanningMappedNetworkDrivesForFullScan .*/ nocase or $e.NewValue = /.*\\Windows Defender\\SpyNet\\DisableBlockAtFirstSeen .*/ nocase or $e.NewValue = /.*\\Real-Time Protection\\SpyNetReporting .*/ nocase))
+
+  condition:
+    $e
+}

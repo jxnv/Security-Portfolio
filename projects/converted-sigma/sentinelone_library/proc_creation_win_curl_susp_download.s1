@@ -1,0 +1,11 @@
+// Title: Suspicious Curl.EXE Download
+// ID: e218595b-bbe7-4ee5-8a96-f32a24ad3468
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2020-07-03
+// Tags: attack.command-and-control, attack.t1105
+// Description: Detects a suspicious curl process start on Windows and outputs the requested document to a local file
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((src.process.image.path endswithCIS "\\curl.exe") OR (Product = "The curl executable")) AND (((src.process.cmdline endswithCIS ".dll" OR src.process.cmdline endswithCIS ".gif" OR src.process.cmdline endswithCIS ".jpeg" OR src.process.cmdline endswithCIS ".jpg" OR src.process.cmdline endswithCIS ".png" OR src.process.cmdline endswithCIS ".temp" OR src.process.cmdline endswithCIS ".tmp" OR src.process.cmdline endswithCIS ".txt" OR src.process.cmdline endswithCIS ".vbe" OR src.process.cmdline endswithCIS ".vbs")) OR ((src.process.cmdline containsCIS "%AppData%" OR src.process.cmdline containsCIS "%Public%" OR src.process.cmdline containsCIS "%Temp%" OR src.process.cmdline containsCIS "%tmp%" OR src.process.cmdline containsCIS "\\AppData\\" OR src.process.cmdline containsCIS "\\Desktop\\" OR src.process.cmdline containsCIS "\\Temp\\" OR src.process.cmdline containsCIS "\\Users\\Public\\" OR src.process.cmdline containsCIS "C:\\PerfLogs\\" OR src.process.cmdline containsCIS "C:\\ProgramData\\" OR src.process.cmdline containsCIS "C:\\Windows\\Temp\\"))) AND NOT ((src.process.parent.image.path = "C:\\Program Files\\Git\\usr\\bin\\sh.exe" AND src.process.image.path = "C:\\Program Files\\Git\\mingw64\\bin\\curl.exe" AND (src.process.cmdline containsCIS "--silent --show-error --output " AND src.process.cmdline containsCIS "gfw-httpget-" AND src.process.cmdline containsCIS "AppData"))))

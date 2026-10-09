@@ -1,0 +1,11 @@
+// Title: Alternate PowerShell Hosts Pipe
+// ID: 58cb02d5-78ce-4692-b3e1-dce850aae41a
+// Status: test
+// Level: medium
+// Author: Roberto Rodriguez @Cyb3rWard0g, Tim Shelton
+// Date: 2019-09-12
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects alternate PowerShell hosts potentially bypassing detections looking for powershell.exe
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where ((PipeName matches "\\PSHost*") and !(((((Image matches "*:\\Program Files\\PowerShell\\7-preview\\pwsh.exe*" or Image matches "*:\\Program Files\\PowerShell\\7\\pwsh.exe*" or Image matches "*:\\Windows\\system32\\dsac.exe*" or Image matches "*:\\Windows\\system32\\inetsrv\\w3wp.exe*" or Image matches "*:\\Windows\\System32\\sdiagnhost.exe*" or Image matches "*:\\Windows\\system32\\ServerManager.exe*" or Image matches "*:\\Windows\\system32\\wbem\\wmiprvse.exe*" or Image matches "*:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell_ise.exe*" or Image matches "*:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe*" or Image matches "*:\\Windows\\System32\\wsmprovhost.exe*" or Image matches "*:\\Windows\\SysWOW64\\WindowsPowerShell\\v1.0\\powershell_ise.exe*" or Image matches "*:\\Windows\\SysWOW64\\WindowsPowerShell\\v1.0\\powershell.exe*")) or ((Image matches "*C:\\Program Files\\WindowsApps\\Microsoft.PowerShellPreview*" and Image matches "*\\pwsh.exe*")) or ((Image matches "*\\AppData\\Local\\Microsoft\\WindowsApps\\Microsoft.PowerShellPreview*" and Image matches "*\\pwsh.exe*"))) or (isNull(Image)))) and !(((Image matches "C:\\Program Files\\AzureConnectedMachineAgent\\GCArcService*" and Image matches "*\\GC\\gc_worker.exe") or (Image matches "C:\\Program Files\\Citrix\\*") or (Image matches "C:\\Program Files\\Microsoft\\Exchange Server\\*") or ((Image matches "C:\\Program Files (x86)\\*" or Image matches "C:\\Program Files\\*") and Image matches "*\\Microsoft SQL Server\\*" and Image matches "*\\Tools\\Binn\\SQLPS.exe"))))

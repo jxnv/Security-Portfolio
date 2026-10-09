@@ -1,0 +1,11 @@
+-- Title: File Download Via Bitsadmin
+-- ID: d059842b-6b9d-4ed1-b5c3-5b89143c6ede
+-- Status: test
+-- Level: medium
+-- Author: Michael Haag, FPT.EagleEye
+-- Date: 2017-03-09
+-- Tags: attack.persistence, attack.execution, attack.stealth, attack.t1197, attack.s0190, attack.t1036.003, attack.command-and-control, attack.t1105
+-- Description: Detects usage of bitsadmin downloading a file
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM processes WHERE (((Image="*\\bitsadmin.exe") OR (OriginalFileName = 'bitsadmin.exe')) AND ((CommandLine LIKE '% /transfer %') OR (((CommandLine LIKE '% /create %' OR CommandLine LIKE '% /addfile %')) AND (CommandLine LIKE '%http%'))))

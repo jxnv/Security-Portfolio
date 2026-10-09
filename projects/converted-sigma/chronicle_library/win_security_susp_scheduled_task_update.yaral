@@ -1,0 +1,23 @@
+// Title: Suspicious Scheduled Task Update
+// ID: 614cf376-6651-47c4-9dcc-6b9527f749f4
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-12-05
+// Tags: attack.execution, attack.privilege-escalation, attack.persistence, attack.t1053.005
+// Description: Detects update to a scheduled task event that contain suspicious keywords.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 614cf376_6651_47c4_9dcc_6b9527f749f4 {
+  meta:
+    title = "Suspicious Scheduled Task Update"
+    description = "Detects update to a scheduled task event that contain suspicious keywords."
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.TaskContentNew = /.*regsvr32.*/ nocase or $e.TaskContentNew = /.*rundll32.*/ nocase or $e.TaskContentNew = /.*cmd.exe</Command>.*/ nocase or $e.TaskContentNew = /.*cmd</Command>.*/ nocase or $e.TaskContentNew = /.*<Arguments>/c .*/ nocase or $e.TaskContentNew = /.*<Arguments>/k .*/ nocase or $e.TaskContentNew = /.*<Arguments>/r .*/ nocase or $e.TaskContentNew = /.*powershell.*/ nocase or $e.TaskContentNew = /.*pwsh.*/ nocase or $e.TaskContentNew = /.*mshta.*/ nocase or $e.TaskContentNew = /.*wscript.*/ nocase or $e.TaskContentNew = /.*cscript.*/ nocase or $e.TaskContentNew = /.*certutil.*/ nocase or $e.TaskContentNew = /.*bitsadmin.*/ nocase or $e.TaskContentNew = /.*bash.exe.*/ nocase or $e.TaskContentNew = /.*bash .*/ nocase or $e.TaskContentNew = /.*scrcons.*/ nocase or $e.TaskContentNew = /.*wmic .*/ nocase or $e.TaskContentNew = /.*wmic.exe.*/ nocase or $e.TaskContentNew = /.*forfiles.*/ nocase or $e.TaskContentNew = /.*scriptrunner.*/ nocase or $e.TaskContentNew = /.*hh.exe.*/ nocase)) and ($e.EventID = 4702) and (($e.TaskContentNew = /.*\\AppData\\Local\\Temp\\.*/ nocase or $e.TaskContentNew = /.*\\AppData\\Roaming\\.*/ nocase or $e.TaskContentNew = /.*\\Users\\Public\\.*/ nocase or $e.TaskContentNew = /.*\\WINDOWS\\Temp\\.*/ nocase or $e.TaskContentNew = /.*C:\\Temp\\.*/ nocase or $e.TaskContentNew = /.*\\Desktop\\.*/ nocase or $e.TaskContentNew = /.*\\Downloads\\.*/ nocase or $e.TaskContentNew = /.*\\Temporary Internet.*/ nocase or $e.TaskContentNew = /.*C:\\ProgramData\\.*/ nocase or $e.TaskContentNew = /.*C:\\Perflogs\\.*/ nocase)))
+
+  condition:
+    $e
+}

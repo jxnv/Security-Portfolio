@@ -1,0 +1,50 @@
+{
+  "title": "Suspicious Use of PsLogList",
+  "id": "aae1243f-d8af-40d8-ab20-33fc6d0c55bc",
+  "status": "test",
+  "description": "Detects usage of the PsLogList utility to dump event log in order to extract admin accounts and perform account discovery or delete events logs",
+  "author": "Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2021-12-18",
+  "tags": [
+    "attack.discovery",
+    "attack.t1087",
+    "attack.t1087.001",
+    "attack.t1087.002"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_img": [
+      {
+        "OriginalFileName": "psloglist.exe"
+      },
+      {
+        "Image|endswith": [
+          "\\psloglist.exe",
+          "\\psloglist64.exe",
+          "\\psloglist64a.exe"
+        ]
+      }
+    ],
+    "selection_cli_eventlog": {
+      "CommandLine|contains": [
+        " security",
+        " application",
+        " system"
+      ]
+    },
+    "selection_cli_flags": {
+      "CommandLine|contains|windash": [
+        " -d",
+        " -x",
+        " -s",
+        " -c",
+        " -g"
+      ]
+    },
+    "condition": "all of selection_*"
+  }
+}

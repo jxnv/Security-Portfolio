@@ -1,0 +1,11 @@
+// Title: Potential Data Exfiltration Activity Via CommandLine Tools
+// ID: 7d1aaf3d-4304-425c-b7c3-162055e0b3ab
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-02
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects the use of various CLI utilities exfiltrating data via web requests
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((Image ENDSWITH "\\powershell_ise.exe" OR Image ENDSWITH "\\powershell.exe" OR Image ENDSWITH "\\pwsh.exe" OR Image ENDSWITH "\\cmd.exe") AND (CommandLine CONTAINS "curl " OR CommandLine CONTAINS "Invoke-RestMethod" OR CommandLine CONTAINS "Invoke-WebRequest" OR CommandLine CONTAINS "irm " OR CommandLine CONTAINS "iwr " OR CommandLine CONTAINS "wget ") AND (CommandLine CONTAINS " -ur" AND CommandLine CONTAINS " -me" AND CommandLine CONTAINS " -b" AND CommandLine CONTAINS " POST ")) OR ((Image ENDSWITH "\\curl.exe" AND CommandLine CONTAINS "--ur") AND ((CommandLine CONTAINS " -d " OR CommandLine CONTAINS " --data "))) OR (Image ENDSWITH "\\wget.exe" AND (CommandLine CONTAINS "--post-data" OR CommandLine CONTAINS "--post-file"))) AND (((CommandLine=regex("net\\s+view") OR CommandLine=regex("sc\\s+query"))) OR ((CommandLine CONTAINS "Get-Content" OR CommandLine CONTAINS "GetBytes" OR CommandLine CONTAINS "hostname" OR CommandLine CONTAINS "ifconfig" OR CommandLine CONTAINS "ipconfig" OR CommandLine CONTAINS "netstat" OR CommandLine CONTAINS "nltest" OR CommandLine CONTAINS "qprocess" OR CommandLine CONTAINS "systeminfo" OR CommandLine CONTAINS "tasklist" OR CommandLine CONTAINS "ToBase64String" OR CommandLine CONTAINS "whoami")) OR ((CommandLine CONTAINS "type " AND CommandLine CONTAINS " > " AND CommandLine CONTAINS " C:\\"))))

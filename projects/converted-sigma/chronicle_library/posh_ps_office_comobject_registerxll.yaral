@@ -1,0 +1,24 @@
+// Title: Code Executed Via Office Add-in XLL File
+// ID: 36fbec91-fa1b-4d5d-8df1-8d8edcb632ad
+// Status: test
+// Level: high
+// Author: frack113
+// Date: 2021-12-28
+// Tags: attack.persistence, attack.t1137.006
+// Description: Adversaries may abuse Microsoft Office add-ins to obtain persistence on a compromised system.
+// Office add-ins can be used to add functionality to Office programs
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 36fbec91_fa1b_4d5d_8df1_8d8edcb632ad {
+  meta:
+    title = "Code Executed Via Office Add-in XLL File"
+    description = "Adversaries may abuse Microsoft Office add-ins to obtain persistence on a compromised system. Office add-ins can be used to add functionality to Office programs"
+    author = "frack113"
+    severity = "HIGH"
+
+  events:
+    (($e.ScriptBlockText = /.*new-object .*/ nocase and $e.ScriptBlockText = /.*-ComObject .*/ nocase and $e.ScriptBlockText = /.*.application.*/ nocase and $e.ScriptBlockText = /.*.RegisterXLL.*/ nocase))
+
+  condition:
+    $e
+}

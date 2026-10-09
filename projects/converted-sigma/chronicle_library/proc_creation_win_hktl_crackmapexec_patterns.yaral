@@ -1,0 +1,23 @@
+// Title: HackTool - CrackMapExec Process Patterns
+// ID: f26307d8-14cd-47e3-a26b-4b4769f24af6
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-03-12
+// Tags: attack.credential-access, attack.t1003.001
+// Description: Detects suspicious process patterns found in logs when CrackMapExec is used
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule f26307d8_14cd_47e3_a26b_4b4769f24af6 {
+  meta:
+    title = "HackTool - CrackMapExec Process Patterns"
+    description = "Detects suspicious process patterns found in logs when CrackMapExec is used"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*tasklist /fi .*/ nocase and $e.target.process.command_line = /.*Imagename eq lsass.exe.*/ nocase) and ($e.target.process.command_line = /.*cmd.exe /c .*/ nocase or $e.target.process.command_line = /.*cmd.exe /r .*/ nocase or $e.target.process.command_line = /.*cmd.exe /k .*/ nocase or $e.target.process.command_line = /.*cmd /c .*/ nocase or $e.target.process.command_line = /.*cmd /r .*/ nocase or $e.target.process.command_line = /.*cmd /k .*/ nocase) and ($e.target.user.userid = /.*AUTHORI.*/ nocase or $e.target.user.userid = /.*AUTORI.*/ nocase)) or (($e.target.process.command_line = /.*do rundll32.exe C:\\windows\\System32\\comsvcs.dll, MiniDump.*/ nocase and $e.target.process.command_line = /.*\\Windows\\Temp\\.*/ nocase and $e.target.process.command_line = /.* full.*/ nocase and $e.target.process.command_line = /.*%%B.*/ nocase)) or (($e.target.process.command_line = /.*tasklist /v /fo csv.*/ nocase and $e.target.process.command_line = /.*findstr /i \"lsass\".*/ nocase)))
+
+  condition:
+    $e
+}

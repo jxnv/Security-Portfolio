@@ -1,0 +1,11 @@
+// Title: Office Application Initiated Network Connection Over Uncommon Ports
+// ID: 3b5ba899-9842-4bc2-acc2-12308498bf42
+// Status: test
+// Level: medium
+// Author: X__Junior (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-07-12
+// Tags: attack.command-and-control, attack.stealth
+// Description: Detects an office suit application (Word, Excel, PowerPoint, Outlook) communicating to target systems over uncommon ports.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where ((Initiated = "true" AND (process.executable="*\\excel.exe" OR process.executable="*\\outlook.exe" OR process.executable="*\\powerpnt.exe" OR process.executable="*\\winword.exe" OR process.executable="*\\wordview.exe")) AND NOT ((((destination.port = "53" OR destination.port = "80" OR destination.port = "139" OR destination.port = "389" OR destination.port = "443" OR destination.port = "445" OR destination.port = "3268")) OR (process.executable like "%:\\Program Files\\Microsoft Office\\%" AND process.executable="*\\OUTLOOK.EXE" AND (destination.port = "143" OR destination.port = "465" OR destination.port = "587" OR destination.port = "993" OR destination.port = "995")))))

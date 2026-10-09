@@ -1,0 +1,23 @@
+// Title: Sysinternals PsSuspend Suspicious Execution
+// ID: 4beb6ae0-f85b-41e2-8f18-8668abc8af78
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-03-23
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects suspicious execution of Sysinternals PsSuspend, where the utility is used to suspend critical processes such as AV or EDR to bypass defenses
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 4beb6ae0_f85b_41e2_8f18_8668abc8af78 {
+  meta:
+    title = "Sysinternals PsSuspend Suspicious Execution"
+    description = "Detects suspicious execution of Sysinternals PsSuspend, where the utility is used to suspend critical processes such as AV or EDR to bypass defenses"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.command_line = /.*msmpeng.exe.*/ nocase) and (($e.target.process.file.name = "pssuspend.exe") or (($e.target.process.file.full_path = /.*\\pssuspend.exe$/ nocase or $e.target.process.file.full_path = /.*\\pssuspend64.exe$/ nocase or $e.target.process.file.full_path = /.*\\pssuspend64a.exe$/ nocase))))
+
+  condition:
+    $e
+}

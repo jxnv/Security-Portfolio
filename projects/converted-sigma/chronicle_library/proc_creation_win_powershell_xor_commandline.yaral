@@ -1,0 +1,23 @@
+// Title: Suspicious XOR Encoded PowerShell Command
+// ID: bb780e0c-16cf-4383-8383-1e5471db6cf9
+// Status: test
+// Level: medium
+// Author: Sami Ruohonen, Harish Segar, Tim Shelton, Teymur Kheirkhabarov, Vasiliy Burov, oscd.community, Nasreddine Bencherchali
+// Date: 2018-09-05
+// Tags: attack.execution, attack.stealth, attack.t1059.001, attack.t1140, attack.t1027
+// Description: Detects presence of a potentially xor encoded powershell command
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule bb780e0c_16cf_4383_8383_1e5471db6cf9 {
+  meta:
+    title = "Suspicious XOR Encoded PowerShell Command"
+    description = "Detects presence of a potentially xor encoded powershell command"
+    author = "Sami Ruohonen, Harish Segar, Tim Shelton, Teymur Kheirkhabarov, Vasiliy Burov, oscd.community, Nasreddine Bencherchali"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.command_line = /.*ForEach.*/ nocase or $e.target.process.command_line = /.*for(.*/ nocase or $e.target.process.command_line = /.*for .*/ nocase or $e.target.process.command_line = /.*-join .*/ nocase or $e.target.process.command_line = /.*-join'.*/ nocase or $e.target.process.command_line = /.*-join\".*/ nocase or $e.target.process.command_line = /.*-join`.*/ nocase or $e.target.process.command_line = /.*::Join.*/ nocase or $e.target.process.command_line = /.*[char].*/ nocase)) and ($e.target.process.command_line = /.*bxor.*/ nocase) and ((($e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase)) or (($e.target.process.file.name = "PowerShell.EXE" or $e.target.process.file.name = "pwsh.dll")) or ($e.Description = "Windows PowerShell") or ($e.Product = "PowerShell Core 6")))
+
+  condition:
+    $e
+}

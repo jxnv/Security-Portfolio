@@ -1,0 +1,24 @@
+// Title: Cscript/Wscript Potentially Suspicious Child Process
+// ID: b6676963-0353-4f88-90f5-36c20d443c6a
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems), Alejandro Houspanossian ('@lekz86')
+// Date: 2023-05-15
+// Tags: attack.execution
+// Description: Detects potentially suspicious child processes of Wscript/Cscript. These include processes such as rundll32 with uncommon exports or PowerShell spawning rundll32 or regsvr32.
+// Malware such as Pikabot and Qakbot were seen using similar techniques as well as many others.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule b6676963_0353_4f88_90f5_36c20d443c6a {
+  meta:
+    title = "Cscript/Wscript Potentially Suspicious Child Process"
+    description = "Detects potentially suspicious child processes of Wscript/Cscript. These include processes such as rundll32 with uncommon exports or PowerShell spawning rundll32 or regsvr32. Malware such as Pikabot and Qakbot were seen using similar techniques as well as many others."
+    author = "Nasreddine Bencherchali (Nextron Systems), Alejandro Houspanossian ('@lekz86')"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.principal.process.file.full_path = /.*\\wscript.exe$/ nocase or $e.principal.process.file.full_path = /.*\\cscript.exe$/ nocase)) and (($e.target.process.file.full_path = /.*\\rundll32.exe$/ nocase) or ((($e.target.process.file.full_path = /.*\\cmd.exe$/ nocase or $e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase)) and ((($e.target.process.command_line = /.*mshta.*/ nocase and $e.target.process.command_line = /.*http.*/ nocase)) or (($e.target.process.command_line = /.*rundll32.*/ nocase or $e.target.process.command_line = /.*regsvr32.*/ nocase or $e.target.process.command_line = /.*msiexec.*/ nocase))))) and not(($e.target.process.file.full_path = /.*\\rundll32.exe$/ nocase and ($e.target.process.command_line = /.*UpdatePerUserSystemParameters.*/ nocase or $e.target.process.command_line = /.*PrintUIEntry.*/ nocase or $e.target.process.command_line = /.*ClearMyTracksByProcess.*/ nocase))))
+
+  condition:
+    $e
+}

@@ -1,0 +1,11 @@
+// Title: Suspicious Invoke-WebRequest Execution With DirectIP
+// ID: 1edff897-9146-48d2-9066-52e8d8f80a2f
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-04-21
+// Tags: attack.command-and-control, attack.t1105
+// Description: Detects calls to PowerShell with Invoke-WebRequest cmdlet using direct IP access
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(CommandLine ICONTAINS "curl ") OR where(CommandLine ICONTAINS "Invoke-RestMethod") OR where(CommandLine ICONTAINS "Invoke-WebRequest") OR where(CommandLine ICONTAINS " irm ") OR where(CommandLine ICONTAINS "iwr ") OR where(CommandLine ICONTAINS "wget "))) AND (((where(Image IENDSWITH "\\powershell_ise.exe") OR where(Image IENDSWITH "\\powershell.exe") OR where(Image IENDSWITH "\\pwsh.exe"))) OR ((where(OriginalFileName = "powershell_ise.EXE") OR where(OriginalFileName = "PowerShell.EXE") OR where(OriginalFileName = "pwsh.dll")))) AND ((where(CommandLine ICONTAINS "://1") OR where(CommandLine ICONTAINS "://2") OR where(CommandLine ICONTAINS "://3") OR where(CommandLine ICONTAINS "://4") OR where(CommandLine ICONTAINS "://5") OR where(CommandLine ICONTAINS "://6") OR where(CommandLine ICONTAINS "://7") OR where(CommandLine ICONTAINS "://8") OR where(CommandLine ICONTAINS "://9"))))

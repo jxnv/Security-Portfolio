@@ -1,0 +1,23 @@
+// Title: Kernel Memory Dump Via LiveKD
+// ID: c7746f1c-47d3-43d6-8c45-cd1e54b6b0a2
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-05-16
+// Tags: attack.stealth
+// Description: Detects execution of LiveKD with the "-m" flag to potentially dump the kernel memory
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule c7746f1c_47d3_43d6_8c45_cd1e54b6b0a2 {
+  meta:
+    title = "Kernel Memory Dump Via LiveKD"
+    description = "Detects execution of LiveKD with the "-m" flag to potentially dump the kernel memory"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.command_line = /.* -m.*/ nocase) and ((($e.target.process.file.full_path = /.*\\livekd.exe$/ nocase or $e.target.process.file.full_path = /.*\\livekd64.exe$/ nocase)) or ($e.target.process.file.name = "livekd.exe")))
+
+  condition:
+    $e
+}

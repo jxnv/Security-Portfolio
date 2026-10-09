@@ -1,0 +1,22 @@
+# Title: Enabling COR Profiler Environment Variables
+# ID: ad89044a-8f49-4673-9a55-cbd88a1b374f
+# Status: test
+# Level: medium
+# Author: Jose Rodriguez (@Cyb3rPandaH), OTR (Open Threat Research), Jimmy Bayne (@bohops)
+# Date: 2020-09-10
+# Tags: attack.persistence, attack.privilege-escalation, attack.execution, attack.stealth, attack.t1574.012
+# Description: Detects .NET Framework CLR and .NET Core CLR "cor_enable_profiling" and "cor_profiler" variables being set and configured.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# LimaCharlie Detection & Response Rule
+# Name: Enabling COR Profiler Environment Variables
+detect:
+  event: registry_set
+  op: and
+  rules:
+    # Filter logic:
+    # (((TargetObject="*\\COR_ENABLE_PROFILING" OR TargetObject="*\\COR_PROFILER" OR TargetObject="*\\CORECLR_ENABLE_PROFILING")) OR (TargetObject="*\\CORECLR_PROFILER_PATH*"))
+respond:
+  - action: report
+    name: Enabling COR Profiler Environment Variables
+

@@ -1,0 +1,23 @@
+// Title: Potential Configuration And Service Reconnaissance Via Reg.EXE
+// ID: 970007b7-ce32-49d0-a4a4-fbef016950bd
+// Status: test
+// Level: medium
+// Author: Timur Zinniatullin, oscd.community
+// Date: 2019-10-21
+// Tags: attack.discovery, attack.t1012, attack.t1007
+// Description: Detects the usage of "reg.exe" in order to query reconnaissance information from the registry. Adversaries may interact with the Windows registry to gather information about credentials, the system, configuration, and installed software.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 970007b7_ce32_49d0_a4a4_fbef016950bd {
+  meta:
+    title = "Potential Configuration And Service Reconnaissance Via Reg.EXE"
+    description = "Detects the usage of "reg.exe" in order to query reconnaissance information from the registry. Adversaries may interact with the Windows registry to gather information about credentials, the system, configuration, and installed software."
+    author = "Timur Zinniatullin, oscd.community"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.process.command_line = /.*query.*/ nocase) and (($e.target.process.file.full_path = /.*\\reg.exe$/ nocase) or ($e.target.process.file.name = "reg.exe")) and (($e.target.process.command_line = /.*currentVersion\\windows.*/ nocase or $e.target.process.command_line = /.*winlogon\\.*/ nocase or $e.target.process.command_line = /.*currentVersion\\shellServiceObjectDelayLoad.*/ nocase or $e.target.process.command_line = /.*currentVersion\\run.*/ nocase or $e.target.process.command_line = /.*currentVersion\\policies\\explorer\\run.*/ nocase or $e.target.process.command_line = /.*currentcontrolset\\services.*/ nocase)))
+
+  condition:
+    $e
+}

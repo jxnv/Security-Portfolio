@@ -1,0 +1,23 @@
+// Title: Potential ReflectDebugger Content Execution Via WerFault.EXE
+// ID: fabfb3a7-3ce1-4445-9c7c-3c27f1051cdd
+// Status: test
+// Level: medium
+// Author: X__Junior (Nextron Systems)
+// Date: 2023-06-30
+// Tags: attack.execution, attack.stealth, attack.t1036
+// Description: Detects execution of "WerFault.exe" with the "-pr" commandline flag that is used to run files stored in the ReflectDebugger key which could be used to store the path to the malware in order to masquerade the execution flow
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule fabfb3a7_3ce1_4445_9c7c_3c27f1051cdd {
+  meta:
+    title = "Potential ReflectDebugger Content Execution Via WerFault.EXE"
+    description = "Detects execution of "WerFault.exe" with the "-pr" commandline flag that is used to run files stored in the ReflectDebugger key which could be used to store the path to the malware in order to masquerade the execution flow"
+    author = "X__Junior (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.process.command_line = /.* -pr .*/ nocase) and (($e.target.process.file.full_path = /.*\\WerFault.exe$/ nocase) or ($e.target.process.file.name = "WerFault.exe")))
+
+  condition:
+    $e
+}

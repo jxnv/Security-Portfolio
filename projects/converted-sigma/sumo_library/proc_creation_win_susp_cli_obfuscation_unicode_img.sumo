@@ -1,0 +1,12 @@
+// Title: Potential CommandLine Obfuscation Using Unicode Characters From Suspicious Image
+// ID: 584bca0f-3608-4402-80fd-4075ff6072e3
+// Status: test
+// Level: high
+// Author: frack113, Florian Roth (Nextron Systems), Josh Nickels
+// Date: 2024-09-02
+// Tags: attack.stealth, attack.t1027
+// Description: Detects potential commandline obfuscation using unicode characters.
+// Adversaries may attempt to make an executable or file difficult to discover or analyze by encrypting, encoding, or otherwise obfuscating its contents on the system or in transit.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where (((Image matches "*\\cmd.exe" or Image matches "*\\cscript.exe" or Image matches "*\\powershell.exe" or Image matches "*\\powershell_ise.exe" or Image matches "*\\pwsh.exe" or Image matches "*\\wscript.exe") and (OriginalFileName = "Cmd.EXE" or OriginalFileName = "cscript.exe" or OriginalFileName = "PowerShell.EXE" or OriginalFileName = "PowerShell_ISE.EXE" or OriginalFileName = "pwsh.dll" or OriginalFileName = "wscript.exe")) and ((CommandLine matches "*ˣ*" or CommandLine matches "*˪*" or CommandLine matches "*ˢ*" or CommandLine matches "*∕*" or CommandLine matches "*⁄*" or CommandLine matches "*―*" or CommandLine matches "*—*" or CommandLine matches "* *" or CommandLine matches "*¯*" or CommandLine matches "*®*" or CommandLine matches "*¶*" or CommandLine matches "*⠀*")))

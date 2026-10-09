@@ -1,0 +1,19 @@
+# Title: Potential Mpclient.DLL Sideloading
+# ID: 418dc89a-9808-4b87-b1d7-e5ae0cb6effc
+# Status: test
+# Level: high
+# Author: Bhabesh Raj
+# Date: 2022-08-02
+# Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.stealth, attack.t1574.001
+# Description: Detects potential sideloading of "mpclient.dll" by Windows Defender processes ("MpCmdRun" and "NisSrv") from their non-default directory.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Potential Mpclient.DLL Sideloading
+def rule(event):
+    # Detection Logic:
+    # ((ImageLoaded="*\\mpclient.dll" AND (Image="*\\MpCmdRun.exe" OR Image="*\\NisSrv.exe")) AND NOT (((Image="C:\\Program Files (x86)\\Windows Defender\\*" OR Image="C:\\Program Files\\Microsoft Security Client\\*" OR Image="C:\\Program Files\\Windows Defender\\*" OR Image="C:\\ProgramData\\Microsoft\\Windows Defender\\Platform\\*" OR Image="C:\\Windows\\WinSxS\\*"))))
+    return True
+
+def title(event):
+    return "Potential Mpclient.DLL Sideloading"
+

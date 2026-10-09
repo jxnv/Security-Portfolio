@@ -1,0 +1,23 @@
+// Title: Important Scheduled Task Deleted/Disabled
+// ID: 7595ba94-cf3b-4471-aa03-4f6baa9e5fad
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-12-05
+// Tags: attack.execution, attack.privilege-escalation, attack.persistence, attack.t1053.005
+// Description: Detects when adversaries stop services or processes by deleting or disabling their respective scheduled tasks in order to conduct data destructive activities
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 7595ba94_cf3b_4471_aa03_4f6baa9e5fad {
+  meta:
+    title = "Important Scheduled Task Deleted/Disabled"
+    description = "Detects when adversaries stop services or processes by deleting or disabling their respective scheduled tasks in order to conduct data destructive activities"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.EventID = 4699 or $e.EventID = 4701) and ($e.TaskName = /.*\\Windows\\SystemRestore\\SR.*/ nocase or $e.TaskName = /.*\\Windows\\Windows Defender\\.*/ nocase or $e.TaskName = /.*\\Windows\\BitLocker.*/ nocase or $e.TaskName = /.*\\Windows\\WindowsBackup\\.*/ nocase or $e.TaskName = /.*\\Windows\\WindowsUpdate\\.*/ nocase or $e.TaskName = /.*\\Windows\\UpdateOrchestrator\\Schedule.*/ nocase or $e.TaskName = /.*\\Windows\\ExploitGuard.*/ nocase)) and not(($e.EventID = 4699 and $e.SubjectUserName = /.*$$/ nocase and $e.TaskName = /.*\\Windows\\Windows Defender\\.*/ nocase)))
+
+  condition:
+    $e
+}

@@ -1,0 +1,20 @@
+# Title: CMSTP App Paths Registry Key Modification
+# ID: b6d235fc-1d38-4b12-adbe-325f06728f37
+# Status: stable
+# Level: high
+# Author: Nik Seetharaman
+# Date: 2018-07-16
+# Tags: attack.execution, attack.stealth, attack.t1218.003, attack.g0069, car.2019-04-001
+# Description: Detects modifications to the CMSTP App Paths registry key. This may indicate abuse of
+# Microsoft Connection Manager Profile Installer (CMSTP) for arbitrary code execution or UAC bypass.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: CMSTP App Paths Registry Key Modification
+def rule(event):
+    # Detection Logic:
+    # ((TargetObject="*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\cmmgr32.exe\\*") AND NOT (((TargetObject="*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\cmmgr32.exe\\CmstpExtensionDll" AND (Details="C:\\Windows\\System32\\cmcfg32.dll" OR Details="C:\\Windows\\SysWOW64\\cmcfg32.dll")) OR (Details="(Empty)"))))
+    return True
+
+def title(event):
+    return "CMSTP App Paths Registry Key Modification"
+

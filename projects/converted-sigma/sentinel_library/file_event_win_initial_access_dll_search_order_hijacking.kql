@@ -1,0 +1,11 @@
+// Title: Potential Initial Access via DLL Search Order Hijacking
+// ID: dbbd9f66-2ed3-4ca2-98a4-6ea985dd1a1c
+// Status: test
+// Level: medium
+// Author: Tim Rauch (rule), Elastic (idea)
+// Date: 2022-10-21
+// Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.stealth, attack.t1566, attack.t1566.001, attack.initial-access, attack.t1574, attack.t1574.001
+// Description: Detects attempts to create a DLL file to a known desktop application dependencies folder such as Slack, Teams or OneDrive and by an unusual process. This may indicate an attempt to load a malicious module via DLL search order hijacking.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+DeviceProcessEvents | where (((FolderPath endswith "\\winword.exe" or FolderPath endswith "\\excel.exe" or FolderPath endswith "\\powerpnt.exe" or FolderPath endswith "\\MSACCESS.EXE" or FolderPath endswith "\\MSPUB.EXE" or FolderPath endswith "\\fltldr.exe" or FolderPath endswith "\\cmd.exe" or FolderPath endswith "\\certutil.exe" or FolderPath endswith "\\mshta.exe" or FolderPath endswith "\\cscript.exe" or FolderPath endswith "\\wscript.exe" or FolderPath endswith "\\curl.exe" or FolderPath endswith "\\powershell.exe" or FolderPath endswith "\\pwsh.exe") and FileName endswith ".dll" and (FileName contains "\\Users\\" and FileName contains "\\AppData\\") and (FileName contains "\\Microsoft\\OneDrive\\" or FileName contains "\\Microsoft OneDrive\\" or FileName contains "\\Microsoft\\Teams\\" or FileName contains "\\Local\\slack\\app-" or FileName contains "\\Local\\Programs\\Microsoft VS Code\\")) and not((FolderPath endswith "\\cmd.exe" and (FileName contains "\\Users\\" and FileName contains "\\AppData\\" and FileName contains "\\Microsoft\\OneDrive\\" and FileName contains "\\api-ms-win-core-"))))

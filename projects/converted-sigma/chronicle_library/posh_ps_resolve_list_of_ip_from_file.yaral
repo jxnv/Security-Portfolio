@@ -1,0 +1,23 @@
+// Title: PowerShell Script With File Hostname Resolving Capabilities
+// ID: fbc5e92f-3044-4e73-a5c6-1c4359b539de
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-05-05
+// Tags: attack.exfiltration, attack.t1020
+// Description: Detects PowerShell scripts that have capabilities to read files, loop through them and resolve DNS host entries.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule fbc5e92f_3044_4e73_a5c6_1c4359b539de {
+  meta:
+    title = "PowerShell Script With File Hostname Resolving Capabilities"
+    description = "Detects PowerShell scripts that have capabilities to read files, loop through them and resolve DNS host entries."
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.ScriptBlockText = /.*Get-content .*/ nocase and $e.ScriptBlockText = /.*foreach.*/ nocase and $e.ScriptBlockText = /.*[System.Net.Dns]::GetHostEntry.*/ nocase and $e.ScriptBlockText = /.*Out-File.*/ nocase))
+
+  condition:
+    $e
+}

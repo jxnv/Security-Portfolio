@@ -1,0 +1,13 @@
+// Title: Potential Homoglyph Attack Using Lookalike Characters in Filename
+// ID: 4f1707b1-b50b-45b4-b5a2-3978b5a5d0d6
+// Status: test
+// Level: medium
+// Author: Micah Babinski, @micahbabinski
+// Date: 2023-05-08
+// Tags: attack.stealth, attack.t1036, attack.t1036.003
+// Description: Detects the presence of unicode characters which are homoglyphs, or identical in appearance, to ASCII letter characters.
+// This is used as an obfuscation and masquerading techniques. Only "perfect" homoglyphs are included; these are characters that
+// are indistinguishable from ASCII characters and thus may make excellent candidates for homoglyph attack characters.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE (((file.path LIKE "%а%" OR file.path LIKE "%е%" OR file.path LIKE "%о%" OR file.path LIKE "%р%" OR file.path LIKE "%с%" OR file.path LIKE "%х%" OR file.path LIKE "%ѕ%" OR file.path LIKE "%і%" OR file.path LIKE "%ӏ%" OR file.path LIKE "%ј%" OR file.path LIKE "%һ%" OR file.path LIKE "%ԁ%" OR file.path LIKE "%ԛ%" OR file.path LIKE "%ԝ%" OR file.path LIKE "%ο%")) OR ((file.path LIKE "%А%" OR file.path LIKE "%В%" OR file.path LIKE "%Е%" OR file.path LIKE "%К%" OR file.path LIKE "%М%" OR file.path LIKE "%Н%" OR file.path LIKE "%О%" OR file.path LIKE "%Р%" OR file.path LIKE "%С%" OR file.path LIKE "%Т%" OR file.path LIKE "%Х%" OR file.path LIKE "%Ѕ%" OR file.path LIKE "%І%" OR file.path LIKE "%Ј%" OR file.path LIKE "%Ү%" OR file.path LIKE "%Ӏ%" OR file.path LIKE "%Ԍ%" OR file.path LIKE "%Ԛ%" OR file.path LIKE "%Ԝ%" OR file.path LIKE "%Α%" OR file.path LIKE "%Β%" OR file.path LIKE "%Ε%" OR file.path LIKE "%Ζ%" OR file.path LIKE "%Η%" OR file.path LIKE "%Ι%" OR file.path LIKE "%Κ%" OR file.path LIKE "%Μ%" OR file.path LIKE "%Ν%" OR file.path LIKE "%Ο%" OR file.path LIKE "%Ρ%" OR file.path LIKE "%Τ%" OR file.path LIKE "%Υ%" OR file.path LIKE "%Χ%")))

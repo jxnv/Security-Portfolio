@@ -1,0 +1,24 @@
+// Title: Network Connection Initiated By AddinUtil.EXE
+// ID: 5205613d-2a63-4412-a895-3a2458b587b3
+// Status: test
+// Level: high
+// Author: Michael McKinley (@McKinleyMike), Tony Latteri (@TheLatteri)
+// Date: 2023-09-18
+// Tags: attack.stealth, attack.t1218
+// Description: Detects a network connection initiated by the Add-In deployment cache updating utility "AddInutil.exe".
+// This could indicate a potential command and control communication as this tool doesn't usually initiate network activity.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 5205613d_2a63_4412_a895_3a2458b587b3 {
+  meta:
+    title = "Network Connection Initiated By AddinUtil.EXE"
+    description = "Detects a network connection initiated by the Add-In deployment cache updating utility "AddInutil.exe". This could indicate a potential command and control communication as this tool doesn't usually initiate network activity."
+    author = "Michael McKinley (@McKinleyMike), Tony Latteri (@TheLatteri)"
+    severity = "HIGH"
+
+  events:
+    ($e.Initiated = "true" and $e.target.process.file.full_path = /.*\\addinutil.exe$/ nocase)
+
+  condition:
+    $e
+}

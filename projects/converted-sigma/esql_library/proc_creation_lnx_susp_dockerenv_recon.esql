@@ -1,0 +1,11 @@
+// Title: Docker Container Discovery Via Dockerenv Listing
+// ID: 11701de9-d5a5-44aa-8238-84252f131895
+// Status: test
+// Level: low
+// Author: Seth Hanford
+// Date: 2023-08-23
+// Tags: attack.discovery, attack.t1082
+// Description: Detects listing or file reading of ".dockerenv" which can be a sing of potential container discovery
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE ((process.executable LIKE "%/cat" OR process.executable LIKE "%/dir" OR process.executable LIKE "%/find" OR process.executable LIKE "%/ls" OR process.executable LIKE "%/stat" OR process.executable LIKE "%/test" OR process.executable LIKE "%grep") AND process.command_line LIKE "%.dockerenv")

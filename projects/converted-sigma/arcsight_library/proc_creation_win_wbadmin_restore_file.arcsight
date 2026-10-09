@@ -1,0 +1,12 @@
+// Title: File Recovery From Backup Via Wbadmin.EXE
+// ID: 6fe4aa1e-0531-4510-8be2-782154b73b48
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems), frack113
+// Date: 2024-05-10
+// Tags: attack.impact, attack.t1490
+// Description: Detects the recovery of files from backups via "wbadmin.exe".
+// Attackers can restore sensitive files such as NTDS.DIT or Registry Hives from backups in order to potentially extract credentials.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((CommandLine CONTAINS " recovery" AND CommandLine CONTAINS "recoveryTarget" AND CommandLine CONTAINS "itemtype:File")) AND ((Image ENDSWITH "\\wbadmin.exe") OR (OriginalFileName EQ "WBADMIN.EXE")))

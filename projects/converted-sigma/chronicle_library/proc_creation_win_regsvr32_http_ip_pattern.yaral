@@ -1,0 +1,23 @@
+// Title: Potentially Suspicious Regsvr32 HTTP IP Pattern
+// ID: 2dd2c217-bf68-437a-b57c-fe9fd01d5de8
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-01-11
+// Tags: attack.stealth, attack.t1218.010
+// Description: Detects regsvr32 execution to download and install DLLs located remotely where the address is an IP address.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 2dd2c217_bf68_437a_b57c_fe9fd01d5de8 {
+  meta:
+    title = "Potentially Suspicious Regsvr32 HTTP IP Pattern"
+    description = "Detects regsvr32 execution to download and install DLLs located remotely where the address is an IP address."
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.file.full_path = /.*\\regsvr32.exe$/ nocase) or ($e.target.process.file.name = "REGSVR32.EXE")) and (($e.target.process.command_line = /.* /i:http://1.*/ nocase or $e.target.process.command_line = /.* /i:http://2.*/ nocase or $e.target.process.command_line = /.* /i:http://3.*/ nocase or $e.target.process.command_line = /.* /i:http://4.*/ nocase or $e.target.process.command_line = /.* /i:http://5.*/ nocase or $e.target.process.command_line = /.* /i:http://6.*/ nocase or $e.target.process.command_line = /.* /i:http://7.*/ nocase or $e.target.process.command_line = /.* /i:http://8.*/ nocase or $e.target.process.command_line = /.* /i:http://9.*/ nocase or $e.target.process.command_line = /.* /i:https://1.*/ nocase or $e.target.process.command_line = /.* /i:https://2.*/ nocase or $e.target.process.command_line = /.* /i:https://3.*/ nocase or $e.target.process.command_line = /.* /i:https://4.*/ nocase or $e.target.process.command_line = /.* /i:https://5.*/ nocase or $e.target.process.command_line = /.* /i:https://6.*/ nocase or $e.target.process.command_line = /.* /i:https://7.*/ nocase or $e.target.process.command_line = /.* /i:https://8.*/ nocase or $e.target.process.command_line = /.* /i:https://9.*/ nocase or $e.target.process.command_line = /.* -i:http://1.*/ nocase or $e.target.process.command_line = /.* -i:http://2.*/ nocase or $e.target.process.command_line = /.* -i:http://3.*/ nocase or $e.target.process.command_line = /.* -i:http://4.*/ nocase or $e.target.process.command_line = /.* -i:http://5.*/ nocase or $e.target.process.command_line = /.* -i:http://6.*/ nocase or $e.target.process.command_line = /.* -i:http://7.*/ nocase or $e.target.process.command_line = /.* -i:http://8.*/ nocase or $e.target.process.command_line = /.* -i:http://9.*/ nocase or $e.target.process.command_line = /.* -i:https://1.*/ nocase or $e.target.process.command_line = /.* -i:https://2.*/ nocase or $e.target.process.command_line = /.* -i:https://3.*/ nocase or $e.target.process.command_line = /.* -i:https://4.*/ nocase or $e.target.process.command_line = /.* -i:https://5.*/ nocase or $e.target.process.command_line = /.* -i:https://6.*/ nocase or $e.target.process.command_line = /.* -i:https://7.*/ nocase or $e.target.process.command_line = /.* -i:https://8.*/ nocase or $e.target.process.command_line = /.* -i:https://9.*/ nocase)))
+
+  condition:
+    $e
+}

@@ -1,0 +1,11 @@
+// Title: Python Initiated Connection
+// ID: bef0bc5a-b9ae-425d-85c6-7b2d705980c6
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2021-12-10
+// Tags: attack.discovery, attack.t1046
+// Description: Detects a Python process initiating a network connection. While this often relates to package installation, it can also indicate a potential malicious script communicating with a C&C server.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+network where ((Initiated == "true" and (process.executable like "*_\\python*" and process.executable like "*_.exe*")) and not (((destination.ip == "127.0.0.1" and source.ip == "127.0.0.1") or ((process.command_line like "*_pip.exe*" and process.command_line like "*_install*")))) and not (((process.parent.executable == "C:\\ProgramData\\Anaconda3\\Scripts\\conda.exe" and (process.command_line like "*_:\\ProgramData\\Anaconda3\\Scripts\\conda-script.py*" and process.command_line like "*_update*")) or (process.parent.executable == "C:\\ProgramData\\Anaconda3\\python.exe" and process.command_line like "*_C:\\ProgramData\\Anaconda3\\Scripts\\jupyter-notebook-script.py*"))))

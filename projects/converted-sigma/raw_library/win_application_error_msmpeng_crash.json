@@ -1,0 +1,30 @@
+{
+  "title": "Microsoft Malware Protection Engine Crash",
+  "id": "545a5da6-f103-4919-a519-e9aec1026ee4",
+  "status": "test",
+  "description": "This rule detects a suspicious crash of the Microsoft Malware Protection Engine",
+  "author": "Florian Roth (Nextron Systems)",
+  "date": "2017-05-09",
+  "tags": [
+    "attack.stealth",
+    "attack.defense-impairment",
+    "attack.t1211",
+    "attack.t1685"
+  ],
+  "level": "high",
+  "logsource": {
+    "product": "windows",
+    "service": "application"
+  },
+  "detection": {
+    "selection": {
+      "Provider_Name": "Application Error",
+      "EventID": 1000,
+      "Data|contains|all": [
+        "MsMpEng.exe",
+        "mpengine.dll"
+      ]
+    },
+    "condition": "selection"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "title": "RDP Sensitive Settings Changed to Zero",
+  "id": "a2863fbc-d5cb-48d5-83fb-d976d4b1743b",
+  "status": "test",
+  "description": "Detects tampering of RDP Terminal Service/Server sensitive settings.\nSuch as allowing unauthorized users access to a system via the 'fAllowUnsolicited' or enabling RDP via 'fDenyTSConnections', etc.\n",
+  "author": "Samir Bousseaden, David ANDRE, Roberto Rodriguez @Cyb3rWard0g, Nasreddine Bencherchali",
+  "date": "2022-09-29",
+  "tags": [
+    "attack.persistence",
+    "attack.defense-impairment",
+    "attack.t1112"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "registry_set",
+    "product": "windows"
+  },
+  "detection": {
+    "selection": {
+      "TargetObject|endswith": [
+        "\\fDenyTSConnections",
+        "\\fSingleSessionPerUser",
+        "\\UserAuthentication"
+      ],
+      "Details": "DWORD (0x00000000)"
+    },
+    "condition": "selection"
+  }
+}

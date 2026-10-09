@@ -1,0 +1,11 @@
+// Title: Suspicious Manipulation Of Default Accounts Via Net.EXE
+// ID: 5b768e71-86f2-4879-b448-81061cbae951
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-09-01
+// Tags: attack.collection, attack.t1560.001
+// Description: Detects suspicious manipulations of default accounts such as 'administrator' and 'guest'. For example 'enable' or 'disable' accounts or change the password...etc
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE (((((process.executable LIKE "%\\net.exe" OR process.executable LIKE "%\\net1.exe")) OR ((process.pe.original_file_name == "net.exe" OR process.pe.original_file_name == "net1.exe"))) AND (process.command_line LIKE "% user %") AND ((process.command_line LIKE "% Järjestelmänvalvoja %" OR process.command_line LIKE "% Rendszergazda %" OR process.command_line LIKE "% Администратор %" OR process.command_line LIKE "% Administrateur %" OR process.command_line LIKE "% Administrador %" OR process.command_line LIKE "% Administratör %" OR process.command_line LIKE "% Administrator %" OR process.command_line LIKE "% guest %" OR process.command_line LIKE "% DefaultAccount %" OR process.command_line LIKE "% \"Järjestelmänvalvoja\" %" OR process.command_line LIKE "% \"Rendszergazda\" %" OR process.command_line LIKE "% \"Администратор\" %" OR process.command_line LIKE "% \"Administrateur\" %" OR process.command_line LIKE "% \"Administrador\" %" OR process.command_line LIKE "% \"Administratör\" %" OR process.command_line LIKE "% \"Administrator\" %" OR process.command_line LIKE "% \"guest\" %" OR process.command_line LIKE "% \"DefaultAccount\" %" OR process.command_line LIKE "% 'Järjestelmänvalvoja' %" OR process.command_line LIKE "% 'Rendszergazda' %" OR process.command_line LIKE "% 'Администратор' %" OR process.command_line LIKE "% 'Administrateur' %" OR process.command_line LIKE "% 'Administrador' %" OR process.command_line LIKE "% 'Administratör' %" OR process.command_line LIKE "% 'Administrator' %" OR process.command_line LIKE "% 'guest' %" OR process.command_line LIKE "% 'DefaultAccount' %"))) AND NOT (((process.command_line LIKE "%guest%" AND process.command_line LIKE "%/active no%"))))

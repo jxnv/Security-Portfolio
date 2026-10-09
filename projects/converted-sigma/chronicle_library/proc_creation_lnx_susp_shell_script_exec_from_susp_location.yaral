@@ -1,0 +1,23 @@
+// Title: Execution Of Script Located In Potentially Suspicious Directory
+// ID: 30bcce26-51c5-49f2-99c8-7b59e3af36c7
+// Status: test
+// Level: medium
+// Author: Joseliyo Sanchez, @Joseliyo_Jstnk
+// Date: 2023-06-02
+// Tags: attack.execution
+// Description: Detects executions of scripts located in potentially suspicious locations such as "/tmp" via a shell such as "bash", "sh", etc.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 30bcce26_51c5_49f2_99c8_7b59e3af36c7 {
+  meta:
+    title = "Execution Of Script Located In Potentially Suspicious Directory"
+    description = "Detects executions of scripts located in potentially suspicious locations such as "/tmp" via a shell such as "bash", "sh", etc."
+    author = "Joseliyo Sanchez, @Joseliyo_Jstnk"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.process.command_line = /.* -c .*/ nocase) and (($e.target.process.file.full_path = /.*/bash$/ nocase or $e.target.process.file.full_path = /.*/csh$/ nocase or $e.target.process.file.full_path = /.*/dash$/ nocase or $e.target.process.file.full_path = /.*/fish$/ nocase or $e.target.process.file.full_path = /.*/ksh$/ nocase or $e.target.process.file.full_path = /.*/sh$/ nocase or $e.target.process.file.full_path = /.*/zsh$/ nocase)) and ($e.target.process.command_line = /.*/tmp/.*/ nocase))
+
+  condition:
+    $e
+}

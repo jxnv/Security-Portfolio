@@ -1,0 +1,11 @@
+// Title: Suspicious PowerShell Invocations - Specific
+// ID: ae7fbf8e-f3cb-49fd-8db4-5f3bed522c71
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Jonhnathan Ribeiro
+// Date: 2017-03-05
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects suspicious PowerShell invocation command parameters
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+any where ((((ScriptBlockText like "*_-nop*" and ScriptBlockText like "*_ -w *" and ScriptBlockText like "*_hidden*" and ScriptBlockText like "*_ -c *" and ScriptBlockText like "*_[Convert]::FromBase64String*")) or ((ScriptBlockText like "*_ -w *" and ScriptBlockText like "*_hidden*" and ScriptBlockText like "*_-ep*" and ScriptBlockText like "*_bypass*" and ScriptBlockText like "*_-Enc*")) or ((ScriptBlockText like "*_ -w *" and ScriptBlockText like "*_hidden*" and ScriptBlockText like "*_-noni*" and ScriptBlockText like "*_-nop*" and ScriptBlockText like "*_ -c *" and ScriptBlockText like "*_iex*" and ScriptBlockText like "*_New-Object*")) or ((ScriptBlockText like "*_iex*" and ScriptBlockText like "*_New-Object*" and ScriptBlockText like "*_Net.WebClient*" and ScriptBlockText like "*_.Download*")) or ((ScriptBlockText like "*_powershell*" and ScriptBlockText like "*_reg*" and ScriptBlockText like "*_add*") and (ScriptBlockText like "*_\\software\\microsoft\\windows\\currentversion\\run*" or ScriptBlockText like "*_\\software\\wow6432node\\microsoft\\windows\\currentversion\\run*" or ScriptBlockText like "*_\\software\\microsoft\\windows\\currentversion\\policies\\explorer\\run*")) or ((ScriptBlockText like "*_bypass*" and ScriptBlockText like "*_-noprofile*" and ScriptBlockText like "*_-windowstyle*" and ScriptBlockText like "*_hidden*" and ScriptBlockText like "*_new-object*" and ScriptBlockText like "*_system.net.webclient*" and ScriptBlockText like "*_.download*"))) and not (((ScriptBlockText like "*_(New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1*" or ScriptBlockText like "*_(New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1')*" or ScriptBlockText like "*_Write-ChocolateyWarning*"))))

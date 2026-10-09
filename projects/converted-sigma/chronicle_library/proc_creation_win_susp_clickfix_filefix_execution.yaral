@@ -1,0 +1,24 @@
+// Title: Suspicious ClickFix/FileFix Execution Pattern
+// ID: d487ed4a-fd24-436d-a0b2-f4e95f7b2635
+// Status: experimental
+// Level: high
+// Author: montysecurity, Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-11-19
+// Tags: attack.execution, attack.t1204.001, attack.t1204.004
+// Description: Detects suspicious execution patterns where users are tricked into running malicious commands via clipboard manipulation, either through the Windows Run dialog (ClickFix) or File Explorer address bar (FileFix).
+// Attackers leverage social engineering campaigns—such as fake CAPTCHA challenges or urgent alerts—encouraging victims to paste clipboard contents, often executing mshta.exe, powershell.exe, or similar commands to infect systems.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule d487ed4a_fd24_436d_a0b2_f4e95f7b2635 {
+  meta:
+    title = "Suspicious ClickFix/FileFix Execution Pattern"
+    description = "Detects suspicious execution patterns where users are tricked into running malicious commands via clipboard manipulation, either through the Windows Run dialog (ClickFix) or File Explorer address bar (FileFix). Attackers leverage social engineering campaigns—such as fake CAPTCHA challenges or urgent alerts—encouraging victims to paste clipboard contents, often executing mshta.exe, powershell.exe, or similar commands to infect systems."
+    author = "montysecurity, Swachchhanda Shrawan Poudel (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*account.*/ nocase or $e.target.process.command_line = /.*anti-bot.*/ nocase or $e.target.process.command_line = /.*botcheck.*/ nocase or $e.target.process.command_line = /.*captcha.*/ nocase or $e.target.process.command_line = /.*challenge.*/ nocase or $e.target.process.command_line = /.*confirmation.*/ nocase or $e.target.process.command_line = /.*fraud.*/ nocase or $e.target.process.command_line = /.*human.*/ nocase or $e.target.process.command_line = /.*identification.*/ nocase or $e.target.process.command_line = /.*identificator.*/ nocase or $e.target.process.command_line = /.*identity.*/ nocase or $e.target.process.command_line = /.*robot.*/ nocase or $e.target.process.command_line = /.*validation.*/ nocase or $e.target.process.command_line = /.*verification.*/ nocase or $e.target.process.command_line = /.*verify.*/ nocase)) and ($e.principal.process.file.full_path = /.*\\explorer.exe$/ nocase and $e.target.process.command_line = /.*#.*/ nocase))
+
+  condition:
+    $e
+}

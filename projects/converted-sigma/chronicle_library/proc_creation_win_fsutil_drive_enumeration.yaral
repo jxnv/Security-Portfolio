@@ -1,0 +1,23 @@
+// Title: Fsutil Drive Enumeration
+// ID: 63de06b9-a385-40b5-8b32-73f2b9ef84b6
+// Status: test
+// Level: low
+// Author: Christopher Peacock '@securepeacock', SCYTHE '@scythe_io'
+// Date: 2022-03-29
+// Tags: attack.discovery, attack.t1120
+// Description: Attackers may leverage fsutil to enumerated connected drives.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 63de06b9_a385_40b5_8b32_73f2b9ef84b6 {
+  meta:
+    title = "Fsutil Drive Enumeration"
+    description = "Attackers may leverage fsutil to enumerated connected drives."
+    author = "Christopher Peacock '@securepeacock', SCYTHE '@scythe_io'"
+    severity = "LOW"
+
+  events:
+    (($e.target.process.command_line = /.*drives.*/ nocase) and (($e.target.process.file.full_path = /.*\\fsutil.exe$/ nocase) or ($e.target.process.file.name = "fsutil.exe")))
+
+  condition:
+    $e
+}

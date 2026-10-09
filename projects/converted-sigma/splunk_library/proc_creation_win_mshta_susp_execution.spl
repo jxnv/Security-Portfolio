@@ -1,0 +1,14 @@
+# Title: MSHTA Execution with Suspicious File Extensions
+# ID: cc7abbd0-762b-41e3-8a26-57ad50d2eea3
+# Status: test
+# Level: high
+# Author: Diego Perez (@darkquassar), Markus Neis, Swisscom (Improve Rule), Swachchhanda Shrawan Poudel (Nextron Systems)
+# Date: 2019-02-22
+# Tags: attack.stealth, attack.t1140, attack.t1218.005, attack.execution, attack.t1059.007, cve.2020-1599
+# Description: Detects execution of mshta.exe with file types that looks like they do not typically represent HTA (HTML Application) content,
+# such as .png, .jpg, .zip, .pdf, and others, which are often polyglots. MSHTA is a legitimate Windows utility for executing HTML Applications
+# containing VBScript or JScript. Threat actors often abuse this lolbin utility to download and
+# execute malicious scripts disguised as benign files or hosted under misleading extensions to evade detection.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog (((process_exec="*.7z*" OR process_exec="*.avi*" OR process_exec="*.bat*" OR process_exec="*.bmp*" OR process_exec="*.conf*" OR process_exec="*.csv*" OR process_exec="*.dll*" OR process_exec="*.doc*" OR process_exec="*.gif*" OR process_exec="*.gz*" OR process_exec="*.ini*" OR process_exec="*.jpe*" OR process_exec="*.jpg*" OR process_exec="*.json*" OR process_exec="*.lnk*" OR process_exec="*.log*" OR process_exec="*.mkv*" OR process_exec="*.mp3*" OR process_exec="*.mp4*" OR process_exec="*.pdf*" OR process_exec="*.png*" OR process_exec="*.ppt*" OR process_exec="*.rar*" OR process_exec="*.rtf*" OR process_exec="*.svg*" OR process_exec="*.tar*" OR process_exec="*.tmp*" OR process_exec="*.txt*" OR process_exec="*.xls*" OR process_exec="*.xml*" OR process_exec="*.yaml*" OR process_exec="*.yml*" OR process_exec="*.zip*" OR process_exec="*vbscript*")) AND ((process_path="*\\mshta.exe") OR (process_name="mshta.exe")))

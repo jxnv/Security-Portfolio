@@ -1,0 +1,23 @@
+// Title: Shell32 DLL Execution in Suspicious Directory
+// ID: 32b96012-7892-429e-b26c-ac2bf46066ff
+// Status: test
+// Level: high
+// Author: Christian Burkard (Nextron Systems)
+// Date: 2021-11-24
+// Tags: attack.execution, attack.stealth, attack.t1218.011
+// Description: Detects shell32.dll executing a DLL in a suspicious directory
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 32b96012_7892_429e_b26c_ac2bf46066ff {
+  meta:
+    title = "Shell32 DLL Execution in Suspicious Directory"
+    description = "Detects shell32.dll executing a DLL in a suspicious directory"
+    author = "Christian Burkard (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*shell32.dll.*/ nocase and $e.target.process.command_line = /.*Control_RunDLL.*/ nocase) and ($e.target.process.command_line = /.*%AppData%.*/ nocase or $e.target.process.command_line = /.*%LocalAppData%.*/ nocase or $e.target.process.command_line = /.*%Temp%.*/ nocase or $e.target.process.command_line = /.*%tmp%.*/ nocase or $e.target.process.command_line = /.*\\AppData\\.*/ nocase or $e.target.process.command_line = /.*\\Temp\\.*/ nocase or $e.target.process.command_line = /.*\\Users\\Public\\.*/ nocase)) and (($e.target.process.file.full_path = /.*\\rundll32.exe$/ nocase) or ($e.target.process.file.name = "RUNDLL32.EXE")))
+
+  condition:
+    $e
+}

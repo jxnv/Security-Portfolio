@@ -1,0 +1,11 @@
+# Title: Process Execution From A Potentially Suspicious Folder
+# ID: 3dfd06d2-eaf4-4532-9555-68aca59f57c4
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems), Tim Shelton
+# Date: 2019-01-16
+# Tags: attack.stealth, attack.t1036
+# Description: Detects a potentially suspicious execution from an uncommon folder.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((Image CONTAIN ":\\Perflogs\\" OR Image CONTAIN ":\\Users\\All Users\\" OR Image CONTAIN ":\\Users\\Default\\" OR Image CONTAIN ":\\Users\\NetworkService\\" OR Image CONTAIN ":\\Windows\\addins\\" OR Image CONTAIN ":\\Windows\\debug\\" OR Image CONTAIN ":\\Windows\\Fonts\\" OR Image CONTAIN ":\\Windows\\Help\\" OR Image CONTAIN ":\\Windows\\IME\\" OR Image CONTAIN ":\\Windows\\Media\\" OR Image CONTAIN ":\\Windows\\repair\\" OR Image CONTAIN ":\\Windows\\security\\" OR Image CONTAIN ":\\Windows\\System32\\Tasks\\" OR Image CONTAIN ":\\Windows\\Tasks\\" OR Image CONTAIN "$Recycle.bin" OR Image CONTAIN "\\config\\systemprofile\\" OR Image CONTAIN "\\Intel\\Logs\\" OR Image CONTAIN "\\RSA\\MachineKeys\\")) AND NOT (((Image="C:\\Windows\\SysWOW64\\config\\systemprofile\\Citrix\\UpdaterBinaries\\*" AND Image="*\\CitrixReceiverUpdater.exe") OR (Image="C:\\Users\\Public\\IBM\\ClientSolutions\\Start_Programs\\*"))))

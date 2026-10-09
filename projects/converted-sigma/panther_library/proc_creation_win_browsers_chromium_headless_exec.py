@@ -1,0 +1,19 @@
+# Title: Browser Execution In Headless Mode
+# ID: ef9dcfed-690c-4c5d-a9d1-482cd422225c
+# Status: test
+# Level: low
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2023-09-12
+# Tags: attack.command-and-control, attack.stealth, attack.t1105, attack.t1564.003
+# Description: Detects execution of Chromium based browser in headless mode
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Browser Execution In Headless Mode
+def rule(event):
+    # Detection Logic:
+    # ((Image="*\\brave.exe" OR Image="*\\chrome.exe" OR Image="*\\msedge.exe" OR Image="*\\opera.exe" OR Image="*\\vivaldi.exe") AND CommandLine="*--headless*")
+    return True
+
+def title(event):
+    return "Browser Execution In Headless Mode"
+

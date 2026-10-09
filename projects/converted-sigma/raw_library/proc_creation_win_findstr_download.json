@@ -1,0 +1,45 @@
+{
+  "title": "Remote File Download Via Findstr.EXE",
+  "id": "587254ee-a24b-4335-b3cd-065c0f1f4baa",
+  "status": "test",
+  "description": "Detects execution of \"findstr\" with specific flags and a remote share path. This specific set of CLI flags would allow \"findstr\" to download the content of the file located on the remote share as described in the LOLBAS entry.\n",
+  "author": "Furkan CALISKAN, @caliskanfurkan_, @oscd_initiative, Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2020-10-05",
+  "tags": [
+    "attack.credential-access",
+    "attack.command-and-control",
+    "attack.stealth",
+    "attack.t1218",
+    "attack.t1564.004",
+    "attack.t1552.001",
+    "attack.t1105"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_findstr": [
+      {
+        "CommandLine|contains": "findstr"
+      },
+      {
+        "Image|endswith": "findstr.exe"
+      },
+      {
+        "OriginalFileName": "FINDSTR.EXE"
+      }
+    ],
+    "selection_cli_download_1": {
+      "CommandLine|contains|windash": " -v "
+    },
+    "selection_cli_download_2": {
+      "CommandLine|contains|windash": " -l "
+    },
+    "selection_cli_download_3": {
+      "CommandLine|contains": "\\\\\\\\"
+    },
+    "condition": "selection_findstr and all of selection_cli_download_*"
+  }
+}

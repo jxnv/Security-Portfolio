@@ -1,0 +1,11 @@
+// Title: Change PowerShell Policies to an Insecure Level
+// ID: 87e3c4e8-a6a8-4ad9-bb4f-46e7ff99a180
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2021-11-01
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects changing the PowerShell script execution policy to a potentially insecure level using the "-ExecutionPolicy" flag.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((((OriginalFilename = "powershell_ise.exe" or OriginalFilename = "PowerShell.EXE" or OriginalFilename = "pwsh.dll")) or ((ImageFileName = /.*\\powershell_ise.exe/i or ImageFileName = /.*\\powershell.exe/i or ImageFileName = /.*\\pwsh.exe/i))) and ((CommandLine = /*Bypass*/i or CommandLine = /*Unrestricted*/i)) and ((CommandLine = /*-executionpolicy */i or CommandLine = /* -ep */i or CommandLine = /* -exec */i))) and not(((ParentBaseFileName = "C:\\Windows\\SysWOW64\\msiexec.exe" or ParentBaseFileName = "C:\\Windows\\System32\\msiexec.exe") and (CommandLine = /*-NoProfile -ExecutionPolicy Bypass -File \"C:\\Program Files\\PowerShell\\7\\*/i or CommandLine = /*-NoProfile -ExecutionPolicy Bypass -File \"C:\\Program Files (x86)\\PowerShell\\7\\*/i))) and not(((ParentBaseFileName = /*C:\\Program Files\\Avast Software\\Avast\\*/i or ParentBaseFileName = /*C:\\Program Files (x86)\\Avast Software\\Avast\\*/i or ParentBaseFileName = /*\\instup.exe*/i) and (CommandLine = /*-ExecutionPolicy ByPass -File \"C:\\Program Files\\Avast Software\\Avast*/i or CommandLine = /*-ExecutionPolicy ByPass -File \"C:\\Program Files (x86)\\Avast Software\\Avast\\*/i))))

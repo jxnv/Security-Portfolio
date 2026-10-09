@@ -1,0 +1,11 @@
+# Title: MMC Executing Files with Reversed Extensions Using RTLO Abuse
+# ID: 9cfe4b27-1e56-48b4-b7a8-d46851c91a44
+# Status: experimental
+# Level: high
+# Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+# Date: 2025-02-05
+# Tags: attack.execution, attack.stealth, attack.t1204.002, attack.t1218.014, attack.t1036.002
+# Description: Detects malicious behavior where the MMC utility (`mmc.exe`) executes files with reversed extensions caused by Right-to-Left Override (RLO) abuse, disguising them as document formats.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog (((process_exec="*cod.msc*" OR process_exec="*fdp.msc*" OR process_exec="*ftr.msc*" OR process_exec="*lmth.msc*" OR process_exec="*slx.msc*" OR process_exec="*tdo.msc*" OR process_exec="*xcod.msc*" OR process_exec="*xslx.msc*" OR process_exec="*xtpp.msc*")) AND ((process_path="*\\mmc.exe") OR (process_name="MMC.exe")))

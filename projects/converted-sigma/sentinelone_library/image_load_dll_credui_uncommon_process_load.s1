@@ -1,0 +1,11 @@
+// Title: CredUI.DLL Loaded By Uncommon Process
+// ID: 9ae01559-cf7e-4f8e-8e14-4c290a1b4784
+// Status: test
+// Level: medium
+// Author: Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research)
+// Date: 2020-10-20
+// Tags: attack.credential-access, attack.collection, attack.t1056.002
+// Description: Detects loading of "credui.dll" and related DLLs by an uncommon process. Attackers might leverage this DLL for potential use of "CredUIPromptForCredentials" or "CredUnPackAuthenticationBufferW".
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((ImageLoaded endswithCIS "\\credui.dll" OR ImageLoaded endswithCIS "\\wincredui.dll")) OR ((OriginalFileName = "credui.dll" OR OriginalFileName = "wincredui.dll"))) AND NOT ((((src.process.image.path = "C:\\Windows\\explorer.exe" OR src.process.image.path = "C:\\Windows\\ImmersiveControlPanel\\SystemSettings.exe" OR src.process.image.path = "C:\\Windows\\regedit.exe")) OR ((src.process.image.path startswithCIS "C:\\Program Files (x86)\\" OR src.process.image.path startswithCIS "C:\\Program Files\\" OR src.process.image.path startswithCIS "C:\\Windows\\System32\\" OR src.process.image.path startswithCIS "C:\\Windows\\SysWOW64\\" OR src.process.image.path startswithCIS "C:\\Windows\\SystemApps\\")))) AND NOT (((src.process.image.path startswithCIS "C:\\Users\\" AND src.process.image.path containsCIS "\\AppData\\Local\\Microsoft\\OneDrive\\") OR (src.process.image.path endswithCIS "\\opera_autoupdate.exe") OR ((src.process.image.path endswithCIS "\\procexp64.exe" OR src.process.image.path endswithCIS "\\procexp64a.exe" OR src.process.image.path endswithCIS "\\procexp.exe")) OR (src.process.image.path startswithCIS "C:\\Users\\" AND src.process.image.path containsCIS "\\AppData\\Local\\Microsoft\\Teams\\" AND src.process.image.path endswithCIS "\\Teams.exe"))))

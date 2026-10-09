@@ -1,0 +1,11 @@
+// Title: Potential DLL Sideloading Of DBGHELP.DLL
+// ID: 6414b5cd-b19d-447e-bb5e-9f03940b5784
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems), Wietze Beukema (project and research)
+// Date: 2022-10-25
+// Tags: attack.persistence, attack.privilege-escalation, attack.execution, attack.stealth, attack.t1574.001
+// Description: Detects potential DLL sideloading of "dbghelp.dll"
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+any where ((ImageLoaded endswith "\\dbghelp.dll") and not (((ImageLoaded startswith "C:\\Program Files (x86)\\" or ImageLoaded startswith "C:\\Program Files\\" or ImageLoaded startswith "C:\\Windows\\SoftwareDistribution\\" or ImageLoaded startswith "C:\\Windows\\System32\\" or ImageLoaded startswith "C:\\Windows\\SystemTemp\\" or ImageLoaded startswith "C:\\Windows\\SysWOW64\\" or ImageLoaded startswith "C:\\Windows\\WinSxS\\"))) and not ((((ImageLoaded endswith "\\Anaconda3\\Lib\\site-packages\\vtrace\\platforms\\windll\\amd64\\dbghelp.dll" or ImageLoaded endswith "\\Anaconda3\\Lib\\site-packages\\vtrace\\platforms\\windll\\i386\\dbghelp.dll")) or ((ImageLoaded endswith "\\Epic Games\\Launcher\\Engine\\Binaries\\ThirdParty\\DbgHelp\\dbghelp.dll" or ImageLoaded endswith "\\Epic Games\\MagicLegends\\x86\\dbghelp.dll")) or (ImageLoaded like "*_opera\\Opera Installer Temp\\opera_package*" and ImageLoaded endswith "\\assistant\\dbghelp.dll"))))

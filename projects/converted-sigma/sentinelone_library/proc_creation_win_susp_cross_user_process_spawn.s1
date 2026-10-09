@@ -1,0 +1,13 @@
+// Title: Suspicious Cross-User Process Spawn
+// ID: d2b7a134-9c3e-4f8a-b56d-e0c1f8a29b47
+// Status: experimental
+// Level: medium
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2026-07-23
+// Tags: attack.privilege-escalation, attack.stealth, attack.t1055, attack.t1134
+// Description: Detects suspicious spawning of a process under a different user context than the parent process.
+// Processes such as notepad.exe, calculator etc. are generally spawned under the same user context and
+// also they are often targeted as sacrificial process or decoy process to check successful privilege escalation.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((src.process.image.path endswithCIS "\\notepad.exe" OR src.process.image.path endswithCIS "\\calc.exe" OR src.process.image.path endswithCIS "\\mspaint.exe" OR src.process.image.path endswithCIS "\\wordpad.exe" OR src.process.image.path endswithCIS "\\write.exe")) AND NOT ((src.process.user=ParentUser)) AND NOT (((((ParentUser = "" OR ParentUser = "-")) OR ((src.process.user = "" OR src.process.user = "-"))) OR (ParentUser is null) OR (src.process.user is null))))

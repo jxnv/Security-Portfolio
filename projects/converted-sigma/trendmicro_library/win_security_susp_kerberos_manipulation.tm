@@ -1,0 +1,11 @@
+// Title: Kerberos Manipulation
+// ID: f7644214-0eb0-4ace-9455-331ec4c09253
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2017-02-10
+// Tags: attack.credential-access, attack.t1212
+// Description: Detects failed Kerberos TGT issue operation. This can be a sign of manipulations of TGT messages by an attacker.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((EventID: "675" OR EventID: "4768" OR EventID: "4769" OR EventID: "4771") AND (Status: "0x9" OR Status: "0xA" OR Status: "0xB" OR Status: "0xF" OR Status: "0x10" OR Status: "0x11" OR Status: "0x13" OR Status: "0x14" OR Status: "0x1A" OR Status: "0x1F" OR Status: "0x21" OR Status: "0x22" OR Status: "0x23" OR Status: "0x24" OR Status: "0x26" OR Status: "0x27" OR Status: "0x28" OR Status: "0x29" OR Status: "0x2C" OR Status: "0x2D" OR Status: "0x2E" OR Status: "0x2F" OR Status: "0x31" OR Status: "0x32" OR Status: "0x3E" OR Status: "0x3F" OR Status: "0x40" OR Status: "0x41" OR Status: "0x43" OR Status: "0x44"))

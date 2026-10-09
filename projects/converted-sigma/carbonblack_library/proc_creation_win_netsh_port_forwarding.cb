@@ -1,0 +1,11 @@
+# Title: New Port Forwarding Rule Added Via Netsh.EXE
+# ID: 322ed9ec-fcab-4f67-9a34-e7c6aef43614
+# Status: test
+# Level: medium
+# Author: Florian Roth (Nextron Systems), omkar72, oscd.community, Swachchhanda Shrawan Poudel
+# Date: 2019-01-29
+# Tags: attack.lateral-movement, attack.command-and-control, attack.t1090
+# Description: Detects the execution of netsh commands that configure a new port forwarding (PortProxy) rule
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((process_name:*\\netsh.exe) OR (OriginalFileName:"netsh.exe")) AND (((cmdline:*interface* AND cmdline:*portproxy* AND cmdline:*add* AND cmdline:*v4tov4*)) OR ((cmdline:*i * AND cmdline:*p * AND cmdline:*a * AND cmdline:*v *)) OR ((cmdline:*connectp* AND cmdline:*listena* AND cmdline:*c=*))))

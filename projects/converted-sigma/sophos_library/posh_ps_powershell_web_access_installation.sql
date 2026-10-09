@@ -1,0 +1,11 @@
+-- Title: PowerShell Web Access Installation - PsScript
+-- ID: 5f9c7f1a-7c21-4c39-b2f3-8d8006e0e51f
+-- Status: test
+-- Level: high
+-- Author: Michael Haag
+-- Date: 2024-09-03
+-- Tags: attack.persistence, attack.execution, attack.t1059.001
+-- Description: Detects the installation and configuration of PowerShell Web Access, which could be used for remote access and potential abuse
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE (((ScriptBlockText ILIKE '%Add-PswaAuthorizationRule%' AND ScriptBlockText ILIKE '%-UserName *%' AND ScriptBlockText ILIKE '%-ComputerName *%')) OR (ScriptBlockText ILIKE '%Install-PswaWebApplication%') OR (ScriptBlockText ILIKE '%Install-WindowsFeature WindowsPowerShellWebAccess%'))

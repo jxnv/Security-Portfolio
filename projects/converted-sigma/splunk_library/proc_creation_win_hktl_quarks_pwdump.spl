@@ -1,0 +1,11 @@
+# Title: HackTool - Quarks PwDump Execution
+# ID: 0685b176-c816-4837-8e7b-1216f346636b
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-09-05
+# Tags: attack.credential-access, attack.t1003.002
+# Description: Detects usage of the Quarks PwDump tool via commandline arguments
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog (((process_exec=" -dhl" OR process_exec=" --dump-hash-local" OR process_exec=" -dhdc" OR process_exec=" --dump-hash-domain-cached" OR process_exec=" --dump-bitlocker" OR process_exec=" -dhd " OR process_exec=" --dump-hash-domain " OR process_exec="--ntds-file")) OR (process_path="*\\QuarksPwDump.exe"))

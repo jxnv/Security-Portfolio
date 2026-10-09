@@ -1,0 +1,11 @@
+// Title: Potential Command Line Path Traversal Evasion Attempt
+// ID: 1327381e-6ab0-4f38-b583-4c1b8346a56b
+// Status: test
+// Level: medium
+// Author: Christian Burkard (Nextron Systems)
+// Date: 2021-10-26
+// Tags: attack.stealth, attack.t1036
+// Description: Detects potential evasion or obfuscation attempts using bogus path traversal via the commandline
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where (((process.executable like "%\\Windows\\%" AND (process.command_line like "%\\..\\Windows\\%" OR process.command_line like "%\\..\\System32\\%" OR process.command_line like "%\\..\\..\\%")) OR (process.command_line like "%.exe\\..\\%")) AND NOT (((process.command_line like "%\\Citrix\\Virtual Smart Card\\Citrix.Authentication.VirtualSmartcard.Launcher.exe\\..\\%") OR (process.command_line like "%\\Google\\Drive\\googledrivesync.exe\\..\\%"))))

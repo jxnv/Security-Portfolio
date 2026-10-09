@@ -1,0 +1,23 @@
+// Title: Potentially Suspicious Cabinet File Expansion
+// ID: 9f107a84-532c-41af-b005-8d12a607639f
+// Status: test
+// Level: medium
+// Author: Bhabesh Raj, X__Junior (Nextron Systems)
+// Date: 2021-07-30
+// Tags: attack.stealth, attack.t1218
+// Description: Detects the expansion or decompression of cabinet files from potentially suspicious or uncommon locations, e.g. seen in Iranian MeteorExpress related attacks
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 9f107a84_532c_41af_b005_8d12a607639f {
+  meta:
+    title = "Potentially Suspicious Cabinet File Expansion"
+    description = "Detects the expansion or decompression of cabinet files from potentially suspicious or uncommon locations, e.g. seen in Iranian MeteorExpress related attacks"
+    author = "Bhabesh Raj, X__Junior (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.process.file.full_path = /.*\\expand.exe$/ nocase and ($e.target.process.command_line = /.*-F:.*/ nocase or $e.target.process.command_line = /.*/F:.*/ nocase)) and ((($e.target.process.command_line = /.*:\\Perflogs\\.*/ nocase or $e.target.process.command_line = /.*:\\ProgramData.*/ nocase or $e.target.process.command_line = /.*:\\Users\\Public\\.*/ nocase or $e.target.process.command_line = /.*:\\Windows\\Temp\\.*/ nocase or $e.target.process.command_line = /.*\\Admin$\\.*/ nocase or $e.target.process.command_line = /.*\\AppData\\Local\\Temp\\.*/ nocase or $e.target.process.command_line = /.*\\AppData\\Roaming\\.*/ nocase or $e.target.process.command_line = /.*\\C$\\.*/ nocase or $e.target.process.command_line = /.*\\Temporary Internet.*/ nocase)) or ((($e.target.process.command_line = /.*:\\Users\\.*/ nocase and $e.target.process.command_line = /.*\\Favorites\\.*/ nocase)) or (($e.target.process.command_line = /.*:\\Users\\.*/ nocase and $e.target.process.command_line = /.*\\Favourites\\.*/ nocase)) or (($e.target.process.command_line = /.*:\\Users\\.*/ nocase and $e.target.process.command_line = /.*\\Contacts\\.*/ nocase)))) and not(($e.principal.process.file.full_path = "C:\\Program Files (x86)\\Dell\\UpdateService\\ServiceShell.exe" and $e.target.process.command_line = /.*C:\\ProgramData\\Dell\\UpdateService\\Temp\\.*/ nocase)))
+
+  condition:
+    $e
+}

@@ -1,0 +1,19 @@
+# Title: Suspicious Svchost Process Access
+# ID: 166e9c50-8cd9-44af-815d-d1f0c0e90dde
+# Status: test
+# Level: high
+# Author: Tim Burrell
+# Date: 2020-01-02
+# Tags: attack.defense-impairment, attack.t1685.001
+# Description: Detects suspicious access to the "svchost" process such as that used by Invoke-Phantom to kill the thread of the Windows event logging service.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Suspicious Svchost Process Access
+def rule(event):
+    # Detection Logic:
+    # ((TargetImage="*:\\Windows\\System32\\svchost.exe" AND GrantedAccess="0x1F3FFF" AND CallTrace="*UNKNOWN*") AND NOT ((SourceImage="*:\\Program Files\\Microsoft Visual Studio\\*" AND SourceImage="*\\MSBuild\\Current\\Bin\\MSBuild.exe" AND (CallTrace="*Microsoft.Build.ni.dll*" OR CallTrace="*System.ni.dll*"))))
+    return True
+
+def title(event):
+    return "Suspicious Svchost Process Access"
+

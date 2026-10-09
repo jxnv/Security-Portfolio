@@ -1,0 +1,12 @@
+// Title: Suspicious ShellExec_RunDLL Call Via Ordinal
+// ID: 8823e85d-31d8-473e-b7f4-92da070f0fc6
+// Status: test
+// Level: high
+// Author: Swachchhanda Shrawan Poudel
+// Date: 2024-12-01
+// Tags: attack.stealth, attack.t1218.011
+// Description: Detects suspicious call to the "ShellExec_RunDLL" exported function of SHELL32.DLL through the ordinal number to launch other commands.
+// Adversary might only use the ordinal number in order to bypass existing detection that alert on usage of ShellExec_RunDLL on CommandLine.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE (((process.parent.command_line LIKE "%SHELL32.DLL%") AND ((process.parent.command_line LIKE "%#568%" OR process.parent.command_line LIKE "%#570%" OR process.parent.command_line LIKE "%#572%" OR process.parent.command_line LIKE "%#576%"))) AND (((process.executable LIKE "%\\bash.exe" OR process.executable LIKE "%\\bitsadmin.exe" OR process.executable LIKE "%\\cmd.exe" OR process.executable LIKE "%\\cscript.exe" OR process.executable LIKE "%\\curl.exe" OR process.executable LIKE "%\\mshta.exe" OR process.executable LIKE "%\\msiexec.exe" OR process.executable LIKE "%\\msxsl.exe" OR process.executable LIKE "%\\odbcconf.exe" OR process.executable LIKE "%\\powershell.exe" OR process.executable LIKE "%\\pwsh.exe" OR process.executable LIKE "%\\regsvr32.exe" OR process.executable LIKE "%\\schtasks.exe" OR process.executable LIKE "%\\wmic.exe" OR process.executable LIKE "%\\wscript.exe")) OR (((process.parent.command_line LIKE "%comspec%" OR process.parent.command_line LIKE "%iex%" OR process.parent.command_line LIKE "%Invoke-%" OR process.parent.command_line LIKE "%msiexec%" OR process.parent.command_line LIKE "%odbcconf%" OR process.parent.command_line LIKE "%regsvr32%")) OR ((process.parent.command_line LIKE "%\\Desktop\\%" OR process.parent.command_line LIKE "%\\ProgramData\\%" OR process.parent.command_line LIKE "%\\Temp\\%" OR process.parent.command_line LIKE "%\\Users\\Public\\%")))))

@@ -1,0 +1,12 @@
+// Title: Legitimate Application Dropped Script
+// ID: 7d604714-e071-49ff-8726-edeb95a70679
+// Status: test
+// Level: high
+// Author: frack113, Florian Roth (Nextron Systems)
+// Date: 2022-08-21
+// Tags: attack.stealth, attack.t1218
+// Description: Detects LOLBINs and applications that should not legitimately drop script files to disk.
+// This may indicate malware staging or abuse of a trusted binary for script-based code execution.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(Image IENDSWITH "\\eqnedt32.exe") OR where(Image IENDSWITH "\\wordpad.exe") OR where(Image IENDSWITH "\\wordview.exe") OR where(Image IENDSWITH "\\certutil.exe") OR where(Image IENDSWITH "\\certoc.exe") OR where(Image IENDSWITH "\\CertReq.exe") OR where(Image IENDSWITH "\\Desktopimgdownldr.exe") OR where(Image IENDSWITH "\\esentutl.exe") OR where(Image IENDSWITH "\\mshta.exe") OR where(Image IENDSWITH "\\AcroRd32.exe") OR where(Image IENDSWITH "\\RdrCEF.exe") OR where(Image IENDSWITH "\\hh.exe") OR where(Image IENDSWITH "\\finger.exe")) AND (where(TargetFilename IENDSWITH ".bat") OR where(TargetFilename IENDSWITH ".chm") OR where(TargetFilename IENDSWITH ".csproj") OR where(TargetFilename IENDSWITH ".hta") OR where(TargetFilename IENDSWITH ".js") OR where(TargetFilename IENDSWITH ".jse") OR where(TargetFilename IENDSWITH ".proj") OR where(TargetFilename IENDSWITH ".ps1") OR where(TargetFilename IENDSWITH ".py") OR where(TargetFilename IENDSWITH ".scf") OR where(TargetFilename IENDSWITH ".vbe") OR where(TargetFilename IENDSWITH ".vbs") OR where(TargetFilename IENDSWITH ".wsf") OR where(TargetFilename IENDSWITH ".wsh"))) AND NOT ((where(Image IENDSWITH "\\mshta.exe") AND where(TargetFilename IENDSWITH ".hta"))))

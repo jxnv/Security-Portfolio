@@ -1,0 +1,11 @@
+// Title: PUA - Seatbelt Execution
+// ID: 38646daa-e78f-4ace-9de0-55547b2d30da
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-10-18
+// Tags: attack.discovery, attack.t1526, attack.t1087, attack.t1083
+// Description: Detects the execution of the PUA/Recon tool Seatbelt via PE information of command line parameters
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(Image IENDSWITH "\\Seatbelt.exe")) OR (where(OriginalFileName = "Seatbelt.exe")) OR (where(Description = "Seatbelt")) OR ((where(CommandLine ICONTAINS " DpapiMasterKeys") OR where(CommandLine ICONTAINS " InterestingProcesses") OR where(CommandLine ICONTAINS " InterestingFiles") OR where(CommandLine ICONTAINS " CertificateThumbprints") OR where(CommandLine ICONTAINS " ChromiumBookmarks") OR where(CommandLine ICONTAINS " ChromiumHistory") OR where(CommandLine ICONTAINS " ChromiumPresence") OR where(CommandLine ICONTAINS " CloudCredentials") OR where(CommandLine ICONTAINS " CredEnum") OR where(CommandLine ICONTAINS " CredGuard") OR where(CommandLine ICONTAINS " FirefoxHistory") OR where(CommandLine ICONTAINS " ProcessCreationEvents")))) OR (((where(CommandLine ICONTAINS " -group=misc") OR where(CommandLine ICONTAINS " -group=remote") OR where(CommandLine ICONTAINS " -group=chromium") OR where(CommandLine ICONTAINS " -group=slack") OR where(CommandLine ICONTAINS " -group=system") OR where(CommandLine ICONTAINS " -group=user") OR where(CommandLine ICONTAINS " -group=all"))) AND (where(CommandLine ICONTAINS " -outputfile="))))

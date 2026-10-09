@@ -1,0 +1,11 @@
+// Title: Clipboard Access Via OSAScript
+// ID: 7794fa3c-edea-4cff-bec7-267dd4770fd7
+// Status: test
+// Level: medium
+// Author: Sohan G (D4rkCiph3r)
+// Date: 2023-01-31
+// Tags: attack.collection, attack.execution, attack.t1115, attack.t1059.002
+// Description: Detects access to clipboard content via osascript, which may be used for data collection but also occurs in legitimate clipboard utilities and automation scripts
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((ImageFileName = /.*/osascript/i and (CommandLine = /* -e */i and CommandLine = /*clipboard*/i)) and not((ParentBaseFileName = /.*opencode/i and (CommandLine = /*osascript*/i and CommandLine = /* -e */i and CommandLine = /*set imageData to the clipboard*/i and CommandLine = /*set fileRef*/i))))

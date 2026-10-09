@@ -1,0 +1,23 @@
+// Title: Google Cloud Kubernetes RoleBinding
+// ID: 0322d9f2-289a-47c2-b5e1-b63c90901a3e
+// Status: test
+// Level: medium
+// Author: Austin Songer @austinsonger
+// Date: 2021-08-09
+// Tags: attack.credential-access
+// Description: Detects the creation or patching of potential malicious RoleBinding. This includes RoleBindings and ClusterRoleBinding.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 0322d9f2_289a_47c2_b5e1_b63c90901a3e {
+  meta:
+    title = "Google Cloud Kubernetes RoleBinding"
+    description = "Detects the creation or patching of potential malicious RoleBinding. This includes RoleBindings and ClusterRoleBinding."
+    author = "Austin Songer @austinsonger"
+    severity = "MEDIUM"
+
+  events:
+    (($e.gcp.audit.method_name = "io.k8s.authorization.rbac.v*.clusterrolebindings.create" or $e.gcp.audit.method_name = "io.k8s.authorization.rbac.v*.rolebindings.create" or $e.gcp.audit.method_name = "io.k8s.authorization.rbac.v*.clusterrolebindings.patch" or $e.gcp.audit.method_name = "io.k8s.authorization.rbac.v*.rolebindings.patch" or $e.gcp.audit.method_name = "io.k8s.authorization.rbac.v*.clusterrolebindings.update" or $e.gcp.audit.method_name = "io.k8s.authorization.rbac.v*.rolebindings.update" or $e.gcp.audit.method_name = "io.k8s.authorization.rbac.v*.clusterrolebindings.delete" or $e.gcp.audit.method_name = "io.k8s.authorization.rbac.v*.rolebindings.delete"))
+
+  condition:
+    $e
+}

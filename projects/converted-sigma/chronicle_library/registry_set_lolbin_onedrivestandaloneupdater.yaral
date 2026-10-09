@@ -1,0 +1,24 @@
+// Title: Lolbas OneDriveStandaloneUpdater.exe Proxy Download
+// ID: 3aff0be0-7802-4a7e-a4fa-c60c74bc5e1d
+// Status: test
+// Level: high
+// Author: frack113
+// Date: 2022-05-28
+// Tags: attack.command-and-control, attack.t1105
+// Description: Detects setting a custom URL for OneDriveStandaloneUpdater.exe to download a file from the Internet without executing any
+// anomalous executables with suspicious arguments. The downloaded file will be in C:\Users\redacted\AppData\Local\Microsoft\OneDrive\StandaloneUpdaterreSignInSettingsConfig.json
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 3aff0be0_7802_4a7e_a4fa_c60c74bc5e1d {
+  meta:
+    title = "Lolbas OneDriveStandaloneUpdater.exe Proxy Download"
+    description = "Detects setting a custom URL for OneDriveStandaloneUpdater.exe to download a file from the Internet without executing any anomalous executables with suspicious arguments. The downloaded file will be in C:\Users\redacted\AppData\Local\Microsoft\OneDrive\StandaloneUpdaterreSignInSettingsConfig.json"
+    author = "frack113"
+    severity = "HIGH"
+
+  events:
+    ($e.TargetObject = /.*\\SOFTWARE\\Microsoft\\OneDrive\\UpdateOfficeConfig\\UpdateRingSettingURLFromOC.*/ nocase)
+
+  condition:
+    $e
+}

@@ -1,0 +1,19 @@
+# Title: Potential Remote Desktop Tunneling
+# ID: 8a3038e8-9c9d-46f8-b184-66234a160f6f
+# Status: test
+# Level: medium
+# Author: Tim Rauch, Elastic (idea)
+# Date: 2022-09-27
+# Tags: attack.lateral-movement, attack.t1021
+# Description: Detects potential use of an SSH utility to establish RDP over a reverse SSH Tunnel. This can be used by attackers to enable routing of network packets that would otherwise not reach their intended destination.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Potential Remote Desktop Tunneling
+def rule(event):
+    # Detection Logic:
+    # ((CommandLine="*:3389*") AND ((CommandLine="* -L *" OR CommandLine="* -P *" OR CommandLine="* -R *" OR CommandLine="* -pw *" OR CommandLine="* -ssh *")))
+    return True
+
+def title(event):
+    return "Potential Remote Desktop Tunneling"
+

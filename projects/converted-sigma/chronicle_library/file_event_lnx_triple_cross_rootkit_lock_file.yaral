@@ -1,0 +1,23 @@
+// Title: Triple Cross eBPF Rootkit Default LockFile
+// ID: c0239255-822c-4630-b7f1-35362bcb8f44
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-07-05
+// Tags: attack.stealth
+// Description: Detects the creation of the file "rootlog" which is used by the TripleCross rootkit as a way to check if the backdoor is already running.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule c0239255_822c_4630_b7f1_35362bcb8f44 {
+  meta:
+    title = "Triple Cross eBPF Rootkit Default LockFile"
+    description = "Detects the creation of the file "rootlog" which is used by the TripleCross rootkit as a way to check if the backdoor is already running."
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ($e.target.file.full_path = "/tmp/rootlog")
+
+  condition:
+    $e
+}

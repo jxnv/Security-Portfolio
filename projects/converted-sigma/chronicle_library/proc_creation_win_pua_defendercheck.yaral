@@ -1,0 +1,23 @@
+// Title: PUA - DefenderCheck Execution
+// ID: f0ca6c24-3225-47d5-b1f5-352bf07ecfa7
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-08-30
+// Tags: attack.stealth, attack.t1027.005
+// Description: Detects the use of DefenderCheck, a tool to evaluate the signatures used in Microsoft Defender. It can be used to figure out the strings / byte chains used in Microsoft Defender to detect a tool and thus used for AV evasion.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule f0ca6c24_3225_47d5_b1f5_352bf07ecfa7 {
+  meta:
+    title = "PUA - DefenderCheck Execution"
+    description = "Detects the use of DefenderCheck, a tool to evaluate the signatures used in Microsoft Defender. It can be used to figure out the strings / byte chains used in Microsoft Defender to detect a tool and thus used for AV evasion."
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.file.full_path = /.*\\DefenderCheck.exe$/ nocase) or ($e.Description = "DefenderCheck"))
+
+  condition:
+    $e
+}

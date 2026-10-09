@@ -1,0 +1,16 @@
+<!--
+  Title: Modify System Firewall
+  ID: 323ff3f5-0013-4847-bbd4-250b5edb62cc
+  Status: test
+  Level: medium
+  Author: IAI
+  Date: 2023-03-06
+  Description: Detects the removal of system firewall rules. Adversaries may only delete or modify a specific system firewall rule to bypass controls limiting network usage or access. Detection rules that match only on the disabling of firewalls will miss this.
+-->
+
+<group name="sigma_converted,">
+  <rule id="100001" level="5">
+    <description>Modify System Firewall</description>
+    <match>((type=\"EXECVE\" AND a0=\"iptables\" AND a1=\"*DROP*\") OR (type=\"EXECVE\" AND a0=\"firewall-cmd\" AND a1=\"*remove*\") OR (type=\"</match>
+  </rule>
+</group>

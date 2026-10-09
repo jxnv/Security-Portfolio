@@ -1,0 +1,23 @@
+// Title: TeamViewer Log File Deleted
+// ID: b1decb61-ed83-4339-8e95-53ea51901720
+// Status: test
+// Level: low
+// Author: frack113
+// Date: 2022-01-16
+// Tags: attack.stealth, attack.t1070.004
+// Description: Detects the deletion of the TeamViewer log files which may indicate an attempt to destroy forensic evidence
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule b1decb61_ed83_4339_8e95_53ea51901720 {
+  meta:
+    title = "TeamViewer Log File Deleted"
+    description = "Detects the deletion of the TeamViewer log files which may indicate an attempt to destroy forensic evidence"
+    author = "frack113"
+    severity = "LOW"
+
+  events:
+    (($e.target.file.full_path = /.*\\TeamViewer_.*/ nocase and $e.target.file.full_path = /.*.log$/ nocase) and not(($e.target.process.file.full_path = "C:\\Windows\\system32\\svchost.exe")))
+
+  condition:
+    $e
+}

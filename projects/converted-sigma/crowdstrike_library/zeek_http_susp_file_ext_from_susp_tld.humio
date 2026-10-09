@@ -1,0 +1,11 @@
+// Title: HTTP Request to Low Reputation TLD or Suspicious File Extension
+// ID: 68c2c604-92ad-468b-bf4a-aac49adad08c
+// Status: experimental
+// Level: medium
+// Author: @signalblur, Corelight
+// Date: 2025-02-26
+// Tags: attack.initial-access, attack.command-and-control
+// Description: Detects HTTP requests to low reputation TLDs (e.g. .xyz, .top, .ru) or ending in suspicious file extensions (.exe, .dll, .hta), which may indicate malicious activity.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((host = /.*.bid/i or host = /.*.by/i or host = /.*.cf/i or host = /.*.click/i or host = /.*.cm/i or host = /.*.ga/i or host = /.*.gq/i or host = /.*.ir/i or host = /.*.kp/i or host = /.*.loan/i or host = /.*.ml/i or host = /.*.mm/i or host = /.*.party/i or host = /.*.pw/i or host = /.*.ru/i or host = /.*.su/i or host = /.*.sy/i or host = /.*.tk/i or host = /.*.top/i or host = /.*.tv/i or host = /.*.ve/i or host = /.*.work/i or host = /.*.xyz/i)) and (((uri = /.*.bat/i or uri = /.*.bin/i or uri = /.*.cmd/i or uri = /.*.cpl/i or uri = /.*.dll/i or uri = /.*.dylib/i or uri = /.*.elf/i or uri = /.*.exe/i or uri = /.*.hta/i or uri = /.*.iso/i or uri = /.*.jar/i or uri = /.*.js/i or uri = /.*.lnk/i or uri = /.*.msi/i or uri = /.*.pif/i or uri = /.*.ps1/i or uri = /.*.py/i or uri = /.*.reg/i or uri = /.*.scr/i or uri = /.*.sh/i or uri = /.*.so/i or uri = /.*.vbs/i or uri = /.*.wsf/i)) or ((resp_mime_types = "application/vnd.microsoft.portable-executable" or resp_mime_types = "application/x-bat" or resp_mime_types = "application/x-dosexec" or resp_mime_types = "application/x-elf" or resp_mime_types = "application/x-iso9660-image" or resp_mime_types = "application/x-java-archive" or resp_mime_types = "application/x-ms-shortcut" or resp_mime_types = "application/x-msdos-program" or resp_mime_types = "application/x-msdownload" or resp_mime_types = "application/x-python-code" or resp_mime_types = "application/x-sh"))))

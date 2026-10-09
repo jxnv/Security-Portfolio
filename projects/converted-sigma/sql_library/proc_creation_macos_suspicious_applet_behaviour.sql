@@ -1,0 +1,11 @@
+-- Title: Osacompile Execution By Potentially Suspicious Applet/Osascript
+-- ID: a753a6af-3126-426d-8bd0-26ebbcb92254
+-- Status: test
+-- Level: medium
+-- Author: Sohan G (D4rkCiph3r), Red Canary (Idea)
+-- Date: 2023-04-03
+-- Tags: attack.execution, attack.t1059.002
+-- Description: Detects potential suspicious applet or osascript executing "osacompile".
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE ((ParentImage ILIKE '%/applet' OR ParentImage ILIKE '%/osascript') AND CommandLine ILIKE '%osacompile%')

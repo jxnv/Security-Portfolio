@@ -1,0 +1,23 @@
+// Title: Potential SysInternals ProcDump Evasion
+// ID: 79b06761-465f-4f88-9ef2-150e24d3d737
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-01-11
+// Tags: attack.stealth, attack.t1036, attack.t1003.001, attack.credential-access
+// Description: Detects uses of the SysInternals ProcDump utility in which ProcDump or its output get renamed, or a dump file is moved or copied to a different name
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 79b06761_465f_4f88_9ef2_150e24d3d737 {
+  meta:
+    title = "Potential SysInternals ProcDump Evasion"
+    description = "Detects uses of the SysInternals ProcDump utility in which ProcDump or its output get renamed, or a dump file is moved or copied to a different name"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*copy procdump.*/ nocase or $e.target.process.command_line = /.*move procdump.*/ nocase)) or (($e.target.process.command_line = /.*copy .*/ nocase and $e.target.process.command_line = /.*.dmp .*/ nocase) and ($e.target.process.command_line = /.*2.dmp.*/ nocase or $e.target.process.command_line = /.*lsass.*/ nocase or $e.target.process.command_line = /.*out.dmp.*/ nocase)) or (($e.target.process.command_line = /.*copy lsass.exe_.*/ nocase or $e.target.process.command_line = /.*move lsass.exe_.*/ nocase)))
+
+  condition:
+    $e
+}

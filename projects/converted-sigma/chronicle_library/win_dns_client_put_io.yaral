@@ -1,0 +1,23 @@
+// Title: DNS Query To Put.io - DNS Client
+// ID: 8b69fd42-9dad-4674-abef-7fdef43ef92a
+// Status: test
+// Level: medium
+// Author: Omar Khaled (@beacon_exe)
+// Date: 2024-08-23
+// Tags: attack.command-and-control
+// Description: Detects DNS queries for subdomains related to "Put.io" sharing website.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 8b69fd42_9dad_4674_abef_7fdef43ef92a {
+  meta:
+    title = "DNS Query To Put.io - DNS Client"
+    description = "Detects DNS queries for subdomains related to "Put.io" sharing website."
+    author = "Omar Khaled (@beacon_exe)"
+    severity = "MEDIUM"
+
+  events:
+    ($e.EventID = 3008 and ($e.QueryName = /.*api.put.io.*/ nocase or $e.QueryName = /.*upload.put.io.*/ nocase))
+
+  condition:
+    $e
+}

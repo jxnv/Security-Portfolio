@@ -1,0 +1,13 @@
+// Title: Cmd Launched with Hidden Start Flags to Suspicious Targets
+// ID: 5a6b7c8d-9e0f-1a2b-3c4d-5e6f7a8b9c0d
+// Status: experimental
+// Level: medium
+// Author: Vladan Sekulic, Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2026-01-24
+// Tags: attack.stealth, attack.t1564.003
+// Description: Detects cmd.exe executing commands with the "start" utility using "/b" (no window) or "/min" (minimized) flags.
+// To reduce false positives from standard background tasks, detection is restricted to scenarios where the target is a known script extension or located in suspicious temporary/public directories.
+// This technique was observed in Chaos, DarkSide, and Emotet malware campaigns.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((where(CommandLine ICONTAINS "start ") OR where(CommandLine ICONTAINS "start/b") OR where(CommandLine ICONTAINS "start/min"))) AND ((where(CommandLine ICONTAINS "/b ") OR where(CommandLine ICONTAINS "-b ") OR where(CommandLine ICONTAINS "/b\"") OR where(CommandLine ICONTAINS "-b\"") OR where(CommandLine ICONTAINS "/min ") OR where(CommandLine ICONTAINS "-min ") OR where(CommandLine ICONTAINS "/min\"") OR where(CommandLine ICONTAINS "-min\""))) AND ((where(Image IENDSWITH "\\cmd.exe")) OR (where(OriginalFileName = "Cmd.Exe")))) AND (((where(CommandLine ICONTAINS ".bat") OR where(CommandLine ICONTAINS ".cmd") OR where(CommandLine ICONTAINS ".cpl") OR where(CommandLine ICONTAINS ".hta") OR where(CommandLine ICONTAINS ".js") OR where(CommandLine ICONTAINS ".ps1") OR where(CommandLine ICONTAINS ".scr") OR where(CommandLine ICONTAINS ".vbe") OR where(CommandLine ICONTAINS ".vbs"))) OR ((where(CommandLine ICONTAINS " -nop ") OR where(CommandLine ICONTAINS " -sta ") OR where(CommandLine ICONTAINS ".downloadfile(") OR where(CommandLine ICONTAINS ".downloadstring(") OR where(CommandLine ICONTAINS "-noni ") OR where(CommandLine ICONTAINS "-w hidden "))) OR ((where(CommandLine ICONTAINS ":\\Perflogs\\") OR where(CommandLine ICONTAINS ":\\Temp\\") OR where(CommandLine ICONTAINS ":\\Users\\Default\\") OR where(CommandLine ICONTAINS ":\\Windows\\Temp\\") OR where(CommandLine ICONTAINS "\\AppData\\Roaming\\") OR where(CommandLine ICONTAINS "\\Contacts\\") OR where(CommandLine ICONTAINS "\\Documents\\") OR where(CommandLine ICONTAINS "\\Downloads\\") OR where(CommandLine ICONTAINS "\\Favorites\\") OR where(CommandLine ICONTAINS "\\Favourites\\") OR where(CommandLine ICONTAINS "\\inetpub\\") OR where(CommandLine ICONTAINS "\\Music\\") OR where(CommandLine ICONTAINS "\\Photos\\") OR where(CommandLine ICONTAINS "\\Temporary Internet\\") OR where(CommandLine ICONTAINS "\\Users\\Public\\") OR where(CommandLine ICONTAINS "\\Videos\\")))))

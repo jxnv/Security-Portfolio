@@ -1,0 +1,11 @@
+-- Title: UAC Bypass Abusing Winsat Path Parsing - Registry
+-- ID: 6597be7b-ac61-4ac8-bef4-d3ec88174853
+-- Status: test
+-- Level: high
+-- Author: Christian Burkard (Nextron Systems)
+-- Date: 2021-08-30
+-- Tags: attack.privilege-escalation, attack.t1548.002
+-- Description: Detects the pattern of UAC Bypass using a path parsing issue in winsat.exe (UACMe 52)
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE (TargetObject ILIKE '%\\Root\\InventoryApplicationFile\\winsat.exe|%' AND TargetObject ILIKE '%\\LowerCaseLongPath' AND Details ILIKE 'c:\\users\\%' AND Details ILIKE '%\\appdata\\local\\temp\\system32\\winsat.exe')

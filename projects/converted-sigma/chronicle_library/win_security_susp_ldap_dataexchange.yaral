@@ -1,0 +1,23 @@
+// Title: Suspicious LDAP-Attributes Used
+// ID: d00a9a72-2c09-4459-ad03-5e0a23351e36
+// Status: test
+// Level: high
+// Author: xknow @xknow_infosec
+// Date: 2019-03-24
+// Tags: attack.t1001.003, attack.command-and-control
+// Description: Detects the usage of particular AttributeLDAPDisplayNames, which are known for data exchange via LDAP by the tool LDAPFragger and are additionally not commonly used in companies.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule d00a9a72_2c09_4459_ad03_5e0a23351e36 {
+  meta:
+    title = "Suspicious LDAP-Attributes Used"
+    description = "Detects the usage of particular AttributeLDAPDisplayNames, which are known for data exchange via LDAP by the tool LDAPFragger and are additionally not commonly used in companies."
+    author = "xknow @xknow_infosec"
+    severity = "HIGH"
+
+  events:
+    ($e.EventID = 5136 and $e.AttributeValue = /.**.*/ nocase and ($e.AttributeLDAPDisplayName = "primaryInternationalISDNNumber" or $e.AttributeLDAPDisplayName = "otherFacsimileTelephoneNumber" or $e.AttributeLDAPDisplayName = "primaryTelexNumber"))
+
+  condition:
+    $e
+}

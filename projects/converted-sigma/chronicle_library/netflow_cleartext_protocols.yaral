@@ -1,0 +1,25 @@
+// Title: Cleartext Protocol Usage Via Netflow
+// ID: 7e4bfe58-4a47-4709-828d-d86c78b7cc1f
+// Status: stable
+// Level: low
+// Author: Alexandr Yampolskyi, SOC Prime
+// Date: 2019-03-26
+// Tags: attack.credential-access
+// Description: Ensure that all account usernames and authentication credentials are transmitted across networks using encrypted channels
+// Ensure that an encryption is used for all sensitive information in transit.
+// Ensure that an encrypted channels is used for all administrative account access.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 7e4bfe58_4a47_4709_828d_d86c78b7cc1f {
+  meta:
+    title = "Cleartext Protocol Usage Via Netflow"
+    description = "Ensure that all account usernames and authentication credentials are transmitted across networks using encrypted channels Ensure that an encryption is used for all sensitive information in transit. Ensure that an encrypted channels is used for all administrative account access."
+    author = "Alexandr Yampolskyi, SOC Prime"
+    severity = "LOW"
+
+  events:
+    (($e.destination.port = 8080 or $e.destination.port = 21 or $e.destination.port = 80 or $e.destination.port = 23 or $e.destination.port = 50000 or $e.destination.port = 1521 or $e.destination.port = 27017 or $e.destination.port = 1433 or $e.destination.port = 11211 or $e.destination.port = 3306 or $e.destination.port = 15672 or $e.destination.port = 5900 or $e.destination.port = 5901 or $e.destination.port = 5902 or $e.destination.port = 5903 or $e.destination.port = 5904))
+
+  condition:
+    $e
+}

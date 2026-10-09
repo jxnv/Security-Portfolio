@@ -1,0 +1,11 @@
+// Title: File In Suspicious Location Encoded To Base64 Via Certutil.EXE
+// ID: 82a6714f-4899-4f16-9c1e-9a333544d4c3
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-05-15
+// Tags: attack.stealth, attack.t1027
+// Description: Detects the execution of certutil with the "encode" flag to encode a file to base64 where the files are located in potentially suspicious locations
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where (((process.command_line like "%-encode%" OR process.command_line like "%/encode%")) AND ((process.command_line like "%\\AppData\\Roaming\\%" OR process.command_line like "%\\Desktop\\%" OR process.command_line like "%\\Local\\Temp\\%" OR process.command_line like "%\\PerfLogs\\%" OR process.command_line like "%\\Users\\Public\\%" OR process.command_line like "%\\Windows\\Temp\\%" OR process.command_line like "%$Recycle.Bin%")) AND ((process.executable="*\\certutil.exe") OR (process.pe.original_file_name = "CertUtil.exe")))

@@ -1,0 +1,23 @@
+// Title: Data Exfiltration to Unsanctioned Apps
+// ID: 2b669496-d215-47d8-bd9a-f4a45bf07cda
+// Status: test
+// Level: medium
+// Author: Austin Songer @austinsonger
+// Date: 2021-08-23
+// Tags: attack.exfiltration, attack.t1537
+// Description: Detects when a Microsoft Cloud App Security reported when a user or IP address uses an app that is not sanctioned to perform an activity that resembles an attempt to exfiltrate information from your organization.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 2b669496_d215_47d8_bd9a_f4a45bf07cda {
+  meta:
+    title = "Data Exfiltration to Unsanctioned Apps"
+    description = "Detects when a Microsoft Cloud App Security reported when a user or IP address uses an app that is not sanctioned to perform an activity that resembles an attempt to exfiltrate information from your organization."
+    author = "Austin Songer @austinsonger"
+    severity = "MEDIUM"
+
+  events:
+    ($e.eventSource = "SecurityComplianceCenter" and $e.eventName = "Data exfiltration to unsanctioned apps" and $e.status = "success")
+
+  condition:
+    $e
+}

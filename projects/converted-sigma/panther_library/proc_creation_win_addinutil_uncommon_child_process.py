@@ -1,0 +1,19 @@
+# Title: Uncommon Child Process Of AddinUtil.EXE
+# ID: b5746143-59d6-4603-8d06-acbd60e166ee
+# Status: test
+# Level: medium
+# Author: Michael McKinley (@McKinleyMike), Tony Latteri (@TheLatteri)
+# Date: 2023-09-18
+# Tags: attack.stealth, attack.t1218
+# Description: Detects uncommon child processes of the Add-In deployment cache updating utility (AddInutil.exe) which could be a sign of potential abuse of the binary to proxy execution via a custom Addins.Store payload.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Uncommon Child Process Of AddinUtil.EXE
+def rule(event):
+    # Detection Logic:
+    # ((ParentImage="*\\addinutil.exe") AND NOT (((Image="*:\\Windows\\System32\\conhost.exe" OR Image="*:\\Windows\\System32\\werfault.exe" OR Image="*:\\Windows\\SysWOW64\\werfault.exe"))))
+    return True
+
+def title(event):
+    return "Uncommon Child Process Of AddinUtil.EXE"
+

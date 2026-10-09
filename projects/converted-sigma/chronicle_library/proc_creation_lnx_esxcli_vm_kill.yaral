@@ -1,0 +1,23 @@
+// Title: ESXi VM Kill Via ESXCLI
+// ID: 2992ac4d-31e9-4325-99f2-b18a73221bb2
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems), Cedric Maurugeon
+// Date: 2023-09-04
+// Tags: attack.execution, attack.impact, attack.t1059.012, attack.t1529
+// Description: Detects execution of the "esxcli" command with the "vm" and "kill" flag in order to kill/shutdown a specific VM.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 2992ac4d_31e9_4325_99f2_b18a73221bb2 {
+  meta:
+    title = "ESXi VM Kill Via ESXCLI"
+    description = "Detects execution of the "esxcli" command with the "vm" and "kill" flag in order to kill/shutdown a specific VM."
+    author = "Nasreddine Bencherchali (Nextron Systems), Cedric Maurugeon"
+    severity = "MEDIUM"
+
+  events:
+    ($e.target.process.file.full_path = /.*/esxcli$/ nocase and ($e.target.process.command_line = /.*vm process.*/ nocase and $e.target.process.command_line = /.*kill.*/ nocase))
+
+  condition:
+    $e
+}

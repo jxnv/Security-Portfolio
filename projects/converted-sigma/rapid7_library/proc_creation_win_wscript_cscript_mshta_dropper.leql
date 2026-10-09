@@ -1,0 +1,11 @@
+// Title: Potential Dropper Script Execution Via WScript/CScript/MSHTA
+// ID: cea72823-df4d-4567-950c-0b579eaf0846
+// Status: test
+// Level: medium
+// Author: Margaritis Dimitrios (idea), Florian Roth (Nextron Systems), oscd.community, Nasreddine Bencherchali (Nextron Systems), Dave Johnson
+// Date: 2019-01-16
+// Tags: attack.execution, attack.t1059.005, attack.t1059.007
+// Description: Detects wscript/cscript/mshta executions of scripts located in user directories
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(Image IENDSWITH "\\wscript.exe") OR where(Image IENDSWITH "\\cscript.exe") OR where(Image IENDSWITH "\\mshta.exe"))) AND ((where(CommandLine ICONTAINS ".hta") OR where(CommandLine ICONTAINS ".js") OR where(CommandLine ICONTAINS ".jse") OR where(CommandLine ICONTAINS ".vba") OR where(CommandLine ICONTAINS ".vbe") OR where(CommandLine ICONTAINS ".vbs") OR where(CommandLine ICONTAINS ".wsf") OR where(CommandLine ICONTAINS ".wsh"))) AND ((where(CommandLine ICONTAINS ":\\Perflogs\\") OR where(CommandLine ICONTAINS ":\\Temp\\") OR where(CommandLine ICONTAINS ":\\Tmp\\") OR where(CommandLine ICONTAINS ":\\Users\\Public\\") OR where(CommandLine ICONTAINS ":\\Windows\\Temp\\") OR where(CommandLine ICONTAINS "\\AppData\\Local\\Temp\\") OR where(CommandLine ICONTAINS "\\AppData\\Roaming\\Temp\\") OR where(CommandLine ICONTAINS "\\Start Menu\\Programs\\Startup\\") OR where(CommandLine ICONTAINS "\\Temporary Internet") OR where(CommandLine ICONTAINS "\\Windows\\Temp") OR where(CommandLine ICONTAINS "%LocalAppData%\\Temp\\") OR where(CommandLine ICONTAINS "%TEMP%") OR where(CommandLine ICONTAINS "%TMP%"))))

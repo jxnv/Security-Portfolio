@@ -1,0 +1,11 @@
+# Title: Windows Binaries Write Suspicious Extensions
+# ID: b8fd0e93-ff58-4cbd-8f48-1c114e342e62
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-08-12
+# Tags: attack.stealth, attack.t1036
+# Description: Detects Windows executables that write files with suspicious extensions
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((((process_name:*\\csrss.exe OR process_name:*\\lsass.exe OR process_name:*\\RuntimeBroker.exe OR process_name:*\\sihost.exe OR process_name:*\\smss.exe OR process_name:*\\wininit.exe OR process_name:*\\winlogon.exe) AND (filemod_name:*.bat OR filemod_name:*.dll OR filemod_name:*.exe OR filemod_name:*.hta OR filemod_name:*.iso OR filemod_name:*.ps1 OR filemod_name:*.txt OR filemod_name:*.vbe OR filemod_name:*.vbs)) OR ((process_name:*\\dllhost.exe OR process_name:*\\rundll32.exe OR process_name:*\\svchost.exe) AND (filemod_name:*.bat OR filemod_name:*.hta OR filemod_name:*.iso OR filemod_name:*.ps1 OR filemod_name:*.vbe OR filemod_name:*.vbs))) AND -(((process_name:"C:\\Windows\\System32\\dllhost.exe" AND (filemod_name:*:\\Users\\* AND filemod_name:*\\AppData\\Local\\Temp\\__PSScriptPolicyTest_*) AND filemod_name:*.ps1) OR (process_name:"C:\\Windows\\system32\\svchost.exe" AND (filemod_name:*C:\\Program Files\\WindowsApps\\Clipchamp* AND filemod_name:*.ps1*)) OR ((process_name:"C:\\Windows\\system32\\svchost.exe" OR process_name:"C:\\Windows\\SysWOW64\\svchost.exe") AND (filemod_name:C:\\Program Files\\WindowsApps\\Microsoft.PowerShellPreview* OR filemod_name:C:\\Program Files (x86)\\WindowsApps\\Microsoft.PowerShellPreview*) AND filemod_name:*.ps1) OR (process_name:"C:\\Windows\\system32\\svchost.exe" AND (filemod_name:*C:\\Windows\\System32\\GroupPolicy\\DataStore\\* AND filemod_name:*\\sysvol\\* AND filemod_name:*\\Policies\\* AND filemod_name:*\\Machine\\Scripts\\Startup\\*) AND (filemod_name:*.ps1 OR filemod_name:*.bat)))))

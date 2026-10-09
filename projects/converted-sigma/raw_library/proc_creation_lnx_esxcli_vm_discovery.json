@@ -1,0 +1,28 @@
+{
+  "title": "ESXi VM List Discovery Via ESXCLI",
+  "id": "5f1573a7-363b-4114-9208-ad7a61de46eb",
+  "status": "test",
+  "description": "Detects execution of the \"esxcli\" command with the \"vm\" flag in order to retrieve information about the installed VMs.",
+  "author": "Cedric Maurugeon",
+  "date": "2023-09-04",
+  "tags": [
+    "attack.discovery",
+    "attack.execution",
+    "attack.t1033",
+    "attack.t1007",
+    "attack.t1059.012"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "process_creation",
+    "product": "linux"
+  },
+  "detection": {
+    "selection": {
+      "Image|endswith": "/esxcli",
+      "CommandLine|contains": "vm process",
+      "CommandLine|endswith": " list"
+    },
+    "condition": "selection"
+  }
+}

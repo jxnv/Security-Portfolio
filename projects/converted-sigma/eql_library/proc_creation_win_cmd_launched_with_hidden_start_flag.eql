@@ -1,0 +1,13 @@
+// Title: Cmd Launched with Hidden Start Flags to Suspicious Targets
+// ID: 5a6b7c8d-9e0f-1a2b-3c4d-5e6f7a8b9c0d
+// Status: experimental
+// Level: medium
+// Author: Vladan Sekulic, Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2026-01-24
+// Tags: attack.stealth, attack.t1564.003
+// Description: Detects cmd.exe executing commands with the "start" utility using "/b" (no window) or "/min" (minimized) flags.
+// To reduce false positives from standard background tasks, detection is restricted to scenarios where the target is a known script extension or located in suspicious temporary/public directories.
+// This technique was observed in Chaos, DarkSide, and Emotet malware campaigns.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where ((((process.command_line like "*_start *" or process.command_line like "*_start/b*" or process.command_line like "*_start/min*")) and ((process.command_line like "*_/b *" or process.command_line like "*_-b *" or process.command_line like "*_/b\"*" or process.command_line like "*_-b\"*" or process.command_line like "*_/min *" or process.command_line like "*_-min *" or process.command_line like "*_/min\"*" or process.command_line like "*_-min\"*")) and ((process.executable endswith "\\cmd.exe") or (process.pe.original_file_name == "Cmd.Exe"))) and (((process.command_line like "*_.bat*" or process.command_line like "*_.cmd*" or process.command_line like "*_.cpl*" or process.command_line like "*_.hta*" or process.command_line like "*_.js*" or process.command_line like "*_.ps1*" or process.command_line like "*_.scr*" or process.command_line like "*_.vbe*" or process.command_line like "*_.vbs*")) or ((process.command_line like "*_ -nop *" or process.command_line like "*_ -sta *" or process.command_line like "*_.downloadfile(*" or process.command_line like "*_.downloadstring(*" or process.command_line like "*_-noni *" or process.command_line like "*_-w hidden *")) or ((process.command_line like "*_:\\Perflogs\\*" or process.command_line like "*_:\\Temp\\*" or process.command_line like "*_:\\Users\\Default\\*" or process.command_line like "*_:\\Windows\\Temp\\*" or process.command_line like "*_\\AppData\\Roaming\\*" or process.command_line like "*_\\Contacts\\*" or process.command_line like "*_\\Documents\\*" or process.command_line like "*_\\Downloads\\*" or process.command_line like "*_\\Favorites\\*" or process.command_line like "*_\\Favourites\\*" or process.command_line like "*_\\inetpub\\*" or process.command_line like "*_\\Music\\*" or process.command_line like "*_\\Photos\\*" or process.command_line like "*_\\Temporary Internet\\*" or process.command_line like "*_\\Users\\Public\\*" or process.command_line like "*_\\Videos\\*"))))

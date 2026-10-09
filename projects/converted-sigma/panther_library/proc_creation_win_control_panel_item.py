@@ -1,0 +1,19 @@
+# Title: Control Panel Items
+# ID: 0ba863e6-def5-4e50-9cea-4dd8c7dc46a4
+# Status: test
+# Level: high
+# Author: Kyaw Min Thein, Furkan Caliskan (@caliskanfurkan_)
+# Date: 2020-06-22
+# Tags: attack.privilege-escalation, attack.execution, attack.stealth, attack.t1218.002, attack.persistence, attack.t1546
+# Description: Detects the malicious use of a control panel item
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Control Panel Items
+def rule(event):
+    # Detection Logic:
+    # ((((CommandLine="*add*" AND CommandLine="*CurrentVersion\\Control Panel\\CPLs*")) AND ((Image="*\\reg.exe") OR (OriginalFileName="reg.exe"))) OR ((CommandLine="*.cpl") AND NOT ((((CommandLine="*regsvr32 *" AND CommandLine="* /s *" AND CommandLine="*igfxCPL.cpl*")) OR ((CommandLine="*\\System32\\*" OR CommandLine="*%System%*" OR CommandLine="*|C:\\Windows\\system32|*"))))))
+    return True
+
+def title(event):
+    return "Control Panel Items"
+

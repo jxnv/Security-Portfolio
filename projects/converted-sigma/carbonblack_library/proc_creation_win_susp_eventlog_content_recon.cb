@@ -1,0 +1,12 @@
+# Title: Potentially Suspicious EventLog Recon Activity Using Log Query Utilities
+# ID: beaa66d6-aa1b-4e3c-80f5-e0145369bfaf
+# Status: test
+# Level: medium
+# Author: Nasreddine Bencherchali (Nextron Systems), X__Junior (Nextron Systems)
+# Date: 2022-09-09
+# Tags: attack.credential-access, attack.discovery, attack.t1552, attack.t1087
+# Description: Detects execution of different log query utilities and commands to search and dump the content of specific event logs or look for specific event IDs.
+# This technique is used by threat actors in order to extract sensitive information from events logs such as usernames, IP addresses, hostnames, etc.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((((cmdline:*-InstanceId 462?* OR cmdline:*.eventid -eq 462?* OR cmdline:*.ID -eq 462?* OR cmdline:*EventCode=?462?* OR cmdline:*EventIdentifier=?462?* OR cmdline:*System[EventID=462?]* OR cmdline:*-InstanceId 4778* OR cmdline:*.eventid -eq 4778* OR cmdline:*.ID -eq 4778* OR cmdline:*EventCode=?4778?* OR cmdline:*EventIdentifier=?4778?* OR cmdline:*System[EventID=4778]* OR cmdline:*-InstanceId 25* OR cmdline:*.eventid -eq 25* OR cmdline:*.ID -eq 25* OR cmdline:*EventCode=?25?* OR cmdline:*EventIdentifier=?25?* OR cmdline:*System[EventID=25]* OR cmdline:*-InstanceId 1149* OR cmdline:*.eventid -eq 1149* OR cmdline:*.ID -eq 1149* OR cmdline:*EventCode=?1149?* OR cmdline:*EventIdentifier=?1149?* OR cmdline:*System[EventID=1149]* OR cmdline:*-InstanceId 21* OR cmdline:*.eventid -eq 21* OR cmdline:*.ID -eq 21* OR cmdline:*EventCode=?21?* OR cmdline:*EventIdentifier=?21?* OR cmdline:*System[EventID=21]* OR cmdline:*-InstanceId 22* OR cmdline:*.eventid -eq 22* OR cmdline:*.ID -eq 22* OR cmdline:*EventCode=?22?* OR cmdline:*EventIdentifier=?22?* OR cmdline:*System[EventID=22]*)) OR ((cmdline:*Microsoft-Windows-PowerShell* OR cmdline:*Microsoft-Windows-Security-Auditing* OR cmdline:*Microsoft-Windows-TerminalServices-LocalSessionManager* OR cmdline:*Microsoft-Windows-TerminalServices-RemoteConnectionManager* OR cmdline:*Microsoft-Windows-Windows Defender* OR cmdline:*PowerShellCore* OR cmdline:*Security* OR cmdline:*Windows PowerShell*))) AND (((cmdline:*Select* AND cmdline:*Win32_NTLogEvent*)) OR (((cmdline:* qe * OR cmdline:* query-events *)) AND ((process_name:*\\wevtutil.exe) OR (OriginalFileName:"wevtutil.exe"))) OR ((cmdline:* ntevent*) AND ((process_name:*\\wmic.exe) OR (OriginalFileName:"wmic.exe"))) OR ((cmdline:*Get-WinEvent * OR cmdline:*get-eventlog *))))

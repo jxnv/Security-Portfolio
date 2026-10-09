@@ -1,0 +1,23 @@
+// Title: PowerView PowerShell Cmdlets - ScriptBlock
+// ID: dcd74b95-3f36-4ed9-9598-0490951643aa
+// Status: test
+// Level: high
+// Author: Bhabesh Raj
+// Date: 2021-05-18
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects Cmdlet names from PowerView of the PowerSploit exploitation framework.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule dcd74b95_3f36_4ed9_9598_0490951643aa {
+  meta:
+    title = "PowerView PowerShell Cmdlets - ScriptBlock"
+    description = "Detects Cmdlet names from PowerView of the PowerSploit exploitation framework."
+    author = "Bhabesh Raj"
+    severity = "HIGH"
+
+  events:
+    (($e.ScriptBlockText = /.*Export-PowerViewCSV.*/ nocase or $e.ScriptBlockText = /.*Find-DomainLocalGroupMember.*/ nocase or $e.ScriptBlockText = /.*Find-DomainObjectPropertyOutlier.*/ nocase or $e.ScriptBlockText = /.*Find-DomainProcess.*/ nocase or $e.ScriptBlockText = /.*Find-DomainShare.*/ nocase or $e.ScriptBlockText = /.*Find-DomainUserEvent.*/ nocase or $e.ScriptBlockText = /.*Find-DomainUserLocation.*/ nocase or $e.ScriptBlockText = /.*Find-ForeignGroup.*/ nocase or $e.ScriptBlockText = /.*Find-ForeignUser.*/ nocase or $e.ScriptBlockText = /.*Find-GPOComputerAdmin.*/ nocase or $e.ScriptBlockText = /.*Find-GPOLocation.*/ nocase or $e.ScriptBlockText = /.*Find-InterestingDomain.*/ nocase or $e.ScriptBlockText = /.*Find-InterestingFile.*/ nocase or $e.ScriptBlockText = /.*Find-LocalAdminAccess.*/ nocase or $e.ScriptBlockText = /.*Find-ManagedSecurityGroups.*/ nocase or $e.ScriptBlockText = /.*Get-CachedRDPConnection.*/ nocase or $e.ScriptBlockText = /.*Get-DFSshare.*/ nocase or $e.ScriptBlockText = /.*Get-DomainDFSShare.*/ nocase or $e.ScriptBlockText = /.*Get-DomainDNSRecord.*/ nocase or $e.ScriptBlockText = /.*Get-DomainDNSZone.*/ nocase or $e.ScriptBlockText = /.*Get-DomainFileServer.*/ nocase or $e.ScriptBlockText = /.*Get-DomainGPOComputerLocalGroupMapping.*/ nocase or $e.ScriptBlockText = /.*Get-DomainGPOLocalGroup.*/ nocase or $e.ScriptBlockText = /.*Get-DomainGPOUserLocalGroupMapping.*/ nocase or $e.ScriptBlockText = /.*Get-LastLoggedOn.*/ nocase or $e.ScriptBlockText = /.*Get-LoggedOnLocal.*/ nocase or $e.ScriptBlockText = /.*Get-NetFileServer.*/ nocase or $e.ScriptBlockText = /.*Get-NetForest.*/ nocase or $e.ScriptBlockText = /.*Get-NetGPOGroup.*/ nocase or $e.ScriptBlockText = /.*Get-NetProcess.*/ nocase or $e.ScriptBlockText = /.*Get-NetRDPSession.*/ nocase or $e.ScriptBlockText = /.*Get-RegistryMountedDrive.*/ nocase or $e.ScriptBlockText = /.*Get-RegLoggedOn.*/ nocase or $e.ScriptBlockText = /.*Get-WMIRegCachedRDPConnection.*/ nocase or $e.ScriptBlockText = /.*Get-WMIRegLastLoggedOn.*/ nocase or $e.ScriptBlockText = /.*Get-WMIRegMountedDrive.*/ nocase or $e.ScriptBlockText = /.*Get-WMIRegProxy.*/ nocase or $e.ScriptBlockText = /.*Invoke-ACLScanner.*/ nocase or $e.ScriptBlockText = /.*Invoke-CheckLocalAdminAccess.*/ nocase or $e.ScriptBlockText = /.*Invoke-EnumerateLocalAdmin.*/ nocase or $e.ScriptBlockText = /.*Invoke-EventHunter.*/ nocase or $e.ScriptBlockText = /.*Invoke-FileFinder.*/ nocase or $e.ScriptBlockText = /.*Invoke-Kerberoast.*/ nocase or $e.ScriptBlockText = /.*Invoke-MapDomainTrust.*/ nocase or $e.ScriptBlockText = /.*Invoke-ProcessHunter.*/ nocase or $e.ScriptBlockText = /.*Invoke-RevertToSelf.*/ nocase or $e.ScriptBlockText = /.*Invoke-ShareFinder.*/ nocase or $e.ScriptBlockText = /.*Invoke-UserHunter.*/ nocase or $e.ScriptBlockText = /.*Invoke-UserImpersonation.*/ nocase or $e.ScriptBlockText = /.*Remove-RemoteConnection.*/ nocase or $e.ScriptBlockText = /.*Request-SPNTicket.*/ nocase or $e.ScriptBlockText = /.*Resolve-IPAddress.*/ nocase))
+
+  condition:
+    $e
+}

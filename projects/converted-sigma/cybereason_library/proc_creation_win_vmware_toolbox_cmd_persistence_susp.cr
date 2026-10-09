@@ -1,0 +1,11 @@
+// Title: Suspicious Persistence Via VMwareToolBoxCmd.EXE VM State Change Script
+// ID: 236d8e89-ed95-4789-a982-36f4643738ba
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-06-14
+// Tags: attack.execution, attack.persistence, attack.t1059
+// Description: Detects execution of the "VMwareToolBoxCmd.exe" with the "script" and "set" flag to setup a specific script that's located in a potentially suspicious location to run for a specific VM state
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((CommandLine contains " script " AND CommandLine contains " set ")) AND ((Image="*\\VMwareToolBoxCmd.exe") OR (OriginalFileName == "toolbox-cmd.exe")) AND ((CommandLine contains ":\\PerfLogs\\" OR CommandLine contains ":\\Temp\\" OR CommandLine contains ":\\Windows\\System32\\Tasks\\" OR CommandLine contains ":\\Windows\\Tasks\\" OR CommandLine contains ":\\Windows\\Temp\\" OR CommandLine contains "\\AppData\\Local\\Temp")))

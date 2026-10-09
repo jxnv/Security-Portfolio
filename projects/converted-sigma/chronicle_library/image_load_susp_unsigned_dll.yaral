@@ -1,0 +1,24 @@
+// Title: Unsigned DLL Loaded by Windows Utility
+// ID: b5de0c9a-6f19-43e0-af4e-55ad01f550af
+// Status: test
+// Level: medium
+// Author: Swachchhanda Shrawan Poudel
+// Date: 2024-02-28
+// Tags: attack.stealth, attack.t1218.011, attack.t1218.010
+// Description: Detects windows utilities loading an unsigned or untrusted DLL.
+// Adversaries often abuse those programs to proxy execution of malicious code.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule b5de0c9a_6f19_43e0_af4e_55ad01f550af {
+  meta:
+    title = "Unsigned DLL Loaded by Windows Utility"
+    description = "Detects windows utilities loading an unsigned or untrusted DLL. Adversaries often abuse those programs to proxy execution of malicious code."
+    author = "Swachchhanda Shrawan Poudel"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.file.full_path = /.*\\InstallUtil.exe$/ nocase or $e.target.process.file.full_path = /.*\\RegAsm.exe$/ nocase or $e.target.process.file.full_path = /.*\\RegSvcs.exe$/ nocase or $e.target.process.file.full_path = /.*\\regsvr32.exe$/ nocase or $e.target.process.file.full_path = /.*\\rundll32.exe$/ nocase)) and not(((($e.target.process.file.full_path = /^C:\\Windows\\SysWOW64\\.*/ nocase or $e.target.process.file.full_path = /^C:\\Windows\\System32\\.*/ nocase or $e.target.process.file.full_path = /^C:\\Windows\\Microsoft.NET\\Framework64.*/ nocase) and $e.target.process.file.full_path = /.*\\RegAsm.exe$/ nocase and $e.ImageLoaded = /.*.dll$/ nocase and $e.ImageLoaded = /^C:\\Windows\\assembly\\NativeImages.*/ nocase) or (($e.SignatureStatus = "errorChaining" or $e.SignatureStatus = "errorCode_endpoint" or $e.SignatureStatus = "errorExpired" or $e.SignatureStatus = "trusted" or $e.SignatureStatus = "Valid")) or (($e.SignatureStatus = "" or $e.SignatureStatus = "-")) or (not ($e.SignatureStatus = /.*/)) or ($e.Signed = "true") or (($e.Signed = "" or $e.Signed = "-")) or (not ($e.Signed = /.*/)) or (($e.target.process.file.full_path = "C:\\Windows\\SysWOW64\\rundll32.exe" or $e.target.process.file.full_path = "C:\\Windows\\System32\\rundll32.exe") and $e.ImageLoaded = /^C:\\Windows\\Installer\\.*/ nocase and ($e.ImageLoaded = /.*.tmp-\\Microsoft.Deployment.WindowsInstaller.dll$/ nocase or $e.ImageLoaded = /.*.tmp-\\Avira.OE.Setup.CustomActions.dll$/ nocase)))) and not((($e.target.process.file.full_path = "C:\\Windows\\SysWOW64\\regsvr32.exe" or $e.target.process.file.full_path = "C:\\Windows\\System32\\regsvr32.exe") and ($e.ImageLoaded = /^C:\\Program Files (x86)\\K-Lite Codec Pack\\.*/ nocase or $e.ImageLoaded = /^C:\\Program Files\\K-Lite Codec Pack\\.*/ nocase))))
+
+  condition:
+    $e
+}

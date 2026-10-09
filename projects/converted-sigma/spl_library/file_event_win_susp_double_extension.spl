@@ -1,0 +1,11 @@
+# Title: Suspicious Double Extension Files
+# ID: b4926b47-a9d7-434c-b3a0-adc3fa0bd13e
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems), frack113
+# Date: 2022-06-19
+# Tags: attack.stealth, attack.t1036.007
+# Description: Detects dropped files with double extensions, which is often used by malware as a method to abuse the fact that Windows hide default extensions by default.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog ((((file_name="*.rar.exe" OR file_name="*.zip.exe")) OR ((file_name="*.exe" OR file_name="*.iso" OR file_name="*.rar" OR file_name="*.svg" OR file_name="*.zip") AND (file_name="*.doc.*" OR file_name="*.docx.*" OR file_name="*.gif.*" OR file_name="*.jpeg.*" OR file_name="*.jpg.*" OR file_name="*.mp3.*" OR file_name="*.mp4.*" OR file_name="*.pdf.*" OR file_name="*.png.*" OR file_name="*.ppt.*" OR file_name="*.pptx.*" OR file_name="*.rtf.*" OR file_name="*.svg.*" OR file_name="*.txt.*" OR file_name="*.xls.*" OR file_name="*.xlsx.*"))) AND NOT ((file_name="/usr/share/icons/*")))

@@ -1,0 +1,23 @@
+// Title: PowerShell Download and Execution Cradles
+// ID: 85b0b087-eddf-4a2b-b033-d771fa2b9775
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-03-24
+// Tags: attack.execution, attack.t1059
+// Description: Detects PowerShell download and execution cradles.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 85b0b087_eddf_4a2b_b033_d771fa2b9775 {
+  meta:
+    title = "PowerShell Download and Execution Cradles"
+    description = "Detects PowerShell download and execution cradles."
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*.DownloadString(.*/ nocase or $e.target.process.command_line = /.*.DownloadFile(.*/ nocase or $e.target.process.command_line = /.*Invoke-WebRequest .*/ nocase or $e.target.process.command_line = /.*iwr .*/ nocase or $e.target.process.command_line = /.*Invoke-RestMethod .*/ nocase or $e.target.process.command_line = /.*irm .*/ nocase)) and (($e.target.process.command_line = /.*;iex $.*/ nocase or $e.target.process.command_line = /.*| IEX.*/ nocase or $e.target.process.command_line = /.*|IEX .*/ nocase or $e.target.process.command_line = /.*I`E`X.*/ nocase or $e.target.process.command_line = /.*I`EX.*/ nocase or $e.target.process.command_line = /.*IE`X.*/ nocase or $e.target.process.command_line = /.*iex .*/ nocase or $e.target.process.command_line = /.*IEX (.*/ nocase or $e.target.process.command_line = /.*IEX(.*/ nocase or $e.target.process.command_line = /.*Invoke-Expression.*/ nocase)))
+
+  condition:
+    $e
+}

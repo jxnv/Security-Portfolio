@@ -1,0 +1,23 @@
+// Title: Suspicious Schtasks Execution AppData Folder
+// ID: c5c00f49-b3f9-45a6-997e-cfdecc6e1967
+// Status: test
+// Level: high
+// Author: pH-T (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-03-15
+// Tags: attack.privilege-escalation, attack.execution, attack.persistence, attack.t1053.005, attack.t1059.001
+// Description: Detects the creation of a schtask that executes a file from C:\Users\<USER>\AppData\Local
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule c5c00f49_b3f9_45a6_997e_cfdecc6e1967 {
+  meta:
+    title = "Suspicious Schtasks Execution AppData Folder"
+    description = "Detects the creation of a schtask that executes a file from C:\Users\<USER>\AppData\Local"
+    author = "pH-T (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.file.full_path = /.*\\schtasks.exe$/ nocase and ($e.target.process.command_line = /.*/Create.*/ nocase and $e.target.process.command_line = /.*/RU.*/ nocase and $e.target.process.command_line = /.*/TR.*/ nocase and $e.target.process.command_line = /.*C:\\Users\\.*/ nocase and $e.target.process.command_line = /.*\\AppData\\Local\\.*/ nocase) and ($e.target.process.command_line = /.*NT AUT.*/ nocase or $e.target.process.command_line = /.* SYSTEM .*/ nocase)) and not((($e.principal.process.file.full_path = /.*\\AppData\\Local\\Temp\\.*/ nocase and $e.principal.process.file.full_path = /.*TeamViewer_.exe.*/ nocase) and $e.target.process.file.full_path = /.*\\schtasks.exe$/ nocase and $e.target.process.command_line = /.*/TN TVInstallRestore.*/ nocase)))
+
+  condition:
+    $e
+}

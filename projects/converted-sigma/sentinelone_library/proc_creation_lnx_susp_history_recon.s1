@@ -1,0 +1,11 @@
+// Title: Print History File Contents
+// ID: d7821ff1-4527-4e33-9f84-d0d57fa2fb66
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-06-20
+// Tags: attack.reconnaissance, attack.t1592.004
+// Description: Detects events in which someone prints the contents of history files to the commandline or redirects it to a file for reconnaissance
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((src.process.image.path endswithCIS "/cat" OR src.process.image.path endswithCIS "/head" OR src.process.image.path endswithCIS "/tail" OR src.process.image.path endswithCIS "/more")) AND (((src.process.cmdline containsCIS "/.bash_history" OR src.process.cmdline containsCIS "/.zsh_history")) OR ((src.process.cmdline endswithCIS "_history" OR src.process.cmdline endswithCIS ".history" OR src.process.cmdline endswithCIS "zhistory"))))

@@ -1,0 +1,13 @@
+// Title: Load Of RstrtMgr.DLL By An Uncommon Process
+// ID: 3669afd2-9891-4534-a626-e5cf03810a61
+// Status: test
+// Level: low
+// Author: Luc Génaux
+// Date: 2023-11-28
+// Tags: attack.impact, attack.defense-impairment, attack.t1486, attack.t1685
+// Description: Detects the load of RstrtMgr DLL (Restart Manager) by an uncommon process.
+// This library has been used during ransomware campaigns to kill processes that would prevent file encryption by locking them (e.g. Conti ransomware, Cactus ransomware). It has also recently been seen used by the BiBi wiper for Windows.
+// It could also be used for anti-analysis purposes by shut downing specific processes.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((ImageLoaded endswithCIS "\\RstrtMgr.dll") OR (OriginalFileName = "RstrtMgr.dll")) AND NOT (((src.process.image.path startswithCIS "C:\\Windows\\Temp\\") OR ((src.process.image.path startswithCIS "C:\\$WINDOWS.~BT\\" OR src.process.image.path startswithCIS "C:\\$WinREAgent\\" OR src.process.image.path startswithCIS "C:\\Program Files (x86)\\" OR src.process.image.path startswithCIS "C:\\Program Files\\" OR src.process.image.path startswithCIS "C:\\ProgramData\\" OR src.process.image.path startswithCIS "C:\\Windows\\explorer.exe" OR src.process.image.path startswithCIS "C:\\Windows\\SoftwareDistribution\\" OR src.process.image.path startswithCIS "C:\\Windows\\SysNative\\" OR src.process.image.path startswithCIS "C:\\Windows\\System32\\" OR src.process.image.path startswithCIS "C:\\Windows\\SysWOW64\\" OR src.process.image.path startswithCIS "C:\\Windows\\WinSxS\\" OR src.process.image.path startswithCIS "C:\\WUDownloadCache\\")) OR (src.process.image.path startswithCIS "C:\\Users\\" AND (src.process.image.path containsCIS "\\AppData\\Local\\Temp\\is-" AND src.process.image.path containsCIS ".tmp\\") AND src.process.image.path endswithCIS ".tmp"))) AND NOT (((src.process.image.path startswithCIS "C:\\Users\\" AND (src.process.image.path endswithCIS "\\AppData\\Local\\Microsoft\\OneDrive\\OneDrive.exe" OR src.process.image.path endswithCIS "\\AppData\\Local\\Microsoft\\OneDrive\\OneDriveStandaloneUpdater.exe")) OR (src.process.image.path startswithCIS "C:\\Users\\" AND src.process.image.path containsCIS "\\AppData\\Local\\Microsoft\\OneDrive\\" AND src.process.image.path endswithCIS "\\OneDrive.Sync.Service.exe"))))

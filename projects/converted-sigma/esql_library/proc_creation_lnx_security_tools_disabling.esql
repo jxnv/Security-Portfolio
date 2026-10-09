@@ -1,0 +1,11 @@
+// Title: Disabling Security Tools
+// ID: e3a8a052-111f-4606-9aee-f28ebeb76776
+// Status: test
+// Level: medium
+// Author: Ömer Günal, Alejandro Ortuno, oscd.community
+// Date: 2020-06-17
+// Tags: attack.defense-impairment, attack.t1686
+// Description: Detects disabling security tools
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE ((process.executable LIKE "%/service" AND (process.command_line LIKE "%cbdaemon%" AND process.command_line LIKE "%stop%")) OR (process.executable LIKE "%/chkconfig" AND (process.command_line LIKE "%cbdaemon%" AND process.command_line LIKE "%off%")) OR (process.executable LIKE "%/systemctl" AND (process.command_line LIKE "%cbdaemon%" AND process.command_line LIKE "%stop%")) OR (process.executable LIKE "%/systemctl" AND (process.command_line LIKE "%cbdaemon%" AND process.command_line LIKE "%disable%")) OR (process.executable LIKE "%/systemctl" AND (process.command_line LIKE "%stop%" AND process.command_line LIKE "%falcon-sensor%")) OR (process.executable LIKE "%/systemctl" AND (process.command_line LIKE "%disable%" AND process.command_line LIKE "%falcon-sensor%")) OR (process.executable LIKE "%/systemctl" AND (process.command_line LIKE "%firewalld%" AND process.command_line LIKE "%stop%")) OR (process.executable LIKE "%/systemctl" AND (process.command_line LIKE "%firewalld%" AND process.command_line LIKE "%disable%")) OR (process.executable LIKE "%/service" AND (process.command_line LIKE "%iptables%" AND process.command_line LIKE "%stop%")) OR (process.executable LIKE "%/service" AND (process.command_line LIKE "%ip6tables%" AND process.command_line LIKE "%stop%")) OR (process.executable LIKE "%/chkconfig" AND (process.command_line LIKE "%iptables%" AND process.command_line LIKE "%stop%")) OR (process.executable LIKE "%/chkconfig" AND (process.command_line LIKE "%ip6tables%" AND process.command_line LIKE "%stop%")) OR (process.executable LIKE "%/setenforce" AND process.command_line LIKE "%0%"))

@@ -1,0 +1,11 @@
+# Title: Security Support Provider (SSP) Added to LSA Configuration
+# ID: eeb30123-9fbd-4ee8-aaa0-2e545bbed6dc
+# Status: test
+# Level: high
+# Author: iwillkeepwatch
+# Date: 2019-01-18
+# Tags: attack.privilege-escalation, attack.persistence, attack.t1547.005
+# Description: Detects the addition of a SSP to the registry. Upon a reboot or API call, SSP DLLs gain access to encrypted and plaintext passwords stored in Windows.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((@TargetObject:*\\Control\\Lsa\\Security Packages OR @TargetObject:*\\Control\\Lsa\\OSConfig\\Security Packages)) AND -(((-@Image:*) OR ((@Image:"C:\\Windows\\system32\\msiexec.exe" OR @Image:"C:\\Windows\\syswow64\\MsiExec.exe")))))

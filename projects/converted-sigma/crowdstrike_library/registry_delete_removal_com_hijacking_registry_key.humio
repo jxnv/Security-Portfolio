@@ -1,0 +1,12 @@
+// Title: Removal of Potential COM Hijacking Registry Keys
+// ID: 96f697b0-b499-4e5d-9908-a67bec11cdb6
+// Status: test
+// Level: medium
+// Author: Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research)
+// Date: 2020-05-02
+// Tags: attack.persistence, attack.defense-impairment, attack.t1112
+// Description: Detects any deletion of entries in ".*\shell\open\command" registry keys.
+// These registry keys might have been used for COM hijacking activities by a threat actor or an attacker and the deletion could indicate steps to remove its tracks.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((TargetObject = /.*\\shell\\open\\command/i) and not(((ImageFileName = /.*C:\\Windows\\explorer.exe/i) or ((ImageFileName = /C:\\Program Files\\.*/i or ImageFileName = /C:\\Program Files (x86)\\.*/i)) or ((ImageFileName = "C:\\Windows\\System32\\msiexec.exe" or ImageFileName = "C:\\Windows\\SysWOW64\\msiexec.exe")) or (ImageFileName = "C:\\Windows\\System32\\OpenWith.exe") or (ImageFileName = "C:\\Windows\\system32\\svchost.exe"))) and not((((ImageFileName = "C:\\Program Files (x86)\\Avira\\Antivirus\\" or ImageFileName = "C:\\Program Files\\Avira\\Antivirus\\") and (TargetObject = /.*\\CLSID\\{305CA226-D286-468e-B848-2B2E8E697B74}\\Shell\\Open\\Command/i or TargetObject = /.*\\AntiVir.Keyfile\\shell\\open\\command/i)) or (ImageFileName = /.*\\reg.exe/i and TargetObject = /.*\\Discord\\shell\\open\\command/i) or (ImageFileName = /.*\\Dropbox.exe/i and TargetObject = /*\\Dropbox.*/i) or (ImageFileName = /.*C:\\eclipse\\eclipse.exe/i and TargetObject = /*_Classes\\eclipse+*/i) or (ImageFileName = /*\\Microsoft\\EdgeUpdate\\Install*/i) or (ImageFileName = /.*\\Everything.exe/i and TargetObject = /*\\Everything.*/i) or (((ImageFileName = /*AppData\\Local\\Temp*/i and ImageFileName = /*\\setup.exe*/i)) or ((ImageFileName = /*\\Temp\\is-*/i and ImageFileName = /*\\target.tmp*/i))) or (ImageFileName = /C:\\Program Files (x86)\\Java\\.*/i and ImageFileName = /.*\\installer.exe/i and TargetObject = /*\\Classes\\WOW6432Node\\CLSID\\{4299124F-F2C3-41b4-9C73-9236B2AD0E8F}*/i) or (ImageFileName = /.*\\ninite.exe/i) or (ImageFileName = /*peazip*/i and TargetObject = /*\\PeaZip.*/i) or (ImageFileName = /.*\\Spotify.exe/i and TargetObject = /.*\\Spotify\\shell\\open\\command/i) or ((ImageFileName = /*\\Temp*/i and ImageFileName = /*\\TeamViewer*/i)) or (ImageFileName = /C:\\Windows\\Installer\\MSI.*/i) or (ImageFileName = /.*\\AppData\\Local\\Temp\\Wireshark_uninstaller.exe/i and TargetObject = /*\\wireshark-capture-file\\*/i))))

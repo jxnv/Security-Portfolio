@@ -1,0 +1,12 @@
+// Title: Security Software Discovery Via Powershell Script
+// ID: 904e8e61-8edf-4350-b59c-b905fc8e810c
+// Status: test
+// Level: medium
+// Author: frack113, Anish Bogati, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2021-12-16
+// Tags: attack.discovery, attack.t1518.001
+// Description: Detects calls to "get-process" where the output is piped to a "where-object" filter to search for security solution processes.
+// Adversaries may attempt to get a listing of security software, configurations, defensive tools, and sensors that are installed on a system or in a cloud environment. This may include things such as firewall rules and anti-virus
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((ScriptBlockText = /*get-process | \\?*/i or ScriptBlockText = /*get-process | where*/i or ScriptBlockText = /*gps | \\?*/i or ScriptBlockText = /*gps | where*/i)) and ((ScriptBlockText = /*Company -like*/i or ScriptBlockText = /*Description -like*/i or ScriptBlockText = /*Name -like*/i or ScriptBlockText = /*Path -like*/i or ScriptBlockText = /*Product -like*/i)) and ((ScriptBlockText = /*\\*avira\\**/i or ScriptBlockText = /*\\*carbonblack\\**/i or ScriptBlockText = /*\\*cylance\\**/i or ScriptBlockText = /*\\*defender\\**/i or ScriptBlockText = /*\\*kaspersky\\**/i or ScriptBlockText = /*\\*malware\\**/i or ScriptBlockText = /*\\*sentinel\\**/i or ScriptBlockText = /*\\*symantec\\**/i or ScriptBlockText = /*\\*virus\\**/i)))

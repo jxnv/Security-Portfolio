@@ -1,0 +1,23 @@
+// Title: RDP Over Reverse SSH Tunnel
+// ID: 5f699bc5-5446-4a4a-a0b7-5ef2885a3eb4
+// Status: test
+// Level: high
+// Author: Samir Bousseaden
+// Date: 2019-02-16
+// Tags: attack.command-and-control, attack.t1572, attack.lateral-movement, attack.t1021.001, car.2013-07-002
+// Description: Detects svchost hosting RDP termsvcs communicating with the loopback address and on TCP port 3389
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 5f699bc5_5446_4a4a_a0b7_5ef2885a3eb4 {
+  meta:
+    title = "RDP Over Reverse SSH Tunnel"
+    description = "Detects svchost hosting RDP termsvcs communicating with the loopback address and on TCP port 3389"
+    author = "Samir Bousseaden"
+    severity = "HIGH"
+
+  events:
+    (((net.ip_in_range_cidr($e.target.ip, "127.0.0.0/8") or net.ip_in_range_cidr($e.target.ip, "::1/128"))) and ($e.target.process.file.full_path = /.*\\svchost.exe$/ nocase and $e.Initiated = "true" and $e.principal.port = 3389))
+
+  condition:
+    $e
+}

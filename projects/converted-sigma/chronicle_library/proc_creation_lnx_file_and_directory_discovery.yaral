@@ -1,0 +1,23 @@
+// Title: File and Directory Discovery - Linux
+// ID: d3feb4ee-ff1d-4d3d-bd10-5b28a238cc72
+// Status: test
+// Level: informational
+// Author: Daniil Yugoslavskiy, oscd.community, CheraghiMilad
+// Date: 2020-10-19
+// Tags: attack.discovery, attack.t1083
+// Description: Detects usage of system utilities such as "find", "tree", "findmnt", etc, to discover files, directories and network shares.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule d3feb4ee_ff1d_4d3d_bd10_5b28a238cc72 {
+  meta:
+    title = "File and Directory Discovery - Linux"
+    description = "Detects usage of system utilities such as "find", "tree", "findmnt", etc, to discover files, directories and network shares."
+    author = "Daniil Yugoslavskiy, oscd.community, CheraghiMilad"
+    severity = "INFORMATIONAL"
+
+  events:
+    (($e.target.process.file.full_path = /.*/file$/ nocase and $e.target.process.command_line = /(.){200,}/ nocase) or ($e.target.process.file.full_path = /.*/find$/ nocase) or ($e.target.process.file.full_path = /.*/findmnt$/ nocase) or ($e.target.process.file.full_path = /.*/mlocate$/ nocase) or ($e.target.process.file.full_path = /.*/ls$/ nocase and $e.target.process.command_line = /.*-R.*/ nocase) or ($e.target.process.file.full_path = /.*/tree$/ nocase))
+
+  condition:
+    $e
+}

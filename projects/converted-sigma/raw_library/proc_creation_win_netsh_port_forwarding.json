@@ -1,0 +1,52 @@
+{
+  "title": "New Port Forwarding Rule Added Via Netsh.EXE",
+  "id": "322ed9ec-fcab-4f67-9a34-e7c6aef43614",
+  "status": "test",
+  "description": "Detects the execution of netsh commands that configure a new port forwarding (PortProxy) rule",
+  "author": "Florian Roth (Nextron Systems), omkar72, oscd.community, Swachchhanda Shrawan Poudel",
+  "date": "2019-01-29",
+  "tags": [
+    "attack.lateral-movement",
+    "attack.command-and-control",
+    "attack.t1090"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_img": [
+      {
+        "Image|endswith": "\\netsh.exe"
+      },
+      {
+        "OriginalFileName": "netsh.exe"
+      }
+    ],
+    "selection_cli_1": {
+      "CommandLine|contains|all": [
+        "interface",
+        "portproxy",
+        "add",
+        "v4tov4"
+      ]
+    },
+    "selection_cli_2": {
+      "CommandLine|contains|all": [
+        "i ",
+        "p ",
+        "a ",
+        "v "
+      ]
+    },
+    "selection_cli_3": {
+      "CommandLine|contains|all": [
+        "connectp",
+        "listena",
+        "c="
+      ]
+    },
+    "condition": "selection_img and 1 of selection_cli_*"
+  }
+}

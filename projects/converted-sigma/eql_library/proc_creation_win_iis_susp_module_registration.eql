@@ -1,0 +1,11 @@
+// Title: Suspicious IIS Module Registration
+// ID: 043c4b8b-3a54-4780-9682-081cb6b8185c
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Microsoft (idea)
+// Date: 2022-08-04
+// Tags: attack.persistence, attack.t1505.004
+// Description: Detects a suspicious IIS module registration as described in Microsoft threat report on IIS backdoors
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where ((process.parent.executable endswith "\\w3wp.exe") and ((process.command_line like "*_appcmd.exe add module*") or (process.command_line like "*_ system.enterpriseservices.internal.publish*" and process.executable endswith "\\powershell.exe") or ((process.command_line like "*_gacutil*" and process.command_line like "*_ /I*"))))

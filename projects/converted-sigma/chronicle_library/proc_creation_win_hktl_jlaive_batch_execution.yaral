@@ -1,0 +1,23 @@
+// Title: HackTool - Jlaive In-Memory Assembly Execution
+// ID: 0a99eb3e-1617-41bd-b095-13dc767f3def
+// Status: test
+// Level: medium
+// Author: Jose Luis Sanchez Martinez (@Joseliyo_Jstnk)
+// Date: 2022-05-24
+// Tags: attack.execution, attack.t1059.003
+// Description: Detects the use of Jlaive to execute assemblies in a copied PowerShell
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 0a99eb3e_1617_41bd_b095_13dc767f3def {
+  meta:
+    title = "HackTool - Jlaive In-Memory Assembly Execution"
+    description = "Detects the use of Jlaive to execute assemblies in a copied PowerShell"
+    author = "Jose Luis Sanchez Martinez (@Joseliyo_Jstnk)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.principal.process.file.full_path = /.*\\cmd.exe$/ nocase and $e.principal.process.command_line = /.*.bat$/ nocase) and (($e.target.process.file.full_path = /.*\\xcopy.exe$/ nocase and ($e.target.process.command_line = /.*powershell.exe.*/ nocase and $e.target.process.command_line = /.*.bat.exe.*/ nocase)) or ($e.target.process.file.full_path = /.*\\xcopy.exe$/ nocase and ($e.target.process.command_line = /.*pwsh.exe.*/ nocase and $e.target.process.command_line = /.*.bat.exe.*/ nocase)) or ($e.target.process.file.full_path = /.*\\attrib.exe$/ nocase and ($e.target.process.command_line = /.*+s.*/ nocase and $e.target.process.command_line = /.*+h.*/ nocase and $e.target.process.command_line = /.*.bat.exe.*/ nocase))))
+
+  condition:
+    $e
+}

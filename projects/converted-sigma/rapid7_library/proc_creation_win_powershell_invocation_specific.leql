@@ -1,0 +1,11 @@
+// Title: Suspicious PowerShell Invocations - Specific - ProcessCreation
+// ID: 536e2947-3729-478c-9903-745aaffe60d2
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-01-05
+// Tags: attack.stealth
+// Description: Detects suspicious PowerShell invocation command parameters
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((where(CommandLine ICONTAINS "-nop") AND where(CommandLine ICONTAINS " -w ") AND where(CommandLine ICONTAINS "hidden") AND where(CommandLine ICONTAINS " -c ") AND where(CommandLine ICONTAINS "[Convert]::FromBase64String"))) OR ((where(CommandLine ICONTAINS " -w ") AND where(CommandLine ICONTAINS "hidden") AND where(CommandLine ICONTAINS "-ep") AND where(CommandLine ICONTAINS "bypass") AND where(CommandLine ICONTAINS "-Enc"))) OR ((where(CommandLine ICONTAINS " -w ") AND where(CommandLine ICONTAINS "hidden") AND where(CommandLine ICONTAINS "-noni") AND where(CommandLine ICONTAINS "-nop") AND where(CommandLine ICONTAINS " -c ") AND where(CommandLine ICONTAINS "iex") AND where(CommandLine ICONTAINS "New-Object"))) OR ((where(CommandLine ICONTAINS "iex") AND where(CommandLine ICONTAINS "New-Object") AND where(CommandLine ICONTAINS "Net.WebClient") AND where(CommandLine ICONTAINS ".Download"))) OR ((where(CommandLine ICONTAINS "powershell") AND where(CommandLine ICONTAINS "reg") AND where(CommandLine ICONTAINS "add") AND where(CommandLine ICONTAINS "\\software\\"))) OR ((where(CommandLine ICONTAINS "bypass") AND where(CommandLine ICONTAINS "-noprofile") AND where(CommandLine ICONTAINS "-windowstyle") AND where(CommandLine ICONTAINS "hidden") AND where(CommandLine ICONTAINS "new-object") AND where(CommandLine ICONTAINS "system.net.webclient") AND where(CommandLine ICONTAINS ".download")))) AND NOT (((where(CommandLine ICONTAINS "(New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1") OR where(CommandLine ICONTAINS "Write-ChocolateyWarning")))))

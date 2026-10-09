@@ -1,0 +1,11 @@
+-- Title: Port Forwarding Activity Via SSH.EXE
+-- ID: 327f48c1-a6db-4eb8-875a-f6981f1b0183
+-- Status: test
+-- Level: medium
+-- Author: Nasreddine Bencherchali (Nextron Systems)
+-- Date: 2022-10-12
+-- Tags: attack.command-and-control, attack.lateral-movement, attack.t1572, attack.t1021.001, attack.t1021.004
+-- Description: Detects port forwarding activity via SSH.exe
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE (Image ILIKE '%\\ssh.exe' AND CommandLine ILIKE '% -R %')

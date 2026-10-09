@@ -1,0 +1,23 @@
+// Title: New Federated Domain Added - Exchange
+// ID: 42127bdd-9133-474f-a6f1-97b6c08a4339
+// Status: test
+// Level: medium
+// Author: Splunk Threat Research Team (original rule), '@ionsor (rule)'
+// Date: 2022-02-08
+// Tags: attack.persistence, attack.t1136.003
+// Description: Detects the addition of a new Federated Domain.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 42127bdd_9133_474f_a6f1_97b6c08a4339 {
+  meta:
+    title = "New Federated Domain Added - Exchange"
+    description = "Detects the addition of a new Federated Domain."
+    author = "Splunk Threat Research Team (original rule), '@ionsor (rule)'"
+    severity = "MEDIUM"
+
+  events:
+    ($e.eventSource = "Exchange" and $e.eventName = "Add-FederatedDomain" and $e.status = "success")
+
+  condition:
+    $e
+}

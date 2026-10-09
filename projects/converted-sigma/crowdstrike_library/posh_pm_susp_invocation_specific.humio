@@ -1,0 +1,11 @@
+// Title: Suspicious PowerShell Invocations - Specific - PowerShell Module
+// ID: 8ff28fdd-e2fa-4dfa-aeda-ef3d61c62090
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Jonhnathan Ribeiro
+// Date: 2017-03-05
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects suspicious PowerShell invocation command parameters
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((ContextInfo = /*-nop*/i and ContextInfo = /* -w */i and ContextInfo = /*hidden*/i and ContextInfo = /* -c */i and ContextInfo = /*[Convert]::FromBase64String*/i)) or ((ContextInfo = /* -w */i and ContextInfo = /*hidden*/i and ContextInfo = /*-ep*/i and ContextInfo = /*bypass*/i and ContextInfo = /*-Enc*/i)) or ((ContextInfo = /* -w */i and ContextInfo = /*hidden*/i and ContextInfo = /*-noni*/i and ContextInfo = /*-nop*/i and ContextInfo = /* -c */i and ContextInfo = /*iex*/i and ContextInfo = /*New-Object*/i)) or ((ContextInfo = /*iex*/i and ContextInfo = /*New-Object*/i and ContextInfo = /*Net.WebClient*/i and ContextInfo = /*.Download*/i)) or ((ContextInfo = /*powershell*/i and ContextInfo = /*reg*/i and ContextInfo = /*add*/i) and (ContextInfo = /*\\software\\microsoft\\windows\\currentversion\\run*/i or ContextInfo = /*\\software\\wow6432node\\microsoft\\windows\\currentversion\\run*/i or ContextInfo = /*\\software\\microsoft\\windows\\currentversion\\policies\\explorer\\run*/i)) or ((ContextInfo = /*bypass*/i and ContextInfo = /*-noprofile*/i and ContextInfo = /*-windowstyle*/i and ContextInfo = /*hidden*/i and ContextInfo = /*new-object*/i and ContextInfo = /*system.net.webclient*/i and ContextInfo = /*.download*/i))) and not(((ContextInfo = /*(New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1*/i or ContextInfo = /*Write-ChocolateyWarning*/i))))

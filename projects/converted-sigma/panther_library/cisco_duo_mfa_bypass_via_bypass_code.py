@@ -1,0 +1,20 @@
+# Title: Cisco Duo Successful MFA Authentication Via Bypass Code
+# ID: 6f7e1c10-2dc9-4312-adb6-9574ff09a5c8
+# Status: test
+# Level: medium
+# Author: Nikita Khalimonenkov
+# Date: 2024-04-17
+# Tags: attack.credential-access, attack.initial-access, attack.stealth
+# Description: Detects when a successful MFA authentication occurs due to the use of a bypass code.
+# A bypass code is a temporary passcode created by an administrator for a specific user to access a Duo-protected application. These are generally used as "backup codes," so that enrolled users who are having problems with their mobile devices (e.g., mobile service is disrupted, the device is lost or stolen, etc.) or who temporarily can't use their enrolled devices (on a plane without mobile data services) can still access their Duo-protected systems.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Cisco Duo Successful MFA Authentication Via Bypass Code
+def rule(event):
+    # Detection Logic:
+    # (event_type="authentication" AND reason="bypass_user")
+    return True
+
+def title(event):
+    return "Cisco Duo Successful MFA Authentication Via Bypass Code"
+

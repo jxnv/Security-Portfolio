@@ -1,0 +1,11 @@
+-- Title: Potential CCleanerReactivator.DLL Sideloading
+-- ID: 3735d5ac-d770-4da0-99ff-156b180bc600
+-- Status: test
+-- Level: medium
+-- Author: X__Junior
+-- Date: 2023-07-13
+-- Tags: attack.persistence, attack.privilege-escalation, attack.execution, attack.stealth, attack.t1574.001
+-- Description: Detects potential DLL sideloading of "CCleanerReactivator.dll"
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE ((ImageLoaded ILIKE '%\\CCleanerReactivator.dll') AND NOT (((Image ILIKE 'C:\\Program Files\\CCleaner\\%' OR Image ILIKE 'C:\\Program Files (x86)\\CCleaner\\%') AND Image ILIKE '%\\CCleanerReactivator.exe')))

@@ -1,0 +1,12 @@
+// Title: Scheduled Task Creation with Curl and PowerShell Execution Combo
+// ID: 1d174d38-8fda-4081-a9b6-56d9763c0cd8
+// Status: experimental
+// Level: medium
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-02-05
+// Tags: attack.privilege-escalation, attack.execution, attack.persistence, attack.stealth, attack.t1053.005, attack.t1218, attack.command-and-control, attack.t1105
+// Description: Detects the creation of a scheduled task using schtasks.exe, potentially in combination with curl for downloading payloads and PowerShell for executing them.
+// This facilitates executing malicious payloads or connecting with C&C server persistently without dropping the malware sample on the host.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((CommandLine: "*curl *" AND CommandLine: "*http*" AND CommandLine: "*-o*")) AND (Image="*\\schtasks.exe" AND CommandLine: "* /create *") AND (CommandLine: "*powershell*"))

@@ -1,0 +1,61 @@
+{
+  "title": "Linux Webshell Indicators",
+  "id": "818f7b24-0fba-4c49-a073-8b755573b9c7",
+  "status": "test",
+  "description": "Detects suspicious sub processes of web server processes",
+  "author": "Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2021-10-15",
+  "tags": [
+    "attack.persistence",
+    "attack.t1505.003"
+  ],
+  "level": "high",
+  "logsource": {
+    "product": "linux",
+    "category": "process_creation"
+  },
+  "detection": {
+    "selection_parent_general": {
+      "ParentImage|endswith": [
+        "/httpd",
+        "/lighttpd",
+        "/nginx",
+        "/apache2",
+        "/node",
+        "/caddy"
+      ]
+    },
+    "selection_parent_tomcat": {
+      "ParentCommandLine|contains|all": [
+        "/bin/java",
+        "tomcat"
+      ]
+    },
+    "selection_parent_websphere": {
+      "ParentCommandLine|contains|all": [
+        "/bin/java",
+        "websphere"
+      ]
+    },
+    "selection_child_processes": {
+      "Image|endswith": [
+        "/whoami",
+        "/ifconfig",
+        "/ip",
+        "/bin/uname",
+        "/bin/cat",
+        "/bin/crontab",
+        "/hostname",
+        "/iptables",
+        "/netstat",
+        "/pwd",
+        "/route"
+      ]
+    },
+    "filter_optional_ip_neigh": {
+      "ParentImage|endswith": "/node",
+      "CommandLine|contains": "ip neigh show"
+    },
+    "condition": "1 of selection_parent_* and selection_child_processes and not 1 of filter_optional_*"
+  }
+}

@@ -1,0 +1,23 @@
+// Title: PowerShell Script Change Permission Via Set-Acl
+// ID: bdeb2cff-af74-4094-8426-724dc937f20a
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-10-18
+// Tags: attack.stealth
+// Description: Detects PowerShell execution to set the ACL of a file or a folder
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule bdeb2cff_af74_4094_8426_724dc937f20a {
+  meta:
+    title = "PowerShell Script Change Permission Via Set-Acl"
+    description = "Detects PowerShell execution to set the ACL of a file or a folder"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*Set-Acl .*/ nocase and $e.target.process.command_line = /.*-AclObject .*/ nocase and $e.target.process.command_line = /.*-Path .*/ nocase)) and ((($e.target.process.file.name = "PowerShell.EXE" or $e.target.process.file.name = "pwsh.dll")) or (($e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase))))
+
+  condition:
+    $e
+}

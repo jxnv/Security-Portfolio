@@ -1,0 +1,11 @@
+// Title: Remote Event Log Recon
+// ID: 2053961f-44c7-4a64-b62d-f6e72800af0d
+// Status: test
+// Level: high
+// Author: Sagie Dulce, Dekel Paz
+// Date: 2022-01-01
+// Tags: attack.discovery
+// Description: Detects remote RPC calls to get event log information via EVEN or EVEN6
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter (EventLog = "RPCFW" and EventID = 3 and (InterfaceUuid = "82273fdc-e32a-18c3-3f78-827929dc23ea" or InterfaceUuid = "f6beaff7-1e19-4fbb-9f8f-b89e2018337c"))

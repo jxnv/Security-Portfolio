@@ -1,0 +1,11 @@
+-- Title: Use Of Hidden Paths Or Files
+-- ID: 9e1bef8d-0fff-46f6-8465-9aa54e128c1e
+-- Status: test
+-- Level: low
+-- Author: David Burkett, @signalblur
+-- Date: 2022-12-30
+-- Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.stealth, attack.t1574.001
+-- Description: Detects calls to hidden files or files located in hidden directories in NIX systems.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE ((type = 'PATH' AND name ILIKE '%/.%') AND NOT (((name ILIKE '%/.cache/%' OR name ILIKE '%/.config/%' OR name ILIKE '%/.pyenv/%' OR name ILIKE '%/.rustup/toolchains%'))))

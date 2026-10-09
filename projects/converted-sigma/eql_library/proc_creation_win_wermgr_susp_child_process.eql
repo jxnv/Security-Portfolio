@@ -1,0 +1,11 @@
+// Title: Suspicious Child Process Of Wermgr.EXE
+// ID: 396f6630-f3ac-44e3-bfc8-1b161bc00c4e
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-10-14
+// Tags: attack.privilege-escalation, attack.stealth, attack.t1055, attack.t1036
+// Description: Detects suspicious Windows Error Reporting manager (wermgr.exe) child process
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where ((process.parent.executable endswith "\\wermgr.exe" and (process.executable endswith "\\cmd.exe" or process.executable endswith "\\cscript.exe" or process.executable endswith "\\ipconfig.exe" or process.executable endswith "\\mshta.exe" or process.executable endswith "\\net.exe" or process.executable endswith "\\net1.exe" or process.executable endswith "\\netstat.exe" or process.executable endswith "\\nslookup.exe" or process.executable endswith "\\powershell_ise.exe" or process.executable endswith "\\powershell.exe" or process.executable endswith "\\pwsh.exe" or process.executable endswith "\\regsvr32.exe" or process.executable endswith "\\rundll32.exe" or process.executable endswith "\\systeminfo.exe" or process.executable endswith "\\whoami.exe" or process.executable endswith "\\wscript.exe")) and not ((process.executable endswith "\\rundll32.exe" and (process.command_line like "*_C:\\Windows\\system32\\WerConCpl.dll*" and process.command_line like "*_LaunchErcApp *") and (process.command_line like "*_-queuereporting*" or process.command_line like "*_-responsepester*"))))

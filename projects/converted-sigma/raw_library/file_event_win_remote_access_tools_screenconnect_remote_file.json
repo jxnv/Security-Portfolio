@@ -1,0 +1,24 @@
+{
+  "title": "Remote Access Tool - ScreenConnect Temporary File",
+  "id": "0afecb6e-6223-4a82-99fb-bf5b981e92a5",
+  "status": "test",
+  "description": "Detects the creation of files in a specific location by ScreenConnect RMM.\nScreenConnect has feature to remotely execute binaries on a target machine. These binaries will be dropped to \":\\Users\\<username>\\Documents\\ConnectWiseControl\\Temp\\\" before execution.\n",
+  "author": "Ali Alwashali",
+  "date": "2023-10-10",
+  "tags": [
+    "attack.execution",
+    "attack.t1059.003"
+  ],
+  "level": "low",
+  "logsource": {
+    "category": "file_event",
+    "product": "windows"
+  },
+  "detection": {
+    "selection": {
+      "Image|endswith": "\\ScreenConnect.WindowsClient.exe",
+      "TargetFilename|contains": "\\Documents\\ConnectWiseControl\\Temp\\"
+    },
+    "condition": "selection"
+  }
+}

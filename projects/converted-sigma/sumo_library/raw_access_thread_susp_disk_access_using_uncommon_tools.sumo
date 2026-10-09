@@ -1,0 +1,11 @@
+// Title: Potential Defense Evasion Via Raw Disk Access By Uncommon Tools
+// ID: db809f10-56ce-4420-8c86-d6a7d793c79c
+// Status: test
+// Level: low
+// Author: Teymur Kheirkhabarov, oscd.community
+// Date: 2019-10-22
+// Tags: attack.stealth, attack.t1006
+// Description: Detects raw disk access using uncommon tools or tools that are located in suspicious locations (heavy filtering is required), which could indicate possible defense evasion attempts
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where (!(((Device matches "*floppy*") or ((Image matches "C:\\$WINDOWS.~BT\\*" or Image matches "C:\\Program Files (x86)\\*" or Image matches "C:\\Program Files\\*" or Image matches "C:\\Windows\\CCM\\*" or Image matches "C:\\Windows\\explorer.exe*" or Image matches "C:\\Windows\\servicing\\*" or Image matches "C:\\Windows\\SoftwareDistribution\\*" or Image matches "C:\\Windows\\System32\\*" or Image matches "C:\\Windows\\SystemApps\\*" or Image matches "C:\\Windows\\SysWOW64\\*" or Image matches "C:\\Windows\\uus\\*" or Image matches "C:\\Windows\\WinSxS\\*")) or (Image matches "C:\\Users\\*" and (Image matches "*\\AppData\\*" and Image matches "*\\Microsoft\\*")) or (isNull(Image)) or (Image matches "C:\\Windows\\Temp\\*" and (Image matches "*\\Executables\\SSDUpdate.exe" or Image matches "*\\HostMetadata\\NVMEHostmetadata.exe")) or ((Image = "Registry" or Image = "System")) or (Image = "C:\\Windows\\ImmersiveControlPanel\\SystemSettings.exe") or (Image matches "C:\\$WinREAgent\\Scratch\\*") or (Image matches "C:\\ProgramData\\Microsoft\\Windows Defender\\Platform\\*" and (Image matches "*\\MsMpEng.exe" or Image matches "*\\MpDefenderCoreService.exe")))) and !(((Image matches "C:\\Users\\*" and Image matches "*\\AppData\\Local\\Keybase\\upd.exe*") or (Image matches "C:\\Users\\*" and Image matches "*\\AppData\\Local\\GitHubDesktop\\app-*" and Image matches "*\\resources\\app\\git\\mingw64\\bin\\git.exe") or (Image matches "C:\\Windows\\Temp\\asgard2-agent\\*" and Image matches "*\\thor.exe"))))

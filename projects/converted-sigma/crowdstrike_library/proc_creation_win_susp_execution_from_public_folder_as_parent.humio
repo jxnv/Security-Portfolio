@@ -1,0 +1,11 @@
+// Title: Potentially Suspicious Execution From Parent Process In Public Folder
+// ID: 69bd9b97-2be2-41b6-9816-fb08757a4d1a
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-02-25
+// Tags: attack.execution, attack.stealth, attack.t1564, attack.t1059
+// Description: Detects a potentially suspicious execution of a parent process located in the "\Users\Public" folder executing a child process containing references to shell or scripting binaries and commandlines.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((ImageFileName = /.*\\bitsadmin.exe/i or ImageFileName = /.*\\certutil.exe/i or ImageFileName = /.*\\cmd.exe/i or ImageFileName = /.*\\cscript.exe/i or ImageFileName = /.*\\mshta.exe/i or ImageFileName = /.*\\powershell.exe/i or ImageFileName = /.*\\pwsh.exe/i or ImageFileName = /.*\\regsvr32.exe/i or ImageFileName = /.*\\rundll32.exe/i or ImageFileName = /.*\\wscript.exe/i)) or ((CommandLine = /*bitsadmin*/i or CommandLine = /*certutil*/i or CommandLine = /*cscript*/i or CommandLine = /*mshta*/i or CommandLine = /*powershell*/i or CommandLine = /*regsvr32*/i or CommandLine = /*rundll32*/i or CommandLine = /*wscript*/i))) and (ParentBaseFileName = /*:\\Users\\Public\\*/i))

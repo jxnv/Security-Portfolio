@@ -1,0 +1,12 @@
+# Title: Removal of Potential COM Hijacking Registry Keys
+# ID: 96f697b0-b499-4e5d-9908-a67bec11cdb6
+# Status: test
+# Level: medium
+# Author: Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research)
+# Date: 2020-05-02
+# Tags: attack.persistence, attack.defense-impairment, attack.t1112
+# Description: Detects any deletion of entries in ".*\shell\open\command" registry keys.
+# These registry keys might have been used for COM hijacking activities by a threat actor or an attacker and the deletion could indicate steps to remove its tracks.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((TargetObject:*\\shell\\open\\command) AND -(((process_name:*C:\\Windows\\explorer.exe) OR ((process_name:C:\\Program Files\\* OR process_name:C:\\Program Files (x86)\\*)) OR ((process_name:"C:\\Windows\\System32\\msiexec.exe" OR process_name:"C:\\Windows\\SysWOW64\\msiexec.exe")) OR (process_name:"C:\\Windows\\System32\\OpenWith.exe") OR (process_name:"C:\\Windows\\system32\\svchost.exe"))) AND -((((process_name:"C:\\Program Files (x86)\\Avira\\Antivirus\\" OR process_name:"C:\\Program Files\\Avira\\Antivirus\\") AND (TargetObject:*\\CLSID\\{305CA226-D286-468e-B848-2B2E8E697B74}\\Shell\\Open\\Command OR TargetObject:*\\AntiVir.Keyfile\\shell\\open\\command)) OR (process_name:*\\reg.exe AND TargetObject:*\\Discord\\shell\\open\\command) OR (process_name:*\\Dropbox.exe AND TargetObject:*\\Dropbox.*) OR (process_name:*C:\\eclipse\\eclipse.exe AND TargetObject:*_Classes\\eclipse+*) OR (process_name:*\\Microsoft\\EdgeUpdate\\Install*) OR (process_name:*\\Everything.exe AND TargetObject:*\\Everything.*) OR (((process_name:*AppData\\Local\\Temp* AND process_name:*\\setup.exe*)) OR ((process_name:*\\Temp\\is-* AND process_name:*\\target.tmp*))) OR (process_name:C:\\Program Files (x86)\\Java\\* AND process_name:*\\installer.exe AND TargetObject:*\\Classes\\WOW6432Node\\CLSID\\{4299124F-F2C3-41b4-9C73-9236B2AD0E8F}*) OR (process_name:*\\ninite.exe) OR (process_name:*peazip* AND TargetObject:*\\PeaZip.*) OR (process_name:*\\Spotify.exe AND TargetObject:*\\Spotify\\shell\\open\\command) OR ((process_name:*\\Temp* AND process_name:*\\TeamViewer*)) OR (process_name:C:\\Windows\\Installer\\MSI*) OR (process_name:*\\AppData\\Local\\Temp\\Wireshark_uninstaller.exe AND TargetObject:*\\wireshark-capture-file\\*))))

@@ -1,0 +1,19 @@
+# Title: Azure Kubernetes Pods Deleted
+# ID: b02f9591-12c3-4965-986a-88028629b2e1
+# Status: test
+# Level: medium
+# Author: Austin Songer @austinsonger
+# Date: 2021-07-24
+# Tags: attack.impact
+# Description: Identifies the deletion of Azure Kubernetes Pods.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Azure Kubernetes Pods Deleted
+def rule(event):
+    # Detection Logic:
+    # (operationName="MICROSOFT.KUBERNETES/CONNECTEDCLUSTERS/PODS/DELETE")
+    return True
+
+def title(event):
+    return "Azure Kubernetes Pods Deleted"
+

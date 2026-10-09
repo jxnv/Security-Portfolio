@@ -1,0 +1,11 @@
+// Title: HackTool - Mimikatz Execution
+// ID: a642964e-bead-4bed-8910-1bb4d63e3b4d
+// Status: test
+// Level: high
+// Author: Teymur Kheirkhabarov, oscd.community, David ANDRE (additional keywords), Tim Shelton
+// Date: 2019-10-22
+// Tags: attack.credential-access, attack.t1003.001, attack.t1003.002, attack.t1003.004, attack.t1003.005, attack.t1003.006
+// Description: Detection well-known mimikatz command line arguments
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where (((process.command_line like "%::aadcookie%" OR process.command_line like "%::detours%" OR process.command_line like "%::memssp%" OR process.command_line like "%::mflt%" OR process.command_line like "%::ncroutemon%" OR process.command_line like "%::ngcsign%" OR process.command_line like "%::printnightmare%" OR process.command_line like "%::skeleton%" OR process.command_line like "%::preshutdown%" OR process.command_line like "%::mstsc%" OR process.command_line like "%::multirdp%")) OR ((process.command_line like "%rpc::%" OR process.command_line like "%token::%" OR process.command_line like "%crypto::%" OR process.command_line like "%dpapi::%" OR process.command_line like "%sekurlsa::%" OR process.command_line like "%kerberos::%" OR process.command_line like "%lsadump::%" OR process.command_line like "%privilege::%" OR process.command_line like "%process::%" OR process.command_line like "%vault::%")) OR ((process.command_line like "%DumpCreds%" OR process.command_line like "%mimikatz%")))

@@ -1,0 +1,11 @@
+// Title: New BgInfo.EXE Custom WMI Query Registry Configuration
+// ID: cd277474-5c52-4423-a52b-ac2d7969902f
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-08-16
+// Tags: attack.persistence, attack.defense-impairment, attack.t1112
+// Description: Detects setting of a new registry value related to BgInfo configuration, which can be abused to execute custom WMI query via "BgInfo.exe"
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE (registry.path LIKE "%\\Software\\Winternals\\BGInfo\\UserFields\\%" AND registry.data.strings LIKE "6%")

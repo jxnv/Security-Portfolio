@@ -1,0 +1,11 @@
+// Title: Suspicious Manipulation Of Default Accounts Via Net.EXE
+// ID: 5b768e71-86f2-4879-b448-81061cbae951
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-09-01
+// Tags: attack.collection, attack.t1560.001
+// Description: Detects suspicious manipulations of default accounts such as 'administrator' and 'guest'. For example 'enable' or 'disable' accounts or change the password...etc
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((((src.process.image.path endswithCIS "\\net.exe" OR src.process.image.path endswithCIS "\\net1.exe")) OR ((OriginalFileName = "net.exe" OR OriginalFileName = "net1.exe"))) AND (src.process.cmdline containsCIS " user ") AND ((src.process.cmdline containsCIS " Järjestelmänvalvoja " OR src.process.cmdline containsCIS " Rendszergazda " OR src.process.cmdline containsCIS " Администратор " OR src.process.cmdline containsCIS " Administrateur " OR src.process.cmdline containsCIS " Administrador " OR src.process.cmdline containsCIS " Administratör " OR src.process.cmdline containsCIS " Administrator " OR src.process.cmdline containsCIS " guest " OR src.process.cmdline containsCIS " DefaultAccount " OR src.process.cmdline containsCIS " \"Järjestelmänvalvoja\" " OR src.process.cmdline containsCIS " \"Rendszergazda\" " OR src.process.cmdline containsCIS " \"Администратор\" " OR src.process.cmdline containsCIS " \"Administrateur\" " OR src.process.cmdline containsCIS " \"Administrador\" " OR src.process.cmdline containsCIS " \"Administratör\" " OR src.process.cmdline containsCIS " \"Administrator\" " OR src.process.cmdline containsCIS " \"guest\" " OR src.process.cmdline containsCIS " \"DefaultAccount\" " OR src.process.cmdline containsCIS " 'Järjestelmänvalvoja' " OR src.process.cmdline containsCIS " 'Rendszergazda' " OR src.process.cmdline containsCIS " 'Администратор' " OR src.process.cmdline containsCIS " 'Administrateur' " OR src.process.cmdline containsCIS " 'Administrador' " OR src.process.cmdline containsCIS " 'Administratör' " OR src.process.cmdline containsCIS " 'Administrator' " OR src.process.cmdline containsCIS " 'guest' " OR src.process.cmdline containsCIS " 'DefaultAccount' "))) AND NOT (((src.process.cmdline containsCIS "guest" AND src.process.cmdline containsCIS "/active no"))))

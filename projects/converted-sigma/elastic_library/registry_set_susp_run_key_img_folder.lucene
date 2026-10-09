@@ -1,0 +1,11 @@
+# Title: New RUN Key Pointing to Suspicious Folder
+# ID: 02ee49e2-e294-4d0f-9278-f5b3212fc588
+# Status: experimental
+# Level: high
+# Author: Florian Roth (Nextron Systems), Markus Neis, Sander Wiebing, Swachchhanda Shrawan Poudel (Nextron Systems)
+# Date: 2018-08-25
+# Tags: attack.privilege-escalation, attack.persistence, attack.t1547.001
+# Description: Detects suspicious new RUN key element pointing to an executable in a suspicious folder
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((registry.path:*\\Software\\Microsoft\\Windows\\CurrentVersion\\Run* OR registry.path:*\\Software\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Run* OR registry.path:*\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run*)) AND (((registry.data.strings:*:\\Perflogs* OR registry.data.strings:*:\\ProgramData'* OR registry.data.strings:*:\\Windows\\Temp* OR registry.data.strings:*:\\Temp* OR registry.data.strings:*\\AppData\\Local\\Temp* OR registry.data.strings:*\\AppData\\Roaming* OR registry.data.strings:*:\\$Recycle.bin* OR registry.data.strings:*:\\Users\\Default* OR registry.data.strings:*:\\Users\\public* OR registry.data.strings:*%temp%* OR registry.data.strings:*%tmp%* OR registry.data.strings:*%Public%* OR registry.data.strings:*%AppData%*)) OR ((registry.data.strings:*:\\Users\\*) AND ((registry.data.strings:*\\Favorites* OR registry.data.strings:*\\Favourites* OR registry.data.strings:*\\Contacts* OR registry.data.strings:*\\Music* OR registry.data.strings:*\\Pictures* OR registry.data.strings:*\\Documents* OR registry.data.strings:*\\Photos*)))) AND NOT ((registry.path:*\\Microsoft\\Windows\\CurrentVersion\\RunOnce\\* AND process.executable:C:\\Windows\\SoftwareDistribution\\Download\\* AND (registry.data.strings:*rundll32.exe * AND registry.data.strings:*C:\\WINDOWS\\system32\\advpack.dll,DelNodeRunDLL32*) AND (registry.data.strings:*\\AppData\\Local\\Temp\\* OR registry.data.strings:*C:\\Windows\\Temp\\*))) AND NOT (((process.executable:*C:\\Program Files\\Spotify\\Spotify.exe OR process.executable:*C:\\Program Files (x86)\\Spotify\\Spotify.exe OR process.executable:*\\AppData\\Roaming\\Spotify\\Spotify.exe) AND registry.path:*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\\Spotify AND registry.data.strings:*Spotify.exe --autostart --minimized)))

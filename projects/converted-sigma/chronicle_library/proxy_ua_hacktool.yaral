@@ -1,0 +1,23 @@
+// Title: Hack Tool User Agent
+// ID: c42a3073-30fb-48ae-8c99-c23ada84b103
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2017-07-08
+// Tags: attack.initial-access, attack.t1190, attack.credential-access, attack.t1110
+// Description: Detects suspicious user agent strings user by hack tools in proxy logs
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule c42a3073_30fb_48ae_8c99_c23ada84b103 {
+  meta:
+    title = "Hack Tool User Agent"
+    description = "Detects suspicious user agent strings user by hack tools in proxy logs"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.c-useragent = /.*(hydra).*/ nocase or $e.c-useragent = /.* arachni/.*/ nocase or $e.c-useragent = /.* BFAC .*/ nocase or $e.c-useragent = /.* brutus .*/ nocase or $e.c-useragent = /.* cgichk .*/ nocase or $e.c-useragent = /.*core-project/1.0.*/ nocase or $e.c-useragent = /.* crimscanner/.*/ nocase or $e.c-useragent = /.*datacha0s.*/ nocase or $e.c-useragent = /.*dirbuster.*/ nocase or $e.c-useragent = /.*domino hunter.*/ nocase or $e.c-useragent = /.*dotdotpwn.*/ nocase or $e.c-useragent = /.*FHScan Core.*/ nocase or $e.c-useragent = /.*floodgate.*/ nocase or $e.c-useragent = /.*get-minimal.*/ nocase or $e.c-useragent = /.*gootkit auto-rooter scanner.*/ nocase or $e.c-useragent = /.*grendel-scan.*/ nocase or $e.c-useragent = /.* inspath .*/ nocase or $e.c-useragent = /.*internet ninja.*/ nocase or $e.c-useragent = /.*jaascois.*/ nocase or $e.c-useragent = /.* zmeu .*/ nocase or $e.c-useragent = /.*masscan.*/ nocase or $e.c-useragent = /.* metis .*/ nocase or $e.c-useragent = /.*morfeus fucking scanner.*/ nocase or $e.c-useragent = /.*n-stealth.*/ nocase or $e.c-useragent = /.*nsauditor.*/ nocase or $e.c-useragent = /.*pmafind.*/ nocase or $e.c-useragent = /.*security scan.*/ nocase or $e.c-useragent = /.*springenwerk.*/ nocase or $e.c-useragent = /.*teh forest lobster.*/ nocase or $e.c-useragent = /.*toata dragostea.*/ nocase or $e.c-useragent = /.* vega/.*/ nocase or $e.c-useragent = /.*voideye.*/ nocase or $e.c-useragent = /.*webshag.*/ nocase or $e.c-useragent = /.*webvulnscan.*/ nocase or $e.c-useragent = /.* whcc/.*/ nocase or $e.c-useragent = /.* Havij.*/ nocase or $e.c-useragent = /.*absinthe.*/ nocase or $e.c-useragent = /.*bsqlbf.*/ nocase or $e.c-useragent = /.*mysqloit.*/ nocase or $e.c-useragent = /.*pangolin.*/ nocase or $e.c-useragent = /.*sql power injector.*/ nocase or $e.c-useragent = /.*sqlmap.*/ nocase or $e.c-useragent = /.*sqlninja.*/ nocase or $e.c-useragent = /.*uil2pn.*/ nocase or $e.c-useragent = /.*ruler.*/ nocase or $e.c-useragent = /.*Mozilla/5.0 (Windows; U; Windows NT 5.1; pt-PT; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 (.NET CLR 3.5.30729).*/ nocase))
+
+  condition:
+    $e
+}

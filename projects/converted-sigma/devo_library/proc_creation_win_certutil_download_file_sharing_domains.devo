@@ -1,0 +1,11 @@
+// Title: Suspicious File Downloaded From File-Sharing Website Via Certutil.EXE
+// ID: 42a5f1e7-9603-4f6d-97ae-3f37d130d794
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-02-15
+// Tags: attack.stealth, attack.t1027, attack.command-and-control, attack.t1105
+// Description: Detects the execution of certutil with certain flags that allow the utility to download files from file-sharing websites.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+from siem.events where (((contains(CommandLine, "urlcache ") OR contains(CommandLine, "verifyctl ") OR contains(CommandLine, "URL "))) AND ((contains(CommandLine, ".githubusercontent.com") OR contains(CommandLine, "0x0.st") OR contains(CommandLine, "anonfiles.com") OR contains(CommandLine, "bashupload.com") OR contains(CommandLine, "cdn.discordapp.com") OR contains(CommandLine, "chunk.io") OR contains(CommandLine, "ddns.net") OR contains(CommandLine, "dl.dropboxusercontent.com") OR contains(CommandLine, "ghostbin.co") OR contains(CommandLine, "github.com") OR contains(CommandLine, "glitch.me") OR contains(CommandLine, "gofile.io") OR contains(CommandLine, "hastebin.com") OR contains(CommandLine, "mediafire.com") OR contains(CommandLine, "mega.nz") OR contains(CommandLine, "onrender.com") OR contains(CommandLine, "pages.dev") OR contains(CommandLine, "paste.ee") OR contains(CommandLine, "pastebin.com") OR contains(CommandLine, "pastebin.pl") OR contains(CommandLine, "pastetext.net") OR contains(CommandLine, "privatlab.com") OR contains(CommandLine, "privatlab.net") OR contains(CommandLine, "send.exploit.in") OR contains(CommandLine, "sendspace.com") OR contains(CommandLine, "storage.googleapis.com") OR contains(CommandLine, "storjshare.io") OR contains(CommandLine, "supabase.co") OR contains(CommandLine, "temp.sh") OR contains(CommandLine, "transfer.sh") OR contains(CommandLine, "trycloudflare.com") OR contains(CommandLine, "ufile.io") OR contains(CommandLine, "w3spaces.com") OR contains(CommandLine, "workers.dev") OR contains(CommandLine, "x0.at"))) AND ((Image="*\\certutil.exe") OR (OriginalFileName == "CertUtil.exe")))

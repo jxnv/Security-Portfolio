@@ -1,0 +1,11 @@
+# Title: Potential Initial Access via DLL Search Order Hijacking
+# ID: dbbd9f66-2ed3-4ca2-98a4-6ea985dd1a1c
+# Status: test
+# Level: medium
+# Author: Tim Rauch (rule), Elastic (idea)
+# Date: 2022-10-21
+# Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.stealth, attack.t1566, attack.t1566.001, attack.initial-access, attack.t1574, attack.t1574.001
+# Description: Detects attempts to create a DLL file to a known desktop application dependencies folder such as Slack, Teams or OneDrive and by an unusual process. This may indicate an attempt to load a malicious module via DLL search order hijacking.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog (((process_path="*\\winword.exe" OR process_path="*\\excel.exe" OR process_path="*\\powerpnt.exe" OR process_path="*\\MSACCESS.EXE" OR process_path="*\\MSPUB.EXE" OR process_path="*\\fltldr.exe" OR process_path="*\\cmd.exe" OR process_path="*\\certutil.exe" OR process_path="*\\mshta.exe" OR process_path="*\\cscript.exe" OR process_path="*\\wscript.exe" OR process_path="*\\curl.exe" OR process_path="*\\powershell.exe" OR process_path="*\\pwsh.exe") AND file_name="*.dll" AND (file_name="*\\Users\\*" AND file_name="*\\AppData\\*") AND (file_name="*\\Microsoft\\OneDrive\\*" OR file_name="*\\Microsoft OneDrive\\*" OR file_name="*\\Microsoft\\Teams\\*" OR file_name="*\\Local\\slack\\app-*" OR file_name="*\\Local\\Programs\\Microsoft VS Code\\*")) AND NOT ((process_path="*\\cmd.exe" AND (file_name="*\\Users\\*" AND file_name="*\\AppData\\*" AND file_name="*\\Microsoft\\OneDrive\\*" AND file_name="*\\api-ms-win-core-*"))))

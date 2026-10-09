@@ -1,0 +1,23 @@
+// Title: DNS Exfiltration and Tunneling Tools Execution
+// ID: 98a96a5a-64a0-4c42-92c5-489da3866cb0
+// Status: test
+// Level: high
+// Author: Daniil Yugoslavskiy, oscd.community
+// Date: 2019-10-24
+// Tags: attack.exfiltration, attack.t1048.001, attack.command-and-control, attack.t1071.004, attack.t1132.001
+// Description: Well-known DNS Exfiltration tools execution
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 98a96a5a_64a0_4c42_92c5_489da3866cb0 {
+  meta:
+    title = "DNS Exfiltration and Tunneling Tools Execution"
+    description = "Well-known DNS Exfiltration tools execution"
+    author = "Daniil Yugoslavskiy, oscd.community"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.file.full_path = /.*\\iodine.exe$/ nocase) or ($e.target.process.file.full_path = /.*\\dnscat2.*/ nocase))
+
+  condition:
+    $e
+}

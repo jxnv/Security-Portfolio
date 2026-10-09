@@ -1,0 +1,11 @@
+// Title: Potential PowerShell Obfuscation Via Reversed Commands
+// ID: b6b49cd1-34d6-4ead-b1bf-176e9edba9a4
+// Status: test
+// Level: high
+// Author: Teymur Kheirkhabarov (idea), Vasiliy Burov (rule), oscd.community, Tim Shelton
+// Date: 2020-10-11
+// Tags: attack.stealth, attack.t1027, attack.execution, attack.t1059.001
+// Description: Detects the presence of reversed PowerShell commands in the CommandLine. This is often used as a method of obfuscation by attackers
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter ((((action_process_image_command_line contains "hctac" or action_process_image_command_line contains "kaerb" or action_process_image_command_line contains "dnammoc" or action_process_image_command_line contains "ekovn" or action_process_image_command_line contains "eliFd" or action_process_image_command_line contains "rahc" or action_process_image_command_line contains "etirw" or action_process_image_command_line contains "golon" or action_process_image_command_line contains "tninon" or action_process_image_command_line contains "eddih" or action_process_image_command_line contains "tpircS" or action_process_image_command_line contains "ssecorp" or action_process_image_command_line contains "llehsrewop" or action_process_image_command_line contains "esnopser" or action_process_image_command_line contains "daolnwod" or action_process_image_command_line contains "tneilCbeW" or action_process_image_command_line contains "tneilc" or action_process_image_command_line contains "ptth" or action_process_image_command_line contains "elifotevas" or action_process_image_command_line contains "46esab" or action_process_image_command_line contains "htaPpmeTteG" or action_process_image_command_line contains "tcejbO" or action_process_image_command_line contains "maerts" or action_process_image_command_line contains "hcaerof" or action_process_image_command_line contains "retupmoc")) and (((action_process_image_path endswith "\\powershell.exe" or action_process_image_path endswith "\\pwsh.exe")) or ((action_process_image_name = "PowerShell.EXE" or action_process_image_name = "pwsh.dll")))) and not (((action_process_image_command_line contains " -EncodedCommand " or action_process_image_command_line contains " -enc "))))

@@ -1,0 +1,23 @@
+// Title: Powershell Sensitive File Discovery
+// ID: 7d416556-6502-45b2-9bad-9d2f05f38997
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-09-16
+// Tags: attack.discovery, attack.t1083
+// Description: Detect adversaries enumerate sensitive files
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 7d416556_6502_45b2_9bad_9d2f05f38997 {
+  meta:
+    title = "Powershell Sensitive File Discovery"
+    description = "Detect adversaries enumerate sensitive files"
+    author = "frack113"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.ScriptBlockText = /.*ls.*/ nocase or $e.ScriptBlockText = /.*get-childitem.*/ nocase or $e.ScriptBlockText = /.*gci.*/ nocase)) and (($e.ScriptBlockText = /.*.pass.*/ nocase or $e.ScriptBlockText = /.*.kdbx.*/ nocase or $e.ScriptBlockText = /.*.kdb.*/ nocase)) and ($e.ScriptBlockText = /.*-recurse.*/ nocase))
+
+  condition:
+    $e
+}

@@ -1,0 +1,23 @@
+// Title: PUA - AdvancedRun Execution
+// ID: d2b749ee-4225-417e-b20e-a8d2193cbb84
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-01-20
+// Tags: attack.execution, attack.privilege-escalation, attack.stealth, attack.t1564.003, attack.t1134.002, attack.t1059.003
+// Description: Detects the execution of AdvancedRun utility
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule d2b749ee_4225_417e_b20e_a8d2193cbb84 {
+  meta:
+    title = "PUA - AdvancedRun Execution"
+    description = "Detects the execution of AdvancedRun utility"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.process.file.name = "AdvancedRun.exe") or (($e.target.process.command_line = /.* /EXEFilename .*/ nocase and $e.target.process.command_line = /.* /Run.*/ nocase)) or (($e.target.process.command_line = /.* /WindowState 0.*/ nocase and $e.target.process.command_line = /.* /RunAs .*/ nocase and $e.target.process.command_line = /.* /CommandLine .*/ nocase)))
+
+  condition:
+    $e
+}

@@ -1,0 +1,12 @@
+// Title: Suspicious Copy From or To System Directory
+// ID: fff9d2b7-e11c-4a69-93d3-40ef66189767
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems), Markus Neis, Tim Shelton (HAWK.IO), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2020-07-03
+// Tags: attack.stealth, attack.t1036.003
+// Description: Detects a suspicious copy operation that tries to copy a program from system (System32, SysWOW64, WinSxS) directories to another on disk.
+// Often used to move LOLBINs such as 'certutil' or 'desktopimgdownldr' to a different location with a different name in order to bypass detections based on locations.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where (((process.executable endswith "\\cmd.exe" and process.command_line like "*_copy *") or (((process.executable endswith "\\robocopy.exe" or process.executable endswith "\\xcopy.exe")) or ((process.pe.original_file_name == "robocopy.exe" or process.pe.original_file_name == "XCOPY.EXE"))) or ((process.executable endswith "\\powershell.exe" or process.executable endswith "\\pwsh.exe") and (process.command_line like "*_copy-item*" or process.command_line like "*_ copy *" or process.command_line like "*_cpi *" or process.command_line like "*_ cp *"))) and (process.command_line regex "\\s['\"]?C:\\\\Windows\\\\(?:System32|SysWOW64|WinSxS)") and not ((process.executable endswith "\\cmd.exe" and (process.command_line like "*_/c copy*" and process.command_line like "*_\\Temp\\*" and process.command_line like "*_\\avira_system_speedup.exe*") and (process.command_line like "*_C:\\Program Files\\Avira\\*" or process.command_line like "*_C:\\Program Files (x86)\\Avira\\*"))))

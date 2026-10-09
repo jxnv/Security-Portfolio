@@ -1,0 +1,11 @@
+// Title: Renamed PingCastle Binary Execution
+// ID: 2433a154-bb3d-42e4-86c3-a26bdac91c45
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems), X__Junior (Nextron Systems)
+// Date: 2024-01-11
+// Tags: attack.execution, attack.stealth, attack.t1059, attack.t1202
+// Description: Detects the execution of a renamed "PingCastle" binary based on the PE metadata fields.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where ((((process.pe.original_file_name = "PingCastleReporting.exe" OR process.pe.original_file_name = "PingCastleCloud.exe" OR process.pe.original_file_name = "PingCastle.exe")) OR ((process.command_line like "%--scanner aclcheck%" OR process.command_line like "%--scanner antivirus%" OR process.command_line like "%--scanner computerversion%" OR process.command_line like "%--scanner foreignusers%" OR process.command_line like "%--scanner laps_bitlocker%" OR process.command_line like "%--scanner localadmin%" OR process.command_line like "%--scanner nullsession%" OR process.command_line like "%--scanner nullsession-trust%" OR process.command_line like "%--scanner oxidbindings%" OR process.command_line like "%--scanner remote%" OR process.command_line like "%--scanner share%" OR process.command_line like "%--scanner smb%" OR process.command_line like "%--scanner smb3querynetwork%" OR process.command_line like "%--scanner spooler%" OR process.command_line like "%--scanner startup%" OR process.command_line like "%--scanner zerologon%")) OR (process.command_line like "%--no-enum-limit%") OR ((process.command_line like "%--healthcheck%" AND process.command_line like "%--level Full%")) OR ((process.command_line like "%--healthcheck%" AND process.command_line like "%--server %"))) AND NOT (((process.executable="*\\PingCastleReporting.exe" OR process.executable="*\\PingCastleCloud.exe" OR process.executable="*\\PingCastle.exe"))))

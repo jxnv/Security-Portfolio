@@ -1,0 +1,11 @@
+// Title: Suspicious Electron Application Child Processes
+// ID: f26eb764-fd89-464b-85e2-dc4a8e6e77b8
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-10-21
+// Tags: attack.execution
+// Description: Detects suspicious child processes of electron apps (teams, discord, slack, etc.). This could be a potential sign of ".asar" file tampering (See reference section for more information) or binary execution proxy through specific CLI arguments (see related rule)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((ParentBaseFileName = /.*\\chrome.exe/i or ParentBaseFileName = /.*\\discord.exe/i or ParentBaseFileName = /.*\\GitHubDesktop.exe/i or ParentBaseFileName = /.*\\keybase.exe/i or ParentBaseFileName = /.*\\msedge.exe/i or ParentBaseFileName = /.*\\msedgewebview2.exe/i or ParentBaseFileName = /.*\\msteams.exe/i or ParentBaseFileName = /.*\\slack.exe/i or ParentBaseFileName = /.*\\teams.exe/i)) and (((ImageFileName = /.*\\cmd.exe/i or ImageFileName = /.*\\cscript.exe/i or ImageFileName = /.*\\mshta.exe/i or ImageFileName = /.*\\powershell.exe/i or ImageFileName = /.*\\pwsh.exe/i or ImageFileName = /.*\\regsvr32.exe/i or ImageFileName = /.*\\whoami.exe/i or ImageFileName = /.*\\wscript.exe/i)) or ((ImageFileName = /*:\\ProgramData\\*/i or ImageFileName = /*:\\Temp\\*/i or ImageFileName = /*\\AppData\\Local\\Temp\\*/i or ImageFileName = /*\\Users\\Public\\*/i or ImageFileName = /*\\Windows\\Temp\\*/i))) and not((ParentBaseFileName = /.*\\Discord.exe/i and ImageFileName = /.*\\cmd.exe/i and CommandLine = /*\\NVSMI\\nvidia-smi.exe*/i)))

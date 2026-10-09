@@ -1,0 +1,12 @@
+// Title: Msiexec Quiet Installation
+// ID: 79a87aa6-e4bd-42fc-a5bb-5e6fbdcd62f5
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-01-16
+// Tags: attack.stealth, attack.t1218.007
+// Description: Adversaries may abuse msiexec.exe to proxy execution of malicious payloads.
+// Msiexec.exe is the command-line utility for the Windows Installer and is thus commonly associated with executing installation packages (.msi)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((CommandLine = /*-i*/i or CommandLine = /*/i*/i or CommandLine = /*-package*/i or CommandLine = /*/package*/i or CommandLine = /*-a*/i or CommandLine = /*/a*/i or CommandLine = /*-j*/i or CommandLine = /*/j*/i)) and ((ImageFileName = /.*\\msiexec.exe/i) or (OriginalFilename = "msiexec.exe")) and ((CommandLine = /*-q*/i or CommandLine = /*/q*/i))) and not(((ParentBaseFileName = "C:\\Windows\\CCM\\Ccm32BitLauncher.exe" and (IntegrityLevel = "System" or IntegrityLevel = "S-1-16-16384")) or (ParentBaseFileName = /C:\\Windows\\Temp\\.*/i))) and not(((ParentBaseFileName = /C:\\Users\\.*/i and ParentBaseFileName = /*\\AppData\\Local\\Temp\\*/i) or (ParentBaseFileName = /.*C:\\Windows\\System32\\wsl.exe/i and ImageFileName = /.*C:\\Windows\\System32\\msiexec.exe/i))))

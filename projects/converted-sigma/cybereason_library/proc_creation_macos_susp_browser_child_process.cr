@@ -1,0 +1,11 @@
+// Title: Suspicious Browser Child Process - MacOS
+// ID: 0250638a-2b28-4541-86fc-ea4c558fa0c6
+// Status: test
+// Level: medium
+// Author: Sohan G (D4rkCiph3r)
+// Date: 2023-04-05
+// Tags: attack.initial-access, attack.execution, attack.t1189, attack.t1203, attack.t1059
+// Description: Detects suspicious child processes spawned from browsers. This could be a result of a potential web browser exploitation.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((ParentImage contains "com.apple.WebKit.WebContent" OR ParentImage contains "firefox" OR ParentImage contains "Google Chrome Helper" OR ParentImage contains "Google Chrome" OR ParentImage contains "Microsoft Edge" OR ParentImage contains "Opera" OR ParentImage contains "Safari" OR ParentImage contains "Tor Browser") AND (Image="*/bash" OR Image="*/curl" OR Image="*/dash" OR Image="*/ksh" OR Image="*/osascript" OR Image="*/perl" OR Image="*/php" OR Image="*/pwsh" OR Image="*/python" OR Image="*/sh" OR Image="*/tcsh" OR Image="*/wget" OR Image="*/zsh")) AND NOT ((((ParentImage contains "Google Chrome Helper" OR ParentImage contains "Google Chrome") AND (CommandLine contains "/Volumes/Google Chrome/Google Chrome.app/Contents/Frameworks/*/Resources/install.sh" OR CommandLine contains "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/*/Resources/keystone_promote_preflight.sh" OR CommandLine contains "/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/*/Resources/keystone_promote_postflight.sh")) OR ((ParentImage contains "Google Chrome Helper" OR ParentImage contains "Google Chrome") AND (CommandLine contains "/Users/" AND CommandLine contains "/Library/Application Support/Google/Chrome/recovery/" AND CommandLine contains "/ChromeRecovery")) OR (CommandLine contains "--defaults-torrc") OR (CommandLine contains "/Library/Application Support/Microsoft/MAU*/Microsoft AutoUpdate.app/Contents/MacOS/msupdate") OR (ParentImage contains "Microsoft Edge" AND (CommandLine contains "IOPlatformExpertDevice" OR CommandLine contains "hw.model")))) AND NOT (((CommandLine == "") OR (NOT CommandLine=*))))

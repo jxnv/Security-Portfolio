@@ -1,0 +1,23 @@
+// Title: Restore Public AWS RDS Instance
+// ID: c3f265c7-ff03-4056-8ab2-d486227b4599
+// Status: test
+// Level: high
+// Author: faloker
+// Date: 2020-02-12
+// Tags: attack.exfiltration, attack.t1020
+// Description: Detects the recovery of a new public database instance from a snapshot. It may be a part of data exfiltration.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule c3f265c7_ff03_4056_8ab2_d486227b4599 {
+  meta:
+    title = "Restore Public AWS RDS Instance"
+    description = "Detects the recovery of a new public database instance from a snapshot. It may be a part of data exfiltration."
+    author = "faloker"
+    severity = "HIGH"
+
+  events:
+    ($e.eventSource = "rds.amazonaws.com" and $e.responseElements.publiclyAccessible = "true" and $e.eventName = "RestoreDBInstanceFromDBSnapshot")
+
+  condition:
+    $e
+}

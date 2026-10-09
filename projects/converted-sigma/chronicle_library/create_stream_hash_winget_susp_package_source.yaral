@@ -1,0 +1,23 @@
+// Title: Potential Suspicious Winget Package Installation
+// ID: a3f5c081-e75b-43a0-9f5b-51f26fe5dba2
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-04-18
+// Tags: attack.persistence, attack.stealth
+// Description: Detects potential suspicious winget package installation from a suspicious source.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule a3f5c081_e75b_43a0_9f5b_51f26fe5dba2 {
+  meta:
+    title = "Potential Suspicious Winget Package Installation"
+    description = "Detects potential suspicious winget package installation from a suspicious source."
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ($e.Contents = /^[ZoneTransfer]  ZoneId=3.*/ nocase and ($e.Contents = /.*://1.*/ nocase or $e.Contents = /.*://2.*/ nocase or $e.Contents = /.*://3.*/ nocase or $e.Contents = /.*://4.*/ nocase or $e.Contents = /.*://5.*/ nocase or $e.Contents = /.*://6.*/ nocase or $e.Contents = /.*://7.*/ nocase or $e.Contents = /.*://8.*/ nocase or $e.Contents = /.*://9.*/ nocase) and $e.target.file.full_path = /.*:Zone.Identifier$/ nocase and $e.target.file.full_path = /.*\\AppData\\Local\\Temp\\WinGet\\.*/ nocase)
+
+  condition:
+    $e
+}

@@ -1,0 +1,23 @@
+// Title: Suspicious PowerShell Invocations - Specific - ProcessCreation
+// ID: 536e2947-3729-478c-9903-745aaffe60d2
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-01-05
+// Tags: attack.stealth
+// Description: Detects suspicious PowerShell invocation command parameters
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 536e2947_3729_478c_9903_745aaffe60d2 {
+  meta:
+    title = "Suspicious PowerShell Invocations - Specific - ProcessCreation"
+    description = "Detects suspicious PowerShell invocation command parameters"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (((($e.target.process.command_line = /.*-nop.*/ nocase and $e.target.process.command_line = /.* -w .*/ nocase and $e.target.process.command_line = /.*hidden.*/ nocase and $e.target.process.command_line = /.* -c .*/ nocase and $e.target.process.command_line = /.*[Convert]::FromBase64String.*/ nocase)) or (($e.target.process.command_line = /.* -w .*/ nocase and $e.target.process.command_line = /.*hidden.*/ nocase and $e.target.process.command_line = /.*-ep.*/ nocase and $e.target.process.command_line = /.*bypass.*/ nocase and $e.target.process.command_line = /.*-Enc.*/ nocase)) or (($e.target.process.command_line = /.* -w .*/ nocase and $e.target.process.command_line = /.*hidden.*/ nocase and $e.target.process.command_line = /.*-noni.*/ nocase and $e.target.process.command_line = /.*-nop.*/ nocase and $e.target.process.command_line = /.* -c .*/ nocase and $e.target.process.command_line = /.*iex.*/ nocase and $e.target.process.command_line = /.*New-Object.*/ nocase)) or (($e.target.process.command_line = /.*iex.*/ nocase and $e.target.process.command_line = /.*New-Object.*/ nocase and $e.target.process.command_line = /.*Net.WebClient.*/ nocase and $e.target.process.command_line = /.*.Download.*/ nocase)) or (($e.target.process.command_line = /.*powershell.*/ nocase and $e.target.process.command_line = /.*reg.*/ nocase and $e.target.process.command_line = /.*add.*/ nocase and $e.target.process.command_line = /.*\\software\\.*/ nocase)) or (($e.target.process.command_line = /.*bypass.*/ nocase and $e.target.process.command_line = /.*-noprofile.*/ nocase and $e.target.process.command_line = /.*-windowstyle.*/ nocase and $e.target.process.command_line = /.*hidden.*/ nocase and $e.target.process.command_line = /.*new-object.*/ nocase and $e.target.process.command_line = /.*system.net.webclient.*/ nocase and $e.target.process.command_line = /.*.download.*/ nocase))) and not((($e.target.process.command_line = /.*(New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1.*/ nocase or $e.target.process.command_line = /.*Write-ChocolateyWarning.*/ nocase))))
+
+  condition:
+    $e
+}

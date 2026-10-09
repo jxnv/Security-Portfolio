@@ -1,0 +1,24 @@
+// Title: Potentially Suspicious Command Executed Via Run Dialog Box - Registry
+// ID: a7df0e9e-91a5-459a-a003-4cde67c2ff5d
+// Status: test
+// Level: high
+// Author: Ahmed Farouk, Nasreddine Bencherchali
+// Date: 2024-11-01
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects execution of commands via the run dialog box on Windows by checking values of the "RunMRU" registry key.
+// This technique was seen being abused by threat actors to deceive users into pasting and executing malicious commands, often disguised as CAPTCHA verification steps.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule a7df0e9e_91a5_459a_a003_4cde67c2ff5d {
+  meta:
+    title = "Potentially Suspicious Command Executed Via Run Dialog Box - Registry"
+    description = "Detects execution of commands via the run dialog box on Windows by checking values of the "RunMRU" registry key. This technique was seen being abused by threat actors to deceive users into pasting and executing malicious commands, often disguised as CAPTCHA verification steps."
+    author = "Ahmed Farouk, Nasreddine Bencherchali"
+    severity = "HIGH"
+
+  events:
+    (($e.TargetObject = /.*\\Microsoft\\Windows\\CurrentVersion\\Explorer\\RunMRU.*/ nocase) and (((($e.Details = /.*powershell.*/ nocase or $e.Details = /.*pwsh.*/ nocase)) and (($e.Details = /.* -e .*/ nocase or $e.Details = /.* -ec .*/ nocase or $e.Details = /.* -en .*/ nocase or $e.Details = /.* -enc .*/ nocase or $e.Details = /.* -enco.*/ nocase or $e.Details = /.*ftp.*/ nocase or $e.Details = /.*Hidden.*/ nocase or $e.Details = /.*http.*/ nocase or $e.Details = /.*iex.*/ nocase or $e.Details = /.*Invoke-.*/ nocase))) or (($e.Details = /.*wmic.*/ nocase) and (($e.Details = /.*shadowcopy.*/ nocase or $e.Details = /.*process call create.*/ nocase)))))
+
+  condition:
+    $e
+}

@@ -1,0 +1,11 @@
+// Title: Rundll32 Execution Without CommandLine Parameters
+// ID: 1775e15e-b61b-4d14-a1a3-80981298085a
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2021-05-27
+// Tags: attack.stealth, attack.t1202
+// Description: Detects suspicious start of rundll32.exe without any parameters as found in CobaltStrike beacon activity
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE (((process.command_line LIKE "%\\rundll32.exe" OR process.command_line LIKE "%\\rundll32.exe\"" OR process.command_line LIKE "%\\rundll32")) AND NOT (((process.parent.executable LIKE "%\\AppData\\Local\\%" OR process.parent.executable LIKE "%\\Microsoft\\Edge\\%"))))

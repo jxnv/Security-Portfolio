@@ -1,0 +1,26 @@
+// Title: Unsigned .node File Loaded
+// ID: e5f5c693-52d7-4de5-88ae-afbfbce85595
+// Status: experimental
+// Level: medium
+// Author: Jonathan Beierle (@hullabrian)
+// Date: 2025-11-22
+// Tags: attack.execution, attack.privilege-escalation, attack.persistence, attack.stealth, attack.t1129, attack.t1574.001, attack.t1036.005
+// Description: Detects the loading of unsigned .node files.
+// Adversaries may abuse a lack of .node integrity checking to execute arbitrary code inside of trusted applications such as Slack.
+// .node files are native add-ons for Electron-based applications, which are commonly used for desktop applications like Slack, Discord, and Visual Studio Code.
+// This technique has been observed in the DripLoader malware, which uses unsigned .node files to load malicious native code into Electron applications.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule e5f5c693_52d7_4de5_88ae_afbfbce85595 {
+  meta:
+    title = "Unsigned .node File Loaded"
+    description = "Detects the loading of unsigned .node files. Adversaries may abuse a lack of .node integrity checking to execute arbitrary code inside of trusted applications such as Slack. .node files are native add-ons for Electron-based applications, which are commonly used for desktop applications like Slack, Discord, and Visual Studio Code. This technique has been observed in the DripLoader malware, which uses unsigned .node files to load malicious native code into Electron applications."
+    author = "Jonathan Beierle (@hullabrian)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.ImageLoaded = /.*.node$/ nocase) and (($e.Signed = "false") or ($e.SignatureStatus = "Unavailable"))) and not(((($e.target.process.file.full_path = /.*C:\\Program Files (x86)\\.*/ nocase or $e.target.process.file.full_path = /.*C:\\Program Files\\.*/ nocase or $e.target.process.file.full_path = /.*\\AppData\\Local\\Programs\\.*/ nocase) and $e.target.process.file.full_path = /.*\\Evernote\\Evernote.exe$/ nocase and $e.ImageLoaded = /.*\\Evernote\\resources\\app.*/ nocase) or ($e.target.process.file.full_path = /.*\\Microsoft VS Code\\Code.exe.*/ nocase and $e.ImageLoaded = /.*\\Microsoft VS Code\\resources\\app\\node_modules.*/ nocase) or ($e.target.process.file.full_path = /.*\\Code.exe$/ nocase and $e.ImageLoaded = /.*.vscode\\extensions\\ms-toolsai.jupyter-.*/ nocase and ($e.ImageLoaded = /.*\\electron.napi.node$/ nocase or $e.ImageLoaded = /.*\\node.napi.glibc.node$/ nocase)))))
+
+  condition:
+    $e
+}

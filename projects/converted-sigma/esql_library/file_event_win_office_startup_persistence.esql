@@ -1,0 +1,11 @@
+// Title: Potential Persistence Via Microsoft Office Startup Folder
+// ID: 0e20c89d-2264-44ae-8238-aeeaba609ece
+// Status: test
+// Level: high
+// Author: Max Altgelt (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-06-02
+// Tags: attack.persistence, attack.t1137
+// Description: Detects creation of Microsoft Office files inside of one of the default startup folders in order to achieve persistence.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE (((((file.path LIKE "%.doc" OR file.path LIKE "%.docm" OR file.path LIKE "%.docx" OR file.path LIKE "%.dot" OR file.path LIKE "%.dotm" OR file.path LIKE "%.rtf")) AND ((file.path LIKE "%\\Microsoft\\Word\\STARTUP%") OR ((file.path LIKE "%\\Office%" AND file.path LIKE "%\\Program Files%" AND file.path LIKE "%\\STARTUP%")))) OR (((file.path LIKE "%.xls" OR file.path LIKE "%.xlsm" OR file.path LIKE "%.xlsx" OR file.path LIKE "%.xlt" OR file.path LIKE "%.xltm")) AND ((file.path LIKE "%\\Microsoft\\Excel\\XLSTART%") OR ((file.path LIKE "%\\Office%" AND file.path LIKE "%\\Program Files%" AND file.path LIKE "%\\XLSTART%"))))) AND NOT (((process.executable LIKE "%\\WINWORD.exe" OR process.executable LIKE "%\\EXCEL.exe"))))

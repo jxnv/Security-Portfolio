@@ -1,0 +1,11 @@
+// Title: Console CodePage Lookup Via CHCP
+// ID: 7090adee-82e2-4269-bd59-80691e7c6338
+// Status: test
+// Level: medium
+// Author: _pete_0, TheDFIRReport
+// Date: 2022-02-21
+// Tags: attack.discovery, attack.t1614.001
+// Description: Detects use of chcp to look up the system locale value as part of host discovery
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(src.process.parent.image.path endswithCIS "\\cmd.exe" AND (src.process.parent.cmdline containsCIS " -c " OR src.process.parent.cmdline containsCIS " -r " OR src.process.parent.cmdline containsCIS " -k ") AND src.process.image.path endswithCIS "\\chcp.com" AND (src.process.cmdline endswithCIS "chcp" OR src.process.cmdline endswithCIS "chcp " OR src.process.cmdline endswithCIS "chcp  "))

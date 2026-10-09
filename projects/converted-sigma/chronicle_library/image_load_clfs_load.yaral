@@ -1,0 +1,23 @@
+// Title: Clfs.SYS Loaded By Process Located In a Potential Suspicious Location
+// ID: fb4e2211-6d08-426b-8e6f-0d4a161e3b1d
+// Status: experimental
+// Level: medium
+// Author: X__Junior
+// Date: 2025-01-20
+// Tags: attack.execution, attack.t1059
+// Description: Detects Clfs.sys being loaded by a process running from a potentially suspicious location. Clfs.sys is loaded as part of many CVEs exploits that targets Common Log File.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule fb4e2211_6d08_426b_8e6f_0d4a161e3b1d {
+  meta:
+    title = "Clfs.SYS Loaded By Process Located In a Potential Suspicious Location"
+    description = "Detects Clfs.sys being loaded by a process running from a potentially suspicious location. Clfs.sys is loaded as part of many CVEs exploits that targets Common Log File."
+    author = "X__Junior"
+    severity = "MEDIUM"
+
+  events:
+    (($e.ImageLoaded = /.*\\clfs.sys$/ nocase) and ((($e.target.process.file.full_path = /.*:\\Perflogs\\.*/ nocase or $e.target.process.file.full_path = /.*:\\Users\\Public\\.*/ nocase or $e.target.process.file.full_path = /.*\\Temporary Internet.*/ nocase or $e.target.process.file.full_path = /.*\\Windows\\Temp\\.*/ nocase)) or ((($e.target.process.file.full_path = /.*:\\Users\\.*/ nocase and $e.target.process.file.full_path = /.*\\Favorites\\.*/ nocase)) or (($e.target.process.file.full_path = /.*:\\Users\\.*/ nocase and $e.target.process.file.full_path = /.*\\Favourites\\.*/ nocase)) or (($e.target.process.file.full_path = /.*:\\Users\\.*/ nocase and $e.target.process.file.full_path = /.*\\Contacts\\.*/ nocase)) or (($e.target.process.file.full_path = /.*:\\Users\\.*/ nocase and $e.target.process.file.full_path = /.*\\Pictures\\.*/ nocase)))))
+
+  condition:
+    $e
+}

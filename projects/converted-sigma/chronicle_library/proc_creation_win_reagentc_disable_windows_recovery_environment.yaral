@@ -1,0 +1,25 @@
+// Title: Windows Recovery Environment Disabled Via Reagentc
+// ID: db1c21e4-cd66-4b4e-85ca-590f0780529c
+// Status: experimental
+// Level: medium
+// Author: Daniel Koifman (KoifSec), Michael Vilshin
+// Date: 2025-07-31
+// Tags: attack.impact, attack.t1490
+// Description: Detects attempts to disable windows recovery environment using Reagentc.
+// ReAgentc.exe is a command-line tool in Windows used to manage the Windows Recovery Environment (WinRE).
+// It allows users to enable, disable, and configure WinRE, which is used for troubleshooting and repairing common boot issues.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule db1c21e4_cd66_4b4e_85ca_590f0780529c {
+  meta:
+    title = "Windows Recovery Environment Disabled Via Reagentc"
+    description = "Detects attempts to disable windows recovery environment using Reagentc. ReAgentc.exe is a command-line tool in Windows used to manage the Windows Recovery Environment (WinRE). It allows users to enable, disable, and configure WinRE, which is used for troubleshooting and repairing common boot issues."
+    author = "Daniel Koifman (KoifSec), Michael Vilshin"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.command_line = /.*/disable.*/ nocase or $e.target.process.command_line = /.*-disable.*/ nocase)) and (($e.target.process.file.full_path = /.*\\reagentc.exe$/ nocase) or ($e.target.process.file.name = "reagentc.exe")))
+
+  condition:
+    $e
+}

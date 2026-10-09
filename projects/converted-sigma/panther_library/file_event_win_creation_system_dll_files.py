@@ -1,0 +1,20 @@
+# Title: Files With System DLL Name In Unsuspected Locations
+# ID: 13c02350-4177-4e45-ac17-cf7ca628ff5e
+# Status: test
+# Level: medium
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2024-06-24
+# Tags: attack.stealth, attack.t1036.005
+# Description: Detects the creation of a file with the ".dll" extension that has the name of a System DLL in uncommon or unsuspected locations. (Outisde of "System32", "SysWOW64", etc.).
+# It is highly recommended to perform an initial baseline before using this rule in production.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Files With System DLL Name In Unsuspected Locations
+def rule(event):
+    # Detection Logic:
+    # (((TargetFilename="*\\secur32.dll" OR TargetFilename="*\\tdh.dll")) AND NOT (((TargetFilename="*C:\\$WINDOWS.~BT\\*" OR TargetFilename="*C:\\$WinREAgent\\*" OR TargetFilename="*C:\\Windows\\SoftwareDistribution\\*" OR TargetFilename="*C:\\Windows\\System32\\*" OR TargetFilename="*C:\\Windows\\SysWOW64\\*" OR TargetFilename="*C:\\Windows\\WinSxS\\*" OR TargetFilename="*C:\\Windows\\uus\\*"))))
+    return True
+
+def title(event):
+    return "Files With System DLL Name In Unsuspected Locations"
+

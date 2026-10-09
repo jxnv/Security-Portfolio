@@ -1,0 +1,23 @@
+// Title: DNS Events Related To Mining Pools
+// ID: bf74135c-18e8-4a72-a926-0e4f47888c19
+// Status: test
+// Level: low
+// Author: Saw Winn Naung, Azure-Sentinel, @neu5ron
+// Date: 2021-08-19
+// Tags: attack.execution, attack.t1569.002, attack.impact, attack.t1496
+// Description: Identifies clients that may be performing DNS lookups associated with common currency mining pools.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule bf74135c_18e8_4a72_a926_0e4f47888c19 {
+  meta:
+    title = "DNS Events Related To Mining Pools"
+    description = "Identifies clients that may be performing DNS lookups associated with common currency mining pools."
+    author = "Saw Winn Naung, Azure-Sentinel, @neu5ron"
+    severity = "LOW"
+
+  events:
+    ((($e.query = /.*monerohash.com$/ nocase or $e.query = /.*do-dear.com$/ nocase or $e.query = /.*xmrminerpro.com$/ nocase or $e.query = /.*secumine.net$/ nocase or $e.query = /.*xmrpool.com$/ nocase or $e.query = /.*minexmr.org$/ nocase or $e.query = /.*hashanywhere.com$/ nocase or $e.query = /.*xmrget.com$/ nocase or $e.query = /.*mininglottery.eu$/ nocase or $e.query = /.*minergate.com$/ nocase or $e.query = /.*moriaxmr.com$/ nocase or $e.query = /.*multipooler.com$/ nocase or $e.query = /.*moneropools.com$/ nocase or $e.query = /.*xmrpool.eu$/ nocase or $e.query = /.*coolmining.club$/ nocase or $e.query = /.*supportxmr.com$/ nocase or $e.query = /.*minexmr.com$/ nocase or $e.query = /.*hashvault.pro$/ nocase or $e.query = /.*xmrpool.net$/ nocase or $e.query = /.*crypto-pool.fr$/ nocase or $e.query = /.*xmr.pt$/ nocase or $e.query = /.*miner.rocks$/ nocase or $e.query = /.*walpool.com$/ nocase or $e.query = /.*herominers.com$/ nocase or $e.query = /.*gntl.co.uk$/ nocase or $e.query = /.*semipool.com$/ nocase or $e.query = /.*coinfoundry.org$/ nocase or $e.query = /.*cryptoknight.cc$/ nocase or $e.query = /.*fairhash.org$/ nocase or $e.query = /.*baikalmine.com$/ nocase or $e.query = /.*tubepool.xyz$/ nocase or $e.query = /.*fairpool.xyz$/ nocase or $e.query = /.*asiapool.io$/ nocase or $e.query = /.*coinpoolit.webhop.me$/ nocase or $e.query = /.*nanopool.org$/ nocase or $e.query = /.*moneropool.com$/ nocase or $e.query = /.*miner.center$/ nocase or $e.query = /.*prohash.net$/ nocase or $e.query = /.*poolto.be$/ nocase or $e.query = /.*cryptoescrow.eu$/ nocase or $e.query = /.*monerominers.net$/ nocase or $e.query = /.*cryptonotepool.org$/ nocase or $e.query = /.*extrmepool.org$/ nocase or $e.query = /.*webcoin.me$/ nocase or $e.query = /.*kippo.eu$/ nocase or $e.query = /.*hashinvest.ws$/ nocase or $e.query = /.*monero.farm$/ nocase or $e.query = /.*linux-repository-updates.com$/ nocase or $e.query = /.*1gh.com$/ nocase or $e.query = /.*dwarfpool.com$/ nocase or $e.query = /.*hash-to-coins.com$/ nocase or $e.query = /.*pool-proxy.com$/ nocase or $e.query = /.*hashfor.cash$/ nocase or $e.query = /.*fairpool.cloud$/ nocase or $e.query = /.*litecoinpool.org$/ nocase or $e.query = /.*mineshaft.ml$/ nocase or $e.query = /.*abcxyz.stream$/ nocase or $e.query = /.*moneropool.ru$/ nocase or $e.query = /.*cryptonotepool.org.uk$/ nocase or $e.query = /.*extremepool.org$/ nocase or $e.query = /.*extremehash.com$/ nocase or $e.query = /.*hashinvest.net$/ nocase or $e.query = /.*unipool.pro$/ nocase or $e.query = /.*crypto-pools.org$/ nocase or $e.query = /.*monero.net$/ nocase or $e.query = /.*backup-pool.com$/ nocase or $e.query = /.*mooo.com$/ nocase or $e.query = /.*freeyy.me$/ nocase or $e.query = /.*cryptonight.net$/ nocase or $e.query = /.*shscrypto.net$/ nocase)) and not(((($e.answers = "127.0.0.1" or $e.answers = "0.0.0.0")) or ($e.rejected = "true"))))
+
+  condition:
+    $e
+}

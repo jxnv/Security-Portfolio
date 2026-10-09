@@ -1,0 +1,23 @@
+// Title: New Service Creation Using Sc.EXE
+// ID: 85ff530b-261d-48c6-a441-facaa2e81e48
+// Status: test
+// Level: low
+// Author: Timur Zinniatullin, Daniil Yugoslavskiy, oscd.community
+// Date: 2023-02-20
+// Tags: attack.persistence, attack.privilege-escalation, attack.t1543.003
+// Description: Detects the creation of a new service using the "sc.exe" utility.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 85ff530b_261d_48c6_a441_facaa2e81e48 {
+  meta:
+    title = "New Service Creation Using Sc.EXE"
+    description = "Detects the creation of a new service using the "sc.exe" utility."
+    author = "Timur Zinniatullin, Daniil Yugoslavskiy, oscd.community"
+    severity = "LOW"
+
+  events:
+    (($e.target.process.file.full_path = /.*\\sc.exe$/ nocase and ($e.target.process.command_line = /.*create.*/ nocase and $e.target.process.command_line = /.*binPath.*/ nocase)) and not((($e.principal.process.file.full_path = /^C:\\Program Files (x86)\\Dropbox\\Client\\.*/ nocase or $e.principal.process.file.full_path = /^C:\\Program Files\\Dropbox\\Client\\.*/ nocase) and $e.principal.process.file.full_path = /.*\\Dropbox.exe$/ nocase)))
+
+  condition:
+    $e
+}

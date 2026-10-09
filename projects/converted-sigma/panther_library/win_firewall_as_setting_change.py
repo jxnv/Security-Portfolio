@@ -1,0 +1,19 @@
+# Title: Windows Firewall Settings Have Been Changed
+# ID: 00bb5bd5-1379-4fcf-a965-a5b6f7478064
+# Status: test
+# Level: low
+# Author: frack113, Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-02-19
+# Tags: attack.defense-impairment, attack.t1686.003
+# Description: Detects activity when the settings of the Windows firewall have been changed
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Windows Firewall Settings Have Been Changed
+def rule(event):
+    # Detection Logic:
+    # ((EventID="2002" OR EventID="2083" OR EventID="2003" OR EventID="2082" OR EventID="2008"))
+    return True
+
+def title(event):
+    return "Windows Firewall Settings Have Been Changed"
+

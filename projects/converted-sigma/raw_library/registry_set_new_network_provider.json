@@ -1,0 +1,36 @@
+{
+  "title": "Potential Credential Dumping Attempt Using New NetworkProvider - REG",
+  "id": "0442defa-b4a2-41c9-ae2c-ea7042fc4701",
+  "status": "test",
+  "description": "Detects when an attacker tries to add a new network provider in order to dump clear text credentials, similar to how the NPPSpy tool does it",
+  "author": "Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2022-08-23",
+  "tags": [
+    "attack.credential-access",
+    "attack.t1003"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "registry_set",
+    "product": "windows"
+  },
+  "detection": {
+    "selection": {
+      "TargetObject|contains|all": [
+        "\\System\\CurrentControlSet\\Services\\",
+        "\\NetworkProvider"
+      ]
+    },
+    "filter": {
+      "TargetObject|contains": [
+        "\\System\\CurrentControlSet\\Services\\WebClient\\NetworkProvider",
+        "\\System\\CurrentControlSet\\Services\\LanmanWorkstation\\NetworkProvider",
+        "\\System\\CurrentControlSet\\Services\\RDPNP\\NetworkProvider"
+      ]
+    },
+    "filter_valid_procs": {
+      "Image": "C:\\Windows\\System32\\poqexec.exe"
+    },
+    "condition": "selection and not 1 of filter*"
+  }
+}

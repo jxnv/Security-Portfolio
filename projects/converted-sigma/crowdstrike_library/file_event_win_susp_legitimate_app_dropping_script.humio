@@ -1,0 +1,12 @@
+// Title: Legitimate Application Dropped Script
+// ID: 7d604714-e071-49ff-8726-edeb95a70679
+// Status: test
+// Level: high
+// Author: frack113, Florian Roth (Nextron Systems)
+// Date: 2022-08-21
+// Tags: attack.stealth, attack.t1218
+// Description: Detects LOLBINs and applications that should not legitimately drop script files to disk.
+// This may indicate malware staging or abuse of a trusted binary for script-based code execution.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((ImageFileName = /.*\\eqnedt32.exe/i or ImageFileName = /.*\\wordpad.exe/i or ImageFileName = /.*\\wordview.exe/i or ImageFileName = /.*\\certutil.exe/i or ImageFileName = /.*\\certoc.exe/i or ImageFileName = /.*\\CertReq.exe/i or ImageFileName = /.*\\Desktopimgdownldr.exe/i or ImageFileName = /.*\\esentutl.exe/i or ImageFileName = /.*\\mshta.exe/i or ImageFileName = /.*\\AcroRd32.exe/i or ImageFileName = /.*\\RdrCEF.exe/i or ImageFileName = /.*\\hh.exe/i or ImageFileName = /.*\\finger.exe/i) and (TargetFileName = /.*.bat/i or TargetFileName = /.*.chm/i or TargetFileName = /.*.csproj/i or TargetFileName = /.*.hta/i or TargetFileName = /.*.js/i or TargetFileName = /.*.jse/i or TargetFileName = /.*.proj/i or TargetFileName = /.*.ps1/i or TargetFileName = /.*.py/i or TargetFileName = /.*.scf/i or TargetFileName = /.*.vbe/i or TargetFileName = /.*.vbs/i or TargetFileName = /.*.wsf/i or TargetFileName = /.*.wsh/i)) and not((ImageFileName = /.*\\mshta.exe/i and TargetFileName = /.*.hta/i)))

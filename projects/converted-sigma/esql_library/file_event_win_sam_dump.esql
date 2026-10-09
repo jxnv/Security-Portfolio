@@ -1,0 +1,11 @@
+// Title: Potential SAM Database Dump
+// ID: 4e87b8e2-2ee9-4b2a-a715-4727d297ece0
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-02-11
+// Tags: attack.credential-access, attack.t1003.002
+// Description: Detects the creation of files that look like exports of the local SAM (Security Account Manager)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE (((file.path LIKE "%\\Temp\\sam" OR file.path LIKE "%\\sam.sav" OR file.path LIKE "%\\Intel\\sam" OR file.path LIKE "%\\sam.hive" OR file.path LIKE "%\\Perflogs\\sam" OR file.path LIKE "%\\ProgramData\\sam" OR file.path LIKE "%\\Users\\Public\\sam" OR file.path LIKE "%\\AppData\\Local\\sam" OR file.path LIKE "%\\AppData\\Roaming\\sam" OR file.path LIKE "%_ShadowSteal.zip" OR file.path LIKE "%\\Documents\\SAM.export" OR file.path LIKE "%:\\sam")) OR ((file.path LIKE "%\\hive_sam_%" OR file.path LIKE "%\\sam.save%" OR file.path LIKE "%\\sam.export%" OR file.path LIKE "%\\~reg_sam.save%" OR file.path LIKE "%\\sam_backup%" OR file.path LIKE "%\\sam.bck%" OR file.path LIKE "%\\sam.backup%")))

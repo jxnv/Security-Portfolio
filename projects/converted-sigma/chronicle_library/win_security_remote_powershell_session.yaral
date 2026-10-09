@@ -1,0 +1,23 @@
+// Title: Remote PowerShell Sessions Network Connections (WinRM)
+// ID: 13acf386-b8c6-4fe0-9a6e-c4756b974698
+// Status: test
+// Level: high
+// Author: Roberto Rodriguez @Cyb3rWard0g
+// Date: 2019-09-12
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects basic PowerShell Remoting (WinRM) by monitoring for network inbound connections to ports 5985 OR 5986
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 13acf386_b8c6_4fe0_9a6e_c4756b974698 {
+  meta:
+    title = "Remote PowerShell Sessions Network Connections (WinRM)"
+    description = "Detects basic PowerShell Remoting (WinRM) by monitoring for network inbound connections to ports 5985 OR 5986"
+    author = "Roberto Rodriguez @Cyb3rWard0g"
+    severity = "HIGH"
+
+  events:
+    ($e.EventID = 5156 and ($e.DestPort = 5985 or $e.DestPort = 5986) and $e.LayerRTID = 44)
+
+  condition:
+    $e
+}

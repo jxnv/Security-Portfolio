@@ -1,0 +1,11 @@
+// Title: Suspicious Access to Sensitive File Extensions
+// ID: 91c945bc-2ad1-4799-a591-4d00198a1215
+// Status: test
+// Level: medium
+// Author: Samir Bousseaden
+// Date: 2019-04-03
+// Tags: attack.collection, attack.t1039
+// Description: Detects known sensitive file extensions accessed on a network share
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE (winlog.event_id == 5145 AND (RelativeTargetName LIKE "%.bak" OR RelativeTargetName LIKE "%.dmp" OR RelativeTargetName LIKE "%.edb" OR RelativeTargetName LIKE "%.kirbi" OR RelativeTargetName LIKE "%.msg" OR RelativeTargetName LIKE "%.nsf" OR RelativeTargetName LIKE "%.nst" OR RelativeTargetName LIKE "%.oab" OR RelativeTargetName LIKE "%.ost" OR RelativeTargetName LIKE "%.pst" OR RelativeTargetName LIKE "%.rdp"))

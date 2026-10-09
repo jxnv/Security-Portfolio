@@ -1,0 +1,23 @@
+// Title: System Network Discovery - macOS
+// ID: 58800443-f9fc-4d55-ae0c-98a3966dfb97
+// Status: test
+// Level: informational
+// Author: remotephone, oscd.community
+// Date: 2020-10-06
+// Tags: attack.discovery, attack.t1016
+// Description: Detects enumeration of local network configuration
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 58800443_f9fc_4d55_ae0c_98a3966dfb97 {
+  meta:
+    title = "System Network Discovery - macOS"
+    description = "Detects enumeration of local network configuration"
+    author = "remotephone, oscd.community"
+    severity = "INFORMATIONAL"
+
+  events:
+    (((($e.target.process.file.full_path = /.*/arp$/ nocase or $e.target.process.file.full_path = /.*/ifconfig$/ nocase or $e.target.process.file.full_path = /.*/netstat$/ nocase or $e.target.process.file.full_path = /.*/networksetup$/ nocase or $e.target.process.file.full_path = /.*/socketfilterfw$/ nocase)) or ($e.target.process.file.full_path = "/usr/bin/defaults" and ($e.target.process.command_line = /.*/Library/Preferences/com.apple.alf.*/ nocase and $e.target.process.command_line = /.*read.*/ nocase))) and not(($e.principal.process.file.full_path = /.*/wifivelocityd$/ nocase)))
+
+  condition:
+    $e
+}

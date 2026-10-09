@@ -1,0 +1,12 @@
+# Title: Winrs Local Command Execution
+# ID: bcfece3d-56fe-4545-9931-3b8e92927db1
+# Status: experimental
+# Level: high
+# Author: Liran Ravich, Nasreddine Bencherchali
+# Date: 2025-10-22
+# Tags: attack.lateral-movement, attack.stealth, attack.t1021.006, attack.t1218
+# Description: Detects the execution of Winrs.exe where it is used to execute commands locally.
+# Commands executed this way are launched under Winrshost.exe and can represent proxy execution used for defense evasion or lateral movement.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((((process_name:*\\winrs.exe) OR (OriginalFileName:"winrs.exe")) AND ((cmdline:*/r:localhost* OR cmdline:*-r:localhost* OR cmdline:*/r:127.0.0.1* OR cmdline:*-r:127.0.0.1* OR cmdline:*/r:[::1]* OR cmdline:*-r:[::1]* OR cmdline:*/remote:localhost* OR cmdline:*-remote:localhost* OR cmdline:*/remote:127.0.0.1* OR cmdline:*-remote:127.0.0.1* OR cmdline:*/remote:[::1]* OR cmdline:*-remote:[::1]*))) OR (((process_name:*\\winrs.exe) OR (OriginalFileName:"winrs.exe")) AND -(((cmdline:*/r:* OR cmdline:*-r:* OR cmdline:*/remote:* OR cmdline:*-remote:*)))))

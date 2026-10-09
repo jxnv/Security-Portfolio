@@ -1,0 +1,11 @@
+// Title: Potential Mfdetours.DLL Sideloading
+// ID: d2605a99-2218-4894-8fd3-2afb7946514d
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-08-03
+// Tags: attack.persistence, attack.privilege-escalation, attack.execution, attack.stealth, attack.t1574.001
+// Description: Detects potential DLL sideloading of "mfdetours.dll". While using "mftrace.exe" it can be abused to attach to an arbitrary process and force load any DLL named "mfdetours.dll" from the current directory of execution.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((ImageLoaded ENDSWITH "\\mfdetours.dll") AND NOT ((ImageLoaded CONTAINS ":\\Program Files (x86)\\Windows Kits\\10\\bin\\")))

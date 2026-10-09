@@ -1,0 +1,23 @@
+// Title: Potential SMB Relay Attack Tool Execution
+// ID: 5589ab4f-a767-433c-961d-c91f3f704db1
+// Status: test
+// Level: critical
+// Author: Florian Roth (Nextron Systems)
+// Date: 2021-07-24
+// Tags: attack.collection, attack.execution, attack.credential-access, attack.t1557.001
+// Description: Detects different hacktools used for relay attacks on Windows for privilege escalation
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 5589ab4f_a767_433c_961d_c91f3f704db1 {
+  meta:
+    title = "Potential SMB Relay Attack Tool Execution"
+    description = "Detects different hacktools used for relay attacks on Windows for privilege escalation"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "CRITICAL"
+
+  events:
+    ((($e.target.process.command_line = /.*.exe -c \"{.*/ nocase and $e.target.process.command_line = /.*}\" -z$/ nocase) or (($e.target.process.file.full_path = /.*PetitPotam.*/ nocase or $e.target.process.file.full_path = /.*RottenPotato.*/ nocase or $e.target.process.file.full_path = /.*HotPotato.*/ nocase or $e.target.process.file.full_path = /.*JuicyPotato.*/ nocase or $e.target.process.file.full_path = /.*\\just_dce_.*/ nocase or $e.target.process.file.full_path = /.*Juicy Potato.*/ nocase or $e.target.process.file.full_path = /.*\\temp\\rot.exe.*/ nocase or $e.target.process.file.full_path = /.*\\Potato.exe.*/ nocase or $e.target.process.file.full_path = /.*\\SpoolSample.exe.*/ nocase or $e.target.process.file.full_path = /.*\\Responder.exe.*/ nocase or $e.target.process.file.full_path = /.*\\smbrelayx.*/ nocase or $e.target.process.file.full_path = /.*\\ntlmrelayx.*/ nocase or $e.target.process.file.full_path = /.*\\LocalPotato.*/ nocase)) or (($e.target.process.command_line = /.*Invoke-Tater.*/ nocase or $e.target.process.command_line = /.* smbrelay.*/ nocase or $e.target.process.command_line = /.* ntlmrelay.*/ nocase or $e.target.process.command_line = /.*cme smb .*/ nocase or $e.target.process.command_line = /.* /ntlm:NTLMhash .*/ nocase or $e.target.process.command_line = /.*Invoke-PetitPotam.*/ nocase or $e.target.process.command_line = /.*.exe -t * -p .*/ nocase))) and not((($e.target.process.file.full_path = /.*HotPotatoes6.*/ nocase or $e.target.process.file.full_path = /.*HotPotatoes7.*/ nocase or $e.target.process.file.full_path = /.*HotPotatoes .*/ nocase))))
+
+  condition:
+    $e
+}

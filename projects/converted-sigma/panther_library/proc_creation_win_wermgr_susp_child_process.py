@@ -1,0 +1,19 @@
+# Title: Suspicious Child Process Of Wermgr.EXE
+# ID: 396f6630-f3ac-44e3-bfc8-1b161bc00c4e
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems)
+# Date: 2022-10-14
+# Tags: attack.privilege-escalation, attack.stealth, attack.t1055, attack.t1036
+# Description: Detects suspicious Windows Error Reporting manager (wermgr.exe) child process
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Suspicious Child Process Of Wermgr.EXE
+def rule(event):
+    # Detection Logic:
+    # ((ParentImage="*\\wermgr.exe" AND (Image="*\\cmd.exe" OR Image="*\\cscript.exe" OR Image="*\\ipconfig.exe" OR Image="*\\mshta.exe" OR Image="*\\net.exe" OR Image="*\\net1.exe" OR Image="*\\netstat.exe" OR Image="*\\nslookup.exe" OR Image="*\\powershell_ise.exe" OR Image="*\\powershell.exe" OR Image="*\\pwsh.exe" OR Image="*\\regsvr32.exe" OR Image="*\\rundll32.exe" OR Image="*\\systeminfo.exe" OR Image="*\\whoami.exe" OR Image="*\\wscript.exe")) AND NOT ((Image="*\\rundll32.exe" AND (CommandLine="*C:\\Windows\\system32\\WerConCpl.dll*" AND CommandLine="*LaunchErcApp *") AND (CommandLine="*-queuereporting*" OR CommandLine="*-responsepester*"))))
+    return True
+
+def title(event):
+    return "Suspicious Child Process Of Wermgr.EXE"
+

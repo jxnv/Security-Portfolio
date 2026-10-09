@@ -1,0 +1,34 @@
+{
+  "title": "Suspicious File Creation Activity From Fake Recycle.Bin Folder",
+  "id": "cd8b36ac-8e4a-4c2f-a402-a29b8fbd5bca",
+  "status": "test",
+  "description": "Detects file write event from/to a fake recycle bin folder that is often used as a staging directory for malware",
+  "author": "X__Junior (Nextron Systems)",
+  "date": "2023-07-12",
+  "tags": [
+    "attack.persistence",
+    "attack.stealth"
+  ],
+  "level": "high",
+  "logsource": {
+    "category": "file_event",
+    "product": "windows"
+  },
+  "detection": {
+    "selection": [
+      {
+        "Image|contains": [
+          "RECYCLERS.BIN\\",
+          "RECYCLER.BIN\\"
+        ]
+      },
+      {
+        "TargetFilename|contains": [
+          "RECYCLERS.BIN\\",
+          "RECYCLER.BIN\\"
+        ]
+      }
+    ],
+    "condition": "selection"
+  }
+}

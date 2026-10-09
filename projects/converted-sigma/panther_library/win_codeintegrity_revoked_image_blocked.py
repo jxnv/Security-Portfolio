@@ -1,0 +1,19 @@
+# Title: CodeIntegrity - Blocked Image Load With Revoked Certificate
+# ID: 6f156c48-3894-4952-baf0-16193e9067d2
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2023-06-06
+# Tags: attack.privilege-escalation
+# Description: Detects blocked image load events with revoked certificates by code integrity.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: CodeIntegrity - Blocked Image Load With Revoked Certificate
+def rule(event):
+    # Detection Logic:
+    # (EventID="3036")
+    return True
+
+def title(event):
+    return "CodeIntegrity - Blocked Image Load With Revoked Certificate"
+

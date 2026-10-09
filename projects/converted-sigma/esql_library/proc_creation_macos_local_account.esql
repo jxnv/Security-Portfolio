@@ -1,0 +1,12 @@
+// Title: Local System Accounts Discovery - MacOs
+// ID: ddf36b67-e872-4507-ab2e-46bda21b842c
+// Status: test
+// Level: low
+// Author: Alejandro Ortuno, oscd.community
+// Date: 2020-10-08
+// Tags: attack.discovery, attack.t1087.001
+// Description: Detects enumeration of local system accounts on MacOS systems.
+// This can be used by attackers to identify accounts for lateral movement or privilege escalation.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE ((process.executable LIKE "%/dscacheutil" AND (process.command_line LIKE "%-q%" AND process.command_line LIKE "%user%")) OR (process.executable LIKE "%/dscl" AND (process.command_line LIKE "%list%" AND process.command_line LIKE "%/users%")) OR (process.executable LIKE "%/ls" AND (process.command_line LIKE "%/Users" OR process.command_line LIKE "%/Users'" OR process.command_line LIKE "%/Users\"")) OR (process.executable LIKE "%/id") OR ((process.executable LIKE "%/who" OR process.executable LIKE "%/w" OR process.executable LIKE "%/users" OR process.executable LIKE "%/last")) OR ((process.executable LIKE "%/defaults" OR process.executable LIKE "%/plutil") AND process.command_line LIKE "%com.apple.loginwindow%") OR (process.executable LIKE "%/lsof" AND process.command_line LIKE "%-u%") OR ((process.executable LIKE "%/cat" OR process.executable LIKE "%/awk" OR process.executable LIKE "%/grep") AND (process.command_line LIKE "%/etc/passwd%" OR process.command_line LIKE "%/etc/sudoers%")) OR (process.command_line LIKE "%'*:0:'%"))

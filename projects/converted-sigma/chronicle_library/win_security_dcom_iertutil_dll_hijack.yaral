@@ -1,0 +1,23 @@
+// Title: DCOM InternetExplorer.Application Iertutil DLL Hijack - Security
+// ID: c39f0c81-7348-4965-ab27-2fde35a1b641
+// Status: test
+// Level: high
+// Author: Roberto Rodriguez @Cyb3rWard0g, Open Threat Research (OTR)
+// Date: 2020-10-12
+// Tags: attack.lateral-movement, attack.t1021.002, attack.t1021.003
+// Description: Detects a threat actor creating a file named `iertutil.dll` in the `C:\Program Files\Internet Explorer\` directory over the network for a DCOM InternetExplorer DLL Hijack scenario.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule c39f0c81_7348_4965_ab27_2fde35a1b641 {
+  meta:
+    title = "DCOM InternetExplorer.Application Iertutil DLL Hijack - Security"
+    description = "Detects a threat actor creating a file named `iertutil.dll` in the `C:\Program Files\Internet Explorer\` directory over the network for a DCOM InternetExplorer DLL Hijack scenario."
+    author = "Roberto Rodriguez @Cyb3rWard0g, Open Threat Research (OTR)"
+    severity = "HIGH"
+
+  events:
+    (($e.EventID = 5145 and $e.RelativeTargetName = /.*\\Internet Explorer\\iertutil.dll$/ nocase) and not(($e.SubjectUserName = /.*$$/ nocase)))
+
+  condition:
+    $e
+}

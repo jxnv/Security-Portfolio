@@ -1,0 +1,23 @@
+// Title: Renamed Sysinternals Sdelete Execution
+// ID: c1d867fe-8d95-4487-aab4-e53f2d339f90
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-09-06
+// Tags: attack.impact, attack.t1485
+// Description: Detects the use of a renamed SysInternals Sdelete, which is something an administrator shouldn't do (the renaming)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule c1d867fe_8d95_4487_aab4_e53f2d339f90 {
+  meta:
+    title = "Renamed Sysinternals Sdelete Execution"
+    description = "Detects the use of a renamed SysInternals Sdelete, which is something an administrator shouldn't do (the renaming)"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.file.name = "sdelete.exe") and not((($e.target.process.file.full_path = /.*\\sdelete.exe$/ nocase or $e.target.process.file.full_path = /.*\\sdelete64.exe$/ nocase or $e.target.process.file.full_path = /.*\\sdelete64a.exe$/ nocase))))
+
+  condition:
+    $e
+}

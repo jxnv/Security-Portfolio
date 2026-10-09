@@ -1,0 +1,23 @@
+// Title: Suspicious File Execution From Internet Hosted WebDav Share
+// ID: f0507c0f-a3a2-40f5-acc6-7f543c334993
+// Status: test
+// Level: high
+// Author: pH-T (Nextron Systems)
+// Date: 2022-09-01
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects the execution of the "net use" command to mount a WebDAV server and then immediately execute some content in it. As seen being used in malicious LNK files
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule f0507c0f_a3a2_40f5_acc6_7f543c334993 {
+  meta:
+    title = "Suspicious File Execution From Internet Hosted WebDav Share"
+    description = "Detects the execution of the "net use" command to mount a WebDAV server and then immediately execute some content in it. As seen being used in malicious LNK files"
+    author = "pH-T (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.* net use http.*/ nocase and $e.target.process.command_line = /.*& start /b .*/ nocase and $e.target.process.command_line = /.*\\DavWWWRoot\\.*/ nocase)) and (($e.target.process.command_line = /.*.exe .*/ nocase or $e.target.process.command_line = /.*.dll .*/ nocase or $e.target.process.command_line = /.*.bat .*/ nocase or $e.target.process.command_line = /.*.vbs .*/ nocase or $e.target.process.command_line = /.*.ps1 .*/ nocase)) and (($e.target.process.file.full_path = /.*\\cmd.exe.*/ nocase) or ($e.target.process.file.name = "Cmd.EXE")))
+
+  condition:
+    $e
+}

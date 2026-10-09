@@ -1,0 +1,12 @@
+# Title: Potential Azure Browser SSO Abuse
+# ID: 50f852e6-af22-4c78-9ede-42ef36aa3453
+# Status: test
+# Level: low
+# Author: Den Iuzvyk
+# Date: 2020-07-15
+# Tags: attack.persistence, attack.privilege-escalation, attack.execution, attack.stealth, attack.t1574.001
+# Description: Detects abusing Azure Browser SSO by requesting OAuth 2.0 refresh tokens for an Azure-AD-authenticated Windows user (i.e. the machine is joined to Azure AD and a user logs in with their Azure AD account) wanting to perform SSO authentication in the browser.
+# An attacker can use this to authenticate to Azure AD in a browser as that user.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((ImageLoaded:"C:\\Windows\\System32\\MicrosoftAccountTokenProvider.dll") AND -(((process_name:C:\\Windows\\System32\\* OR process_name:C:\\Windows\\SysWOW64\\*) AND process_name:*\\BackgroundTaskHost.exe)) AND -((((process_name:C:\\Program Files\\Microsoft Visual Studio\\* OR process_name:C:\\Program Files (x86)\\Microsoft Visual Studio\\*) AND process_name:*\\IDE\\devenv.exe) OR ((process_name:C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\*) OR (process_name:*\\WindowsApps\\MicrosoftEdge.exe) OR ((process_name:"C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe" OR process_name:"C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe"))) OR ((process_name:C:\\Program Files (x86)\\Microsoft\\EdgeCore\\* OR process_name:C:\\Program Files\\Microsoft\\EdgeCore\\*) AND (process_name:*\\msedge.exe OR process_name:*\\msedgewebview2.exe)) OR ((process_name:"C:\\Program Files (x86)\\Internet Explorer\\iexplore.exe" OR process_name:"C:\\Program Files\\Internet Explorer\\iexplore.exe")) OR (-process_name:*) OR (process_name:*\\AppData\\Local\\Microsoft\\OneDrive\\OneDrive.exe))))

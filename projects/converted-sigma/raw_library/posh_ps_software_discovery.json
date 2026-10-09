@@ -1,0 +1,29 @@
+{
+  "title": "Detected Windows Software Discovery - PowerShell",
+  "id": "2650dd1a-eb2a-412d-ac36-83f06c4f2282",
+  "status": "test",
+  "description": "Adversaries may attempt to enumerate software for a variety of reasons, such as figuring out what security measures are present or if the compromised system has a version of software that is vulnerable.",
+  "author": "Nikita Nazarov, oscd.community",
+  "date": "2020-10-16",
+  "tags": [
+    "attack.discovery",
+    "attack.t1518"
+  ],
+  "level": "medium",
+  "logsource": {
+    "product": "windows",
+    "category": "ps_script",
+    "definition": "Requirements: Script Block Logging must be enabled"
+  },
+  "detection": {
+    "selection": {
+      "ScriptBlockText|contains|all": [
+        "get-itemProperty",
+        "\\software\\",
+        "select-object",
+        "format-table"
+      ]
+    },
+    "condition": "selection"
+  }
+}

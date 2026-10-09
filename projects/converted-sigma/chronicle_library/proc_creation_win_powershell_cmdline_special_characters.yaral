@@ -1,0 +1,23 @@
+// Title: Potential PowerShell Command Line Obfuscation
+// ID: d7bcd677-645d-4691-a8d4-7a5602b780d1
+// Status: test
+// Level: high
+// Author: Teymur Kheirkhabarov (idea), Vasiliy Burov (rule), oscd.community, Tim Shelton (fp)
+// Date: 2020-10-15
+// Tags: attack.execution, attack.stealth, attack.t1027, attack.t1059.001
+// Description: Detects the PowerShell command lines with special characters
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule d7bcd677_645d_4691_a8d4_7a5602b780d1 {
+  meta:
+    title = "Potential PowerShell Command Line Obfuscation"
+    description = "Detects the PowerShell command lines with special characters"
+    author = "Teymur Kheirkhabarov (idea), Vasiliy Burov (rule), oscd.community, Tim Shelton (fp)"
+    severity = "HIGH"
+
+  events:
+    ((((($e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase)) or (($e.target.process.file.name = "PowerShell.EXE" or $e.target.process.file.name = "pwsh.dll"))) and (($e.target.process.command_line = /\+.*\+.*\+.*\+.*\+.*\+.*\+.*\+.*\+.*\+.*\+.*\+.*\+.*\+/ nocase) or ($e.target.process.command_line = /\{.*\{.*\{.*\{.*\{.*\{.*\{.*\{.*\{.*\{/ nocase) or ($e.target.process.command_line = /\^.*\^.*\^.*\^.*\^/ nocase) or ($e.target.process.command_line = /`.*`.*`.*`.*`/ nocase))) and not((($e.principal.process.file.full_path = "C:\\Program Files\\Amazon\\SSM\\ssm-document-worker.exe") or (($e.target.process.command_line = /.*new EventSource(\"Microsoft.Windows.Sense.Client.Management\".*/ nocase or $e.target.process.command_line = /.*public static extern bool InstallELAMCertificateInfo(SafeFileHandle handle);.*/ nocase)))))
+
+  condition:
+    $e
+}

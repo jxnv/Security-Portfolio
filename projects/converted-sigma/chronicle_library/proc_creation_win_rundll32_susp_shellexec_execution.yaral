@@ -1,0 +1,23 @@
+// Title: Suspicious Usage Of ShellExec_RunDLL
+// ID: d87bd452-6da1-456e-8155-7dc988157b7d
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-09-01
+// Tags: attack.stealth
+// Description: Detects suspicious usage of the ShellExec_RunDLL function to launch other commands as seen in the the raspberry-robin attack
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule d87bd452_6da1_456e_8155_7dc988157b7d {
+  meta:
+    title = "Suspicious Usage Of ShellExec_RunDLL"
+    description = "Detects suspicious usage of the ShellExec_RunDLL function to launch other commands as seen in the the raspberry-robin attack"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.command_line = /.*ShellExec_RunDLL.*/ nocase) and (($e.target.process.command_line = /.*\\Desktop\\.*/ nocase or $e.target.process.command_line = /.*\\Temp\\.*/ nocase or $e.target.process.command_line = /.*\\Users\\Public\\.*/ nocase or $e.target.process.command_line = /.*comspec.*/ nocase or $e.target.process.command_line = /.*iex.*/ nocase or $e.target.process.command_line = /.*Invoke-.*/ nocase or $e.target.process.command_line = /.*msiexec.*/ nocase or $e.target.process.command_line = /.*odbcconf.*/ nocase or $e.target.process.command_line = /.*regsvr32.*/ nocase)))
+
+  condition:
+    $e
+}

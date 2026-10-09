@@ -1,0 +1,23 @@
+// Title: Rundll32 Execution With Uncommon DLL Extension
+// ID: c3a99af4-35a9-4668-879e-c09aeb4f2bdf
+// Status: test
+// Level: medium
+// Author: Tim Shelton, Florian Roth (Nextron Systems), Yassine Oukessou
+// Date: 2022-01-13
+// Tags: attack.stealth, attack.t1218.011
+// Description: Detects the execution of rundll32 with a command line that doesn't contain a common extension
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule c3a99af4_35a9_4668_879e_c09aeb4f2bdf {
+  meta:
+    title = "Rundll32 Execution With Uncommon DLL Extension"
+    description = "Detects the execution of rundll32 with a command line that doesn't contain a common extension"
+    author = "Tim Shelton, Florian Roth (Nextron Systems), Yassine Oukessou"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.file.full_path = /.*\\rundll32.exe$/ nocase) or ($e.target.process.file.name = "RUNDLL32.EXE")) and not((($e.target.process.command_line = "") or ((($e.target.process.command_line = /.*.cpl .*/ nocase or $e.target.process.command_line = /.*.cpl,.*/ nocase or $e.target.process.command_line = /.*.cpl\".*/ nocase or $e.target.process.command_line = /.*.cpl'.*/ nocase or $e.target.process.command_line = /.*.dll .*/ nocase or $e.target.process.command_line = /.*.dll,.*/ nocase or $e.target.process.command_line = /.*.dll\".*/ nocase or $e.target.process.command_line = /.*.dll'.*/ nocase or $e.target.process.command_line = /.*.inf .*/ nocase or $e.target.process.command_line = /.*.inf,.*/ nocase or $e.target.process.command_line = /.*.inf\".*/ nocase or $e.target.process.command_line = /.*.inf'.*/ nocase)) or (($e.target.process.command_line = /.*.cpl$/ nocase or $e.target.process.command_line = /.*.dll$/ nocase or $e.target.process.command_line = /.*.inf$/ nocase))) or ($e.target.process.command_line = /.* -localserver .*/ nocase) or (not ($e.target.process.command_line = /.*/)) or ($e.principal.process.file.full_path = /.*\\msiexec.exe$/ nocase and ($e.target.process.command_line = /.*:\\Windows\\Installer\\.*/ nocase and $e.target.process.command_line = /.*.tmp.*/ nocase and $e.target.process.command_line = /.*zzzzInvokeManagedCustomActionOutOfProc.*/ nocase)))) and not((($e.principal.process.command_line = /.*:\\Users\\.*/ nocase and $e.principal.process.command_line = /.*\\AppData\\Local\\Microsoft\\EdgeUpdate\\Install\\{.*/ nocase and $e.principal.process.command_line = /.*\\EDGEMITMP_.*/ nocase and $e.principal.process.command_line = /.*.tmp\\setup.exe.*/ nocase and $e.principal.process.command_line = /.*--install-archive=.*/ nocase and $e.principal.process.command_line = /.*--previous-version=.*/ nocase and $e.principal.process.command_line = /.*--msedgewebview --verbose-logging --do-not-launch-msedge --user-level.*/ nocase))))
+
+  condition:
+    $e
+}

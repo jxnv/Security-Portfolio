@@ -1,0 +1,13 @@
+// Title: PUA - Restic Backup Tool Execution
+// ID: 6ddff2e8-ea1a-45d0-8938-93dfc1d67ae7
+// Status: experimental
+// Level: high
+// Author: Nounou Mbeiri, Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-10-17
+// Tags: attack.exfiltration, attack.t1048, attack.t1567.002
+// Description: Detects the execution of the Restic backup tool, which can be used for data exfiltration.
+// Threat actors may leverage Restic to back up and exfiltrate sensitive data to remote storage locations, including cloud services.
+// If not legitimately used in the enterprise environment, its presence may indicate malicious activity.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((src.process.cmdline containsCIS "sftp:" OR src.process.cmdline containsCIS "rest:http" OR src.process.cmdline containsCIS "s3:s3." OR src.process.cmdline containsCIS "s3.http" OR src.process.cmdline containsCIS "azure:" OR src.process.cmdline containsCIS " gs:" OR src.process.cmdline containsCIS "rclone:" OR src.process.cmdline containsCIS "swift:" OR src.process.cmdline containsCIS " b2:") AND (src.process.cmdline containsCIS " init " AND src.process.cmdline containsCIS " -r ")) OR (((src.process.cmdline containsCIS "--password-file" AND src.process.cmdline containsCIS "init" AND src.process.cmdline containsCIS " -r ")) OR ((src.process.cmdline containsCIS "--use-fs-snapshot" AND src.process.cmdline containsCIS "backup" AND src.process.cmdline containsCIS " -r "))))

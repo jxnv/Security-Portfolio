@@ -1,0 +1,23 @@
+// Title: Potential LethalHTA Technique Execution
+// ID: ed5d72a6-f8f4-479d-ba79-02f6a80d7471
+// Status: test
+// Level: high
+// Author: Markus Neis
+// Date: 2018-06-07
+// Tags: attack.stealth, attack.t1218.005
+// Description: Detects potential LethalHTA technique where the "mshta.exe" is spawned by an "svchost.exe" process
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule ed5d72a6_f8f4_479d_ba79_02f6a80d7471 {
+  meta:
+    title = "Potential LethalHTA Technique Execution"
+    description = "Detects potential LethalHTA technique where the "mshta.exe" is spawned by an "svchost.exe" process"
+    author = "Markus Neis"
+    severity = "HIGH"
+
+  events:
+    ($e.principal.process.file.full_path = /.*\\svchost.exe$/ nocase and $e.target.process.file.full_path = /.*\\mshta.exe$/ nocase)
+
+  condition:
+    $e
+}

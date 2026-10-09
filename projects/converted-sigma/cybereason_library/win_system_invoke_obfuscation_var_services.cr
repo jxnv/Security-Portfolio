@@ -1,0 +1,11 @@
+// Title: Invoke-Obfuscation VAR+ Launcher - System
+// ID: 8ca7004b-e620-4ecb-870e-86129b5b8e75
+// Status: test
+// Level: high
+// Author: Jonathan Cheong, oscd.community
+// Date: 2020-10-15
+// Tags: attack.stealth, attack.t1027, attack.execution, attack.t1059.001
+// Description: Detects Obfuscated use of Environment Variables to execute PowerShell
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(Provider_Name == "Service Control Manager" AND EventID == "7045" AND (ImagePath contains "cmd" AND ImagePath contains "\"set" AND ImagePath contains "-f") AND (ImagePath contains "/c" OR ImagePath contains "/r"))

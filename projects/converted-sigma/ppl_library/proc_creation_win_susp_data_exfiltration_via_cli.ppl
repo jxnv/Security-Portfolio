@@ -1,0 +1,11 @@
+// Title: Potential Data Exfiltration Activity Via CommandLine Tools
+// ID: 7d1aaf3d-4304-425c-b7c3-162055e0b3ab
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-02
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects the use of various CLI utilities exfiltrating data via web requests
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where ((((process.executable="*\\powershell_ise.exe" OR process.executable="*\\powershell.exe" OR process.executable="*\\pwsh.exe" OR process.executable="*\\cmd.exe") AND (process.command_line like "%curl %" OR process.command_line like "%Invoke-RestMethod%" OR process.command_line like "%Invoke-WebRequest%" OR process.command_line like "%irm %" OR process.command_line like "%iwr %" OR process.command_line like "%wget %") AND (process.command_line like "% -ur%" AND process.command_line like "% -me%" AND process.command_line like "% -b%" AND process.command_line like "% POST %")) OR ((process.executable="*\\curl.exe" AND process.command_line like "%--ur%") AND ((process.command_line like "% -d %" OR process.command_line like "% --data %"))) OR (process.executable="*\\wget.exe" AND (process.command_line like "%--post-data%" OR process.command_line like "%--post-file%"))) AND (((process.command_line=regex("net\\s+view") OR process.command_line=regex("sc\\s+query"))) OR ((process.command_line like "%Get-Content%" OR process.command_line like "%GetBytes%" OR process.command_line like "%hostname%" OR process.command_line like "%ifconfig%" OR process.command_line like "%ipconfig%" OR process.command_line like "%netstat%" OR process.command_line like "%nltest%" OR process.command_line like "%qprocess%" OR process.command_line like "%systeminfo%" OR process.command_line like "%tasklist%" OR process.command_line like "%ToBase64String%" OR process.command_line like "%whoami%")) OR ((process.command_line like "%type %" AND process.command_line like "% > %" AND process.command_line like "% C:\\%"))))

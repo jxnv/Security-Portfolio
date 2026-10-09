@@ -1,0 +1,11 @@
+// Title: File With Suspicious Extension Downloaded Via Bitsadmin
+// ID: 5b80a791-ad9b-4b75-bcc1-ad4e1e89c200
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-06-28
+// Tags: attack.persistence, attack.execution, attack.stealth, attack.t1197, attack.s0190, attack.t1036.003, attack.command-and-control, attack.t1105
+// Description: Detects usage of bitsadmin downloading a file with a suspicious extension
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((CommandLine CONTAINS ".7z" OR CommandLine CONTAINS ".asax" OR CommandLine CONTAINS ".ashx" OR CommandLine CONTAINS ".asmx" OR CommandLine CONTAINS ".asp" OR CommandLine CONTAINS ".aspx" OR CommandLine CONTAINS ".bat" OR CommandLine CONTAINS ".cfm" OR CommandLine CONTAINS ".cgi" OR CommandLine CONTAINS ".chm" OR CommandLine CONTAINS ".cmd" OR CommandLine CONTAINS ".dll" OR CommandLine CONTAINS ".gif" OR CommandLine CONTAINS ".jpeg" OR CommandLine CONTAINS ".jpg" OR CommandLine CONTAINS ".jsp" OR CommandLine CONTAINS ".jspx" OR CommandLine CONTAINS ".log" OR CommandLine CONTAINS ".png" OR CommandLine CONTAINS ".ps1" OR CommandLine CONTAINS ".psm1" OR CommandLine CONTAINS ".rar" OR CommandLine CONTAINS ".scf" OR CommandLine CONTAINS ".sct" OR CommandLine CONTAINS ".txt" OR CommandLine CONTAINS ".vbe" OR CommandLine CONTAINS ".vbs" OR CommandLine CONTAINS ".war" OR CommandLine CONTAINS ".wsf" OR CommandLine CONTAINS ".wsh" OR CommandLine CONTAINS ".xll" OR CommandLine CONTAINS ".zip")) AND ((CommandLine CONTAINS " /transfer " OR CommandLine CONTAINS " /create " OR CommandLine CONTAINS " /addfile ")) AND ((Image ENDSWITH "\\bitsadmin.exe") OR (OriginalFileName EQ "bitsadmin.exe")))

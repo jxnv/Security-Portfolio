@@ -1,0 +1,25 @@
+// Title: Suspicious Binary Writes Via AnyDesk
+// ID: 2d367498-5112-4ae5-a06a-96e7bc33a211
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-09-28
+// Tags: attack.command-and-control, attack.t1219.002
+// Description: Detects AnyDesk writing binary files to disk other than "gcapi.dll".
+// According to RedCanary research it is highly abnormal for AnyDesk to write executable files to disk besides gcapi.dll,
+// which is a legitimate DLL that is part of the Google Chrome web browser used to interact with the Google Cloud API. (See reference section for more details)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 2d367498_5112_4ae5_a06a_96e7bc33a211 {
+  meta:
+    title = "Suspicious Binary Writes Via AnyDesk"
+    description = "Detects AnyDesk writing binary files to disk other than "gcapi.dll". According to RedCanary research it is highly abnormal for AnyDesk to write executable files to disk besides gcapi.dll, which is a legitimate DLL that is part of the Google Chrome web browser used to interact with the Google Cloud API. (See reference section for more details)"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.file.full_path = /.*\\AnyDesk.exe$/ nocase or $e.target.process.file.full_path = /.*\\AnyDeskMSI.exe$/ nocase) and ($e.target.file.full_path = /.*.dll$/ nocase or $e.target.file.full_path = /.*.exe$/ nocase)) and not(($e.target.file.full_path = /.*\\gcapi.dll$/ nocase)))
+
+  condition:
+    $e
+}

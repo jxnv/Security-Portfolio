@@ -1,0 +1,23 @@
+// Title: Possible Privilege Escalation via Weak Service Permissions
+// ID: d937b75f-a665-4480-88a5-2f20e9f9b22a
+// Status: test
+// Level: high
+// Author: Teymur Kheirkhabarov
+// Date: 2019-10-26
+// Tags: attack.persistence, attack.privilege-escalation, attack.execution, attack.stealth, attack.t1574.011
+// Description: Detection of sc.exe utility spawning by user with Medium integrity level to change service ImagePath or FailureCommand
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule d937b75f_a665_4480_88a5_2f20e9f9b22a {
+  meta:
+    title = "Possible Privilege Escalation via Weak Service Permissions"
+    description = "Detection of sc.exe utility spawning by user with Medium integrity level to change service ImagePath or FailureCommand"
+    author = "Teymur Kheirkhabarov"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.file.full_path = /.*\\sc.exe$/ nocase and ($e.IntegrityLevel = "Medium" or $e.IntegrityLevel = "S-1-16-8192")) and ((($e.target.process.command_line = /.*config.*/ nocase and $e.target.process.command_line = /.*binPath.*/ nocase)) or (($e.target.process.command_line = /.*failure.*/ nocase and $e.target.process.command_line = /.*command.*/ nocase))))
+
+  condition:
+    $e
+}

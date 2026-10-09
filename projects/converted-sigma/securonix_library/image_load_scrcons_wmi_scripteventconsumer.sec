@@ -1,0 +1,11 @@
+// Title: WMI ActiveScriptEventConsumers Activity Via Scrcons.EXE DLL Load
+// ID: b439f47d-ef52-4b29-9a2f-57d8a96cb6b8
+// Status: test
+// Level: medium
+// Author: Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research)
+// Date: 2020-09-02
+// Tags: attack.lateral-movement, attack.privilege-escalation, attack.persistence, attack.t1546.003
+// Description: Detects signs of the WMI script host process "scrcons.exe" loading scripting DLLs which could indicates WMI ActiveScriptEventConsumers EventConsumers activity.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(Image="*\\scrcons.exe" AND (ImageLoaded="*\\vbscript.dll" OR ImageLoaded="*\\wbemdisp.dll" OR ImageLoaded="*\\wshom.ocx" OR ImageLoaded="*\\scrrun.dll"))

@@ -1,0 +1,11 @@
+// Title: Suspicious PowerShell In Registry Run Keys
+// ID: 8d85cf08-bf97-4260-ba49-986a2a65129c
+// Status: test
+// Level: medium
+// Author: frack113, Florian Roth (Nextron Systems)
+// Date: 2022-03-17
+// Tags: attack.privilege-escalation, attack.persistence, attack.t1547.001
+// Description: Detects potential PowerShell commands or code within registry run keys
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((TargetObject containsCIS "\\Software\\Microsoft\\Windows\\CurrentVersion\\Run" OR TargetObject containsCIS "\\Software\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Run" OR TargetObject containsCIS "\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run") AND (Details containsCIS "powershell" OR Details containsCIS "pwsh " OR Details containsCIS "FromBase64String" OR Details containsCIS ".DownloadFile(" OR Details containsCIS ".DownloadString(" OR Details containsCIS " -w hidden " OR Details containsCIS " -w 1 " OR Details containsCIS "-windowstyle hidden" OR Details containsCIS "-window hidden" OR Details containsCIS " -nop " OR Details containsCIS " -encodedcommand " OR Details containsCIS "-ExecutionPolicy Bypass" OR Details containsCIS "Invoke-Expression" OR Details containsCIS "IEX (" OR Details containsCIS "Invoke-Command" OR Details containsCIS "ICM -" OR Details containsCIS "Invoke-WebRequest" OR Details containsCIS "IWR " OR Details containsCIS "Invoke-RestMethod" OR Details containsCIS "IRM " OR Details containsCIS " -noni " OR Details containsCIS " -noninteractive "))

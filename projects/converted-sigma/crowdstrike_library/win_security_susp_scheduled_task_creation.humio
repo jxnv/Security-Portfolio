@@ -1,0 +1,11 @@
+// Title: Suspicious Scheduled Task Creation
+// ID: 3a734d25-df5c-4b99-8034-af1ddb5883a4
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-12-05
+// Tags: attack.execution, attack.privilege-escalation, attack.persistence, attack.t1053.005
+// Description: Detects suspicious scheduled task creation events. Based on attributes such as paths, commands line flags, etc.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((TaskContent = /*regsvr32*/i or TaskContent = /*rundll32*/i or TaskContent = /*cmd.exe</Command>*/i or TaskContent = /*cmd</Command>*/i or TaskContent = /*<Arguments>/c */i or TaskContent = /*<Arguments>/k */i or TaskContent = /*<Arguments>/r */i or TaskContent = /*powershell*/i or TaskContent = /*pwsh*/i or TaskContent = /*mshta*/i or TaskContent = /*wscript*/i or TaskContent = /*cscript*/i or TaskContent = /*certutil*/i or TaskContent = /*bitsadmin*/i or TaskContent = /*bash.exe*/i or TaskContent = /*bash */i or TaskContent = /*scrcons*/i or TaskContent = /*wmic */i or TaskContent = /*wmic.exe*/i or TaskContent = /*forfiles*/i or TaskContent = /*scriptrunner*/i or TaskContent = /*hh.exe*/i)) and (EventID = 4698) and ((TaskContent = /*\\AppData\\Local\\Temp\\*/i or TaskContent = /*\\AppData\\Roaming\\*/i or TaskContent = /*\\Users\\Public\\*/i or TaskContent = /*\\WINDOWS\\Temp\\*/i or TaskContent = /*C:\\Temp\\*/i or TaskContent = /*\\Desktop\\*/i or TaskContent = /*\\Downloads\\*/i or TaskContent = /*\\Temporary Internet*/i or TaskContent = /*C:\\ProgramData\\*/i or TaskContent = /*C:\\Perflogs\\*/i)))

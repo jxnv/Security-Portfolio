@@ -1,0 +1,13 @@
+// Title: Renamed Schtasks Execution
+// ID: f91e51c9-f344-4b32-969b-0b6f6b8537d4
+// Status: experimental
+// Level: high
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-11-27
+// Tags: attack.execution, attack.persistence, attack.privilege-escalation, attack.stealth, attack.t1036.003, attack.t1053.005
+// Description: Detects the execution of renamed schtasks.exe binary, which is a legitimate Windows utility used for scheduling tasks.
+// One of the very common persistence techniques is schedule malicious tasks using schtasks.exe.
+// Since, it is heavily abused, it is also heavily monitored by security products. To evade detection, threat actors may rename the schtasks.exe binary to schedule their malicious tasks.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((((where(CommandLine ICONTAINS " /tn ") OR where(CommandLine ICONTAINS " /tr ") OR where(CommandLine ICONTAINS " /sc ") OR where(CommandLine ICONTAINS " /st ") OR where(CommandLine ICONTAINS " /ru ") OR where(CommandLine ICONTAINS " /fo "))) AND ((where(CommandLine ICONTAINS " /create ") OR where(CommandLine ICONTAINS " /delete ") OR where(CommandLine ICONTAINS " /query ") OR where(CommandLine ICONTAINS " /change ") OR where(CommandLine ICONTAINS " /run ") OR where(CommandLine ICONTAINS " /end ")))) AND NOT ((where(CommandLine ICONTAINS "schtasks"))) AND NOT (((where(CommandLine ICONTAINS "openfiles") AND where(CommandLine ICONTAINS " /query ") AND where(CommandLine ICONTAINS " /fo"))))) OR ((where(OriginalFileName = "schtasks.exe")) AND NOT ((where(Image IENDSWITH "\\schtasks.exe")))))

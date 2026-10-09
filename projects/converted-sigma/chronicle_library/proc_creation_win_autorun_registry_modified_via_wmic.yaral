@@ -1,0 +1,23 @@
+// Title: Suspicious Autorun Registry Modified via WMI
+// ID: c80e66d8-1780-48a9-b412-46663fd21ac0
+// Status: experimental
+// Level: high
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-02-17
+// Tags: attack.privilege-escalation, attack.execution, attack.persistence, attack.t1547.001, attack.t1047
+// Description: Detects suspicious activity where the WMIC process is used to create an autorun registry entry via reg.exe, which is often indicative of persistence mechanisms employed by malware.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule c80e66d8_1780_48a9_b412_46663fd21ac0 {
+  meta:
+    title = "Suspicious Autorun Registry Modified via WMI"
+    description = "Detects suspicious activity where the WMIC process is used to create an autorun registry entry via reg.exe, which is often indicative of persistence mechanisms employed by malware."
+    author = "Swachchhanda Shrawan Poudel (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (((($e.target.process.command_line = /.*reg.*/ nocase and $e.target.process.command_line = /.* add .*/ nocase) and ($e.target.process.command_line = /.*\\Software\\Microsoft\\Windows\\CurrentVersion\\Run.*/ nocase or $e.target.process.command_line = /.*\\Software\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Run.*/ nocase or $e.target.process.command_line = /.*\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run.*/ nocase)) and (($e.target.process.file.full_path = /.*\\wmic.exe$/ nocase) or ($e.target.process.file.name = "wmic.exe") or ($e.principal.process.file.full_path = /.*\\wmiprvse.exe$/ nocase))) and ((($e.target.process.command_line = /.*:\\Perflogs.*/ nocase or $e.target.process.command_line = /.*:\\ProgramData'.*/ nocase or $e.target.process.command_line = /.*:\\Windows\\Temp.*/ nocase or $e.target.process.command_line = /.*:\\Temp.*/ nocase or $e.target.process.command_line = /.*\\AppData\\Local\\Temp.*/ nocase or $e.target.process.command_line = /.*\\AppData\\Roaming.*/ nocase or $e.target.process.command_line = /.*:\\$Recycle.bin.*/ nocase or $e.target.process.command_line = /.*:\\Users\\Default.*/ nocase or $e.target.process.command_line = /.*:\\Users\\public.*/ nocase or $e.target.process.command_line = /.*%temp%.*/ nocase or $e.target.process.command_line = /.*%tmp%.*/ nocase or $e.target.process.command_line = /.*%Public%.*/ nocase or $e.target.process.command_line = /.*%AppData%.*/ nocase)) or (($e.target.process.command_line = /.*:\\Users\\.*/ nocase) and (($e.target.process.command_line = /.*\\Favorites.*/ nocase or $e.target.process.command_line = /.*\\Favourites.*/ nocase or $e.target.process.command_line = /.*\\Contacts.*/ nocase or $e.target.process.command_line = /.*\\Music.*/ nocase or $e.target.process.command_line = /.*\\Pictures.*/ nocase or $e.target.process.command_line = /.*\\Documents.*/ nocase or $e.target.process.command_line = /.*\\Photos.*/ nocase)))))
+
+  condition:
+    $e
+}

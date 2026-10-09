@@ -1,0 +1,23 @@
+// Title: BITS Transfer Job Downloading File Potential Suspicious Extension
+// ID: b85e5894-9b19-4d86-8c87-a2f3b81f0521
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-03-01
+// Tags: attack.persistence, attack.execution, attack.stealth, attack.t1197
+// Description: Detects new BITS transfer job saving local files with potential suspicious extensions
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule b85e5894_9b19_4d86_8c87_a2f3b81f0521 {
+  meta:
+    title = "BITS Transfer Job Downloading File Potential Suspicious Extension"
+    description = "Detects new BITS transfer job saving local files with potential suspicious extensions"
+    author = "frack113"
+    severity = "MEDIUM"
+
+  events:
+    (($e.EventID = 16403 and ($e.LocalName = /.*.bat$/ nocase or $e.LocalName = /.*.dll$/ nocase or $e.LocalName = /.*.exe$/ nocase or $e.LocalName = /.*.hta$/ nocase or $e.LocalName = /.*.ps1$/ nocase or $e.LocalName = /.*.psd1$/ nocase or $e.LocalName = /.*.sh$/ nocase or $e.LocalName = /.*.vbe$/ nocase or $e.LocalName = /.*.vbs$/ nocase)) and not(($e.LocalName = /.*\\AppData\\.*/ nocase and $e.RemoteName = /.*.com.*/ nocase)))
+
+  condition:
+    $e
+}

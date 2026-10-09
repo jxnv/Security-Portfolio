@@ -1,0 +1,11 @@
+// Title: PUA - CSExec Default Named Pipe
+// ID: f318b911-ea88-43f4-9281-0de23ede628e
+// Status: test
+// Level: medium
+// Author: Nikita Nazarov, oscd.community, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-08-07
+// Tags: attack.lateral-movement, attack.t1021.002, attack.execution, attack.t1569.002
+// Description: Detects default CSExec pipe creation
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter (PipeName contains "\\csexecsvc")

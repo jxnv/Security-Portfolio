@@ -1,0 +1,23 @@
+// Title: UAC Bypass Using NTFS Reparse Point - File
+// ID: 7fff6773-2baa-46de-a24a-b6eec1aba2d1
+// Status: test
+// Level: high
+// Author: Christian Burkard (Nextron Systems)
+// Date: 2021-08-30
+// Tags: attack.privilege-escalation, attack.t1548.002
+// Description: Detects the pattern of UAC Bypass using NTFS reparse point and wusa.exe DLL hijacking (UACMe 36)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 7fff6773_2baa_46de_a24a_b6eec1aba2d1 {
+  meta:
+    title = "UAC Bypass Using NTFS Reparse Point - File"
+    description = "Detects the pattern of UAC Bypass using NTFS reparse point and wusa.exe DLL hijacking (UACMe 36)"
+    author = "Christian Burkard (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ($e.target.file.full_path = /^C:\\Users\\.*/ nocase and $e.target.file.full_path = /.*\\AppData\\Local\\Temp\\api-ms-win-core-kernel32-legacy-l1.DLL$/ nocase)
+
+  condition:
+    $e
+}

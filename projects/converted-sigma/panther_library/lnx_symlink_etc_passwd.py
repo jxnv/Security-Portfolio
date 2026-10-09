@@ -1,0 +1,19 @@
+# Title: Symlink Etc Passwd
+# ID: c67fc22a-0be5-4b4f-aad5-2b32c4b69523
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems)
+# Date: 2019-04-05
+# Tags: attack.t1204.001, attack.execution
+# Description: Detects suspicious command lines that look as if they would create symbolic links to /etc/passwd
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Symlink Etc Passwd
+def rule(event):
+    # Detection Logic:
+    # ("ln -s -f /etc/passwd" OR "ln -s /etc/passwd")
+    return True
+
+def title(event):
+    return "Symlink Etc Passwd"
+

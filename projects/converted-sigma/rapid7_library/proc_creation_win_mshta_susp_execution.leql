@@ -1,0 +1,14 @@
+// Title: MSHTA Execution with Suspicious File Extensions
+// ID: cc7abbd0-762b-41e3-8a26-57ad50d2eea3
+// Status: test
+// Level: high
+// Author: Diego Perez (@darkquassar), Markus Neis, Swisscom (Improve Rule), Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2019-02-22
+// Tags: attack.stealth, attack.t1140, attack.t1218.005, attack.execution, attack.t1059.007, cve.2020-1599
+// Description: Detects execution of mshta.exe with file types that looks like they do not typically represent HTA (HTML Application) content,
+// such as .png, .jpg, .zip, .pdf, and others, which are often polyglots. MSHTA is a legitimate Windows utility for executing HTML Applications
+// containing VBScript or JScript. Threat actors often abuse this lolbin utility to download and
+// execute malicious scripts disguised as benign files or hosted under misleading extensions to evade detection.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(CommandLine ICONTAINS ".7z") OR where(CommandLine ICONTAINS ".avi") OR where(CommandLine ICONTAINS ".bat") OR where(CommandLine ICONTAINS ".bmp") OR where(CommandLine ICONTAINS ".conf") OR where(CommandLine ICONTAINS ".csv") OR where(CommandLine ICONTAINS ".dll") OR where(CommandLine ICONTAINS ".doc") OR where(CommandLine ICONTAINS ".gif") OR where(CommandLine ICONTAINS ".gz") OR where(CommandLine ICONTAINS ".ini") OR where(CommandLine ICONTAINS ".jpe") OR where(CommandLine ICONTAINS ".jpg") OR where(CommandLine ICONTAINS ".json") OR where(CommandLine ICONTAINS ".lnk") OR where(CommandLine ICONTAINS ".log") OR where(CommandLine ICONTAINS ".mkv") OR where(CommandLine ICONTAINS ".mp3") OR where(CommandLine ICONTAINS ".mp4") OR where(CommandLine ICONTAINS ".pdf") OR where(CommandLine ICONTAINS ".png") OR where(CommandLine ICONTAINS ".ppt") OR where(CommandLine ICONTAINS ".rar") OR where(CommandLine ICONTAINS ".rtf") OR where(CommandLine ICONTAINS ".svg") OR where(CommandLine ICONTAINS ".tar") OR where(CommandLine ICONTAINS ".tmp") OR where(CommandLine ICONTAINS ".txt") OR where(CommandLine ICONTAINS ".xls") OR where(CommandLine ICONTAINS ".xml") OR where(CommandLine ICONTAINS ".yaml") OR where(CommandLine ICONTAINS ".yml") OR where(CommandLine ICONTAINS ".zip") OR where(CommandLine ICONTAINS "vbscript"))) AND ((where(Image IENDSWITH "\\mshta.exe")) OR (where(OriginalFileName = "mshta.exe"))))

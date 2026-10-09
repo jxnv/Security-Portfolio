@@ -1,0 +1,19 @@
+# Title: Creation of WerFault.exe/Wer.dll in Unusual Folder
+# ID: 28a452f3-786c-4fd8-b8f2-bddbe9d616d1
+# Status: test
+# Level: medium
+# Author: frack113
+# Date: 2022-05-09
+# Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.stealth, attack.t1574.001
+# Description: Detects the creation of a file named "WerFault.exe" or "wer.dll" in an uncommon folder, which could be a sign of WerFault DLL hijacking.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Creation of WerFault.exe/Wer.dll in Unusual Folder
+def rule(event):
+    # Detection Logic:
+    # (((TargetFilename="*\\WerFault.exe" OR TargetFilename="*\\wer.dll")) AND NOT ((((TargetFilename="C:\\Windows\\SoftwareDistribution\\*" OR TargetFilename="C:\\Windows\\System32\\*" OR TargetFilename="C:\\Windows\\SysWOW64\\*" OR TargetFilename="C:\\Windows\\WinSxS\\*" OR TargetFilename="C:\\Windows\\UUS\\*")) OR (Image="*\\wuaucltcore.exe"))))
+    return True
+
+def title(event):
+    return "Creation of WerFault.exe/Wer.dll in Unusual Folder"
+

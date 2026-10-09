@@ -1,0 +1,11 @@
+// Title: Windows Binaries Write Suspicious Extensions
+// ID: b8fd0e93-ff58-4cbd-8f48-1c114e342e62
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-12
+// Tags: attack.stealth, attack.t1036
+// Description: Detects Windows executables that write files with suspicious extensions
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((ImageFileName = /.*\\csrss.exe/i or ImageFileName = /.*\\lsass.exe/i or ImageFileName = /.*\\RuntimeBroker.exe/i or ImageFileName = /.*\\sihost.exe/i or ImageFileName = /.*\\smss.exe/i or ImageFileName = /.*\\wininit.exe/i or ImageFileName = /.*\\winlogon.exe/i) and (TargetFileName = /.*.bat/i or TargetFileName = /.*.dll/i or TargetFileName = /.*.exe/i or TargetFileName = /.*.hta/i or TargetFileName = /.*.iso/i or TargetFileName = /.*.ps1/i or TargetFileName = /.*.txt/i or TargetFileName = /.*.vbe/i or TargetFileName = /.*.vbs/i)) or ((ImageFileName = /.*\\dllhost.exe/i or ImageFileName = /.*\\rundll32.exe/i or ImageFileName = /.*\\svchost.exe/i) and (TargetFileName = /.*.bat/i or TargetFileName = /.*.hta/i or TargetFileName = /.*.iso/i or TargetFileName = /.*.ps1/i or TargetFileName = /.*.vbe/i or TargetFileName = /.*.vbs/i))) and not(((ImageFileName = "C:\\Windows\\System32\\dllhost.exe" and (TargetFileName = /*:\\Users\\*/i and TargetFileName = /*\\AppData\\Local\\Temp\\__PSScriptPolicyTest_*/i) and TargetFileName = /.*.ps1/i) or (ImageFileName = "C:\\Windows\\system32\\svchost.exe" and (TargetFileName = /*C:\\Program Files\\WindowsApps\\Clipchamp*/i and TargetFileName = /*.ps1*/i)) or ((ImageFileName = "C:\\Windows\\system32\\svchost.exe" or ImageFileName = "C:\\Windows\\SysWOW64\\svchost.exe") and (TargetFileName = /C:\\Program Files\\WindowsApps\\Microsoft.PowerShellPreview.*/i or TargetFileName = /C:\\Program Files (x86)\\WindowsApps\\Microsoft.PowerShellPreview.*/i) and TargetFileName = /.*.ps1/i) or (ImageFileName = "C:\\Windows\\system32\\svchost.exe" and (TargetFileName = /*C:\\Windows\\System32\\GroupPolicy\\DataStore\\*/i and TargetFileName = /*\\sysvol\\*/i and TargetFileName = /*\\Policies\\*/i and TargetFileName = /*\\Machine\\Scripts\\Startup\\*/i) and (TargetFileName = /.*.ps1/i or TargetFileName = /.*.bat/i)))))

@@ -1,0 +1,23 @@
+// Title: Hiding Files with Attrib.exe
+// ID: 4281cb20-2994-4580-aa63-c8b86d019934
+// Status: test
+// Level: medium
+// Author: Sami Ruohonen
+// Date: 2019-01-16
+// Tags: attack.stealth, attack.t1564.001
+// Description: Detects usage of attrib.exe to hide files from users.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 4281cb20_2994_4580_aa63_c8b86d019934 {
+  meta:
+    title = "Hiding Files with Attrib.exe"
+    description = "Detects usage of attrib.exe to hide files from users."
+    author = "Sami Ruohonen"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.command_line = /.* +h .*/ nocase) and (($e.target.process.file.full_path = /.*\\attrib.exe$/ nocase) or ($e.target.process.file.name = "ATTRIB.EXE"))) and not(($e.target.process.command_line = /.*\\desktop.ini .*/ nocase)) and not(($e.principal.process.file.full_path = /.*\\cmd.exe$/ nocase and $e.target.process.command_line = "+R +H +S +A \\\\\\*.cui" and $e.principal.process.command_line = "C:\\\\WINDOWS\\\\system32\\\\\\*.bat")))
+
+  condition:
+    $e
+}

@@ -1,0 +1,23 @@
+// Title: Copy .DMP/.DUMP Files From Remote Share Via Cmd.EXE
+// ID: 044ba588-dff4-4918-9808-3f95e8160606
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-09-27
+// Tags: attack.credential-access
+// Description: Detects usage of the copy builtin cmd command to copy files with the ".dmp"/".dump" extension from a remote share
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 044ba588_dff4_4918_9808_3f95e8160606 {
+  meta:
+    title = "Copy .DMP/.DUMP Files From Remote Share Via Cmd.EXE"
+    description = "Detects usage of the copy builtin cmd command to copy files with the ".dmp"/".dump" extension from a remote share"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*copy .*/ nocase and $e.target.process.command_line = /.* \\\\\\\\.*/ nocase) and ($e.target.process.command_line = /.*.dmp.*/ nocase or $e.target.process.command_line = /.*.dump.*/ nocase or $e.target.process.command_line = /.*.hdmp.*/ nocase)) and (($e.target.process.file.full_path = /.*\\cmd.exe$/ nocase) or ($e.target.process.file.name = "Cmd.Exe")))
+
+  condition:
+    $e
+}

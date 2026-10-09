@@ -1,0 +1,24 @@
+// Title: Enable LM Hash Storage - ProcCreation
+// ID: 98dedfdd-8333-49d4-9f23-d7018cccae53
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-12-15
+// Tags: attack.persistence, attack.defense-impairment, attack.t1112
+// Description: Detects changes to the "NoLMHash" registry value in order to allow Windows to store LM Hashes.
+// By setting this registry value to "0" (DWORD), Windows will be allowed to store a LAN manager hash of your password in Active Directory and local SAM databases.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 98dedfdd_8333_49d4_9f23_d7018cccae53 {
+  meta:
+    title = "Enable LM Hash Storage - ProcCreation"
+    description = "Detects changes to the "NoLMHash" registry value in order to allow Windows to store LM Hashes. By setting this registry value to "0" (DWORD), Windows will be allowed to store a LAN manager hash of your password in Active Directory and local SAM databases."
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.command_line = /.*\\System\\CurrentControlSet\\Control\\Lsa.*/ nocase and $e.target.process.command_line = /.*NoLMHash.*/ nocase and $e.target.process.command_line = /.* 0.*/ nocase))
+
+  condition:
+    $e
+}

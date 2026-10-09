@@ -1,0 +1,24 @@
+// Title: Sysinternals Tools AppX Versions Execution
+// ID: d29a20b2-be4b-4827-81f2-3d8a59eab5fc
+// Status: test
+// Level: low
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-01-16
+// Tags: attack.execution, attack.stealth
+// Description: Detects execution of Sysinternals tools via an AppX package.
+// Attackers could install the Sysinternals Suite to get access to tools such as psexec and procdump to avoid detection based on System paths.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule d29a20b2_be4b_4827_81f2_3d8a59eab5fc {
+  meta:
+    title = "Sysinternals Tools AppX Versions Execution"
+    description = "Detects execution of Sysinternals tools via an AppX package. Attackers could install the Sysinternals Suite to get access to tools such as psexec and procdump to avoid detection based on System paths."
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "LOW"
+
+  events:
+    ($e.EventID = 201 and ($e.ImageName = "procdump.exe" or $e.ImageName = "psloglist.exe" or $e.ImageName = "psexec.exe" or $e.ImageName = "livekd.exe" or $e.ImageName = "ADExplorer.exe"))
+
+  condition:
+    $e
+}

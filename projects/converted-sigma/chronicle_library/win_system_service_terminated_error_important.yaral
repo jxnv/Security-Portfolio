@@ -1,0 +1,23 @@
+// Title: Important Windows Service Terminated With Error
+// ID: d6b5520d-3934-48b4-928c-2aa3f92d6963
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-04-14
+// Tags: attack.stealth
+// Description: Detects important or interesting Windows services that got terminated for whatever reason
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule d6b5520d_3934_48b4_928c_2aa3f92d6963 {
+  meta:
+    title = "Important Windows Service Terminated With Error"
+    description = "Detects important or interesting Windows services that got terminated for whatever reason"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.Provider_Name = "Service Control Manager" and $e.EventID = 7023) and ((($e.param1 = /.* Antivirus.*/ nocase or $e.param1 = /.* Firewall.*/ nocase or $e.param1 = /.*Application Guard.*/ nocase or $e.param1 = /.*BitLocker Drive Encryption Service.*/ nocase or $e.param1 = /.*Encrypting File System.*/ nocase or $e.param1 = /.*Microsoft Defender.*/ nocase or $e.param1 = /.*Threat Protection.*/ nocase or $e.param1 = /.*Windows Event Log.*/ nocase)) or (($e.Binary = /.*770069006e0064006500660065006e006400.*/ nocase or $e.Binary = /.*4500760065006e0074004c006f006700.*/ nocase or $e.Binary = /.*6d0070007300730076006300.*/ nocase or $e.Binary = /.*530065006e0073006500.*/ nocase or $e.Binary = /.*450046005300.*/ nocase or $e.Binary = /.*420044004500530056004300.*/ nocase))))
+
+  condition:
+    $e
+}

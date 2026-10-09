@@ -1,0 +1,11 @@
+// Title: Potential CobaltStrike Process Patterns
+// ID: f35c5d71-b489-4e22-a115-f003df287317
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2021-07-27
+// Tags: attack.execution, attack.t1059
+// Description: Detects potential process patterns related to Cobalt Strike beacon activity
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+DeviceProcessEvents | where (((InitiatingProcessCommandLine contains "cmd.exe /C echo" and InitiatingProcessCommandLine contains " > \\\\\\\\.\\\\pipe") and ProcessCommandLine endswith "conhost.exe 0xffffffff -ForceV1") or (InitiatingProcessCommandLine endswith "/C whoami" and ProcessCommandLine endswith "conhost.exe 0xffffffff -ForceV1") or (ProcessCommandLine endswith "cmd.exe /C whoami" and InitiatingProcessFolderPath startswith "C:\\Temp\\") or ((InitiatingProcessFolderPath endswith "\\runonce.exe" or InitiatingProcessFolderPath endswith "\\dllhost.exe") and (ProcessCommandLine contains "cmd.exe /c echo" and ProcessCommandLine contains "> \\\\\\\\.\\\\pipe")))

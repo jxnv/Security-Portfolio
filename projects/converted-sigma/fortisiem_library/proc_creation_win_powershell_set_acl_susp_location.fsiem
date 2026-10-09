@@ -1,0 +1,11 @@
+# Title: PowerShell Set-Acl On Windows Folder
+# ID: 0944e002-e3f6-4eb5-bf69-3a3067b53d73
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-10-18
+# Tags: attack.stealth
+# Description: Detects PowerShell scripts to set the ACL to a file in the Windows folder
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((CommandLine CONTAIN "Set-Acl " AND CommandLine CONTAIN "-AclObject ")) AND (((OriginalFileName = "PowerShell.EXE" OR OriginalFileName = "pwsh.dll")) OR ((Image="*\\powershell.exe" OR Image="*\\pwsh.exe"))) AND ((CommandLine CONTAIN "-Path \"C:\\Windows" OR CommandLine CONTAIN "-Path 'C:\\Windows" OR CommandLine CONTAIN "-Path %windir%" OR CommandLine CONTAIN "-Path $env:windir")) AND ((CommandLine CONTAIN "FullControl" OR CommandLine CONTAIN "Allow")))

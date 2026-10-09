@@ -1,0 +1,26 @@
+{
+  "title": "Execution DLL of Choice Using WAB.EXE",
+  "id": "fc014922-5def-4da9-a0fc-28c973f41bfb",
+  "status": "test",
+  "description": "This rule detects that the path to the DLL written in the registry is different from the default one. Launched WAB.exe tries to load the DLL from Registry.",
+  "author": "oscd.community, Natalia Shornikova",
+  "date": "2020-10-13",
+  "tags": [
+    "attack.stealth",
+    "attack.t1218"
+  ],
+  "level": "high",
+  "logsource": {
+    "category": "registry_set",
+    "product": "windows"
+  },
+  "detection": {
+    "selection": {
+      "TargetObject|endswith": "\\Software\\Microsoft\\WAB\\DLLPath"
+    },
+    "filter": {
+      "Details": "%CommonProgramFiles%\\System\\wab32.dll"
+    },
+    "condition": "selection and not filter"
+  }
+}

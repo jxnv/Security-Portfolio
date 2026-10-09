@@ -1,0 +1,43 @@
+{
+  "title": "Suspicious Usage Of Active Directory Diagnostic Tool (ntdsutil.exe)",
+  "id": "a58353df-af43-4753-bad0-cd83ef35eef5",
+  "status": "test",
+  "description": "Detects execution of ntdsutil.exe to perform different actions such as restoring snapshots...etc.",
+  "author": "Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2022-09-14",
+  "tags": [
+    "attack.credential-access",
+    "attack.t1003.003"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_img": [
+      {
+        "Image|endswith": "\\ntdsutil.exe"
+      },
+      {
+        "OriginalFileName": "ntdsutil.exe"
+      }
+    ],
+    "selection_cli": [
+      {
+        "CommandLine|contains|all": [
+          "snapshot",
+          "mount "
+        ]
+      },
+      {
+        "CommandLine|contains|all": [
+          "ac",
+          " i",
+          " ntds"
+        ]
+      }
+    ],
+    "condition": "all of selection_*"
+  }
+}

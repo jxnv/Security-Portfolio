@@ -1,0 +1,23 @@
+// Title: Disable PUA Protection on Windows Defender
+// ID: 8ffc5407-52e3-478f-9596-0a7371eafe13
+// Status: test
+// Level: high
+// Author: Austin Songer @austinsonger
+// Date: 2021-08-04
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects disabling Windows Defender PUA protection
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 8ffc5407_52e3_478f_9596_0a7371eafe13 {
+  meta:
+    title = "Disable PUA Protection on Windows Defender"
+    description = "Detects disabling Windows Defender PUA protection"
+    author = "Austin Songer @austinsonger"
+    severity = "HIGH"
+
+  events:
+    ($e.TargetObject = /.*\\Policies\\Microsoft\\Windows Defender\\PUAProtection.*/ nocase and $e.Details = "DWORD (0x00000000)")
+
+  condition:
+    $e
+}

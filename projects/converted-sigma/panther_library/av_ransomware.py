@@ -1,0 +1,20 @@
+# Title: Antivirus - Ransomware Signature
+# ID: 4c6ca276-d4d0-4a8c-9e4c-d69832f8671f
+# Status: test
+# Level: critical
+# Author: Florian Roth (Nextron Systems), Arnim Rupp
+# Date: 2022-05-12
+# Tags: attack.t1486, attack.impact
+# Description: Detects a highly relevant Antivirus alert that reports ransomware.
+# This event must not be ignored just because the AV has blocked the malware but investigate, how it came there in the first place.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Antivirus - Ransomware Signature
+def rule(event):
+    # Detection Logic:
+    # ((Signature="*Babuk*" OR Signature="*Babyk*" OR Signature="*BlackWorm*" OR Signature="*Chaos*" OR Signature="*Cobra*" OR Signature="*ContiCrypt*" OR Signature="*Crypter*" OR Signature="*Cryptes*" OR Signature="*Cryptor*" OR Signature="*CylanCrypt*" OR Signature="*DelShad*" OR Signature="*Destructor*" OR Signature="*Filecoder*" OR Signature="*GandCrab*" OR Signature="*GrandCrab*" OR Signature="*Haperlock*" OR Signature="*Hiddentear*" OR Signature="*HydraCrypt*" OR Signature="*Krypt*" OR Signature="*Lockbit*" OR Signature="*Locker*" OR Signature="*Mallox*" OR Signature="*Medusa*" OR Signature="*Phobos*" OR Signature="*Ransom*" OR Signature="*Rook*" OR Signature="*Ryuk*" OR Signature="*Ryzerlo*" OR Signature="*Stopcrypt*" OR Signature="*Tescrypt*" OR Signature="*TeslaCrypt*" OR Signature="*WannaCry*" OR Signature="*Xorist*"))
+    return True
+
+def title(event):
+    return "Antivirus - Ransomware Signature"
+

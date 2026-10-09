@@ -1,0 +1,23 @@
+// Title: Linux Network Service Scanning - Auditd
+// ID: 3761e026-f259-44e6-8826-719ed8079408
+// Status: test
+// Level: low
+// Author: Alejandro Ortuno, oscd.community
+// Date: 2020-10-21
+// Tags: attack.discovery, attack.t1046
+// Description: Detects enumeration of local or remote network services.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 3761e026_f259_44e6_8826_719ed8079408 {
+  meta:
+    title = "Linux Network Service Scanning - Auditd"
+    description = "Detects enumeration of local or remote network services."
+    author = "Alejandro Ortuno, oscd.community"
+    severity = "LOW"
+
+  events:
+    ($e.type = "SYSCALL" and ($e.exe = /.*/telnet$/ nocase or $e.exe = /.*/nmap$/ nocase or $e.exe = /.*/netcat$/ nocase or $e.exe = /.*/nc$/ nocase or $e.exe = /.*/ncat$/ nocase or $e.exe = /.*/nc.openbsd$/ nocase) and $e.key = "network_connect_4")
+
+  condition:
+    $e
+}

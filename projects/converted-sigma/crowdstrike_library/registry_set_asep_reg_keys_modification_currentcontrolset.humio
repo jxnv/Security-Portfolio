@@ -1,0 +1,11 @@
+// Title: CurrentControlSet Autorun Keys Modification
+// ID: f674e36a-4b91-431e-8aef-f8a96c2aca35
+// Status: test
+// Level: medium
+// Author: Victor Sergeev, Daniil Yugoslavskiy, Gleb Sukhodolskiy, Timur Zinniatullin, oscd.community, Tim Shelton, frack113 (split)
+// Date: 2019-10-25
+// Tags: attack.privilege-escalation, attack.persistence, attack.t1547.001
+// Description: Detects modification of autostart extensibility point (ASEP) in registry.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((TargetObject = /*\\SYSTEM\\CurrentControlSet\\Control*/i) and ((TargetObject = /*\\Terminal Server\\WinStations\\RDP-Tcp\\InitialProgram*/i or TargetObject = /*\\Terminal Server\\Wds\\rdpwd\\StartupPrograms*/i or TargetObject = /*\\SecurityProviders\\SecurityProviders*/i or TargetObject = /*\\SafeBoot\\AlternateShell*/i or TargetObject = /*\\Print\\Providers*/i or TargetObject = /*\\Print\\Monitors*/i or TargetObject = /*\\NetworkProvider\\Order*/i or TargetObject = /*\\Lsa\\Notification Packages*/i or TargetObject = /*\\Lsa\\Authentication Packages*/i or TargetObject = /*\\BootVerificationProgram\\ImagePath*/i))) and not(((ImageFileName = "C:\\Windows\\System32\\spoolsv.exe" and TargetObject = /*\\Print\\Monitors\\CutePDF Writer Monitor*/i and (Details = "cpwmon64_v40.dll" or Details = "CutePDF Writer")) or (Details = "(Empty)") or (ImageFileName = "C:\\Windows\\System32\\spoolsv.exe" and TargetObject = /*Print\\Monitors\\Appmon\\Ports\\Microsoft.Office.OneNote_*/i and (UserName = /*AUTHORI*/i or UserName = /*AUTORI*/i)) or (ImageFileName = "C:\\Windows\\System32\\poqexec.exe" and TargetObject = /.*\\NetworkProvider\\Order\\ProviderOrder/i) or (ImageFileName = "C:\\Windows\\System32\\spoolsv.exe" and TargetObject = /.*\\Print\\Monitors\\MONVNC\\Driver/i and Details = "VNCpm.dll"))))

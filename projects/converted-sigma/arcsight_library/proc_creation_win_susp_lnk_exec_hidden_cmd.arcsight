@@ -1,0 +1,14 @@
+// Title: Suspicious LNK Command-Line Padding with Whitespace Characters
+// ID: dd8756e7-a3a0-4768-b47e-8f545d1a751c
+// Status: experimental
+// Level: high
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-03-19
+// Tags: attack.initial-access, attack.execution, attack.t1204.002
+// Description: Detects exploitation of LNK file command-line length discrepancy, where attackers hide malicious commands beyond the 260-character UI limit while the actual command-line argument field supports 4096 characters using whitespace padding (e.g., 0x20, 0x09-0x0D).
+// Adversaries insert non-printable whitespace characters (e.g., Line Feed \x0A, Carriage Return \x0D) to pad the visible section of the LNK file, pushing malicious commands past the UI-visible boundary.
+// The hidden payload, executed at runtime but invisible in Windows Explorer properties, enables stealthy execution and evasion—commonly used for social engineering attacks.
+// This rule flags suspicious use of such padding observed in real-world attacks.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((CommandLine CONTAINS "                 " OR CommandLine CONTAINS "\\u0009" OR CommandLine CONTAINS "\\u000A" OR CommandLine CONTAINS "\\u0011" OR CommandLine CONTAINS "\\u0012" OR CommandLine CONTAINS "\\u0013" OR CommandLine CONTAINS "\\u000B" OR CommandLine CONTAINS "\\u000C" OR CommandLine CONTAINS "\\u000D")) OR (CommandLine=regex("\\n\\n\\n\\n\\n\\n"))) AND ((ParentImage ENDSWITH "\\explorer.exe") OR (ParentCommandLine CONTAINS ".lnk")))

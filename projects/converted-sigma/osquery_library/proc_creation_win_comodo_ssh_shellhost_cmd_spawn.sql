@@ -1,0 +1,13 @@
+-- Title: OpenEDR Spawning Command Shell
+-- ID: 7f3a9c2d-4e8b-4a7f-9d3e-5c6f8a9b2e1d
+-- Status: experimental
+-- Level: medium
+-- Author: @kostastsale
+-- Date: 2026-02-19
+-- Tags: attack.execution, attack.t1059.003, attack.lateral-movement, attack.t1021.004, attack.command-and-control, attack.t1219
+-- Description: Detects the OpenEDR ssh-shellhost.exe spawning a command shell (cmd.exe) or PowerShell with PTY (pseudo-terminal) capabilities.
+-- This may indicate remote command execution through OpenEDR's remote management features, which could be legitimate administrative activity or potential abuse of the remote access tool.
+-- Threat actors may leverage OpenEDR's remote shell capabilities to execute commands on compromised systems, facilitating lateral movement or other command-and-control operations.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM processes WHERE (((CommandLine LIKE '%bash%' OR CommandLine LIKE '%cmd%' OR CommandLine LIKE '%powershell%' OR CommandLine LIKE '%pwsh%')) AND (ParentImage="*\\ITSMService.exe" AND Image="*\\ssh-shellhost.exe" AND CommandLine LIKE '%--pty%'))

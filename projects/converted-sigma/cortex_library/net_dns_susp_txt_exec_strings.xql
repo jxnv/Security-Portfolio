@@ -1,0 +1,11 @@
+// Title: DNS TXT Answer with Possible Execution Strings
+// ID: 8ae51330-899c-4641-8125-e39f2e07da72
+// Status: test
+// Level: high
+// Author: Markus Neis
+// Date: 2018-08-08
+// Tags: attack.command-and-control, attack.t1071.004
+// Description: Detects strings used in command execution in DNS TXT Answer
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter (record_type = "TXT" and (answer contains "IEX" or answer contains "Invoke-Expression" or answer contains "cmd.exe"))

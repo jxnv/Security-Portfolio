@@ -1,0 +1,25 @@
+// Title: Windows Defender Context Menu Removed
+// ID: b9e8c7d6-a5f4-4e3d-8b1a-9f0c8d7e6a5b
+// Status: experimental
+// Level: high
+// Author: Matt Anderson (Huntress)
+// Date: 2025-07-09
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects the use of reg.exe or PowerShell to delete the Windows Defender context menu handler registry keys.
+// This action removes the "Scan with Microsoft Defender" option from the right-click menu for files, directories, and drives.
+// Attackers may use this technique to hinder manual, on-demand scans and reduce the visibility of the security product.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule b9e8c7d6_a5f4_4e3d_8b1a_9f0c8d7e6a5b {
+  meta:
+    title = "Windows Defender Context Menu Removed"
+    description = "Detects the use of reg.exe or PowerShell to delete the Windows Defender context menu handler registry keys. This action removes the "Scan with Microsoft Defender" option from the right-click menu for files, directories, and drives. Attackers may use this technique to hinder manual, on-demand scans and reduce the visibility of the security product."
+    author = "Matt Anderson (Huntress)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*del.*/ nocase or $e.target.process.command_line = /.*Remove-Item.*/ nocase or $e.target.process.command_line = /.*ri .*/ nocase)) and ((($e.target.process.file.full_path = /.*\\powershell_ise.exe$/ nocase or $e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase or $e.target.process.file.full_path = /.*\\reg.exe$/ nocase)) or (($e.target.process.file.name = "powershell_ise.EXE" or $e.target.process.file.name = "PowerShell.EXE" or $e.target.process.file.name = "pwsh.dll" or $e.target.process.file.name = "reg.exe"))) and ($e.target.process.command_line = /.*\\shellex\\ContextMenuHandlers\\EPP.*/ nocase))
+
+  condition:
+    $e
+}

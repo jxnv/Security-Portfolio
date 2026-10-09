@@ -1,0 +1,23 @@
+// Title: Suspicious Recursive Takeown
+// ID: 554601fb-9b71-4bcc-abf4-21a611be4fde
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-01-30
+// Tags: attack.defense-impairment, attack.t1222.001
+// Description: Adversaries can interact with the DACLs using built-in Windows commands takeown which can grant adversaries higher permissions on specific files and folders
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 554601fb_9b71_4bcc_abf4_21a611be4fde {
+  meta:
+    title = "Suspicious Recursive Takeown"
+    description = "Adversaries can interact with the DACLs using built-in Windows commands takeown which can grant adversaries higher permissions on specific files and folders"
+    author = "frack113"
+    severity = "MEDIUM"
+
+  events:
+    ($e.target.process.file.full_path = /.*\\takeown.exe$/ nocase and ($e.target.process.command_line = /.*/f .*/ nocase and $e.target.process.command_line = /.*/r.*/ nocase))
+
+  condition:
+    $e
+}

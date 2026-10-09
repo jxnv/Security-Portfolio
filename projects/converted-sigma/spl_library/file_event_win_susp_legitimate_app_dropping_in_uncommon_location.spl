@@ -1,0 +1,12 @@
+# Title: Legitimate Application Writing Files In Uncommon Location
+# ID: 1cf465a1-2609-4c15-9b66-c32dbe4bfd67
+# Status: experimental
+# Level: high
+# Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+# Date: 2025-12-10
+# Tags: attack.stealth, attack.t1218, attack.command-and-control, attack.t1105
+# Description: Detects legitimate applications writing any type of file to uncommon or suspicious locations that are not typical for application data storage or execution.
+# Adversaries may leverage legitimate applications (Living off the Land Binaries - LOLBins) to drop or download malicious files to uncommon locations on the system to evade detection by security solutions.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog (((process_path="*\\eqnedt32.exe" OR process_path="*\\wordpad.exe" OR process_path="*\\wordview.exe" OR process_path="*\\cmdl32.exe" OR process_path="*\\certutil.exe" OR process_path="*\\certoc.exe" OR process_path="*\\CertReq.exe" OR process_path="*\\bitsadmin.exe" OR process_path="*\\Desktopimgdownldr.exe" OR process_path="*\\esentutl.exe" OR process_path="*\\expand.exe" OR process_path="*\\extrac32.exe" OR process_path="*\\replace.exe" OR process_path="*\\mshta.exe" OR process_path="*\\ftp.exe" OR process_path="*\\Ldifde.exe" OR process_path="*\\RdrCEF.exe" OR process_path="*\\hh.exe" OR process_path="*\\finger.exe" OR process_path="*\\findstr.exe")) AND ((file_name="*:\\Perflogs*" OR file_name="*:\\ProgramData\\*" OR file_name="*:\\Temp\\*" OR file_name="*:\\Users\\Public\\*" OR file_name="*:\\Windows\\*" OR file_name="*\\$Recycle.Bin\\*" OR file_name="*\\AppData\\Local\\*" OR file_name="*\\AppData\\Roaming\\*" OR file_name="*\\Contacts\\*" OR file_name="*\\Desktop\\*" OR file_name="*\\Favorites\\*" OR file_name="*\\Favourites\\*" OR file_name="*\\inetpub\\wwwroot\\*" OR file_name="*\\Music\\*" OR file_name="*\\Pictures\\*" OR file_name="*\\Start Menu\\Programs\\Startup\\*" OR file_name="*\\Users\\Default\\*" OR file_name="*\\Videos\\*")))

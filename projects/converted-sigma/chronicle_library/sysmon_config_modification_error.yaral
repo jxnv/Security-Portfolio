@@ -1,0 +1,23 @@
+// Title: Sysmon Configuration Error
+// ID: 815cd91b-7dbc-4247-841a-d7dd1392b0a8
+// Status: test
+// Level: high
+// Author: frack113
+// Date: 2021-06-04
+// Tags: attack.stealth, attack.t1564
+// Description: Detects when an adversary is trying to hide it's action from Sysmon logging based on error messages
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 815cd91b_7dbc_4247_841a_d7dd1392b0a8 {
+  meta:
+    title = "Sysmon Configuration Error"
+    description = "Detects when an adversary is trying to hide it's action from Sysmon logging based on error messages"
+    author = "frack113"
+    severity = "HIGH"
+
+  events:
+    ((($e.Description = /.*Failed to open service configuration with error.*/ nocase or $e.Description = /.*Failed to connect to the driver to update configuration.*/ nocase)) and not(((($e.Description = /.*Failed to open service configuration with error 19.*/ nocase or $e.Description = /.*Failed to open service configuration with error 93.*/ nocase)) or (($e.Description = /.*Failed to open service configuration with error.*/ nocase and $e.Description = /.*Last error: The media is write protected..*/ nocase)) or (($e.Description = /.*Failed to open service configuration with error.*/ nocase and $e.Description = /.*Last error: Média protégé en écriture..*/ nocase)))))
+
+  condition:
+    $e
+}

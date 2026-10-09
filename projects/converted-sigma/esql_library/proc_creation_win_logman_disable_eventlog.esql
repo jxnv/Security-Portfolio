@@ -1,0 +1,11 @@
+// Title: Suspicious Windows Trace ETW Session Tamper Via Logman.EXE
+// ID: cd1f961e-0b96-436b-b7c6-38da4583ec00
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2021-02-11
+// Tags: attack.defense-impairment, attack.t1685, attack.t1685.005
+// Description: Detects the execution of "logman" utility in order to disable or delete Windows trace sessions
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE (((process.command_line LIKE "%stop %" OR process.command_line LIKE "%delete %")) AND ((process.executable LIKE "%\\logman.exe") OR (process.pe.original_file_name == "Logman.exe")) AND ((process.command_line LIKE "%Circular Kernel Context Logger%" OR process.command_line LIKE "%EventLog-%" OR process.command_line LIKE "%SYSMON TRACE%" OR process.command_line LIKE "%SysmonDnsEtwSession%")))

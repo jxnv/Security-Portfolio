@@ -1,0 +1,11 @@
+// Title: Linux Webshell Indicators
+// ID: 818f7b24-0fba-4c49-a073-8b755573b9c7
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2021-10-15
+// Tags: attack.persistence, attack.t1505.003
+// Description: Detects suspicious sub processes of web server processes
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((ParentBaseFileName = /.*/httpd/i or ParentBaseFileName = /.*/lighttpd/i or ParentBaseFileName = /.*/nginx/i or ParentBaseFileName = /.*/apache2/i or ParentBaseFileName = /.*/node/i or ParentBaseFileName = /.*/caddy/i)) or ((ParentCommandLine = /*/bin/java*/i and ParentCommandLine = /*tomcat*/i)) or ((ParentCommandLine = /*/bin/java*/i and ParentCommandLine = /*websphere*/i))) and ((ImageFileName = /.*/whoami/i or ImageFileName = /.*/ifconfig/i or ImageFileName = /.*/ip/i or ImageFileName = /.*/bin/uname/i or ImageFileName = /.*/bin/cat/i or ImageFileName = /.*/bin/crontab/i or ImageFileName = /.*/hostname/i or ImageFileName = /.*/iptables/i or ImageFileName = /.*/netstat/i or ImageFileName = /.*/pwd/i or ImageFileName = /.*/route/i)) and not((ParentBaseFileName = /.*/node/i and CommandLine = /*ip neigh show*/i)))

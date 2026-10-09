@@ -1,0 +1,24 @@
+// Title: AWS Identity Center Identity Provider Change
+// ID: d3adb3ef-b7e7-4003-9092-1924c797db35
+// Status: test
+// Level: high
+// Author: Michael McIntyre @wtfender
+// Date: 2023-09-27
+// Tags: attack.persistence, attack.credential-access, attack.defense-impairment, attack.t1556
+// Description: Detects a change in the AWS Identity Center (FKA AWS SSO) identity provider.
+// A change in identity provider allows an attacker to establish persistent access or escalate privileges via user impersonation.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule d3adb3ef_b7e7_4003_9092_1924c797db35 {
+  meta:
+    title = "AWS Identity Center Identity Provider Change"
+    description = "Detects a change in the AWS Identity Center (FKA AWS SSO) identity provider. A change in identity provider allows an attacker to establish persistent access or escalate privileges via user impersonation."
+    author = "Michael McIntyre @wtfender"
+    severity = "HIGH"
+
+  events:
+    (($e.eventSource = "sso-directory.amazonaws.com" or $e.eventSource = "sso.amazonaws.com") and ($e.eventName = "AssociateDirectory" or $e.eventName = "DisableExternalIdPConfigurationForDirectory" or $e.eventName = "DisassociateDirectory" or $e.eventName = "EnableExternalIdPConfigurationForDirectory"))
+
+  condition:
+    $e
+}

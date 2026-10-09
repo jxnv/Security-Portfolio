@@ -1,0 +1,19 @@
+# Title: Potential Active Directory Enumeration Using AD Module - PsScript
+# ID: 9e620995-f2d8-4630-8430-4afd89f77604
+# Status: test
+# Level: medium
+# Author: frack113, Nasreddine Bencherchali
+# Date: 2023-01-22
+# Tags: attack.reconnaissance, attack.discovery, attack.impact
+# Description: Detects usage of the "Import-Module" cmdlet to load the "Microsoft.ActiveDirectory.Management.dl" DLL. Which is often used by attackers to perform AD enumeration.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Potential Active Directory Enumeration Using AD Module - PsScript
+def rule(event):
+    # Detection Logic:
+    # (((ScriptBlockText="*Import-Module *" AND ScriptBlockText="*Microsoft.ActiveDirectory.Management.dll*")) OR (ScriptBlockText="*ipmo Microsoft.ActiveDirectory.Management.dll*"))
+    return True
+
+def title(event):
+    return "Potential Active Directory Enumeration Using AD Module - PsScript"
+

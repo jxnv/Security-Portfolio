@@ -1,0 +1,31 @@
+{
+  "title": "Tomcat WebServer Logs Deleted",
+  "id": "270185ff-5f50-4d6d-a27f-24c3b8c9fef8",
+  "status": "test",
+  "description": "Detects the deletion of tomcat WebServer logs which may indicate an attempt to destroy forensic evidence",
+  "author": "Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2023-02-16",
+  "tags": [
+    "attack.stealth",
+    "attack.t1070"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "file_delete",
+    "product": "windows"
+  },
+  "detection": {
+    "selection": {
+      "TargetFilename|contains|all": [
+        "\\Tomcat",
+        "\\logs\\"
+      ],
+      "TargetFilename|contains": [
+        "catalina.",
+        "_access_log.",
+        "localhost."
+      ]
+    },
+    "condition": "selection"
+  }
+}

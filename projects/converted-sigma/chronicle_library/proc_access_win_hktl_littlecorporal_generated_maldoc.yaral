@@ -1,0 +1,23 @@
+// Title: HackTool - LittleCorporal Generated Maldoc Injection
+// ID: 7bdde3bf-2a42-4c39-aa31-a92b3e17afac
+// Status: test
+// Level: high
+// Author: Christian Burkard (Nextron Systems)
+// Date: 2021-08-09
+// Tags: attack.execution, attack.privilege-escalation, attack.stealth, attack.t1204.002, attack.t1055.003
+// Description: Detects the process injection of a LittleCorporal generated Maldoc.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 7bdde3bf_2a42_4c39_aa31_a92b3e17afac {
+  meta:
+    title = "HackTool - LittleCorporal Generated Maldoc Injection"
+    description = "Detects the process injection of a LittleCorporal generated Maldoc."
+    author = "Christian Burkard (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ($e.SourceImage = /.*\\winword.exe$/ nocase and ($e.CallTrace = /.*:\\Windows\\Microsoft.NET\\Framework64\\v2..*/ nocase and $e.CallTrace = /.*UNKNOWN.*/ nocase))
+
+  condition:
+    $e
+}

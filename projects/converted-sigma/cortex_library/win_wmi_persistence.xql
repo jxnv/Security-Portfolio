@@ -1,0 +1,11 @@
+// Title: WMI Persistence
+// ID: 0b7889b4-5577-4521-a60a-3376ee7f9f7b
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems), Gleb Sukhodolskiy, Timur Zinniatullin oscd.community
+// Date: 2017-08-22
+// Tags: attack.persistence, attack.privilege-escalation, attack.t1546.003
+// Description: Detects suspicious WMI event filter and command line event consumer based on WMI and Security Logs.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter ((((EventID = 5861) and ("ActiveScriptEventConsumer" or "CommandLineEventConsumer" or "CommandLineTemplate")) or (EventID = 5859)) and not ((Provider = "SCM Event Provider" and Query = "select * from MSFT_SCMEventLogEvent" and action_process_username = "S-1-5-32-544" and PossibleCause = "Permanent")))

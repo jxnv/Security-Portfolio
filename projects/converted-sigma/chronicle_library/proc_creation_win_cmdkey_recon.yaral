@@ -1,0 +1,23 @@
+// Title: Potential Reconnaissance For Cached Credentials Via Cmdkey.EXE
+// ID: 07f8bdc2-c9b3-472a-9817-5a670b872f53
+// Status: test
+// Level: high
+// Author: jmallette, Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2019-01-16
+// Tags: attack.credential-access, attack.t1003.005
+// Description: Detects usage of cmdkey to look for cached credentials on the system
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 07f8bdc2_c9b3_472a_9817_5a670b872f53 {
+  meta:
+    title = "Potential Reconnaissance For Cached Credentials Via Cmdkey.EXE"
+    description = "Detects usage of cmdkey to look for cached credentials on the system"
+    author = "jmallette, Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.command_line = /.* -l.*/ nocase) and (($e.target.process.file.full_path = /.*\\cmdkey.exe$/ nocase) or ($e.target.process.file.name = "cmdkey.exe")))
+
+  condition:
+    $e
+}

@@ -1,0 +1,12 @@
+// Title: AWS ECS Task Definition That Queries The Credential Endpoint
+// ID: b94bf91e-c2bf-4047-9c43-c6810f43baad
+// Status: test
+// Level: medium
+// Author: Darin Smith
+// Date: 2022-06-07
+// Tags: attack.persistence, attack.t1525
+// Description: Detects when an Elastic Container Service (ECS) Task Definition includes a command to query the credential endpoint.
+// This can indicate a potential adversary adding a backdoor to establish persistence or escalate privileges.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(eventSource == "ecs.amazonaws.com" AND (eventName == "DescribeTaskDefinition" OR eventName == "RegisterTaskDefinition" OR eventName == "RunTask") AND requestParameters.containerDefinitions.command contains "$AWS_CONTAINER_CREDENTIALS_RELATIVE_URI")

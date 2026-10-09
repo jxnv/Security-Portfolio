@@ -1,0 +1,23 @@
+// Title: Set Suspicious Files as System Files Using Attrib.EXE
+// ID: efec536f-72e8-4656-8960-5e85d091345b
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-06-28
+// Tags: attack.stealth, attack.t1564.001
+// Description: Detects the usage of attrib with the "+s" option to set scripts or executables located in suspicious locations as system files to hide them from users and make them unable to be deleted with simple rights. The rule limits the search to specific extensions and directories to avoid FPs
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule efec536f_72e8_4656_8960_5e85d091345b {
+  meta:
+    title = "Set Suspicious Files as System Files Using Attrib.EXE"
+    description = "Detects the usage of attrib with the "+s" option to set scripts or executables located in suspicious locations as system files to hide them from users and make them unable to be deleted with simple rights. The rule limits the search to specific extensions and directories to avoid FPs"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.* +s.*/ nocase) and (($e.target.process.command_line = /.*.bat.*/ nocase or $e.target.process.command_line = /.*.dll.*/ nocase or $e.target.process.command_line = /.*.exe.*/ nocase or $e.target.process.command_line = /.*.hta.*/ nocase or $e.target.process.command_line = /.*.ps1.*/ nocase or $e.target.process.command_line = /.*.vbe.*/ nocase or $e.target.process.command_line = /.*.vbs.*/ nocase)) and (($e.target.process.file.full_path = /.*\\attrib.exe$/ nocase) or ($e.target.process.file.name = "ATTRIB.EXE")) and (($e.target.process.command_line = /.* %.*/ nocase or $e.target.process.command_line = /.*\\Users\\Public\\.*/ nocase or $e.target.process.command_line = /.*\\AppData\\Local\\.*/ nocase or $e.target.process.command_line = /.*\\ProgramData\\.*/ nocase or $e.target.process.command_line = /.*\\Downloads\\.*/ nocase or $e.target.process.command_line = /.*\\Windows\\Temp\\.*/ nocase))) and not((($e.target.process.command_line = /.*\\Windows\\TEMP\\.*/ nocase and $e.target.process.command_line = /.*.exe.*/ nocase))))
+
+  condition:
+    $e
+}

@@ -1,0 +1,23 @@
+// Title: New PortProxy Registry Entry Added
+// ID: a54f842a-3713-4b45-8c84-5f136fdebd3c
+// Status: test
+// Level: medium
+// Author: Andreas Hunkeler (@Karneades)
+// Date: 2021-06-22
+// Tags: attack.lateral-movement, attack.command-and-control, attack.t1090
+// Description: Detects the modification of the PortProxy registry key which is used for port forwarding.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule a54f842a_3713_4b45_8c84_5f136fdebd3c {
+  meta:
+    title = "New PortProxy Registry Entry Added"
+    description = "Detects the modification of the PortProxy registry key which is used for port forwarding."
+    author = "Andreas Hunkeler (@Karneades)"
+    severity = "MEDIUM"
+
+  events:
+    ($e.TargetObject = /.*\\Services\\PortProxy\\v4tov4\\tcp\\.*/ nocase)
+
+  condition:
+    $e
+}

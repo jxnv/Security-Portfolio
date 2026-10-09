@@ -1,0 +1,12 @@
+// Title: Antivirus - Password Dumper Signature
+// ID: 78cc2dd2-7d20-4d32-93ff-057084c38b93
+// Status: stable
+// Level: critical
+// Author: Florian Roth (Nextron Systems), Arnim Rupp
+// Date: 2018-09-09
+// Tags: attack.credential-access, attack.t1003, attack.t1558, attack.t1003.001, attack.t1003.002
+// Description: Detects a highly relevant Antivirus alert that reports password dumpers and stealers.
+// This event must not be ignored just because the AV has blocked the malware but investigate, how it came there in the first place and check if passwords need to be reset.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter ((Signature startswith "PWS") or ((Signature contains "Certify" or Signature contains "DCSync" or Signature contains "Creddump" or Signature contains "DumpCreds" or Signature contains "DumpLsass" or Signature contains "DumpPert" or Signature contains "FormBook" or Signature contains "HTool/WCE" or Signature contains "Kekeo" or Signature contains "Lazagne" or Signature contains "LsassDump" or Signature contains "Lummast" or Signature contains "Mimikatz" or Signature contains "MultiDump" or Signature contains "Multiverze" or Signature contains "Nanodump" or Signature contains "NativeDump" or Signature contains "Outflank" or Signature contains "PShlSpy" or Signature contains "PSWTool" or Signature contains "PWCrack" or Signature contains "PWDump" or Signature contains "PWS." or Signature contains "PWSX" or Signature contains "pypykatz" or Signature contains "Rubeus" or Signature contains "SafetyKatz" or Signature contains "SecurityTool" or Signature contains "SharpChrome" or Signature contains "SharpDPAPI" or Signature contains "SharpDump" or Signature contains "SharpKatz" or Signature contains "SharpS." or Signature contains "ShpKatz" or Signature contains "Steal" or Signature contains "TrickDump" or Signature contains "wsass")))

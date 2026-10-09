@@ -1,0 +1,12 @@
+// Title: Potentially Suspicious Rundll32.EXE Execution of UDL File
+// ID: 0ea52357-cd59-4340-9981-c46c7e900428
+// Status: test
+// Level: medium
+// Author: @kostastsale
+// Date: 2024-08-16
+// Tags: attack.execution, attack.command-and-control, attack.stealth, attack.t1218.011, attack.t1071
+// Description: Detects the execution of rundll32.exe with the oledb32.dll library to open a UDL file.
+// Threat actors can abuse this technique as a phishing vector to capture authentication credentials or other sensitive data.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((CommandLine: "*oledb32.dll*" AND CommandLine: "*,OpenDSLFile *" AND CommandLine: "*\\\\Users\\\\*\\\\Downloads\\\\*") AND CommandLine="*.udl") AND ((Image="*\\rundll32.exe") OR (OriginalFileName: "RUNDLL32.EXE")) AND (ParentImage="*\\explorer.exe"))

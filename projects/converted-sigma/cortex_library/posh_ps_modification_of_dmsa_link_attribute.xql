@@ -1,0 +1,12 @@
+// Title: DMSA Link Attributes Modified
+// ID: 9b111d8e-92e0-4153-88bc-daefc1333aba
+// Status: experimental
+// Level: low
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-05-24
+// Tags: attack.privilege-escalation, attack.persistence, attack.initial-access, attack.stealth, attack.t1078.002, attack.t1098
+// Description: Detects modification of dMSA link attributes (msDS-ManagedAccountPrecededByLink) via PowerShell scripts.
+// This command line pattern could be an indicator an attempt to exploit the BadSuccessor privilege escalation vulnerability in Windows Server 2025.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter ((ScriptBlockText contains ".Put(\"msDS-ManagedAccountPrecededByLink" and ScriptBlockText contains "CN="))

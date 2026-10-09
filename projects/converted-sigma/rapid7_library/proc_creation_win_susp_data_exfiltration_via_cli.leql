@@ -1,0 +1,11 @@
+// Title: Potential Data Exfiltration Activity Via CommandLine Tools
+// ID: 7d1aaf3d-4304-425c-b7c3-162055e0b3ab
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-02
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects the use of various CLI utilities exfiltrating data via web requests
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((where(Image IENDSWITH "\\powershell_ise.exe") OR where(Image IENDSWITH "\\powershell.exe") OR where(Image IENDSWITH "\\pwsh.exe") OR where(Image IENDSWITH "\\cmd.exe")) AND (where(CommandLine ICONTAINS "curl ") OR where(CommandLine ICONTAINS "Invoke-RestMethod") OR where(CommandLine ICONTAINS "Invoke-WebRequest") OR where(CommandLine ICONTAINS "irm ") OR where(CommandLine ICONTAINS "iwr ") OR where(CommandLine ICONTAINS "wget ")) AND (where(CommandLine ICONTAINS " -ur") AND where(CommandLine ICONTAINS " -me") AND where(CommandLine ICONTAINS " -b") AND where(CommandLine ICONTAINS " POST "))) OR ((where(Image IENDSWITH "\\curl.exe") AND where(CommandLine ICONTAINS "--ur")) AND ((where(CommandLine ICONTAINS " -d ") OR where(CommandLine ICONTAINS " --data ")))) OR (where(Image IENDSWITH "\\wget.exe") AND (where(CommandLine ICONTAINS "--post-data") OR where(CommandLine ICONTAINS "--post-file")))) AND (((where(CommandLine /net\s+view/) OR where(CommandLine /sc\s+query/))) OR ((where(CommandLine ICONTAINS "Get-Content") OR where(CommandLine ICONTAINS "GetBytes") OR where(CommandLine ICONTAINS "hostname") OR where(CommandLine ICONTAINS "ifconfig") OR where(CommandLine ICONTAINS "ipconfig") OR where(CommandLine ICONTAINS "netstat") OR where(CommandLine ICONTAINS "nltest") OR where(CommandLine ICONTAINS "qprocess") OR where(CommandLine ICONTAINS "systeminfo") OR where(CommandLine ICONTAINS "tasklist") OR where(CommandLine ICONTAINS "ToBase64String") OR where(CommandLine ICONTAINS "whoami"))) OR ((where(CommandLine ICONTAINS "type ") AND where(CommandLine ICONTAINS " > ") AND where(CommandLine ICONTAINS " C:\\")))))

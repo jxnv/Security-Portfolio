@@ -1,0 +1,11 @@
+// Title: Potential Netcat Reverse Shell Execution
+// ID: 7f734ed0-4f47-46c0-837f-6ee62505abd9
+// Status: test
+// Level: high
+// Author: @d4ns4n_, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-04-07
+// Tags: attack.execution, attack.t1059
+// Description: Detects execution of netcat with the "-e" or "-c" flags followed by common shells, which are commonly used to spawn reverse shells.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(CommandLine ICONTAINS " -c ") OR where(CommandLine ICONTAINS " -e "))) AND ((where(Image IENDSWITH "/nc.openbsd") OR where(Image IENDSWITH "/nc.traditional") OR where(Image IENDSWITH "/nc") OR where(Image IENDSWITH "/ncat") OR where(Image IENDSWITH "/netcat.openbsd") OR where(Image IENDSWITH "/netcat.traditional") OR where(Image IENDSWITH "/netcat"))) AND ((where(CommandLine ICONTAINS " ash") OR where(CommandLine ICONTAINS " bash") OR where(CommandLine ICONTAINS " bsh") OR where(CommandLine ICONTAINS " csh") OR where(CommandLine ICONTAINS " ksh") OR where(CommandLine ICONTAINS " pdksh") OR where(CommandLine ICONTAINS " sh") OR where(CommandLine ICONTAINS " tcsh") OR where(CommandLine ICONTAINS "/bin/ash") OR where(CommandLine ICONTAINS "/bin/bash") OR where(CommandLine ICONTAINS "/bin/bsh") OR where(CommandLine ICONTAINS "/bin/csh") OR where(CommandLine ICONTAINS "/bin/ksh") OR where(CommandLine ICONTAINS "/bin/pdksh") OR where(CommandLine ICONTAINS "/bin/sh") OR where(CommandLine ICONTAINS "/bin/tcsh") OR where(CommandLine ICONTAINS "/bin/zsh") OR where(CommandLine ICONTAINS "$IFSash") OR where(CommandLine ICONTAINS "$IFSbash") OR where(CommandLine ICONTAINS "$IFSbsh") OR where(CommandLine ICONTAINS "$IFScsh") OR where(CommandLine ICONTAINS "$IFSksh") OR where(CommandLine ICONTAINS "$IFSpdksh") OR where(CommandLine ICONTAINS "$IFSsh") OR where(CommandLine ICONTAINS "$IFStcsh") OR where(CommandLine ICONTAINS "$IFSzsh"))))

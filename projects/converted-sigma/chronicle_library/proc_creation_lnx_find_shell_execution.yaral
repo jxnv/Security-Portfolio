@@ -1,0 +1,23 @@
+// Title: Shell Execution via Find - Linux
+// ID: 6adfbf8f-52be-4444-9bac-81b539624146
+// Status: test
+// Level: high
+// Author: Li Ling, Andy Parkidomo, Robert Rakowski, Blake Hartstein (Bloomberg L.P.)
+// Date: 2024-09-02
+// Tags: attack.discovery, attack.t1083
+// Description: Detects the use of the find command to execute a shell. Such behavior may be associated with privilege escalation, unauthorized command execution, or exploitation attempt.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 6adfbf8f_52be_4444_9bac_81b539624146 {
+  meta:
+    title = "Shell Execution via Find - Linux"
+    description = "Detects the use of the find command to execute a shell. Such behavior may be associated with privilege escalation, unauthorized command execution, or exploitation attempt."
+    author = "Li Ling, Andy Parkidomo, Robert Rakowski, Blake Hartstein (Bloomberg L.P.)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*/bin/bash.*/ nocase or $e.target.process.command_line = /.*/bin/dash.*/ nocase or $e.target.process.command_line = /.*/bin/fish.*/ nocase or $e.target.process.command_line = /.*/bin/sh.*/ nocase or $e.target.process.command_line = /.*/bin/zsh.*/ nocase)) and ($e.target.process.file.full_path = /.*/find$/ nocase and ($e.target.process.command_line = /.* . .*/ nocase and $e.target.process.command_line = /.*-exec.*/ nocase)))
+
+  condition:
+    $e
+}

@@ -1,0 +1,23 @@
+// Title: MSSQL Destructive Query
+// ID: 00321fee-ca72-4cce-b011-5415af3b9960
+// Status: experimental
+// Level: medium
+// Author: Daniel Degasperi '@d4ns4n_'
+// Date: 2025-06-04
+// Tags: attack.exfiltration, attack.impact, attack.t1485
+// Description: Detects the invocation of MS SQL transactions that are destructive towards table or database data, such as "DROP TABLE" or "DROP DATABASE".
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 00321fee_ca72_4cce_b011_5415af3b9960 {
+  meta:
+    title = "MSSQL Destructive Query"
+    description = "Detects the invocation of MS SQL transactions that are destructive towards table or database data, such as "DROP TABLE" or "DROP DATABASE"."
+    author = "Daniel Degasperi '@d4ns4n_'"
+    severity = "MEDIUM"
+
+  events:
+    ($e.Provider_Name = "MSSQLSERVER$AUDIT" and $e.EventID = 33205 and ($e.Data = /.*statement:TRUNCATE TABLE.*/ nocase or $e.Data = /.*statement:DROP TABLE.*/ nocase or $e.Data = /.*statement:DROP DATABASE.*/ nocase))
+
+  condition:
+    $e
+}

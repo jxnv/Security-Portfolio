@@ -1,0 +1,11 @@
+// Title: Suspicious PowerShell Invocations - Specific
+// ID: ae7fbf8e-f3cb-49fd-8db4-5f3bed522c71
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Jonhnathan Ribeiro
+// Date: 2017-03-05
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects suspicious PowerShell invocation command parameters
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+from siem.events where ((((contains(ScriptBlockText, "-nop") AND contains(ScriptBlockText, " -w ") AND contains(ScriptBlockText, "hidden") AND contains(ScriptBlockText, " -c ") AND contains(ScriptBlockText, "[Convert]::FromBase64String"))) OR ((contains(ScriptBlockText, " -w ") AND contains(ScriptBlockText, "hidden") AND contains(ScriptBlockText, "-ep") AND contains(ScriptBlockText, "bypass") AND contains(ScriptBlockText, "-Enc"))) OR ((contains(ScriptBlockText, " -w ") AND contains(ScriptBlockText, "hidden") AND contains(ScriptBlockText, "-noni") AND contains(ScriptBlockText, "-nop") AND contains(ScriptBlockText, " -c ") AND contains(ScriptBlockText, "iex") AND contains(ScriptBlockText, "New-Object"))) OR ((contains(ScriptBlockText, "iex") AND contains(ScriptBlockText, "New-Object") AND contains(ScriptBlockText, "Net.WebClient") AND contains(ScriptBlockText, ".Download"))) OR ((contains(ScriptBlockText, "powershell") AND contains(ScriptBlockText, "reg") AND contains(ScriptBlockText, "add")) AND (contains(ScriptBlockText, "\\software\\microsoft\\windows\\currentversion\\run") OR contains(ScriptBlockText, "\\software\\wow6432node\\microsoft\\windows\\currentversion\\run") OR contains(ScriptBlockText, "\\software\\microsoft\\windows\\currentversion\\policies\\explorer\\run"))) OR ((contains(ScriptBlockText, "bypass") AND contains(ScriptBlockText, "-noprofile") AND contains(ScriptBlockText, "-windowstyle") AND contains(ScriptBlockText, "hidden") AND contains(ScriptBlockText, "new-object") AND contains(ScriptBlockText, "system.net.webclient") AND contains(ScriptBlockText, ".download")))) AND NOT (((contains(ScriptBlockText, "(New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1") OR contains(ScriptBlockText, "(New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1')") OR contains(ScriptBlockText, "Write-ChocolateyWarning")))))

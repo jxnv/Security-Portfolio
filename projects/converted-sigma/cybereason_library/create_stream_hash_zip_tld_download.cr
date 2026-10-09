@@ -1,0 +1,11 @@
+// Title: Potentially Suspicious File Download From ZIP TLD
+// ID: 0bb4bbeb-fe52-4044-b40c-430a04577ebe
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2023-05-18
+// Tags: attack.stealth
+// Description: Detects the download of a file with a potentially suspicious extension from a .zip top level domain.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(Contents contains ".zip/" AND (TargetFilename contains ".bat:Zone" OR TargetFilename contains ".dat:Zone" OR TargetFilename contains ".dll:Zone" OR TargetFilename contains ".doc:Zone" OR TargetFilename contains ".docm:Zone" OR TargetFilename contains ".exe:Zone" OR TargetFilename contains ".hta:Zone" OR TargetFilename contains ".pptm:Zone" OR TargetFilename contains ".ps1:Zone" OR TargetFilename contains ".rar:Zone" OR TargetFilename contains ".rtf:Zone" OR TargetFilename contains ".sct:Zone" OR TargetFilename contains ".vbe:Zone" OR TargetFilename contains ".vbs:Zone" OR TargetFilename contains ".ws:Zone" OR TargetFilename contains ".wsf:Zone" OR TargetFilename contains ".xll:Zone" OR TargetFilename contains ".xls:Zone" OR TargetFilename contains ".xlsm:Zone" OR TargetFilename contains ".zip:Zone"))

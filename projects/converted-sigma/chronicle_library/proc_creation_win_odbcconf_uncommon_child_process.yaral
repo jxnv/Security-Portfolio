@@ -1,0 +1,23 @@
+// Title: Uncommon Child Process Spawned By Odbcconf.EXE
+// ID: 8e3c7994-131e-4ba5-b6ea-804d49113a26
+// Status: test
+// Level: medium
+// Author: Harjot Singh @cyb3rjy0t
+// Date: 2023-05-22
+// Tags: attack.stealth, attack.t1218.008
+// Description: Detects an uncommon child process of "odbcconf.exe" binary which normally shouldn't have any child processes.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 8e3c7994_131e_4ba5_b6ea_804d49113a26 {
+  meta:
+    title = "Uncommon Child Process Spawned By Odbcconf.EXE"
+    description = "Detects an uncommon child process of "odbcconf.exe" binary which normally shouldn't have any child processes."
+    author = "Harjot Singh @cyb3rjy0t"
+    severity = "MEDIUM"
+
+  events:
+    ($e.principal.process.file.full_path = /.*\\odbcconf.exe$/ nocase)
+
+  condition:
+    $e
+}

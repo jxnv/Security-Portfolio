@@ -1,0 +1,11 @@
+# Title: Potentially Suspicious Execution Of PDQDeployRunner
+# ID: 12b8e9f5-96b2-41e1-9a42-8c6779a5c184
+# Status: test
+# Level: medium
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-07-22
+# Tags: attack.execution
+# Description: Detects suspicious execution of "PDQDeployRunner" which is part of the PDQDeploy service stack that is responsible for executing commands and packages on a remote machines
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((((process_name:*\\bash.exe OR process_name:*\\certutil.exe OR process_name:*\\cmd.exe OR process_name:*\\csc.exe OR process_name:*\\cscript.exe OR process_name:*\\dllhost.exe OR process_name:*\\mshta.exe OR process_name:*\\msiexec.exe OR process_name:*\\regsvr32.exe OR process_name:*\\rundll32.exe OR process_name:*\\scriptrunner.exe OR process_name:*\\wmic.exe OR process_name:*\\wscript.exe OR process_name:*\\wsl.exe)) OR ((process_name:*:\\ProgramData\\* OR process_name:*:\\Users\\Public\\* OR process_name:*:\\Windows\\TEMP\\* OR process_name:*\\AppData\\Local\\Temp*)) OR ((cmdline:* -decode * OR cmdline:* -enc * OR cmdline:* -encodedcommand * OR cmdline:* -w hidden* OR cmdline:*DownloadString* OR cmdline:*FromBase64String* OR cmdline:*http* OR cmdline:*iex * OR cmdline:*Invoke-*))) AND (parent_name:*\\PDQDeployRunner-*))

@@ -1,0 +1,11 @@
+// Title: Suspicious Provlaunch.EXE Child Process
+// ID: f9999590-1f94-4a34-a91e-951e47bedefd
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-08-08
+// Tags: attack.stealth, attack.t1218
+// Description: Detects suspicious child processes of "provlaunch.exe" which might indicate potential abuse to proxy execution.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where ((((process.executable endswith "\\calc.exe" or process.executable endswith "\\cmd.exe" or process.executable endswith "\\cscript.exe" or process.executable endswith "\\mshta.exe" or process.executable endswith "\\notepad.exe" or process.executable endswith "\\powershell.exe" or process.executable endswith "\\pwsh.exe" or process.executable endswith "\\regsvr32.exe" or process.executable endswith "\\rundll32.exe" or process.executable endswith "\\wscript.exe")) or ((process.executable like "*_:\\PerfLogs\\*" or process.executable like "*_:\\Temp\\*" or process.executable like "*_:\\Users\\Public\\*" or process.executable like "*_\\AppData\\Temp\\*" or process.executable like "*_\\Windows\\System32\\Tasks\\*" or process.executable like "*_\\Windows\\Tasks\\*" or process.executable like "*_\\Windows\\Temp\\*"))) and (process.parent.executable endswith "\\provlaunch.exe"))

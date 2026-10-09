@@ -1,0 +1,24 @@
+// Title: Azure AD Health Monitoring Agent Registry Keys Access
+// ID: ff151c33-45fa-475d-af4f-c2f93571f4fe
+// Status: test
+// Level: medium
+// Author: Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research), MSTIC
+// Date: 2021-08-26
+// Tags: attack.discovery, attack.t1012
+// Description: This detection uses Windows security events to detect suspicious access attempts to the registry key of Azure AD Health monitoring agent.
+// This detection requires an access control entry (ACE) on the system access control list (SACL) of the following securable object HKLM\SOFTWARE\Microsoft\Microsoft Online\Reporting\MonitoringAgent.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule ff151c33_45fa_475d_af4f_c2f93571f4fe {
+  meta:
+    title = "Azure AD Health Monitoring Agent Registry Keys Access"
+    description = "This detection uses Windows security events to detect suspicious access attempts to the registry key of Azure AD Health monitoring agent. This detection requires an access control entry (ACE) on the system access control list (SACL) of the following securable object HKLM\SOFTWARE\Microsoft\Microsoft Online\Reporting\MonitoringAgent."
+    author = "Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research), MSTIC"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.EventID = 4656 or $e.EventID = 4663) and $e.ObjectType = "Key" and $e.ObjectName = "\\REGISTRY\\MACHINE\\SOFTWARE\\Microsoft\\Microsoft Online\\Reporting\\MonitoringAgent") and not((($e.ProcessName = /.*Microsoft.Identity.Health.Adfs.DiagnosticsAgent.exe.*/ nocase or $e.ProcessName = /.*Microsoft.Identity.Health.Adfs.InsightsService.exe.*/ nocase or $e.ProcessName = /.*Microsoft.Identity.Health.Adfs.MonitoringAgent.Startup.exe.*/ nocase or $e.ProcessName = /.*Microsoft.Identity.Health.Adfs.PshSurrogate.exe.*/ nocase or $e.ProcessName = /.*Microsoft.Identity.Health.Common.Clients.ResourceMonitor.exe.*/ nocase))))
+
+  condition:
+    $e
+}

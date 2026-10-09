@@ -1,0 +1,23 @@
+// Title: Suspicious File Encoded To Base64 Via Certutil.EXE
+// ID: ea0cdc3e-2239-4f26-a947-4e8f8224e464
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-05-15
+// Tags: attack.stealth, attack.t1027
+// Description: Detects the execution of certutil with the "encode" flag to encode a file to base64 where the extensions of the file is suspicious
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule ea0cdc3e_2239_4f26_a947_4e8f8224e464 {
+  meta:
+    title = "Suspicious File Encoded To Base64 Via Certutil.EXE"
+    description = "Detects the execution of certutil with the "encode" flag to encode a file to base64 where the extensions of the file is suspicious"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*-encode.*/ nocase or $e.target.process.command_line = /.*/encode.*/ nocase)) and (($e.target.process.command_line = /.*.acl.*/ nocase or $e.target.process.command_line = /.*.bat.*/ nocase or $e.target.process.command_line = /.*.doc.*/ nocase or $e.target.process.command_line = /.*.gif.*/ nocase or $e.target.process.command_line = /.*.jpeg.*/ nocase or $e.target.process.command_line = /.*.jpg.*/ nocase or $e.target.process.command_line = /.*.mp3.*/ nocase or $e.target.process.command_line = /.*.pdf.*/ nocase or $e.target.process.command_line = /.*.png.*/ nocase or $e.target.process.command_line = /.*.ppt.*/ nocase or $e.target.process.command_line = /.*.tmp.*/ nocase or $e.target.process.command_line = /.*.xls.*/ nocase or $e.target.process.command_line = /.*.xml.*/ nocase)) and (($e.target.process.file.full_path = /.*\\certutil.exe$/ nocase) or ($e.target.process.file.name = "CertUtil.exe")))
+
+  condition:
+    $e
+}

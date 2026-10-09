@@ -1,0 +1,43 @@
+{
+  "title": "Suspicious Eventlog Clear",
+  "id": "0f017df3-8f5a-414f-ad6b-24aff1128278",
+  "status": "test",
+  "description": "Detects usage of known powershell cmdlets such as \"Clear-EventLog\" to clear the Windows event logs",
+  "author": "Nasreddine Bencherchali (Nextron Systems), Swachchhanda Shrawan Poudel (Nextron Systems)",
+  "date": "2022-09-12",
+  "tags": [
+    "attack.defense-impairment",
+    "attack.t1685.005"
+  ],
+  "level": "medium",
+  "logsource": {
+    "product": "windows",
+    "category": "ps_script",
+    "definition": "Requirements: Script Block Logging must be enabled"
+  },
+  "detection": {
+    "selection": [
+      {
+        "ScriptBlockText|contains": [
+          "Clear-EventLog ",
+          "Remove-EventLog ",
+          "Limit-EventLog ",
+          "Clear-WinEvent "
+        ]
+      },
+      {
+        "ScriptBlockText|contains|all": [
+          "Eventing.Reader.EventLogSession",
+          "ClearLog"
+        ]
+      },
+      {
+        "ScriptBlockText|contains|all": [
+          "Diagnostics.EventLog",
+          "Clear"
+        ]
+      }
+    ],
+    "condition": "selection"
+  }
+}

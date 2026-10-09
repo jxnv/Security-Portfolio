@@ -1,0 +1,23 @@
+// Title: BloodHound Collection Files
+// ID: 02773bed-83bf-469f-b7ff-e676e7d78bab
+// Status: test
+// Level: high
+// Author: C.J. May
+// Date: 2022-08-09
+// Tags: attack.discovery, attack.t1087.001, attack.t1087.002, attack.t1482, attack.t1069.001, attack.t1069.002, attack.execution, attack.t1059.001
+// Description: Detects default file names outputted by the BloodHound collection tool SharpHound
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 02773bed_83bf_469f_b7ff_e676e7d78bab {
+  meta:
+    title = "BloodHound Collection Files"
+    description = "Detects default file names outputted by the BloodHound collection tool SharpHound"
+    author = "C.J. May"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.file.full_path = /.*BloodHound.zip$/ nocase or $e.target.file.full_path = /.*_computers.json$/ nocase or $e.target.file.full_path = /.*_containers.json$/ nocase or $e.target.file.full_path = /.*_gpos.json$/ nocase or $e.target.file.full_path = /.*_groups.json$/ nocase or $e.target.file.full_path = /.*_ous.json$/ nocase or $e.target.file.full_path = /.*_users.json$/ nocase)) and not(($e.target.process.file.full_path = /.*\\svchost.exe$/ nocase and $e.target.file.full_path = /^C:\\Program Files\\WindowsApps\\Microsoft..*/ nocase and $e.target.file.full_path = /.*\\pocket_containers.json$/ nocase)))
+
+  condition:
+    $e
+}

@@ -1,0 +1,11 @@
+// Title: CurrentControlSet Autorun Keys Modification
+// ID: f674e36a-4b91-431e-8aef-f8a96c2aca35
+// Status: test
+// Level: medium
+// Author: Victor Sergeev, Daniil Yugoslavskiy, Gleb Sukhodolskiy, Timur Zinniatullin, oscd.community, Tim Shelton, frack113 (split)
+// Date: 2019-10-25
+// Tags: attack.privilege-escalation, attack.persistence, attack.t1547.001
+// Description: Detects modification of autostart extensibility point (ASEP) in registry.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((TargetObject CONTAINS "\\SYSTEM\\CurrentControlSet\\Control") AND ((TargetObject CONTAINS "\\Terminal Server\\WinStations\\RDP-Tcp\\InitialProgram" OR TargetObject CONTAINS "\\Terminal Server\\Wds\\rdpwd\\StartupPrograms" OR TargetObject CONTAINS "\\SecurityProviders\\SecurityProviders" OR TargetObject CONTAINS "\\SafeBoot\\AlternateShell" OR TargetObject CONTAINS "\\Print\\Providers" OR TargetObject CONTAINS "\\Print\\Monitors" OR TargetObject CONTAINS "\\NetworkProvider\\Order" OR TargetObject CONTAINS "\\Lsa\\Notification Packages" OR TargetObject CONTAINS "\\Lsa\\Authentication Packages" OR TargetObject CONTAINS "\\BootVerificationProgram\\ImagePath"))) AND NOT (((Image EQ "C:\\Windows\\System32\\spoolsv.exe" AND TargetObject CONTAINS "\\Print\\Monitors\\CutePDF Writer Monitor" AND (Details EQ "cpwmon64_v40.dll" OR Details EQ "CutePDF Writer")) OR (Details EQ "(Empty)") OR (Image EQ "C:\\Windows\\System32\\spoolsv.exe" AND TargetObject CONTAINS "Print\\Monitors\\Appmon\\Ports\\Microsoft.Office.OneNote_" AND (User CONTAINS "AUTHORI" OR User CONTAINS "AUTORI")) OR (Image EQ "C:\\Windows\\System32\\poqexec.exe" AND TargetObject ENDSWITH "\\NetworkProvider\\Order\\ProviderOrder") OR (Image EQ "C:\\Windows\\System32\\spoolsv.exe" AND TargetObject ENDSWITH "\\Print\\Monitors\\MONVNC\\Driver" AND Details EQ "VNCpm.dll"))))

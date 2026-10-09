@@ -1,0 +1,11 @@
+# Title: Disabling Security Tools
+# ID: e3a8a052-111f-4606-9aee-f28ebeb76776
+# Status: test
+# Level: medium
+# Author: Ömer Günal, Alejandro Ortuno, oscd.community
+# Date: 2020-06-17
+# Tags: attack.defense-impairment, attack.t1686
+# Description: Detects disabling security tools
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((process.executable:*/service AND (process.command_line:*cbdaemon* AND process.command_line:*stop*)) OR (process.executable:*/chkconfig AND (process.command_line:*cbdaemon* AND process.command_line:*off*)) OR (process.executable:*/systemctl AND (process.command_line:*cbdaemon* AND process.command_line:*stop*)) OR (process.executable:*/systemctl AND (process.command_line:*cbdaemon* AND process.command_line:*disable*)) OR (process.executable:*/systemctl AND (process.command_line:*stop* AND process.command_line:*falcon-sensor*)) OR (process.executable:*/systemctl AND (process.command_line:*disable* AND process.command_line:*falcon-sensor*)) OR (process.executable:*/systemctl AND (process.command_line:*firewalld* AND process.command_line:*stop*)) OR (process.executable:*/systemctl AND (process.command_line:*firewalld* AND process.command_line:*disable*)) OR (process.executable:*/service AND (process.command_line:*iptables* AND process.command_line:*stop*)) OR (process.executable:*/service AND (process.command_line:*ip6tables* AND process.command_line:*stop*)) OR (process.executable:*/chkconfig AND (process.command_line:*iptables* AND process.command_line:*stop*)) OR (process.executable:*/chkconfig AND (process.command_line:*ip6tables* AND process.command_line:*stop*)) OR (process.executable:*/setenforce AND process.command_line:*0*))

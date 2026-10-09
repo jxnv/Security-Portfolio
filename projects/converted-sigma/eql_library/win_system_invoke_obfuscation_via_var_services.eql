@@ -1,0 +1,11 @@
+// Title: Invoke-Obfuscation VAR++ LAUNCHER OBFUSCATION - System
+// ID: 14bcba49-a428-42d9-b943-e2ce0f0f7ae6
+// Status: test
+// Level: high
+// Author: Timur Zinniatullin, oscd.community
+// Date: 2020-10-13
+// Tags: attack.stealth, attack.t1027, attack.execution, attack.t1059.001
+// Description: Detects Obfuscated Powershell via VAR++ LAUNCHER
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+any where (winlog.provider_name == "Service Control Manager" and winlog.event_id == 7045 and (ImagePath like "*_&&set*" and ImagePath like "*_cmd*" and ImagePath like "*_/c*" and ImagePath like "*_-f*") and (ImagePath like "*_{0}*" or ImagePath like "*_{1}*" or ImagePath like "*_{2}*" or ImagePath like "*_{3}*" or ImagePath like "*_{4}*" or ImagePath like "*_{5}*"))

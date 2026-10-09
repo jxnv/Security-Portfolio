@@ -1,0 +1,11 @@
+// Title: Suspicious Processes Spawned by Java.EXE
+// ID: 0d34ed8b-1c12-4ff2-828c-16fc860b766d
+// Status: test
+// Level: high
+// Author: Andreas Hunkeler (@Karneades), Florian Roth
+// Date: 2021-12-17
+// Tags: attack.initial-access, attack.persistence, attack.privilege-escalation
+// Description: Detects suspicious processes spawned from a Java host process which could indicate a sign of exploitation (e.g. log4j)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE (process.parent.executable LIKE "%\\java.exe" AND (process.executable LIKE "%\\AppVLP.exe" OR process.executable LIKE "%\\bitsadmin.exe" OR process.executable LIKE "%\\certutil.exe" OR process.executable LIKE "%\\cscript.exe" OR process.executable LIKE "%\\curl.exe" OR process.executable LIKE "%\\forfiles.exe" OR process.executable LIKE "%\\hh.exe" OR process.executable LIKE "%\\mftrace.exe" OR process.executable LIKE "%\\mshta.exe" OR process.executable LIKE "%\\net.exe" OR process.executable LIKE "%\\net1.exe" OR process.executable LIKE "%\\query.exe" OR process.executable LIKE "%\\reg.exe" OR process.executable LIKE "%\\regsvr32.exe" OR process.executable LIKE "%\\rundll32.exe" OR process.executable LIKE "%\\schtasks.exe" OR process.executable LIKE "%\\scrcons.exe" OR process.executable LIKE "%\\scriptrunner.exe" OR process.executable LIKE "%\\sh.exe" OR process.executable LIKE "%\\systeminfo.exe" OR process.executable LIKE "%\\whoami.exe" OR process.executable LIKE "%\\wmic.exe" OR process.executable LIKE "%\\wscript.exe"))

@@ -1,0 +1,11 @@
+// Title: Uncommon New Firewall Rule Added In Windows Firewall Exception List
+// ID: cde0a575-7d3d-4a49-9817-b8004a7bf105
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-02-19
+// Tags: attack.defense-impairment, attack.t1686.003
+// Description: Detects when a rule has been added to the Windows Firewall exception list
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((EventID = 2004 or EventID = 2071 or EventID = 2097)) and not(((Action = 2) or ((ApplicationPath = /*C:\\PerfLogs\\*/i or ApplicationPath = /*C:\\Temp\\*/i or ApplicationPath = /*C:\\Tmp\\*/i or ApplicationPath = /*C:\\Users\\Public\\*/i or ApplicationPath = /*C:\\Windows\\Tasks\\*/i or ApplicationPath = /*C:\\Windows\\Temp\\*/i or ApplicationPath = /*\\AppData\\Local\\Temp\\*/i)) or (ApplicationPath = /C:\\Windows\\ehome\\.*/i and ModifyingApplication = "C:\\Windows\\System32\\oobe\\Setup.exe") or ((ApplicationPath = /C:\\Program Files (x86)\\.*/i or ApplicationPath = /C:\\Program Files\\.*/i or ApplicationPath = /C:\\Windows\\System32\\.*/i or ApplicationPath = /C:\\Windows\\SysWOW64\\.*/i or ApplicationPath = /C:\\Windows\\WinSxS\\.*/i)) or (not(ApplicationPath = *)) or (ApplicationPath = "SYSTEM" and (ModifyingApplication = "C:\\Windows\\System32\\dllhost.exe" or ModifyingApplication = "C:\\Windows\\System32\\oobe\\Setup.exe" or ModifyingApplication = "C:\\Windows\\System32\\svchost.exe")) or (ModifyingApplication = /C:\\Windows\\WinSxS\\.*/i and ModifyingApplication = /.*\\TiWorker.exe/i))) and not(((((ModifyingApplication = /C:\\ProgramData\\Microsoft\\Windows Defender\\Platform\\.*/i or ModifyingApplication = /C:\\Program Files\\Windows Defender\\.*/i) and ModifyingApplication = /.*\\MsMpEng.exe/i) or ((ApplicationPath = /C:\\ProgramData\\Microsoft\\Windows Defender\\Platform\\.*/i or ApplicationPath = /C:\\Program Files\\Windows Defender\\.*/i) and ApplicationPath = /.*\\MsMpEng.exe/i)) or ((ModifyingApplication = "C:\\Windows\\System32\\svchost.exe" or ModifyingApplication = "C:\\Windows\\System32\\dllhost.exe") and ApplicationPath = "") or (ApplicationPath = /C:\\Windows\\SystemApps\\.*/i and ModifyingApplication = "C:\\Windows\\System32\\svchost.exe"))))

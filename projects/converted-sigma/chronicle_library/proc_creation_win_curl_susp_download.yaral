@@ -1,0 +1,23 @@
+// Title: Suspicious Curl.EXE Download
+// ID: e218595b-bbe7-4ee5-8a96-f32a24ad3468
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2020-07-03
+// Tags: attack.command-and-control, attack.t1105
+// Description: Detects a suspicious curl process start on Windows and outputs the requested document to a local file
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule e218595b_bbe7_4ee5_8a96_f32a24ad3468 {
+  meta:
+    title = "Suspicious Curl.EXE Download"
+    description = "Detects a suspicious curl process start on Windows and outputs the requested document to a local file"
+    author = "Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.file.full_path = /.*\\curl.exe$/ nocase) or ($e.Product = "The curl executable")) and ((($e.target.process.command_line = /.*.dll$/ nocase or $e.target.process.command_line = /.*.gif$/ nocase or $e.target.process.command_line = /.*.jpeg$/ nocase or $e.target.process.command_line = /.*.jpg$/ nocase or $e.target.process.command_line = /.*.png$/ nocase or $e.target.process.command_line = /.*.temp$/ nocase or $e.target.process.command_line = /.*.tmp$/ nocase or $e.target.process.command_line = /.*.txt$/ nocase or $e.target.process.command_line = /.*.vbe$/ nocase or $e.target.process.command_line = /.*.vbs$/ nocase)) or (($e.target.process.command_line = /.*%AppData%.*/ nocase or $e.target.process.command_line = /.*%Public%.*/ nocase or $e.target.process.command_line = /.*%Temp%.*/ nocase or $e.target.process.command_line = /.*%tmp%.*/ nocase or $e.target.process.command_line = /.*\\AppData\\.*/ nocase or $e.target.process.command_line = /.*\\Desktop\\.*/ nocase or $e.target.process.command_line = /.*\\Temp\\.*/ nocase or $e.target.process.command_line = /.*\\Users\\Public\\.*/ nocase or $e.target.process.command_line = /.*C:\\PerfLogs\\.*/ nocase or $e.target.process.command_line = /.*C:\\ProgramData\\.*/ nocase or $e.target.process.command_line = /.*C:\\Windows\\Temp\\.*/ nocase))) and not(($e.principal.process.file.full_path = "C:\\Program Files\\Git\\usr\\bin\\sh.exe" and $e.target.process.file.full_path = "C:\\Program Files\\Git\\mingw64\\bin\\curl.exe" and ($e.target.process.command_line = /.*--silent --show-error --output .*/ nocase and $e.target.process.command_line = /.*gfw-httpget-.*/ nocase and $e.target.process.command_line = /.*AppData.*/ nocase))))
+
+  condition:
+    $e
+}

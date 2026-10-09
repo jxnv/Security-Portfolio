@@ -1,0 +1,11 @@
+// Title: Suspicious Desktopimgdownldr Target File
+// ID: fc4f4817-0c53-4683-a4ee-b17a64bc1039
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2020-07-03
+// Tags: attack.command-and-control, attack.t1105
+// Description: Detects a suspicious Microsoft desktopimgdownldr file creation that stores a file to a suspicious location or contains a file with a suspicious extension
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((Image="*\\svchost.exe" AND TargetFilename CONTAINS "\\Personalization\\LockScreenImage\\") AND NOT ((TargetFilename CONTAINS "C:\\Windows\\")) AND NOT (((TargetFilename CONTAINS ".jpg" OR TargetFilename CONTAINS ".jpeg" OR TargetFilename CONTAINS ".png"))))

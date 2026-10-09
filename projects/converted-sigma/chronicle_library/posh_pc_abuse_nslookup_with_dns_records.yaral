@@ -1,0 +1,23 @@
+// Title: Nslookup PowerShell Download Cradle
+// ID: 999bff6d-dc15-44c9-9f5c-e1051bfc86e1
+// Status: test
+// Level: medium
+// Author: Sai Prashanth Pulisetti @pulisettis, Aishwarya Singam
+// Date: 2022-12-10
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects a powershell download cradle using nslookup. This cradle uses nslookup to extract payloads from DNS records.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 999bff6d_dc15_44c9_9f5c_e1051bfc86e1 {
+  meta:
+    title = "Nslookup PowerShell Download Cradle"
+    description = "Detects a powershell download cradle using nslookup. This cradle uses nslookup to extract payloads from DNS records."
+    author = "Sai Prashanth Pulisetti @pulisettis, Aishwarya Singam"
+    severity = "MEDIUM"
+
+  events:
+    (($e.Data = /.*powershell.*/ nocase and $e.Data = /.*nslookup.*/ nocase and $e.Data = /.*[1].*/ nocase) and ($e.Data = /.*-q=txt http.*/ nocase or $e.Data = /.*-querytype=txt http.*/ nocase or $e.Data = /.*-type=txt http.*/ nocase))
+
+  condition:
+    $e
+}

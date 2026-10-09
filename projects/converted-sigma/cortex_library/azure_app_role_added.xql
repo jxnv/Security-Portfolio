@@ -1,0 +1,11 @@
+// Title: App Assigned To Azure RBAC/Microsoft Entra Role
+// ID: b04934b2-0a68-4845-8a19-bdfed3a68a7a
+// Status: test
+// Level: medium
+// Author: Bailey Bercik '@baileybercik', Mark Morowczynski '@markmorow'
+// Date: 2022-07-19
+// Tags: attack.persistence, attack.privilege-escalation, attack.t1098.003
+// Description: Detects when an app is assigned Azure AD roles, such as global administrator, or Azure RBAC roles, such as subscription owner.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter (targetResources.type = "Service Principal" and (properties.message = "Add member to role" or properties.message = "Add eligible member to role" or properties.message = "Add scoped member to role"))

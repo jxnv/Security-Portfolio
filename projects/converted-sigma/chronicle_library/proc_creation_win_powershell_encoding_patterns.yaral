@@ -1,0 +1,23 @@
+// Title: Potential Encoded PowerShell Patterns In CommandLine
+// ID: cdf05894-89e7-4ead-b2b0-0a5f97a90f2f
+// Status: test
+// Level: low
+// Author: Teymur Kheirkhabarov (idea), Vasiliy Burov (rule), oscd.community, Tim Shelton
+// Date: 2020-10-11
+// Tags: attack.stealth, attack.t1027, attack.execution, attack.t1059.001
+// Description: Detects specific combinations of encoding methods in PowerShell via the commandline
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule cdf05894_89e7_4ead_b2b0_0a5f97a90f2f {
+  meta:
+    title = "Potential Encoded PowerShell Patterns In CommandLine"
+    description = "Detects specific combinations of encoding methods in PowerShell via the commandline"
+    author = "Teymur Kheirkhabarov (idea), Vasiliy Burov (rule), oscd.community, Tim Shelton"
+    severity = "LOW"
+
+  events:
+    (((($e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase)) or (($e.target.process.file.name = "PowerShell.EXE" or $e.target.process.file.name = "pwsh.dll"))) and (((($e.target.process.command_line = /.*ToInt.*/ nocase or $e.target.process.command_line = /.*ToDecimal.*/ nocase or $e.target.process.command_line = /.*ToByte.*/ nocase or $e.target.process.command_line = /.*ToUint.*/ nocase or $e.target.process.command_line = /.*ToSingle.*/ nocase or $e.target.process.command_line = /.*ToSByte.*/ nocase)) and (($e.target.process.command_line = /.*ToChar.*/ nocase or $e.target.process.command_line = /.*ToString.*/ nocase or $e.target.process.command_line = /.*String.*/ nocase))) or ((($e.target.process.command_line = /.*char.*/ nocase and $e.target.process.command_line = /.*join.*/ nocase)) or (($e.target.process.command_line = /.*split.*/ nocase and $e.target.process.command_line = /.*join.*/ nocase)))))
+
+  condition:
+    $e
+}

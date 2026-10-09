@@ -1,0 +1,23 @@
+// Title: Azure DNS Zone Modified or Deleted
+// ID: af6925b0-8826-47f1-9324-337507a0babd
+// Status: test
+// Level: medium
+// Author: Austin Songer @austinsonger
+// Date: 2021-08-08
+// Tags: attack.impact, attack.t1565.001
+// Description: Identifies when DNS zone is modified or deleted.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule af6925b0_8826_47f1_9324_337507a0babd {
+  meta:
+    title = "Azure DNS Zone Modified or Deleted"
+    description = "Identifies when DNS zone is modified or deleted."
+    author = "Austin Songer @austinsonger"
+    severity = "MEDIUM"
+
+  events:
+    ($e.operationName = /^MICROSOFT.NETWORK/DNSZONES.*/ nocase and ($e.operationName = /.*/WRITE$/ nocase or $e.operationName = /.*/DELETE$/ nocase))
+
+  condition:
+    $e
+}

@@ -1,0 +1,50 @@
+{
+  "title": "New User Account Creation Attempt Via ADSI in CommandLine",
+  "id": "7c9fed65-039a-4055-8c23-fa763d94aff6",
+  "status": "experimental",
+  "description": "Detects PowerShell command line arguments containing ADSI (Active Directory Service Interfaces) patterns\ntrying to create a new user account via the WinNT or LDAP provider. This is an uncommon method to create\nuser accounts and may indicate an attempt to evade detection by avoiding more commonly monitored commands\nsuch as \"net user\", \"New-LocalUser\" or \"New-ADUser\".\n",
+  "author": "William Gokah (idea), Raylee Hawkins, Swachchhanda Shrawan Poudel (Nextron Systems)",
+  "date": "2026-08-13",
+  "tags": [
+    "attack.persistence",
+    "attack.t1136.001",
+    "attack.t1136.002"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_img": [
+      {
+        "Image|endswith": [
+          "\\powershell.exe",
+          "\\pwsh.exe"
+        ]
+      },
+      {
+        "OriginalFileName": [
+          "PowerShell.EXE",
+          "pwsh.dll"
+        ]
+      }
+    ],
+    "selection_cli_adsi": {
+      "CommandLine|contains": "[ADSI]"
+    },
+    "selection_cli_create_user": {
+      "CommandLine|contains": [
+        ".Create(\"user",
+        ".Create('user"
+      ]
+    },
+    "selection_cli_adsi_provider": {
+      "CommandLine|contains": [
+        "WinNT://",
+        "LDAP://"
+      ]
+    },
+    "condition": "all of selection_*"
+  }
+}

@@ -1,0 +1,25 @@
+// Title: Disabling Windows Defender WMI Autologger Session via Reg.exe
+// ID: a1b2c3d4-e5f6-a7b8-c9d0-e1f2a3b4c5d6
+// Status: experimental
+// Level: high
+// Author: Matt Anderson (Huntress)
+// Date: 2025-07-09
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects the use of reg.exe to disable the Event Tracing for Windows (ETW) Autologger session for Windows Defender API and Audit events.
+// By setting the 'Start' value to '0' for the 'DefenderApiLogger' or 'DefenderAuditLogger' session, an attacker can prevent these critical security events
+// from being logged, effectively blinding monitoring tools that rely on this data. This is a powerful defense evasion technique.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule a1b2c3d4_e5f6_a7b8_c9d0_e1f2a3b4c5d6 {
+  meta:
+    title = "Disabling Windows Defender WMI Autologger Session via Reg.exe"
+    description = "Detects the use of reg.exe to disable the Event Tracing for Windows (ETW) Autologger session for Windows Defender API and Audit events. By setting the 'Start' value to '0' for the 'DefenderApiLogger' or 'DefenderAuditLogger' session, an attacker can prevent these critical security events from being logged, effectively blinding monitoring tools that rely on this data. This is a powerful defense evasion technique."
+    author = "Matt Anderson (Huntress)"
+    severity = "HIGH"
+
+  events:
+    (((($e.target.process.file.full_path = /.*\\reg.exe$/ nocase) or ($e.target.process.file.name = "reg.exe")) and (($e.target.process.command_line = /.*add.*/ nocase and $e.target.process.command_line = /.*0.*/ nocase)) and (($e.target.process.command_line = /.*\\Control\\WMI\\Autologger\\DefenderApiLogger\\Start.*/ nocase or $e.target.process.command_line = /.*\\Control\\WMI\\Autologger\\DefenderAuditLogger\\Start.*/ nocase))) and not(($e.target.process.command_line = /.*0x00000001.*/ nocase)))
+
+  condition:
+    $e
+}

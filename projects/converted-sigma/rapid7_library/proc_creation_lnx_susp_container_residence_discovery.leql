@@ -1,0 +1,11 @@
+// Title: Container Residence Discovery Via Proc Virtual FS
+// ID: 746c86fb-ccda-4816-8997-01386263acc4
+// Status: test
+// Level: low
+// Author: Seth Hanford
+// Date: 2023-08-23
+// Tags: attack.discovery, attack.t1082
+// Description: Detects potential container discovery via listing of certain kernel features in the "/proc" virtual filesystem
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(Image IENDSWITH "awk") OR where(Image IENDSWITH "/cat") OR where(Image IENDSWITH "grep") OR where(Image IENDSWITH "/head") OR where(Image IENDSWITH "/less") OR where(Image IENDSWITH "/more") OR where(Image IENDSWITH "/nl") OR where(Image IENDSWITH "/tail"))) AND ((where(CommandLine ICONTAINS "/proc/2/")) OR (where(CommandLine ICONTAINS "/proc/") AND (where(CommandLine IENDSWITH "/cgroup") OR where(CommandLine IENDSWITH "/sched")))))

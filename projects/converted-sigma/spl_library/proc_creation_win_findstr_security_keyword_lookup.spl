@@ -1,0 +1,12 @@
+# Title: Security Tools Keyword Lookup Via Findstr.EXE
+# ID: 4fe074b4-b833-4081-8f24-7dcfeca72b42
+# Status: test
+# Level: medium
+# Author: Nasreddine Bencherchali (Nextron Systems), frack113
+# Date: 2023-10-20
+# Tags: attack.discovery, attack.t1518.001
+# Description: Detects execution of "findstr" to search for common names of security tools. Attackers often pipe the results of recon commands such as "tasklist" or "whoami" to "findstr" in order to filter out the results.
+# This detection focuses on the keywords that the attacker might use as a filter.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog (((process_exec="* avira" OR process_exec="* avira\"" OR process_exec="* cb" OR process_exec="* cb\"" OR process_exec="* cylance" OR process_exec="* cylance\"" OR process_exec="* defender" OR process_exec="* defender\"" OR process_exec="* kaspersky" OR process_exec="* kaspersky\"" OR process_exec="* kes" OR process_exec="* kes\"" OR process_exec="* mc" OR process_exec="* mc\"" OR process_exec="* sec" OR process_exec="* sec\"" OR process_exec="* sentinel" OR process_exec="* sentinel\"" OR process_exec="* symantec" OR process_exec="* symantec\"" OR process_exec="* virus" OR process_exec="* virus\"")) AND (((process_path="*\\find.exe" OR process_path="*\\findstr.exe")) OR ((process_name="FIND.EXE" OR process_name="FINDSTR.EXE"))))

@@ -1,0 +1,43 @@
+{
+  "title": "Potentially Suspicious Execution Of Regasm/Regsvcs From Uncommon Location",
+  "id": "cc368ed0-2411-45dc-a222-510ace303cb2",
+  "status": "test",
+  "description": "Detects potentially suspicious execution of the Regasm/Regsvcs utilities from a potentially suspicious location",
+  "author": "Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2022-08-25",
+  "tags": [
+    "attack.stealth",
+    "attack.t1218.009"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_img": [
+      {
+        "Image|endswith": [
+          "\\Regsvcs.exe",
+          "\\Regasm.exe"
+        ]
+      },
+      {
+        "OriginalFileName": [
+          "RegSvcs.exe",
+          "RegAsm.exe"
+        ]
+      }
+    ],
+    "selection_dir": {
+      "CommandLine|contains": [
+        "\\AppData\\Local\\Temp\\",
+        "\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\",
+        "\\PerfLogs\\",
+        "\\Users\\Public\\",
+        "\\Windows\\Temp\\"
+      ]
+    },
+    "condition": "all of selection_*"
+  }
+}

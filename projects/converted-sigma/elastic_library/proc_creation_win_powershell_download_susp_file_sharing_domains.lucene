@@ -1,0 +1,11 @@
+# Title: Potentially Suspicious File Download From File Sharing Domain Via PowerShell.EXE
+# ID: b6e04788-29e1-4557-bb14-77f761848ab8
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2024-02-23
+# Tags: attack.execution
+# Description: Detects potentially suspicious file downloads from file sharing domains using PowerShell.exe
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((process.command_line:*.DownloadString(* OR process.command_line:*.DownloadFile(* OR process.command_line:*Invoke-WebRequest * OR process.command_line:*iwr * OR process.command_line:*wget *)) AND (((process.executable:*\\powershell.exe OR process.executable:*\\pwsh.exe)) OR ((process.pe.original_file_name:"PowerShell.EXE" OR process.pe.original_file_name:"pwsh.dll"))) AND ((process.command_line:*0x0.st* OR process.command_line:*anonfiles.com* OR process.command_line:*bashupload.com* OR process.command_line:*cdn.discordapp.com* OR process.command_line:*chunk.io* OR process.command_line:*ddns.net* OR process.command_line:*dl.dropboxusercontent.com* OR process.command_line:*ghostbin.co* OR process.command_line:*glitch.me* OR process.command_line:*gofile.io* OR process.command_line:*hastebin.com* OR process.command_line:*mediafire.com* OR process.command_line:*mega.nz* OR process.command_line:*onrender.com* OR process.command_line:*pages.dev* OR process.command_line:*paste.ee* OR process.command_line:*pastebin.com* OR process.command_line:*pastebin.pl* OR process.command_line:*pastetext.net* OR process.command_line:*pixeldrain.com* OR process.command_line:*privatlab.com* OR process.command_line:*privatlab.net* OR process.command_line:*send.exploit.in* OR process.command_line:*sendspace.com* OR process.command_line:*storage.googleapis.com* OR process.command_line:*storjshare.io* OR process.command_line:*supabase.co* OR process.command_line:*temp.sh* OR process.command_line:*transfer.sh* OR process.command_line:*trycloudflare.com* OR process.command_line:*ufile.io* OR process.command_line:*w3spaces.com* OR process.command_line:*workers.dev* OR process.command_line:*x0.at*)))

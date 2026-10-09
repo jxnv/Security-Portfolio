@@ -1,0 +1,23 @@
+// Title: WerFault LSASS Process Memory Dump
+// ID: c3e76af5-4ce0-4a14-9c9a-25ceb8fda182
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-06-27
+// Tags: attack.credential-access, attack.t1003.001
+// Description: Detects WerFault creating a dump file with a name that indicates that the dump file could be an LSASS process memory, which contains user credentials
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule c3e76af5_4ce0_4a14_9c9a_25ceb8fda182 {
+  meta:
+    title = "WerFault LSASS Process Memory Dump"
+    description = "Detects WerFault creating a dump file with a name that indicates that the dump file could be an LSASS process memory, which contains user credentials"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ($e.target.process.file.full_path = "C:\\WINDOWS\\system32\\WerFault.exe" and ($e.target.file.full_path = /.*\\lsass.*/ nocase or $e.target.file.full_path = /.*lsass.exe.*/ nocase))
+
+  condition:
+    $e
+}

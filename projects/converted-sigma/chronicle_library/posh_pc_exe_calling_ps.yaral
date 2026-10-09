@@ -1,0 +1,23 @@
+// Title: PowerShell Called from an Executable Version Mismatch
+// ID: c70e019b-1479-4b65-b0cc-cd0c6093a599
+// Status: test
+// Level: high
+// Author: Sean Metcalf (source), Florian Roth (Nextron Systems)
+// Date: 2017-03-05
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects PowerShell called from an executable by the version mismatch method
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule c70e019b_1479_4b65_b0cc_cd0c6093a599 {
+  meta:
+    title = "PowerShell Called from an Executable Version Mismatch"
+    description = "Detects PowerShell called from an executable by the version mismatch method"
+    author = "Sean Metcalf (source), Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.Data = /.*EngineVersion=2..*/ nocase or $e.Data = /.*EngineVersion=4..*/ nocase or $e.Data = /.*EngineVersion=5..*/ nocase)) and ($e.Data = /.*HostVersion=3..*/ nocase))
+
+  condition:
+    $e
+}

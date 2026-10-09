@@ -1,0 +1,23 @@
+// Title: CredUI.DLL Loaded By Uncommon Process
+// ID: 9ae01559-cf7e-4f8e-8e14-4c290a1b4784
+// Status: test
+// Level: medium
+// Author: Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research)
+// Date: 2020-10-20
+// Tags: attack.credential-access, attack.collection, attack.t1056.002
+// Description: Detects loading of "credui.dll" and related DLLs by an uncommon process. Attackers might leverage this DLL for potential use of "CredUIPromptForCredentials" or "CredUnPackAuthenticationBufferW".
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 9ae01559_cf7e_4f8e_8e14_4c290a1b4784 {
+  meta:
+    title = "CredUI.DLL Loaded By Uncommon Process"
+    description = "Detects loading of "credui.dll" and related DLLs by an uncommon process. Attackers might leverage this DLL for potential use of "CredUIPromptForCredentials" or "CredUnPackAuthenticationBufferW"."
+    author = "Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research)"
+    severity = "MEDIUM"
+
+  events:
+    (((($e.ImageLoaded = /.*\\credui.dll$/ nocase or $e.ImageLoaded = /.*\\wincredui.dll$/ nocase)) or (($e.target.process.file.name = "credui.dll" or $e.target.process.file.name = "wincredui.dll"))) and not(((($e.target.process.file.full_path = "C:\\Windows\\explorer.exe" or $e.target.process.file.full_path = "C:\\Windows\\ImmersiveControlPanel\\SystemSettings.exe" or $e.target.process.file.full_path = "C:\\Windows\\regedit.exe")) or (($e.target.process.file.full_path = /^C:\\Program Files (x86)\\.*/ nocase or $e.target.process.file.full_path = /^C:\\Program Files\\.*/ nocase or $e.target.process.file.full_path = /^C:\\Windows\\System32\\.*/ nocase or $e.target.process.file.full_path = /^C:\\Windows\\SysWOW64\\.*/ nocase or $e.target.process.file.full_path = /^C:\\Windows\\SystemApps\\.*/ nocase)))) and not((($e.target.process.file.full_path = /^C:\\Users\\.*/ nocase and $e.target.process.file.full_path = /.*\\AppData\\Local\\Microsoft\\OneDrive\\.*/ nocase) or ($e.target.process.file.full_path = /.*\\opera_autoupdate.exe$/ nocase) or (($e.target.process.file.full_path = /.*\\procexp64.exe$/ nocase or $e.target.process.file.full_path = /.*\\procexp64a.exe$/ nocase or $e.target.process.file.full_path = /.*\\procexp.exe$/ nocase)) or ($e.target.process.file.full_path = /^C:\\Users\\.*/ nocase and $e.target.process.file.full_path = /.*\\AppData\\Local\\Microsoft\\Teams\\.*/ nocase and $e.target.process.file.full_path = /.*\\Teams.exe$/ nocase))))
+
+  condition:
+    $e
+}

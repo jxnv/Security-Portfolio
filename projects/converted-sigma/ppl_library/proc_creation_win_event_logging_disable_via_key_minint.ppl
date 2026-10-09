@@ -1,0 +1,13 @@
+// Title: Security Event Logging Disabled via MiniNt Registry Key - Process
+// ID: 1a4bd6af-99ac-4466-b5b2-7b72b4a05462
+// Status: experimental
+// Level: high
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-04-09
+// Tags: attack.persistence, attack.defense-impairment, attack.t1685.001, attack.t1112, car.2022-03-001
+// Description: Detects attempts to disable security event logging by adding the `MiniNt` registry key.
+// This key is used to disable the Windows Event Log service, which collects and stores event logs from the operating system and applications.
+// Adversaries may want to disable this service to prevent logging of security events that could be used to detect their activities.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where ((((process.command_line like "% add %" AND process.command_line like "%\\SYSTEM\\CurrentControlSet\\Control\\MiniNt%")) AND ((process.executable="*\\reg.exe") OR (process.pe.original_file_name = "reg.exe"))) OR (((process.command_line like "%New-Item %" OR process.command_line like "%ni %")) AND (process.command_line like "%\\SYSTEM\\CurrentControlSet\\Control\\MiniNt%") AND (((process.executable="*\\powershell.exe" OR process.executable="*\\pwsh.exe" OR process.executable="*\\powershell_ise.exe")) OR ((process.pe.original_file_name = "PowerShell.EXE" OR process.pe.original_file_name = "pwsh.dll")))))

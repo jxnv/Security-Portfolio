@@ -1,0 +1,19 @@
+# Title: 7Zip Compressing Dump Files
+# ID: ec570e53-4c76-45a9-804d-dc3f355ff7a7
+# Status: test
+# Level: medium
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-09-27
+# Tags: attack.collection, attack.t1560.001
+# Description: Detects execution of 7z in order to compress a file with a ".dmp"/".dump" extension, which could be a step in a process of dump file exfiltration.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: 7Zip Compressing Dump Files
+def rule(event):
+    # Detection Logic:
+    # (((CommandLine="*.dmp*" OR CommandLine="*.dump*" OR CommandLine="*.hdmp*")) AND ((Description="*7-Zip*") OR ((Image="*\\7z.exe" OR Image="*\\7zr.exe" OR Image="*\\7za.exe")) OR ((OriginalFileName="7z.exe" OR OriginalFileName="7za.exe" OR OriginalFileName="7zr.exe"))))
+    return True
+
+def title(event):
+    return "7Zip Compressing Dump Files"
+

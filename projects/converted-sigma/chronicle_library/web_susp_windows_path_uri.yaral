@@ -1,0 +1,23 @@
+// Title: Suspicious Windows Strings In URI
+// ID: 9f6a34b4-2688-4eb7-a7f5-e39fef573d0e
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-06-06
+// Tags: attack.persistence, attack.exfiltration, attack.t1505.003
+// Description: Detects suspicious Windows strings in URI which could indicate possible exfiltration or webshell communication
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 9f6a34b4_2688_4eb7_a7f5_e39fef573d0e {
+  meta:
+    title = "Suspicious Windows Strings In URI"
+    description = "Detects suspicious Windows strings in URI which could indicate possible exfiltration or webshell communication"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.cs-uri-query = /.*=C:/Users.*/ nocase or $e.cs-uri-query = /.*=C:/Program%20Files.*/ nocase or $e.cs-uri-query = /.*=C:/Windows.*/ nocase or $e.cs-uri-query = /.*=C%3A%5CUsers.*/ nocase or $e.cs-uri-query = /.*=C%3A%5CProgram%20Files.*/ nocase or $e.cs-uri-query = /.*=C%3A%5CWindows.*/ nocase))
+
+  condition:
+    $e
+}

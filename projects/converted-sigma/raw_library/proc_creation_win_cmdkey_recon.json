@@ -1,0 +1,31 @@
+{
+  "title": "Potential Reconnaissance For Cached Credentials Via Cmdkey.EXE",
+  "id": "07f8bdc2-c9b3-472a-9817-5a670b872f53",
+  "status": "test",
+  "description": "Detects usage of cmdkey to look for cached credentials on the system",
+  "author": "jmallette, Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2019-01-16",
+  "tags": [
+    "attack.credential-access",
+    "attack.t1003.005"
+  ],
+  "level": "high",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_img": [
+      {
+        "Image|endswith": "\\cmdkey.exe"
+      },
+      {
+        "OriginalFileName": "cmdkey.exe"
+      }
+    ],
+    "selection_cli": {
+      "CommandLine|contains|windash": " -l"
+    },
+    "condition": "all of selection*"
+  }
+}

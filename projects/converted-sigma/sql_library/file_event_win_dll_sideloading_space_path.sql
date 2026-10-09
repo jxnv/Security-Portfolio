@@ -1,0 +1,12 @@
+-- Title: DLL Search Order Hijackig Via Additional Space in Path
+-- ID: b6f91281-20aa-446a-b986-38a92813a18f
+-- Status: test
+-- Level: high
+-- Author: frack113, Nasreddine Bencherchali (Nextron Systems)
+-- Date: 2022-07-30
+-- Tags: attack.persistence, attack.privilege-escalation, attack.execution, attack.stealth, attack.t1574.001
+-- Description: Detects when an attacker create a similar folder structure to windows system folders such as (Windows, Program Files...)
+-- but with a space in order to trick DLL load search order and perform a "DLL Search Order Hijacking" attack
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE ((TargetFilename ILIKE 'C:\\Windows \\%' OR TargetFilename ILIKE 'C:\\Program Files \\%' OR TargetFilename ILIKE 'C:\\Program Files (x86) \\%') AND TargetFilename ILIKE '%.dll')

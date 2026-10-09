@@ -1,0 +1,44 @@
+{
+  "title": "WmiPrvSE Spawned A Process",
+  "id": "d21374ff-f574-44a7-9998-4a8c8bf33d7d",
+  "status": "stable",
+  "description": "Detects WmiPrvSE spawning a process",
+  "author": "Roberto Rodriguez @Cyb3rWard0g",
+  "date": "2019-08-15",
+  "tags": [
+    "attack.execution",
+    "attack.t1047"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection": {
+      "ParentImage|endswith": "\\WmiPrvSe.exe"
+    },
+    "filter_logonid": {
+      "LogonId": [
+        "0x3e7",
+        "null"
+      ]
+    },
+    "filter_system_user": {
+      "User|contains": [
+        "AUTHORI",
+        "AUTORI"
+      ]
+    },
+    "filter_wmiprvse": {
+      "Image|endswith": "\\WmiPrvSE.exe"
+    },
+    "filter_werfault": {
+      "Image|endswith": "\\WerFault.exe"
+    },
+    "filter_null": {
+      "LogonId": null
+    },
+    "condition": "selection and not 1 of filter_*"
+  }
+}

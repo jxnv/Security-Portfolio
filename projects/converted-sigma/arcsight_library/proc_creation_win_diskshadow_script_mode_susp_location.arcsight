@@ -1,0 +1,11 @@
+// Title: Diskshadow Script Mode - Execution From Potential Suspicious Location
+// ID: fa1a7e52-3d02-435b-81b8-00da14dd66c1
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-09-15
+// Tags: attack.stealth, attack.t1218
+// Description: Detects execution of "Diskshadow.exe" in script mode using the "/s" flag where the script is located in a potentially suspicious location.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((CommandLine CONTAINS "-s " OR CommandLine CONTAINS "/s ")) AND ((OriginalFileName EQ "diskshadow.exe") OR (Image ENDSWITH "\\diskshadow.exe")) AND ((CommandLine CONTAINS ":\\Temp\\" OR CommandLine CONTAINS ":\\Windows\\Temp\\" OR CommandLine CONTAINS "\\AppData\\Local\\" OR CommandLine CONTAINS "\\AppData\\Roaming\\" OR CommandLine CONTAINS "\\ProgramData\\" OR CommandLine CONTAINS "\\Users\\Public\\")))

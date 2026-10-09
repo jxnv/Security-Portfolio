@@ -1,0 +1,26 @@
+// Title: Azure AD Health Service Agents Registry Keys Access
+// ID: 1d2ab8ac-1a01-423b-9c39-001510eae8e8
+// Status: test
+// Level: medium
+// Author: Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research), MSTIC
+// Date: 2021-08-26
+// Tags: attack.discovery, attack.t1012
+// Description: This detection uses Windows security events to detect suspicious access attempts to the registry key values and sub-keys of Azure AD Health service agents (e.g AD FS).
+// Information from AD Health service agents can be used to potentially abuse some of the features provided by those services in the cloud (e.g. Federation).
+// This detection requires an access control entry (ACE) on the system access control list (SACL) of the following securable object: HKLM:\SOFTWARE\Microsoft\ADHealthAgent.
+// Make sure you set the SACL to propagate to its sub-keys.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 1d2ab8ac_1a01_423b_9c39_001510eae8e8 {
+  meta:
+    title = "Azure AD Health Service Agents Registry Keys Access"
+    description = "This detection uses Windows security events to detect suspicious access attempts to the registry key values and sub-keys of Azure AD Health service agents (e.g AD FS). Information from AD Health service agents can be used to potentially abuse some of the features provided by those services in the cloud (e.g. Federation). This detection requires an access control entry (ACE) on the system access control list (SACL) of the following securable object: HKLM:\SOFTWARE\Microsoft\ADHealthAgent. Make sure you set the SACL to propagate to its sub-keys."
+    author = "Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research), MSTIC"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.EventID = 4656 or $e.EventID = 4663) and $e.ObjectType = "Key" and $e.ObjectName = "\\REGISTRY\\MACHINE\\SOFTWARE\\Microsoft\\ADHealthAgent") and not((($e.ProcessName = /.*Microsoft.Identity.Health.Adfs.DiagnosticsAgent.exe.*/ nocase or $e.ProcessName = /.*Microsoft.Identity.Health.Adfs.InsightsService.exe.*/ nocase or $e.ProcessName = /.*Microsoft.Identity.Health.Adfs.MonitoringAgent.Startup.exe.*/ nocase or $e.ProcessName = /.*Microsoft.Identity.Health.Adfs.PshSurrogate.exe.*/ nocase or $e.ProcessName = /.*Microsoft.Identity.Health.Common.Clients.ResourceMonitor.exe.*/ nocase))))
+
+  condition:
+    $e
+}

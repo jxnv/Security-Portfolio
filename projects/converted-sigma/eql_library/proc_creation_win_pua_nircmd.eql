@@ -1,0 +1,11 @@
+// Title: PUA - NirCmd Execution
+// ID: 4e2ed651-1906-4a59-a78a-18220fca1b22
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-01-24
+// Tags: attack.execution, attack.t1569.002, attack.s0029
+// Description: Detects the use of NirCmd tool for command execution, which could be the result of legitimate administrative activity
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where ((((process.command_line like "*_ execmd *" or process.command_line like "*_.exe script *" or process.command_line like "*_.exe shexec *" or process.command_line like "*_ runinteractive *")) or ((process.executable endswith "\\NirCmd.exe") or (process.pe.original_file_name == "NirCmd.exe"))) or (((process.command_line like "*_ exec *" or process.command_line like "*_ exec2 *")) and ((process.command_line like "*_ show *" or process.command_line like "*_ hide *"))))

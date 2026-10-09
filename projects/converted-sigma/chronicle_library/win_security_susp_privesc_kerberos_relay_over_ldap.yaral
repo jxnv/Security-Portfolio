@@ -1,0 +1,24 @@
+// Title: Potential Privilege Escalation via Local Kerberos Relay over LDAP
+// ID: 749c9f5e-b353-4b90-a9c1-05243357ca4b
+// Status: test
+// Level: high
+// Author: Elastic, @SBousseaden
+// Date: 2022-04-27
+// Tags: attack.privilege-escalation, attack.credential-access, attack.t1548
+// Description: Detects a suspicious local successful logon event where the Logon Package is Kerberos, the remote address is set to localhost, and the target user SID is the built-in local Administrator account.
+// This may indicate an attempt to leverage a Kerberos relay attack variant that can be used to elevate privilege locally from a domain joined limited user to local System privileges.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 749c9f5e_b353_4b90_a9c1_05243357ca4b {
+  meta:
+    title = "Potential Privilege Escalation via Local Kerberos Relay over LDAP"
+    description = "Detects a suspicious local successful logon event where the Logon Package is Kerberos, the remote address is set to localhost, and the target user SID is the built-in local Administrator account. This may indicate an attempt to leverage a Kerberos relay attack variant that can be used to elevate privilege locally from a domain joined limited user to local System privileges."
+    author = "Elastic, @SBousseaden"
+    severity = "HIGH"
+
+  events:
+    (($e.EventID = 4624 and $e.LogonType = 3 and $e.AuthenticationPackageName = "Kerberos" and $e.IpAddress = "127.0.0.1" and $e.TargetUserSid = /^S-1-5-21-.*/ nocase and $e.TargetUserSid = /.*-500$/ nocase) and not(($e.IpPort = "0")))
+
+  condition:
+    $e
+}

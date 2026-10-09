@@ -1,0 +1,11 @@
+// Title: Successful IIS Shortname Fuzzing Scan
+// ID: 7cb02516-6d95-4ffc-8eee-162075e111ac
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2021-10-06
+// Tags: attack.initial-access, attack.t1190
+// Description: When IIS uses an old .Net Framework it's possible to enumerate folders with the symbol "~"
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter (cs-uri-query contains "~1" and cs-uri-query endswith "a.aspx" and (cs-method = "GET" or cs-method = "OPTIONS") and (sc-status = 200 or sc-status = 301))

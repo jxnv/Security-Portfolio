@@ -1,0 +1,70 @@
+{
+  "title": "Change PowerShell Policies to an Insecure Level",
+  "id": "87e3c4e8-a6a8-4ad9-bb4f-46e7ff99a180",
+  "status": "test",
+  "description": "Detects changing the PowerShell script execution policy to a potentially insecure level using the \"-ExecutionPolicy\" flag.",
+  "author": "frack113",
+  "date": "2021-11-01",
+  "tags": [
+    "attack.execution",
+    "attack.t1059.001"
+  ],
+  "level": "medium",
+  "logsource": {
+    "product": "windows",
+    "category": "process_creation"
+  },
+  "detection": {
+    "selection_img": [
+      {
+        "OriginalFileName": [
+          "powershell_ise.exe",
+          "PowerShell.EXE",
+          "pwsh.dll"
+        ]
+      },
+      {
+        "Image|endswith": [
+          "\\powershell_ise.exe",
+          "\\powershell.exe",
+          "\\pwsh.exe"
+        ]
+      }
+    ],
+    "selection_option": {
+      "CommandLine|contains": [
+        "-executionpolicy ",
+        " -ep ",
+        " -exec "
+      ]
+    },
+    "selection_level": {
+      "CommandLine|contains": [
+        "Bypass",
+        "Unrestricted"
+      ]
+    },
+    "filter_main_powershell_core": {
+      "ParentImage": [
+        "C:\\Windows\\SysWOW64\\msiexec.exe",
+        "C:\\Windows\\System32\\msiexec.exe"
+      ],
+      "CommandLine|contains": [
+        "-NoProfile -ExecutionPolicy Bypass -File \"C:\\Program Files\\PowerShell\\7\\",
+        "-NoProfile -ExecutionPolicy Bypass -File \"C:\\Program Files (x86)\\PowerShell\\7\\"
+      ]
+    },
+    "filter_optional_avast": {
+      "ParentImage|contains": [
+        "C:\\Program Files\\Avast Software\\Avast\\",
+        "C:\\Program Files (x86)\\Avast Software\\Avast\\",
+        "\\instup.exe"
+      ],
+      "CommandLine|contains": [
+        "-ExecutionPolicy ByPass -File \"C:\\Program Files\\Avast Software\\Avast",
+        "-ExecutionPolicy ByPass -File \"C:\\Program Files (x86)\\Avast Software\\Avast\\"
+      ]
+    },
+    "condition": "all of selection_* and not 1 of filter_main_* and not 1 of filter_optional_*"
+  }
+}

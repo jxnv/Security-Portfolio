@@ -1,0 +1,23 @@
+// Title: AWS Config Disabling Channel/Recorder
+// ID: 07330162-dba1-4746-8121-a9647d49d297
+// Status: test
+// Level: high
+// Author: vitaliy0x1
+// Date: 2020-01-21
+// Tags: attack.defense-impairment, attack.t1685.002
+// Description: Detects AWS Config Service disabling
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 07330162_dba1_4746_8121_a9647d49d297 {
+  meta:
+    title = "AWS Config Disabling Channel/Recorder"
+    description = "Detects AWS Config Service disabling"
+    author = "vitaliy0x1"
+    severity = "HIGH"
+
+  events:
+    ($e.eventSource = "config.amazonaws.com" and ($e.eventName = "DeleteDeliveryChannel" or $e.eventName = "StopConfigurationRecorder"))
+
+  condition:
+    $e
+}

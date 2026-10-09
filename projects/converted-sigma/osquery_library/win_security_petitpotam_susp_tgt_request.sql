@@ -1,0 +1,15 @@
+-- Title: PetitPotam Suspicious Kerberos TGT Request
+-- ID: 6a53d871-682d-40b6-83e0-b7c1a6c4e3a5
+-- Status: test
+-- Level: high
+-- Author: Mauricio Velazco, Michael Haag
+-- Date: 2021-09-02
+-- Tags: attack.credential-access, attack.t1187
+-- Description: Detect suspicious Kerberos TGT requests.
+-- Once an attacer obtains a computer certificate by abusing Active Directory Certificate Services in combination with PetitPotam, the next step would be to leverage the certificate for malicious purposes.
+-- One way of doing this is to request a Kerberos Ticket Granting Ticket using a tool like Rubeus.
+-- This request will generate a 4768 event with some unusual fields depending on the environment.
+-- This analytic will require tuning, we recommend filtering Account_Name to the Domain Controller computer accounts.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM file WHERE ((EventID = '4768' AND TargetUserName="*$" AND CertThumbprint LIKE '%*%') AND NOT (((IpAddress = '::1') OR (CertThumbprint = ''))))

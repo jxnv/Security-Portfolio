@@ -1,0 +1,11 @@
+# Title: Suspicious Non-Browser Network Communication With Google API
+# ID: 7e9cf7b6-e827-11ed-a05b-0242ac120003
+# Status: experimental
+# Level: medium
+# Author: Gavin Knapp
+# Date: 2023-05-01
+# Tags: attack.command-and-control, attack.t1102
+# Description: Detects a non-browser process interacting with the Google API which could indicate the use of a covert C2 such as Google Sheet C2 (GC2-sheet)
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((DestinationHostname:*drive.googleapis.com* OR DestinationHostname:*oauth2.googleapis.com* OR DestinationHostname:*sheets.googleapis.com* OR DestinationHostname:*www.googleapis.com*)) AND NOT (((process.executable:"") OR (NOT _exists_:process.executable))) AND NOT (((process.executable:*\\brave.exe) OR ((process.executable:*:\\Program Files\\Google\\Chrome\\Application\\chrome.exe OR process.executable:*:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe)) OR ((process.executable:*:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\*) OR ((process.executable:*:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe OR process.executable:*:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe OR process.executable:*\\WindowsApps\\MicrosoftEdge.exe))) OR ((process.executable:*:\\Program Files (x86)\\Microsoft\\EdgeCore\\* OR process.executable:*:\\Program Files\\Microsoft\\EdgeCore\\*) AND (process.executable:*\\msedge.exe OR process.executable:*\\msedgewebview2.exe)) OR ((process.executable:*:\\Program Files\\Mozilla Firefox\\firefox.exe OR process.executable:*:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe)) OR (process.executable:*:\\Program Files\\Google\\Drive File Stream\\* AND process.executable:*\\GoogleDriveFS.exe) OR (process.executable:*\\GoogleUpdate.exe) OR ((process.executable:*:\\Program Files (x86)\\Internet Explorer\\iexplore.exe OR process.executable:*:\\Program Files\\Internet Explorer\\iexplore.exe)) OR (process.executable:*\\maxthon.exe) OR (process.executable:*\\opera.exe) OR (process.executable:*\\outlook.exe) OR (process.executable:*\\safari.exe) OR (process.executable:*\\seamonkey.exe) OR (process.executable:*\\vivaldi.exe) OR (process.executable:*\\whale.exe))))

@@ -1,0 +1,19 @@
+# Title: RemCom Service Installation
+# ID: 9e36ed87-4986-482e-8e3b-5c23ffff11bf
+# Status: test
+# Level: medium
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2023-08-07
+# Tags: attack.execution, attack.t1569.002
+# Description: Detects RemCom service installation and execution events
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: RemCom Service Installation
+def rule(event):
+    # Detection Logic:
+    # ((Provider_Name="Service Control Manager" AND EventID="7045") AND ((ServiceName="RemComSvc") OR (ImagePath="*\\RemComSvc.exe")))
+    return True
+
+def title(event):
+    return "RemCom Service Installation"
+

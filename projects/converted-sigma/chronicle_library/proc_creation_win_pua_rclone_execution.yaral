@@ -1,0 +1,23 @@
+// Title: PUA - Rclone Execution
+// ID: e37db05d-d1f9-49c8-b464-cee1a4b11638
+// Status: test
+// Level: high
+// Author: Bhabesh Raj, Sittikorn S, Aaron Greetham (@beardofbinary) - NCC Group
+// Date: 2021-05-10
+// Tags: attack.exfiltration, attack.t1567.002
+// Description: Detects execution of RClone utility for exfiltration as used by various ransomwares strains like REvil, Conti, FiveHands, etc
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule e37db05d_d1f9_49c8_b464_cee1a4b11638 {
+  meta:
+    title = "PUA - Rclone Execution"
+    description = "Detects execution of RClone utility for exfiltration as used by various ransomwares strains like REvil, Conti, FiveHands, etc"
+    author = "Bhabesh Raj, Sittikorn S, Aaron Greetham (@beardofbinary) - NCC Group"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*--config .*/ nocase and $e.target.process.command_line = /.*--no-check-certificate .*/ nocase and $e.target.process.command_line = /.* copy .*/ nocase)) or ((($e.target.process.command_line = /.*pass.*/ nocase or $e.target.process.command_line = /.*user.*/ nocase or $e.target.process.command_line = /.*copy.*/ nocase or $e.target.process.command_line = /.*sync.*/ nocase or $e.target.process.command_line = /.*config.*/ nocase or $e.target.process.command_line = /.*lsd.*/ nocase or $e.target.process.command_line = /.*remote.*/ nocase or $e.target.process.command_line = /.*ls.*/ nocase or $e.target.process.command_line = /.*mega.*/ nocase or $e.target.process.command_line = /.*pcloud.*/ nocase or $e.target.process.command_line = /.*ftp.*/ nocase or $e.target.process.command_line = /.*ignore-existing.*/ nocase or $e.target.process.command_line = /.*auto-confirm.*/ nocase or $e.target.process.command_line = /.*transfers.*/ nocase or $e.target.process.command_line = /.*multi-thread-streams.*/ nocase or $e.target.process.command_line = /.*no-check-certificate .*/ nocase)) and (($e.target.process.file.full_path = /.*\\rclone.exe$/ nocase) or ($e.Description = "Rsync for cloud storage"))))
+
+  condition:
+    $e
+}

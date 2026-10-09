@@ -1,0 +1,11 @@
+// Title: Operator Bloopers Cobalt Strike Modules
+// ID: 4f154fb6-27d1-4813-a759-78b93e0b9c48
+// Status: test
+// Level: high
+// Author: _pete_0, TheDFIRReport
+// Date: 2022-05-06
+// Tags: attack.execution, attack.t1059.003
+// Description: Detects Cobalt Strike module/commands accidentally entered in CMD shell
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where (((process.command_line like "*_Invoke-UserHunter*" or process.command_line like "*_Invoke-ShareFinder*" or process.command_line like "*_Invoke-Kerberoast*" or process.command_line like "*_Invoke-SMBAutoBrute*" or process.command_line like "*_Invoke-Nightmare*" or process.command_line like "*_zerologon*" or process.command_line like "*_av_query*")) and ((process.pe.original_file_name == "Cmd.Exe") or (process.executable endswith "\\cmd.exe")))

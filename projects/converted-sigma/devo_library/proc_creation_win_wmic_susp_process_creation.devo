@@ -1,0 +1,11 @@
+// Title: Suspicious Process Created Via Wmic.EXE
+// ID: 3c89a1e8-0fba-449e-8f1b-8409d6267ec8
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2020-10-12
+// Tags: attack.execution, attack.t1047
+// Description: Detects WMIC executing "process call create" with suspicious calls to processes such as "rundll32", "regsrv32", etc.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+from siem.events where ((contains(CommandLine, "process ") AND contains(CommandLine, "call ") AND contains(CommandLine, "create ")) AND (contains(CommandLine, "rundll32") OR contains(CommandLine, "bitsadmin") OR contains(CommandLine, "regsvr32") OR contains(CommandLine, "cmd.exe /c ") OR contains(CommandLine, "cmd.exe /k ") OR contains(CommandLine, "cmd.exe /r ") OR contains(CommandLine, "cmd /c ") OR contains(CommandLine, "cmd /k ") OR contains(CommandLine, "cmd /r ") OR contains(CommandLine, "powershell") OR contains(CommandLine, "pwsh") OR contains(CommandLine, "certutil") OR contains(CommandLine, "cscript") OR contains(CommandLine, "wscript") OR contains(CommandLine, "mshta") OR contains(CommandLine, "\\Users\\Public\\") OR contains(CommandLine, "\\Windows\\Temp\\") OR contains(CommandLine, "\\AppData\\Local\\") OR contains(CommandLine, "%temp%") OR contains(CommandLine, "%tmp%") OR contains(CommandLine, "%ProgramData%") OR contains(CommandLine, "%appdata%") OR contains(CommandLine, "%comspec%") OR contains(CommandLine, "%localappdata%")))

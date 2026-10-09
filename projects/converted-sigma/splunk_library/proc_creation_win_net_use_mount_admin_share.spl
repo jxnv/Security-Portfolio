@@ -1,0 +1,11 @@
+# Title: Windows Admin Share Mount Via Net.EXE
+# ID: 3abd6094-7027-475f-9630-8ab9be7b9725
+# Status: test
+# Level: medium
+# Author: oscd.community, Teymur Kheirkhabarov @HeirhabarovT, Zach Stanford @svch0st, wagga
+# Date: 2020-10-05
+# Tags: attack.lateral-movement, attack.t1021.002
+# Description: Detects when an admin share is mounted using net.exe
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog (((process_exec="* use *" AND process_exec="* \\\\\\\\*\\\\*$*")) AND (((process_path="*\\net.exe" OR process_path="*\\net1.exe")) OR ((process_name="net.exe" OR process_name="net1.exe"))))

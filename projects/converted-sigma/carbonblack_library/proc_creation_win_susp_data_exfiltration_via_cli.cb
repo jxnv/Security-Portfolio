@@ -1,0 +1,11 @@
+# Title: Potential Data Exfiltration Activity Via CommandLine Tools
+# ID: 7d1aaf3d-4304-425c-b7c3-162055e0b3ab
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-08-02
+# Tags: attack.execution, attack.t1059.001
+# Description: Detects the use of various CLI utilities exfiltrating data via web requests
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((((process_name:*\\powershell_ise.exe OR process_name:*\\powershell.exe OR process_name:*\\pwsh.exe OR process_name:*\\cmd.exe) AND (cmdline:*curl * OR cmdline:*Invoke-RestMethod* OR cmdline:*Invoke-WebRequest* OR cmdline:*irm * OR cmdline:*iwr * OR cmdline:*wget *) AND (cmdline:* -ur* AND cmdline:* -me* AND cmdline:* -b* AND cmdline:* POST *)) OR ((process_name:*\\curl.exe AND cmdline:*--ur*) AND ((cmdline:* -d * OR cmdline:* --data *))) OR (process_name:*\\wget.exe AND (cmdline:*--post-data* OR cmdline:*--post-file*))) AND (((cmdline=regex("net\\s+view") OR cmdline=regex("sc\\s+query"))) OR ((cmdline:*Get-Content* OR cmdline:*GetBytes* OR cmdline:*hostname* OR cmdline:*ifconfig* OR cmdline:*ipconfig* OR cmdline:*netstat* OR cmdline:*nltest* OR cmdline:*qprocess* OR cmdline:*systeminfo* OR cmdline:*tasklist* OR cmdline:*ToBase64String* OR cmdline:*whoami*)) OR ((cmdline:*type * AND cmdline:* > * AND cmdline:* C:\\*))))

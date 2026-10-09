@@ -1,0 +1,22 @@
+# Title: Cred Dump Tools Dropped Files
+# ID: 8fbf3271-1ef6-4e94-8210-03c2317947f6
+# Status: test
+# Level: high
+# Author: Teymur Kheirkhabarov, oscd.community
+# Date: 2019-11-01
+# Tags: attack.credential-access, attack.t1003.001, attack.t1003.002, attack.t1003.003, attack.t1003.004, attack.t1003.005
+# Description: Files with well-known filenames (parts of credential dump software or files produced by them) creation
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# LimaCharlie Detection & Response Rule
+# Name: Cred Dump Tools Dropped Files
+detect:
+  event: file_event
+  op: and
+  rules:
+    # Filter logic:
+    # (((TargetFilename="*\\fgdump-log*" OR TargetFilename="*\\kirbi*" OR TargetFilename="*\\pwdump*" OR TargetFilename="*\\pwhashes*" OR TargetFilename="*\\wce_ccache*" OR TargetFilename="*\\wce_krbtkts*")) OR ((TargetFilename="*\\cachedump.exe" OR TargetFilename="*\\cachedump64.exe" OR TargetFilename="*\\DumpExt.dll" OR TargetFilename="*\\DumpSvc.exe" OR TargetFilename="*\\Dumpy.exe" OR TargetFilename="*\\fgexec.exe" OR TargetFilename="*\\lsremora.dll" OR TargetFilename="*\\lsremora64.dll" OR TargetFilename="*\\NTDS.out" OR TargetFilename="*\\procdump.exe" OR TargetFilename="*\\procdump64.exe" OR TargetFilename="*\\procdump64a.exe" OR TargetFilename="*\\pstgdump.exe" OR TargetFilename="*\\pwdump.exe" OR TargetFilename="*\\SAM.out" OR TargetFilename="*\\SECURITY.out" OR TargetFilename="*\\servpw.exe" OR TargetFilename="*\\servpw64.exe" OR TargetFilename="*\\SYSTEM.out" OR TargetFilename="*\\test.pwd" OR TargetFilename="*\\wceaux.dll")))
+respond:
+  - action: report
+    name: Cred Dump Tools Dropped Files
+

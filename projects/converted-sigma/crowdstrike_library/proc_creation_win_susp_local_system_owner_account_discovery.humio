@@ -1,0 +1,11 @@
+// Title: Local Accounts Discovery
+// ID: 502b42de-4306-40b4-9596-6f590c81f073
+// Status: test
+// Level: low
+// Author: Timur Zinniatullin, Daniil Yugoslavskiy, oscd.community
+// Date: 2019-10-21
+// Tags: attack.discovery, attack.t1033, attack.t1087.001
+// Description: Local accounts, System Owner/User discovery using operating systems utilities
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((ImageFileName = /.*\\cmd.exe/i and (CommandLine = /* /c*/i and CommandLine = /*dir */i and CommandLine = /*\\Users\\*/i)) and not((CommandLine = /* rmdir */i))) or (((ImageFileName = /.*\\net.exe/i or ImageFileName = /.*\\net1.exe/i) and CommandLine = /*user*/i) and not(((CommandLine = /*/domain*/i or CommandLine = /*/add*/i or CommandLine = /*/delete*/i or CommandLine = /*/active*/i or CommandLine = /*/expires*/i or CommandLine = /*/passwordreq*/i or CommandLine = /*/scriptpath*/i or CommandLine = /*/times*/i or CommandLine = /*/workstations*/i)))) or ((ImageFileName = /.*\\cmdkey.exe/i and CommandLine = /* /l*/i) or (((ImageFileName = /.*\\whoami.exe/i or ImageFileName = /.*\\quser.exe/i or ImageFileName = /.*\\qwinsta.exe/i)) or ((OriginalFilename = "whoami.exe" or OriginalFilename = "quser.exe" or OriginalFilename = "qwinsta.exe"))) or (ImageFileName = /.*\\wmic.exe/i and (CommandLine = /*useraccount*/i and CommandLine = /*get*/i))))

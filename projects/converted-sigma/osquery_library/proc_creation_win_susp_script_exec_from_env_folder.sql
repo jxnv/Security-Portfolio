@@ -1,0 +1,12 @@
+-- Title: Script Interpreter Execution From Suspicious Folder
+-- ID: 1228c958-e64e-4e71-92ad-7d429f4138ba
+-- Status: test
+-- Level: high
+-- Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+-- Date: 2022-02-08
+-- Tags: attack.execution, attack.t1059
+-- Description: Detects suspicious script execution from suspicious directories or folders accessible by environment variables that may indicate malware activity.
+-- Script interpreters (cscript, wscript, mshta, powershell) executing from folders like Temp, Public, or user profile directories may suggest attempts to evade detection or execute malicious scripts.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM processes WHERE ((((CommandLine LIKE '% -ep bypass %' OR CommandLine LIKE '% -ExecutionPolicy bypass %' OR CommandLine LIKE '% -w hidden %' OR CommandLine LIKE '%/e:javascript %' OR CommandLine LIKE '%/e:Jscript %' OR CommandLine LIKE '%/e:vbscript %')) OR ((Image="*\\cscript.exe" OR Image="*\\mshta.exe" OR Image="*\\wscript.exe")) OR ((OriginalFileName = 'cscript.exe' OR OriginalFileName = 'mshta.exe' OR OriginalFileName = 'wscript.exe'))) AND (((CommandLine LIKE '%:\\Perflogs\\%' OR CommandLine LIKE '%:\\Users\\Public\\%' OR CommandLine LIKE '%\\%Public%%' OR CommandLine LIKE '%\\AppData\\Local\\Temp%' OR CommandLine LIKE '%\\AppData\\Roaming\\Temp%' OR CommandLine LIKE '%\\Temporary Internet%' OR CommandLine LIKE '%\\Windows\\Temp%' OR CommandLine LIKE '%\\Start Menu\\Programs\\Startup\\%' OR CommandLine LIKE '%%TEMP%%' OR CommandLine LIKE '%%TMP%%' OR CommandLine LIKE '%%LocalAppData%\\Temp%')) OR (((CommandLine LIKE '%:\\Users\\%' AND CommandLine LIKE '%\\Favorites\\%')) OR ((CommandLine LIKE '%:\\Users\\%' AND CommandLine LIKE '%\\Favourites\\%')) OR ((CommandLine LIKE '%:\\Users\\%' AND CommandLine LIKE '%\\Contacts\\%')) OR ((CommandLine LIKE '%:\\Users\\%' AND CommandLine LIKE '%\\Documents\\%')) OR ((CommandLine LIKE '%:\\Users\\%' AND CommandLine LIKE '%\\Music\\%')) OR ((CommandLine LIKE '%:\\Users\\%' AND CommandLine LIKE '%\\Pictures\\%')) OR ((CommandLine LIKE '%:\\Users\\%' AND CommandLine LIKE '%\\Videos\\%')))) AND NOT (((ParentImage = 'C:\\Windows\\System32\\Msiexec.exe' OR ParentImage = 'C:\\Windows\\SysWOW64\\Msiexec.exe') AND Image="*\\powershell.exe" AND (CommandLine LIKE '%-NoProfile -ExecutionPolicy Bypass -Command%' AND CommandLine LIKE '%AppData\\Local\\Temp\\%' AND CommandLine LIKE '%Install-Chocolatey.ps1%'))))

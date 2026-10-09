@@ -1,0 +1,34 @@
+{
+  "title": "Anydesk Remote Access Software Service Installation",
+  "id": "530a6faa-ff3d-4022-b315-50828e77eef5",
+  "status": "test",
+  "description": "Detects the installation of the anydesk software service. Which could be an indication of anydesk abuse if you the software isn't already used.",
+  "author": "Nasreddine Bencherchali (Nextron Systems), Swachchhanda Shrawan Poudel (Nextron Systems)",
+  "date": "2022-08-11",
+  "tags": [
+    "attack.persistence"
+  ],
+  "level": "medium",
+  "logsource": {
+    "product": "windows",
+    "service": "system"
+  },
+  "detection": {
+    "selection_provider": {
+      "Provider_Name": "Service Control Manager",
+      "EventID": 7045
+    },
+    "selection_service": [
+      {
+        "ServiceName|contains|all": [
+          "AnyDesk",
+          "Service"
+        ]
+      },
+      {
+        "ImagePath|contains": "AnyDesk"
+      }
+    ],
+    "condition": "all of selection_*"
+  }
+}

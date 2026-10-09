@@ -1,0 +1,12 @@
+// Title: Suspicious ShellExec_RunDLL Call Via Ordinal
+// ID: 8823e85d-31d8-473e-b7f4-92da070f0fc6
+// Status: test
+// Level: high
+// Author: Swachchhanda Shrawan Poudel
+// Date: 2024-12-01
+// Tags: attack.stealth, attack.t1218.011
+// Description: Detects suspicious call to the "ShellExec_RunDLL" exported function of SHELL32.DLL through the ordinal number to launch other commands.
+// Adversary might only use the ordinal number in order to bypass existing detection that alert on usage of ShellExec_RunDLL on CommandLine.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((src.process.parent.cmdline containsCIS "SHELL32.DLL") AND ((src.process.parent.cmdline containsCIS "#568" OR src.process.parent.cmdline containsCIS "#570" OR src.process.parent.cmdline containsCIS "#572" OR src.process.parent.cmdline containsCIS "#576"))) AND (((src.process.image.path endswithCIS "\\bash.exe" OR src.process.image.path endswithCIS "\\bitsadmin.exe" OR src.process.image.path endswithCIS "\\cmd.exe" OR src.process.image.path endswithCIS "\\cscript.exe" OR src.process.image.path endswithCIS "\\curl.exe" OR src.process.image.path endswithCIS "\\mshta.exe" OR src.process.image.path endswithCIS "\\msiexec.exe" OR src.process.image.path endswithCIS "\\msxsl.exe" OR src.process.image.path endswithCIS "\\odbcconf.exe" OR src.process.image.path endswithCIS "\\powershell.exe" OR src.process.image.path endswithCIS "\\pwsh.exe" OR src.process.image.path endswithCIS "\\regsvr32.exe" OR src.process.image.path endswithCIS "\\schtasks.exe" OR src.process.image.path endswithCIS "\\wmic.exe" OR src.process.image.path endswithCIS "\\wscript.exe")) OR (((src.process.parent.cmdline containsCIS "comspec" OR src.process.parent.cmdline containsCIS "iex" OR src.process.parent.cmdline containsCIS "Invoke-" OR src.process.parent.cmdline containsCIS "msiexec" OR src.process.parent.cmdline containsCIS "odbcconf" OR src.process.parent.cmdline containsCIS "regsvr32")) OR ((src.process.parent.cmdline containsCIS "\\Desktop\\" OR src.process.parent.cmdline containsCIS "\\ProgramData\\" OR src.process.parent.cmdline containsCIS "\\Temp\\" OR src.process.parent.cmdline containsCIS "\\Users\\Public\\")))))

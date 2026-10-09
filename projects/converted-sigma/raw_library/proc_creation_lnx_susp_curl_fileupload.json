@@ -1,0 +1,44 @@
+{
+  "title": "Suspicious Curl File Upload - Linux",
+  "id": "00b90cc1-17ec-402c-96ad-3a8117d7a582",
+  "status": "test",
+  "description": "Detects a suspicious curl process start the adds a file to a web request",
+  "author": "Nasreddine Bencherchali (Nextron Systems), Cedric MAURUGEON (Update)",
+  "date": "2022-09-15",
+  "tags": [
+    "attack.exfiltration",
+    "attack.command-and-control",
+    "attack.t1567",
+    "attack.t1105"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "process_creation",
+    "product": "linux"
+  },
+  "detection": {
+    "selection_img": {
+      "Image|endswith": "/curl"
+    },
+    "selection_cli": [
+      {
+        "CommandLine|contains": [
+          " --form",
+          " --upload-file ",
+          " --data ",
+          " --data-"
+        ]
+      },
+      {
+        "CommandLine|re": "\\s-[FTd]\\s"
+      }
+    ],
+    "filter_optional_localhost": {
+      "CommandLine|contains": [
+        "://localhost",
+        "://127.0.0.1"
+      ]
+    },
+    "condition": "all of selection_* and not 1 of filter_optional_*"
+  }
+}

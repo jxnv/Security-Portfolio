@@ -1,0 +1,11 @@
+// Title: Suspicious Child Process Of SQL Server
+// ID: 869b9ca7-9ea2-4a5a-8325-e80e62f75445
+// Status: test
+// Level: high
+// Author: FPT.EagleEye Team, wagga
+// Date: 2020-12-11
+// Tags: attack.t1505.003, attack.t1190, attack.initial-access, attack.persistence, attack.privilege-escalation
+// Description: Detects suspicious child processes of the SQLServer process. This could indicate potential RCE or SQL Injection.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((where(ParentImage IENDSWITH "\\sqlservr.exe") AND (where(Image IENDSWITH "\\bash.exe") OR where(Image IENDSWITH "\\bitsadmin.exe") OR where(Image IENDSWITH "\\cmd.exe") OR where(Image IENDSWITH "\\netstat.exe") OR where(Image IENDSWITH "\\nltest.exe") OR where(Image IENDSWITH "\\ping.exe") OR where(Image IENDSWITH "\\powershell.exe") OR where(Image IENDSWITH "\\pwsh.exe") OR where(Image IENDSWITH "\\regsvr32.exe") OR where(Image IENDSWITH "\\rundll32.exe") OR where(Image IENDSWITH "\\sh.exe") OR where(Image IENDSWITH "\\systeminfo.exe") OR where(Image IENDSWITH "\\tasklist.exe") OR where(Image IENDSWITH "\\wsl.exe"))) AND NOT ((where(ParentImage ISTARTSWITH "C:\\Program Files\\Microsoft SQL Server\\") AND where(ParentImage IENDSWITH "DATEV_DBENGINE\\MSSQL\\Binn\\sqlservr.exe") AND where(Image = "C:\\Windows\\System32\\cmd.exe") AND where(CommandLine ISTARTSWITH "\"C:\\Windows\\system32\\cmd.exe\" "))))

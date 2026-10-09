@@ -1,0 +1,11 @@
+# Title: Addition of SID History to Active Directory Object
+# ID: 2632954e-db1c-49cb-9936-67d1ef1d17d2
+# Status: stable
+# Level: medium
+# Author: Thomas Patzke, @atc_project (improvements)
+# Date: 2017-02-19
+# Tags: attack.persistence, attack.privilege-escalation, attack.stealth, attack.t1134.005
+# Description: An attacker can use the SID history attribute to gain additional privileges.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((winlog.event_id:"4765" OR winlog.event_id:"4766")) OR ((winlog.event_id:"4738") AND NOT (((SidHistory:"-" OR SidHistory:"%%1793"))) AND NOT ((NOT _exists_:SidHistory))))

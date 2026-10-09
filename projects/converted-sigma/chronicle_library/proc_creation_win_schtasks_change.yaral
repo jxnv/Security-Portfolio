@@ -1,0 +1,25 @@
+// Title: Suspicious Modification Of Scheduled Tasks
+// ID: 1c0e41cd-21bb-4433-9acc-4a2cd6367b9b
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-07-28
+// Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.t1053.005
+// Description: Detects when an attacker tries to modify an already existing scheduled tasks to run from a suspicious location
+// Attackers can create a simple looking task in order to avoid detection on creation as it's often the most focused on
+// Instead they modify the task after creation to include their malicious payload
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 1c0e41cd_21bb_4433_9acc_4a2cd6367b9b {
+  meta:
+    title = "Suspicious Modification Of Scheduled Tasks"
+    description = "Detects when an attacker tries to modify an already existing scheduled tasks to run from a suspicious location Attackers can create a simple looking task in order to avoid detection on creation as it's often the most focused on Instead they modify the task after creation to include their malicious payload"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.file.full_path = /.*\\schtasks.exe$/ nocase and ($e.target.process.command_line = /.* /Change .*/ nocase and $e.target.process.command_line = /.* /TN .*/ nocase)) and (($e.target.process.command_line = /.*regsvr32.*/ nocase or $e.target.process.command_line = /.*rundll32.*/ nocase or $e.target.process.command_line = /.*cmd /c .*/ nocase or $e.target.process.command_line = /.*cmd /k .*/ nocase or $e.target.process.command_line = /.*cmd /r .*/ nocase or $e.target.process.command_line = /.*cmd.exe /c .*/ nocase or $e.target.process.command_line = /.*cmd.exe /k .*/ nocase or $e.target.process.command_line = /.*cmd.exe /r .*/ nocase or $e.target.process.command_line = /.*powershell.*/ nocase or $e.target.process.command_line = /.*mshta.*/ nocase or $e.target.process.command_line = /.*wscript.*/ nocase or $e.target.process.command_line = /.*cscript.*/ nocase or $e.target.process.command_line = /.*certutil.*/ nocase or $e.target.process.command_line = /.*bitsadmin.*/ nocase or $e.target.process.command_line = /.*bash.exe.*/ nocase or $e.target.process.command_line = /.*bash .*/ nocase or $e.target.process.command_line = /.*scrcons.*/ nocase or $e.target.process.command_line = /.*wmic .*/ nocase or $e.target.process.command_line = /.*wmic.exe.*/ nocase or $e.target.process.command_line = /.*forfiles.*/ nocase or $e.target.process.command_line = /.*scriptrunner.*/ nocase or $e.target.process.command_line = /.*hh.exe.*/ nocase or $e.target.process.command_line = /.*hh .*/ nocase)) and (($e.target.process.command_line = /.*\\AppData\\Local\\Temp.*/ nocase or $e.target.process.command_line = /.*\\AppData\\Roaming\\.*/ nocase or $e.target.process.command_line = /.*\\Users\\Public\\.*/ nocase or $e.target.process.command_line = /.*\\WINDOWS\\Temp\\.*/ nocase or $e.target.process.command_line = /.*\\Desktop\\.*/ nocase or $e.target.process.command_line = /.*\\Downloads\\.*/ nocase or $e.target.process.command_line = /.*\\Temporary Internet.*/ nocase or $e.target.process.command_line = /.*C:\\ProgramData\\.*/ nocase or $e.target.process.command_line = /.*C:\\Perflogs\\.*/ nocase or $e.target.process.command_line = /.*%ProgramData%.*/ nocase or $e.target.process.command_line = /.*%appdata%.*/ nocase or $e.target.process.command_line = /.*%comspec%.*/ nocase or $e.target.process.command_line = /.*%localappdata%.*/ nocase)))
+
+  condition:
+    $e
+}

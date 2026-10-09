@@ -1,0 +1,11 @@
+// Title: Suspicious WindowsTerminal Child Processes
+// ID: 8de89e52-f6e1-4b5b-afd1-41ecfa300d48
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-07-25
+// Tags: attack.execution, attack.persistence
+// Description: Detects suspicious children spawned via the Windows Terminal application which could be a sign of persistence via WindowsTerminal (see references section)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where ((((process.parent.executable="*\\WindowsTerminal.exe" OR process.parent.executable="*\\wt.exe")) AND (((process.executable="*\\rundll32.exe" OR process.executable="*\\regsvr32.exe" OR process.executable="*\\certutil.exe" OR process.executable="*\\cscript.exe" OR process.executable="*\\wscript.exe" OR process.executable="*\\csc.exe")) OR ((process.executable like "%C:\\Users\\Public\\%" OR process.executable like "%\\Downloads\\%" OR process.executable like "%\\Desktop\\%" OR process.executable like "%\\AppData\\Local\\Temp\\%" OR process.executable like "%\\Windows\\TEMP\\%")) OR ((process.command_line like "% iex %" OR process.command_line like "% icm%" OR process.command_line like "%Invoke-%" OR process.command_line like "%Import-Module %" OR process.command_line like "%ipmo %" OR process.command_line like "%DownloadString(%" OR process.command_line like "% /c %" OR process.command_line like "% /k %" OR process.command_line like "% /r %")))) AND NOT ((((process.command_line like "%Import-Module%" AND process.command_line like "%Microsoft.VisualStudio.DevShell.dll%" AND process.command_line like "%Enter-VsDevShell%")) OR ((process.command_line like "%\\AppData\\Local\\Packages\\Microsoft.WindowsTerminal_%" AND process.command_line like "%\\LocalState\\settings.json%")) OR ((process.command_line like "%C:\\Program Files\\Microsoft Visual Studio\\%" AND process.command_line like "%\\Common7\\Tools\\VsDevCmd.bat%")))))

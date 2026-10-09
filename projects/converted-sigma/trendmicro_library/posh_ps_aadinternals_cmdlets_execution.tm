@@ -1,0 +1,11 @@
+// Title: AADInternals PowerShell Cmdlets Execution - PsScript
+// ID: 91e69562-2426-42ce-a647-711b8152ced6
+// Status: test
+// Level: high
+// Author: Austin Songer (@austinsonger), Nasreddine Bencherchali (Nextron Systems), Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2022-12-23
+// Tags: attack.execution, attack.reconnaissance, attack.discovery, attack.credential-access, attack.impact
+// Description: Detects ADDInternals Cmdlet execution. A tool for administering Azure AD and Office 365. Which can be abused by threat actors to attack Azure AD or Office 365.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((ScriptBlockText: "*Add-AADInt*" OR ScriptBlockText: "*ConvertTo-AADInt*" OR ScriptBlockText: "*Disable-AADInt*" OR ScriptBlockText: "*Enable-AADInt*" OR ScriptBlockText: "*Export-AADInt*" OR ScriptBlockText: "*Find-AADInt*" OR ScriptBlockText: "*Get-AADInt*" OR ScriptBlockText: "*Grant-AADInt*" OR ScriptBlockText: "*Initialize-AADInt*" OR ScriptBlockText: "*Install-AADInt*" OR ScriptBlockText: "*Invoke-AADInt*" OR ScriptBlockText: "*Join-AADInt*" OR ScriptBlockText: "*New-AADInt*" OR ScriptBlockText: "*Open-AADInt*" OR ScriptBlockText: "*Read-AADInt*" OR ScriptBlockText: "*Register-AADInt*" OR ScriptBlockText: "*Remove-AADInt*" OR ScriptBlockText: "*Reset-AADInt*" OR ScriptBlockText: "*Resolve-AADInt*" OR ScriptBlockText: "*Restore-AADInt*" OR ScriptBlockText: "*Save-AADInt*" OR ScriptBlockText: "*Search-AADInt*" OR ScriptBlockText: "*Send-AADInt*" OR ScriptBlockText: "*Set-AADInt*" OR ScriptBlockText: "*Start-AADInt*" OR ScriptBlockText: "*Unprotect-AADInt*" OR ScriptBlockText: "*Update-AADInt*"))

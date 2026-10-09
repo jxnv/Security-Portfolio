@@ -1,0 +1,23 @@
+// Title: Uncommon  Assistive Technology Applications Execution Via AtBroker.EXE
+// ID: f24bcaea-0cd1-11eb-adc1-0242ac120002
+// Status: test
+// Level: medium
+// Author: Mateusz Wydra, oscd.community
+// Date: 2020-10-12
+// Tags: attack.stealth, attack.t1218
+// Description: Detects the start of a non built-in assistive technology applications via "Atbroker.EXE".
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule f24bcaea_0cd1_11eb_adc1_0242ac120002 {
+  meta:
+    title = "Uncommon  Assistive Technology Applications Execution Via AtBroker.EXE"
+    description = "Detects the start of a non built-in assistive technology applications via "Atbroker.EXE"."
+    author = "Mateusz Wydra, oscd.community"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.command_line = /.*start.*/ nocase) and (($e.target.process.file.full_path = /.*\\AtBroker.exe$/ nocase) or ($e.target.process.file.name = "AtBroker.exe"))) and not((($e.target.process.command_line = /.*animations.*/ nocase or $e.target.process.command_line = /.*audiodescription.*/ nocase or $e.target.process.command_line = /.*caretbrowsing.*/ nocase or $e.target.process.command_line = /.*caretwidth.*/ nocase or $e.target.process.command_line = /.*colorfiltering.*/ nocase or $e.target.process.command_line = /.*cursorindicator.*/ nocase or $e.target.process.command_line = /.*cursorscheme.*/ nocase or $e.target.process.command_line = /.*filterkeys.*/ nocase or $e.target.process.command_line = /.*focusborderheight.*/ nocase or $e.target.process.command_line = /.*focusborderwidth.*/ nocase or $e.target.process.command_line = /.*highcontrast.*/ nocase or $e.target.process.command_line = /.*keyboardcues.*/ nocase or $e.target.process.command_line = /.*keyboardpref.*/ nocase or $e.target.process.command_line = /.*livecaptions.*/ nocase or $e.target.process.command_line = /.*magnifierpane.*/ nocase or $e.target.process.command_line = /.*messageduration.*/ nocase or $e.target.process.command_line = /.*minimumhitradius.*/ nocase or $e.target.process.command_line = /.*mousekeys.*/ nocase or $e.target.process.command_line = /.*Narrator.*/ nocase or $e.target.process.command_line = /.*osk.*/ nocase or $e.target.process.command_line = /.*overlappedcontent.*/ nocase or $e.target.process.command_line = /.*showsounds.*/ nocase or $e.target.process.command_line = /.*soundsentry.*/ nocase or $e.target.process.command_line = /.*speechreco.*/ nocase or $e.target.process.command_line = /.*stickykeys.*/ nocase or $e.target.process.command_line = /.*togglekeys.*/ nocase or $e.target.process.command_line = /.*voiceaccess.*/ nocase or $e.target.process.command_line = /.*windowarranging.*/ nocase or $e.target.process.command_line = /.*windowtracking.*/ nocase or $e.target.process.command_line = /.*windowtrackingtimeout.*/ nocase or $e.target.process.command_line = /.*windowtrackingzorder.*/ nocase))) and not(($e.target.process.command_line = /.*Oracle_JavaAccessBridge.*/ nocase)))
+
+  condition:
+    $e
+}

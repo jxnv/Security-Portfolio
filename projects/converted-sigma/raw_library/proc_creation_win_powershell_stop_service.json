@@ -1,0 +1,37 @@
+{
+  "title": "Stop Windows Service Via PowerShell Stop-Service",
+  "id": "c49c5062-0966-4170-9efd-9968c913a6cf",
+  "status": "test",
+  "description": "Detects the stopping of a Windows service via the PowerShell Cmdlet \"Stop-Service\"",
+  "author": "Jakob Weinzettl, oscd.community, Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2023-03-05",
+  "tags": [
+    "attack.impact",
+    "attack.t1489"
+  ],
+  "level": "low",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_sc_net_img": [
+      {
+        "OriginalFileName": [
+          "PowerShell.EXE",
+          "pwsh.dll"
+        ]
+      },
+      {
+        "Image|endswith": [
+          "\\powershell.exe",
+          "\\pwsh.exe"
+        ]
+      }
+    ],
+    "selection_cli": {
+      "CommandLine|contains": "Stop-Service "
+    },
+    "condition": "all of selection_*"
+  }
+}

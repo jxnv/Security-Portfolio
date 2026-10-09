@@ -1,0 +1,23 @@
+// Title: Time Travel Debugging Utility Usage
+// ID: 0b4ae027-2a2d-4b93-8c7e-962caaba5b2a
+// Status: test
+// Level: high
+// Author: Ensar Şamil, @sblmsrsn, @oscd_initiative
+// Date: 2020-10-06
+// Tags: attack.credential-access, attack.stealth, attack.t1218, attack.t1003.001
+// Description: Detects usage of Time Travel Debugging Utility. Adversaries can execute malicious processes and dump processes, such as lsass.exe, via tttracer.exe.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 0b4ae027_2a2d_4b93_8c7e_962caaba5b2a {
+  meta:
+    title = "Time Travel Debugging Utility Usage"
+    description = "Detects usage of Time Travel Debugging Utility. Adversaries can execute malicious processes and dump processes, such as lsass.exe, via tttracer.exe."
+    author = "Ensar Şamil, @sblmsrsn, @oscd_initiative"
+    severity = "HIGH"
+
+  events:
+    ($e.principal.process.file.full_path = /.*\\tttracer.exe$/ nocase)
+
+  condition:
+    $e
+}

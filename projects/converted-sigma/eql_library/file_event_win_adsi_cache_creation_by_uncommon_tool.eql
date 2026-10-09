@@ -1,0 +1,11 @@
+// Title: ADSI-Cache File Creation By Uncommon Tool
+// ID: 75bf09fa-1dd7-4d18-9af9-dd9e492562eb
+// Status: test
+// Level: medium
+// Author: xknow @xknow_infosec, Tim Shelton
+// Date: 2019-03-24
+// Tags: attack.t1001.003, attack.command-and-control
+// Description: Detects the creation of an "Active Directory Schema Cache File" (.sch) file by an uncommon tool.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+file where ((file.path like "*_\\Local\\Microsoft\\Windows\\SchCache\\*" and file.path endswith ".sch") and not (((((process.executable endswith ":\\Program Files\\Cylance\\Desktop\\CylanceSvc.exe" or process.executable endswith ":\\Windows\\CCM\\CcmExec.exe" or process.executable endswith ":\\windows\\system32\\dllhost.exe" or process.executable endswith ":\\Windows\\system32\\dsac.exe" or process.executable endswith ":\\Windows\\system32\\efsui.exe" or process.executable endswith ":\\windows\\system32\\mmc.exe" or process.executable endswith ":\\windows\\system32\\svchost.exe" or process.executable endswith ":\\Windows\\System32\\wbem\\WmiPrvSE.exe" or process.executable endswith ":\\windows\\system32\\WindowsPowerShell\\v1.0\\powershell.exe")) or ((process.executable like "*_:\\Windows\\ccmsetup\\autoupgrade\\ccmsetup*" or process.executable like "*_:\\Program Files\\SentinelOne\\Sentinel Agent*"))) or ((process.executable like "*_:\\Program Files\\*" and process.executable like "*_\\Microsoft Office*") and process.executable endswith "\\OUTLOOK.EXE"))) and not (((process.executable endswith ":\\Program Files\\Citrix\\Receiver StoreFront\\Services\\DefaultDomainServices\\Citrix.DeliveryServices.DomainServices.ServiceHost.exe") or (process.executable endswith "\\LANDesk\\LDCLient\\ldapwhoami.exe"))))

@@ -1,0 +1,20 @@
+# Title: Suspicious Screensaver Binary File Creation
+# ID: 97aa2e88-555c-450d-85a6-229bcd87efb8
+# Status: test
+# Level: medium
+# Author: frack113
+# Date: 2021-12-29
+# Tags: attack.privilege-escalation, attack.persistence, attack.t1546.002
+# Description: Adversaries may establish persistence by executing malicious content triggered by user inactivity.
+# Screensavers are programs that execute after a configurable time of user inactivity and consist of Portable Executable (PE) files with a .scr file extension
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Suspicious Screensaver Binary File Creation
+def rule(event):
+    # Detection Logic:
+    # ((TargetFilename="*.scr") AND NOT ((((Image="*\\Kindle.exe" OR Image="*\\Bin\\ccSvcHst.exe")) OR (Image="*\\TiWorker.exe" AND TargetFilename="*\\uwfservicingscr.scr"))))
+    return True
+
+def title(event):
+    return "Suspicious Screensaver Binary File Creation"
+

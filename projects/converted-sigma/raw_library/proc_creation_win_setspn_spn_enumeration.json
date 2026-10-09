@@ -1,0 +1,40 @@
+{
+  "title": "Potential SPN Enumeration Via Setspn.EXE",
+  "id": "1eeed653-dbc8-4187-ad0c-eeebb20e6599",
+  "status": "test",
+  "description": "Detects service principal name (SPN) enumeration used for Kerberoasting",
+  "author": "Markus Neis, keepwatch",
+  "date": "2018-11-14",
+  "tags": [
+    "attack.credential-access",
+    "attack.t1558.003"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_pe": [
+      {
+        "Image|endswith": "\\setspn.exe"
+      },
+      {
+        "OriginalFileName": "setspn.exe"
+      },
+      {
+        "Description|contains|all": [
+          "Query or reset the computer",
+          "SPN attribute"
+        ]
+      }
+    ],
+    "selection_cli": {
+      "CommandLine|contains": [
+        " -q ",
+        " /q "
+      ]
+    },
+    "condition": "all of selection_*"
+  }
+}

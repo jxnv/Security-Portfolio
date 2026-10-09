@@ -1,0 +1,13 @@
+# Title: AWS IAM Backdoor Users Keys
+# ID: 0a5177f4-6ca9-44c2-aacf-d3f3d8b6e4d2
+# Status: test
+# Level: medium
+# Author: faloker
+# Date: 2020-02-12
+# Tags: attack.persistence, attack.privilege-escalation, attack.t1098
+# Description: Detects AWS API key creation for a user by another user.
+# Backdoored users can be used to obtain persistence in the AWS environment.
+# Also with this alert, you can detect a flow of AWS keys in your org.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((eventSource equals "iam.amazonaws.com" AND eventName equals "CreateAccessKey") AND NOT ((userIdentity.arn=responseElements.accessKey.userName)))

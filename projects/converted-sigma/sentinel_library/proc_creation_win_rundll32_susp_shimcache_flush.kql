@@ -1,0 +1,11 @@
+// Title: ShimCache Flush
+// ID: b0524451-19af-4efa-a46f-562a977f792e
+// Status: stable
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2021-02-01
+// Tags: attack.persistence, attack.defense-impairment, attack.t1112
+// Description: Detects actions that clear the local ShimCache and remove forensic evidence
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+DeviceProcessEvents | where ((((ProcessCommandLine contains "rundll32" and ProcessCommandLine contains "apphelp.dll")) and ((ProcessCommandLine contains "ShimFlushCache" or ProcessCommandLine contains "#250"))) or (((ProcessCommandLine contains "rundll32" and ProcessCommandLine contains "kernel32.dll")) and ((ProcessCommandLine contains "BaseFlushAppcompatCache" or ProcessCommandLine contains "#46"))))

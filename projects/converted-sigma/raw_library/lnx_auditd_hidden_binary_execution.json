@@ -1,0 +1,35 @@
+{
+  "title": "Use Of Hidden Paths Or Files",
+  "id": "9e1bef8d-0fff-46f6-8465-9aa54e128c1e",
+  "status": "test",
+  "description": "Detects calls to hidden files or files located in hidden directories in NIX systems.",
+  "author": "David Burkett, @signalblur",
+  "date": "2022-12-30",
+  "tags": [
+    "attack.privilege-escalation",
+    "attack.persistence",
+    "attack.execution",
+    "attack.stealth",
+    "attack.t1574.001"
+  ],
+  "level": "low",
+  "logsource": {
+    "product": "linux",
+    "service": "auditd"
+  },
+  "detection": {
+    "selection": {
+      "type": "PATH",
+      "name|contains": "/."
+    },
+    "filter": {
+      "name|contains": [
+        "/.cache/",
+        "/.config/",
+        "/.pyenv/",
+        "/.rustup/toolchains"
+      ]
+    },
+    "condition": "selection and not filter"
+  }
+}

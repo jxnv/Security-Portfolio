@@ -1,0 +1,11 @@
+-- Title: Hidden Local User Creation
+-- ID: 7b449a5e-1db5-4dd0-a2dc-4e3a67282538
+-- Status: test
+-- Level: high
+-- Author: Christian Burkard (Nextron Systems)
+-- Date: 2021-05-03
+-- Tags: attack.persistence, attack.t1136.001
+-- Description: Detects the creation of a local hidden user account which should not happen for event ID 4720.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE ((EventID = 4720 AND TargetUserName ILIKE '%$') AND NOT ((TargetUserName = 'HomeGroupUser$')))

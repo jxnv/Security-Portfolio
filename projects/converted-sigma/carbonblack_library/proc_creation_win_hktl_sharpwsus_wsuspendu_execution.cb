@@ -1,0 +1,12 @@
+# Title: HackTool - SharpWSUS/WSUSpendu Execution
+# ID: b0ce780f-10bd-496d-9067-066d23dc3aa5
+# Status: test
+# Level: high
+# Author: @Kostastsale, Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-10-07
+# Tags: attack.execution, attack.lateral-movement, attack.t1210
+# Description: Detects the execution of SharpWSUS or WSUSpendu, utilities that allow for lateral movement through WSUS.
+# Windows Server Update Services (WSUS) is a critical component of Windows systems and is frequently configured in a way that allows an attacker to circumvent internal networking limitations.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((cmdline:* -Inject *) AND ((cmdline:* -PayloadArgs * OR cmdline:* -PayloadFile *))) OR (((cmdline:* approve * OR cmdline:* create * OR cmdline:* check * OR cmdline:* delete *)) AND ((cmdline:* /payload:* OR cmdline:* /payload=* OR cmdline:* /updateid:* OR cmdline:* /updateid=*))))

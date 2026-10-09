@@ -1,0 +1,11 @@
+// Title: Important Windows Eventlog Cleared
+// ID: 100ef69e-3327-481c-8e5c-6d80d9507556
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Tim Shelton, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-05-17
+// Tags: attack.defense-impairment, attack.t1685.005, car.2016-04-002
+// Description: Detects the clearing of one of the Windows Core Eventlogs. e.g. caused by "wevtutil cl" command execution
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter (EventID = 104 and Provider_Name = "Microsoft-Windows-Eventlog" and (Channel = "Microsoft-Windows-PowerShell/Operational" or Channel = "Microsoft-Windows-Sysmon/Operational" or Channel = "PowerShellCore/Operational" or Channel = "Security" or Channel = "System" or Channel = "Windows PowerShell"))

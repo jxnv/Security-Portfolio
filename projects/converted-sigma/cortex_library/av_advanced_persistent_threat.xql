@@ -1,0 +1,12 @@
+// Title: Antivirus - APT Malware Signature
+// ID: 101a1877-2cf4-474d-abfd-7f6ac4788d1a
+// Status: experimental
+// Level: critical
+// Author: Arnim Rupp (Nextron Systems)
+// Date: 2026-06-15
+// Tags: attack.execution, attack.t1203, attack.command-and-control, attack.t1219.002
+// Description: Detects a highly relevant Antivirus alert that reports APT malware.
+// This event must not be ignored just because the AV has blocked the malware but investigate, how it came there in the first place.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter (((Signature ~= "APT\\d" or Signature ~= "ATK\\d" or Signature ~= "UNC\\d" or Signature ~= "UAC\\d")) or ((Signature contains "[APT]" or Signature contains "APT_" or Signature contains "APT-" or Signature contains "BackOrder" or Signature contains "BlindingCan" or Signature contains "Blizzard" or Signature contains "Chollima" or Signature contains "Cleaver" or Signature contains "Cobra" or Signature contains "DarkHotel" or Signature contains "Dragon" or Signature contains "DTrack" or Signature contains "Equation" or Signature contains "GiftedCrook" or Signature contains "GraphSteel" or Signature contains "GreyEnergy" or Signature contains "GEnergy" or Signature contains "GrimPlant" or Signature contains "Hydra" or Signature contains "Jackal" or Signature contains "Kitten" or Signature contains "Kimsuky" or Signature contains "Lazar" or Signature contains "LightRail" or Signature contains "Lotus" or Signature contains "Luminous" or Signature contains "LumiMoth" or Signature contains "Nimbus" or Signature contains "Manticore" or Signature contains "MiniBike" or Signature contains "MiniBrowse" or Signature contains "MiniBus" or Signature contains "MiniFast" or Signature contains "MiniJuke" or Signature contains "MiniUpdate" or Signature contains "MuddyWater" or Signature contains "NukeSped" or Signature contains "OilRig" or Signature contains "Panda" or Signature contains "Sandstorm" or Signature contains "SandWorm" or Signature contains "Seamonkey" or Signature contains "Sleet" or Signature contains "SlugResin" or Signature contains "SnailResin" or Signature contains "Snake" or Signature contains "Tempest" or Signature contains "Tsunami" or Signature contains "Turla" or Signature contains "Typhoon" or Signature contains "UAC_" or Signature contains "UAC-" or Signature contains "UNC_" or Signature contains "UNC-" or Signature contains "VinoSiren" or Signature contains "Winnti")))

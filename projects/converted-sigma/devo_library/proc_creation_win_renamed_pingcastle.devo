@@ -1,0 +1,11 @@
+// Title: Renamed PingCastle Binary Execution
+// ID: 2433a154-bb3d-42e4-86c3-a26bdac91c45
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems), X__Junior (Nextron Systems)
+// Date: 2024-01-11
+// Tags: attack.execution, attack.stealth, attack.t1059, attack.t1202
+// Description: Detects the execution of a renamed "PingCastle" binary based on the PE metadata fields.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+from siem.events where ((((OriginalFileName == "PingCastleReporting.exe" OR OriginalFileName == "PingCastleCloud.exe" OR OriginalFileName == "PingCastle.exe")) OR ((contains(CommandLine, "--scanner aclcheck") OR contains(CommandLine, "--scanner antivirus") OR contains(CommandLine, "--scanner computerversion") OR contains(CommandLine, "--scanner foreignusers") OR contains(CommandLine, "--scanner laps_bitlocker") OR contains(CommandLine, "--scanner localadmin") OR contains(CommandLine, "--scanner nullsession") OR contains(CommandLine, "--scanner nullsession-trust") OR contains(CommandLine, "--scanner oxidbindings") OR contains(CommandLine, "--scanner remote") OR contains(CommandLine, "--scanner share") OR contains(CommandLine, "--scanner smb") OR contains(CommandLine, "--scanner smb3querynetwork") OR contains(CommandLine, "--scanner spooler") OR contains(CommandLine, "--scanner startup") OR contains(CommandLine, "--scanner zerologon"))) OR (contains(CommandLine, "--no-enum-limit")) OR ((contains(CommandLine, "--healthcheck") AND contains(CommandLine, "--level Full"))) OR ((contains(CommandLine, "--healthcheck") AND contains(CommandLine, "--server ")))) AND NOT (((Image="*\\PingCastleReporting.exe" OR Image="*\\PingCastleCloud.exe" OR Image="*\\PingCastle.exe"))))

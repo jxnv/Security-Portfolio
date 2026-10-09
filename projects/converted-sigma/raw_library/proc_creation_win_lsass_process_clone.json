@@ -1,0 +1,25 @@
+{
+  "title": "Potential Credential Dumping Via LSASS Process Clone",
+  "id": "c8da0dfd-4ed0-4b68-962d-13c9c884384e",
+  "status": "test",
+  "description": "Detects a suspicious LSASS process process clone that could be a sign of credential dumping activity",
+  "author": "Florian Roth (Nextron Systems), Samir Bousseaden",
+  "date": "2021-11-27",
+  "tags": [
+    "attack.credential-access",
+    "attack.t1003",
+    "attack.t1003.001"
+  ],
+  "level": "critical",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection": {
+      "ParentImage|endswith": "\\Windows\\System32\\lsass.exe",
+      "Image|endswith": "\\Windows\\System32\\lsass.exe"
+    },
+    "condition": "selection"
+  }
+}

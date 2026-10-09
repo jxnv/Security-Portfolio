@@ -1,0 +1,23 @@
+// Title: Potential Defense Evasion Via Raw Disk Access By Uncommon Tools
+// ID: db809f10-56ce-4420-8c86-d6a7d793c79c
+// Status: test
+// Level: low
+// Author: Teymur Kheirkhabarov, oscd.community
+// Date: 2019-10-22
+// Tags: attack.stealth, attack.t1006
+// Description: Detects raw disk access using uncommon tools or tools that are located in suspicious locations (heavy filtering is required), which could indicate possible defense evasion attempts
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule db809f10_56ce_4420_8c86_d6a7d793c79c {
+  meta:
+    title = "Potential Defense Evasion Via Raw Disk Access By Uncommon Tools"
+    description = "Detects raw disk access using uncommon tools or tools that are located in suspicious locations (heavy filtering is required), which could indicate possible defense evasion attempts"
+    author = "Teymur Kheirkhabarov, oscd.community"
+    severity = "LOW"
+
+  events:
+    (not((($e.Device = /.*floppy.*/ nocase) or (($e.target.process.file.full_path = /^C:\\$WINDOWS.~BT\\.*/ nocase or $e.target.process.file.full_path = /^C:\\Program Files (x86)\\.*/ nocase or $e.target.process.file.full_path = /^C:\\Program Files\\.*/ nocase or $e.target.process.file.full_path = /^C:\\Windows\\CCM\\.*/ nocase or $e.target.process.file.full_path = /^C:\\Windows\\explorer.exe.*/ nocase or $e.target.process.file.full_path = /^C:\\Windows\\servicing\\.*/ nocase or $e.target.process.file.full_path = /^C:\\Windows\\SoftwareDistribution\\.*/ nocase or $e.target.process.file.full_path = /^C:\\Windows\\System32\\.*/ nocase or $e.target.process.file.full_path = /^C:\\Windows\\SystemApps\\.*/ nocase or $e.target.process.file.full_path = /^C:\\Windows\\SysWOW64\\.*/ nocase or $e.target.process.file.full_path = /^C:\\Windows\\uus\\.*/ nocase or $e.target.process.file.full_path = /^C:\\Windows\\WinSxS\\.*/ nocase)) or ($e.target.process.file.full_path = /^C:\\Users\\.*/ nocase and ($e.target.process.file.full_path = /.*\\AppData\\.*/ nocase and $e.target.process.file.full_path = /.*\\Microsoft\\.*/ nocase)) or (not ($e.target.process.file.full_path = /.*/)) or ($e.target.process.file.full_path = /^C:\\Windows\\Temp\\.*/ nocase and ($e.target.process.file.full_path = /.*\\Executables\\SSDUpdate.exe$/ nocase or $e.target.process.file.full_path = /.*\\HostMetadata\\NVMEHostmetadata.exe$/ nocase)) or (($e.target.process.file.full_path = "Registry" or $e.target.process.file.full_path = "System")) or ($e.target.process.file.full_path = "C:\\Windows\\ImmersiveControlPanel\\SystemSettings.exe") or ($e.target.process.file.full_path = /^C:\\$WinREAgent\\Scratch\\.*/ nocase) or ($e.target.process.file.full_path = /^C:\\ProgramData\\Microsoft\\Windows Defender\\Platform\\.*/ nocase and ($e.target.process.file.full_path = /.*\\MsMpEng.exe$/ nocase or $e.target.process.file.full_path = /.*\\MpDefenderCoreService.exe$/ nocase)))) and not((($e.target.process.file.full_path = /^C:\\Users\\.*/ nocase and $e.target.process.file.full_path = /.*\\AppData\\Local\\Keybase\\upd.exe.*/ nocase) or ($e.target.process.file.full_path = /^C:\\Users\\.*/ nocase and $e.target.process.file.full_path = /.*\\AppData\\Local\\GitHubDesktop\\app-.*/ nocase and $e.target.process.file.full_path = /.*\\resources\\app\\git\\mingw64\\bin\\git.exe$/ nocase) or ($e.target.process.file.full_path = /^C:\\Windows\\Temp\\asgard2-agent\\.*/ nocase and $e.target.process.file.full_path = /.*\\thor.exe$/ nocase))))
+
+  condition:
+    $e
+}

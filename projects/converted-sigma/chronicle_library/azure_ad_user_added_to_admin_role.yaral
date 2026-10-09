@@ -1,0 +1,23 @@
+// Title: User Added to an Administrator's Azure AD Role
+// ID: ebbeb024-5b1d-4e16-9c0c-917f86c708a7
+// Status: test
+// Level: medium
+// Author: Raphaël CALVET, @MetallicHack
+// Date: 2021-10-04
+// Tags: attack.initial-access, attack.persistence, attack.privilege-escalation, attack.stealth, attack.t1098.003, attack.t1078
+// Description: User Added to an Administrator's Azure AD Role
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule ebbeb024_5b1d_4e16_9c0c_917f86c708a7 {
+  meta:
+    title = "User Added to an Administrator's Azure AD Role"
+    description = "User Added to an Administrator's Azure AD Role"
+    author = "Raphaël CALVET, @MetallicHack"
+    severity = "MEDIUM"
+
+  events:
+    ($e.operationName = "Add member to role" and ($e.properties.targetResources = /.*Admins.*/ nocase or $e.properties.targetResources = /.*Administrator.*/ nocase))
+
+  condition:
+    $e
+}

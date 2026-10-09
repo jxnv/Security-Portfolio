@@ -1,0 +1,51 @@
+{
+  "title": "Schtasks From Suspicious Folders",
+  "id": "8a8379b8-780b-4dbf-b1e9-31c8d112fefb",
+  "status": "test",
+  "description": "Detects scheduled task creations that have suspicious action command and folder combinations",
+  "author": "Florian Roth (Nextron Systems)",
+  "date": "2022-04-15",
+  "tags": [
+    "attack.privilege-escalation",
+    "attack.persistence",
+    "attack.execution",
+    "attack.t1053.005"
+  ],
+  "level": "high",
+  "logsource": {
+    "product": "windows",
+    "category": "process_creation"
+  },
+  "detection": {
+    "selection_img": [
+      {
+        "Image|endswith": "\\schtasks.exe"
+      },
+      {
+        "OriginalFileName": "schtasks.exe"
+      }
+    ],
+    "selection_create": {
+      "CommandLine|contains": " /create "
+    },
+    "selection_command": {
+      "CommandLine|contains": [
+        "powershell",
+        "pwsh",
+        "cmd /c ",
+        "cmd /k ",
+        "cmd /r ",
+        "cmd.exe /c ",
+        "cmd.exe /k ",
+        "cmd.exe /r "
+      ]
+    },
+    "selection_all_folders": {
+      "CommandLine|contains": [
+        "C:\\ProgramData\\",
+        "%ProgramData%"
+      ]
+    },
+    "condition": "all of selection_*"
+  }
+}

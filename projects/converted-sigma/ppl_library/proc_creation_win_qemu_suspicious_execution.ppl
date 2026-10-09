@@ -1,0 +1,12 @@
+// Title: Potentially Suspicious Usage Of Qemu
+// ID: 5fc297ae-25b6-488a-8f25-cc12ac29b744
+// Status: test
+// Level: medium
+// Author: Muhammad Faisal (@faisalusuf), Hunter Juhan (@threatHNTR)
+// Date: 2024-06-03
+// Tags: attack.command-and-control, attack.t1090, attack.t1572
+// Description: Detects potentially suspicious execution of the Qemu utility in a Windows environment.
+// Threat actors have leveraged this utility and this technique for achieving network access as reported by Kaspersky.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where (((process.command_line like "%-m 1M%" OR process.command_line like "%-m 2M%" OR process.command_line like "%-m 3M%") AND (process.command_line like "%restrict=off%" AND process.command_line like "%-netdev %" AND process.command_line like "%connect=%" AND process.command_line like "%-nographic%")) AND NOT (((process.command_line like "% -cdrom %" OR process.command_line like "% type=virt %" OR process.command_line like "% -blockdev %"))))

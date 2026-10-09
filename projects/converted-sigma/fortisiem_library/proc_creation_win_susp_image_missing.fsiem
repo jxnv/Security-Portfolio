@@ -1,0 +1,13 @@
+# Title: Execution Of Non-Existing File
+# ID: 71158e3f-df67-472b-930e-7d287acaa3e1
+# Status: test
+# Level: high
+# Author: Max Altgelt (Nextron Systems)
+# Date: 2021-12-09
+# Tags: attack.stealth, attack.privilege-escalation, attack.t1055
+# Description: Detects process creation events where the Image field lacks an absolute path,
+# which occurs when the backing file no longer exists on disk at the time of
+# logging - commonly caused by Process Ghosting or other unorthodox process creation techniques.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(NOT ((Image CONTAIN "\\")) AND NOT (((((Image = "MemCompression" OR Image = "Registry" OR Image = "System" OR Image = "vmmem" OR Image = "vmmemWSL")) OR ((CommandLine = "MemCompression" OR CommandLine = "Registry" OR CommandLine = "vmmem" OR CommandLine = "vmmemWSL"))) OR ((Image = "-" OR Image = "")) OR (NOT Image=*))))

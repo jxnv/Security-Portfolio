@@ -1,0 +1,11 @@
+-- Title: Deny Service Access Using Security Descriptor Tampering Via Sc.EXE
+-- ID: 99cf1e02-00fb-4c0d-8375-563f978dfd37
+-- Status: test
+-- Level: high
+-- Author: Jonhnathan Ribeiro, oscd.community
+-- Date: 2020-10-16
+-- Tags: attack.privilege-escalation, attack.persistence, attack.t1543.003
+-- Description: Detects suspicious DACL modifications to deny access to a service that affects critical trustees. This can be used to hide services or make them unstoppable.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM processes WHERE (((Image="*\\sc.exe") OR (OriginalFileName = 'sc.exe')) AND ((CommandLine LIKE '%sdset%' AND CommandLine LIKE '%D;%')) AND ((CommandLine LIKE '%;IU%' OR CommandLine LIKE '%;SU%' OR CommandLine LIKE '%;BA%' OR CommandLine LIKE '%;SY%' OR CommandLine LIKE '%;WD%')))

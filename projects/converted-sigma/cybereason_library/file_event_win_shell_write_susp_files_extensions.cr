@@ -1,0 +1,11 @@
+// Title: Windows Binaries Write Suspicious Extensions
+// ID: b8fd0e93-ff58-4cbd-8f48-1c114e342e62
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-12
+// Tags: attack.stealth, attack.t1036
+// Description: Detects Windows executables that write files with suspicious extensions
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((Image="*\\csrss.exe" OR Image="*\\lsass.exe" OR Image="*\\RuntimeBroker.exe" OR Image="*\\sihost.exe" OR Image="*\\smss.exe" OR Image="*\\wininit.exe" OR Image="*\\winlogon.exe") AND (TargetFilename="*.bat" OR TargetFilename="*.dll" OR TargetFilename="*.exe" OR TargetFilename="*.hta" OR TargetFilename="*.iso" OR TargetFilename="*.ps1" OR TargetFilename="*.txt" OR TargetFilename="*.vbe" OR TargetFilename="*.vbs")) OR ((Image="*\\dllhost.exe" OR Image="*\\rundll32.exe" OR Image="*\\svchost.exe") AND (TargetFilename="*.bat" OR TargetFilename="*.hta" OR TargetFilename="*.iso" OR TargetFilename="*.ps1" OR TargetFilename="*.vbe" OR TargetFilename="*.vbs"))) AND NOT (((Image == "C:\\Windows\\System32\\dllhost.exe" AND (TargetFilename contains ":\\Users\\" AND TargetFilename contains "\\AppData\\Local\\Temp\\__PSScriptPolicyTest_") AND TargetFilename="*.ps1") OR (Image == "C:\\Windows\\system32\\svchost.exe" AND (TargetFilename contains "C:\\Program Files\\WindowsApps\\Clipchamp" AND TargetFilename contains ".ps1")) OR ((Image == "C:\\Windows\\system32\\svchost.exe" OR Image == "C:\\Windows\\SysWOW64\\svchost.exe") AND (TargetFilename="C:\\Program Files\\WindowsApps\\Microsoft.PowerShellPreview*" OR TargetFilename="C:\\Program Files (x86)\\WindowsApps\\Microsoft.PowerShellPreview*") AND TargetFilename="*.ps1") OR (Image == "C:\\Windows\\system32\\svchost.exe" AND (TargetFilename contains "C:\\Windows\\System32\\GroupPolicy\\DataStore\\" AND TargetFilename contains "\\sysvol\\" AND TargetFilename contains "\\Policies\\" AND TargetFilename contains "\\Machine\\Scripts\\Startup\\") AND (TargetFilename="*.ps1" OR TargetFilename="*.bat")))))

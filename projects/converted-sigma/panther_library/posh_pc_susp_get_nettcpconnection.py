@@ -1,0 +1,19 @@
+# Title: Use Get-NetTCPConnection
+# ID: b366adb4-d63d-422d-8a2c-186463b5ded0
+# Status: test
+# Level: low
+# Author: frack113
+# Date: 2021-12-10
+# Tags: attack.discovery, attack.t1049
+# Description: Adversaries may attempt to get a listing of network connections to or from the compromised system they are currently accessing or from remote systems by querying for information over the network.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Use Get-NetTCPConnection
+def rule(event):
+    # Detection Logic:
+    # (Data="*Get-NetTCPConnection*")
+    return True
+
+def title(event):
+    return "Use Get-NetTCPConnection"
+

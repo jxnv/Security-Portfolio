@@ -1,0 +1,23 @@
+// Title: Run PowerShell Script from ADS
+// ID: 45a594aa-1fbd-4972-a809-ff5a99dd81b8
+// Status: test
+// Level: high
+// Author: Sergey Soldatov, Kaspersky Lab, oscd.community
+// Date: 2019-10-30
+// Tags: attack.stealth, attack.t1564.004
+// Description: Detects PowerShell script execution from Alternate Data Stream (ADS)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 45a594aa_1fbd_4972_a809_ff5a99dd81b8 {
+  meta:
+    title = "Run PowerShell Script from ADS"
+    description = "Detects PowerShell script execution from Alternate Data Stream (ADS)"
+    author = "Sergey Soldatov, Kaspersky Lab, oscd.community"
+    severity = "HIGH"
+
+  events:
+    (($e.principal.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.principal.process.file.full_path = /.*\\pwsh.exe$/ nocase) and ($e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase) and ($e.target.process.command_line = /.*Get-Content.*/ nocase and $e.target.process.command_line = /.*-Stream.*/ nocase))
+
+  condition:
+    $e
+}

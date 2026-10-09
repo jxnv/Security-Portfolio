@@ -1,0 +1,11 @@
+// Title: Potential Defense Evasion Via Raw Disk Access By Uncommon Tools
+// ID: db809f10-56ce-4420-8c86-d6a7d793c79c
+// Status: test
+// Level: low
+// Author: Teymur Kheirkhabarov, oscd.community
+// Date: 2019-10-22
+// Tags: attack.stealth, attack.t1006
+// Description: Detects raw disk access using uncommon tools or tools that are located in suspicious locations (heavy filtering is required), which could indicate possible defense evasion attempts
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(NOT (((Device contains "floppy") OR ((Image="C:\\$WINDOWS.~BT\\*" OR Image="C:\\Program Files (x86)\\*" OR Image="C:\\Program Files\\*" OR Image="C:\\Windows\\CCM\\*" OR Image="C:\\Windows\\explorer.exe*" OR Image="C:\\Windows\\servicing\\*" OR Image="C:\\Windows\\SoftwareDistribution\\*" OR Image="C:\\Windows\\System32\\*" OR Image="C:\\Windows\\SystemApps\\*" OR Image="C:\\Windows\\SysWOW64\\*" OR Image="C:\\Windows\\uus\\*" OR Image="C:\\Windows\\WinSxS\\*")) OR (Image="C:\\Users\\*" AND (Image contains "\\AppData\\" AND Image contains "\\Microsoft\\")) OR (NOT Image=*) OR (Image="C:\\Windows\\Temp\\*" AND (Image="*\\Executables\\SSDUpdate.exe" OR Image="*\\HostMetadata\\NVMEHostmetadata.exe")) OR ((Image == "Registry" OR Image == "System")) OR (Image == "C:\\Windows\\ImmersiveControlPanel\\SystemSettings.exe") OR (Image="C:\\$WinREAgent\\Scratch\\*") OR (Image="C:\\ProgramData\\Microsoft\\Windows Defender\\Platform\\*" AND (Image="*\\MsMpEng.exe" OR Image="*\\MpDefenderCoreService.exe")))) AND NOT (((Image="C:\\Users\\*" AND Image contains "\\AppData\\Local\\Keybase\\upd.exe") OR (Image="C:\\Users\\*" AND Image contains "\\AppData\\Local\\GitHubDesktop\\app-" AND Image="*\\resources\\app\\git\\mingw64\\bin\\git.exe") OR (Image="C:\\Windows\\Temp\\asgard2-agent\\*" AND Image="*\\thor.exe"))))

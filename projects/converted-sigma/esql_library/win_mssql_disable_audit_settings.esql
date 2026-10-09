@@ -1,0 +1,11 @@
+// Title: MSSQL Disable Audit Settings
+// ID: 350dfb37-3706-4cdc-9e2e-5e24bc3a46df
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-07-13
+// Tags: attack.defense-impairment
+// Description: Detects when an attacker calls the "ALTER SERVER AUDIT" or "DROP SERVER AUDIT" transaction in order to delete or disable audit logs on the server
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE (winlog.provider_name LIKE "%MSSQL%" AND winlog.event_id == 33205 AND (Data LIKE "%statement:ALTER SERVER AUDIT%" OR Data LIKE "%statement:DROP SERVER AUDIT%"))

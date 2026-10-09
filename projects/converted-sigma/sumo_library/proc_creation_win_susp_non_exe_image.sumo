@@ -1,0 +1,12 @@
+// Title: Execution of Suspicious File Type Extension
+// ID: c09dad97-1c78-4f71-b127-7edb2b8e491a
+// Status: test
+// Level: medium
+// Author: Max Altgelt (Nextron Systems)
+// Date: 2021-12-09
+// Tags: attack.stealth
+// Description: Detects whether the image specified in a process creation event doesn't refer to an ".exe" (or other known executable extension) file. This can be caused by process ghosting or other unorthodox methods to start a process.
+// This rule might require some initial baselining to align with some third party tooling in the user environment.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where (!(((Image matches "*.bin" or Image matches "*.cgi" or Image matches "*.com" or Image matches "*.exe" or Image matches "*.scr" or Image matches "*.tmp"))) and !(((Image matches "*:\\$Extend\\$Deleted\\*") or (Image matches "*:\\Windows\\System32\\DriverStore\\FileRepository\\*") or ((Image = "-" or Image = "")) or ((Image = "System" or Image = "Registry" or Image = "MemCompression" or Image = "vmmem")) or (Image matches "*:\\Windows\\Installer\\MSI*") or (Image matches "*:\\Config.Msi\\*" and (Image matches "*.rbf" or Image matches "*.rbs")) or (isNull(Image)) or ((ParentImage matches "*:\\Windows\\Temp\\*") or (Image matches "*:\\Windows\\Temp\\*")))) and !(((ParentImage matches "*:\\ProgramData\\Avira\\*") or (ParentImage = "C:\\Windows\\System32\\services.exe" and Image matches "*com.docker.service") or (Image matches "*:\\Program Files\\Mozilla Firefox\\*") or (Image matches "*\\LZMA_EXE") or ((Image matches "*:\\Program Files (x86)\\MyQ\\Server\\pcltool.dll" or Image matches "*:\\Program Files\\MyQ\\Server\\pcltool.dll")) or (Image matches "*NVIDIA\\NvBackend\\*" and Image matches "*.dat") or ((Image matches "*:\\Program Files (x86)\\WINPAKPRO\\*" or Image matches "*:\\Program Files\\WINPAKPRO\\*") and Image matches "*.ngn") or ((Image matches "*\\AppData\\Local\\Packages\\*" and Image matches "*\\LocalState\\rootfs\\*")))))

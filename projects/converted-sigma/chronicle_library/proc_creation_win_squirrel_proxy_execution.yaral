@@ -1,0 +1,23 @@
+// Title: Process Proxy Execution Via Squirrel.EXE
+// ID: 45239e6a-b035-4aaf-b339-8ad379fcb67e
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems), Karneades / Markus Neis, Jonhnathan Ribeiro, oscd.community
+// Date: 2022-06-09
+// Tags: attack.execution, attack.stealth, attack.t1218
+// Description: Detects the usage of the "Squirrel.exe" binary to execute arbitrary processes. This binary is part of multiple Electron based software installations (Slack, Teams, Discord, etc.)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 45239e6a_b035_4aaf_b339_8ad379fcb67e {
+  meta:
+    title = "Process Proxy Execution Via Squirrel.EXE"
+    description = "Detects the usage of the "Squirrel.exe" binary to execute arbitrary processes. This binary is part of multiple Electron based software installations (Slack, Teams, Discord, etc.)"
+    author = "Nasreddine Bencherchali (Nextron Systems), Karneades / Markus Neis, Jonhnathan Ribeiro, oscd.community"
+    severity = "MEDIUM"
+
+  events:
+    (((($e.target.process.command_line = /.*--processStart.*/ nocase or $e.target.process.command_line = /.*--processStartAndWait.*/ nocase or $e.target.process.command_line = /.*--createShortcut.*/ nocase)) and (($e.target.process.file.full_path = /.*\\squirrel.exe$/ nocase or $e.target.process.file.full_path = /.*\\update.exe$/ nocase))) and not(((($e.target.process.command_line = /.*:\\Users\\.*/ nocase and $e.target.process.command_line = /.*\\AppData\\Local\\Discord\\Update.exe.*/ nocase and $e.target.process.command_line = /.*Discord.exe.*/ nocase) and ($e.target.process.command_line = /.*--createShortcut.*/ nocase or $e.target.process.command_line = /.*--processStart.*/ nocase)) or (($e.target.process.command_line = /.*:\\Users\\.*/ nocase and $e.target.process.command_line = /.*\\AppData\\Local\\GitHubDesktop\\Update.exe.*/ nocase and $e.target.process.command_line = /.*GitHubDesktop.exe.*/ nocase) and ($e.target.process.command_line = /.*--createShortcut.*/ nocase or $e.target.process.command_line = /.*--processStartAndWait.*/ nocase)) or (($e.target.process.command_line = /.*:\\Users\\.*/ nocase and $e.target.process.command_line = /.*\\AppData\\Local\\Microsoft\\Teams\\Update.exe.*/ nocase and $e.target.process.command_line = /.*Teams.exe.*/ nocase) and ($e.target.process.command_line = /.*--processStart.*/ nocase or $e.target.process.command_line = /.*--createShortcut.*/ nocase)) or (($e.target.process.command_line = /.*:\\Users\\.*/ nocase and $e.target.process.command_line = /.*\\AppData\\Local\\yammerdesktop\\Update.exe.*/ nocase and $e.target.process.command_line = /.*Yammer.exe.*/ nocase) and ($e.target.process.command_line = /.*--processStart.*/ nocase or $e.target.process.command_line = /.*--createShortcut.*/ nocase)))))
+
+  condition:
+    $e
+}

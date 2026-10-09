@@ -1,0 +1,11 @@
+// Title: ADSI-Cache File Creation By Uncommon Tool
+// ID: 75bf09fa-1dd7-4d18-9af9-dd9e492562eb
+// Status: test
+// Level: medium
+// Author: xknow @xknow_infosec, Tim Shelton
+// Date: 2019-03-24
+// Tags: attack.t1001.003, attack.command-and-control
+// Description: Detects the creation of an "Active Directory Schema Cache File" (.sch) file by an uncommon tool.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+DeviceProcessEvents | where ((FileName contains "\\Local\\Microsoft\\Windows\\SchCache\\" and FileName endswith ".sch") and not(((((FolderPath endswith ":\\Program Files\\Cylance\\Desktop\\CylanceSvc.exe" or FolderPath endswith ":\\Windows\\CCM\\CcmExec.exe" or FolderPath endswith ":\\windows\\system32\\dllhost.exe" or FolderPath endswith ":\\Windows\\system32\\dsac.exe" or FolderPath endswith ":\\Windows\\system32\\efsui.exe" or FolderPath endswith ":\\windows\\system32\\mmc.exe" or FolderPath endswith ":\\windows\\system32\\svchost.exe" or FolderPath endswith ":\\Windows\\System32\\wbem\\WmiPrvSE.exe" or FolderPath endswith ":\\windows\\system32\\WindowsPowerShell\\v1.0\\powershell.exe")) or ((FolderPath contains ":\\Windows\\ccmsetup\\autoupgrade\\ccmsetup" or FolderPath contains ":\\Program Files\\SentinelOne\\Sentinel Agent"))) or ((FolderPath contains ":\\Program Files\\" and FolderPath contains "\\Microsoft Office") and FolderPath endswith "\\OUTLOOK.EXE"))) and not(((FolderPath endswith ":\\Program Files\\Citrix\\Receiver StoreFront\\Services\\DefaultDomainServices\\Citrix.DeliveryServices.DomainServices.ServiceHost.exe") or (FolderPath endswith "\\LANDesk\\LDCLient\\ldapwhoami.exe"))))

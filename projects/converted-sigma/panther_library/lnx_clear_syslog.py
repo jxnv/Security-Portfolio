@@ -1,0 +1,19 @@
+# Title: Commands to Clear or Remove the Syslog - Builtin
+# ID: e09eb557-96d2-4de9-ba2d-30f712a5afd3
+# Status: test
+# Level: high
+# Author: Max Altgelt (Nextron Systems)
+# Date: 2021-09-10
+# Tags: attack.impact, attack.t1565.001
+# Description: Detects specific commands commonly used to remove or empty the syslog
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Commands to Clear or Remove the Syslog - Builtin
+def rule(event):
+    # Detection Logic:
+    # (("rm /var/log/syslog" OR "rm -r /var/log/syslog" OR "rm -f /var/log/syslog" OR "rm -rf /var/log/syslog" OR "mv /var/log/syslog" OR " >/var/log/syslog" OR " > /var/log/syslog") AND NOT (("/syslog.")))
+    return True
+
+def title(event):
+    return "Commands to Clear or Remove the Syslog - Builtin"
+

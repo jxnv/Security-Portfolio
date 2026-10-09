@@ -1,0 +1,20 @@
+# Title: Antivirus - Remote Access Tools Signature
+# ID: 97233998-3838-4581-88c6-f1d19d3993fb
+# Status: experimental
+# Level: critical
+# Author: Arnim Rupp (Nextron Systems)
+# Date: 2026-06-15
+# Tags: attack.execution, attack.t1203, attack.command-and-control, attack.t1219.002
+# Description: Detects a highly relevant Antivirus alert that reports a remote access tool.
+# This event must not be ignored just because the AV has blocked the malware but investigate, how it came there in the first place.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Antivirus - Remote Access Tools Signature
+def rule(event):
+    # Detection Logic:
+    # ((Signature="*AgentB*" OR Signature="*AgentTesla*" OR Signature="*AMRat*" OR Signature="*Ammyy*" OR Signature="*AsyncRAT*" OR Signature="*Bandook*" OR Signature="*Bitrat*" OR Signature="*Bladabindi*" OR Signature="*Connectwise*" OR Signature="*CyberGate*" OR Signature="*DarkComet*" OR Signature="*DCrat*" OR Signature="*Delf*" OR Signature="*DokStorm*" OR Signature="*Egairtigado*" OR Signature="*Gh0st*" OR Signature="*Gorat*" OR Signature="*GodRat*" OR Signature="*Jalapeno*" OR Signature="*LummaC2*" OR Signature="*Minirat*" OR Signature="*Netwire*" OR Signature="*NanoCore*" OR Signature="*NJRat*" OR Signature="*Paralax*" OR Signature="*PlugX*" OR Signature="*Pulsar*" OR Signature="*Quasar*" OR Signature="*Remcos*" OR Signature="*Ravartar*" OR Signature="*RemoteAdmin*" OR Signature="*RemoteTool*" OR Signature="*revengeRAT*" OR Signature="*rokRAT*" OR Signature="*salatstealer*" OR Signature="*Salgorea*" OR Signature="*SmokedHam*" OR Signature="*TigerRat*" OR Signature="*Tzeebot*" OR Signature="*WarZone*" OR Signature="*VenomRAT*" OR Signature="*Vidar*" OR Signature="*Wirenet*" OR Signature="*XWorm*" OR Signature="*Zapchast*" OR Signature="*Zegost*"))
+    return True
+
+def title(event):
+    return "Antivirus - Remote Access Tools Signature"
+

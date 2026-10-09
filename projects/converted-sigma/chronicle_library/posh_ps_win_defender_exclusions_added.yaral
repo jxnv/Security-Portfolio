@@ -1,0 +1,23 @@
+// Title: Windows Defender Exclusions Added - PowerShell
+// ID: c1344fa2-323b-4d2e-9176-84b4d4821c88
+// Status: test
+// Level: medium
+// Author: Tim Rauch, Elastic (idea)
+// Date: 2022-09-16
+// Tags: attack.defense-impairment, attack.t1685, attack.execution, attack.t1059
+// Description: Detects modifications to the Windows Defender configuration settings using PowerShell to add exclusions
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule c1344fa2_323b_4d2e_9176_84b4d4821c88 {
+  meta:
+    title = "Windows Defender Exclusions Added - PowerShell"
+    description = "Detects modifications to the Windows Defender configuration settings using PowerShell to add exclusions"
+    author = "Tim Rauch, Elastic (idea)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.ScriptBlockText = /.* -ExclusionPath .*/ nocase or $e.ScriptBlockText = /.* -ExclusionExtension .*/ nocase or $e.ScriptBlockText = /.* -ExclusionProcess .*/ nocase or $e.ScriptBlockText = /.* -ExclusionIpAddress .*/ nocase)) and (($e.ScriptBlockText = /.*Add-MpPreference .*/ nocase or $e.ScriptBlockText = /.*Set-MpPreference .*/ nocase)))
+
+  condition:
+    $e
+}

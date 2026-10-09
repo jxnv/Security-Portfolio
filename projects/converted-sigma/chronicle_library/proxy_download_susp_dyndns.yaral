@@ -1,0 +1,23 @@
+// Title: Download from Suspicious Dyndns Hosts
+// ID: 195c1119-ef07-4909-bb12-e66f5e07bf3c
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems)
+// Date: 2017-11-08
+// Tags: attack.command-and-control, attack.t1105, attack.t1568
+// Description: Detects download of certain file types from hosts with dynamic DNS names (selected list)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 195c1119_ef07_4909_bb12_e66f5e07bf3c {
+  meta:
+    title = "Download from Suspicious Dyndns Hosts"
+    description = "Detects download of certain file types from hosts with dynamic DNS names (selected list)"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.c-uri-extension = "exe" or $e.c-uri-extension = "vbs" or $e.c-uri-extension = "bat" or $e.c-uri-extension = "rar" or $e.c-uri-extension = "ps1" or $e.c-uri-extension = "doc" or $e.c-uri-extension = "docm" or $e.c-uri-extension = "xls" or $e.c-uri-extension = "xlsm" or $e.c-uri-extension = "pptm" or $e.c-uri-extension = "rtf" or $e.c-uri-extension = "hta" or $e.c-uri-extension = "dll" or $e.c-uri-extension = "ws" or $e.c-uri-extension = "wsf" or $e.c-uri-extension = "sct" or $e.c-uri-extension = "zip") and ($e.cs-host = /.*.hopto.org$/ nocase or $e.cs-host = /.*.no-ip.org$/ nocase or $e.cs-host = /.*.no-ip.info$/ nocase or $e.cs-host = /.*.no-ip.biz$/ nocase or $e.cs-host = /.*.no-ip.com$/ nocase or $e.cs-host = /.*.noip.com$/ nocase or $e.cs-host = /.*.ddns.name$/ nocase or $e.cs-host = /.*.myftp.org$/ nocase or $e.cs-host = /.*.myftp.biz$/ nocase or $e.cs-host = /.*.serveblog.net$/ nocase or $e.cs-host = /.*.servebeer.com$/ nocase or $e.cs-host = /.*.servemp3.com$/ nocase or $e.cs-host = /.*.serveftp.com$/ nocase or $e.cs-host = /.*.servequake.com$/ nocase or $e.cs-host = /.*.servehalflife.com$/ nocase or $e.cs-host = /.*.servehttp.com$/ nocase or $e.cs-host = /.*.servegame.com$/ nocase or $e.cs-host = /.*.servepics.com$/ nocase or $e.cs-host = /.*.myvnc.com$/ nocase or $e.cs-host = /.*.ignorelist.com$/ nocase or $e.cs-host = /.*.jkub.com$/ nocase or $e.cs-host = /.*.dlinkddns.com$/ nocase or $e.cs-host = /.*.jumpingcrab.com$/ nocase or $e.cs-host = /.*.ddns.info$/ nocase or $e.cs-host = /.*.mooo.com$/ nocase or $e.cs-host = /.*.dns-dns.com$/ nocase or $e.cs-host = /.*.strangled.net$/ nocase or $e.cs-host = /.*.adultdns.net$/ nocase or $e.cs-host = /.*.craftx.biz$/ nocase or $e.cs-host = /.*.ddns01.com$/ nocase or $e.cs-host = /.*.dns53.biz$/ nocase or $e.cs-host = /.*.dnsapi.info$/ nocase or $e.cs-host = /.*.dnsd.info$/ nocase or $e.cs-host = /.*.dnsdynamic.com$/ nocase or $e.cs-host = /.*.dnsdynamic.net$/ nocase or $e.cs-host = /.*.dnsget.org$/ nocase or $e.cs-host = /.*.fe100.net$/ nocase or $e.cs-host = /.*.flashserv.net$/ nocase or $e.cs-host = /.*.ftp21.net$/ nocase or $e.cs-host = /.*.http01.com$/ nocase or $e.cs-host = /.*.http80.info$/ nocase or $e.cs-host = /.*.https443.com$/ nocase or $e.cs-host = /.*.imap01.com$/ nocase or $e.cs-host = /.*.kadm5.com$/ nocase or $e.cs-host = /.*.mysq1.net$/ nocase or $e.cs-host = /.*.ns360.info$/ nocase or $e.cs-host = /.*.ntdll.net$/ nocase or $e.cs-host = /.*.ole32.com$/ nocase or $e.cs-host = /.*.proxy8080.com$/ nocase or $e.cs-host = /.*.sql01.com$/ nocase or $e.cs-host = /.*.ssh01.com$/ nocase or $e.cs-host = /.*.ssh22.net$/ nocase or $e.cs-host = /.*.tempors.com$/ nocase or $e.cs-host = /.*.tftpd.net$/ nocase or $e.cs-host = /.*.ttl60.com$/ nocase or $e.cs-host = /.*.ttl60.org$/ nocase or $e.cs-host = /.*.user32.com$/ nocase or $e.cs-host = /.*.voip01.com$/ nocase or $e.cs-host = /.*.wow64.net$/ nocase or $e.cs-host = /.*.x64.me$/ nocase or $e.cs-host = /.*.xns01.com$/ nocase or $e.cs-host = /.*.dyndns.org$/ nocase or $e.cs-host = /.*.dyndns.info$/ nocase or $e.cs-host = /.*.dyndns.tv$/ nocase or $e.cs-host = /.*.dyndns-at-home.com$/ nocase or $e.cs-host = /.*.dnsomatic.com$/ nocase or $e.cs-host = /.*.zapto.org$/ nocase or $e.cs-host = /.*.webhop.net$/ nocase or $e.cs-host = /.*.25u.com$/ nocase or $e.cs-host = /.*.slyip.net$/ nocase))
+
+  condition:
+    $e
+}

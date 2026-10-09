@@ -1,0 +1,11 @@
+// Title: Webshell Tool Reconnaissance Activity
+// ID: f64e5c19-879c-4bae-b471-6d84c8339677
+// Status: test
+// Level: high
+// Author: Cian Heasley, Florian Roth (Nextron Systems)
+// Date: 2020-07-22
+// Tags: attack.persistence, attack.t1505.003
+// Description: Detects processes spawned from web servers (PHP, Tomcat, IIS, etc.) that perform reconnaissance looking for the existence of popular scripting tools (perl, python, wget) on the system via the help commands
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((src.process.parent.image.path endswithCIS "\\java.exe" OR src.process.parent.image.path endswithCIS "\\javaw.exe") AND (src.process.parent.image.path containsCIS "-tomcat-" OR src.process.parent.image.path containsCIS "\\tomcat")) OR ((src.process.parent.image.path endswithCIS "\\java.exe" OR src.process.parent.image.path endswithCIS "\\javaw.exe") AND (src.process.cmdline containsCIS "CATALINA_HOME" OR src.process.cmdline containsCIS "catalina.jar")) OR ((src.process.parent.image.path endswithCIS "\\caddy.exe" OR src.process.parent.image.path endswithCIS "\\httpd.exe" OR src.process.parent.image.path endswithCIS "\\nginx.exe" OR src.process.parent.image.path endswithCIS "\\php-cgi.exe" OR src.process.parent.image.path endswithCIS "\\w3wp.exe" OR src.process.parent.image.path endswithCIS "\\ws_tomcatservice.exe"))) AND ((src.process.cmdline containsCIS "perl --help" OR src.process.cmdline containsCIS "perl -h" OR src.process.cmdline containsCIS "python --help" OR src.process.cmdline containsCIS "python -h" OR src.process.cmdline containsCIS "python3 --help" OR src.process.cmdline containsCIS "python3 -h" OR src.process.cmdline containsCIS "wget --help")))

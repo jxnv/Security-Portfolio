@@ -1,0 +1,11 @@
+// Title: Control Panel Items
+// ID: 0ba863e6-def5-4e50-9cea-4dd8c7dc46a4
+// Status: test
+// Level: high
+// Author: Kyaw Min Thein, Furkan Caliskan (@caliskanfurkan_)
+// Date: 2020-06-22
+// Tags: attack.privilege-escalation, attack.execution, attack.stealth, attack.t1218.002, attack.persistence, attack.t1546
+// Description: Detects the malicious use of a control panel item
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((src.process.cmdline containsCIS "add" AND src.process.cmdline containsCIS "CurrentVersion\\Control Panel\\CPLs")) AND ((src.process.image.path endswithCIS "\\reg.exe") OR (OriginalFileName = "reg.exe"))) OR ((src.process.cmdline endswithCIS ".cpl") AND NOT ((((src.process.cmdline containsCIS "regsvr32 " AND src.process.cmdline containsCIS " /s " AND src.process.cmdline containsCIS "igfxCPL.cpl")) OR ((src.process.cmdline containsCIS "\\System32\\" OR src.process.cmdline containsCIS "%System%" OR src.process.cmdline containsCIS "|C:\\Windows\\system32|"))))))

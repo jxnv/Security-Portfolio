@@ -1,0 +1,59 @@
+{
+  "title": "Potentially Suspicious Electron Application CommandLine",
+  "id": "378a05d8-963c-46c9-bcce-13c7657eac99",
+  "status": "test",
+  "description": "Detects potentially suspicious CommandLine of electron apps (teams, discord, slack, etc.). This could be a sign of abuse to proxy execution through a signed binary.",
+  "author": "frack113, Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2023-09-05",
+  "tags": [
+    "attack.execution"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_img": [
+      {
+        "Image|endswith": [
+          "\\chrome.exe",
+          "\\code.exe",
+          "\\discord.exe",
+          "\\GitHubDesktop.exe",
+          "\\keybase.exe",
+          "\\msedge_proxy.exe",
+          "\\msedge.exe",
+          "\\msedgewebview2.exe",
+          "\\msteams.exe",
+          "\\slack.exe",
+          "\\Teams.exe"
+        ]
+      },
+      {
+        "OriginalFileName": [
+          "chrome.exe",
+          "code.exe",
+          "discord.exe",
+          "GitHubDesktop.exe",
+          "keybase.exe",
+          "msedge_proxy.exe",
+          "msedge.exe",
+          "msedgewebview2.exe",
+          "msteams.exe",
+          "slack.exe",
+          "Teams.exe"
+        ]
+      }
+    ],
+    "selection_cli": {
+      "CommandLine|contains": [
+        "--browser-subprocess-path",
+        "--gpu-launcher",
+        "--renderer-cmd-prefix",
+        "--utility-cmd-prefix"
+      ]
+    },
+    "condition": "all of selection_*"
+  }
+}

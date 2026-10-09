@@ -1,0 +1,11 @@
+// Title: Indicator Removal on Host - Clear Mac System Logs
+// ID: acf61bd8-d814-4272-81f0-a7a269aa69aa
+// Status: test
+// Level: medium
+// Author: remotephone, oscd.community
+// Date: 2020-10-11
+// Tags: attack.defense-impairment, attack.t1685.006
+// Description: Detects deletion of local audit logs
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((src.process.image.path endswithCIS "/rm" OR src.process.image.path endswithCIS "/unlink" OR src.process.image.path endswithCIS "/shred")) AND ((src.process.cmdline containsCIS "/var/log") OR ((src.process.cmdline containsCIS "/Users/" AND src.process.cmdline containsCIS "/Library/Logs/"))))

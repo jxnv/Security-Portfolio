@@ -1,0 +1,27 @@
+// Title: Obfuscated PowerShell MSI Install via WindowsInstaller COM
+// ID: 7b6a7418-3afc-11f0-aff4-000d3abf478c
+// Status: experimental
+// Level: high
+// Author: Meroujan Antonyan (vx3r)
+// Date: 2025-05-27
+// Tags: attack.stealth, attack.t1027.010, attack.t1218.007, attack.execution, attack.t1059.001
+// Description: Detects the execution of obfuscated PowerShell commands that attempt to install MSI packages via the Windows Installer COM object (`WindowsInstaller.Installer`).
+// The technique involves manipulating strings to hide functionality, such as constructing class names using string insertion (e.g., 'indowsInstaller.Installer'.Insert(0,'W')) and correcting
+// malformed URLs (e.g., converting 'htps://' to 'https://') at runtime. This behavior is commonly associated with malware loaders or droppers that aim to bypass static detection
+// by hiding intent in runtime-generated strings and using legitimate tools for code execution. The use of `InstallProduct` and COM object creation, particularly combined with
+// hidden window execution and suppressed UI, indicates an attempt to install software (likely malicious) without user interaction.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 7b6a7418_3afc_11f0_aff4_000d3abf478c {
+  meta:
+    title = "Obfuscated PowerShell MSI Install via WindowsInstaller COM"
+    description = "Detects the execution of obfuscated PowerShell commands that attempt to install MSI packages via the Windows Installer COM object (`WindowsInstaller.Installer`). The technique involves manipulating strings to hide functionality, such as constructing class names using string insertion (e.g., 'indowsInstaller.Installer'.Insert(0,'W')) and correcting malformed URLs (e.g., converting 'htps://' to 'https://') at runtime. This behavior is commonly associated with malware loaders or droppers that aim to bypass static detection by hiding intent in runtime-generated strings and using legitimate tools for code execution. The use of `InstallProduct` and COM object creation, particularly combined with hidden window execution and suppressed UI, indicates an attempt to install software (likely malicious) without user interaction."
+    author = "Meroujan Antonyan (vx3r)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*-ComObject.*/ nocase and $e.target.process.command_line = /.*InstallProduct(.*/ nocase and $e.target.process.command_line = /.*.Insert(.*/ nocase and $e.target.process.command_line = /.*UILevel.*/ nocase)) and ((($e.target.process.file.full_path = /.*\\powershell_ise.exe$/ nocase or $e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase)) or (($e.target.process.file.name = "PowerShell_ISE.EXE" or $e.target.process.file.name = "PowerShell.EXE" or $e.target.process.file.name = "pwsh.dll"))))
+
+  condition:
+    $e
+}

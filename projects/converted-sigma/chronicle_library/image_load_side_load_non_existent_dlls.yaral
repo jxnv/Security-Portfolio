@@ -1,0 +1,24 @@
+// Title: Potential DLL Sideloading Of Non-Existent DLLs From System Folders
+// ID: 6b98b92b-4f00-4f62-b4fe-4d1920215771
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems), SBousseaden
+// Date: 2022-12-09
+// Tags: attack.persistence, attack.privilege-escalation, attack.execution, attack.stealth, attack.t1574.001
+// Description: Detects loading of specific system DLL files that are usually not present on the system (or at least not in system directories) but may be loaded by legitimate processes, potentially indicating phantom DLL hijacking attempts.
+// Phantom DLL hijacking involves placing malicious DLLs with names of non-existent system binaries in locations where legitimate applications may search for them, leading to execution of the malicious DLLs.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 6b98b92b_4f00_4f62_b4fe_4d1920215771 {
+  meta:
+    title = "Potential DLL Sideloading Of Non-Existent DLLs From System Folders"
+    description = "Detects loading of specific system DLL files that are usually not present on the system (or at least not in system directories) but may be loaded by legitimate processes, potentially indicating phantom DLL hijacking attempts. Phantom DLL hijacking involves placing malicious DLLs with names of non-existent system binaries in locations where legitimate applications may search for them, leading to execution of the malicious DLLs."
+    author = "Nasreddine Bencherchali (Nextron Systems), SBousseaden"
+    severity = "HIGH"
+
+  events:
+    ((($e.ImageLoaded = /.*:\\Windows\\System32\\axeonoffhelper.dll$/ nocase or $e.ImageLoaded = /.*:\\Windows\\System32\\cdpsgshims.dll$/ nocase or $e.ImageLoaded = /.*:\\Windows\\System32\\oci.dll$/ nocase or $e.ImageLoaded = /.*:\\Windows\\System32\\offdmpsvc.dll$/ nocase or $e.ImageLoaded = /.*:\\Windows\\System32\\shellchromeapi.dll$/ nocase or $e.ImageLoaded = /.*:\\Windows\\System32\\TSMSISrv.dll$/ nocase or $e.ImageLoaded = /.*:\\Windows\\System32\\TSVIPSrv.dll$/ nocase or $e.ImageLoaded = /.*:\\Windows\\System32\\wbem\\wbemcomn.dll$/ nocase or $e.ImageLoaded = /.*:\\Windows\\System32\\WLBSCTRL.dll$/ nocase or $e.ImageLoaded = /.*:\\Windows\\System32\\wow64log.dll$/ nocase or $e.ImageLoaded = /.*:\\Windows\\System32\\WptsExtensions.dll$/ nocase)) and not(($e.Signed = "true" and $e.SignatureStatus = "Valid" and $e.Signature = "Microsoft Windows")))
+
+  condition:
+    $e
+}

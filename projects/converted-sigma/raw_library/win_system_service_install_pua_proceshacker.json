@@ -1,0 +1,29 @@
+{
+  "title": "ProcessHacker Privilege Elevation",
+  "id": "c4ff1eac-84ad-44dd-a6fb-d56a92fc43a9",
+  "status": "test",
+  "description": "Detects a ProcessHacker tool that elevated privileges to a very high level",
+  "author": "Florian Roth (Nextron Systems)",
+  "date": "2021-05-27",
+  "tags": [
+    "attack.persistence",
+    "attack.execution",
+    "attack.privilege-escalation",
+    "attack.t1543.003",
+    "attack.t1569.002"
+  ],
+  "level": "high",
+  "logsource": {
+    "product": "windows",
+    "service": "system"
+  },
+  "detection": {
+    "selection": {
+      "Provider_Name": "Service Control Manager",
+      "EventID": 7045,
+      "ServiceName|startswith": "ProcessHacker",
+      "AccountName": "LocalSystem"
+    },
+    "condition": "selection"
+  }
+}

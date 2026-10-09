@@ -1,0 +1,25 @@
+// Title: Registry Tampering by Potentially Suspicious Processes
+// ID: 7f4c43f9-b1a5-4c7d-b24a-b41bf3a3ebf2
+// Status: experimental
+// Level: medium
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-08-13
+// Tags: attack.persistence, attack.execution, attack.defense-impairment, attack.t1112, attack.t1059.005
+// Description: Detects suspicious registry modifications made by suspicious processes such as script engine processes such as WScript, or CScript etc.
+// These processes are rarely used for legitimate registry modifications, and their activity may indicate an attempt to modify the registry
+// without using standard tools like regedit.exe or reg.exe, potentially for evasion and persistence.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 7f4c43f9_b1a5_4c7d_b24a_b41bf3a3ebf2 {
+  meta:
+    title = "Registry Tampering by Potentially Suspicious Processes"
+    description = "Detects suspicious registry modifications made by suspicious processes such as script engine processes such as WScript, or CScript etc. These processes are rarely used for legitimate registry modifications, and their activity may indicate an attempt to modify the registry without using standard tools like regedit.exe or reg.exe, potentially for evasion and persistence."
+    author = "Swachchhanda Shrawan Poudel (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.file.full_path = /.*\\mshta.exe$/ nocase or $e.target.process.file.full_path = /.*\\wscript.exe$/ nocase or $e.target.process.file.full_path = /.*\\cscript.exe$/ nocase)) and not((($e.Details = "Binary Data") or (not ($e.Details = /.*/)) or ($e.target.process.file.full_path = /.*\\wscript.exe$/ nocase and ($e.TargetObject = /.*SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Notifications\\Data\\.*/ nocase or $e.TargetObject = /.*\\Services\\bam\\State\\UserSettings\\S-1-.*/ nocase or $e.TargetObject = /.*Software\\Microsoft\\Windows Script\\Settings\\Telemetry\\wscript.exe\\.*/ nocase or $e.TargetObject = /.*Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\.*/ nocase)) or ($e.target.process.file.full_path = /.*\\wscript.exe$/ nocase and $e.TargetObject = /.*\\wscript.exe.*/ nocase))))
+
+  condition:
+    $e
+}

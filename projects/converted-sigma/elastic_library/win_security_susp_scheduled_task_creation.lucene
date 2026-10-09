@@ -1,0 +1,11 @@
+# Title: Suspicious Scheduled Task Creation
+# ID: 3a734d25-df5c-4b99-8034-af1ddb5883a4
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-12-05
+# Tags: attack.execution, attack.privilege-escalation, attack.persistence, attack.t1053.005
+# Description: Detects suspicious scheduled task creation events. Based on attributes such as paths, commands line flags, etc.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((TaskContent:*regsvr32* OR TaskContent:*rundll32* OR TaskContent:*cmd.exe</Command>* OR TaskContent:*cmd</Command>* OR TaskContent:*<Arguments>/c * OR TaskContent:*<Arguments>/k * OR TaskContent:*<Arguments>/r * OR TaskContent:*powershell* OR TaskContent:*pwsh* OR TaskContent:*mshta* OR TaskContent:*wscript* OR TaskContent:*cscript* OR TaskContent:*certutil* OR TaskContent:*bitsadmin* OR TaskContent:*bash.exe* OR TaskContent:*bash * OR TaskContent:*scrcons* OR TaskContent:*wmic * OR TaskContent:*wmic.exe* OR TaskContent:*forfiles* OR TaskContent:*scriptrunner* OR TaskContent:*hh.exe*)) AND (winlog.event_id:"4698") AND ((TaskContent:*\\AppData\\Local\\Temp\\* OR TaskContent:*\\AppData\\Roaming\\* OR TaskContent:*\\Users\\Public\\* OR TaskContent:*\\WINDOWS\\Temp\\* OR TaskContent:*C:\\Temp\\* OR TaskContent:*\\Desktop\\* OR TaskContent:*\\Downloads\\* OR TaskContent:*\\Temporary Internet* OR TaskContent:*C:\\ProgramData\\* OR TaskContent:*C:\\Perflogs\\*)))

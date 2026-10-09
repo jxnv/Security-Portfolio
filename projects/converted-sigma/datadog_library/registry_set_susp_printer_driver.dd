@@ -1,0 +1,11 @@
+# Title: Suspicious Printer Driver Empty Manufacturer
+# ID: e0813366-0407-449a-9869-a2db1119dc41
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems)
+# Date: 2020-07-01
+# Tags: attack.persistence, attack.privilege-escalation, attack.execution, attack.stealth, attack.t1574, cve.2021-1675
+# Description: Detects a suspicious printer driver installation with an empty Manufacturer value
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((@TargetObject:*\\Control\\Print\\Environments\\Windows x64\\Drivers* AND @TargetObject:*\\Manufacturer*) AND @Details:"(Empty)") AND -(((@TargetObject:*\\CutePDF Writer v4.0\\*) OR (@TargetObject:*\\Version-3\\PDF24\\*) OR ((@TargetObject:*\\VNC Printer (PS)\\* OR @TargetObject:*\\VNC Printer (UD)\\*)))))

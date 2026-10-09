@@ -1,0 +1,23 @@
+// Title: ESXi Admin Permission Assigned To Account Via ESXCLI
+// ID: 9691f58d-92c1-4416-8bf3-2edd753ec9cf
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-09-04
+// Tags: attack.persistence, attack.execution, attack.privilege-escalation, attack.t1059.012, attack.t1098
+// Description: Detects execution of the "esxcli" command with the "system" and "permission" flags in order to assign admin permissions to an account.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 9691f58d_92c1_4416_8bf3_2edd753ec9cf {
+  meta:
+    title = "ESXi Admin Permission Assigned To Account Via ESXCLI"
+    description = "Detects execution of the "esxcli" command with the "system" and "permission" flags in order to assign admin permissions to an account."
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ($e.target.process.file.full_path = /.*/esxcli$/ nocase and $e.target.process.command_line = /.*system.*/ nocase and ($e.target.process.command_line = /.* permission .*/ nocase and $e.target.process.command_line = /.* set.*/ nocase and $e.target.process.command_line = /.*Admin.*/ nocase))
+
+  condition:
+    $e
+}

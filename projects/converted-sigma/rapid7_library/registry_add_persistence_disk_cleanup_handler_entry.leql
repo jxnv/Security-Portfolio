@@ -1,0 +1,16 @@
+// Title: Potential Persistence Via Disk Cleanup Handler - Registry
+// ID: d4f4e0be-cf12-439f-9e25-4e2cdcf7df5a
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-07-21
+// Tags: attack.persistence
+// Description: Detects when an attacker modifies values of the Disk Cleanup Handler in the registry to achieve persistence.
+// The disk cleanup manager is part of the operating system. It displays the dialog box […]
+// The user has the option of enabling or disabling individual handlers by selecting or clearing their check box in the disk cleanup manager's UI.
+// Although Windows comes with a number of disk cleanup handlers, they aren't designed to handle files produced by other applications.
+// Instead, the disk cleanup manager is designed to be flexible and extensible by enabling any developer to implement and register their own disk cleanup handler.
+// Any developer can extend the available disk cleanup services by implementing and registering a disk cleanup handler.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((where(EventType = "CreateKey") AND where(TargetObject ICONTAINS "\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\VolumeCaches\\")) AND NOT (((where(TargetObject IENDSWITH "\\Active Setup Temp Folders") OR where(TargetObject IENDSWITH "\\BranchCache") OR where(TargetObject IENDSWITH "\\Content Indexer Cleaner") OR where(TargetObject IENDSWITH "\\D3D Shader Cache") OR where(TargetObject IENDSWITH "\\Delivery Optimization Files") OR where(TargetObject IENDSWITH "\\Device Driver Packages") OR where(TargetObject IENDSWITH "\\Diagnostic Data Viewer database files") OR where(TargetObject IENDSWITH "\\Downloaded Program Files") OR where(TargetObject IENDSWITH "\\DownloadsFolder") OR where(TargetObject IENDSWITH "\\Feedback Hub Archive log files") OR where(TargetObject IENDSWITH "\\Internet Cache Files") OR where(TargetObject IENDSWITH "\\Language Pack") OR where(TargetObject IENDSWITH "\\Microsoft Office Temp Files") OR where(TargetObject IENDSWITH "\\Offline Pages Files") OR where(TargetObject IENDSWITH "\\Old ChkDsk Files") OR where(TargetObject IENDSWITH "\\Previous Installations") OR where(TargetObject IENDSWITH "\\Recycle Bin") OR where(TargetObject IENDSWITH "\\RetailDemo Offline Content") OR where(TargetObject IENDSWITH "\\Setup Log Files") OR where(TargetObject IENDSWITH "\\System error memory dump files") OR where(TargetObject IENDSWITH "\\System error minidump files") OR where(TargetObject IENDSWITH "\\Temporary Files") OR where(TargetObject IENDSWITH "\\Temporary Setup Files") OR where(TargetObject IENDSWITH "\\Temporary Sync Files") OR where(TargetObject IENDSWITH "\\Thumbnail Cache") OR where(TargetObject IENDSWITH "\\Update Cleanup") OR where(TargetObject IENDSWITH "\\Upgrade Discarded Files") OR where(TargetObject IENDSWITH "\\User file versions") OR where(TargetObject IENDSWITH "\\Windows Defender") OR where(TargetObject IENDSWITH "\\Windows Error Reporting Files") OR where(TargetObject IENDSWITH "\\Windows ESD installation files") OR where(TargetObject IENDSWITH "\\Windows Upgrade Log Files")))))

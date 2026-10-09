@@ -1,0 +1,11 @@
+// Title: Shadow Copies Creation Using Operating Systems Utilities
+// ID: b17ea6f7-6e90-447e-a799-e6c0a493d6ce
+// Status: test
+// Level: medium
+// Author: Teymur Kheirkhabarov, Daniil Yugoslavskiy, oscd.community
+// Date: 2019-10-22
+// Tags: attack.credential-access, attack.t1003, attack.t1003.002, attack.t1003.003
+// Description: Shadow Copies creation using operating systems utilities, possible credential access
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where (((process.command_line like "%shadow%" AND process.command_line like "%create%")) AND (((process.executable="*\\powershell.exe" OR process.executable="*\\pwsh.exe" OR process.executable="*\\wmic.exe" OR process.executable="*\\vssadmin.exe")) OR ((process.pe.original_file_name = "PowerShell.EXE" OR process.pe.original_file_name = "pwsh.dll" OR process.pe.original_file_name = "wmic.exe" OR process.pe.original_file_name = "VSSADMIN.EXE"))))

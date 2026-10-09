@@ -1,0 +1,19 @@
+# Title: Suspicious Plink Port Forwarding
+# ID: 48a61b29-389f-4032-b317-b30de6b95314
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems)
+# Date: 2021-01-19
+# Tags: attack.command-and-control, attack.t1572, attack.lateral-movement, attack.t1021.001
+# Description: Detects suspicious Plink tunnel port forwarding to a local port
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Suspicious Plink Port Forwarding
+def rule(event):
+    # Detection Logic:
+    # (Description="Command-line SSH, Telnet, and Rlogin client" AND CommandLine="* -R *")
+    return True
+
+def title(event):
+    return "Suspicious Plink Port Forwarding"
+

@@ -1,0 +1,31 @@
+{
+  "title": "HH.EXE Execution",
+  "id": "68c8acb4-1b60-4890-8e82-3ddf7a6dba84",
+  "status": "test",
+  "description": "Detects the execution of \"hh.exe\" to open \".chm\" files.",
+  "author": "E.M. Anhaus (originally from Atomic Blue Detections, Dan Beavin), oscd.community",
+  "date": "2019-10-24",
+  "tags": [
+    "attack.stealth",
+    "attack.t1218.001"
+  ],
+  "level": "low",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_img": [
+      {
+        "OriginalFileName": "HH.exe"
+      },
+      {
+        "Image|endswith": "\\hh.exe"
+      }
+    ],
+    "selection_cli": {
+      "CommandLine|contains": ".chm"
+    },
+    "condition": "all of selection_*"
+  }
+}

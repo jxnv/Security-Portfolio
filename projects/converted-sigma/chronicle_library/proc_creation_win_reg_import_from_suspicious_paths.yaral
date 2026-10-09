@@ -1,0 +1,23 @@
+// Title: Potential Suspicious Registry File Imported Via Reg.EXE
+// ID: 62e0298b-e994-4189-bc87-bc699aa62d97
+// Status: test
+// Level: medium
+// Author: frack113, Nasreddine Bencherchali
+// Date: 2022-08-01
+// Tags: attack.persistence, attack.defense-impairment, attack.t1112
+// Description: Detects the import of '.reg' files from suspicious paths using the 'reg.exe' utility
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 62e0298b_e994_4189_bc87_bc699aa62d97 {
+  meta:
+    title = "Potential Suspicious Registry File Imported Via Reg.EXE"
+    description = "Detects the import of '.reg' files from suspicious paths using the 'reg.exe' utility"
+    author = "frack113, Nasreddine Bencherchali"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.process.command_line = /.* import .*/ nocase) and (($e.target.process.file.full_path = /.*\\reg.exe$/ nocase) or ($e.target.process.file.name = "reg.exe")) and (($e.target.process.command_line = /.*C:\\Users\\.*/ nocase or $e.target.process.command_line = /.*%temp%.*/ nocase or $e.target.process.command_line = /.*%tmp%.*/ nocase or $e.target.process.command_line = /.*%appdata%.*/ nocase or $e.target.process.command_line = /.*\\AppData\\Local\\Temp\\.*/ nocase or $e.target.process.command_line = /.*C:\\Windows\\Temp\\.*/ nocase or $e.target.process.command_line = /.*C:\\ProgramData\\.*/ nocase)))
+
+  condition:
+    $e
+}

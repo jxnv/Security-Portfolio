@@ -1,0 +1,13 @@
+// Title: Potential Network Sniffing Activity Using Network Tools
+// ID: ba1f7802-adc7-48b4-9ecb-81e227fddfd5
+// Status: test
+// Level: medium
+// Author: Timur Zinniatullin, oscd.community, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2019-10-21
+// Tags: attack.credential-access, attack.discovery, attack.t1040
+// Description: Detects potential network sniffing via use of network tools such as "tshark", "windump".
+// Network sniffing refers to using the network interface on a system to monitor or capture information sent over a wired or wireless connection.
+// An adversary may place a network interface into promiscuous mode to passively access data in transit over the network, or use span ports to capture a larger amount of data.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((Image="*\\tshark.exe" AND CommandLine: "*-i*") OR (Image="*\\windump.exe"))

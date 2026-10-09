@@ -1,0 +1,23 @@
+// Title: HackTool - SharpLDAPmonitor Execution
+// ID: 9f8fc146-1d1a-4dbf-b8fd-dfae15e08541
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-12-30
+// Tags: attack.discovery
+// Description: Detects execution of the SharpLDAPmonitor. Which can monitor the creation, deletion and changes to LDAP objects.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 9f8fc146_1d1a_4dbf_b8fd_dfae15e08541 {
+  meta:
+    title = "HackTool - SharpLDAPmonitor Execution"
+    description = "Detects execution of the SharpLDAPmonitor. Which can monitor the creation, deletion and changes to LDAP objects."
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.command_line = /.*/user:.*/ nocase and $e.target.process.command_line = /.*/pass:.*/ nocase and $e.target.process.command_line = /.*/dcip:.*/ nocase)) or (($e.target.process.file.full_path = /.*\\SharpLDAPmonitor.exe$/ nocase) or ($e.target.process.file.name = "SharpLDAPmonitor.exe")))
+
+  condition:
+    $e
+}

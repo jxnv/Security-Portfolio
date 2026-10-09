@@ -1,0 +1,12 @@
+// Title: IIS WebServer Log Deletion via CommandLine Utilities
+// ID: 0649be4a-aeb0-45b0-b89e-7f1668f6d9c0
+// Status: experimental
+// Level: medium
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-09-02
+// Tags: attack.stealth, attack.t1070
+// Description: Detects attempts to delete Internet Information Services (IIS) log files via command line utilities, which is a common defense evasion technique used by attackers to cover their tracks.
+// Threat actors often abuse vulnerabilities in web applications hosted on IIS servers to gain initial access and later delete IIS logs to evade detection.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where (((process.command_line like "*_del *" or process.command_line like "*_erase *" or process.command_line like "*_rm *" or process.command_line like "*_remove-item *" or process.command_line like "*_rmdir *")) and (process.command_line like "*_\\inetpub\\logs\\*") and (((process.executable endswith "\\cmd.exe" or process.executable endswith "\\powershell_ise.exe" or process.executable endswith "\\powershell.exe" or process.executable endswith "\\pwsh.exe")) or ((process.pe.original_file_name == "cmd.exe" or process.pe.original_file_name == "powershell.exe" or process.pe.original_file_name == "powershell_ise.exe" or process.pe.original_file_name == "pwsh.dll"))))

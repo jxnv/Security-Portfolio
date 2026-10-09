@@ -1,0 +1,25 @@
+// Title: Container With A hostPath Mount Created
+// ID: 402b955c-8fe0-4a8c-b635-622b4ac5f902
+// Status: test
+// Level: low
+// Author: Leo Tsaousis (@laripping)
+// Date: 2024-03-26
+// Tags: attack.t1611, attack.privilege-escalation
+// Description: Detects creation of a container with a hostPath mount.
+// A hostPath volume mounts a directory or a file from the node to the container.
+// Attackers who have permissions to create a new pod in the cluster may create one with a writable hostPath volume and chroot to escape to the underlying node.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 402b955c_8fe0_4a8c_b635_622b4ac5f902 {
+  meta:
+    title = "Container With A hostPath Mount Created"
+    description = "Detects creation of a container with a hostPath mount. A hostPath volume mounts a directory or a file from the node to the container. Attackers who have permissions to create a new pod in the cluster may create one with a writable hostPath volume and chroot to escape to the underlying node."
+    author = "Leo Tsaousis (@laripping)"
+    severity = "LOW"
+
+  events:
+    ($e.verb = "create" and $e.objectRef.resource = "pods" and $e.hostPath = "*")
+
+  condition:
+    $e
+}

@@ -1,0 +1,48 @@
+{
+  "title": "Suspicious File Encoded To Base64 Via Certutil.EXE",
+  "id": "ea0cdc3e-2239-4f26-a947-4e8f8224e464",
+  "status": "test",
+  "description": "Detects the execution of certutil with the \"encode\" flag to encode a file to base64 where the extensions of the file is suspicious",
+  "author": "Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2023-05-15",
+  "tags": [
+    "attack.stealth",
+    "attack.t1027"
+  ],
+  "level": "high",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_img": [
+      {
+        "Image|endswith": "\\certutil.exe"
+      },
+      {
+        "OriginalFileName": "CertUtil.exe"
+      }
+    ],
+    "selection_cli": {
+      "CommandLine|contains|windash": "-encode"
+    },
+    "selection_extension": {
+      "CommandLine|contains": [
+        ".acl",
+        ".bat",
+        ".doc",
+        ".gif",
+        ".jpeg",
+        ".jpg",
+        ".mp3",
+        ".pdf",
+        ".png",
+        ".ppt",
+        ".tmp",
+        ".xls",
+        ".xml"
+      ]
+    },
+    "condition": "all of selection_*"
+  }
+}

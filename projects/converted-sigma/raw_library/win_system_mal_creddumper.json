@@ -1,0 +1,40 @@
+{
+  "title": "Credential Dumping Tools Service Execution - System",
+  "id": "4976aa50-8f41-45c6-8b15-ab3fc10e79ed",
+  "status": "test",
+  "description": "Detects well-known credential dumping tools execution via service execution events",
+  "author": "Florian Roth (Nextron Systems), Teymur Kheirkhabarov, Daniil Yugoslavskiy, oscd.community",
+  "date": "2017-03-05",
+  "tags": [
+    "attack.credential-access",
+    "attack.execution",
+    "attack.t1003.001",
+    "attack.t1003.002",
+    "attack.t1003.004",
+    "attack.t1003.005",
+    "attack.t1003.006",
+    "attack.t1569.002",
+    "attack.s0005"
+  ],
+  "level": "high",
+  "logsource": {
+    "product": "windows",
+    "service": "system"
+  },
+  "detection": {
+    "selection": {
+      "Provider_Name": "Service Control Manager",
+      "EventID": 7045,
+      "ImagePath|contains": [
+        "cachedump",
+        "dumpsvc",
+        "fgexec",
+        "gsecdump",
+        "mimidrv",
+        "pwdump",
+        "servpw"
+      ]
+    },
+    "condition": "selection"
+  }
+}

@@ -1,0 +1,23 @@
+// Title: Suspicious Cobalt Strike DNS Beaconing - DNS Client
+// ID: 0d18728b-f5bf-4381-9dcf-915539fff6c2
+// Status: test
+// Level: critical
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-01-16
+// Tags: attack.t1071.004, attack.command-and-control
+// Description: Detects a program that invoked suspicious DNS queries known from Cobalt Strike beacons
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 0d18728b_f5bf_4381_9dcf_915539fff6c2 {
+  meta:
+    title = "Suspicious Cobalt Strike DNS Beaconing - DNS Client"
+    description = "Detects a program that invoked suspicious DNS queries known from Cobalt Strike beacons"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "CRITICAL"
+
+  events:
+    (($e.EventID = 3008) and ((($e.QueryName = /^aaa.stage..*/ nocase or $e.QueryName = /^post.1.*/ nocase)) or ($e.QueryName = /.*.stage.123456..*/ nocase)))
+
+  condition:
+    $e
+}

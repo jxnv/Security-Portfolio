@@ -1,0 +1,11 @@
+// Title: Python Spawning Pretty TTY Via PTY Module
+// ID: c4042d54-110d-45dd-a0e1-05c47822c937
+// Status: test
+// Level: medium
+// Author: Nextron Systems
+// Date: 2022-06-03
+// Tags: attack.execution, attack.t1059
+// Description: Detects a python process calling to the PTY module in order to spawn a pretty tty which could be indicative of potential reverse shell activity.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(CommandLine ICONTAINS "import pty") OR where(CommandLine ICONTAINS "from pty "))) AND (where(CommandLine ICONTAINS "spawn")) AND (((where(Image IENDSWITH "/python") OR where(Image IENDSWITH "/python2") OR where(Image IENDSWITH "/python3"))) OR ((where(Image ICONTAINS "/python2.") OR where(Image ICONTAINS "/python3.")))))

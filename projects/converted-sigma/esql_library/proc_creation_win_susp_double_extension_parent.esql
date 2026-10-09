@@ -1,0 +1,11 @@
+// Title: Suspicious Parent Double Extension File Execution
+// ID: 5e6a80c8-2d45-4633-9ef4-fa2671a39c5c
+// Status: test
+// Level: high
+// Author: frack113, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-01-06
+// Tags: attack.stealth, attack.t1036.007
+// Description: Detect execution of suspicious double extension files in ParentCommandLine
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE (((process.parent.executable LIKE "%.doc.lnk" OR process.parent.executable LIKE "%.docx.lnk" OR process.parent.executable LIKE "%.xls.lnk" OR process.parent.executable LIKE "%.xlsx.lnk" OR process.parent.executable LIKE "%.ppt.lnk" OR process.parent.executable LIKE "%.pptx.lnk" OR process.parent.executable LIKE "%.rtf.lnk" OR process.parent.executable LIKE "%.pdf.lnk" OR process.parent.executable LIKE "%.txt.lnk" OR process.parent.executable LIKE "%.doc.js" OR process.parent.executable LIKE "%.docx.js" OR process.parent.executable LIKE "%.xls.js" OR process.parent.executable LIKE "%.xlsx.js" OR process.parent.executable LIKE "%.ppt.js" OR process.parent.executable LIKE "%.pptx.js" OR process.parent.executable LIKE "%.rtf.js" OR process.parent.executable LIKE "%.pdf.js" OR process.parent.executable LIKE "%.txt.js")) OR ((process.parent.command_line LIKE "%.doc.lnk%" OR process.parent.command_line LIKE "%.docx.lnk%" OR process.parent.command_line LIKE "%.xls.lnk%" OR process.parent.command_line LIKE "%.xlsx.lnk%" OR process.parent.command_line LIKE "%.ppt.lnk%" OR process.parent.command_line LIKE "%.pptx.lnk%" OR process.parent.command_line LIKE "%.rtf.lnk%" OR process.parent.command_line LIKE "%.pdf.lnk%" OR process.parent.command_line LIKE "%.txt.lnk%" OR process.parent.command_line LIKE "%.doc.js%" OR process.parent.command_line LIKE "%.docx.js%" OR process.parent.command_line LIKE "%.xls.js%" OR process.parent.command_line LIKE "%.xlsx.js%" OR process.parent.command_line LIKE "%.ppt.js%" OR process.parent.command_line LIKE "%.pptx.js%" OR process.parent.command_line LIKE "%.rtf.js%" OR process.parent.command_line LIKE "%.pdf.js%" OR process.parent.command_line LIKE "%.txt.js%")))

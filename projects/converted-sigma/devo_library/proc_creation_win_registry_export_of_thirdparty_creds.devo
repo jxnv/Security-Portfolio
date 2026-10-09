@@ -1,0 +1,12 @@
+// Title: Registry Export of Third-Party Credentials
+// ID: cc1abf27-78a3-4ac5-a51c-f3070b1d8e40
+// Status: experimental
+// Level: high
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-05-22
+// Tags: attack.credential-access, attack.t1552.002
+// Description: Detects the use of reg.exe to export registry paths associated with third-party credentials.
+// Credential stealers have been known to use this technique to extract sensitive information from the registry.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+from siem.events where (((contains(CommandLine, "\\Software\\Aerofox\\Foxmail\\V3.1") OR contains(CommandLine, "\\Software\\Aerofox\\FoxmailPreview") OR contains(CommandLine, "\\Software\\DownloadManager\\Passwords") OR contains(CommandLine, "\\Software\\FTPWare\\COREFTP\\Sites") OR contains(CommandLine, "\\Software\\IncrediMail\\Identities") OR contains(CommandLine, "\\Software\\Martin Prikryl\\WinSCP 2\\Sessions") OR contains(CommandLine, "\\Software\\Mobatek\\MobaXterm") OR contains(CommandLine, "\\Software\\OpenSSH\\Agent\\Keys") OR contains(CommandLine, "\\Software\\OpenVPN-GUI\\configs") OR contains(CommandLine, "\\Software\\ORL\\WinVNC3\\Password") OR contains(CommandLine, "\\Software\\Qualcomm\\Eudora\\CommandLine") OR contains(CommandLine, "\\Software\\RealVNC\\WinVNC4") OR contains(CommandLine, "\\Software\\RimArts\\B2\\Settings") OR contains(CommandLine, "\\Software\\SimonTatham\\PuTTY\\Sessions") OR contains(CommandLine, "\\Software\\SimonTatham\\PuTTY\\SshHostKeys") OR contains(CommandLine, "\\Software\\Sota\\FFFTP") OR contains(CommandLine, "\\Software\\TightVNC\\Server") OR contains(CommandLine, "\\Software\\WOW6432Node\\Radmin\\v3.0\\Server\\Parameters\\Radmin"))) AND ((contains(CommandLine, "save") OR contains(CommandLine, "export"))) AND ((Image="*\\reg.exe") OR (OriginalFileName == "reg.exe")))

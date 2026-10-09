@@ -1,0 +1,25 @@
+// Title: Potential Homoglyph Attack Using Lookalike Characters in Filename
+// ID: 4f1707b1-b50b-45b4-b5a2-3978b5a5d0d6
+// Status: test
+// Level: medium
+// Author: Micah Babinski, @micahbabinski
+// Date: 2023-05-08
+// Tags: attack.stealth, attack.t1036, attack.t1036.003
+// Description: Detects the presence of unicode characters which are homoglyphs, or identical in appearance, to ASCII letter characters.
+// This is used as an obfuscation and masquerading techniques. Only "perfect" homoglyphs are included; these are characters that
+// are indistinguishable from ASCII characters and thus may make excellent candidates for homoglyph attack characters.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 4f1707b1_b50b_45b4_b5a2_3978b5a5d0d6 {
+  meta:
+    title = "Potential Homoglyph Attack Using Lookalike Characters in Filename"
+    description = "Detects the presence of unicode characters which are homoglyphs, or identical in appearance, to ASCII letter characters. This is used as an obfuscation and masquerading techniques. Only "perfect" homoglyphs are included; these are characters that are indistinguishable from ASCII characters and thus may make excellent candidates for homoglyph attack characters."
+    author = "Micah Babinski, @micahbabinski"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.file.full_path = /.*а.*/ nocase or $e.target.file.full_path = /.*е.*/ nocase or $e.target.file.full_path = /.*о.*/ nocase or $e.target.file.full_path = /.*р.*/ nocase or $e.target.file.full_path = /.*с.*/ nocase or $e.target.file.full_path = /.*х.*/ nocase or $e.target.file.full_path = /.*ѕ.*/ nocase or $e.target.file.full_path = /.*і.*/ nocase or $e.target.file.full_path = /.*ӏ.*/ nocase or $e.target.file.full_path = /.*ј.*/ nocase or $e.target.file.full_path = /.*һ.*/ nocase or $e.target.file.full_path = /.*ԁ.*/ nocase or $e.target.file.full_path = /.*ԛ.*/ nocase or $e.target.file.full_path = /.*ԝ.*/ nocase or $e.target.file.full_path = /.*ο.*/ nocase)) or (($e.target.file.full_path = /.*А.*/ nocase or $e.target.file.full_path = /.*В.*/ nocase or $e.target.file.full_path = /.*Е.*/ nocase or $e.target.file.full_path = /.*К.*/ nocase or $e.target.file.full_path = /.*М.*/ nocase or $e.target.file.full_path = /.*Н.*/ nocase or $e.target.file.full_path = /.*О.*/ nocase or $e.target.file.full_path = /.*Р.*/ nocase or $e.target.file.full_path = /.*С.*/ nocase or $e.target.file.full_path = /.*Т.*/ nocase or $e.target.file.full_path = /.*Х.*/ nocase or $e.target.file.full_path = /.*Ѕ.*/ nocase or $e.target.file.full_path = /.*І.*/ nocase or $e.target.file.full_path = /.*Ј.*/ nocase or $e.target.file.full_path = /.*Ү.*/ nocase or $e.target.file.full_path = /.*Ӏ.*/ nocase or $e.target.file.full_path = /.*Ԍ.*/ nocase or $e.target.file.full_path = /.*Ԛ.*/ nocase or $e.target.file.full_path = /.*Ԝ.*/ nocase or $e.target.file.full_path = /.*Α.*/ nocase or $e.target.file.full_path = /.*Β.*/ nocase or $e.target.file.full_path = /.*Ε.*/ nocase or $e.target.file.full_path = /.*Ζ.*/ nocase or $e.target.file.full_path = /.*Η.*/ nocase or $e.target.file.full_path = /.*Ι.*/ nocase or $e.target.file.full_path = /.*Κ.*/ nocase or $e.target.file.full_path = /.*Μ.*/ nocase or $e.target.file.full_path = /.*Ν.*/ nocase or $e.target.file.full_path = /.*Ο.*/ nocase or $e.target.file.full_path = /.*Ρ.*/ nocase or $e.target.file.full_path = /.*Τ.*/ nocase or $e.target.file.full_path = /.*Υ.*/ nocase or $e.target.file.full_path = /.*Χ.*/ nocase)))
+
+  condition:
+    $e
+}

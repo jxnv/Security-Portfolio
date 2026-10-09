@@ -1,0 +1,11 @@
+# Title: Internet Explorer Autorun Keys Modification
+# ID: a80f662f-022f-4429-9b8c-b1a41aaa6688
+# Status: test
+# Level: medium
+# Author: Victor Sergeev, Daniil Yugoslavskiy, Gleb Sukhodolskiy, Timur Zinniatullin, oscd.community, Tim Shelton, frack113 (split)
+# Date: 2019-10-25
+# Tags: attack.privilege-escalation, attack.persistence, attack.t1547.001
+# Description: Detects modification of autostart extensibility point (ASEP) in registry.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog (((registry_key_name="*\\Software\\Wow6432Node\\Microsoft\\Internet Explorer*" OR registry_key_name="*\\Software\\Microsoft\\Internet Explorer*")) AND ((registry_key_name="*\\Toolbar*" OR registry_key_name="*\\Extensions*" OR registry_key_name="*\\Explorer Bars*")) AND NOT (((Details="(Empty)") OR ((registry_key_name="*\\Extensions\\{2670000A-7350-4f3c-8081-5663EE0C6C49}*" OR registry_key_name="*\\Extensions\\{31D09BA0-12F5-4CCE-BE8A-2923E76605DA}*" OR registry_key_name="*\\Extensions\\{789FE86F-6FC4-46A1-9849-EDE0DB0C95CA}*" OR registry_key_name="*\\Extensions\\{A95fe080-8f5d-11d2-a20b-00aa003c157a}*")) OR ((registry_key_name="*\\Toolbar\\ShellBrowser\\ITBar7Layout" OR registry_key_name="*\\Toolbar\\ShowDiscussionButton" OR registry_key_name="*\\Toolbar\\Locked")))))

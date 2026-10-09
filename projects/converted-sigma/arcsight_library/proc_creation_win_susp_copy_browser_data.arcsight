@@ -1,0 +1,13 @@
+// Title: Potential Browser Data Stealing
+// ID: 47147b5b-9e17-4d76-b8d2-7bac24c5ce1b
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-12-23
+// Tags: attack.credential-access, attack.t1555.003
+// Description: Adversaries may acquire credentials from web browsers by reading files specific to the target browser.
+// Web browsers commonly save credentials such as website usernames and passwords so that they do not need to be entered manually in the future.
+// Web browsers typically store the credentials in an encrypted format within a credential store.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((CommandLine CONTAINS "copy-item" OR CommandLine CONTAINS "copy " OR CommandLine CONTAINS "cpi " OR CommandLine CONTAINS " cp " OR CommandLine CONTAINS "move " OR CommandLine CONTAINS "move-item" OR CommandLine CONTAINS " mi " OR CommandLine CONTAINS " mv ")) OR ((Image ENDSWITH "\\esentutl.exe" OR Image ENDSWITH "\\xcopy.exe" OR Image ENDSWITH "\\robocopy.exe")) OR ((OriginalFileName EQ "esentutl.exe" OR OriginalFileName EQ "XCOPY.EXE" OR OriginalFileName EQ "robocopy.exe"))) AND ((CommandLine CONTAINS "\\Amigo\\User Data" OR CommandLine CONTAINS "\\BraveSoftware\\Brave-Browser\\User Data" OR CommandLine CONTAINS "\\CentBrowser\\User Data" OR CommandLine CONTAINS "\\Chromium\\User Data" OR CommandLine CONTAINS "\\CocCoc\\Browser\\User Data" OR CommandLine CONTAINS "\\Comodo\\Dragon\\User Data" OR CommandLine CONTAINS "\\Elements Browser\\User Data" OR CommandLine CONTAINS "\\Epic Privacy Browser\\User Data" OR CommandLine CONTAINS "\\Google\\Chrome Beta\\User Data" OR CommandLine CONTAINS "\\Google\\Chrome SxS\\User Data" OR CommandLine CONTAINS "\\Google\\Chrome\\User Data\\" OR CommandLine CONTAINS "\\Kometa\\User Data" OR CommandLine CONTAINS "\\Maxthon5\\Users" OR CommandLine CONTAINS "\\Microsoft\\Edge\\User Data" OR CommandLine CONTAINS "\\Mozilla\\Firefox\\Profiles" OR CommandLine CONTAINS "\\Nichrome\\User Data" OR CommandLine CONTAINS "\\Opera Software\\Opera GX Stable\\" OR CommandLine CONTAINS "\\Opera Software\\Opera Neon\\User Data" OR CommandLine CONTAINS "\\Opera Software\\Opera Stable\\" OR CommandLine CONTAINS "\\Orbitum\\User Data" OR CommandLine CONTAINS "\\QIP Surf\\User Data" OR CommandLine CONTAINS "\\Sputnik\\User Data" OR CommandLine CONTAINS "\\Torch\\User Data" OR CommandLine CONTAINS "\\uCozMedia\\Uran\\User Data" OR CommandLine CONTAINS "\\Vivaldi\\User Data")))

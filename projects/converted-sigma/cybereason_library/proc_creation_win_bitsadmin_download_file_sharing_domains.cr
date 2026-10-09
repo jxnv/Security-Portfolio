@@ -1,0 +1,11 @@
+// Title: Suspicious Download From File-Sharing Website Via Bitsadmin
+// ID: 8518ed3d-f7c9-4601-a26c-f361a4256a0c
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-06-28
+// Tags: attack.persistence, attack.execution, attack.stealth, attack.t1197, attack.s0190, attack.t1036.003, attack.command-and-control, attack.t1105
+// Description: Detects usage of bitsadmin downloading a file from a suspicious domain
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((CommandLine contains ".githubusercontent.com" OR CommandLine contains "0x0.st" OR CommandLine contains "anonfiles.com" OR CommandLine contains "bashupload.com" OR CommandLine contains "cdn.discordapp.com" OR CommandLine contains "chunk.io" OR CommandLine contains "ddns.net" OR CommandLine contains "dl.dropboxusercontent.com" OR CommandLine contains "ghostbin.co" OR CommandLine contains "github.com" OR CommandLine contains "glitch.me" OR CommandLine contains "gofile.io" OR CommandLine contains "hastebin.com" OR CommandLine contains "mediafire.com" OR CommandLine contains "mega.nz" OR CommandLine contains "onrender.com" OR CommandLine contains "pages.dev" OR CommandLine contains "paste.ee" OR CommandLine contains "pastebin.com" OR CommandLine contains "pastebin.pl" OR CommandLine contains "pastetext.net" OR CommandLine contains "privatlab.com" OR CommandLine contains "privatlab.net" OR CommandLine contains "send.exploit.in" OR CommandLine contains "sendspace.com" OR CommandLine contains "storage.googleapis.com" OR CommandLine contains "storjshare.io" OR CommandLine contains "supabase.co" OR CommandLine contains "temp.sh" OR CommandLine contains "transfer.sh" OR CommandLine contains "trycloudflare.com" OR CommandLine contains "ufile.io" OR CommandLine contains "w3spaces.com" OR CommandLine contains "workers.dev" OR CommandLine contains "x0.at")) AND ((CommandLine contains " /transfer " OR CommandLine contains " /create " OR CommandLine contains " /addfile ")) AND ((Image="*\\bitsadmin.exe") OR (OriginalFileName == "bitsadmin.exe")))

@@ -1,0 +1,33 @@
+{
+  "title": "Potential MFA Bypass Using Legacy Client Authentication",
+  "id": "53bb4f7f-48a8-4475-ac30-5a82ddfdf6fc",
+  "status": "test",
+  "description": "Detects successful authentication from potential clients using legacy authentication via user agent strings. This could be a sign of MFA bypass using a password spray attack.",
+  "author": "Harjot Singh, '@cyb3rjy0t'",
+  "date": "2023-03-20",
+  "tags": [
+    "attack.privilege-escalation",
+    "attack.persistence",
+    "attack.initial-access",
+    "attack.credential-access",
+    "attack.stealth",
+    "attack.t1078.004",
+    "attack.t1110"
+  ],
+  "level": "high",
+  "logsource": {
+    "product": "azure",
+    "service": "signinlogs"
+  },
+  "detection": {
+    "selection": {
+      "Status": "Success",
+      "userAgent|contains": [
+        "BAV2ROPC",
+        "CBAinPROD",
+        "CBAinTAR"
+      ]
+    },
+    "condition": "selection"
+  }
+}

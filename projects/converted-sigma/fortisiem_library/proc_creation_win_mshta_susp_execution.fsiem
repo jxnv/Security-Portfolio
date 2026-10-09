@@ -1,0 +1,14 @@
+# Title: MSHTA Execution with Suspicious File Extensions
+# ID: cc7abbd0-762b-41e3-8a26-57ad50d2eea3
+# Status: test
+# Level: high
+# Author: Diego Perez (@darkquassar), Markus Neis, Swisscom (Improve Rule), Swachchhanda Shrawan Poudel (Nextron Systems)
+# Date: 2019-02-22
+# Tags: attack.stealth, attack.t1140, attack.t1218.005, attack.execution, attack.t1059.007, cve.2020-1599
+# Description: Detects execution of mshta.exe with file types that looks like they do not typically represent HTA (HTML Application) content,
+# such as .png, .jpg, .zip, .pdf, and others, which are often polyglots. MSHTA is a legitimate Windows utility for executing HTML Applications
+# containing VBScript or JScript. Threat actors often abuse this lolbin utility to download and
+# execute malicious scripts disguised as benign files or hosted under misleading extensions to evade detection.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((CommandLine CONTAIN ".7z" OR CommandLine CONTAIN ".avi" OR CommandLine CONTAIN ".bat" OR CommandLine CONTAIN ".bmp" OR CommandLine CONTAIN ".conf" OR CommandLine CONTAIN ".csv" OR CommandLine CONTAIN ".dll" OR CommandLine CONTAIN ".doc" OR CommandLine CONTAIN ".gif" OR CommandLine CONTAIN ".gz" OR CommandLine CONTAIN ".ini" OR CommandLine CONTAIN ".jpe" OR CommandLine CONTAIN ".jpg" OR CommandLine CONTAIN ".json" OR CommandLine CONTAIN ".lnk" OR CommandLine CONTAIN ".log" OR CommandLine CONTAIN ".mkv" OR CommandLine CONTAIN ".mp3" OR CommandLine CONTAIN ".mp4" OR CommandLine CONTAIN ".pdf" OR CommandLine CONTAIN ".png" OR CommandLine CONTAIN ".ppt" OR CommandLine CONTAIN ".rar" OR CommandLine CONTAIN ".rtf" OR CommandLine CONTAIN ".svg" OR CommandLine CONTAIN ".tar" OR CommandLine CONTAIN ".tmp" OR CommandLine CONTAIN ".txt" OR CommandLine CONTAIN ".xls" OR CommandLine CONTAIN ".xml" OR CommandLine CONTAIN ".yaml" OR CommandLine CONTAIN ".yml" OR CommandLine CONTAIN ".zip" OR CommandLine CONTAIN "vbscript")) AND ((Image="*\\mshta.exe") OR (OriginalFileName = "mshta.exe")))

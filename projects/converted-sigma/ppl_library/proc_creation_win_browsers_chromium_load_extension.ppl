@@ -1,0 +1,11 @@
+// Title: Chromium Browser Instance Executed With Custom Extension
+// ID: 88d6e60c-759d-4ac1-a447-c0f1466c2d21
+// Status: test
+// Level: medium
+// Author: Aedan Russell, frack113, X__Junior (Nextron Systems)
+// Date: 2022-06-19
+// Tags: attack.persistence, attack.t1176.001
+// Description: Detects a Chromium based browser process with the 'load-extension' flag to start a instance with a custom extension
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where ((process.executable="*\\brave.exe" OR process.executable="*\\chrome.exe" OR process.executable="*\\msedge.exe" OR process.executable="*\\opera.exe" OR process.executable="*\\vivaldi.exe") AND process.command_line like "%--load-extension=%")

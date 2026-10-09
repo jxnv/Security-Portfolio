@@ -1,0 +1,11 @@
+# Title: Schedule Task Creation From Env Variable Or Potentially Suspicious Path Via Schtasks.EXE
+# ID: 81325ce1-be01-4250-944f-b4789644556f
+# Status: test
+# Level: medium
+# Author: Florian Roth (Nextron Systems)
+# Date: 2022-02-21
+# Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.t1053.005
+# Description: Detects Schtask creations that point to a suspicious folder or an environment variable often used by malware
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((((cmdline:*:\\Perflogs* OR cmdline:*:\\Users\\All Users\\* OR cmdline:*:\\Users\\Default\\* OR cmdline:*:\\Users\\Public* OR cmdline:*:\\Windows\\Temp* OR cmdline:*\\AppData\\Local\\* OR cmdline:*\\AppData\\Roaming\\* OR cmdline:*%AppData%* OR cmdline:*%Public%*)) AND (process_name:*\\schtasks.exe AND cmdline:* /create *)) OR ((ParentCommandLine:*\\svchost.exe -k netsvcs -p -s Schedule) AND ((cmdline:*:\\Perflogs* OR cmdline:*:\\Windows\\Temp* OR cmdline:*\\Users\\Public* OR cmdline:*%Public%*)))) AND -((((cmdline:*/Create /Xml * AND cmdline:*\\Temp\\.CR.* AND cmdline:*\\Avira_Security_Installation.xml*)) OR ((cmdline:*/Create /F /TN* AND cmdline:*/Xml * AND cmdline:*\\Temp\\* AND cmdline:*Avira_*) AND (cmdline:*.tmp\\UpdateFallbackTask.xml* OR cmdline:*.tmp\\WatchdogServiceControlManagerTimeout.xml* OR cmdline:*.tmp\\SystrayAutostart.xml* OR cmdline:*.tmp\\MaintenanceTask.xml*)) OR ((cmdline:*\\Temp\\* AND cmdline:*/Create /TN \"klcp_update\" /XML * AND cmdline:*\\klcp_update_task.xml*)) OR ((ParentCommandLine:*unattended.ini*) OR (cmdline:*update_task.xml*)) OR (cmdline:*/Create /TN TVInstallRestore /TR*))))

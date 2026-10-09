@@ -1,0 +1,11 @@
+# Title: Process Proxy Execution Via Squirrel.EXE
+# ID: 45239e6a-b035-4aaf-b339-8ad379fcb67e
+# Status: test
+# Level: medium
+# Author: Nasreddine Bencherchali (Nextron Systems), Karneades / Markus Neis, Jonhnathan Ribeiro, oscd.community
+# Date: 2022-06-09
+# Tags: attack.execution, attack.stealth, attack.t1218
+# Description: Detects the usage of the "Squirrel.exe" binary to execute arbitrary processes. This binary is part of multiple Electron based software installations (Slack, Teams, Discord, etc.)
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((((CommandLine CONTAIN "--processStart" OR CommandLine CONTAIN "--processStartAndWait" OR CommandLine CONTAIN "--createShortcut")) AND ((Image="*\\squirrel.exe" OR Image="*\\update.exe"))) AND NOT ((((CommandLine CONTAIN ":\\Users\\" AND CommandLine CONTAIN "\\AppData\\Local\\Discord\\Update.exe" AND CommandLine CONTAIN "Discord.exe") AND (CommandLine CONTAIN "--createShortcut" OR CommandLine CONTAIN "--processStart")) OR ((CommandLine CONTAIN ":\\Users\\" AND CommandLine CONTAIN "\\AppData\\Local\\GitHubDesktop\\Update.exe" AND CommandLine CONTAIN "GitHubDesktop.exe") AND (CommandLine CONTAIN "--createShortcut" OR CommandLine CONTAIN "--processStartAndWait")) OR ((CommandLine CONTAIN ":\\Users\\" AND CommandLine CONTAIN "\\AppData\\Local\\Microsoft\\Teams\\Update.exe" AND CommandLine CONTAIN "Teams.exe") AND (CommandLine CONTAIN "--processStart" OR CommandLine CONTAIN "--createShortcut")) OR ((CommandLine CONTAIN ":\\Users\\" AND CommandLine CONTAIN "\\AppData\\Local\\yammerdesktop\\Update.exe" AND CommandLine CONTAIN "Yammer.exe") AND (CommandLine CONTAIN "--processStart" OR CommandLine CONTAIN "--createShortcut")))))

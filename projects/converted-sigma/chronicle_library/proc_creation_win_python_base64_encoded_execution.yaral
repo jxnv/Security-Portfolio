@@ -1,0 +1,24 @@
+// Title: Python One-Liners with Base64 Decoding
+// ID: 50a0aa3d-ab16-4594-a8aa-5145a6e6792b
+// Status: experimental
+// Level: high
+// Author: Hugh Ryan (HueCodes), Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2026-03-09
+// Tags: attack.execution, attack.stealth, attack.t1059.006, attack.t1027.010
+// Description: Detects Python one-liners that use base64 decoding functions in command line executions.
+// Malicious scripts or attackers often use python one-liners to decode and execute base64-encoded payloads, which is a common technique for obfuscation and evasion.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 50a0aa3d_ab16_4594_a8aa_5145a6e6792b {
+  meta:
+    title = "Python One-Liners with Base64 Decoding"
+    description = "Detects Python one-liners that use base64 decoding functions in command line executions. Malicious scripts or attackers often use python one-liners to decode and execute base64-encoded payloads, which is a common technique for obfuscation and evasion."
+    author = "Hugh Ryan (HueCodes), Swachchhanda Shrawan Poudel (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*import.*/ nocase and $e.target.process.command_line = /.*base64.*/ nocase and $e.target.process.command_line = /.* -c.*/ nocase) and ($e.target.process.command_line = /.*.decode.*/ nocase or $e.target.process.command_line = /.*b16decode.*/ nocase or $e.target.process.command_line = /.*b32decode.*/ nocase or $e.target.process.command_line = /.*b32hexdecode.*/ nocase or $e.target.process.command_line = /.*b64decode.*/ nocase or $e.target.process.command_line = /.*b85decode.*/ nocase or $e.target.process.command_line = /.*z85decode.*/ nocase)) and (($e.target.process.file.full_path = /.*\\python.*/ nocase) or ($e.target.process.file.name = /.*python.*/ nocase)))
+
+  condition:
+    $e
+}

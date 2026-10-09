@@ -1,0 +1,11 @@
+-- Title: File And SubFolder Enumeration Via Dir Command
+-- ID: 7c9340a9-e2ee-4e43-94c5-c54ebbea1006
+-- Status: test
+-- Level: low
+-- Author: frack113
+-- Date: 2021-12-13
+-- Tags: attack.discovery, attack.t1217
+-- Description: Detects usage of the "dir" command part of Windows CMD with the "/S" command line flag in order to enumerate files in a specified directory and all subdirectories.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE ((((CommandLine ILIKE '%-s%' OR CommandLine ILIKE '%/s%') AND CommandLine ILIKE '%dir %') AND ((Image ILIKE '%\\cmd.exe') OR (OriginalFileName = 'Cmd.Exe'))) AND NOT ((CommandLine ILIKE '%rmdir%')))

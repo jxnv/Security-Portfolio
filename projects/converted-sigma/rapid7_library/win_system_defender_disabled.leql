@@ -1,0 +1,11 @@
+// Title: Windows Defender Threat Detection Service Disabled
+// ID: 6c0a7755-6d31-44fa-80e1-133e57752680
+// Status: stable
+// Level: medium
+// Author: Ján Trenčanský, frack113
+// Date: 2020-07-28
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects when the "Windows Defender Threat Protection" service is disabled.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(where(EventID = "7036") AND where(Provider_Name = "Service Control Manager") AND (where(param1 = "Windows Defender Antivirus Service") OR where(param1 = "Service antivirus Microsoft Defender")) AND (where(param2 = "stopped") OR where(param2 = "arrêté")))

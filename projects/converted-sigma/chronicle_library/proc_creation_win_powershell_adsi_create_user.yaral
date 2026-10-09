@@ -1,0 +1,26 @@
+// Title: New User Account Creation Attempt Via ADSI in CommandLine
+// ID: 7c9fed65-039a-4055-8c23-fa763d94aff6
+// Status: experimental
+// Level: medium
+// Author: William Gokah (idea), Raylee Hawkins, Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2026-08-13
+// Tags: attack.persistence, attack.t1136.001, attack.t1136.002
+// Description: Detects PowerShell command line arguments containing ADSI (Active Directory Service Interfaces) patterns
+// trying to create a new user account via the WinNT or LDAP provider. This is an uncommon method to create
+// user accounts and may indicate an attempt to evade detection by avoiding more commonly monitored commands
+// such as "net user", "New-LocalUser" or "New-ADUser".
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 7c9fed65_039a_4055_8c23_fa763d94aff6 {
+  meta:
+    title = "New User Account Creation Attempt Via ADSI in CommandLine"
+    description = "Detects PowerShell command line arguments containing ADSI (Active Directory Service Interfaces) patterns trying to create a new user account via the WinNT or LDAP provider. This is an uncommon method to create user accounts and may indicate an attempt to evade detection by avoiding more commonly monitored commands such as "net user", "New-LocalUser" or "New-ADUser"."
+    author = "William Gokah (idea), Raylee Hawkins, Swachchhanda Shrawan Poudel (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.process.command_line = /.*[ADSI].*/ nocase) and (($e.target.process.command_line = /.*WinNT://.*/ nocase or $e.target.process.command_line = /.*LDAP://.*/ nocase)) and (($e.target.process.command_line = /.*.Create(\"user.*/ nocase or $e.target.process.command_line = /.*.Create('user.*/ nocase)) and ((($e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase)) or (($e.target.process.file.name = "PowerShell.EXE" or $e.target.process.file.name = "pwsh.dll"))))
+
+  condition:
+    $e
+}

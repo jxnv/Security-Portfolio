@@ -1,0 +1,12 @@
+-- Title: Change Default File Association Via Assoc
+-- ID: 3d3aa6cd-6272-44d6-8afc-7e88dfef7061
+-- Status: test
+-- Level: low
+-- Author: Timur Zinniatullin, oscd.community
+-- Date: 2019-10-21
+-- Tags: attack.privilege-escalation, attack.persistence, attack.t1546.001
+-- Description: Detects file association changes using the builtin "assoc" command.
+-- When a file is opened, the default program used to open the file (also called the file association or handler) is checked. File association selections are stored in the Windows Registry and can be edited by users, administrators, or programs that have Registry access or by administrators using the built-in assoc utility. Applications can modify the file association for a given file extension to call an arbitrary program when a file with the given extension is opened.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE ((CommandLine ILIKE '%assoc%') AND ((Image ILIKE '%\\cmd.exe') OR (OriginalFileName = 'Cmd.Exe')))

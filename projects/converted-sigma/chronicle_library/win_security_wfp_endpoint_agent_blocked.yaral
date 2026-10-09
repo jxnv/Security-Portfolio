@@ -1,0 +1,24 @@
+// Title: Windows Filtering Platform Blocked Connection From EDR Agent Binary
+// ID: bacf58c6-e199-4040-a94f-95dea0f1e45a
+// Status: test
+// Level: high
+// Author: @gott_cyber
+// Date: 2024-01-08
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects a Windows Filtering Platform (WFP) blocked connection event involving common Endpoint Detection and Response (EDR) agents.
+// Adversaries may use WFP filters to prevent Endpoint Detection and Response (EDR) agents from reporting security events.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule bacf58c6_e199_4040_a94f_95dea0f1e45a {
+  meta:
+    title = "Windows Filtering Platform Blocked Connection From EDR Agent Binary"
+    description = "Detects a Windows Filtering Platform (WFP) blocked connection event involving common Endpoint Detection and Response (EDR) agents. Adversaries may use WFP filters to prevent Endpoint Detection and Response (EDR) agents from reporting security events."
+    author = "@gott_cyber"
+    severity = "HIGH"
+
+  events:
+    ($e.EventID = 5157 and ($e.Application = /.*\\AmSvc.exe$/ nocase or $e.Application = /.*\\cb.exe$/ nocase or $e.Application = /.*\\CETASvc.exe$/ nocase or $e.Application = /.*\\CNTAoSMgr.exe$/ nocase or $e.Application = /.*\\CrAmTray.exe$/ nocase or $e.Application = /.*\\CrsSvc.exe$/ nocase or $e.Application = /.*\\CSFalconContainer.exe$/ nocase or $e.Application = /.*\\CSFalconService.exe$/ nocase or $e.Application = /.*\\CybereasonAV.exe$/ nocase or $e.Application = /.*\\CylanceSvc.exe$/ nocase or $e.Application = /.*\\cyserver.exe$/ nocase or $e.Application = /.*\\CyveraService.exe$/ nocase or $e.Application = /.*\\CyvrFsFlt.exe$/ nocase or $e.Application = /.*\\EIConnector.exe$/ nocase or $e.Application = /.*\\elastic-agent.exe$/ nocase or $e.Application = /.*\\elastic-endpoint.exe$/ nocase or $e.Application = /.*\\EndpointBasecamp.exe$/ nocase or $e.Application = /.*\\ExecutionPreventionSvc.exe$/ nocase or $e.Application = /.*\\filebeat.exe$/ nocase or $e.Application = /.*\\fortiedr.exe$/ nocase or $e.Application = /.*\\hmpalert.exe$/ nocase or $e.Application = /.*\\hurukai.exe$/ nocase or $e.Application = /.*\\LogProcessorService.exe$/ nocase or $e.Application = /.*\\mcsagent.exe$/ nocase or $e.Application = /.*\\mcsclient.exe$/ nocase or $e.Application = /.*\\MsMpEng.exe$/ nocase or $e.Application = /.*\\MsSense.exe$/ nocase or $e.Application = /.*\\Ntrtscan.exe$/ nocase or $e.Application = /.*\\PccNTMon.exe$/ nocase or $e.Application = /.*\\QualysAgent.exe$/ nocase or $e.Application = /.*\\RepMgr.exe$/ nocase or $e.Application = /.*\\RepUtils.exe$/ nocase or $e.Application = /.*\\RepUx.exe$/ nocase or $e.Application = /.*\\RepWAV.exe$/ nocase or $e.Application = /.*\\RepWSC.exe$/ nocase or $e.Application = /.*\\sedservice.exe$/ nocase or $e.Application = /.*\\SenseCncProxy.exe$/ nocase or $e.Application = /.*\\SenseIR.exe$/ nocase or $e.Application = /.*\\SenseNdr.exe$/ nocase or $e.Application = /.*\\SenseSampleUploader.exe$/ nocase or $e.Application = /.*\\SentinelAgent.exe$/ nocase or $e.Application = /.*\\SentinelAgentWorker.exe$/ nocase or $e.Application = /.*\\SentinelBrowserNativeHost.exe$/ nocase or $e.Application = /.*\\SentinelHelperService.exe$/ nocase or $e.Application = /.*\\SentinelServiceHost.exe$/ nocase or $e.Application = /.*\\SentinelStaticEngine.exe$/ nocase or $e.Application = /.*\\SentinelStaticEngineScanner.exe$/ nocase or $e.Application = /.*\\sfc.exe$/ nocase or $e.Application = /.*\\sophos ui.exe$/ nocase or $e.Application = /.*\\sophosfilescanner.exe$/ nocase or $e.Application = /.*\\sophosfs.exe$/ nocase or $e.Application = /.*\\sophoshealth.exe$/ nocase or $e.Application = /.*\\sophosips.exe$/ nocase or $e.Application = /.*\\sophosLivequeryservice.exe$/ nocase or $e.Application = /.*\\sophosnetfilter.exe$/ nocase or $e.Application = /.*\\sophosntpservice.exe$/ nocase or $e.Application = /.*\\sophososquery.exe$/ nocase or $e.Application = /.*\\sspservice.exe$/ nocase or $e.Application = /.*\\TaniumClient.exe$/ nocase or $e.Application = /.*\\TaniumCX.exe$/ nocase or $e.Application = /.*\\TaniumDetectEngine.exe$/ nocase or $e.Application = /.*\\TMBMSRV.exe$/ nocase or $e.Application = /.*\\TmCCSF.exe$/ nocase or $e.Application = /.*\\TmListen.exe$/ nocase or $e.Application = /.*\\TmWSCSvc.exe$/ nocase or $e.Application = /.*\\Traps.exe$/ nocase or $e.Application = /.*\\winlogbeat.exe$/ nocase or $e.Application = /.*\\WSCommunicator.exe$/ nocase or $e.Application = /.*\\xagt.exe$/ nocase))
+
+  condition:
+    $e
+}

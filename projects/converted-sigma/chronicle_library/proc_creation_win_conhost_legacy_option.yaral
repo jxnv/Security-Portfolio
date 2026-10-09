@@ -1,0 +1,23 @@
+// Title: Suspicious High IntegrityLevel Conhost Legacy Option
+// ID: 3037d961-21e9-4732-b27a-637bcc7bf539
+// Status: test
+// Level: informational
+// Author: frack113
+// Date: 2022-12-09
+// Tags: attack.stealth, attack.t1202
+// Description: ForceV1 asks for information directly from the kernel space. Conhost connects to the console application. High IntegrityLevel means the process is running with elevated privileges, such as an Administrator context.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 3037d961_21e9_4732_b27a_637bcc7bf539 {
+  meta:
+    title = "Suspicious High IntegrityLevel Conhost Legacy Option"
+    description = "ForceV1 asks for information directly from the kernel space. Conhost connects to the console application. High IntegrityLevel means the process is running with elevated privileges, such as an Administrator context."
+    author = "frack113"
+    severity = "INFORMATIONAL"
+
+  events:
+    (($e.IntegrityLevel = "High" or $e.IntegrityLevel = "S-1-16-12288") and ($e.target.process.command_line = /.*conhost.exe.*/ nocase and $e.target.process.command_line = /.*0xffffffff.*/ nocase and $e.target.process.command_line = /.*-ForceV1.*/ nocase))
+
+  condition:
+    $e
+}

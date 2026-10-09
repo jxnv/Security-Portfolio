@@ -1,0 +1,11 @@
+// Title: Windows Processes Suspicious Parent Directory
+// ID: 96036718-71cc-4027-a538-d1587e0006a7
+// Status: test
+// Level: low
+// Author: vburov
+// Date: 2019-02-23
+// Tags: attack.stealth, attack.t1036.003, attack.t1036.005
+// Description: Detect suspicious parent processes of well-known Windows processes
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((src.process.image.path endswithCIS "\\svchost.exe" OR src.process.image.path endswithCIS "\\taskhost.exe" OR src.process.image.path endswithCIS "\\lsm.exe" OR src.process.image.path endswithCIS "\\lsass.exe" OR src.process.image.path endswithCIS "\\services.exe" OR src.process.image.path endswithCIS "\\lsaiso.exe" OR src.process.image.path endswithCIS "\\csrss.exe" OR src.process.image.path endswithCIS "\\wininit.exe" OR src.process.image.path endswithCIS "\\winlogon.exe")) AND NOT ((((src.process.parent.image.path containsCIS "\\Windows Defender\\" OR src.process.parent.image.path containsCIS "\\Microsoft Security Client\\") AND src.process.parent.image.path endswithCIS "\\MsMpEng.exe") OR ((src.process.parent.image.path is null) OR ((src.process.parent.image.path = "" OR src.process.parent.image.path = "-"))) OR (((src.process.parent.image.path endswithCIS "\\SavService.exe" OR src.process.parent.image.path endswithCIS "\\ngen.exe")) OR ((src.process.parent.image.path containsCIS "\\System32\\" OR src.process.parent.image.path containsCIS "\\SysWOW64\\"))))))

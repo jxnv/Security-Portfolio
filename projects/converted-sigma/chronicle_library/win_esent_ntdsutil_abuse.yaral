@@ -1,0 +1,23 @@
+// Title: Ntdsutil Abuse
+// ID: e6e88853-5f20-4c4a-8d26-cd469fd8d31f
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-14
+// Tags: attack.credential-access, attack.t1003.003
+// Description: Detects potential abuse of ntdsutil to dump ntds.dit database
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule e6e88853_5f20_4c4a_8d26_cd469fd8d31f {
+  meta:
+    title = "Ntdsutil Abuse"
+    description = "Detects potential abuse of ntdsutil to dump ntds.dit database"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ($e.Provider_Name = "ESENT" and ($e.EventID = 216 or $e.EventID = 325 or $e.EventID = 326 or $e.EventID = 327) and $e.Data = /.*ntds.dit.*/ nocase)
+
+  condition:
+    $e
+}

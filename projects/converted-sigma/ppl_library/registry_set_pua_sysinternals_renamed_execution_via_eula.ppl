@@ -1,0 +1,11 @@
+// Title: Suspicious Execution Of Renamed Sysinternals Tools - Registry
+// ID: f50f3c09-557d-492d-81db-9064a8d4e211
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-24
+// Tags: attack.resource-development, attack.t1588.002
+// Description: Detects the creation of the "accepteula" key related to the Sysinternals tools being created from executables with the wrong name (e.g. a renamed Sysinternals tool)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where (((registry.path like "%\\Active Directory Explorer%" OR registry.path like "%\\Handle%" OR registry.path like "%\\LiveKd%" OR registry.path like "%\\ProcDump%" OR registry.path like "%\\Process Explorer%" OR registry.path like "%\\PsExec%" OR registry.path like "%\\PsLoggedon%" OR registry.path like "%\\PsLoglist%" OR registry.path like "%\\PsPasswd%" OR registry.path like "%\\PsPing%" OR registry.path like "%\\PsService%" OR registry.path like "%\\SDelete%") AND registry.path="*\\EulaAccepted") AND NOT (((process.executable="*\\ADExplorer.exe" OR process.executable="*\\ADExplorer64.exe" OR process.executable="*\\ADExplorer64a.exe" OR process.executable="*\\handle.exe" OR process.executable="*\\handle64.exe" OR process.executable="*\\handle64a.exe" OR process.executable="*\\livekd.exe" OR process.executable="*\\livekd64.exe" OR process.executable="*\\procdump.exe" OR process.executable="*\\procdump64.exe" OR process.executable="*\\procdump64a.exe" OR process.executable="*\\procexp.exe" OR process.executable="*\\procexp64.exe" OR process.executable="*\\procexp64a.exe" OR process.executable="*\\PsExec.exe" OR process.executable="*\\PsExec64.exe" OR process.executable="*\\PsExec64a.exe" OR process.executable="*\\PsLoggedon.exe" OR process.executable="*\\PsLoggedon64.exe" OR process.executable="*\\psloglist.exe" OR process.executable="*\\psloglist64.exe" OR process.executable="*\\psloglist64a.exe" OR process.executable="*\\pspasswd.exe" OR process.executable="*\\pspasswd64.exe" OR process.executable="*\\pspasswd64a.exe" OR process.executable="*\\PsPing.exe" OR process.executable="*\\PsPing64.exe" OR process.executable="*\\PsPing64a.exe" OR process.executable="*\\PsService.exe" OR process.executable="*\\PsService64.exe" OR process.executable="*\\PsService64a.exe" OR process.executable="*\\sdelete.exe"))))

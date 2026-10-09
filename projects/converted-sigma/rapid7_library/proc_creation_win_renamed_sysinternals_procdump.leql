@@ -1,0 +1,12 @@
+// Title: Renamed ProcDump Execution
+// ID: 4a0b2c7e-7cb2-495d-8b63-5f268e7bfd67
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2019-11-18
+// Tags: attack.stealth, attack.t1036.003
+// Description: Detects the execution of a renamed ProcDump executable.
+// This often done by attackers or malware in order to evade defensive mechanisms.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(OriginalFileName = "procdump")) OR (((where(CommandLine ICONTAINS " -ma ") OR where(CommandLine ICONTAINS " -mp "))) AND (where(CommandLine ICONTAINS " /accepteula")))) AND NOT (((where(Image IENDSWITH "\\procdump.exe") OR where(Image IENDSWITH "\\procdump64.exe") OR where(Image IENDSWITH "\\procdump64a.exe")))))

@@ -1,0 +1,11 @@
+// Title: Disable Windows Defender Functionalities Via Registry Keys
+// ID: 0eb46774-f1ab-4a74-8238-1155855f2263
+// Status: test
+// Level: high
+// Author: AlertIQ, Ján Trenčanský, frack113, Nasreddine Bencherchali, Swachchhanda Shrawan Poudel
+// Date: 2022-08-01
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects when attackers or tools disable Windows Defender functionalities via the Windows registry
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+from siem.events where (((contains(TargetObject, "\\SOFTWARE\\Microsoft\\Windows Defender\\") OR contains(TargetObject, "\\SOFTWARE\\Policies\\Microsoft\\Windows Defender Security Center\\") OR contains(TargetObject, "\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\"))) AND (((TargetObject="*\\DisallowExploitProtectionOverride" OR TargetObject="*\\Features\\TamperProtection" OR TargetObject="*\\MpEngine\\MpEnablePus" OR TargetObject="*\\PUAProtection" OR TargetObject="*\\Signature Update\\ForceUpdateFromMU" OR TargetObject="*\\SpyNet\\SpynetReporting" OR TargetObject="*\\SpyNet\\SubmitSamplesConsent" OR TargetObject="*\\Windows Defender Exploit Guard\\Controlled Folder Access\\EnableControlledFolderAccess") AND Details == "DWORD (0x00000000)") OR ((TargetObject="*\\DisableAntiSpyware" OR TargetObject="*\\DisableAntiVirus" OR TargetObject="*\\DisableBehaviorMonitoring" OR TargetObject="*\\DisableBlockAtFirstSeen" OR TargetObject="*\\DisableEnhancedNotifications" OR TargetObject="*\\DisableIntrusionPreventionSystem" OR TargetObject="*\\DisableIOAVProtection" OR TargetObject="*\\DisableOnAccessProtection" OR TargetObject="*\\DisableRealtimeMonitoring" OR TargetObject="*\\DisableScanOnRealtimeEnable" OR TargetObject="*\\DisableScriptScanning") AND Details == "DWORD (0x00000001)")) AND NOT ((Image="C:\\Program Files\\Symantec\\Symantec Endpoint Protection\\*" AND Image="*\\sepWscSvc64.exe")))

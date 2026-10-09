@@ -1,0 +1,23 @@
+// Title: PUA - NirCmd Execution As LOCAL SYSTEM
+// ID: d9047477-0359-48c9-b8c7-792cedcdc9c4
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-01-24
+// Tags: attack.execution, attack.t1569.002, attack.s0029
+// Description: Detects the use of NirCmd tool for command execution as SYSTEM user
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule d9047477_0359_48c9_b8c7_792cedcdc9c4 {
+  meta:
+    title = "PUA - NirCmd Execution As LOCAL SYSTEM"
+    description = "Detects the use of NirCmd tool for command execution as SYSTEM user"
+    author = "Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ($e.target.process.command_line = /.* runassystem .*/ nocase)
+
+  condition:
+    $e
+}

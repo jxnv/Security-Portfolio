@@ -1,0 +1,11 @@
+// Title: Potential Invoke-Mimikatz PowerShell Script
+// ID: 189e3b02-82b2-4b90-9662-411eb64486d4
+// Status: test
+// Level: high
+// Author: Tim Rauch, Elastic (idea)
+// Date: 2022-09-28
+// Tags: attack.credential-access, attack.t1003
+// Description: Detects Invoke-Mimikatz PowerShell script and alike. Mimikatz is a credential dumper capable of obtaining plaintext Windows account logins and passwords.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+DeviceProcessEvents | where (((ScriptBlockText contains "DumpCreds" and ScriptBlockText contains "DumpCerts")) or (ScriptBlockText contains "sekurlsa::logonpasswords") or ((ScriptBlockText contains "crypto::certificates" and ScriptBlockText contains "CERT_SYSTEM_STORE_LOCAL_MACHINE")))

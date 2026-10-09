@@ -1,0 +1,11 @@
+# Title: Suspicious PowerShell Invocations - Specific - PowerShell Module
+# ID: 8ff28fdd-e2fa-4dfa-aeda-ef3d61c62090
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems), Jonhnathan Ribeiro
+# Date: 2017-03-05
+# Tags: attack.execution, attack.t1059.001
+# Description: Detects suspicious PowerShell invocation command parameters
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((((@ContextInfo:*-nop* AND @ContextInfo:* -w * AND @ContextInfo:*hidden* AND @ContextInfo:* -c * AND @ContextInfo:*[Convert]::FromBase64String*)) OR ((@ContextInfo:* -w * AND @ContextInfo:*hidden* AND @ContextInfo:*-ep* AND @ContextInfo:*bypass* AND @ContextInfo:*-Enc*)) OR ((@ContextInfo:* -w * AND @ContextInfo:*hidden* AND @ContextInfo:*-noni* AND @ContextInfo:*-nop* AND @ContextInfo:* -c * AND @ContextInfo:*iex* AND @ContextInfo:*New-Object*)) OR ((@ContextInfo:*iex* AND @ContextInfo:*New-Object* AND @ContextInfo:*Net.WebClient* AND @ContextInfo:*.Download*)) OR ((@ContextInfo:*powershell* AND @ContextInfo:*reg* AND @ContextInfo:*add*) AND (@ContextInfo:*\\software\\microsoft\\windows\\currentversion\\run* OR @ContextInfo:*\\software\\wow6432node\\microsoft\\windows\\currentversion\\run* OR @ContextInfo:*\\software\\microsoft\\windows\\currentversion\\policies\\explorer\\run*)) OR ((@ContextInfo:*bypass* AND @ContextInfo:*-noprofile* AND @ContextInfo:*-windowstyle* AND @ContextInfo:*hidden* AND @ContextInfo:*new-object* AND @ContextInfo:*system.net.webclient* AND @ContextInfo:*.download*))) AND -(((@ContextInfo:*(New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1* OR @ContextInfo:*Write-ChocolateyWarning*))))

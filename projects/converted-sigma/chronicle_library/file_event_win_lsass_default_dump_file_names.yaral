@@ -1,0 +1,23 @@
+// Title: LSASS Process Memory Dump Files
+// ID: a5a2d357-1ab8-4675-a967-ef9990a59391
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2021-11-15
+// Tags: attack.credential-access, attack.t1003.001
+// Description: Detects creation of files with names used by different memory dumping tools to create a memory dump of the LSASS process memory, which contains user credentials.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule a5a2d357_1ab8_4675_a967_ef9990a59391 {
+  meta:
+    title = "LSASS Process Memory Dump Files"
+    description = "Detects creation of files with names used by different memory dumping tools to create a memory dump of the LSASS process memory, which contains user credentials."
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.file.full_path = /.*\\Andrew.dmp$/ nocase or $e.target.file.full_path = /.*\\Coredump.dmp$/ nocase or $e.target.file.full_path = /.*\\lsass.dmp$/ nocase or $e.target.file.full_path = /.*\\lsass.rar$/ nocase or $e.target.file.full_path = /.*\\lsass.zip$/ nocase or $e.target.file.full_path = /.*\\NotLSASS.zip$/ nocase or $e.target.file.full_path = /.*\\PPLBlade.dmp$/ nocase or $e.target.file.full_path = /.*\\rustive.dmp$/ nocase)) or (($e.target.file.full_path = /.*\\lsass_2.*/ nocase or $e.target.file.full_path = /.*\\lsassdmp.*/ nocase or $e.target.file.full_path = /.*\\lsassdump.*/ nocase)) or (($e.target.file.full_path = /.*\\lsass.*/ nocase and $e.target.file.full_path = /.*.dmp.*/ nocase)) or ($e.target.file.full_path = /.*SQLDmpr.*/ nocase and $e.target.file.full_path = /.*.mdmp$/ nocase) or (($e.target.file.full_path = /.*\\nanodump.*/ nocase or $e.target.file.full_path = /.*\\proc_.*/ nocase) and $e.target.file.full_path = /.*.dmp$/ nocase))
+
+  condition:
+    $e
+}

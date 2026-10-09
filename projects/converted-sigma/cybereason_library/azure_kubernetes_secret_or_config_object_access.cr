@@ -1,0 +1,11 @@
+// Title: Azure Kubernetes Secret or Config Object Access
+// ID: 7ee0b4aa-d8d4-4088-b661-20efdf41a04c
+// Status: test
+// Level: medium
+// Author: Austin Songer @austinsonger
+// Date: 2021-08-07
+// Tags: attack.impact, attack.t1485, attack.t1496, attack.t1489
+// Description: Identifies when a Kubernetes account access a sensitive objects such as configmaps or secrets.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((operationName == "MICROSOFT.KUBERNETES/CONNECTEDCLUSTERS/CONFIGMAPS/WRITE" OR operationName == "MICROSOFT.KUBERNETES/CONNECTEDCLUSTERS/CONFIGMAPS/DELETE" OR operationName == "MICROSOFT.KUBERNETES/CONNECTEDCLUSTERS/SECRETS/WRITE" OR operationName == "MICROSOFT.KUBERNETES/CONNECTEDCLUSTERS/SECRETS/DELETE"))

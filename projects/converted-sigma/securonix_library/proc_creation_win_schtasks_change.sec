@@ -1,0 +1,13 @@
+// Title: Suspicious Modification Of Scheduled Tasks
+// ID: 1c0e41cd-21bb-4433-9acc-4a2cd6367b9b
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-07-28
+// Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.t1053.005
+// Description: Detects when an attacker tries to modify an already existing scheduled tasks to run from a suspicious location
+// Attackers can create a simple looking task in order to avoid detection on creation as it's often the most focused on
+// Instead they modify the task after creation to include their malicious payload
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((Image="*\\schtasks.exe" AND (CommandLine CONTAINS " /Change " AND CommandLine CONTAINS " /TN ")) AND ((CommandLine CONTAINS "regsvr32" OR CommandLine CONTAINS "rundll32" OR CommandLine CONTAINS "cmd /c " OR CommandLine CONTAINS "cmd /k " OR CommandLine CONTAINS "cmd /r " OR CommandLine CONTAINS "cmd.exe /c " OR CommandLine CONTAINS "cmd.exe /k " OR CommandLine CONTAINS "cmd.exe /r " OR CommandLine CONTAINS "powershell" OR CommandLine CONTAINS "mshta" OR CommandLine CONTAINS "wscript" OR CommandLine CONTAINS "cscript" OR CommandLine CONTAINS "certutil" OR CommandLine CONTAINS "bitsadmin" OR CommandLine CONTAINS "bash.exe" OR CommandLine CONTAINS "bash " OR CommandLine CONTAINS "scrcons" OR CommandLine CONTAINS "wmic " OR CommandLine CONTAINS "wmic.exe" OR CommandLine CONTAINS "forfiles" OR CommandLine CONTAINS "scriptrunner" OR CommandLine CONTAINS "hh.exe" OR CommandLine CONTAINS "hh ")) AND ((CommandLine CONTAINS "\\AppData\\Local\\Temp" OR CommandLine CONTAINS "\\AppData\\Roaming\\" OR CommandLine CONTAINS "\\Users\\Public\\" OR CommandLine CONTAINS "\\WINDOWS\\Temp\\" OR CommandLine CONTAINS "\\Desktop\\" OR CommandLine CONTAINS "\\Downloads\\" OR CommandLine CONTAINS "\\Temporary Internet" OR CommandLine CONTAINS "C:\\ProgramData\\" OR CommandLine CONTAINS "C:\\Perflogs\\" OR CommandLine CONTAINS "%ProgramData%" OR CommandLine CONTAINS "%appdata%" OR CommandLine CONTAINS "%comspec%" OR CommandLine CONTAINS "%localappdata%")))

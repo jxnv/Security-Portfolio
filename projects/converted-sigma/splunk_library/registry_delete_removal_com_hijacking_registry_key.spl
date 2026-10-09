@@ -1,0 +1,12 @@
+# Title: Removal of Potential COM Hijacking Registry Keys
+# ID: 96f697b0-b499-4e5d-9908-a67bec11cdb6
+# Status: test
+# Level: medium
+# Author: Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research)
+# Date: 2020-05-02
+# Tags: attack.persistence, attack.defense-impairment, attack.t1112
+# Description: Detects any deletion of entries in ".*\shell\open\command" registry keys.
+# These registry keys might have been used for COM hijacking activities by a threat actor or an attacker and the deletion could indicate steps to remove its tracks.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog ((registry_key_name="*\\shell\\open\\command") AND NOT (((process_path="*C:\\Windows\\explorer.exe") OR ((process_path="C:\\Program Files\\*" OR process_path="C:\\Program Files (x86)\\*")) OR ((process_path="C:\\Windows\\System32\\msiexec.exe" OR process_path="C:\\Windows\\SysWOW64\\msiexec.exe")) OR (process_path="C:\\Windows\\System32\\OpenWith.exe") OR (process_path="C:\\Windows\\system32\\svchost.exe"))) AND NOT ((((process_path="C:\\Program Files (x86)\\Avira\\Antivirus\\" OR process_path="C:\\Program Files\\Avira\\Antivirus\\") AND (registry_key_name="*\\CLSID\\{305CA226-D286-468e-B848-2B2E8E697B74}\\Shell\\Open\\Command" OR registry_key_name="*\\AntiVir.Keyfile\\shell\\open\\command")) OR (process_path="*\\reg.exe" AND registry_key_name="*\\Discord\\shell\\open\\command") OR (process_path="*\\Dropbox.exe" AND registry_key_name="*\\Dropbox.*") OR (process_path="*C:\\eclipse\\eclipse.exe" AND registry_key_name="*_Classes\\eclipse+*") OR (process_path="*\\Microsoft\\EdgeUpdate\\Install*") OR (process_path="*\\Everything.exe" AND registry_key_name="*\\Everything.*") OR (((process_path="*AppData\\Local\\Temp*" AND process_path="*\\setup.exe*")) OR ((process_path="*\\Temp\\is-*" AND process_path="*\\target.tmp*"))) OR (process_path="C:\\Program Files (x86)\\Java\\*" AND process_path="*\\installer.exe" AND registry_key_name="*\\Classes\\WOW6432Node\\CLSID\\{4299124F-F2C3-41b4-9C73-9236B2AD0E8F}*") OR (process_path="*\\ninite.exe") OR (process_path="*peazip*" AND registry_key_name="*\\PeaZip.*") OR (process_path="*\\Spotify.exe" AND registry_key_name="*\\Spotify\\shell\\open\\command") OR ((process_path="*\\Temp*" AND process_path="*\\TeamViewer*")) OR (process_path="C:\\Windows\\Installer\\MSI*") OR (process_path="*\\AppData\\Local\\Temp\\Wireshark_uninstaller.exe" AND registry_key_name="*\\wireshark-capture-file\\*"))))

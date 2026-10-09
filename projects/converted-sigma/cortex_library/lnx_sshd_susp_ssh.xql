@@ -1,0 +1,11 @@
+// Title: Suspicious OpenSSH Daemon Error
+// ID: e76b413a-83d0-4b94-8e4c-85db4a5b8bdc
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems)
+// Date: 2017-06-30
+// Tags: attack.initial-access, attack.t1190
+// Description: Detects suspicious SSH / SSHD error messages that indicate a fatal or suspicious error that could be caused by exploiting attempts
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter ("unexpected internal error" or "unknown or unsupported key type" or "invalid certificate signing key" or "invalid elliptic curve value" or "incorrect signature" or "error in libcrypto" or "unexpected bytes remain after decoding" or "fatal: buffer_get_string: bad string" or "Local: crc32 compensation attack" or "bad client public DH value" or "Corrupted MAC on input")

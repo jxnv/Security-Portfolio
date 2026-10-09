@@ -1,0 +1,56 @@
+{
+  "title": "Suspicious Double Extension Files",
+  "id": "b4926b47-a9d7-434c-b3a0-adc3fa0bd13e",
+  "status": "test",
+  "description": "Detects dropped files with double extensions, which is often used by malware as a method to abuse the fact that Windows hide default extensions by default.",
+  "author": "Nasreddine Bencherchali (Nextron Systems), frack113",
+  "date": "2022-06-19",
+  "tags": [
+    "attack.stealth",
+    "attack.t1036.007"
+  ],
+  "level": "high",
+  "logsource": {
+    "category": "file_event",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_gen": {
+      "TargetFilename|endswith": [
+        ".exe",
+        ".iso",
+        ".rar",
+        ".svg",
+        ".zip"
+      ],
+      "TargetFilename|contains": [
+        ".doc.",
+        ".docx.",
+        ".gif.",
+        ".jpeg.",
+        ".jpg.",
+        ".mp3.",
+        ".mp4.",
+        ".pdf.",
+        ".png.",
+        ".ppt.",
+        ".pptx.",
+        ".rtf.",
+        ".svg.",
+        ".txt.",
+        ".xls.",
+        ".xlsx."
+      ]
+    },
+    "selection_exe": {
+      "TargetFilename|endswith": [
+        ".rar.exe",
+        ".zip.exe"
+      ]
+    },
+    "filter_icons_linux": {
+      "TargetFilename|startswith": "/usr/share/icons/"
+    },
+    "condition": "1 of selection_* and not 1 of filter_*"
+  }
+}

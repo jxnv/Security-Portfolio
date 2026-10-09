@@ -1,0 +1,11 @@
+// Title: Credential Dumping Tools Service Execution - System
+// ID: 4976aa50-8f41-45c6-8b15-ab3fc10e79ed
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Teymur Kheirkhabarov, Daniil Yugoslavskiy, oscd.community
+// Date: 2017-03-05
+// Tags: attack.credential-access, attack.execution, attack.t1003.001, attack.t1003.002, attack.t1003.004, attack.t1003.005, attack.t1003.006, attack.t1569.002, attack.s0005
+// Description: Detects well-known credential dumping tools execution via service execution events
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+any where (winlog.provider_name == "Service Control Manager" and winlog.event_id == 7045 and (ImagePath like "*_cachedump*" or ImagePath like "*_dumpsvc*" or ImagePath like "*_fgexec*" or ImagePath like "*_gsecdump*" or ImagePath like "*_mimidrv*" or ImagePath like "*_pwdump*" or ImagePath like "*_servpw*"))

@@ -1,0 +1,23 @@
+// Title: Suspicious DumpMinitool Execution
+// ID: eb1c4225-1c23-4241-8dd4-051389fde4ce
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-04-06
+// Tags: attack.credential-access, attack.stealth, attack.t1036, attack.t1003.001
+// Description: Detects suspicious ways to use the "DumpMinitool.exe" binary
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule eb1c4225_1c23_4241_8dd4_051389fde4ce {
+  meta:
+    title = "Suspicious DumpMinitool Execution"
+    description = "Detects suspicious ways to use the "DumpMinitool.exe" binary"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (((($e.target.process.file.full_path = /.*\\DumpMinitool.exe$/ nocase or $e.target.process.file.full_path = /.*\\DumpMinitool.x86.exe$/ nocase or $e.target.process.file.full_path = /.*\\DumpMinitool.arm64.exe$/ nocase)) or (($e.target.process.file.name = "DumpMinitool.exe" or $e.target.process.file.name = "DumpMinitool.x86.exe" or $e.target.process.file.name = "DumpMinitool.arm64.exe"))) and (not((($e.target.process.file.full_path = /.*\\Microsoft Visual Studio\\.*/ nocase or $e.target.process.file.full_path = /.*\\Extensions\\.*/ nocase))) or ($e.target.process.command_line = /.*.txt.*/ nocase) or ((($e.target.process.command_line = /.* Full.*/ nocase or $e.target.process.command_line = /.* Mini.*/ nocase or $e.target.process.command_line = /.* WithHeap.*/ nocase)) and not(($e.target.process.command_line = /.*--dumpType.*/ nocase)))))
+
+  condition:
+    $e
+}

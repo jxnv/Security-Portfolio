@@ -1,0 +1,16 @@
+<!--
+  Title: Sysmon Discovery Via Default Driver Altitude Using Findstr.EXE
+  ID: 37db85d1-b089-490a-a59a-c7b6f984f480
+  Status: test
+  Level: high
+  Author: frack113
+  Date: 2021-12-16
+  Description: Detects usage of "findstr" with the argument "385201". Which could indicate potential discovery of an installed Sysinternals Sysmon service using the default driver altitude (even if the name is changed).
+-->
+
+<group name="sigma_converted,">
+  <rule id="100001" level="10">
+    <description>Sysmon Discovery Via Default Driver Altitude Using Findstr.EXE</description>
+    <match>((CommandLine=\"* 385201*\") AND (((Image=\"*\\\\find.exe\" OR Image=\"*\\\\findstr.exe\")) OR ((OriginalFileName=\"FIND.EXE\" OR Or</match>
+  </rule>
+</group>

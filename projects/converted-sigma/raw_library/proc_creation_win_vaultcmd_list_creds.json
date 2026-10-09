@@ -1,0 +1,31 @@
+{
+  "title": "Windows Credential Manager Access via VaultCmd",
+  "id": "58f50261-c53b-4c88-bd12-1d71f12eda4c",
+  "status": "test",
+  "description": "List credentials currently stored in Windows Credential Manager via the native Windows utility vaultcmd.exe",
+  "author": "frack113",
+  "date": "2022-04-08",
+  "tags": [
+    "attack.credential-access",
+    "attack.t1555.004"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_img": [
+      {
+        "Image|endswith": "\\VaultCmd.exe"
+      },
+      {
+        "OriginalFileName": "VAULTCMD.EXE"
+      }
+    ],
+    "selection_cli": {
+      "CommandLine|contains": "/listcreds:"
+    },
+    "condition": "all of selection*"
+  }
+}

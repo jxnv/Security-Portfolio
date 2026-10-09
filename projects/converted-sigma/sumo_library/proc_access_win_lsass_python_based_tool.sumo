@@ -1,0 +1,11 @@
+// Title: Credential Dumping Activity By Python Based Tool
+// ID: f8be3e82-46a3-4e4e-ada5-8e538ae8b9c9
+// Status: stable
+// Level: high
+// Author: Bhabesh Raj, Jonhnathan Ribeiro
+// Date: 2023-11-27
+// Tags: attack.credential-access, attack.t1003.001, attack.s0349
+// Description: Detects LSASS process access for potential credential dumping by a Python-like tool such as LaZagne or Pypykatz.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where (TargetImage matches "*\\lsass.exe" and (CallTrace matches "*_ctypes.pyd+*" and CallTrace matches "*:\\Windows\\System32\\KERNELBASE.dll+*" and CallTrace matches "*:\\Windows\\SYSTEM32\\ntdll.dll+*") and (CallTrace matches "*python27.dll+*" or CallTrace matches "*python3*.dll+*") and GrantedAccess = "0x1FFFFF")

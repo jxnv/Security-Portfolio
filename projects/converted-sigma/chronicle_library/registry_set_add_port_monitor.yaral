@@ -1,0 +1,24 @@
+// Title: Add Port Monitor Persistence in Registry
+// ID: 944e8941-f6f6-4ee8-ac05-1c224e923c0e
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2021-12-30
+// Tags: attack.privilege-escalation, attack.persistence, attack.t1547.010
+// Description: Adversaries may use port monitors to run an attacker supplied DLL during system boot for persistence or privilege escalation.
+// A port monitor can be set through the AddMonitor API call to set a DLL to be loaded at startup.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 944e8941_f6f6_4ee8_ac05_1c224e923c0e {
+  meta:
+    title = "Add Port Monitor Persistence in Registry"
+    description = "Adversaries may use port monitors to run an attacker supplied DLL during system boot for persistence or privilege escalation. A port monitor can be set through the AddMonitor API call to set a DLL to be loaded at startup."
+    author = "frack113"
+    severity = "MEDIUM"
+
+  events:
+    (($e.TargetObject = /.*\\Control\\Print\\Monitors\\.*/ nocase and $e.Details = /.*.dll$/ nocase) and not((($e.target.process.file.full_path = "C:\\Windows\\System32\\spoolsv.exe" and $e.TargetObject = /.*\\Control\\Print\\Monitors\\CutePDF Writer Monitor v4.0\\Driver.*/ nocase and $e.Details = "cpwmon64_v40.dll" and ($e.target.user.userid = /.*AUTHORI.*/ nocase or $e.target.user.userid = /.*AUTORI.*/ nocase)) or ($e.TargetObject = /.*\\Control\\Print\\Monitors\\MONVNC\\Driver.*/ nocase) or (($e.TargetObject = /.*Control\\Print\\Environments\\.*/ nocase and $e.TargetObject = /.*\\Drivers\\.*/ nocase and $e.TargetObject = /.*\\VNC Printer.*/ nocase)))))
+
+  condition:
+    $e
+}

@@ -1,0 +1,24 @@
+// Title: RegAsm.EXE Execution Without CommandLine Flags or Files
+// ID: 651f87f7-12db-47f9-84c5-f27b081b94b6
+// Status: experimental
+// Level: low
+// Author: frack113
+// Date: 2025-06-04
+// Tags: attack.stealth, attack.t1218.009
+// Description: Detects the execution of "RegAsm.exe" without a commandline flag or file, which might indicate potential process injection activity.
+// Usually "RegAsm.exe" should point to a dedicated DLL file or call the help with the "/?" flag.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 651f87f7_12db_47f9_84c5_f27b081b94b6 {
+  meta:
+    title = "RegAsm.EXE Execution Without CommandLine Flags or Files"
+    description = "Detects the execution of "RegAsm.exe" without a commandline flag or file, which might indicate potential process injection activity. Usually "RegAsm.exe" should point to a dedicated DLL file or call the help with the "/?" flag."
+    author = "frack113"
+    severity = "LOW"
+
+  events:
+    ((($e.target.process.command_line = /.*RegAsm$/ nocase or $e.target.process.command_line = /.*RegAsm.exe$/ nocase or $e.target.process.command_line = /.*RegAsm.exe\"$/ nocase or $e.target.process.command_line = /.*RegAsm.exe'$/ nocase)) and (($e.target.process.file.full_path = /.*\\RegAsm.exe$/ nocase) or ($e.target.process.file.name = "RegAsm.exe")))
+
+  condition:
+    $e
+}

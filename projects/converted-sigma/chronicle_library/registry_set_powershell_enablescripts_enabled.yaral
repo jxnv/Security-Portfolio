@@ -1,0 +1,23 @@
+// Title: PowerShell Script Execution Policy Enabled
+// ID: 8218c875-90b9-42e2-b60d-0b0069816d10
+// Status: test
+// Level: low
+// Author: Nasreddine Bencherchali (Nextron Systems), Thurein Oo
+// Date: 2023-10-18
+// Tags: attack.execution
+// Description: Detects the enabling of the PowerShell script execution policy. Once enabled, this policy allows scripts to be executed.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 8218c875_90b9_42e2_b60d_0b0069816d10 {
+  meta:
+    title = "PowerShell Script Execution Policy Enabled"
+    description = "Detects the enabling of the PowerShell script execution policy. Once enabled, this policy allows scripts to be executed."
+    author = "Nasreddine Bencherchali (Nextron Systems), Thurein Oo"
+    severity = "LOW"
+
+  events:
+    ($e.TargetObject = /.*\\Policies\\Microsoft\\Windows\\PowerShell\\EnableScripts$/ nocase and $e.Details = "DWORD (0x00000001)")
+
+  condition:
+    $e
+}

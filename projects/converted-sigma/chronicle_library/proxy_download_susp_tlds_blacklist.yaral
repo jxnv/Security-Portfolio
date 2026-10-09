@@ -1,0 +1,23 @@
+// Title: Download From Suspicious TLD - Blacklist
+// ID: 00d0b5ab-1f55-4120-8e83-487c0a7baf19
+// Status: test
+// Level: low
+// Author: Florian Roth (Nextron Systems)
+// Date: 2017-11-07
+// Tags: attack.initial-access, attack.t1566, attack.execution, attack.t1203, attack.t1204.002
+// Description: Detects download of certain file types from hosts in suspicious TLDs
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 00d0b5ab_1f55_4120_8e83_487c0a7baf19 {
+  meta:
+    title = "Download From Suspicious TLD - Blacklist"
+    description = "Detects download of certain file types from hosts in suspicious TLDs"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "LOW"
+
+  events:
+    (($e.c-uri-extension = "exe" or $e.c-uri-extension = "vbs" or $e.c-uri-extension = "bat" or $e.c-uri-extension = "rar" or $e.c-uri-extension = "ps1" or $e.c-uri-extension = "doc" or $e.c-uri-extension = "docm" or $e.c-uri-extension = "xls" or $e.c-uri-extension = "xlsm" or $e.c-uri-extension = "pptm" or $e.c-uri-extension = "rtf" or $e.c-uri-extension = "hta" or $e.c-uri-extension = "dll" or $e.c-uri-extension = "ws" or $e.c-uri-extension = "wsf" or $e.c-uri-extension = "sct" or $e.c-uri-extension = "zip") and ($e.cs-host = /.*.country$/ nocase or $e.cs-host = /.*.stream$/ nocase or $e.cs-host = /.*.gdn$/ nocase or $e.cs-host = /.*.mom$/ nocase or $e.cs-host = /.*.xin$/ nocase or $e.cs-host = /.*.kim$/ nocase or $e.cs-host = /.*.men$/ nocase or $e.cs-host = /.*.loan$/ nocase or $e.cs-host = /.*.download$/ nocase or $e.cs-host = /.*.racing$/ nocase or $e.cs-host = /.*.online$/ nocase or $e.cs-host = /.*.science$/ nocase or $e.cs-host = /.*.ren$/ nocase or $e.cs-host = /.*.gb$/ nocase or $e.cs-host = /.*.win$/ nocase or $e.cs-host = /.*.top$/ nocase or $e.cs-host = /.*.review$/ nocase or $e.cs-host = /.*.vip$/ nocase or $e.cs-host = /.*.party$/ nocase or $e.cs-host = /.*.tech$/ nocase or $e.cs-host = /.*.xyz$/ nocase or $e.cs-host = /.*.date$/ nocase or $e.cs-host = /.*.faith$/ nocase or $e.cs-host = /.*.zip$/ nocase or $e.cs-host = /.*.cricket$/ nocase or $e.cs-host = /.*.space$/ nocase or $e.cs-host = /.*.info$/ nocase or $e.cs-host = /.*.vn$/ nocase or $e.cs-host = /.*.cm$/ nocase or $e.cs-host = /.*.am$/ nocase or $e.cs-host = /.*.cc$/ nocase or $e.cs-host = /.*.asia$/ nocase or $e.cs-host = /.*.ws$/ nocase or $e.cs-host = /.*.tk$/ nocase or $e.cs-host = /.*.biz$/ nocase or $e.cs-host = /.*.su$/ nocase or $e.cs-host = /.*.st$/ nocase or $e.cs-host = /.*.ro$/ nocase or $e.cs-host = /.*.ge$/ nocase or $e.cs-host = /.*.ms$/ nocase or $e.cs-host = /.*.pk$/ nocase or $e.cs-host = /.*.nu$/ nocase or $e.cs-host = /.*.me$/ nocase or $e.cs-host = /.*.ph$/ nocase or $e.cs-host = /.*.to$/ nocase or $e.cs-host = /.*.tt$/ nocase or $e.cs-host = /.*.name$/ nocase or $e.cs-host = /.*.tv$/ nocase or $e.cs-host = /.*.kz$/ nocase or $e.cs-host = /.*.tc$/ nocase or $e.cs-host = /.*.mobi$/ nocase or $e.cs-host = /.*.study$/ nocase or $e.cs-host = /.*.click$/ nocase or $e.cs-host = /.*.link$/ nocase or $e.cs-host = /.*.trade$/ nocase or $e.cs-host = /.*.accountant$/ nocase or $e.cs-host = /.*.cf$/ nocase or $e.cs-host = /.*.gq$/ nocase or $e.cs-host = /.*.ml$/ nocase or $e.cs-host = /.*.ga$/ nocase or $e.cs-host = /.*.pw$/ nocase))
+
+  condition:
+    $e
+}

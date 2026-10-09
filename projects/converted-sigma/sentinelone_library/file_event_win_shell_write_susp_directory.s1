@@ -1,0 +1,11 @@
+// Title: Windows Shell/Scripting Application File Write to Suspicious Folder
+// ID: 1277f594-a7d1-4f28-a2d3-73af5cbeab43
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2021-11-20
+// Tags: attack.execution, attack.t1059
+// Description: Detects Windows shells and scripting applications that write files to suspicious folders
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((src.process.image.path endswithCIS "\\bash.exe" OR src.process.image.path endswithCIS "\\cmd.exe" OR src.process.image.path endswithCIS "\\cscript.exe" OR src.process.image.path endswithCIS "\\msbuild.exe" OR src.process.image.path endswithCIS "\\powershell.exe" OR src.process.image.path endswithCIS "\\pwsh.exe" OR src.process.image.path endswithCIS "\\sh.exe" OR src.process.image.path endswithCIS "\\wscript.exe") AND (tgt.file.path startswithCIS "C:\\PerfLogs\\" OR tgt.file.path startswithCIS "C:\\Users\\Public\\")) OR ((src.process.image.path endswithCIS "\\certutil.exe" OR src.process.image.path endswithCIS "\\forfiles.exe" OR src.process.image.path endswithCIS "\\mshta.exe" OR src.process.image.path endswithCIS "\\schtasks.exe" OR src.process.image.path endswithCIS "\\scriptrunner.exe" OR src.process.image.path endswithCIS "\\wmic.exe") AND (tgt.file.path containsCIS "C:\\PerfLogs\\" OR tgt.file.path containsCIS "C:\\Users\\Public\\" OR tgt.file.path containsCIS "C:\\Windows\\Temp\\")))

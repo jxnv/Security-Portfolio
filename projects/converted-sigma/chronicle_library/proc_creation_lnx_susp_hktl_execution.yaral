@@ -1,0 +1,23 @@
+// Title: Linux HackTool Execution
+// ID: a015e032-146d-4717-8944-7a1884122111
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems), Georg Lauenstein (sure[secure])
+// Date: 2023-01-03
+// Tags: attack.execution, attack.resource-development, attack.t1587
+// Description: Detects known hacktool execution based on image name.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule a015e032_146d_4717_8944_7a1884122111 {
+  meta:
+    title = "Linux HackTool Execution"
+    description = "Detects known hacktool execution based on image name."
+    author = "Nasreddine Bencherchali (Nextron Systems), Georg Lauenstein (sure[secure])"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.file.full_path = /.*/cobaltstrike.*/ nocase or $e.target.process.file.full_path = /.*/teamserver.*/ nocase)) or (($e.target.process.file.full_path = /.*/crackmapexec$/ nocase or $e.target.process.file.full_path = /.*/havoc$/ nocase or $e.target.process.file.full_path = /.*/merlin-agent$/ nocase or $e.target.process.file.full_path = /.*/merlinServer-Linux-x64$/ nocase or $e.target.process.file.full_path = /.*/msfconsole$/ nocase or $e.target.process.file.full_path = /.*/msfvenom$/ nocase or $e.target.process.file.full_path = /.*/ps-empire server$/ nocase or $e.target.process.file.full_path = /.*/ps-empire$/ nocase or $e.target.process.file.full_path = /.*/sliver-client$/ nocase or $e.target.process.file.full_path = /.*/sliver-server$/ nocase or $e.target.process.file.full_path = /.*/Villain.py$/ nocase)) or (($e.target.process.file.full_path = /.*/aircrack-ng$/ nocase or $e.target.process.file.full_path = /.*/bloodhound-python$/ nocase or $e.target.process.file.full_path = /.*/bpfdos$/ nocase or $e.target.process.file.full_path = /.*/ebpfki$/ nocase or $e.target.process.file.full_path = /.*/evil-winrm$/ nocase or $e.target.process.file.full_path = /.*/hashcat$/ nocase or $e.target.process.file.full_path = /.*/hoaxshell.py$/ nocase or $e.target.process.file.full_path = /.*/hydra$/ nocase or $e.target.process.file.full_path = /.*/john$/ nocase or $e.target.process.file.full_path = /.*/ncrack$/ nocase or $e.target.process.file.full_path = /.*/nxc-ubuntu-latest$/ nocase or $e.target.process.file.full_path = /.*/pidhide$/ nocase or $e.target.process.file.full_path = /.*/pspy32$/ nocase or $e.target.process.file.full_path = /.*/pspy32s$/ nocase or $e.target.process.file.full_path = /.*/pspy64$/ nocase or $e.target.process.file.full_path = /.*/pspy64s$/ nocase or $e.target.process.file.full_path = /.*/setoolkit$/ nocase or $e.target.process.file.full_path = /.*/sqlmap$/ nocase or $e.target.process.file.full_path = /.*/writeblocker$/ nocase)) or ($e.target.process.file.full_path = /.*/linpeas.*/ nocase) or (($e.target.process.file.full_path = /.*/autorecon$/ nocase or $e.target.process.file.full_path = /.*/httpx$/ nocase or $e.target.process.file.full_path = /.*/legion$/ nocase or $e.target.process.file.full_path = /.*/naabu$/ nocase or $e.target.process.file.full_path = /.*/netdiscover$/ nocase or $e.target.process.file.full_path = /.*/nuclei$/ nocase or $e.target.process.file.full_path = /.*/recon-ng$/ nocase)) or ($e.target.process.file.full_path = /.*/sniper.*/ nocase) or (($e.target.process.file.full_path = /.*/dirb$/ nocase or $e.target.process.file.full_path = /.*/dirbuster$/ nocase or $e.target.process.file.full_path = /.*/eyewitness$/ nocase or $e.target.process.file.full_path = /.*/feroxbuster$/ nocase or $e.target.process.file.full_path = /.*/ffuf$/ nocase or $e.target.process.file.full_path = /.*/gobuster$/ nocase or $e.target.process.file.full_path = /.*/wfuzz$/ nocase or $e.target.process.file.full_path = /.*/whatweb$/ nocase)) or (($e.target.process.file.full_path = /.*/joomscan$/ nocase or $e.target.process.file.full_path = /.*/nikto$/ nocase or $e.target.process.file.full_path = /.*/wpscan$/ nocase)))
+
+  condition:
+    $e
+}

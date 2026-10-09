@@ -1,0 +1,11 @@
+// Title: HackTool - Default PowerSploit/Empire Scheduled Task Creation
+// ID: 56c217c3-2de2-479b-990f-5c109ba8458f
+// Status: test
+// Level: high
+// Author: Markus Neis, @Karneades
+// Date: 2018-03-06
+// Tags: attack.execution, attack.persistence, attack.privilege-escalation, attack.s0111, attack.g0022, attack.g0060, car.2013-08-001, attack.t1053.005, attack.t1059.001
+// Description: Detects the creation of a schtask via PowerSploit or Empire Default Configuration.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where ((process.parent.executable endswith "\\powershell.exe" or process.parent.executable endswith "\\pwsh.exe") and process.executable endswith "\\schtasks.exe" and (process.command_line like "*_/Create*" and process.command_line like "*_powershell.exe -NonI*" and process.command_line like "*_/TN Updater /TR*") and (process.command_line like "*_/SC ONLOGON*" or process.command_line like "*_/SC DAILY /ST*" or process.command_line like "*_/SC ONIDLE*" or process.command_line like "*_/SC HOURLY*"))

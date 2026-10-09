@@ -1,0 +1,23 @@
+// Title: WSL Kali-Linux Usage
+// ID: 6f1a11aa-4b8a-4b7f-9e13-4d3e4ff0e0d4
+// Status: experimental
+// Level: high
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-10-10
+// Tags: attack.stealth, attack.t1202
+// Description: Detects the use of Kali Linux through Windows Subsystem for Linux
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 6f1a11aa_4b8a_4b7f_9e13_4d3e4ff0e0d4 {
+  meta:
+    title = "WSL Kali-Linux Usage"
+    description = "Detects the use of Kali Linux through Windows Subsystem for Linux"
+    author = "Swachchhanda Shrawan Poudel (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((((($e.target.process.file.full_path = /.*:\\Users\\.*/ nocase and $e.target.process.file.full_path = /.*\\AppData\\Local\\packages\\KaliLinux.*/ nocase)) or (($e.target.process.file.full_path = /.*:\\Users\\.*/ nocase and $e.target.process.file.full_path = /.*\\AppData\\Local\\Microsoft\\WindowsApps\\kali.exe.*/ nocase))) or ($e.target.process.file.full_path = /.*:\\Program Files\\WindowsApps\\KaliLinux..*/ nocase and $e.target.process.file.full_path = /.*\\kali.exe$/ nocase)) or ((((($e.target.process.file.full_path = /.*\\kali.exe.*/ nocase or $e.target.process.file.full_path = /.*\\KaliLinux.*/ nocase)) or (($e.target.process.command_line = /.*Kali.exe.*/ nocase or $e.target.process.command_line = /.*Kali-linux.*/ nocase or $e.target.process.command_line = /.*kalilinux.*/ nocase))) and (($e.principal.process.file.full_path = /.*\\wsl.exe$/ nocase or $e.principal.process.file.full_path = /.*\\wslhost.exe$/ nocase))) and not((($e.target.process.command_line = /.* -i .*/ nocase or $e.target.process.command_line = /.* --install .*/ nocase or $e.target.process.command_line = /.* --unregister .*/ nocase)))))
+
+  condition:
+    $e
+}

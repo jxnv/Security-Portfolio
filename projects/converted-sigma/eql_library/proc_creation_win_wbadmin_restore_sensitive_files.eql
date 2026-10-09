@@ -1,0 +1,12 @@
+// Title: Sensitive File Recovery From Backup Via Wbadmin.EXE
+// ID: 84972c80-251c-4c3a-9079-4f00aad93938
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems), frack113
+// Date: 2024-05-10
+// Tags: attack.credential-access, attack.t1003.003
+// Description: Detects the dump of highly sensitive files such as "NTDS.DIT" and "SECURITY" hive.
+// Attackers can leverage the "wbadmin" utility in order to dump sensitive files that might contain credential or sensitive information.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where (((process.command_line like "*_ recovery*" and process.command_line like "*_recoveryTarget*" and process.command_line like "*_itemtype:File*") and (process.command_line like "*_\\config\\SAM*" or process.command_line like "*_\\config\\SECURITY*" or process.command_line like "*_\\config\\SYSTEM*" or process.command_line like "*_\\Windows\\NTDS\\NTDS.dit*")) and ((process.executable endswith "\\wbadmin.exe") or (process.pe.original_file_name == "WBADMIN.EXE")))

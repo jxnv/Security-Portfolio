@@ -1,0 +1,11 @@
+-- Title: Potential RjvPlatform.DLL Sideloading From Non-Default Location
+-- ID: 0e0bc253-07ed-43f1-816d-e1b220fe8971
+-- Status: test
+-- Level: high
+-- Author: X__Junior (Nextron Systems)
+-- Date: 2023-06-09
+-- Tags: attack.persistence, attack.privilege-escalation, attack.execution, attack.stealth, attack.t1574.001
+-- Description: Detects potential DLL sideloading of "RjvPlatform.dll" by "SystemResetPlatform.exe" located in a non-default location.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE ((ImageLoaded ILIKE '%\\RjvPlatform.dll' AND Image = '\\SystemResetPlatform.exe') AND NOT ((Image ILIKE 'C:\\Windows\\System32\\SystemResetPlatform\\%')))

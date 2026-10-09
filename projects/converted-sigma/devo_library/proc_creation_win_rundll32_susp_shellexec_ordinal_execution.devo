@@ -1,0 +1,12 @@
+// Title: Suspicious ShellExec_RunDLL Call Via Ordinal
+// ID: 8823e85d-31d8-473e-b7f4-92da070f0fc6
+// Status: test
+// Level: high
+// Author: Swachchhanda Shrawan Poudel
+// Date: 2024-12-01
+// Tags: attack.stealth, attack.t1218.011
+// Description: Detects suspicious call to the "ShellExec_RunDLL" exported function of SHELL32.DLL through the ordinal number to launch other commands.
+// Adversary might only use the ordinal number in order to bypass existing detection that alert on usage of ShellExec_RunDLL on CommandLine.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+from siem.events where (((contains(ParentCommandLine, "SHELL32.DLL")) AND ((contains(ParentCommandLine, "#568") OR contains(ParentCommandLine, "#570") OR contains(ParentCommandLine, "#572") OR contains(ParentCommandLine, "#576")))) AND (((Image="*\\bash.exe" OR Image="*\\bitsadmin.exe" OR Image="*\\cmd.exe" OR Image="*\\cscript.exe" OR Image="*\\curl.exe" OR Image="*\\mshta.exe" OR Image="*\\msiexec.exe" OR Image="*\\msxsl.exe" OR Image="*\\odbcconf.exe" OR Image="*\\powershell.exe" OR Image="*\\pwsh.exe" OR Image="*\\regsvr32.exe" OR Image="*\\schtasks.exe" OR Image="*\\wmic.exe" OR Image="*\\wscript.exe")) OR (((contains(ParentCommandLine, "comspec") OR contains(ParentCommandLine, "iex") OR contains(ParentCommandLine, "Invoke-") OR contains(ParentCommandLine, "msiexec") OR contains(ParentCommandLine, "odbcconf") OR contains(ParentCommandLine, "regsvr32"))) OR ((contains(ParentCommandLine, "\\Desktop\\") OR contains(ParentCommandLine, "\\ProgramData\\") OR contains(ParentCommandLine, "\\Temp\\") OR contains(ParentCommandLine, "\\Users\\Public\\"))))))

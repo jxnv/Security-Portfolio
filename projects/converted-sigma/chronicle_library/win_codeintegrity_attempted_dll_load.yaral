@@ -1,0 +1,24 @@
+// Title: CodeIntegrity - Unmet Signing Level Requirements By File Under Validation
+// ID: f8931561-97f5-4c46-907f-0a4a592e47a7
+// Status: experimental
+// Level: low
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-01-20
+// Tags: attack.execution
+// Description: Detects attempted file load events that did not meet the signing level requirements. It often means the file's signature is revoked or a signature with the Lifetime Signing EKU has expired.
+// This event is best correlated with EID 3089 to determine the error of the validation.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule f8931561_97f5_4c46_907f_0a4a592e47a7 {
+  meta:
+    title = "CodeIntegrity - Unmet Signing Level Requirements By File Under Validation"
+    description = "Detects attempted file load events that did not meet the signing level requirements. It often means the file's signature is revoked or a signature with the Lifetime Signing EKU has expired. This event is best correlated with EID 3089 to determine the error of the validation."
+    author = "Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)"
+    severity = "LOW"
+
+  events:
+    ((($e.EventID = 3033 or $e.EventID = 3034)) and not(($e.FileNameBuffer = /.*\\Windows\\assembly\\GAC\\.*/ nocase and $e.ProcessNameBuffer = /.*\\mscorsvw.exe$/ nocase and $e.ProcessNameBuffer = /.*\\Windows\\Microsoft.NET\\.*/ nocase and $e.RequestedPolicy = 8)) and not((($e.FileNameBuffer = /.*\\Windows\\System32\\DriverStore\\FileRepository\\.*/ nocase and $e.FileNameBuffer = /.*\\igd10iumd64.dll$/ nocase and $e.RequestedPolicy = 7) or (($e.FileNameBuffer = /.*\\Program Files\\Avast Software\\Avast\\aswAMSI.dll$/ nocase or $e.FileNameBuffer = /.*\\Program Files (x86)\\Avast Software\\Avast\\aswAMSI.dll$/ nocase) and ($e.RequestedPolicy = 8 or $e.RequestedPolicy = 12)) or ($e.FileNameBuffer = /.*\\Program Files\\Bonjour\\mdnsNSP.dll$/ nocase and ($e.ProcessNameBuffer = /.*\\Windows\\System32\\svchost.exe$/ nocase or $e.ProcessNameBuffer = /.*\\Windows\\System32\\SIHClient.exe$/ nocase) and ($e.RequestedPolicy = 8 or $e.RequestedPolicy = 12)) or ($e.FileNameBuffer = /.*\\Program Files\\comodo\\comodo internet security\\amsiprovider_x64.dll$/ nocase) or ($e.FileNameBuffer = /.*\\Program Files\\DTrace\\dtrace.dll$/ nocase and $e.ProcessNameBuffer = /.*\\Windows\\System32\\svchost.exe$/ nocase and $e.RequestedPolicy = 12) or ($e.FileNameBuffer = /.*\\Windows\\System32\\nvspcap64.dll$/ nocase and ($e.ProcessNameBuffer = /.*\\AppData\\Local\\Keybase\\Gui\\Keybase.exe$/ nocase or $e.ProcessNameBuffer = /.*\\Microsoft\\Teams\\stage\\Teams.exe$/ nocase) and $e.RequestedPolicy = 8) or ($e.FileNameBuffer = /.*\\Program Files\\ESET\\ESET Security\\eamsi.dll$/ nocase) or (($e.FileNameBuffer = /.*\\Mozilla Firefox\\mozavcodec.dll$/ nocase or $e.FileNameBuffer = /.*\\Mozilla Firefox\\mozavutil.dll$/ nocase) and $e.ProcessNameBuffer = /.*\\Mozilla Firefox\\firefox.exe$/ nocase and $e.RequestedPolicy = 8) or ($e.FileNameBuffer = /.*\\Program Files\\Google\\Drive File Stream\\.*/ nocase and $e.FileNameBuffer = /.*\\crashpad_handler.exe$/ nocase and $e.ProcessNameBuffer = /.*\\Windows\\ImmersiveControlPanel\\SystemSettings.exe$/ nocase and $e.RequestedPolicy = 8) or ((($e.ProcessNameBuffer = /.*\\Kaspersky Lab\\.*/ nocase and $e.ProcessNameBuffer = /.*\\avp.exe.*/ nocase)) or (($e.FileNameBuffer = /.*\\Kaspersky Lab\\.*/ nocase and $e.FileNameBuffer = /.*\\antimalware_provider.dll.*/ nocase))) or (($e.FileNameBuffer = /.*\\Program Files\\McAfee\\Endpoint Security\\Threat Prevention\\MfeAmsiProvider.dll$/ nocase or $e.FileNameBuffer = /.*\\Program Files\\McAfee\\MfeAV\\AMSIExt.dll$/ nocase)) or ($e.FileNameBuffer = /.*\\Program Files\\National Instruments\\Shared\\mDNS Responder\\nimdnsNSP.dll $/ nocase) or ($e.FileNameBuffer = /.*\\Microsoft Office\\root\\vfs\\ProgramFilesCommonX64\\Microsoft Shared\\OFFICE.*/ nocase and $e.FileNameBuffer = /.*\\MSOXMLMF.DLL$/ nocase and $e.RequestedPolicy = 7) or ($e.ProcessNameBuffer = /.*\\Program Files\\Microsoft Office\\root\\vfs\\ProgramFilesCommonX64\\Microsoft Shared\\Office.*/ nocase and $e.FileNameBuffer = /.*\\Windows\\System32\\.*/ nocase and $e.RequestedPolicy = 8) or ($e.FileNameBuffer = /.*\\National Instruments\\Shared\\mDNS Responder\\.*/ nocase) or (($e.FileNameBuffer = /.*\\Program Files\\SentinelOne\\Sentinel Agent.*/ nocase) or ($e.ProcessNameBuffer = /.*\\Program Files\\SentinelOne\\Sentinel Agent.*/ nocase)) or ($e.FileNameBuffer = /.*\\Windows\\System32\\nvspcap64.dll$/ nocase and $e.ProcessNameBuffer = /.*\\AppData\\Local\\slack\\app-.*/ nocase and $e.ProcessNameBuffer = /.*\\slack.exe$/ nocase and $e.RequestedPolicy = 8) or ($e.FileNameBuffer = /.*\\Trend Micro\\Client Server Security Agent\\perficrcperfmonmgr.dll$/ nocase and $e.RequestedPolicy = 8))))
+
+  condition:
+    $e
+}

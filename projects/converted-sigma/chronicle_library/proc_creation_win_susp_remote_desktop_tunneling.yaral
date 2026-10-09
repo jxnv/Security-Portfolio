@@ -1,0 +1,23 @@
+// Title: Potential Remote Desktop Tunneling
+// ID: 8a3038e8-9c9d-46f8-b184-66234a160f6f
+// Status: test
+// Level: medium
+// Author: Tim Rauch, Elastic (idea)
+// Date: 2022-09-27
+// Tags: attack.lateral-movement, attack.t1021
+// Description: Detects potential use of an SSH utility to establish RDP over a reverse SSH Tunnel. This can be used by attackers to enable routing of network packets that would otherwise not reach their intended destination.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 8a3038e8_9c9d_46f8_b184_66234a160f6f {
+  meta:
+    title = "Potential Remote Desktop Tunneling"
+    description = "Detects potential use of an SSH utility to establish RDP over a reverse SSH Tunnel. This can be used by attackers to enable routing of network packets that would otherwise not reach their intended destination."
+    author = "Tim Rauch, Elastic (idea)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.process.command_line = /.*:3389.*/ nocase) and (($e.target.process.command_line = /.* -L .*/ nocase or $e.target.process.command_line = /.* -P .*/ nocase or $e.target.process.command_line = /.* -R .*/ nocase or $e.target.process.command_line = /.* -pw .*/ nocase or $e.target.process.command_line = /.* -ssh .*/ nocase)))
+
+  condition:
+    $e
+}

@@ -1,0 +1,11 @@
+# Title: Suspicious PowerShell Invocations - Specific
+# ID: ae7fbf8e-f3cb-49fd-8db4-5f3bed522c71
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems), Jonhnathan Ribeiro
+# Date: 2017-03-05
+# Tags: attack.execution, attack.t1059.001
+# Description: Detects suspicious PowerShell invocation command parameters
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((((ScriptBlockText CONTAIN "-nop" AND ScriptBlockText CONTAIN " -w " AND ScriptBlockText CONTAIN "hidden" AND ScriptBlockText CONTAIN " -c " AND ScriptBlockText CONTAIN "[Convert]::FromBase64String")) OR ((ScriptBlockText CONTAIN " -w " AND ScriptBlockText CONTAIN "hidden" AND ScriptBlockText CONTAIN "-ep" AND ScriptBlockText CONTAIN "bypass" AND ScriptBlockText CONTAIN "-Enc")) OR ((ScriptBlockText CONTAIN " -w " AND ScriptBlockText CONTAIN "hidden" AND ScriptBlockText CONTAIN "-noni" AND ScriptBlockText CONTAIN "-nop" AND ScriptBlockText CONTAIN " -c " AND ScriptBlockText CONTAIN "iex" AND ScriptBlockText CONTAIN "New-Object")) OR ((ScriptBlockText CONTAIN "iex" AND ScriptBlockText CONTAIN "New-Object" AND ScriptBlockText CONTAIN "Net.WebClient" AND ScriptBlockText CONTAIN ".Download")) OR ((ScriptBlockText CONTAIN "powershell" AND ScriptBlockText CONTAIN "reg" AND ScriptBlockText CONTAIN "add") AND (ScriptBlockText CONTAIN "\\software\\microsoft\\windows\\currentversion\\run" OR ScriptBlockText CONTAIN "\\software\\wow6432node\\microsoft\\windows\\currentversion\\run" OR ScriptBlockText CONTAIN "\\software\\microsoft\\windows\\currentversion\\policies\\explorer\\run")) OR ((ScriptBlockText CONTAIN "bypass" AND ScriptBlockText CONTAIN "-noprofile" AND ScriptBlockText CONTAIN "-windowstyle" AND ScriptBlockText CONTAIN "hidden" AND ScriptBlockText CONTAIN "new-object" AND ScriptBlockText CONTAIN "system.net.webclient" AND ScriptBlockText CONTAIN ".download"))) AND NOT (((ScriptBlockText CONTAIN "(New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1" OR ScriptBlockText CONTAIN "(New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1')" OR ScriptBlockText CONTAIN "Write-ChocolateyWarning"))))

@@ -1,0 +1,11 @@
+// Title: Suspicious Scheduled Task Update
+// ID: 614cf376-6651-47c4-9dcc-6b9527f749f4
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-12-05
+// Tags: attack.execution, attack.privilege-escalation, attack.persistence, attack.t1053.005
+// Description: Detects update to a scheduled task event that contain suspicious keywords.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE (((TaskContentNew LIKE "%regsvr32%" OR TaskContentNew LIKE "%rundll32%" OR TaskContentNew LIKE "%cmd.exe</Command>%" OR TaskContentNew LIKE "%cmd</Command>%" OR TaskContentNew LIKE "%<Arguments>/c %" OR TaskContentNew LIKE "%<Arguments>/k %" OR TaskContentNew LIKE "%<Arguments>/r %" OR TaskContentNew LIKE "%powershell%" OR TaskContentNew LIKE "%pwsh%" OR TaskContentNew LIKE "%mshta%" OR TaskContentNew LIKE "%wscript%" OR TaskContentNew LIKE "%cscript%" OR TaskContentNew LIKE "%certutil%" OR TaskContentNew LIKE "%bitsadmin%" OR TaskContentNew LIKE "%bash.exe%" OR TaskContentNew LIKE "%bash %" OR TaskContentNew LIKE "%scrcons%" OR TaskContentNew LIKE "%wmic %" OR TaskContentNew LIKE "%wmic.exe%" OR TaskContentNew LIKE "%forfiles%" OR TaskContentNew LIKE "%scriptrunner%" OR TaskContentNew LIKE "%hh.exe%")) AND (winlog.event_id == 4702) AND ((TaskContentNew LIKE "%\\AppData\\Local\\Temp\\%" OR TaskContentNew LIKE "%\\AppData\\Roaming\\%" OR TaskContentNew LIKE "%\\Users\\Public\\%" OR TaskContentNew LIKE "%\\WINDOWS\\Temp\\%" OR TaskContentNew LIKE "%C:\\Temp\\%" OR TaskContentNew LIKE "%\\Desktop\\%" OR TaskContentNew LIKE "%\\Downloads\\%" OR TaskContentNew LIKE "%\\Temporary Internet%" OR TaskContentNew LIKE "%C:\\ProgramData\\%" OR TaskContentNew LIKE "%C:\\Perflogs\\%")))

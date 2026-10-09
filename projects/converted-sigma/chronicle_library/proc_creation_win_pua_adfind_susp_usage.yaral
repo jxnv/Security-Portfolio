@@ -1,0 +1,23 @@
+// Title: PUA - AdFind Suspicious Execution
+// ID: 9a132afa-654e-11eb-ae93-0242ac130002
+// Status: test
+// Level: high
+// Author: Janantha Marasinghe (https://github.com/blueteam0ps), FPT.EagleEye Team, omkar72, oscd.community
+// Date: 2021-02-02
+// Tags: attack.discovery, attack.t1018, attack.t1087.002, attack.t1482, attack.t1069.002, stp.1u
+// Description: Detects AdFind execution with common flags seen used during attacks
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 9a132afa_654e_11eb_ae93_0242ac130002 {
+  meta:
+    title = "PUA - AdFind Suspicious Execution"
+    description = "Detects AdFind execution with common flags seen used during attacks"
+    author = "Janantha Marasinghe (https://github.com/blueteam0ps), FPT.EagleEye Team, omkar72, oscd.community"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.command_line = /.*domainlist.*/ nocase or $e.target.process.command_line = /.*trustdmp.*/ nocase or $e.target.process.command_line = /.*dcmodes.*/ nocase or $e.target.process.command_line = /.*adinfo.*/ nocase or $e.target.process.command_line = /.*-sc dclist.*/ nocase or $e.target.process.command_line = /.*computer_pwdnotreqd.*/ nocase or $e.target.process.command_line = /.*objectcategory=.*/ nocase or $e.target.process.command_line = /.*-subnets -f.*/ nocase or $e.target.process.command_line = /.*name=\"Domain Admins\".*/ nocase or $e.target.process.command_line = /.*-sc u:.*/ nocase or $e.target.process.command_line = /.*domainncs.*/ nocase or $e.target.process.command_line = /.*dompol.*/ nocase or $e.target.process.command_line = /.* oudmp .*/ nocase or $e.target.process.command_line = /.*subnetdmp.*/ nocase or $e.target.process.command_line = /.*gpodmp.*/ nocase or $e.target.process.command_line = /.*fspdmp.*/ nocase or $e.target.process.command_line = /.*users_noexpire.*/ nocase or $e.target.process.command_line = /.*computers_active.*/ nocase or $e.target.process.command_line = /.*computers_pwdnotreqd.*/ nocase))
+
+  condition:
+    $e
+}

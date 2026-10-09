@@ -1,0 +1,11 @@
+// Title: Recon Information for Export with Command Prompt
+// ID: aa2efee7-34dd-446e-8a37-40790a66efd7
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2021-07-30
+// Tags: attack.collection, attack.t1119
+// Description: Once established within a system or network, an adversary may use automated techniques for collecting internal data.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE ((((process.executable LIKE "%\\tree.com" OR process.executable LIKE "%\\WMIC.exe" OR process.executable LIKE "%\\doskey.exe" OR process.executable LIKE "%\\sc.exe")) OR ((process.pe.original_file_name == "wmic.exe" OR process.pe.original_file_name == "DOSKEY.EXE" OR process.pe.original_file_name == "sc.exe"))) AND ((process.parent.command_line LIKE "% > %TEMP%\\%" OR process.parent.command_line LIKE "% > %TMP%\\%")))

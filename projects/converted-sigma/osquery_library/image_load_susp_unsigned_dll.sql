@@ -1,0 +1,12 @@
+-- Title: Unsigned DLL Loaded by Windows Utility
+-- ID: b5de0c9a-6f19-43e0-af4e-55ad01f550af
+-- Status: test
+-- Level: medium
+-- Author: Swachchhanda Shrawan Poudel
+-- Date: 2024-02-28
+-- Tags: attack.stealth, attack.t1218.011, attack.t1218.010
+-- Description: Detects windows utilities loading an unsigned or untrusted DLL.
+-- Adversaries often abuse those programs to proxy execution of malicious code.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM file WHERE (((Image="*\\InstallUtil.exe" OR Image="*\\RegAsm.exe" OR Image="*\\RegSvcs.exe" OR Image="*\\regsvr32.exe" OR Image="*\\rundll32.exe")) AND NOT ((((Image="C:\\Windows\\SysWOW64\\*" OR Image="C:\\Windows\\System32\\*" OR Image="C:\\Windows\\Microsoft.NET\\Framework64*") AND Image="*\\RegAsm.exe" AND ImageLoaded="*.dll" AND ImageLoaded="C:\\Windows\\assembly\\NativeImages*") OR ((SignatureStatus = 'errorChaining' OR SignatureStatus = 'errorCode_endpoint' OR SignatureStatus = 'errorExpired' OR SignatureStatus = 'trusted' OR SignatureStatus = 'Valid')) OR ((SignatureStatus = '' OR SignatureStatus = '-')) OR (NOT SignatureStatus=*) OR (Signed = 'true') OR ((Signed = '' OR Signed = '-')) OR (NOT Signed=*) OR ((Image = 'C:\\Windows\\SysWOW64\\rundll32.exe' OR Image = 'C:\\Windows\\System32\\rundll32.exe') AND ImageLoaded="C:\\Windows\\Installer\\*" AND (ImageLoaded="*.tmp-\\Microsoft.Deployment.WindowsInstaller.dll" OR ImageLoaded="*.tmp-\\Avira.OE.Setup.CustomActions.dll")))) AND NOT (((Image = 'C:\\Windows\\SysWOW64\\regsvr32.exe' OR Image = 'C:\\Windows\\System32\\regsvr32.exe') AND (ImageLoaded="C:\\Program Files (x86)\\K-Lite Codec Pack\\*" OR ImageLoaded="C:\\Program Files\\K-Lite Codec Pack\\*"))))

@@ -1,0 +1,11 @@
+# Title: Important Scheduled Task Deleted/Disabled
+# ID: 7595ba94-cf3b-4471-aa03-4f6baa9e5fad
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-12-05
+# Tags: attack.execution, attack.privilege-escalation, attack.persistence, attack.t1053.005
+# Description: Detects when adversaries stop services or processes by deleting or disabling their respective scheduled tasks in order to conduct data destructive activities
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((EventID = "4699" OR EventID = "4701") AND (TaskName CONTAIN "\\Windows\\SystemRestore\\SR" OR TaskName CONTAIN "\\Windows\\Windows Defender\\" OR TaskName CONTAIN "\\Windows\\BitLocker" OR TaskName CONTAIN "\\Windows\\WindowsBackup\\" OR TaskName CONTAIN "\\Windows\\WindowsUpdate\\" OR TaskName CONTAIN "\\Windows\\UpdateOrchestrator\\Schedule" OR TaskName CONTAIN "\\Windows\\ExploitGuard")) AND NOT ((EventID = "4699" AND SubjectUserName="*$" AND TaskName CONTAIN "\\Windows\\Windows Defender\\")))

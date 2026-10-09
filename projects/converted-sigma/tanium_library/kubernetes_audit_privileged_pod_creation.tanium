@@ -1,0 +1,13 @@
+# Title: Privileged Container Deployed
+# ID: c5cd1b20-36bb-488d-8c05-486be3d0cb97
+# Status: test
+# Level: low
+# Author: Leo Tsaousis (@laripping)
+# Date: 2024-03-26
+# Tags: attack.t1611, attack.privilege-escalation
+# Description: Detects the creation of a "privileged" container, an action which could be indicative of a threat actor mounting a container breakout attacks.
+# A privileged container is a container that can access the host with all of the root capabilities of the host machine. This allows it to view, interact and modify processes, network operations, IPC calls, the file system, mount points, SELinux configurations etc. as the root user on the host.
+# Various versions of "privileged" containers can be specified, e.g. by setting the securityContext.privileged flag in the resource specification, setting non-standard Linux capabilities, or configuring the hostNetwork/hostPID fields
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(verb equals "create" AND objectRef.resource equals "pods" AND capabilities equals "*")

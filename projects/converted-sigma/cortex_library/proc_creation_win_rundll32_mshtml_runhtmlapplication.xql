@@ -1,0 +1,11 @@
+// Title: Mshtml.DLL RunHTMLApplication Suspicious Usage
+// ID: 4782eb5a-a513-4523-a0ac-f3082b26ac5c
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems),  Florian Roth (Nextron Systems), Josh Nickels, frack113, Zaw Min Htun (ZETA)
+// Date: 2022-08-14
+// Tags: attack.execution, attack.stealth
+// Description: Detects execution of commands that leverage the "mshtml.dll" RunHTMLApplication export to run arbitrary code via different protocol handlers (vbscript, javascript, file, http...)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter ((action_process_image_command_line contains "\\..\\" and action_process_image_command_line contains "mshtml") and (action_process_image_command_line contains "#135" or action_process_image_command_line contains "RunHTMLApplication"))

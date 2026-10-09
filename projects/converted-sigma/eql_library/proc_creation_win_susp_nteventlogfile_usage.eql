@@ -1,0 +1,11 @@
+// Title: Potentially Suspicious Call To Win32_NTEventlogFile Class
+// ID: caf201a9-c2ce-4a26-9c3a-2b9525413711
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-07-13
+// Tags: attack.defense-impairment
+// Description: Detects usage of the WMI class "Win32_NTEventlogFile" in a potentially suspicious way (delete, backup, change permissions, etc.) from a PowerShell script
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where ((process.command_line like "*_Win32_NTEventlogFile*") and ((process.command_line like "*_.BackupEventlog(*" or process.command_line like "*_.ChangeSecurityPermissions(*" or process.command_line like "*_.ChangeSecurityPermissionsEx(*" or process.command_line like "*_.ClearEventLog(*" or process.command_line like "*_.Delete(*" or process.command_line like "*_.DeleteEx(*" or process.command_line like "*_.Rename(*" or process.command_line like "*_.TakeOwnerShip(*" or process.command_line like "*_.TakeOwnerShipEx(*")))

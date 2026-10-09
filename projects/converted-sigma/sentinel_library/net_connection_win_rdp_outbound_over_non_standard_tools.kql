@@ -1,0 +1,12 @@
+// Title: Outbound RDP Connections Over Non-Standard Tools
+// ID: ed74fe75-7594-4b4b-ae38-e38e3fd2eb23
+// Status: test
+// Level: high
+// Author: Markus Neis
+// Date: 2019-05-15
+// Tags: attack.lateral-movement, attack.t1021.001, car.2013-07-002
+// Description: Detects Non-Standard tools initiating a connection over port 3389 indicating possible lateral movement.
+// An initial baseline is required before using this utility to exclude third party RDP tooling that you might use.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+DeviceProcessEvents | where ((RemotePort == 3389 and Initiated == "true") and not(((FolderPath == "C:\\Windows\\System32\\mstsc.exe" or FolderPath == "C:\\Windows\\SysWOW64\\mstsc.exe"))) and not((((FolderPath endswith "\\Avast Software\\Avast\\AvastSvc.exe" or FolderPath endswith "\\Avast\\AvastSvc.exe")) or (FolderPath == "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe") or (FolderPath == "C:\\Windows\\System32\\dns.exe" and LocalPort == 53 and Protocol == "udp") or (FolderPath == "") or (FolderPath == "C:\\Program Files\\Mozilla Firefox\\firefox.exe") or ((isempty(FolderPath) or isnull(FolderPath))) or (FolderPath endswith "\\Ranger\\SentinelRanger.exe") or (FolderPath startswith "C:\\Program Files\\SplunkUniversalForwarder\\bin\\") or (FolderPath endswith "\\RDCMan.exe") or ((FolderPath endswith "\\FSAssessment.exe" or FolderPath endswith "\\FSDiscovery.exe" or FolderPath endswith "\\MobaRTE.exe" or FolderPath endswith "\\mRemote.exe" or FolderPath endswith "\\mRemoteNG.exe" or FolderPath endswith "\\Passwordstate.exe" or FolderPath endswith "\\RemoteDesktopManager.exe" or FolderPath endswith "\\RemoteDesktopManager64.exe" or FolderPath endswith "\\RemoteDesktopManagerFree.exe" or FolderPath endswith "\\RSSensor.exe" or FolderPath endswith "\\RTS2App.exe" or FolderPath endswith "\\RTSApp.exe" or FolderPath endswith "\\spiceworks-finder.exe" or FolderPath endswith "\\Terminals.exe" or FolderPath endswith "\\ws_TunnelService.exe")) or ((FolderPath endswith "\\thor.exe" or FolderPath endswith "\\thor64.exe")) or ((FolderPath == "C:\\Program Files\\TSplus\\Java\\bin\\HTML5service.exe" or FolderPath == "C:\\Program Files (x86)\\TSplus\\Java\\bin\\HTML5service.exe")) or (FolderPath == "<unknown process>"))))

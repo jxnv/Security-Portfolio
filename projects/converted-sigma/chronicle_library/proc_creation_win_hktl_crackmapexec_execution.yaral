@@ -1,0 +1,23 @@
+// Title: HackTool - CrackMapExec Execution
+// ID: 42a993dd-bb3e-48c8-b372-4d6684c4106c
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-02-25
+// Tags: attack.execution, attack.persistence, attack.privilege-escalation, attack.credential-access, attack.discovery, attack.t1047, attack.t1053, attack.t1059.003, attack.t1059.001, attack.t1110, attack.t1201
+// Description: This rule detect common flag combinations used by CrackMapExec in order to detect its use even if the binary has been replaced.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 42a993dd_bb3e_48c8_b372_4d6684c4106c {
+  meta:
+    title = "HackTool - CrackMapExec Execution"
+    description = "This rule detect common flag combinations used by CrackMapExec in order to detect its use even if the binary has been replaced."
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.file.full_path = /.*\\crackmapexec.exe$/ nocase) or (($e.target.process.command_line = /.* --local-auth.*/ nocase and $e.target.process.command_line = /.* -u .*/ nocase and $e.target.process.command_line = /.* -x .*/ nocase)) or (($e.target.process.command_line = /.* --local-auth.*/ nocase and $e.target.process.command_line = /.* -u .*/ nocase and $e.target.process.command_line = /.* -p .*/ nocase and $e.target.process.command_line = /.* -H 'NTHASH'.*/ nocase)) or (($e.target.process.command_line = /.* mssql .*/ nocase and $e.target.process.command_line = /.* -u .*/ nocase and $e.target.process.command_line = /.* -p .*/ nocase and $e.target.process.command_line = /.* -M .*/ nocase and $e.target.process.command_line = /.* -d .*/ nocase)) or (($e.target.process.command_line = /.* smb .*/ nocase and $e.target.process.command_line = /.* -u .*/ nocase and $e.target.process.command_line = /.* -H .*/ nocase and $e.target.process.command_line = /.* -M .*/ nocase and $e.target.process.command_line = /.* -o .*/ nocase)) or (($e.target.process.command_line = /.* smb .*/ nocase and $e.target.process.command_line = /.* -u .*/ nocase and $e.target.process.command_line = /.* -p .*/ nocase and $e.target.process.command_line = /.* --local-auth.*/ nocase)) or ($e.target.process.command_line = /.* -M pe_inject .*/ nocase)) or ((($e.target.process.command_line = /.* --local-auth.*/ nocase and $e.target.process.command_line = /.* -u .*/ nocase and $e.target.process.command_line = /.* -p .*/ nocase)) and (($e.target.process.command_line = /.* 10..*/ nocase and $e.target.process.command_line = /.* 192.168..*/ nocase and $e.target.process.command_line = /.*/24 .*/ nocase))))
+
+  condition:
+    $e
+}

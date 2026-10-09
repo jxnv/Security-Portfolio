@@ -1,0 +1,11 @@
+// Title: Windows Binaries Write Suspicious Extensions
+// ID: b8fd0e93-ff58-4cbd-8f48-1c114e342e62
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-12
+// Tags: attack.stealth, attack.t1036
+// Description: Detects Windows executables that write files with suspicious extensions
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+file where ((((process.executable endswith "\\csrss.exe" or process.executable endswith "\\lsass.exe" or process.executable endswith "\\RuntimeBroker.exe" or process.executable endswith "\\sihost.exe" or process.executable endswith "\\smss.exe" or process.executable endswith "\\wininit.exe" or process.executable endswith "\\winlogon.exe") and (file.path endswith ".bat" or file.path endswith ".dll" or file.path endswith ".exe" or file.path endswith ".hta" or file.path endswith ".iso" or file.path endswith ".ps1" or file.path endswith ".txt" or file.path endswith ".vbe" or file.path endswith ".vbs")) or ((process.executable endswith "\\dllhost.exe" or process.executable endswith "\\rundll32.exe" or process.executable endswith "\\svchost.exe") and (file.path endswith ".bat" or file.path endswith ".hta" or file.path endswith ".iso" or file.path endswith ".ps1" or file.path endswith ".vbe" or file.path endswith ".vbs"))) and not (((process.executable == "C:\\Windows\\System32\\dllhost.exe" and (file.path like "*_:\\Users\\*" and file.path like "*_\\AppData\\Local\\Temp\\__PSScriptPolicyTest_*") and file.path endswith ".ps1") or (process.executable == "C:\\Windows\\system32\\svchost.exe" and (file.path like "*_C:\\Program Files\\WindowsApps\\Clipchamp*" and file.path like "*_.ps1*")) or ((process.executable == "C:\\Windows\\system32\\svchost.exe" or process.executable == "C:\\Windows\\SysWOW64\\svchost.exe") and (file.path startswith "C:\\Program Files\\WindowsApps\\Microsoft.PowerShellPreview" or file.path startswith "C:\\Program Files (x86)\\WindowsApps\\Microsoft.PowerShellPreview") and file.path endswith ".ps1") or (process.executable == "C:\\Windows\\system32\\svchost.exe" and (file.path like "*_C:\\Windows\\System32\\GroupPolicy\\DataStore\\*" and file.path like "*_\\sysvol\\*" and file.path like "*_\\Policies\\*" and file.path like "*_\\Machine\\Scripts\\Startup\\*") and (file.path endswith ".ps1" or file.path endswith ".bat")))))

@@ -1,0 +1,45 @@
+{
+  "title": "Invoke-Obfuscation STDIN+ Launcher - System",
+  "id": "72862bf2-0eb1-11eb-adc1-0242ac120002",
+  "status": "test",
+  "description": "Detects Obfuscated use of stdin to execute PowerShell",
+  "author": "Jonathan Cheong, oscd.community",
+  "date": "2020-10-15",
+  "tags": [
+    "attack.stealth",
+    "attack.t1027",
+    "attack.execution",
+    "attack.t1059.001"
+  ],
+  "level": "high",
+  "logsource": {
+    "product": "windows",
+    "service": "system"
+  },
+  "detection": {
+    "selection_main": {
+      "Provider_Name": "Service Control Manager",
+      "EventID": 7045,
+      "ImagePath|contains|all": [
+        "cmd",
+        "powershell"
+      ],
+      "ImagePath|contains": [
+        "/c",
+        "/r"
+      ]
+    },
+    "selection_other": [
+      {
+        "ImagePath|contains": "noexit"
+      },
+      {
+        "ImagePath|contains|all": [
+          "input",
+          "$"
+        ]
+      }
+    ],
+    "condition": "all of selection_*"
+  }
+}

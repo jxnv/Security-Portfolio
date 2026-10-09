@@ -1,0 +1,11 @@
+// Title: Remote Server Service Abuse for Lateral Movement
+// ID: 10018e73-06ec-46ec-8107-9172f1e04ff2
+// Status: test
+// Level: high
+// Author: Sagie Dulce, Dekel Paz
+// Date: 2022-01-01
+// Tags: attack.lateral-movement, attack.execution, attack.t1569.002
+// Description: Detects remote RPC calls to possibly abuse remote encryption service via MS-EFSR
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter (EventLog = "RPCFW" and EventID = 3 and InterfaceUuid = "367abb81-9844-35f1-ad32-98f038001003")

@@ -1,0 +1,11 @@
+// Title: Suspicious Scripting in a WMI Consumer
+// ID: fe21810c-2a8c-478f-8dd3-5a287fb2a0e0
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Jonhnathan Ribeiro
+// Date: 2019-04-15
+// Tags: attack.execution, attack.t1059.005
+// Description: Detects suspicious commands that are related to scripting/powershell in WMI Event Consumers
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+from siem.events where (((contains(Destination, "new-object") AND contains(Destination, "net.webclient") AND contains(Destination, ".downloadstring"))) OR ((contains(Destination, "new-object") AND contains(Destination, "net.webclient") AND contains(Destination, ".downloadfile"))) OR ((contains(Destination, " iex(") OR contains(Destination, " -nop ") OR contains(Destination, " -noprofile ") OR contains(Destination, " -decode ") OR contains(Destination, " -enc ") OR contains(Destination, "WScript.Shell") OR contains(Destination, "System.Security.Cryptography.FromBase64Transform"))))

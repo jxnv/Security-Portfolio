@@ -1,0 +1,12 @@
+// Title: Deployment Deleted From Kubernetes Cluster
+// ID: 40967487-139b-4811-81d9-c9767a92aa5a
+// Status: test
+// Level: low
+// Author: Leo Tsaousis (@laripping)
+// Date: 2024-03-26
+// Tags: attack.t1498, attack.impact
+// Description: Detects the removal of a deployment from a Kubernetes cluster.
+// This could indicate disruptive activity aiming to impact business operations.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(verb == "delete" AND objectRef.resource == "deployments")

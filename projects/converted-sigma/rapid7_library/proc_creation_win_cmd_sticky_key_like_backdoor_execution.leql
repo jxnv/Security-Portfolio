@@ -1,0 +1,11 @@
+// Title: Sticky Key Like Backdoor Execution
+// ID: 2fdefcb3-dbda-401e-ae23-f0db027628bc
+// Status: test
+// Level: critical
+// Author: Florian Roth (Nextron Systems), @twjackomo, Jonhnathan Ribeiro, oscd.community
+// Date: 2018-03-15
+// Tags: attack.privilege-escalation, attack.persistence, attack.t1546.008, car.2014-11-003, car.2014-11-008
+// Description: Detects the usage and installation of a backdoor that uses an option to register a malicious debugger for built-in tools that are accessible in the login screen
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(where(ParentImage IENDSWITH "\\winlogon.exe") AND (where(Image IENDSWITH "\\cmd.exe") OR where(Image IENDSWITH "\\cscript.exe") OR where(Image IENDSWITH "\\mshta.exe") OR where(Image IENDSWITH "\\powershell.exe") OR where(Image IENDSWITH "\\pwsh.exe") OR where(Image IENDSWITH "\\regsvr32.exe") OR where(Image IENDSWITH "\\rundll32.exe") OR where(Image IENDSWITH "\\wscript.exe") OR where(Image IENDSWITH "\\wt.exe")) AND (where(CommandLine ICONTAINS "sethc.exe") OR where(CommandLine ICONTAINS "utilman.exe") OR where(CommandLine ICONTAINS "osk.exe") OR where(CommandLine ICONTAINS "Magnify.exe") OR where(CommandLine ICONTAINS "Narrator.exe") OR where(CommandLine ICONTAINS "DisplaySwitch.exe")))

@@ -1,0 +1,13 @@
+// Title: Suspicious Volume Shadow Copy VSS_PS.dll Load
+// ID: 333cdbe8-27bb-4246-bf82-b41a0dca4b70
+// Status: test
+// Level: high
+// Author: Markus Neis, @markus_neis
+// Date: 2021-07-07
+// Tags: attack.impact, attack.t1490
+// Description: Detects the image load of vss_ps.dll by uncommon executables. This DLL is used by the Volume Shadow Copy Service (VSS) to manage shadow copies of files and volumes.
+// It is often abused by attackers to delete or manipulate shadow copies, which can hinder forensic investigations and data recovery efforts.
+// The fact that it is loaded by processes that are not typically associated with VSS operations can indicate suspicious activity.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE ((ImageLoaded LIKE "%\\vss_ps.dll") AND NOT (((process.executable IS NULL) OR (process.executable LIKE "C:\\Windows\\%" AND (process.executable LIKE "%\\clussvc.exe" OR process.executable LIKE "%\\dismhost.exe" OR process.executable LIKE "%\\dllhost.exe" OR process.executable LIKE "%\\inetsrv\\appcmd.exe" OR process.executable LIKE "%\\inetsrv\\iissetup.exe" OR process.executable LIKE "%\\msiexec.exe" OR process.executable LIKE "%\\rundll32.exe" OR process.executable LIKE "%\\searchindexer.exe" OR process.executable LIKE "%\\srtasks.exe" OR process.executable LIKE "%\\svchost.exe" OR process.executable LIKE "%\\System32\\SystemPropertiesAdvanced.exe" OR process.executable LIKE "%\\taskhostw.exe" OR process.executable LIKE "%\\thor.exe" OR process.executable LIKE "%\\thor64.exe" OR process.executable LIKE "%\\tiworker.exe" OR process.executable LIKE "%\\vssvc.exe" OR process.executable LIKE "%\\vssadmin.exe" OR process.executable LIKE "%\\WmiPrvSE.exe" OR process.executable LIKE "%\\wsmprovhost.exe")) OR (process.command_line LIKE "C:\\$WinREAgent\\Scratch\\%" AND process.command_line LIKE "%\\dismhost.exe {%"))) AND NOT (((process.executable LIKE "C:\\Program Files\\%" OR process.executable LIKE "C:\\Program Files (x86)\\%"))))

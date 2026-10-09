@@ -1,0 +1,11 @@
+// Title: Suspicious Provlaunch.EXE Child Process
+// ID: f9999590-1f94-4a34-a91e-951e47bedefd
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-08-08
+// Tags: attack.stealth, attack.t1218
+// Description: Detects suspicious child processes of "provlaunch.exe" which might indicate potential abuse to proxy execution.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((src.process.image.path endswithCIS "\\calc.exe" OR src.process.image.path endswithCIS "\\cmd.exe" OR src.process.image.path endswithCIS "\\cscript.exe" OR src.process.image.path endswithCIS "\\mshta.exe" OR src.process.image.path endswithCIS "\\notepad.exe" OR src.process.image.path endswithCIS "\\powershell.exe" OR src.process.image.path endswithCIS "\\pwsh.exe" OR src.process.image.path endswithCIS "\\regsvr32.exe" OR src.process.image.path endswithCIS "\\rundll32.exe" OR src.process.image.path endswithCIS "\\wscript.exe")) OR ((src.process.image.path containsCIS ":\\PerfLogs\\" OR src.process.image.path containsCIS ":\\Temp\\" OR src.process.image.path containsCIS ":\\Users\\Public\\" OR src.process.image.path containsCIS "\\AppData\\Temp\\" OR src.process.image.path containsCIS "\\Windows\\System32\\Tasks\\" OR src.process.image.path containsCIS "\\Windows\\Tasks\\" OR src.process.image.path containsCIS "\\Windows\\Temp\\"))) AND (src.process.parent.image.path endswithCIS "\\provlaunch.exe"))

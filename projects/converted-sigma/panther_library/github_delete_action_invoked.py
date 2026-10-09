@@ -1,0 +1,19 @@
+# Title: Github Delete Action Invoked
+# ID: 16a71777-0b2e-4db7-9888-9d59cb75200b
+# Status: test
+# Level: medium
+# Author: Muhammad Faisal (@faisalusuf)
+# Date: 2023-01-19
+# Tags: attack.impact, attack.collection, attack.t1213.003
+# Description: Detects delete action in the Github audit logs for codespaces, environment, project and repo.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Github Delete Action Invoked
+def rule(event):
+    # Detection Logic:
+    # ((action="codespaces.destroy" OR action="environment.delete" OR action="project.delete" OR action="repo.destroy"))
+    return True
+
+def title(event):
+    return "Github Delete Action Invoked"
+

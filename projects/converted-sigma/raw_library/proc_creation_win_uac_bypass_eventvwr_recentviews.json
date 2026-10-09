@@ -1,0 +1,29 @@
+{
+  "title": "UAC Bypass Using Event Viewer RecentViews",
+  "id": "30fc8de7-d833-40c4-96b6-28319fbc4f6c",
+  "status": "test",
+  "description": "Detects the pattern of UAC Bypass using Event Viewer RecentViews",
+  "author": "Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2022-11-22",
+  "tags": [
+    "attack.privilege-escalation",
+    "attack.stealth"
+  ],
+  "level": "high",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_path": {
+      "CommandLine|contains": [
+        "\\Event Viewer\\RecentViews",
+        "\\EventV~1\\RecentViews"
+      ]
+    },
+    "selection_redirect": {
+      "CommandLine|contains": ">"
+    },
+    "condition": "all of selection_*"
+  }
+}

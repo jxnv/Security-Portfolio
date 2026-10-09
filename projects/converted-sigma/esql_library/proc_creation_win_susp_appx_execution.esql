@@ -1,0 +1,11 @@
+// Title: Potentially Suspicious Windows App Activity
+// ID: f91ed517-a6ba-471d-9910-b3b4a398c0f3
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-01-12
+// Tags: attack.stealth
+// Description: Detects potentially suspicious child process of applications launched from inside the WindowsApps directory. This could be a sign of a rogue ".appx" package installation/execution
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE ((process.parent.executable LIKE "%C:\\Program Files\\WindowsApps\\%") AND (((process.command_line LIKE "%cmd /c%" OR process.command_line LIKE "%Invoke-%" OR process.command_line LIKE "%Base64%")) OR ((process.executable LIKE "%\\cmd.exe" OR process.executable LIKE "%\\cscript.exe" OR process.executable LIKE "%\\mshta.exe" OR process.executable LIKE "%\\powershell.exe" OR process.executable LIKE "%\\powershell_ise.exe" OR process.executable LIKE "%\\pwsh.exe" OR process.executable LIKE "%\\regsvr32.exe" OR process.executable LIKE "%\\rundll32.exe" OR process.executable LIKE "%\\wscript.exe"))) AND NOT (((process.parent.executable LIKE "C:\\Program Files\\WindowsApps\\Microsoft.SysinternalsSuite%" AND process.executable LIKE "%\\cmd.exe") OR (process.parent.executable LIKE "%:\\Program Files\\WindowsApps\\Microsoft.WindowsTerminal%" AND process.parent.executable LIKE "%\\WindowsTerminal.exe" AND (process.executable LIKE "%\\powershell.exe" OR process.executable LIKE "%\\cmd.exe" OR process.executable LIKE "%\\pwsh.exe")))))

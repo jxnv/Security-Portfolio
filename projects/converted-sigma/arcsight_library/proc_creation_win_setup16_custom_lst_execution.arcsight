@@ -1,0 +1,13 @@
+// Title: Setup16.EXE Execution With Custom .Lst File
+// ID: 99c8be4f-3087-4f9f-9c24-8c7e257b442e
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2024-12-01
+// Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.stealth, attack.t1574.005
+// Description: Detects the execution of "Setup16.EXE" and old installation utility with a custom ".lst" file.
+// These ".lst" file can contain references to external program that "Setup16.EXE" will execute.
+// Attackers and adversaries might leverage this as a living of the land utility.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((ParentImage EQ "C:\\Windows\\SysWOW64\\setup16.exe" AND ParentCommandLine CONTAINS " -m ") AND NOT ((Image STARTSWITH "C:\\~MSSETUP.T\\")))

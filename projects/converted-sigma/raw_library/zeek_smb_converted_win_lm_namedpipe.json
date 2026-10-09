@@ -1,0 +1,41 @@
+{
+  "title": "First Time Seen Remote Named Pipe - Zeek",
+  "id": "021310d9-30a6-480a-84b7-eaa69aeb92bb",
+  "status": "test",
+  "description": "This detection excludes known namped pipes accessible remotely and notify on newly observed ones, may help to detect lateral movement and remote exec using named pipes",
+  "author": "Samir Bousseaden, @neu5ron, Tim Shelton",
+  "date": "2020-04-02",
+  "tags": [
+    "attack.lateral-movement",
+    "attack.t1021.002"
+  ],
+  "level": "high",
+  "logsource": {
+    "product": "zeek",
+    "service": "smb_files"
+  },
+  "detection": {
+    "selection": {
+      "path": "\\\\\\\\\\*\\\\IPC$"
+    },
+    "filter_keywords": [
+      "samr",
+      "lsarpc",
+      "winreg",
+      "netlogon",
+      "srvsvc",
+      "protected_storage",
+      "wkssvc",
+      "browser",
+      "netdfs",
+      "svcctl",
+      "spoolss",
+      "ntsvcs",
+      "LSM_API_service",
+      "HydraLsPipe",
+      "TermSrv_API_service",
+      "MsFteWds"
+    ],
+    "condition": "selection and not 1 of filter_*"
+  }
+}

@@ -1,0 +1,26 @@
+// Title: Potentially Suspicious Image Load of Offreg.dll
+// ID: c9e5f013-4a6f-4d8c-9b0e-f7a4c3d26e95
+// Status: experimental
+// Level: medium
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2026-07-23
+// Tags: attack.defense-impairment, attack.persistence, attack.t1112
+// Description: Detects potentially suspicious loading of the Offline Registry Library (offreg.dll).
+// Offreg.dll enables direct read/write access to offline registry hives without invoking the Windows Registry API,
+// bypassing its associated audit logging and telemetry. Attackers may abuse this to stealthily modify registry hives
+// while evading detection mechanisms that rely on standard registry event logs.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule c9e5f013_4a6f_4d8c_9b0e_f7a4c3d26e95 {
+  meta:
+    title = "Potentially Suspicious Image Load of Offreg.dll"
+    description = "Detects potentially suspicious loading of the Offline Registry Library (offreg.dll). Offreg.dll enables direct read/write access to offline registry hives without invoking the Windows Registry API, bypassing its associated audit logging and telemetry. Attackers may abuse this to stealthily modify registry hives while evading detection mechanisms that rely on standard registry event logs."
+    author = "Swachchhanda Shrawan Poudel (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.ImageLoaded = /.*\\offreg.dll$/ nocase) and not((($e.target.process.file.full_path = /^C:\\Users\\.*/ nocase and $e.target.process.file.full_path = /.*\\AppData\\Local\\Programs\\.*/ nocase) or ($e.target.process.file.full_path = /^C:\\ProgramData\\Microsoft\\Windows Defender\\Platform\\.*/ nocase and $e.target.process.file.full_path = /.*\\MsMpEng.exe$/ nocase) or (($e.target.process.file.full_path = /^C:\\Program Files\\.*/ nocase or $e.target.process.file.full_path = /^C:\\Program Files (x86)\\.*/ nocase)) or (($e.target.process.file.full_path = /^C:\\Windows\\System32\\.*/ nocase or $e.target.process.file.full_path = /^C:\\Windows\\SysWOW64\\.*/ nocase or $e.target.process.file.full_path = /^C:\\Windows\\WinSxS\\.*/ nocase)))))
+
+  condition:
+    $e
+}

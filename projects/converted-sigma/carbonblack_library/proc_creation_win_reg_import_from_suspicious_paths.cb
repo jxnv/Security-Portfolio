@@ -1,0 +1,11 @@
+# Title: Potential Suspicious Registry File Imported Via Reg.EXE
+# ID: 62e0298b-e994-4189-bc87-bc699aa62d97
+# Status: test
+# Level: medium
+# Author: frack113, Nasreddine Bencherchali
+# Date: 2022-08-01
+# Tags: attack.persistence, attack.defense-impairment, attack.t1112
+# Description: Detects the import of '.reg' files from suspicious paths using the 'reg.exe' utility
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((cmdline:* import *) AND ((process_name:*\\reg.exe) OR (OriginalFileName:"reg.exe")) AND ((cmdline:*C:\\Users\\* OR cmdline:*%temp%* OR cmdline:*%tmp%* OR cmdline:*%appdata%* OR cmdline:*\\AppData\\Local\\Temp\\* OR cmdline:*C:\\Windows\\Temp\\* OR cmdline:*C:\\ProgramData\\*)))

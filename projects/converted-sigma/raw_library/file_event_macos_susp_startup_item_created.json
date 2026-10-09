@@ -1,0 +1,28 @@
+{
+  "title": "Startup Item File Created - MacOS",
+  "id": "dfe8b941-4e54-4242-b674-6b613d521962",
+  "status": "test",
+  "description": "Detects the creation of a startup item plist file, that automatically get executed at boot initialization to establish persistence.\nAdversaries may use startup items automatically executed at boot initialization to establish persistence.\nStartup items execute during the final phase of the boot process and contain shell scripts or other executable files along with configuration information used by the system to determine the execution order for all startup items.\n",
+  "author": "Alejandro Ortuno, oscd.community",
+  "date": "2020-10-14",
+  "tags": [
+    "attack.persistence",
+    "attack.privilege-escalation",
+    "attack.t1037.005"
+  ],
+  "level": "low",
+  "logsource": {
+    "category": "file_event",
+    "product": "macos"
+  },
+  "detection": {
+    "selection": {
+      "TargetFilename|startswith": [
+        "/Library/StartupItems/",
+        "/System/Library/StartupItems"
+      ],
+      "TargetFilename|endswith": ".plist"
+    },
+    "condition": "selection"
+  }
+}

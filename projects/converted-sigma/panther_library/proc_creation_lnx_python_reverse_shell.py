@@ -1,0 +1,19 @@
+# Title: Python Reverse Shell Execution Via PTY And Socket Modules
+# ID: 32e62bc7-3de0-4bb1-90af-532978fe42c0
+# Status: test
+# Level: high
+# Author: @d4ns4n_, Nasreddine Bencherchali (Nextron Systems)
+# Date: 2023-04-24
+# Tags: attack.execution
+# Description: Detects the execution of python with calls to the socket and pty module in order to connect and spawn a potential reverse shell.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Python Reverse Shell Execution Via PTY And Socket Modules
+def rule(event):
+    # Detection Logic:
+    # (Image="*python*" AND (CommandLine="* -c *" AND CommandLine="*import*" AND CommandLine="*pty*" AND CommandLine="*socket*" AND CommandLine="*spawn*" AND CommandLine="*.connect*"))
+    return True
+
+def title(event):
+    return "Python Reverse Shell Execution Via PTY And Socket Modules"
+

@@ -1,0 +1,11 @@
+// Title: HackTool - Potential Impacket Lateral Movement Activity
+// ID: 10c14723-61c7-4c75-92ca-9af245723ad2
+// Status: stable
+// Level: high
+// Author: Ecco, oscd.community, Jonhnathan Ribeiro, Tim Rauch
+// Date: 2019-09-03
+// Tags: attack.execution, attack.t1047, attack.lateral-movement, attack.t1021.003
+// Description: Detects wmiexec/dcomexec/atexec/smbexec from Impacket framework
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(ParentCommandLine ICONTAINS "svchost.exe -k netsvcs") OR where(ParentCommandLine ICONTAINS "taskeng.exe")) AND (where(CommandLine ICONTAINS "cmd.exe") AND where(CommandLine ICONTAINS "/C") AND where(CommandLine ICONTAINS "Windows\\Temp\\") AND where(CommandLine ICONTAINS "&1"))) OR ((where(ParentImage IENDSWITH "\\wmiprvse.exe") OR where(ParentImage IENDSWITH "\\mmc.exe") OR where(ParentImage IENDSWITH "\\explorer.exe") OR where(ParentImage IENDSWITH "\\services.exe")) AND (where(CommandLine ICONTAINS "cmd.exe") AND where(CommandLine ICONTAINS "/Q") AND where(CommandLine ICONTAINS "/c") AND where(CommandLine ICONTAINS "\\\\\\\\127.0.0.1\\\\") AND where(CommandLine ICONTAINS "&1"))))

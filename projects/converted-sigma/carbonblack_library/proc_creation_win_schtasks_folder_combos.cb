@@ -1,0 +1,11 @@
+# Title: Schtasks From Suspicious Folders
+# ID: 8a8379b8-780b-4dbf-b1e9-31c8d112fefb
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems)
+# Date: 2022-04-15
+# Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.t1053.005
+# Description: Detects scheduled task creations that have suspicious action command and folder combinations
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((cmdline:*C:\\ProgramData\\* OR cmdline:*%ProgramData%*)) AND ((cmdline:*powershell* OR cmdline:*pwsh* OR cmdline:*cmd /c * OR cmdline:*cmd /k * OR cmdline:*cmd /r * OR cmdline:*cmd.exe /c * OR cmdline:*cmd.exe /k * OR cmdline:*cmd.exe /r *)) AND (cmdline:* /create *) AND ((process_name:*\\schtasks.exe) OR (OriginalFileName:"schtasks.exe")))

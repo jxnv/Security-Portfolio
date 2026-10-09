@@ -1,0 +1,23 @@
+// Title: Copy From Or To Admin Share Or Sysvol Folder
+// ID: 855bc8b5-2ae8-402e-a9ed-b889e6df1900
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems), oscd.community, Teymur Kheirkhabarov @HeirhabarovT, Zach Stanford @svch0st, Nasreddine Bencherchali
+// Date: 2019-12-30
+// Tags: attack.lateral-movement, attack.collection, attack.exfiltration, attack.t1039, attack.t1048, attack.t1021.002
+// Description: Detects a copy command or a copy utility execution to or from an Admin share or remote
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 855bc8b5_2ae8_402e_a9ed_b889e6df1900 {
+  meta:
+    title = "Copy From Or To Admin Share Or Sysvol Folder"
+    description = "Detects a copy command or a copy utility execution to or from an Admin share or remote"
+    author = "Florian Roth (Nextron Systems), oscd.community, Teymur Kheirkhabarov @HeirhabarovT, Zach Stanford @svch0st, Nasreddine Bencherchali"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.command_line = /.*\\\\\\\\*\\\\*$.*/ nocase or $e.target.process.command_line = /.*\\Sysvol\\.*/ nocase)) and (((($e.target.process.file.full_path = /.*\\robocopy.exe$/ nocase or $e.target.process.file.full_path = /.*\\xcopy.exe$/ nocase)) or (($e.target.process.file.name = "robocopy.exe" or $e.target.process.file.name = "XCOPY.EXE"))) or (($e.target.process.command_line = /.*copy.*/ nocase) and (($e.target.process.file.full_path = /.*\\cmd.exe$/ nocase) or ($e.target.process.file.name = "Cmd.Exe"))) or ((($e.target.process.command_line = /.*copy-item.*/ nocase or $e.target.process.command_line = /.*copy .*/ nocase or $e.target.process.command_line = /.*cpi .*/ nocase or $e.target.process.command_line = /.* cp .*/ nocase or $e.target.process.command_line = /.*move .*/ nocase or $e.target.process.command_line = /.* move-item.*/ nocase or $e.target.process.command_line = /.* mi .*/ nocase or $e.target.process.command_line = /.* mv .*/ nocase)) and ((($e.target.process.file.full_path = /.*\\powershell_ise.exe.*/ nocase or $e.target.process.file.full_path = /.*\\powershell.exe.*/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe.*/ nocase)) or (($e.target.process.file.name = "powershell_ise.exe" or $e.target.process.file.name = "PowerShell.EXE" or $e.target.process.file.name = "pwsh.dll"))))))
+
+  condition:
+    $e
+}

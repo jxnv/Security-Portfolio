@@ -1,0 +1,22 @@
+# Title: File Deletion Via Del
+# ID: 379fa130-190e-4c3f-b7bc-6c8e834485f3
+# Status: test
+# Level: low
+# Author: frack113
+# Date: 2022-01-15
+# Tags: attack.stealth, attack.t1070.004
+# Description: Detects execution of the builtin "del"/"erase" commands in order to delete files.
+# Adversaries may delete files left behind by the actions of their intrusion activity.
+# Malware, tools, or other non-native files dropped or created on a system by an adversary may leave traces to indicate to what was done within a network and how.
+# Removal of these files can occur during an intrusion, or as part of a post-intrusion process to minimize the adversary's footprint.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: File Deletion Via Del
+def rule(event):
+    # Detection Logic:
+    # (((CommandLine="*del *" OR CommandLine="*erase *")) AND ((CommandLine="* -f*" OR CommandLine="* -s*" OR CommandLine="* -q*")) AND ((Image="*\\cmd.exe") OR (OriginalFileName="Cmd.Exe")))
+    return True
+
+def title(event):
+    return "File Deletion Via Del"
+

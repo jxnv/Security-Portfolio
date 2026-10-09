@@ -1,0 +1,33 @@
+{
+  "title": "Microsoft Defender Tamper Protection Trigger",
+  "id": "49e5bc24-8b86-49f1-b743-535f332c2856",
+  "status": "stable",
+  "description": "Detects blocked attempts to change any of Defender's settings such as \"Real Time Monitoring\" and \"Behavior Monitoring\"",
+  "author": "Bhabesh Raj, Nasreddine Bencherchali",
+  "date": "2021-07-05",
+  "tags": [
+    "attack.defense-impairment",
+    "attack.t1685"
+  ],
+  "level": "high",
+  "logsource": {
+    "product": "windows",
+    "service": "windefend"
+  },
+  "detection": {
+    "selection": {
+      "EventID": 5013,
+      "Value|endswith": [
+        "\\Windows Defender\\DisableAntiSpyware",
+        "\\Windows Defender\\DisableAntiVirus",
+        "\\Windows Defender\\Scan\\DisableArchiveScanning",
+        "\\Windows Defender\\Scan\\DisableScanningNetworkFiles",
+        "\\Real-Time Protection\\DisableRealtimeMonitoring",
+        "\\Real-Time Protection\\DisableBehaviorMonitoring",
+        "\\Real-Time Protection\\DisableIOAVProtection",
+        "\\Real-Time Protection\\DisableScriptScanning"
+      ]
+    },
+    "condition": "selection"
+  }
+}

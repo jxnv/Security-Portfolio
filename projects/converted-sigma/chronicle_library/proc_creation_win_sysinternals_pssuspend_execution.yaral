@@ -1,0 +1,23 @@
+// Title: Sysinternals PsSuspend Execution
+// ID: 48bbc537-b652-4b4e-bd1d-281172df448f
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-03-23
+// Tags: attack.privilege-escalation, attack.discovery, attack.persistence, attack.t1543.003
+// Description: Detects usage of Sysinternals PsSuspend which can be abused to suspend critical processes
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 48bbc537_b652_4b4e_bd1d_281172df448f {
+  meta:
+    title = "Sysinternals PsSuspend Execution"
+    description = "Detects usage of Sysinternals PsSuspend which can be abused to suspend critical processes"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.process.file.name = "pssuspend.exe") or (($e.target.process.file.full_path = /.*\\pssuspend.exe$/ nocase or $e.target.process.file.full_path = /.*\\pssuspend64.exe$/ nocase or $e.target.process.file.full_path = /.*\\pssuspend64a.exe$/ nocase)))
+
+  condition:
+    $e
+}

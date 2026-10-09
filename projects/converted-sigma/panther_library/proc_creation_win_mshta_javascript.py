@@ -1,0 +1,19 @@
+# Title: Suspicious JavaScript Execution Via Mshta.EXE
+# ID: 67f113fa-e23d-4271-befa-30113b3e08b1
+# Status: test
+# Level: high
+# Author: E.M. Anhaus (originally from Atomic Blue Detections, Endgame), oscd.community
+# Date: 2019-10-24
+# Tags: attack.stealth, attack.t1218.005
+# Description: Detects execution of javascript code using "mshta.exe".
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Suspicious JavaScript Execution Via Mshta.EXE
+def rule(event):
+    # Detection Logic:
+    # ((CommandLine="*javascript*") AND ((Image="*\\mshta.exe") OR (OriginalFileName="MSHTA.EXE")))
+    return True
+
+def title(event):
+    return "Suspicious JavaScript Execution Via Mshta.EXE"
+

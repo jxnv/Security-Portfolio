@@ -1,0 +1,11 @@
+// Title: HackTool - CrackMapExec PowerShell Obfuscation
+// ID: 6f8b3439-a203-45dc-a88b-abf57ea15ccf
+// Status: test
+// Level: high
+// Author: Thomas Patzke
+// Date: 2020-05-22
+// Tags: attack.execution, attack.stealth, attack.t1059.001, attack.t1027.005
+// Description: The CrachMapExec pentesting framework implements a PowerShell obfuscation with some static strings detected by this rule.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(CommandLine ICONTAINS "join*split") OR where(CommandLine ICONTAINS "( $ShellId[1]+$ShellId[13]+'x')") OR where(CommandLine ICONTAINS "( $PSHome[*]+$PSHOME[*]+") OR where(CommandLine ICONTAINS "( $env:Public[13]+$env:Public[5]+'x')") OR where(CommandLine ICONTAINS "( $env:ComSpec[4,*,25]-Join'')") OR where(CommandLine ICONTAINS "[1,3]+'x'-Join'')"))) AND (((where(Image IENDSWITH "\\powershell.exe") OR where(Image IENDSWITH "\\pwsh.exe"))) OR ((where(OriginalFileName = "PowerShell.EXE") OR where(OriginalFileName = "pwsh.dll")))))

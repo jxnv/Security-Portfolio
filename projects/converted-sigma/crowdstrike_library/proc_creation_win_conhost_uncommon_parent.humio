@@ -1,0 +1,11 @@
+// Title: Conhost Spawned By Uncommon Parent Process
+// ID: cbb9e3d1-2386-4e59-912e-62f1484f7a89
+// Status: test
+// Level: medium
+// Author: Tim Rauch, Elastic (idea)
+// Date: 2022-09-28
+// Tags: attack.execution, attack.t1059
+// Description: Detects when the Console Window Host (conhost.exe) process is spawned by an uncommon parent process, which could be indicative of potential code injection activity.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((ImageFileName = /.*\\conhost.exe/i and (ParentBaseFileName = /.*\\explorer.exe/i or ParentBaseFileName = /.*\\lsass.exe/i or ParentBaseFileName = /.*\\regsvr32.exe/i or ParentBaseFileName = /.*\\rundll32.exe/i or ParentBaseFileName = /.*\\services.exe/i or ParentBaseFileName = /.*\\smss.exe/i or ParentBaseFileName = /.*\\spoolsv.exe/i or ParentBaseFileName = /.*\\svchost.exe/i or ParentBaseFileName = /.*\\userinit.exe/i or ParentBaseFileName = /.*\\wininit.exe/i or ParentBaseFileName = /.*\\winlogon.exe/i)) and not(((ParentCommandLine = /*-k apphost -s AppHostSvc*/i or ParentCommandLine = /*-k imgsvc*/i or ParentCommandLine = /*-k localService -p -s RemoteRegistry*/i or ParentCommandLine = /*-k LocalSystemNetworkRestricted -p -s NgcSvc*/i or ParentCommandLine = /*-k NetSvcs -p -s NcaSvc*/i or ParentCommandLine = /*-k netsvcs -p -s NetSetupSvc*/i or ParentCommandLine = /*-k netsvcs -p -s wlidsvc*/i or ParentCommandLine = /*-k NetworkService -p -s DoSvc*/i or ParentCommandLine = /*-k wsappx -p -s AppXSvc*/i or ParentCommandLine = /*-k wsappx -p -s ClipSVC*/i or ParentCommandLine = /*-k wusvcs -p -s WaaSMedicSvc*/i))) and not(((ParentCommandLine = /*C:\\Program Files (x86)\\Dropbox\\Client\\*/i or ParentCommandLine = /*C:\\Program Files\\Dropbox\\Client\\*/i))))

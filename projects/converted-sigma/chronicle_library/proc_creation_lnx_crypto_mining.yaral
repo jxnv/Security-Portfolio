@@ -1,0 +1,23 @@
+// Title: Linux Crypto Mining Indicators
+// ID: 9069ea3c-b213-4c52-be13-86506a227ab1
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2021-10-26
+// Tags: attack.impact, attack.t1496
+// Description: Detects command line parameters or strings often used by crypto miners
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 9069ea3c_b213_4c52_be13_86506a227ab1 {
+  meta:
+    title = "Linux Crypto Mining Indicators"
+    description = "Detects command line parameters or strings often used by crypto miners"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.command_line = /.* --cpu-priority=.*/ nocase or $e.target.process.command_line = /.*--donate-level=0.*/ nocase or $e.target.process.command_line = /.* -o pool..*/ nocase or $e.target.process.command_line = /.* --nicehash.*/ nocase or $e.target.process.command_line = /.* --algo=rx/0 .*/ nocase or $e.target.process.command_line = /.*stratum+tcp://.*/ nocase or $e.target.process.command_line = /.*stratum+udp://.*/ nocase or $e.target.process.command_line = /.*sh -c /sbin/modprobe msr allow_writes=on.*/ nocase or $e.target.process.command_line = /.*LS1kb25hdGUtbGV2ZWw9.*/ nocase or $e.target.process.command_line = /.*0tZG9uYXRlLWxldmVsP.*/ nocase or $e.target.process.command_line = /.*tLWRvbmF0ZS1sZXZlbD.*/ nocase or $e.target.process.command_line = /.*c3RyYXR1bSt0Y3A6Ly.*/ nocase or $e.target.process.command_line = /.*N0cmF0dW0rdGNwOi8v.*/ nocase or $e.target.process.command_line = /.*zdHJhdHVtK3RjcDovL.*/ nocase or $e.target.process.command_line = /.*c3RyYXR1bSt1ZHA6Ly.*/ nocase or $e.target.process.command_line = /.*N0cmF0dW0rdWRwOi8v.*/ nocase or $e.target.process.command_line = /.*zdHJhdHVtK3VkcDovL.*/ nocase))
+
+  condition:
+    $e
+}

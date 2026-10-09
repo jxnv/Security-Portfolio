@@ -1,0 +1,25 @@
+// Title: Suspicious Cross-User Process Spawn
+// ID: d2b7a134-9c3e-4f8a-b56d-e0c1f8a29b47
+// Status: experimental
+// Level: medium
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2026-07-23
+// Tags: attack.privilege-escalation, attack.stealth, attack.t1055, attack.t1134
+// Description: Detects suspicious spawning of a process under a different user context than the parent process.
+// Processes such as notepad.exe, calculator etc. are generally spawned under the same user context and
+// also they are often targeted as sacrificial process or decoy process to check successful privilege escalation.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule d2b7a134_9c3e_4f8a_b56d_e0c1f8a29b47 {
+  meta:
+    title = "Suspicious Cross-User Process Spawn"
+    description = "Detects suspicious spawning of a process under a different user context than the parent process. Processes such as notepad.exe, calculator etc. are generally spawned under the same user context and also they are often targeted as sacrificial process or decoy process to check successful privilege escalation."
+    author = "Swachchhanda Shrawan Poudel (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.file.full_path = /.*\\notepad.exe$/ nocase or $e.target.process.file.full_path = /.*\\calc.exe$/ nocase or $e.target.process.file.full_path = /.*\\mspaint.exe$/ nocase or $e.target.process.file.full_path = /.*\\wordpad.exe$/ nocase or $e.target.process.file.full_path = /.*\\write.exe$/ nocase)) and not(($e.target.user.userid=$e.ParentUser)) and not((((($e.ParentUser = "" or $e.ParentUser = "-")) or (($e.target.user.userid = "" or $e.target.user.userid = "-"))) or (not ($e.ParentUser = /.*/)) or (not ($e.target.user.userid = /.*/)))))
+
+  condition:
+    $e
+}

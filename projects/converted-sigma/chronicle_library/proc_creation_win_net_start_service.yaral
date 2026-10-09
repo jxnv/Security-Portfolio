@@ -1,0 +1,23 @@
+// Title: Start Windows Service Via Net.EXE
+// ID: 2a072a96-a086-49fa-bcb5-15cc5a619093
+// Status: test
+// Level: low
+// Author: Timur Zinniatullin, Daniil Yugoslavskiy, oscd.community
+// Date: 2019-10-21
+// Tags: attack.execution, attack.t1569.002
+// Description: Detects the usage of the "net.exe" command to start a service using the "start" flag
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 2a072a96_a086_49fa_bcb5_15cc5a619093 {
+  meta:
+    title = "Start Windows Service Via Net.EXE"
+    description = "Detects the usage of the "net.exe" command to start a service using the "start" flag"
+    author = "Timur Zinniatullin, Daniil Yugoslavskiy, oscd.community"
+    severity = "LOW"
+
+  events:
+    (($e.target.process.command_line = /.* start .*/ nocase) and ((($e.target.process.file.full_path = /.*\\net.exe$/ nocase or $e.target.process.file.full_path = /.*\\net1.exe$/ nocase)) or (($e.target.process.file.name = "net.exe" or $e.target.process.file.name = "net1.exe"))))
+
+  condition:
+    $e
+}

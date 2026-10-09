@@ -1,0 +1,11 @@
+// Title: New Kernel Driver Via SC.EXE
+// ID: 431a1fdb-4799-4f3b-91c3-a683b003fc49
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-07-14
+// Tags: attack.persistence, attack.privilege-escalation, attack.t1543.003
+// Description: Detects creation of a new service (kernel driver) with the type "kernel"
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((ImageFileName = /.*\\sc.exe/i and (CommandLine = /*create*/i or CommandLine = /*config*/i) and (CommandLine = /*binPath*/i and CommandLine = /*type*/i and CommandLine = /*kernel*/i)) and not((((CommandLine = /*create netprotection_network_filter*/i and CommandLine = /*type= kernel start= */i and CommandLine = /*binPath= System32\\drivers\\netprotection_network_filter*/i and CommandLine = /*DisplayName= netprotection_network_filter*/i and CommandLine = /*group= PNP_TDI tag= yes*/i)) or ((CommandLine = /*create avelam binpath=C:\\Windows\\system32\\drivers\\avelam.sys*/i and CommandLine = /*type=kernel start=boot error=critical group=Early-Launch*/i)))))

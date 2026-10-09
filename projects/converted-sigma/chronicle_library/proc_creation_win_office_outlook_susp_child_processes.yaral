@@ -1,0 +1,23 @@
+// Title: Suspicious Outlook Child Process
+// ID: 208748f7-881d-47ac-a29c-07ea84bf691d
+// Status: test
+// Level: high
+// Author: Michael Haag, Florian Roth (Nextron Systems), Markus Neis, Elastic, FPT.EagleEye Team
+// Date: 2022-02-28
+// Tags: attack.execution, attack.t1204.002
+// Description: Detects a suspicious process spawning from an Outlook process.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 208748f7_881d_47ac_a29c_07ea84bf691d {
+  meta:
+    title = "Suspicious Outlook Child Process"
+    description = "Detects a suspicious process spawning from an Outlook process."
+    author = "Michael Haag, Florian Roth (Nextron Systems), Markus Neis, Elastic, FPT.EagleEye Team"
+    severity = "HIGH"
+
+  events:
+    ($e.principal.process.file.full_path = /.*\\OUTLOOK.EXE$/ nocase and ($e.target.process.file.full_path = /.*\\AppVLP.exe$/ nocase or $e.target.process.file.full_path = /.*\\bash.exe$/ nocase or $e.target.process.file.full_path = /.*\\cmd.exe$/ nocase or $e.target.process.file.full_path = /.*\\cscript.exe$/ nocase or $e.target.process.file.full_path = /.*\\forfiles.exe$/ nocase or $e.target.process.file.full_path = /.*\\hh.exe$/ nocase or $e.target.process.file.full_path = /.*\\mftrace.exe$/ nocase or $e.target.process.file.full_path = /.*\\msbuild.exe$/ nocase or $e.target.process.file.full_path = /.*\\msdt.exe$/ nocase or $e.target.process.file.full_path = /.*\\mshta.exe$/ nocase or $e.target.process.file.full_path = /.*\\msiexec.exe$/ nocase or $e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase or $e.target.process.file.full_path = /.*\\regsvr32.exe$/ nocase or $e.target.process.file.full_path = /.*\\schtasks.exe$/ nocase or $e.target.process.file.full_path = /.*\\scrcons.exe$/ nocase or $e.target.process.file.full_path = /.*\\scriptrunner.exe$/ nocase or $e.target.process.file.full_path = /.*\\sh.exe$/ nocase or $e.target.process.file.full_path = /.*\\svchost.exe$/ nocase or $e.target.process.file.full_path = /.*\\wmic.exe$/ nocase or $e.target.process.file.full_path = /.*\\wscript.exe$/ nocase))
+
+  condition:
+    $e
+}

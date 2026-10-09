@@ -1,0 +1,23 @@
+// Title: Whoami.EXE Execution With Output Option
+// ID: c30fb093-1109-4dc8-88a8-b30d11c95a5d
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-02-28
+// Tags: attack.discovery, attack.t1033, car.2016-03-001
+// Description: Detects the execution of "whoami.exe" with the "/FO" flag to choose CSV as output format or with redirection options to export the results to a file for later use.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule c30fb093_1109_4dc8_88a8_b30d11c95a5d {
+  meta:
+    title = "Whoami.EXE Execution With Output Option"
+    description = "Detects the execution of "whoami.exe" with the "/FO" flag to choose CSV as output format or with redirection options to export the results to a file for later use."
+    author = "Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (((($e.target.process.command_line = /.* /FO CSV.*/ nocase or $e.target.process.command_line = /.* -FO CSV.*/ nocase)) and (($e.target.process.file.full_path = /.*\\whoami.exe$/ nocase) or ($e.target.process.file.name = "whoami.exe"))) or ($e.target.process.command_line = /.*whoami*>.*/ nocase))
+
+  condition:
+    $e
+}

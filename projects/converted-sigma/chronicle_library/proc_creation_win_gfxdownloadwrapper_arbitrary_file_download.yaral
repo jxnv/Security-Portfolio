@@ -1,0 +1,23 @@
+// Title: Arbitrary File Download Via GfxDownloadWrapper.EXE
+// ID: eee00933-a761-4cd0-be70-c42fe91731e7
+// Status: test
+// Level: medium
+// Author: Victor Sergeev, oscd.community
+// Date: 2020-10-09
+// Tags: attack.command-and-control, attack.t1105
+// Description: Detects execution of GfxDownloadWrapper.exe with a URL as an argument to download file.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule eee00933_a761_4cd0_be70_c42fe91731e7 {
+  meta:
+    title = "Arbitrary File Download Via GfxDownloadWrapper.EXE"
+    description = "Detects execution of GfxDownloadWrapper.exe with a URL as an argument to download file."
+    author = "Victor Sergeev, oscd.community"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.process.file.full_path = /.*\\GfxDownloadWrapper.exe$/ nocase and ($e.target.process.command_line = /.*http://.*/ nocase or $e.target.process.command_line = /.*https://.*/ nocase)) and not(($e.target.process.command_line = /.*https://gameplayapi.intel.com/.*/ nocase)))
+
+  condition:
+    $e
+}

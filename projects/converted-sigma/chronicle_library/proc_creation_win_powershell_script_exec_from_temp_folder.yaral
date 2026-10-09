@@ -1,0 +1,23 @@
+// Title: Potentially Suspicious Powershell Script Execution From Temp Folder
+// ID: a6a39bdb-935c-4f0a-ab77-35f4bbf44d33
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems), Max Altgelt (Nextron Systems), Tim Shelton
+// Date: 2021-07-14
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects a potentially suspicious powershell script executions from temporary folder
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule a6a39bdb_935c_4f0a_ab77_35f4bbf44d33 {
+  meta:
+    title = "Potentially Suspicious Powershell Script Execution From Temp Folder"
+    description = "Detects a potentially suspicious powershell script executions from temporary folder"
+    author = "Florian Roth (Nextron Systems), Max Altgelt (Nextron Systems), Tim Shelton"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase) and ($e.target.process.command_line = /.*\\Windows\\Temp.*/ nocase or $e.target.process.command_line = /.*\\Temporary Internet.*/ nocase or $e.target.process.command_line = /.*\\AppData\\Local\\Temp.*/ nocase or $e.target.process.command_line = /.*\\AppData\\Roaming\\Temp.*/ nocase or $e.target.process.command_line = /.*%TEMP%.*/ nocase or $e.target.process.command_line = /.*%TMP%.*/ nocase or $e.target.process.command_line = /.*%LocalAppData%\\Temp.*/ nocase)) and not((($e.target.process.command_line = /.*\\Windows\\system32\\config\\systemprofile\\AppData\\Local\\Temp\\Amazon\\EC2-Windows\\.*/ nocase) or (($e.principal.process.file.full_path = "C:\\Windows\\System32\\Msiexec.exe" or $e.principal.process.file.full_path = "C:\\Windows\\SysWOW64\\Msiexec.exe") and $e.target.process.file.full_path = /.*\\powershell.exe$/ nocase and ($e.target.process.command_line = /.*-NoProfile -ExecutionPolicy Bypass -Command.*/ nocase and $e.target.process.command_line = /.*AppData\\Local\\Temp\\.*/ nocase and $e.target.process.command_line = /.*Install-Chocolatey.ps1.*/ nocase)) or (($e.target.process.command_line = /.* >.*/ nocase or $e.target.process.command_line = /.*Out-File.*/ nocase or $e.target.process.command_line = /.*ConvertTo-Json.*/ nocase)) or ($e.target.process.command_line = /.*-WindowStyle hidden -Verb runAs.*/ nocase))))
+
+  condition:
+    $e
+}

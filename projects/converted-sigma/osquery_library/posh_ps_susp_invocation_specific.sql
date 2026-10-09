@@ -1,0 +1,11 @@
+-- Title: Suspicious PowerShell Invocations - Specific
+-- ID: ae7fbf8e-f3cb-49fd-8db4-5f3bed522c71
+-- Status: test
+-- Level: high
+-- Author: Florian Roth (Nextron Systems), Jonhnathan Ribeiro
+-- Date: 2017-03-05
+-- Tags: attack.execution, attack.t1059.001
+-- Description: Detects suspicious PowerShell invocation command parameters
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM file WHERE ((((ScriptBlockText LIKE '%-nop%' AND ScriptBlockText LIKE '% -w %' AND ScriptBlockText LIKE '%hidden%' AND ScriptBlockText LIKE '% -c %' AND ScriptBlockText LIKE '%[Convert]::FromBase64String%')) OR ((ScriptBlockText LIKE '% -w %' AND ScriptBlockText LIKE '%hidden%' AND ScriptBlockText LIKE '%-ep%' AND ScriptBlockText LIKE '%bypass%' AND ScriptBlockText LIKE '%-Enc%')) OR ((ScriptBlockText LIKE '% -w %' AND ScriptBlockText LIKE '%hidden%' AND ScriptBlockText LIKE '%-noni%' AND ScriptBlockText LIKE '%-nop%' AND ScriptBlockText LIKE '% -c %' AND ScriptBlockText LIKE '%iex%' AND ScriptBlockText LIKE '%New-Object%')) OR ((ScriptBlockText LIKE '%iex%' AND ScriptBlockText LIKE '%New-Object%' AND ScriptBlockText LIKE '%Net.WebClient%' AND ScriptBlockText LIKE '%.Download%')) OR ((ScriptBlockText LIKE '%powershell%' AND ScriptBlockText LIKE '%reg%' AND ScriptBlockText LIKE '%add%') AND (ScriptBlockText LIKE '%\\software\\microsoft\\windows\\currentversion\\run%' OR ScriptBlockText LIKE '%\\software\\wow6432node\\microsoft\\windows\\currentversion\\run%' OR ScriptBlockText LIKE '%\\software\\microsoft\\windows\\currentversion\\policies\\explorer\\run%')) OR ((ScriptBlockText LIKE '%bypass%' AND ScriptBlockText LIKE '%-noprofile%' AND ScriptBlockText LIKE '%-windowstyle%' AND ScriptBlockText LIKE '%hidden%' AND ScriptBlockText LIKE '%new-object%' AND ScriptBlockText LIKE '%system.net.webclient%' AND ScriptBlockText LIKE '%.download%'))) AND NOT (((ScriptBlockText LIKE '%(New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1%' OR ScriptBlockText LIKE '%(New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1')%' OR ScriptBlockText LIKE '%Write-ChocolateyWarning%'))))

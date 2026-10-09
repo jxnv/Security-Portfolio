@@ -1,0 +1,11 @@
+// Title: Imports Registry Key From a File
+// ID: 73bba97f-a82d-42ce-b315-9182e76c57b1
+// Status: test
+// Level: medium
+// Author: Oddvar Moe, Sander Wiebing, oscd.community
+// Date: 2020-10-07
+// Tags: attack.persistence, attack.defense-impairment, attack.t1112
+// Description: Detects the import of the specified file to the registry with regedit.exe.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((src.process.cmdline containsCIS " /i " OR src.process.cmdline containsCIS " /s " OR src.process.cmdline containsCIS ".reg")) AND ((src.process.image.path endswithCIS "\\regedit.exe") OR (OriginalFileName = "REGEDIT.EXE"))) AND NOT ((((src.process.cmdline containsCIS " -e " OR src.process.cmdline containsCIS " -a " OR src.process.cmdline containsCIS " -c ")) AND (src.process.cmdline RegEx ":[^ \\]"))))

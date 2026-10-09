@@ -1,0 +1,19 @@
+# Title: Creation of a Diagcab
+# ID: 3d0ed417-3d94-4963-a562-4a92c940656a
+# Status: test
+# Level: medium
+# Author: frack113
+# Date: 2022-06-08
+# Tags: attack.resource-development
+# Description: Detects the creation of diagcab file, which could be caused by some legitimate installer or is a sign of exploitation (review the filename and its location)
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Creation of a Diagcab
+def rule(event):
+    # Detection Logic:
+    # (TargetFilename="*.diagcab")
+    return True
+
+def title(event):
+    return "Creation of a Diagcab"
+

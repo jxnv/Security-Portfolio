@@ -1,0 +1,23 @@
+// Title: Gzip Archive Decode Via PowerShell
+// ID: 98767d61-b2e8-4d71-b661-e36783ee24c1
+// Status: test
+// Level: medium
+// Author: Hieu Tran
+// Date: 2023-03-13
+// Tags: attack.command-and-control, attack.t1132.001
+// Description: Detects attempts of decoding encoded Gzip archives via PowerShell.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 98767d61_b2e8_4d71_b661_e36783ee24c1 {
+  meta:
+    title = "Gzip Archive Decode Via PowerShell"
+    description = "Detects attempts of decoding encoded Gzip archives via PowerShell."
+    author = "Hieu Tran"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.process.command_line = /.*GZipStream.*/ nocase and $e.target.process.command_line = /.*::Decompress.*/ nocase))
+
+  condition:
+    $e
+}

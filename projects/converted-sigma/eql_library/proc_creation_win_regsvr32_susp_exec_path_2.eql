@@ -1,0 +1,11 @@
+// Title: Regsvr32 Execution From Highly Suspicious Location
+// ID: 327ff235-94eb-4f06-b9de-aaee571324be
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-05-26
+// Tags: attack.stealth, attack.t1218.010
+// Description: Detects execution of regsvr32 where the DLL is located in a highly suspicious locations
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where (((process.executable endswith "\\regsvr32.exe") or (process.pe.original_file_name == "REGSVR32.EXE")) and (((process.command_line like "*_:\\PerfLogs\\*" or process.command_line like "*_:\\Temp\\*" or process.command_line like "*_\\Windows\\Registration\\CRMLog*" or process.command_line like "*_\\Windows\\System32\\com\\dmp\\*" or process.command_line like "*_\\Windows\\System32\\FxsTmp\\*" or process.command_line like "*_\\Windows\\System32\\Microsoft\\Crypto\\RSA\\MachineKeys\\*" or process.command_line like "*_\\Windows\\System32\\spool\\drivers\\color\\*" or process.command_line like "*_\\Windows\\System32\\spool\\PRINTERS\\*" or process.command_line like "*_\\Windows\\System32\\spool\\SERVERS\\*" or process.command_line like "*_\\Windows\\System32\\Tasks_Migrated\\*" or process.command_line like "*_\\Windows\\System32\\Tasks\\Microsoft\\Windows\\SyncCenter\\*" or process.command_line like "*_\\Windows\\SysWOW64\\com\\dmp\\*" or process.command_line like "*_\\Windows\\SysWOW64\\FxsTmp\\*" or process.command_line like "*_\\Windows\\SysWOW64\\Tasks\\Microsoft\\Windows\\PLA\\System\\*" or process.command_line like "*_\\Windows\\SysWOW64\\Tasks\\Microsoft\\Windows\\SyncCenter\\*" or process.command_line like "*_\\Windows\\Tasks\\*" or process.command_line like "*_\\Windows\\Tracing\\*")) or (((process.command_line like "*_ \"C:\\*" or process.command_line like "*_ C:\\*" or process.command_line like "*_ 'C:\\*" or process.command_line like "*_D:\\*")) and not (((process.command_line like "*_C:\\Program Files (x86)\\*" or process.command_line like "*_C:\\Program Files\\*" or process.command_line like "*_C:\\ProgramData\\*" or process.command_line like "*_C:\\Users\\*" or process.command_line like "*_ C:\\Windows\\*" or process.command_line like "*_ \"C:\\Windows\\*" or process.command_line like "*_ 'C:\\Windows\\*"))))) and not (((process.command_line == "") or (process.command_line == null))))

@@ -1,0 +1,23 @@
+// Title: New Virtual Smart Card Created Via TpmVscMgr.EXE
+// ID: c633622e-cab9-4eaa-bb13-66a1d68b3e47
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-06-15
+// Tags: attack.execution
+// Description: Detects execution of "Tpmvscmgr.exe" to create a new virtual smart card.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule c633622e_cab9_4eaa_bb13_66a1d68b3e47 {
+  meta:
+    title = "New Virtual Smart Card Created Via TpmVscMgr.EXE"
+    description = "Detects execution of "Tpmvscmgr.exe" to create a new virtual smart card."
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.process.command_line = /.*create.*/ nocase) and ($e.target.process.file.full_path = /.*\\tpmvscmgr.exe$/ nocase and $e.target.process.file.name = "TpmVscMgr.exe"))
+
+  condition:
+    $e
+}

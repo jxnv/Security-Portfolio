@@ -1,0 +1,11 @@
+# Title: Change Winevt Channel Access Permission Via Registry
+# ID: 7d9263bd-dc47-4a58-bc92-5474abab390c
+# Status: test
+# Level: high
+# Author: frack113
+# Date: 2022-09-17
+# Tags: attack.defense-impairment, attack.t1685.001
+# Description: Detects tampering with the "ChannelAccess" registry key in order to change access to Windows event channel.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog ((registry_key_name="*\\Microsoft\\Windows\\CurrentVersion\\WINEVT\\Channels\\*" AND registry_key_name="*\\ChannelAccess" AND (Details="*(A;;0x1;;;LA)*" OR Details="*(A;;0x1;;;SY)*" OR Details="*(A;;0x5;;;BA)*")) AND NOT (((process_path="C:\\Windows\\WinSxS\\*" AND process_path="*\\TiWorker.exe") OR (process_path="C:\\Windows\\servicing\\TrustedInstaller.exe"))))

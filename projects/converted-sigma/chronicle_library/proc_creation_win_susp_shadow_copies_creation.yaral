@@ -1,0 +1,23 @@
+// Title: Shadow Copies Creation Using Operating Systems Utilities
+// ID: b17ea6f7-6e90-447e-a799-e6c0a493d6ce
+// Status: test
+// Level: medium
+// Author: Teymur Kheirkhabarov, Daniil Yugoslavskiy, oscd.community
+// Date: 2019-10-22
+// Tags: attack.credential-access, attack.t1003, attack.t1003.002, attack.t1003.003
+// Description: Shadow Copies creation using operating systems utilities, possible credential access
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule b17ea6f7_6e90_447e_a799_e6c0a493d6ce {
+  meta:
+    title = "Shadow Copies Creation Using Operating Systems Utilities"
+    description = "Shadow Copies creation using operating systems utilities, possible credential access"
+    author = "Teymur Kheirkhabarov, Daniil Yugoslavskiy, oscd.community"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.command_line = /.*shadow.*/ nocase and $e.target.process.command_line = /.*create.*/ nocase)) and ((($e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase or $e.target.process.file.full_path = /.*\\wmic.exe$/ nocase or $e.target.process.file.full_path = /.*\\vssadmin.exe$/ nocase)) or (($e.target.process.file.name = "PowerShell.EXE" or $e.target.process.file.name = "pwsh.dll" or $e.target.process.file.name = "wmic.exe" or $e.target.process.file.name = "VSSADMIN.EXE"))))
+
+  condition:
+    $e
+}

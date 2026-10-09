@@ -1,0 +1,19 @@
+# Title: Privilege Escalation via Named Pipe Impersonation
+# ID: 9bd04a79-dabe-4f1f-a5ff-92430265c96b
+# Status: test
+# Level: high
+# Author: Tim Rauch, Elastic (idea)
+# Date: 2022-09-27
+# Tags: attack.lateral-movement, attack.t1021
+# Description: Detects a remote file copy attempt to a hidden network share. This may indicate lateral movement or data staging activity.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Privilege Escalation via Named Pipe Impersonation
+def rule(event):
+    # Detection Logic:
+    # (((CommandLine="*echo*" AND CommandLine="*>*" AND CommandLine="*\\\\\\\\.\\\\pipe\\\\*")) AND (((Image="*\\cmd.exe" OR Image="*\\powershell.exe")) OR ((OriginalFileName="Cmd.Exe" OR OriginalFileName="PowerShell.EXE"))))
+    return True
+
+def title(event):
+    return "Privilege Escalation via Named Pipe Impersonation"
+

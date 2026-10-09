@@ -1,0 +1,11 @@
+# Title: Webshell Hacking Activity Patterns
+# ID: 4ebc877f-4612-45cb-b3a5-8e3834db36c9
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems)
+# Date: 2022-03-17
+# Tags: attack.persistence, attack.discovery, attack.t1505.003, attack.t1018, attack.t1033, attack.t1087
+# Description: Detects certain parent child patterns found in cases in which a web shell is used to perform certain credential dumping or exfiltration activities on a compromised system
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog ((((parent_process_path="*\\java.exe" OR parent_process_path="*\\javaw.exe") AND (parent_process_path="*-tomcat-*" OR parent_process_path="*\\tomcat*")) OR ((parent_process_path="*\\java.exe" OR parent_process_path="*\\javaw.exe") AND (process_exec="*catalina.jar*" OR process_exec="*CATALINA_HOME*")) OR ((parent_process_path="*\\caddy.exe" OR parent_process_path="*\\httpd.exe" OR parent_process_path="*\\nginx.exe" OR parent_process_path="*\\php-cgi.exe" OR parent_process_path="*\\w3wp.exe" OR parent_process_path="*\\ws_tomcatservice.exe"))) AND (((process_exec="*rundll32*" AND process_exec="*comsvcs*")) OR ((process_exec="* -hp*" AND process_exec="* a *" AND process_exec="* -m*")) OR ((process_exec="*net*" AND process_exec="* user *" AND process_exec="* /add*")) OR ((process_exec="*net*" AND process_exec="* localgroup *" AND process_exec="* administrators *" AND process_exec="*/add*")) OR ((process_path="*\\ntdsutil.exe" OR process_path="*\\ldifde.exe" OR process_path="*\\adfind.exe" OR process_path="*\\procdump.exe" OR process_path="*\\Nanodump.exe" OR process_path="*\\vssadmin.exe" OR process_path="*\\fsutil.exe")) OR ((process_exec="* -decode *" OR process_exec="* -NoP *" OR process_exec="* -W Hidden *" OR process_exec="* /decode *" OR process_exec="* /ticket:*" OR process_exec="* sekurlsa*" OR process_exec="*.dmp full*" OR process_exec="*.downloadfile(*" OR process_exec="*.downloadstring(*" OR process_exec="*FromBase64String*" OR process_exec="*process call create*" OR process_exec="*reg save *" OR process_exec="*whoami /priv*"))))

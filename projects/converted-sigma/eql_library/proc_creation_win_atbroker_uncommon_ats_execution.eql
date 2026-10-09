@@ -1,0 +1,11 @@
+// Title: Uncommon  Assistive Technology Applications Execution Via AtBroker.EXE
+// ID: f24bcaea-0cd1-11eb-adc1-0242ac120002
+// Status: test
+// Level: medium
+// Author: Mateusz Wydra, oscd.community
+// Date: 2020-10-12
+// Tags: attack.stealth, attack.t1218
+// Description: Detects the start of a non built-in assistive technology applications via "Atbroker.EXE".
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where (((process.command_line like "*_start*") and ((process.executable endswith "\\AtBroker.exe") or (process.pe.original_file_name == "AtBroker.exe"))) and not (((process.command_line like "*_animations*" or process.command_line like "*_audiodescription*" or process.command_line like "*_caretbrowsing*" or process.command_line like "*_caretwidth*" or process.command_line like "*_colorfiltering*" or process.command_line like "*_cursorindicator*" or process.command_line like "*_cursorscheme*" or process.command_line like "*_filterkeys*" or process.command_line like "*_focusborderheight*" or process.command_line like "*_focusborderwidth*" or process.command_line like "*_highcontrast*" or process.command_line like "*_keyboardcues*" or process.command_line like "*_keyboardpref*" or process.command_line like "*_livecaptions*" or process.command_line like "*_magnifierpane*" or process.command_line like "*_messageduration*" or process.command_line like "*_minimumhitradius*" or process.command_line like "*_mousekeys*" or process.command_line like "*_Narrator*" or process.command_line like "*_osk*" or process.command_line like "*_overlappedcontent*" or process.command_line like "*_showsounds*" or process.command_line like "*_soundsentry*" or process.command_line like "*_speechreco*" or process.command_line like "*_stickykeys*" or process.command_line like "*_togglekeys*" or process.command_line like "*_voiceaccess*" or process.command_line like "*_windowarranging*" or process.command_line like "*_windowtracking*" or process.command_line like "*_windowtrackingtimeout*" or process.command_line like "*_windowtrackingzorder*"))) and not ((process.command_line like "*_Oracle_JavaAccessBridge*")))

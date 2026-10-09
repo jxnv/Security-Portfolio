@@ -1,0 +1,19 @@
+# Title: Kubernetes Secrets Modified or Deleted
+# ID: 58d31a75-a4f8-4c40-985b-373d58162ca2
+# Status: test
+# Level: medium
+# Author: kelnage
+# Date: 2024-07-11
+# Tags: attack.credential-access
+# Description: Detects when Kubernetes Secrets are Modified or Deleted.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Kubernetes Secrets Modified or Deleted
+def rule(event):
+    # Detection Logic:
+    # (objectRef.resource="secrets" AND (verb="create" OR verb="delete" OR verb="patch" OR verb="replace" OR verb="update"))
+    return True
+
+def title(event):
+    return "Kubernetes Secrets Modified or Deleted"
+

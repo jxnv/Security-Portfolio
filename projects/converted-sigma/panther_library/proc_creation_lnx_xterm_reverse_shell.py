@@ -1,0 +1,19 @@
+# Title: Potential Xterm Reverse Shell
+# ID: 4e25af4b-246d-44ea-8563-e42aacab006b
+# Status: test
+# Level: medium
+# Author: @d4ns4n_
+# Date: 2023-04-24
+# Tags: attack.execution, attack.t1059
+# Description: Detects usage of "xterm" as a potential reverse shell tunnel
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Potential Xterm Reverse Shell
+def rule(event):
+    # Detection Logic:
+    # (Image="*xterm*" AND CommandLine="*-display*" AND CommandLine="*:1")
+    return True
+
+def title(event):
+    return "Potential Xterm Reverse Shell"
+

@@ -1,0 +1,11 @@
+// Title: Windows Defender Exclusion Registry Key - Write Access Requested
+// ID: e9c8808f-4cfb-4ba9-97d4-e5f3beaa244d
+// Status: test
+// Level: medium
+// Author: @BarryShooshooga, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2019-10-26
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects write access requests to the Windows Defender exclusions registry keys. This could be an indication of an attacker trying to request a handle or access the object to write new exclusions in order to bypass security.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((AccessList: "*%%4417*" OR AccessList: "*%%4418*") AND (EventID: "4656" OR EventID: "4663") AND ObjectName: "*\\Microsoft\\Windows Defender\\Exclusions\\*")

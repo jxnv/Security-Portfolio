@@ -1,0 +1,11 @@
+-- Title: Suspicious Get-ADDBAccount Usage
+-- ID: b140afd9-474b-4072-958e-2ebb435abd68
+-- Status: test
+-- Level: high
+-- Author: Florian Roth (Nextron Systems)
+-- Date: 2022-03-16
+-- Tags: attack.credential-access, attack.t1003.003
+-- Description: Detects suspicious invocation of the Get-ADDBAccount script that reads from a ntds.dit file and may be used to get access to credentials without using any credential dumpers
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM file WHERE ((Payload LIKE '%Get-ADDBAccount%' AND Payload LIKE '%BootKey %' AND Payload LIKE '%DatabasePath %'))

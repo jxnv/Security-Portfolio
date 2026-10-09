@@ -1,0 +1,14 @@
+// Title: Potential Registry Persistence Attempt Via Windows Telemetry
+// ID: 73a883d0-0348-4be4-a8d8-51031c2564f8
+// Status: test
+// Level: high
+// Author: Lednyov Alexey, oscd.community, Sreeman
+// Date: 2020-10-16
+// Tags: attack.privilege-escalation, attack.execution, attack.persistence, attack.t1053.005
+// Description: Detects potential persistence behavior using the windows telemetry registry key.
+// Windows telemetry makes use of the binary CompatTelRunner.exe to run a variety of commands and perform the actual telemetry collections.
+// This binary was created to be easily extensible, and to that end, it relies on the registry to instruct on which commands to run.
+// The problem is, it will run any arbitrary command without restriction of location or type.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+from siem.events where ((contains(TargetObject, "\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\AppCompatFlags\\TelemetryController\\") AND TargetObject="*\\Command" AND (contains(Details, ".bat") OR contains(Details, ".bin") OR contains(Details, ".cmd") OR contains(Details, ".dat") OR contains(Details, ".dll") OR contains(Details, ".exe") OR contains(Details, ".hta") OR contains(Details, ".jar") OR contains(Details, ".js") OR contains(Details, ".msi") OR contains(Details, ".ps") OR contains(Details, ".sh") OR contains(Details, ".vb"))) AND NOT (((contains(Details, "\\system32\\CompatTelRunner.exe") OR contains(Details, "\\system32\\DeviceCensus.exe")))))

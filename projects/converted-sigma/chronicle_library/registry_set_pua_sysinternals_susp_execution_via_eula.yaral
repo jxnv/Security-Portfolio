@@ -1,0 +1,23 @@
+// Title: PUA - Sysinternals Tools Execution - Registry
+// ID: c7da8edc-49ae-45a2-9e61-9fd860e4e73d
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-24
+// Tags: attack.resource-development, attack.t1588.002
+// Description: Detects the execution of some potentially unwanted tools such as PsExec, Procdump, etc. (part of the Sysinternals suite) via the creation of the "accepteula" registry key.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule c7da8edc_49ae_45a2_9e61_9fd860e4e73d {
+  meta:
+    title = "PUA - Sysinternals Tools Execution - Registry"
+    description = "Detects the execution of some potentially unwanted tools such as PsExec, Procdump, etc. (part of the Sysinternals suite) via the creation of the "accepteula" registry key."
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.TargetObject = /.*\\Active Directory Explorer.*/ nocase or $e.TargetObject = /.*\\Handle.*/ nocase or $e.TargetObject = /.*\\LiveKd.*/ nocase or $e.TargetObject = /.*\\Process Explorer.*/ nocase or $e.TargetObject = /.*\\ProcDump.*/ nocase or $e.TargetObject = /.*\\PsExec.*/ nocase or $e.TargetObject = /.*\\PsLoglist.*/ nocase or $e.TargetObject = /.*\\PsPasswd.*/ nocase or $e.TargetObject = /.*\\SDelete.*/ nocase or $e.TargetObject = /.*\\Sysinternals.*/ nocase) and $e.TargetObject = /.*\\EulaAccepted$/ nocase)
+
+  condition:
+    $e
+}

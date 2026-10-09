@@ -1,0 +1,11 @@
+// Title: Suspicious MSHTA Child Process
+// ID: 03cc0c25-389f-4bf8-b48d-11878079f1ca
+// Status: test
+// Level: high
+// Author: Michael Haag
+// Date: 2019-01-16
+// Tags: attack.stealth, attack.t1218.005, car.2013-02-003, car.2013-03-001, car.2014-04-003
+// Description: Detects a suspicious process spawning from an "mshta.exe" process, which could be indicative of a malicious HTA script execution
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+DeviceProcessEvents | where ((((FolderPath endswith "\\cmd.exe" or FolderPath endswith "\\powershell.exe" or FolderPath endswith "\\pwsh.exe" or FolderPath endswith "\\wscript.exe" or FolderPath endswith "\\cscript.exe" or FolderPath endswith "\\sh.exe" or FolderPath endswith "\\bash.exe" or FolderPath endswith "\\reg.exe" or FolderPath endswith "\\regsvr32.exe" or FolderPath endswith "\\bitsadmin.exe")) or ((ProcessVersionInfoOriginalFileName == "Cmd.Exe" or ProcessVersionInfoOriginalFileName == "PowerShell.EXE" or ProcessVersionInfoOriginalFileName == "pwsh.dll" or ProcessVersionInfoOriginalFileName == "wscript.exe" or ProcessVersionInfoOriginalFileName == "cscript.exe" or ProcessVersionInfoOriginalFileName == "Bash.exe" or ProcessVersionInfoOriginalFileName == "reg.exe" or ProcessVersionInfoOriginalFileName == "REGSVR32.EXE" or ProcessVersionInfoOriginalFileName == "bitsadmin.exe"))) and (InitiatingProcessFolderPath endswith "\\mshta.exe"))

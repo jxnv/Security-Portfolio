@@ -1,0 +1,26 @@
+{
+  "title": "Rebuild Performance Counter Values Via Lodctr.EXE",
+  "id": "cc9d3712-6310-4320-b2df-7cb408274d53",
+  "status": "test",
+  "description": "Detects the execution of \"lodctr.exe\" to rebuild the performance counter registry values. This can be abused by attackers by providing a malicious config file to overwrite performance counter configuration to confuse and evade monitoring and security solutions.",
+  "author": "Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2023-06-15",
+  "tags": [
+    "attack.execution"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_img": {
+      "Image|endswith": "\\lodctr.exe",
+      "OriginalFileName": "LODCTR.EXE"
+    },
+    "selection_cli": {
+      "CommandLine|contains|windash": " -r"
+    },
+    "condition": "all of selection_*"
+  }
+}

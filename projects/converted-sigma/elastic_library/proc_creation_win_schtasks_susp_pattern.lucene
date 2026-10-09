@@ -1,0 +1,11 @@
+# Title: Suspicious Command Patterns In Scheduled Task Creation
+# ID: f2c64357-b1d2-41b7-849f-34d2682c0fad
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems)
+# Date: 2022-02-23
+# Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.t1053.005
+# Description: Detects scheduled task creation using "schtasks" that contain potentially suspicious or uncommon commands
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((process.executable:*\\schtasks.exe AND process.command_line:*/Create *) AND ((((process.command_line:*/sc minute * OR process.command_line:*/ru system *)) AND ((process.command_line:*cmd /c* OR process.command_line:*cmd /k* OR process.command_line:*cmd /r* OR process.command_line:*cmd.exe /c * OR process.command_line:*cmd.exe /k * OR process.command_line:*cmd.exe /r *))) OR ((process.command_line:* -decode * OR process.command_line:* -enc * OR process.command_line:* -w hidden * OR process.command_line:* bypass * OR process.command_line:* IEX* OR process.command_line:*.DownloadData* OR process.command_line:*.DownloadFile* OR process.command_line:*.DownloadString* OR process.command_line:*/c start /min * OR process.command_line:*FromBase64String* OR process.command_line:*mshta http* OR process.command_line:*mshta.exe http*)) OR (((process.command_line:*:\\ProgramData\\* OR process.command_line:*:\\Temp\\* OR process.command_line:*:\\Tmp\\* OR process.command_line:*:\\Users\\Public\\* OR process.command_line:*:\\Windows\\Temp\\* OR process.command_line:*\\AppData\\* OR process.command_line:*%AppData%* OR process.command_line:*%Temp%* OR process.command_line:*%tmp%*)) AND ((process.command_line:*cscript* OR process.command_line:*curl* OR process.command_line:*wscript*)))))

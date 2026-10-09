@@ -1,0 +1,11 @@
+# Title: Suspicious Download From File-Sharing Website Via Bitsadmin
+# ID: 8518ed3d-f7c9-4601-a26c-f361a4256a0c
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems)
+# Date: 2022-06-28
+# Tags: attack.persistence, attack.execution, attack.stealth, attack.t1197, attack.s0190, attack.t1036.003, attack.command-and-control, attack.t1105
+# Description: Detects usage of bitsadmin downloading a file from a suspicious domain
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((CommandLine CONTAINS ".githubusercontent.com" OR CommandLine CONTAINS "0x0.st" OR CommandLine CONTAINS "anonfiles.com" OR CommandLine CONTAINS "bashupload.com" OR CommandLine CONTAINS "cdn.discordapp.com" OR CommandLine CONTAINS "chunk.io" OR CommandLine CONTAINS "ddns.net" OR CommandLine CONTAINS "dl.dropboxusercontent.com" OR CommandLine CONTAINS "ghostbin.co" OR CommandLine CONTAINS "github.com" OR CommandLine CONTAINS "glitch.me" OR CommandLine CONTAINS "gofile.io" OR CommandLine CONTAINS "hastebin.com" OR CommandLine CONTAINS "mediafire.com" OR CommandLine CONTAINS "mega.nz" OR CommandLine CONTAINS "onrender.com" OR CommandLine CONTAINS "pages.dev" OR CommandLine CONTAINS "paste.ee" OR CommandLine CONTAINS "pastebin.com" OR CommandLine CONTAINS "pastebin.pl" OR CommandLine CONTAINS "pastetext.net" OR CommandLine CONTAINS "privatlab.com" OR CommandLine CONTAINS "privatlab.net" OR CommandLine CONTAINS "send.exploit.in" OR CommandLine CONTAINS "sendspace.com" OR CommandLine CONTAINS "storage.googleapis.com" OR CommandLine CONTAINS "storjshare.io" OR CommandLine CONTAINS "supabase.co" OR CommandLine CONTAINS "temp.sh" OR CommandLine CONTAINS "transfer.sh" OR CommandLine CONTAINS "trycloudflare.com" OR CommandLine CONTAINS "ufile.io" OR CommandLine CONTAINS "w3spaces.com" OR CommandLine CONTAINS "workers.dev" OR CommandLine CONTAINS "x0.at")) AND ((CommandLine CONTAINS " /transfer " OR CommandLine CONTAINS " /create " OR CommandLine CONTAINS " /addfile ")) AND ((Image="*\\bitsadmin.exe") OR (OriginalFileName == "bitsadmin.exe")))

@@ -1,0 +1,11 @@
+// Title: Clear PowerShell History - PowerShell
+// ID: 26b692dc-1722-49b2-b496-a8258aa6371d
+// Status: test
+// Level: medium
+// Author: Ilyas Ochkov, Jonhnathan Ribeiro, Daniil Yugoslavskiy, oscd.community
+// Date: 2022-01-25
+// Tags: attack.stealth, attack.t1070.003
+// Description: Detects keywords that could indicate clearing PowerShell history
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+from siem.events where ((((contains(ScriptBlockText, "Set-PSReadlineOption") AND contains(ScriptBlockText, "–HistorySaveStyle") AND contains(ScriptBlockText, "SaveNothing"))) OR ((contains(ScriptBlockText, "Set-PSReadlineOption") AND contains(ScriptBlockText, "-HistorySaveStyle") AND contains(ScriptBlockText, "SaveNothing")))) OR (((contains(ScriptBlockText, "del") OR contains(ScriptBlockText, "Remove-Item") OR contains(ScriptBlockText, "rm"))) AND (contains(ScriptBlockText, "(Get-PSReadlineOption).HistorySavePath"))))

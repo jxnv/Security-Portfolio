@@ -1,0 +1,23 @@
+// Title: Renamed Visual Studio Code Tunnel Execution
+// ID: 2cf29f11-e356-4f61-98c0-1bdb9393d6da
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-09-28
+// Tags: attack.command-and-control, attack.t1071.001, attack.t1219
+// Description: Detects renamed Visual Studio Code tunnel execution. Attackers can abuse this functionality to establish a C2 channel
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 2cf29f11_e356_4f61_98c0_1bdb9393d6da {
+  meta:
+    title = "Renamed Visual Studio Code Tunnel Execution"
+    description = "Detects renamed Visual Studio Code tunnel execution. Attackers can abuse this functionality to establish a C2 channel"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((((not ($e.target.process.file.name = /.*/) and $e.target.process.command_line = /.*.exe tunnel$/ nocase) or (($e.target.process.command_line = /.*.exe tunnel.*/ nocase and $e.target.process.command_line = /.*--accept-server-license-terms.*/ nocase)) or (($e.target.process.command_line = /.*tunnel .*/ nocase and $e.target.process.command_line = /.*service.*/ nocase and $e.target.process.command_line = /.*internal-run.*/ nocase and $e.target.process.command_line = /.*tunnel-service.log.*/ nocase))) and not((($e.target.process.file.full_path = /.*\\code-tunnel.exe$/ nocase or $e.target.process.file.full_path = /.*\\code.exe$/ nocase)))) or (($e.principal.process.command_line = /.* tunnel$/ nocase and $e.target.process.file.full_path = /.*\\cmd.exe$/ nocase and ($e.target.process.command_line = /.*/d /c .*/ nocase and $e.target.process.command_line = /.*\\servers\\Stable-.*/ nocase and $e.target.process.command_line = /.*code-server.cmd.*/ nocase)) and not((($e.principal.process.file.full_path = /.*\\code-tunnel.exe$/ nocase or $e.principal.process.file.full_path = /.*\\code.exe$/ nocase)))))
+
+  condition:
+    $e
+}

@@ -1,0 +1,23 @@
+// Title: Potentially Suspicious File Download From ZIP TLD
+// ID: 0bb4bbeb-fe52-4044-b40c-430a04577ebe
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2023-05-18
+// Tags: attack.stealth
+// Description: Detects the download of a file with a potentially suspicious extension from a .zip top level domain.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 0bb4bbeb_fe52_4044_b40c_430a04577ebe {
+  meta:
+    title = "Potentially Suspicious File Download From ZIP TLD"
+    description = "Detects the download of a file with a potentially suspicious extension from a .zip top level domain."
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ($e.Contents = /.*.zip/.*/ nocase and ($e.target.file.full_path = /.*.bat:Zone.*/ nocase or $e.target.file.full_path = /.*.dat:Zone.*/ nocase or $e.target.file.full_path = /.*.dll:Zone.*/ nocase or $e.target.file.full_path = /.*.doc:Zone.*/ nocase or $e.target.file.full_path = /.*.docm:Zone.*/ nocase or $e.target.file.full_path = /.*.exe:Zone.*/ nocase or $e.target.file.full_path = /.*.hta:Zone.*/ nocase or $e.target.file.full_path = /.*.pptm:Zone.*/ nocase or $e.target.file.full_path = /.*.ps1:Zone.*/ nocase or $e.target.file.full_path = /.*.rar:Zone.*/ nocase or $e.target.file.full_path = /.*.rtf:Zone.*/ nocase or $e.target.file.full_path = /.*.sct:Zone.*/ nocase or $e.target.file.full_path = /.*.vbe:Zone.*/ nocase or $e.target.file.full_path = /.*.vbs:Zone.*/ nocase or $e.target.file.full_path = /.*.ws:Zone.*/ nocase or $e.target.file.full_path = /.*.wsf:Zone.*/ nocase or $e.target.file.full_path = /.*.xll:Zone.*/ nocase or $e.target.file.full_path = /.*.xls:Zone.*/ nocase or $e.target.file.full_path = /.*.xlsm:Zone.*/ nocase or $e.target.file.full_path = /.*.zip:Zone.*/ nocase))
+
+  condition:
+    $e
+}

@@ -1,0 +1,11 @@
+// Title: Uncommon  Assistive Technology Applications Execution Via AtBroker.EXE
+// ID: f24bcaea-0cd1-11eb-adc1-0242ac120002
+// Status: test
+// Level: medium
+// Author: Mateusz Wydra, oscd.community
+// Date: 2020-10-12
+// Tags: attack.stealth, attack.t1218
+// Description: Detects the start of a non built-in assistive technology applications via "Atbroker.EXE".
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where (((process.command_line like "%start%") AND ((process.executable="*\\AtBroker.exe") OR (process.pe.original_file_name = "AtBroker.exe"))) AND NOT (((process.command_line like "%animations%" OR process.command_line like "%audiodescription%" OR process.command_line like "%caretbrowsing%" OR process.command_line like "%caretwidth%" OR process.command_line like "%colorfiltering%" OR process.command_line like "%cursorindicator%" OR process.command_line like "%cursorscheme%" OR process.command_line like "%filterkeys%" OR process.command_line like "%focusborderheight%" OR process.command_line like "%focusborderwidth%" OR process.command_line like "%highcontrast%" OR process.command_line like "%keyboardcues%" OR process.command_line like "%keyboardpref%" OR process.command_line like "%livecaptions%" OR process.command_line like "%magnifierpane%" OR process.command_line like "%messageduration%" OR process.command_line like "%minimumhitradius%" OR process.command_line like "%mousekeys%" OR process.command_line like "%Narrator%" OR process.command_line like "%osk%" OR process.command_line like "%overlappedcontent%" OR process.command_line like "%showsounds%" OR process.command_line like "%soundsentry%" OR process.command_line like "%speechreco%" OR process.command_line like "%stickykeys%" OR process.command_line like "%togglekeys%" OR process.command_line like "%voiceaccess%" OR process.command_line like "%windowarranging%" OR process.command_line like "%windowtracking%" OR process.command_line like "%windowtrackingtimeout%" OR process.command_line like "%windowtrackingzorder%"))) AND NOT ((process.command_line like "%Oracle_JavaAccessBridge%")))

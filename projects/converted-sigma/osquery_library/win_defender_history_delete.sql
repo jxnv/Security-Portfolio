@@ -1,0 +1,11 @@
+-- Title: Windows Defender Malware Detection History Deletion
+-- ID: 2afe6582-e149-11ea-87d0-0242ac130003
+-- Status: test
+-- Level: informational
+-- Author: Cian Heasley
+-- Date: 2020-08-13
+-- Tags: attack.defense-impairment
+-- Description: Windows Defender logs when the history of detected infections is deleted.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM file WHERE (EventID = '1013')

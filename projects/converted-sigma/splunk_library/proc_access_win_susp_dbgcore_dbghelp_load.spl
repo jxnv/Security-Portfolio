@@ -1,0 +1,13 @@
+# Title: Suspicious Process Access to LSASS with Dbgcore/Dbghelp DLLs
+# ID: 9f5c1d59-33be-4e60-bcab-85d2f566effd
+# Status: experimental
+# Level: high
+# Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+# Date: 2025-11-27
+# Tags: attack.credential-access, attack.defense-impairment, attack.t1003.001, attack.t1685
+# Description: Detects suspicious process access to LSASS.exe from processes located in uncommon locations with dbgcore.dll or dbghelp.dll in the call trace.
+# These DLLs contain functions like MiniDumpWriteDump that can be abused for credential dumping purposes. While modern tools like Mimikatz have moved to using ntdll.dll,
+# dbgcore.dll and dbghelp.dll are still used by basic credential dumping utilities and legacy tools for LSASS memory access and process suspension techniques.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog ((target_process_path="*\\lsass.exe" AND (CallTrace="*dbgcore.dll*" OR CallTrace="*dbghelp.dll*")) AND ((source_process_path="*:\\Perflogs\\*" OR source_process_path="*:\\Temp\\*" OR source_process_path="*:\\Users\\Public\\*" OR source_process_path="*\\$Recycle.Bin\\*" OR source_process_path="*\\AppData\\Roaming\\*" OR source_process_path="*\\Contacts\\*" OR source_process_path="*\\Desktop\\*" OR source_process_path="*\\Documents\\*" OR source_process_path="*\\Downloads\\*" OR source_process_path="*\\Favorites\\*" OR source_process_path="*\\Favourites\\*" OR source_process_path="*\\inetpub\\wwwroot\\*" OR source_process_path="*\\Music\\*" OR source_process_path="*\\Pictures\\*" OR source_process_path="*\\Start Menu\\Programs\\Startup\\*" OR source_process_path="*\\Users\\Default\\*" OR source_process_path="*\\Videos\\*" OR source_process_path="*\\Windows\\Temp\\*")))

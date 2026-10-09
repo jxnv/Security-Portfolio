@@ -1,0 +1,23 @@
+// Title: Scheduled TaskCache Change by Uncommon Program
+// ID: 4720b7df-40c3-48fd-bbdf-fd4b3c464f0d
+// Status: test
+// Level: high
+// Author: Syed Hasan (@syedhasan009)
+// Date: 2021-06-18
+// Tags: attack.privilege-escalation, attack.execution, attack.persistence, attack.t1053, attack.t1053.005
+// Description: Monitor the creation of a new key under 'TaskCache' when a new scheduled task is registered by a process that is not svchost.exe, which is suspicious
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 4720b7df_40c3_48fd_bbdf_fd4b3c464f0d {
+  meta:
+    title = "Scheduled TaskCache Change by Uncommon Program"
+    description = "Monitor the creation of a new key under 'TaskCache' when a new scheduled task is registered by a process that is not svchost.exe, which is suspicious"
+    author = "Syed Hasan (@syedhasan009)"
+    severity = "HIGH"
+
+  events:
+    (($e.TargetObject = /.*SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Schedule\\TaskCache\\.*/ nocase) and not((($e.Details = "(Empty)") or ($e.target.process.file.full_path = "C:\\Windows\\explorer.exe" and $e.TargetObject = /.*\\Microsoft\\Windows NT\\CurrentVersion\\Schedule\\TaskCache\\Tree\\Microsoft\\Windows\\PLA\\Server Manager Performance Monitor\\.*/ nocase) or ($e.target.process.file.full_path = /.*C:\\Windows\\System32\\MoUsoCoreWorker.exe$/ nocase) or ($e.target.process.file.full_path = "C:\\Windows\\System32\\msiexec.exe") or ($e.target.process.file.full_path = /^C:\\Windows\\Microsoft.NET\\Framework.*/ nocase and $e.target.process.file.full_path = /.*\\ngen.exe$/ nocase and ($e.TargetObject = /.*\\Microsoft\\Windows NT\\CurrentVersion\\Schedule\\TaskCache\\Tasks\\{B66B135D-DA06-4FC4-95F8-7458E1D10129}.*/ nocase or $e.TargetObject = /.*\\Microsoft\\Windows NT\\CurrentVersion\\Schedule\\TaskCache\\Tree\\Microsoft\\Windows\\.NET Framework\\.NET Framework NGEN.*/ nocase)) or (not ($e.Details = /.*/)) or (($e.target.process.file.full_path = "C:\\Program Files\\Microsoft Office\\root\\Integration\\Integrator.exe" or $e.target.process.file.full_path = "C:\\Program Files (x86)\\Microsoft Office\\root\\Integration\\Integrator.exe" or $e.target.process.file.full_path = "C:\\Program Files\\Common Files\\microsoft shared\\ClickToRun\\OfficeC2RClient.exe" or $e.target.process.file.full_path = "C:\\Program Files (x86)\\Common Files\\microsoft shared\\ClickToRun\\OfficeC2RClient.exe")) or (($e.TargetObject = /.*Microsoft\\Windows\\UpdateOrchestrator.*/ nocase or $e.TargetObject = /.*Microsoft\\Windows\\SoftwareProtectionPlatform\\SvcRestartTask\\Index.*/ nocase or $e.TargetObject = /.*Microsoft\\Windows\\Flighting\\OneSettings\\RefreshCache\\Index.*/ nocase)) or ($e.target.process.file.full_path = "C:\\Windows\\System32\\RuntimeBroker.exe") or ($e.target.process.file.full_path = /.*C:\\Windows\\System32\\services.exe$/ nocase) or ($e.target.process.file.full_path = "C:\\WINDOWS\\system32\\svchost.exe") or ($e.target.process.file.full_path = "System") or ($e.target.process.file.full_path = /^C:\\Windows\\.*/ nocase and $e.target.process.file.full_path = /.*\\TiWorker.exe$/ nocase))) and not(((($e.target.process.file.full_path = "C:\\Program Files (x86)\\Dropbox\\Update\\DropboxUpdate.exe" or $e.target.process.file.full_path = "C:\\Program Files\\Dropbox\\Update\\DropboxUpdate.exe")) or (($e.target.process.file.full_path = /.*C:\\Program Files (x86)\\Microsoft\\EdgeUpdate\\MicrosoftEdgeUpdate.exe$/ nocase or $e.target.process.file.full_path = /.*C:\\Program Files\\Microsoft\\EdgeUpdate\\MicrosoftEdgeUpdate.exe$/ nocase)) or (($e.target.process.file.full_path = /.*C:\\Program Files (x86)\\Microsoft OneDrive\\OneDrive.exe$/ nocase or $e.target.process.file.full_path = /.*C:\\Program Files\\Microsoft OneDrive\\OneDrive.exe$/ nocase)))))
+
+  condition:
+    $e
+}

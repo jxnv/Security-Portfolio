@@ -1,0 +1,26 @@
+// Title: Potential ClickFix Execution Pattern - Registry
+// ID: f5fe36cf-f1ec-4c23-903d-09a3110f6bbb
+// Status: experimental
+// Level: high
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-03-25
+// Tags: attack.execution, attack.t1204.001
+// Description: Detects potential ClickFix malware execution patterns by monitoring registry modifications in RunMRU keys containing HTTP/HTTPS links.
+// ClickFix is known to be distributed through phishing campaigns and uses techniques like clipboard hijacking and fake CAPTCHA pages.
+// Through the fakecaptcha pages, the adversary tricks users into opening the Run dialog box and pasting clipboard-hijacked content,
+// such as one-liners that execute remotely hosted malicious files or scripts.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule f5fe36cf_f1ec_4c23_903d_09a3110f6bbb {
+  meta:
+    title = "Potential ClickFix Execution Pattern - Registry"
+    description = "Detects potential ClickFix malware execution patterns by monitoring registry modifications in RunMRU keys containing HTTP/HTTPS links. ClickFix is known to be distributed through phishing campaigns and uses techniques like clipboard hijacking and fake CAPTCHA pages. Through the fakecaptcha pages, the adversary tricks users into opening the Run dialog box and pasting clipboard-hijacked content, such as one-liners that execute remotely hosted malicious files or scripts."
+    author = "Swachchhanda Shrawan Poudel (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.Details = /.*http://.*/ nocase or $e.Details = /.*https://.*/ nocase)) and ($e.TargetObject = /.*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\RunMRU\\.*/ nocase) and ((($e.Details = /.*account.*/ nocase or $e.Details = /.*anti-bot.*/ nocase or $e.Details = /.*botcheck.*/ nocase or $e.Details = /.*captcha.*/ nocase or $e.Details = /.*challenge.*/ nocase or $e.Details = /.*confirmation.*/ nocase or $e.Details = /.*fraud.*/ nocase or $e.Details = /.*human.*/ nocase or $e.Details = /.*identification.*/ nocase or $e.Details = /.*identificator.*/ nocase or $e.Details = /.*identity.*/ nocase or $e.Details = /.*robot.*/ nocase or $e.Details = /.*validation.*/ nocase or $e.Details = /.*verification.*/ nocase or $e.Details = /.*verify.*/ nocase)) or (($e.Details = /.*%comspec%.*/ nocase or $e.Details = /.*bitsadmin.*/ nocase or $e.Details = /.*certutil.*/ nocase or $e.Details = /.*cmd.*/ nocase or $e.Details = /.*cscript.*/ nocase or $e.Details = /.*curl.*/ nocase or $e.Details = /.*finger.*/ nocase or $e.Details = /.*mshta.*/ nocase or $e.Details = /.*powershell.*/ nocase or $e.Details = /.*pwsh.*/ nocase or $e.Details = /.*regsvr32.*/ nocase or $e.Details = /.*rundll32.*/ nocase or $e.Details = /.*schtasks.*/ nocase or $e.Details = /.*wget.*/ nocase or $e.Details = /.*wscript.*/ nocase))))
+
+  condition:
+    $e
+}

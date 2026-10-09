@@ -1,0 +1,11 @@
+# Title: File Download From Browser Process Via Inline URL
+# ID: 94771a71-ba41-4b6e-a757-b531372eaab6
+# Status: test
+# Level: medium
+# Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-01-11
+# Tags: attack.command-and-control, attack.t1105
+# Description: Detects execution of a browser process with a URL argument pointing to a file with a potentially interesting extension. This can be abused to download arbitrary files or to hide from the user for example by launching the browser in a minimized state.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog ((((process_exec="*.7z" OR process_exec="*.dat" OR process_exec="*.dll" OR process_exec="*.exe" OR process_exec="*.hta" OR process_exec="*.ps1" OR process_exec="*.psm1" OR process_exec="*.txt" OR process_exec="*.vbe" OR process_exec="*.vbs" OR process_exec="*.zip")) OR ((process_exec="*.7z\"*" OR process_exec="*.dat\"*" OR process_exec="*.dll\"*" OR process_exec="*.hta\"*" OR process_exec="*.ps1\"*" OR process_exec="*.psm1\"*" OR process_exec="*.txt\"*" OR process_exec="*.vbe\"*" OR process_exec="*.vbs\"*" OR process_exec="*.zip\"*"))) AND (process_exec="*http*") AND ((process_path="*\\brave.exe" OR process_path="*\\chrome.exe" OR process_path="*\\msedge.exe" OR process_path="*\\opera.exe" OR process_path="*\\vivaldi.exe")))

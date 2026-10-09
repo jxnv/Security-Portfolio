@@ -1,0 +1,24 @@
+// Title: Suspicious BitLocker Access Agent Update Utility Execution
+// ID: 9f38c1db-e2ae-40bf-81d0-5b68f73fb512
+// Status: experimental
+// Level: high
+// Author: andrewdanis, Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-10-18
+// Tags: attack.stealth, attack.t1218, attack.lateral-movement, attack.t1021.003
+// Description: Detects the execution of the BitLocker Access Agent Update Utility (baaupdate.exe) which is not a common parent process for other processes.
+// Suspicious child processes spawned by baaupdate.exe could indicate an attempt at lateral movement via BitLocker DCOM & COM Hijacking.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 9f38c1db_e2ae_40bf_81d0_5b68f73fb512 {
+  meta:
+    title = "Suspicious BitLocker Access Agent Update Utility Execution"
+    description = "Detects the execution of the BitLocker Access Agent Update Utility (baaupdate.exe) which is not a common parent process for other processes. Suspicious child processes spawned by baaupdate.exe could indicate an attempt at lateral movement via BitLocker DCOM & COM Hijacking."
+    author = "andrewdanis, Swachchhanda Shrawan Poudel (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ($e.principal.process.file.full_path = /.*\\baaupdate.exe$/ nocase and ($e.target.process.file.full_path = /.*\\bitsadmin.exe$/ nocase or $e.target.process.file.full_path = /.*\\cmd.exe$/ nocase or $e.target.process.file.full_path = /.*\\cscript.exe$/ nocase or $e.target.process.file.full_path = /.*\\mshta.exe$/ nocase or $e.target.process.file.full_path = /.*\\powershell_ise.exe$/ nocase or $e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\regsvr32.exe$/ nocase or $e.target.process.file.full_path = /.*\\rundll32.exe$/ nocase or $e.target.process.file.full_path = /.*\\schtasks.exe$/ nocase or $e.target.process.file.full_path = /.*\\wmic.exe$/ nocase or $e.target.process.file.full_path = /.*\\wscript.exe$/ nocase))
+
+  condition:
+    $e
+}

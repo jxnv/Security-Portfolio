@@ -1,0 +1,24 @@
+// Title: Audit Policy Tampering Via Auditpol
+// ID: 0a13e132-651d-11eb-ae93-0242ac130002
+// Status: test
+// Level: high
+// Author: Janantha Marasinghe (https://github.com/blueteam0ps)
+// Date: 2021-02-02
+// Tags: attack.defense-impairment, attack.t1685.001
+// Description: Threat actors can use auditpol binary to change audit policy configuration to impair detection capability.
+// This can be carried out by selectively disabling/removing certain audit policies as well as restoring a custom policy owned by the threat actor.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 0a13e132_651d_11eb_ae93_0242ac130002 {
+  meta:
+    title = "Audit Policy Tampering Via Auditpol"
+    description = "Threat actors can use auditpol binary to change audit policy configuration to impair detection capability. This can be carried out by selectively disabling/removing certain audit policies as well as restoring a custom policy owned by the threat actor."
+    author = "Janantha Marasinghe (https://github.com/blueteam0ps)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*disable.*/ nocase or $e.target.process.command_line = /.*clear.*/ nocase or $e.target.process.command_line = /.*remove.*/ nocase or $e.target.process.command_line = /.*restore.*/ nocase)) and (($e.target.process.file.full_path = /.*\\auditpol.exe$/ nocase) or ($e.target.process.file.name = "AUDITPOL.EXE")))
+
+  condition:
+    $e
+}

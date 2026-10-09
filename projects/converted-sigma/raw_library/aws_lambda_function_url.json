@@ -1,0 +1,24 @@
+{
+  "title": "New AWS Lambda Function URL Configuration Created",
+  "id": "ec541962-c05a-4420-b9ea-84de072d18f4",
+  "status": "experimental",
+  "description": "Detects when a user creates a Lambda function URL configuration, which could be used to expose the function to the internet and potentially allow unauthorized access to the function's IAM role for AWS API calls.\nThis could give an adversary access to the privileges associated with the Lambda service role that is attached to that function.\n",
+  "author": "Ivan Saakov",
+  "date": "2024-12-19",
+  "tags": [
+    "attack.initial-access",
+    "attack.privilege-escalation"
+  ],
+  "level": "medium",
+  "logsource": {
+    "product": "aws",
+    "service": "cloudtrail"
+  },
+  "detection": {
+    "selection": {
+      "eventSource": "lambda.amazonaws.com",
+      "eventName": "CreateFunctionUrlConfig"
+    },
+    "condition": "selection"
+  }
+}

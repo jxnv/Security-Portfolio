@@ -1,0 +1,11 @@
+// Title: Desktop.INI Created by Uncommon Process
+// ID: 81315b50-6b60-4d8f-9928-3466e1022515
+// Status: test
+// Level: medium
+// Author: Maxime Thiebaut (@0xThiebaut), Tim Shelton (HAWK.IO)
+// Date: 2020-03-19
+// Tags: attack.privilege-escalation, attack.persistence, attack.t1547.009
+// Description: Detects unusual processes accessing desktop.ini, which can be leveraged to alter how Explorer displays a folder's content (i.e. renaming files) without changing them on disk.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((tgt.file.path endswithCIS "\\desktop.ini") AND NOT ((((src.process.image.path startswithCIS "C:\\Windows\\" OR src.process.image.path startswithCIS "C:\\Program Files\\" OR src.process.image.path startswithCIS "C:\\Program Files (x86)\\")) OR (tgt.file.path startswithCIS "C:\\$WINDOWS.~BT\\NewOS\\"))) AND NOT (((src.process.image.path startswithCIS "C:\\Users\\" AND src.process.image.path endswithCIS "\\AppData\\Local\\JetBrains\\Toolbox\\bin\\7z.exe" AND tgt.file.path containsCIS "\\JetBrains\\apps\\") OR (src.process.image.path startswithCIS "C:\\Users\\" AND src.process.image.path containsCIS "\\AppData\\Local\\Microsoft\\OneDrive\\"))))

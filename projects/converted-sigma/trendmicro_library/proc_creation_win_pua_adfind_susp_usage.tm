@@ -1,0 +1,11 @@
+// Title: PUA - AdFind Suspicious Execution
+// ID: 9a132afa-654e-11eb-ae93-0242ac130002
+// Status: test
+// Level: high
+// Author: Janantha Marasinghe (https://github.com/blueteam0ps), FPT.EagleEye Team, omkar72, oscd.community
+// Date: 2021-02-02
+// Tags: attack.discovery, attack.t1018, attack.t1087.002, attack.t1482, attack.t1069.002, stp.1u
+// Description: Detects AdFind execution with common flags seen used during attacks
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((CommandLine: "*domainlist*" OR CommandLine: "*trustdmp*" OR CommandLine: "*dcmodes*" OR CommandLine: "*adinfo*" OR CommandLine: "*-sc dclist*" OR CommandLine: "*computer_pwdnotreqd*" OR CommandLine: "*objectcategory=*" OR CommandLine: "*-subnets -f*" OR CommandLine: "*name=\"Domain Admins\"*" OR CommandLine: "*-sc u:*" OR CommandLine: "*domainncs*" OR CommandLine: "*dompol*" OR CommandLine: "* oudmp *" OR CommandLine: "*subnetdmp*" OR CommandLine: "*gpodmp*" OR CommandLine: "*fspdmp*" OR CommandLine: "*users_noexpire*" OR CommandLine: "*computers_active*" OR CommandLine: "*computers_pwdnotreqd*"))

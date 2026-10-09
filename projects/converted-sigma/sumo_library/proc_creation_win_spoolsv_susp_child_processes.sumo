@@ -1,0 +1,11 @@
+// Title: Suspicious Spool Service Child Process
+// ID: dcdbc940-0bff-46b2-95f3-2d73f848e33b
+// Status: test
+// Level: high
+// Author: Justin C. (@endisphotic), @dreadphones (detection), Thomas Patzke (Sigma rule)
+// Date: 2021-07-11
+// Tags: attack.execution, attack.t1203, attack.privilege-escalation, attack.t1068
+// Description: Detects suspicious print spool service (spoolsv.exe) child processes.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where ((ParentImage matches "*\\spoolsv.exe" and (IntegrityLevel = "System" or IntegrityLevel = "S-1-16-16384")) and (((Image matches "*\\gpupdate.exe" or Image matches "*\\whoami.exe" or Image matches "*\\nltest.exe" or Image matches "*\\taskkill.exe" or Image matches "*\\wmic.exe" or Image matches "*\\taskmgr.exe" or Image matches "*\\sc.exe" or Image matches "*\\findstr.exe" or Image matches "*\\curl.exe" or Image matches "*\\wget.exe" or Image matches "*\\certutil.exe" or Image matches "*\\bitsadmin.exe" or Image matches "*\\accesschk.exe" or Image matches "*\\wevtutil.exe" or Image matches "*\\bcdedit.exe" or Image matches "*\\fsutil.exe" or Image matches "*\\cipher.exe" or Image matches "*\\schtasks.exe" or Image matches "*\\write.exe" or Image matches "*\\wuauclt.exe" or Image matches "*\\systeminfo.exe" or Image matches "*\\reg.exe" or Image matches "*\\query.exe")) or (((Image matches "*\\net.exe" or Image matches "*\\net1.exe")) and !((CommandLine matches "*start*"))) or ((Image matches "*\\cmd.exe") and !(((CommandLine matches "*.spl*" or CommandLine matches "*route add*" or CommandLine matches "*program files*")))) or ((Image matches "*\\netsh.exe") and !(((CommandLine matches "*add portopening*" or CommandLine matches "*rule name*")))) or (((Image matches "*\\powershell.exe" or Image matches "*\\pwsh.exe")) and !((CommandLine matches "*.spl*"))) or ((CommandLine matches "*rundll32.exe") and ((Image matches "*\\rundll32.exe") or (OriginalFileName = "RUNDLL32.EXE")))))

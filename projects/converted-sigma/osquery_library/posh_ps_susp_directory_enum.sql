@@ -1,0 +1,11 @@
+-- Title: Powershell Directory Enumeration
+-- ID: 162e69a7-7981-4344-84a9-0f1c9a217a52
+-- Status: test
+-- Level: medium
+-- Author: frack113
+-- Date: 2022-03-17
+-- Tags: attack.discovery, attack.t1083
+-- Description: Detects technique used by MAZE ransomware to enumerate directories using Powershell
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM file WHERE ((ScriptBlockText LIKE '%foreach%' AND ScriptBlockText LIKE '%Get-ChildItem%' AND ScriptBlockText LIKE '%-Path %' AND ScriptBlockText LIKE '%-ErrorAction %' AND ScriptBlockText LIKE '%SilentlyContinue%' AND ScriptBlockText LIKE '%Out-File %' AND ScriptBlockText LIKE '%-append%'))

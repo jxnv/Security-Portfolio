@@ -1,0 +1,23 @@
+// Title: Suspicious File Created Via OneNote Application
+// ID: fcc6d700-68d9-4241-9a1a-06874d621b06
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-02-09
+// Tags: attack.stealth
+// Description: Detects suspicious files created via the OneNote application. This could indicate a potential malicious ".one"/".onepkg" file was executed as seen being used in malware activity in the wild
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule fcc6d700_68d9_4241_9a1a_06874d621b06 {
+  meta:
+    title = "Suspicious File Created Via OneNote Application"
+    description = "Detects suspicious files created via the OneNote application. This could indicate a potential malicious ".one"/".onepkg" file was executed as seen being used in malware activity in the wild"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.file.full_path = /.*\\onenote.exe$/ nocase or $e.target.process.file.full_path = /.*\\onenotem.exe$/ nocase or $e.target.process.file.full_path = /.*\\onenoteim.exe$/ nocase) and $e.target.file.full_path = /.*\\AppData\\Local\\Temp\\OneNote\\.*/ nocase and ($e.target.file.full_path = /.*.bat$/ nocase or $e.target.file.full_path = /.*.chm$/ nocase or $e.target.file.full_path = /.*.cmd$/ nocase or $e.target.file.full_path = /.*.dll$/ nocase or $e.target.file.full_path = /.*.exe$/ nocase or $e.target.file.full_path = /.*.hta$/ nocase or $e.target.file.full_path = /.*.htm$/ nocase or $e.target.file.full_path = /.*.html$/ nocase or $e.target.file.full_path = /.*.js$/ nocase or $e.target.file.full_path = /.*.lnk$/ nocase or $e.target.file.full_path = /.*.ps1$/ nocase or $e.target.file.full_path = /.*.vbe$/ nocase or $e.target.file.full_path = /.*.vbs$/ nocase or $e.target.file.full_path = /.*.wsf$/ nocase))
+
+  condition:
+    $e
+}

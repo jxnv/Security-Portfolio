@@ -1,0 +1,28 @@
+{
+  "title": "Finger.EXE Execution",
+  "id": "af491bca-e752-4b44-9c86-df5680533dbc",
+  "status": "test",
+  "description": "Detects execution of the \"finger.exe\" utility.\nFinger.EXE or \"TCPIP Finger Command\" is an old utility that is still present on modern Windows installation. It Displays information about users on a specified remote computer (typically a UNIX computer) that is running the finger service or daemon.\nDue to the old nature of this utility and the rareness of machines having the finger service. Any execution of \"finger.exe\" can be considered \"suspicious\" and worth investigating.\n",
+  "author": "Florian Roth (Nextron Systems), omkar72, oscd.community",
+  "date": "2021-02-24",
+  "tags": [
+    "attack.command-and-control",
+    "attack.t1105"
+  ],
+  "level": "high",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection": [
+      {
+        "OriginalFileName": "finger.exe"
+      },
+      {
+        "Image|endswith": "\\finger.exe"
+      }
+    ],
+    "condition": "selection"
+  }
+}

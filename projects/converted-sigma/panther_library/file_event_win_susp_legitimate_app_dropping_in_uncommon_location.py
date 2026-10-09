@@ -1,0 +1,20 @@
+# Title: Legitimate Application Writing Files In Uncommon Location
+# ID: 1cf465a1-2609-4c15-9b66-c32dbe4bfd67
+# Status: experimental
+# Level: high
+# Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+# Date: 2025-12-10
+# Tags: attack.stealth, attack.t1218, attack.command-and-control, attack.t1105
+# Description: Detects legitimate applications writing any type of file to uncommon or suspicious locations that are not typical for application data storage or execution.
+# Adversaries may leverage legitimate applications (Living off the Land Binaries - LOLBins) to drop or download malicious files to uncommon locations on the system to evade detection by security solutions.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Legitimate Application Writing Files In Uncommon Location
+def rule(event):
+    # Detection Logic:
+    # (((Image="*\\eqnedt32.exe" OR Image="*\\wordpad.exe" OR Image="*\\wordview.exe" OR Image="*\\cmdl32.exe" OR Image="*\\certutil.exe" OR Image="*\\certoc.exe" OR Image="*\\CertReq.exe" OR Image="*\\bitsadmin.exe" OR Image="*\\Desktopimgdownldr.exe" OR Image="*\\esentutl.exe" OR Image="*\\expand.exe" OR Image="*\\extrac32.exe" OR Image="*\\replace.exe" OR Image="*\\mshta.exe" OR Image="*\\ftp.exe" OR Image="*\\Ldifde.exe" OR Image="*\\RdrCEF.exe" OR Image="*\\hh.exe" OR Image="*\\finger.exe" OR Image="*\\findstr.exe")) AND ((TargetFilename="*:\\Perflogs*" OR TargetFilename="*:\\ProgramData\\*" OR TargetFilename="*:\\Temp\\*" OR TargetFilename="*:\\Users\\Public\\*" OR TargetFilename="*:\\Windows\\*" OR TargetFilename="*\\$Recycle.Bin\\*" OR TargetFilename="*\\AppData\\Local\\*" OR TargetFilename="*\\AppData\\Roaming\\*" OR TargetFilename="*\\Contacts\\*" OR TargetFilename="*\\Desktop\\*" OR TargetFilename="*\\Favorites\\*" OR TargetFilename="*\\Favourites\\*" OR TargetFilename="*\\inetpub\\wwwroot\\*" OR TargetFilename="*\\Music\\*" OR TargetFilename="*\\Pictures\\*" OR TargetFilename="*\\Start Menu\\Programs\\Startup\\*" OR TargetFilename="*\\Users\\Default\\*" OR TargetFilename="*\\Videos\\*")))
+    return True
+
+def title(event):
+    return "Legitimate Application Writing Files In Uncommon Location"
+

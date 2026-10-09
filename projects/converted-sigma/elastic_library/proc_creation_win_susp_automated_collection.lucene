@@ -1,0 +1,11 @@
+# Title: Automated Collection Command Prompt
+# ID: f576a613-2392-4067-9d1a-9345fb58d8d1
+# Status: test
+# Level: medium
+# Author: frack113
+# Date: 2021-07-28
+# Tags: attack.collection, attack.t1119, attack.credential-access, attack.t1552.001
+# Description: Once established within a system or network, an adversary may use automated techniques for collecting internal data.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((process.command_line:*.doc* OR process.command_line:*.docx* OR process.command_line:*.xls* OR process.command_line:*.xlsx* OR process.command_line:*.ppt* OR process.command_line:*.pptx* OR process.command_line:*.rtf* OR process.command_line:*.pdf* OR process.command_line:*.txt*)) AND (((process.command_line:*dir * AND process.command_line:* /b * AND process.command_line:* /s *)) OR (process.pe.original_file_name:"FINDSTR.EXE" AND (process.command_line:* /e * OR process.command_line:* /si *))))

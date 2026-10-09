@@ -1,0 +1,19 @@
+# Title: Password Reset By User Account
+# ID: 340ee172-4b67-4fb4-832f-f961bdc1f3aa
+# Status: test
+# Level: medium
+# Author: YochanaHenderson, '@Yochana-H'
+# Date: 2022-08-03
+# Tags: attack.privilege-escalation, attack.initial-access, attack.persistence, attack.credential-access, attack.stealth, attack.t1078.004
+# Description: Detect when a user has reset their password in Azure AD
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Password Reset By User Account
+def rule(event):
+    # Detection Logic:
+    # ((Category="UserManagement" AND Status="Success" AND Initiatedby="UPN") AND (Target="*UPN*" AND ActivityType="*Password reset*"))
+    return True
+
+def title(event):
+    return "Password Reset By User Account"
+

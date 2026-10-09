@@ -1,0 +1,14 @@
+// Title: Potential ClickFix Execution Pattern - Registry
+// ID: f5fe36cf-f1ec-4c23-903d-09a3110f6bbb
+// Status: experimental
+// Level: high
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-03-25
+// Tags: attack.execution, attack.t1204.001
+// Description: Detects potential ClickFix malware execution patterns by monitoring registry modifications in RunMRU keys containing HTTP/HTTPS links.
+// ClickFix is known to be distributed through phishing campaigns and uses techniques like clipboard hijacking and fake CAPTCHA pages.
+// Through the fakecaptcha pages, the adversary tricks users into opening the Run dialog box and pasting clipboard-hijacked content,
+// such as one-liners that execute remotely hosted malicious files or scripts.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where (((registry.data.strings like "%http://%" OR registry.data.strings like "%https://%")) AND (registry.path like "%\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\RunMRU\\%") AND (((registry.data.strings like "%account%" OR registry.data.strings like "%anti-bot%" OR registry.data.strings like "%botcheck%" OR registry.data.strings like "%captcha%" OR registry.data.strings like "%challenge%" OR registry.data.strings like "%confirmation%" OR registry.data.strings like "%fraud%" OR registry.data.strings like "%human%" OR registry.data.strings like "%identification%" OR registry.data.strings like "%identificator%" OR registry.data.strings like "%identity%" OR registry.data.strings like "%robot%" OR registry.data.strings like "%validation%" OR registry.data.strings like "%verification%" OR registry.data.strings like "%verify%")) OR ((registry.data.strings like "%%comspec%%" OR registry.data.strings like "%bitsadmin%" OR registry.data.strings like "%certutil%" OR registry.data.strings like "%cmd%" OR registry.data.strings like "%cscript%" OR registry.data.strings like "%curl%" OR registry.data.strings like "%finger%" OR registry.data.strings like "%mshta%" OR registry.data.strings like "%powershell%" OR registry.data.strings like "%pwsh%" OR registry.data.strings like "%regsvr32%" OR registry.data.strings like "%rundll32%" OR registry.data.strings like "%schtasks%" OR registry.data.strings like "%wget%" OR registry.data.strings like "%wscript%"))))

@@ -1,0 +1,23 @@
+// Title: System Network Connections Discovery Via Net.EXE
+// ID: 1c67a717-32ba-409b-a45d-0fb704a73a81
+// Status: test
+// Level: low
+// Author: frack113
+// Date: 2021-12-10
+// Tags: attack.discovery, attack.t1049
+// Description: Adversaries may attempt to get a listing of network connections to or from the compromised system they are currently accessing or from remote systems by querying for information over the network.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 1c67a717_32ba_409b_a45d_0fb704a73a81 {
+  meta:
+    title = "System Network Connections Discovery Via Net.EXE"
+    description = "Adversaries may attempt to get a listing of network connections to or from the compromised system they are currently accessing or from remote systems by querying for information over the network."
+    author = "frack113"
+    severity = "LOW"
+
+  events:
+    (((($e.target.process.command_line = /.* use$/ nocase or $e.target.process.command_line = /.* sessions$/ nocase)) or (($e.target.process.command_line = /.* use .*/ nocase or $e.target.process.command_line = /.* sessions .*/ nocase))) and ((($e.target.process.file.full_path = /.*\\net.exe$/ nocase or $e.target.process.file.full_path = /.*\\net1.exe$/ nocase)) or (($e.target.process.file.name = "net.exe" or $e.target.process.file.name = "net1.exe"))))
+
+  condition:
+    $e
+}

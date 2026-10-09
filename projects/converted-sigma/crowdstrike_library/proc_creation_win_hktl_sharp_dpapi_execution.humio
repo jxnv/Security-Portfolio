@@ -1,0 +1,12 @@
+// Title: HackTool - SharpDPAPI Execution
+// ID: c7d33b50-f690-4b51-8cfb-0fb912a31e57
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2024-06-26
+// Tags: attack.privilege-escalation, attack.stealth, attack.t1134.001, attack.t1134.003
+// Description: Detects the execution of the SharpDPAPI tool based on CommandLine flags and PE metadata.
+// SharpDPAPI is a C# port of some DPAPI functionality from the Mimikatz project.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((ImageFileName = /.*\\SharpDPAPI.exe/i) or (OriginalFilename = "SharpDPAPI.exe")) or (((CommandLine = /* backupkey */i or CommandLine = /* blob */i or CommandLine = /* certificates */i or CommandLine = /* credentials */i or CommandLine = /* keepass */i or CommandLine = /* masterkeys */i or CommandLine = /* rdg */i or CommandLine = /* vaults */i)) and (((CommandLine = /* /file:*/i or CommandLine = /* /machine*/i or CommandLine = /* /mkfile:*/i or CommandLine = /* /password:*/i or CommandLine = /* /pvk:*/i or CommandLine = /* /server:*/i or CommandLine = /* /target:*/i or CommandLine = /* /unprotect*/i)) or ((CommandLine = /* {*/i and CommandLine = /*}:*/i)))))

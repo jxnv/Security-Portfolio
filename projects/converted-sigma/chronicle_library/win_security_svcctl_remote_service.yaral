@@ -1,0 +1,23 @@
+// Title: Remote Service Activity via SVCCTL Named Pipe
+// ID: 586a8d6b-6bfe-4ad9-9d78-888cd2fe50c3
+// Status: test
+// Level: medium
+// Author: Samir Bousseaden
+// Date: 2019-04-03
+// Tags: attack.lateral-movement, attack.persistence, attack.t1021.002
+// Description: Detects remote service activity via remote access to the svcctl named pipe
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 586a8d6b_6bfe_4ad9_9d78_888cd2fe50c3 {
+  meta:
+    title = "Remote Service Activity via SVCCTL Named Pipe"
+    description = "Detects remote service activity via remote access to the svcctl named pipe"
+    author = "Samir Bousseaden"
+    severity = "MEDIUM"
+
+  events:
+    ($e.EventID = 5145 and $e.ShareName = "\\\\\\\\\\*\\\\IPC$" and $e.RelativeTargetName = "svcctl" and $e.AccessList = /.*WriteData.*/ nocase)
+
+  condition:
+    $e
+}

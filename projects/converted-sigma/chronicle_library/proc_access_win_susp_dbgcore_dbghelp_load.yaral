@@ -1,0 +1,25 @@
+// Title: Suspicious Process Access to LSASS with Dbgcore/Dbghelp DLLs
+// ID: 9f5c1d59-33be-4e60-bcab-85d2f566effd
+// Status: experimental
+// Level: high
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-11-27
+// Tags: attack.credential-access, attack.defense-impairment, attack.t1003.001, attack.t1685
+// Description: Detects suspicious process access to LSASS.exe from processes located in uncommon locations with dbgcore.dll or dbghelp.dll in the call trace.
+// These DLLs contain functions like MiniDumpWriteDump that can be abused for credential dumping purposes. While modern tools like Mimikatz have moved to using ntdll.dll,
+// dbgcore.dll and dbghelp.dll are still used by basic credential dumping utilities and legacy tools for LSASS memory access and process suspension techniques.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 9f5c1d59_33be_4e60_bcab_85d2f566effd {
+  meta:
+    title = "Suspicious Process Access to LSASS with Dbgcore/Dbghelp DLLs"
+    description = "Detects suspicious process access to LSASS.exe from processes located in uncommon locations with dbgcore.dll or dbghelp.dll in the call trace. These DLLs contain functions like MiniDumpWriteDump that can be abused for credential dumping purposes. While modern tools like Mimikatz have moved to using ntdll.dll, dbgcore.dll and dbghelp.dll are still used by basic credential dumping utilities and legacy tools for LSASS memory access and process suspension techniques."
+    author = "Swachchhanda Shrawan Poudel (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.TargetImage = /.*\\lsass.exe$/ nocase and ($e.CallTrace = /.*dbgcore.dll.*/ nocase or $e.CallTrace = /.*dbghelp.dll.*/ nocase)) and (($e.SourceImage = /.*:\\Perflogs\\.*/ nocase or $e.SourceImage = /.*:\\Temp\\.*/ nocase or $e.SourceImage = /.*:\\Users\\Public\\.*/ nocase or $e.SourceImage = /.*\\$Recycle.Bin\\.*/ nocase or $e.SourceImage = /.*\\AppData\\Roaming\\.*/ nocase or $e.SourceImage = /.*\\Contacts\\.*/ nocase or $e.SourceImage = /.*\\Desktop\\.*/ nocase or $e.SourceImage = /.*\\Documents\\.*/ nocase or $e.SourceImage = /.*\\Downloads\\.*/ nocase or $e.SourceImage = /.*\\Favorites\\.*/ nocase or $e.SourceImage = /.*\\Favourites\\.*/ nocase or $e.SourceImage = /.*\\inetpub\\wwwroot\\.*/ nocase or $e.SourceImage = /.*\\Music\\.*/ nocase or $e.SourceImage = /.*\\Pictures\\.*/ nocase or $e.SourceImage = /.*\\Start Menu\\Programs\\Startup\\.*/ nocase or $e.SourceImage = /.*\\Users\\Default\\.*/ nocase or $e.SourceImage = /.*\\Videos\\.*/ nocase or $e.SourceImage = /.*\\Windows\\Temp\\.*/ nocase)))
+
+  condition:
+    $e
+}

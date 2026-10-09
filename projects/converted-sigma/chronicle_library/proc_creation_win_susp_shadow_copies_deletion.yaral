@@ -1,0 +1,23 @@
+// Title: Shadow Copies Deletion Using Operating Systems Utilities
+// ID: c947b146-0abc-4c87-9c64-b17e9d7274a2
+// Status: stable
+// Level: high
+// Author: Florian Roth (Nextron Systems), Michael Haag, Teymur Kheirkhabarov, Daniil Yugoslavskiy, oscd.community, Andreas Hunkeler (@Karneades)
+// Date: 2019-10-22
+// Tags: attack.impact, attack.stealth, attack.t1070, attack.t1490
+// Description: Shadow Copies deletion using operating systems utilities
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule c947b146_0abc_4c87_9c64_b17e9d7274a2 {
+  meta:
+    title = "Shadow Copies Deletion Using Operating Systems Utilities"
+    description = "Shadow Copies deletion using operating systems utilities"
+    author = "Florian Roth (Nextron Systems), Michael Haag, Teymur Kheirkhabarov, Daniil Yugoslavskiy, oscd.community, Andreas Hunkeler (@Karneades)"
+    severity = "HIGH"
+
+  events:
+    (((($e.target.process.command_line = /.*shadow.*/ nocase and $e.target.process.command_line = /.*delete.*/ nocase)) and ((($e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase or $e.target.process.file.full_path = /.*\\wmic.exe$/ nocase or $e.target.process.file.full_path = /.*\\vssadmin.exe$/ nocase or $e.target.process.file.full_path = /.*\\diskshadow.exe$/ nocase)) or (($e.target.process.file.name = "PowerShell.EXE" or $e.target.process.file.name = "pwsh.dll" or $e.target.process.file.name = "wmic.exe" or $e.target.process.file.name = "VSSADMIN.EXE" or $e.target.process.file.name = "diskshadow.exe")))) or ((($e.target.process.command_line = /.*delete.*/ nocase and $e.target.process.command_line = /.*catalog.*/ nocase and $e.target.process.command_line = /.*quiet.*/ nocase)) and (($e.target.process.file.full_path = /.*\\wbadmin.exe$/ nocase) or ($e.target.process.file.name = "WBADMIN.EXE"))) or ((($e.target.process.command_line = /.*resize.*/ nocase and $e.target.process.command_line = /.*shadowstorage.*/ nocase) and ($e.target.process.command_line = /.*unbounded.*/ nocase or $e.target.process.command_line = /.*/MaxSize=.*/ nocase)) and (($e.target.process.file.full_path = /.*\\vssadmin.exe$/ nocase) or ($e.target.process.file.name = "VSSADMIN.EXE"))))
+
+  condition:
+    $e
+}

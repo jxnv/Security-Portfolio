@@ -1,0 +1,13 @@
+// Title: Potential Suspicious Change To Sensitive/Critical Files
+// ID: 86157017-c2b1-4d4a-8c33-93b8e67e4af4
+// Status: test
+// Level: medium
+// Author: @d4ns4n_ (Wuerth-Phoenix)
+// Date: 2023-05-30
+// Tags: attack.impact, attack.t1565.001
+// Description: Detects changes of sensitive and critical files. Monitors files that you don't expect to change without planning on Linux system.
+// These files include, but are not limited to, system configuration files, authentication files, and critical application files.
+// Attackers often target these files to maintain persistence, escalate privileges, or disrupt system operations.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where ((((process.executable endswith "/cat" or process.executable endswith "/echo" or process.executable endswith "/grep" or process.executable endswith "/head" or process.executable endswith "/more" or process.executable endswith "/tail") and process.command_line like "*_>*") or ((process.executable endswith "/emacs" or process.executable endswith "/nano" or process.executable endswith "/sed" or process.executable endswith "/vi" or process.executable endswith "/vim"))) and ((process.command_line like "*_/bin/login*" or process.command_line like "*_/bin/passwd*" or process.command_line like "*_/boot/*" or process.command_line like "*_/etc/*.conf*" or process.command_line like "*_/etc/cron.*" or process.command_line like "*_/etc/crontab*" or process.command_line like "*_/etc/hosts*" or process.command_line like "*_/etc/init.d*" or process.command_line like "*_/etc/sudoers*" or process.command_line like "*_/opt/bin/*" or process.command_line like "*_/sbin*" or process.command_line like "*_/usr/bin/*" or process.command_line like "*_/usr/local/bin/*")) and not (1=1))

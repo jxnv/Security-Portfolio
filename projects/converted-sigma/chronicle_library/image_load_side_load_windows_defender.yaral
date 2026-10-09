@@ -1,0 +1,23 @@
+// Title: Potential Mpclient.DLL Sideloading
+// ID: 418dc89a-9808-4b87-b1d7-e5ae0cb6effc
+// Status: test
+// Level: high
+// Author: Bhabesh Raj
+// Date: 2022-08-02
+// Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.stealth, attack.t1574.001
+// Description: Detects potential sideloading of "mpclient.dll" by Windows Defender processes ("MpCmdRun" and "NisSrv") from their non-default directory.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 418dc89a_9808_4b87_b1d7_e5ae0cb6effc {
+  meta:
+    title = "Potential Mpclient.DLL Sideloading"
+    description = "Detects potential sideloading of "mpclient.dll" by Windows Defender processes ("MpCmdRun" and "NisSrv") from their non-default directory."
+    author = "Bhabesh Raj"
+    severity = "HIGH"
+
+  events:
+    (($e.ImageLoaded = /.*\\mpclient.dll$/ nocase and ($e.target.process.file.full_path = /.*\\MpCmdRun.exe$/ nocase or $e.target.process.file.full_path = /.*\\NisSrv.exe$/ nocase)) and not((($e.target.process.file.full_path = /^C:\\Program Files (x86)\\Windows Defender\\.*/ nocase or $e.target.process.file.full_path = /^C:\\Program Files\\Microsoft Security Client\\.*/ nocase or $e.target.process.file.full_path = /^C:\\Program Files\\Windows Defender\\.*/ nocase or $e.target.process.file.full_path = /^C:\\ProgramData\\Microsoft\\Windows Defender\\Platform\\.*/ nocase or $e.target.process.file.full_path = /^C:\\Windows\\WinSxS\\.*/ nocase))))
+
+  condition:
+    $e
+}

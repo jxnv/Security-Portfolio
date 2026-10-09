@@ -1,0 +1,23 @@
+// Title: GatherNetworkInfo.VBS Reconnaissance Script Output
+// ID: f92a6f1e-a512-4a15-9735-da09e78d7273
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-02-08
+// Tags: attack.discovery
+// Description: Detects creation of files which are the results of executing the built-in reconnaissance script "C:\Windows\System32\gatherNetworkInfo.vbs".
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule f92a6f1e_a512_4a15_9735_da09e78d7273 {
+  meta:
+    title = "GatherNetworkInfo.VBS Reconnaissance Script Output"
+    description = "Detects creation of files which are the results of executing the built-in reconnaissance script "C:\Windows\System32\gatherNetworkInfo.vbs"."
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ($e.target.file.full_path = /^C:\\Windows\\System32\\config.*/ nocase and ($e.target.file.full_path = /.*\\Hotfixinfo.txt$/ nocase or $e.target.file.full_path = /.*\\netiostate.txt$/ nocase or $e.target.file.full_path = /.*\\sysportslog.txt$/ nocase or $e.target.file.full_path = /.*\\VmSwitchLog.evtx$/ nocase))
+
+  condition:
+    $e
+}

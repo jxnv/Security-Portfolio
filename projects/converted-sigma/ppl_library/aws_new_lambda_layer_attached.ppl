@@ -1,0 +1,13 @@
+// Title: AWS New Lambda Layer Attached
+// ID: 97fbabf8-8e1b-47a2-b7d5-a418d2b95e3d
+// Status: test
+// Level: low
+// Author: Austin Songer
+// Date: 2021-09-23
+// Tags: attack.privilege-escalation
+// Description: Detects when a user attached a Lambda layer to an existing Lambda function.
+// A malicious Lambda layer could execute arbitrary code in the context of the function's IAM role.
+// This would give an adversary access to resources that the function has access to.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where (eventSource = "lambda.amazonaws.com" AND eventName="UpdateFunctionConfiguration*" AND requestParameters.layers like "%*%")

@@ -1,0 +1,23 @@
+// Title: HTTP Request to Low Reputation TLD or Suspicious File Extension
+// ID: 68c2c604-92ad-468b-bf4a-aac49adad08c
+// Status: experimental
+// Level: medium
+// Author: @signalblur, Corelight
+// Date: 2025-02-26
+// Tags: attack.initial-access, attack.command-and-control
+// Description: Detects HTTP requests to low reputation TLDs (e.g. .xyz, .top, .ru) or ending in suspicious file extensions (.exe, .dll, .hta), which may indicate malicious activity.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 68c2c604_92ad_468b_bf4a_aac49adad08c {
+  meta:
+    title = "HTTP Request to Low Reputation TLD or Suspicious File Extension"
+    description = "Detects HTTP requests to low reputation TLDs (e.g. .xyz, .top, .ru) or ending in suspicious file extensions (.exe, .dll, .hta), which may indicate malicious activity."
+    author = "@signalblur, Corelight"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.host = /.*.bid$/ nocase or $e.host = /.*.by$/ nocase or $e.host = /.*.cf$/ nocase or $e.host = /.*.click$/ nocase or $e.host = /.*.cm$/ nocase or $e.host = /.*.ga$/ nocase or $e.host = /.*.gq$/ nocase or $e.host = /.*.ir$/ nocase or $e.host = /.*.kp$/ nocase or $e.host = /.*.loan$/ nocase or $e.host = /.*.ml$/ nocase or $e.host = /.*.mm$/ nocase or $e.host = /.*.party$/ nocase or $e.host = /.*.pw$/ nocase or $e.host = /.*.ru$/ nocase or $e.host = /.*.su$/ nocase or $e.host = /.*.sy$/ nocase or $e.host = /.*.tk$/ nocase or $e.host = /.*.top$/ nocase or $e.host = /.*.tv$/ nocase or $e.host = /.*.ve$/ nocase or $e.host = /.*.work$/ nocase or $e.host = /.*.xyz$/ nocase)) and ((($e.uri = /.*.bat$/ nocase or $e.uri = /.*.bin$/ nocase or $e.uri = /.*.cmd$/ nocase or $e.uri = /.*.cpl$/ nocase or $e.uri = /.*.dll$/ nocase or $e.uri = /.*.dylib$/ nocase or $e.uri = /.*.elf$/ nocase or $e.uri = /.*.exe$/ nocase or $e.uri = /.*.hta$/ nocase or $e.uri = /.*.iso$/ nocase or $e.uri = /.*.jar$/ nocase or $e.uri = /.*.js$/ nocase or $e.uri = /.*.lnk$/ nocase or $e.uri = /.*.msi$/ nocase or $e.uri = /.*.pif$/ nocase or $e.uri = /.*.ps1$/ nocase or $e.uri = /.*.py$/ nocase or $e.uri = /.*.reg$/ nocase or $e.uri = /.*.scr$/ nocase or $e.uri = /.*.sh$/ nocase or $e.uri = /.*.so$/ nocase or $e.uri = /.*.vbs$/ nocase or $e.uri = /.*.wsf$/ nocase)) or (($e.resp_mime_types = "application/vnd.microsoft.portable-executable" or $e.resp_mime_types = "application/x-bat" or $e.resp_mime_types = "application/x-dosexec" or $e.resp_mime_types = "application/x-elf" or $e.resp_mime_types = "application/x-iso9660-image" or $e.resp_mime_types = "application/x-java-archive" or $e.resp_mime_types = "application/x-ms-shortcut" or $e.resp_mime_types = "application/x-msdos-program" or $e.resp_mime_types = "application/x-msdownload" or $e.resp_mime_types = "application/x-python-code" or $e.resp_mime_types = "application/x-sh"))))
+
+  condition:
+    $e
+}

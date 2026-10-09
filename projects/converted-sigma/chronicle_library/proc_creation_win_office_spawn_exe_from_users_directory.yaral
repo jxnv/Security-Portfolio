@@ -1,0 +1,23 @@
+// Title: Suspicious Binary In User Directory Spawned From Office Application
+// ID: aa3a6f94-890e-4e22-b634-ffdfd54792cc
+// Status: test
+// Level: high
+// Author: Jason Lynch
+// Date: 2019-04-02
+// Tags: attack.execution, attack.t1204.002, attack.g0046, car.2013-05-002
+// Description: Detects an executable in the users directory started from one of the Microsoft Office suite applications (Word, Excel, PowerPoint, Publisher, Visio)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule aa3a6f94_890e_4e22_b634_ffdfd54792cc {
+  meta:
+    title = "Suspicious Binary In User Directory Spawned From Office Application"
+    description = "Detects an executable in the users directory started from one of the Microsoft Office suite applications (Word, Excel, PowerPoint, Publisher, Visio)"
+    author = "Jason Lynch"
+    severity = "HIGH"
+
+  events:
+    ((($e.principal.process.file.full_path = /.*\\WINWORD.EXE$/ nocase or $e.principal.process.file.full_path = /.*\\EXCEL.EXE$/ nocase or $e.principal.process.file.full_path = /.*\\POWERPNT.exe$/ nocase or $e.principal.process.file.full_path = /.*\\MSPUB.exe$/ nocase or $e.principal.process.file.full_path = /.*\\VISIO.exe$/ nocase or $e.principal.process.file.full_path = /.*\\MSACCESS.exe$/ nocase or $e.principal.process.file.full_path = /.*\\EQNEDT32.exe$/ nocase) and $e.target.process.file.full_path = /^C:\\users\\.*/ nocase and $e.target.process.file.full_path = /.*.exe$/ nocase) and not(($e.target.process.file.full_path = /.*\\Teams.exe$/ nocase)))
+
+  condition:
+    $e
+}

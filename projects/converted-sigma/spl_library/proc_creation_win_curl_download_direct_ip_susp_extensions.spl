@@ -1,0 +1,11 @@
+# Title: Suspicious File Download From IP Via Curl.EXE
+# ID: 5cb299fc-5fb1-4d07-b989-0644c68b6043
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2023-07-27
+# Tags: attack.execution
+# Description: Detects potentially suspicious file downloads directly from IP addresses using curl.exe
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog (((process_exec="*.bat" OR process_exec="*.bat\"" OR process_exec="*.dat" OR process_exec="*.dat\"" OR process_exec="*.dll" OR process_exec="*.dll\"" OR process_exec="*.exe" OR process_exec="*.exe\"" OR process_exec="*.gif" OR process_exec="*.gif\"" OR process_exec="*.hta" OR process_exec="*.hta\"" OR process_exec="*.jpeg" OR process_exec="*.jpeg\"" OR process_exec="*.log" OR process_exec="*.log\"" OR process_exec="*.msi" OR process_exec="*.msi\"" OR process_exec="*.png" OR process_exec="*.png\"" OR process_exec="*.ps1" OR process_exec="*.ps1\"" OR process_exec="*.psm1" OR process_exec="*.psm1\"" OR process_exec="*.vbe" OR process_exec="*.vbe\"" OR process_exec="*.vbs" OR process_exec="*.vbs\"" OR process_exec="*.bat'" OR process_exec="*.dat'" OR process_exec="*.dll'" OR process_exec="*.exe'" OR process_exec="*.gif'" OR process_exec="*.hta'" OR process_exec="*.jpeg'" OR process_exec="*.log'" OR process_exec="*.msi'" OR process_exec="*.png'" OR process_exec="*.ps1'" OR process_exec="*.psm1'" OR process_exec="*.vbe'" OR process_exec="*.vbs'")) AND ((process_exec="* -O*" OR process_exec="*--remote-name*" OR process_exec="*--output*")) AND (process_exec="*http*") AND ((process_path="*\\curl.exe") OR (process_name="curl.exe")) AND (regex process_exec="(?i)://[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}"))

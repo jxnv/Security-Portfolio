@@ -1,0 +1,30 @@
+{
+  "title": "Potential Data Stealing Via Chromium Headless Debugging",
+  "id": "3e8207c5-fcd2-4ea6-9418-15d45b4890e4",
+  "status": "test",
+  "description": "Detects chromium based browsers starting in headless and debugging mode and pointing to a user profile. This could be a sign of data stealing or remote control",
+  "author": "Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2022-12-23",
+  "tags": [
+    "attack.credential-access",
+    "attack.collection",
+    "attack.stealth",
+    "attack.t1185",
+    "attack.t1564.003"
+  ],
+  "level": "high",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection": {
+      "CommandLine|contains|all": [
+        "--remote-debugging-",
+        "--user-data-dir",
+        "--headless"
+      ]
+    },
+    "condition": "selection"
+  }
+}

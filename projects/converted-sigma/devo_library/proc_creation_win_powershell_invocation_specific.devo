@@ -1,0 +1,11 @@
+// Title: Suspicious PowerShell Invocations - Specific - ProcessCreation
+// ID: 536e2947-3729-478c-9903-745aaffe60d2
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-01-05
+// Tags: attack.stealth
+// Description: Detects suspicious PowerShell invocation command parameters
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+from siem.events where ((((contains(CommandLine, "-nop") AND contains(CommandLine, " -w ") AND contains(CommandLine, "hidden") AND contains(CommandLine, " -c ") AND contains(CommandLine, "[Convert]::FromBase64String"))) OR ((contains(CommandLine, " -w ") AND contains(CommandLine, "hidden") AND contains(CommandLine, "-ep") AND contains(CommandLine, "bypass") AND contains(CommandLine, "-Enc"))) OR ((contains(CommandLine, " -w ") AND contains(CommandLine, "hidden") AND contains(CommandLine, "-noni") AND contains(CommandLine, "-nop") AND contains(CommandLine, " -c ") AND contains(CommandLine, "iex") AND contains(CommandLine, "New-Object"))) OR ((contains(CommandLine, "iex") AND contains(CommandLine, "New-Object") AND contains(CommandLine, "Net.WebClient") AND contains(CommandLine, ".Download"))) OR ((contains(CommandLine, "powershell") AND contains(CommandLine, "reg") AND contains(CommandLine, "add") AND contains(CommandLine, "\\software\\"))) OR ((contains(CommandLine, "bypass") AND contains(CommandLine, "-noprofile") AND contains(CommandLine, "-windowstyle") AND contains(CommandLine, "hidden") AND contains(CommandLine, "new-object") AND contains(CommandLine, "system.net.webclient") AND contains(CommandLine, ".download")))) AND NOT (((contains(CommandLine, "(New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1") OR contains(CommandLine, "Write-ChocolateyWarning")))))

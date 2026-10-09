@@ -1,0 +1,24 @@
+// Title: Potentially Suspicious Desktop Background Change Via Registry
+// ID: 85b88e05-dadc-430b-8a9e-53ff1cd30aae
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems), Stephen Lincoln @slincoln-aiq (AttackIQ)
+// Date: 2023-12-21
+// Tags: attack.persistence, attack.impact, attack.defense-impairment, attack.t1112, attack.t1491.001
+// Description: Detects registry value settings that would replace the user's desktop background.
+// This is a common technique used by malware to change the desktop background to a ransom note or other image.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 85b88e05_dadc_430b_8a9e_53ff1cd30aae {
+  meta:
+    title = "Potentially Suspicious Desktop Background Change Via Registry"
+    description = "Detects registry value settings that would replace the user's desktop background. This is a common technique used by malware to change the desktop background to a ransom note or other image."
+    author = "Nasreddine Bencherchali (Nextron Systems), Stephen Lincoln @slincoln-aiq (AttackIQ)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.TargetObject = /.*Control Panel\\Desktop.*/ nocase or $e.TargetObject = /.*CurrentVersion\\Policies\\ActiveDesktop.*/ nocase or $e.TargetObject = /.*CurrentVersion\\Policies\\System.*/ nocase)) and (($e.TargetObject = /.*NoChangingWallpaper$/ nocase and $e.Details = "DWORD (0x00000001)") or ($e.TargetObject = /.*\\Wallpaper$/ nocase) or ($e.TargetObject = /.*\\WallpaperStyle$/ nocase and $e.Details = "2")) and not((($e.TargetObject = /.*\\Control Panel\\Desktop\\Wallpaper$/ nocase and $e.Details = "(Empty)") or ($e.target.process.file.full_path = /.*C:\\Windows\\Explorer.EXE$/ nocase) or ($e.target.process.file.full_path = /.*\\svchost.exe$/ nocase))) and not((($e.target.process.file.full_path = "C:\\Program Files\\Amazon\\EC2Launch\\EC2Launch.exe" or $e.target.process.file.full_path = "C:\\Program Files (x86)\\Amazon\\EC2Launch\\EC2Launch.exe") and $e.TargetObject = /.*\\Control Panel\\Desktop\\Wallpaper$/ nocase)))
+
+  condition:
+    $e
+}

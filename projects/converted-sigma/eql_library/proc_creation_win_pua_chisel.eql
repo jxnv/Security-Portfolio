@@ -1,0 +1,11 @@
+// Title: PUA - Chisel Tunneling Tool Execution
+// ID: 8b0e12da-d3c3-49db-bb4f-256703f380e5
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-09-13
+// Tags: attack.command-and-control, attack.t1090.001
+// Description: Detects usage of the Chisel tunneling tool via the commandline arguments
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where ((process.executable endswith "\\chisel.exe") or (((process.command_line like "*_exe client *" or process.command_line like "*_exe server *")) and ((process.command_line like "*_-socks5*" or process.command_line like "*_-reverse*" or process.command_line like "*_ r:*" or process.command_line like "*_:127.0.0.1:*" or process.command_line like "*_-tls-skip-verify *" or process.command_line like "*_:socks*"))))

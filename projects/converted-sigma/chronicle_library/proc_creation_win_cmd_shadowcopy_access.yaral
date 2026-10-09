@@ -1,0 +1,23 @@
+// Title: Copy From VolumeShadowCopy Via Cmd.EXE
+// ID: c73124a7-3e89-44a3-bdc1-25fe4df754b1
+// Status: test
+// Level: high
+// Author: Max Altgelt (Nextron Systems), Tobias Michalski (Nextron Systems)
+// Date: 2021-08-09
+// Tags: attack.impact, attack.t1490
+// Description: Detects the execution of the builtin "copy" command that targets a shadow copy (sometimes used to copy registry hives that are in use)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule c73124a7_3e89_44a3_bdc1_25fe4df754b1 {
+  meta:
+    title = "Copy From VolumeShadowCopy Via Cmd.EXE"
+    description = "Detects the execution of the builtin "copy" command that targets a shadow copy (sometimes used to copy registry hives that are in use)"
+    author = "Max Altgelt (Nextron Systems), Tobias Michalski (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.command_line = /.*copy .*/ nocase and $e.target.process.command_line = /.*\\\\\\\\\\?\\\\GLOBALROOT\\\\Device\\\\HarddiskVolumeShadowCopy.*/ nocase))
+
+  condition:
+    $e
+}

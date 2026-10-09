@@ -1,0 +1,26 @@
+{
+  "title": "LSASS Process Crashed - Application",
+  "id": "a18e0862-127b-43ca-be12-1a542c75c7c5",
+  "status": "experimental",
+  "description": "Detects Windows error reporting events where the process that crashed is LSASS (Local Security Authority Subsystem Service).\nThis could be the cause of a provoked crash by techniques such as Lsass-Shtinkering to dump credentials.\n",
+  "author": "Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2022-12-07",
+  "tags": [
+    "attack.credential-access",
+    "attack.t1003.001"
+  ],
+  "level": "high",
+  "logsource": {
+    "product": "windows",
+    "service": "application"
+  },
+  "detection": {
+    "selection": {
+      "Provider_Name": "Application Error",
+      "EventID": 1000,
+      "AppName": "lsass.exe",
+      "ExceptionCode": "c0000001"
+    },
+    "condition": "selection"
+  }
+}

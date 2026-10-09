@@ -1,0 +1,23 @@
+// Title: Kerberos Manipulation
+// ID: f7644214-0eb0-4ace-9455-331ec4c09253
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2017-02-10
+// Tags: attack.credential-access, attack.t1212
+// Description: Detects failed Kerberos TGT issue operation. This can be a sign of manipulations of TGT messages by an attacker.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule f7644214_0eb0_4ace_9455_331ec4c09253 {
+  meta:
+    title = "Kerberos Manipulation"
+    description = "Detects failed Kerberos TGT issue operation. This can be a sign of manipulations of TGT messages by an attacker."
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.EventID = 675 or $e.EventID = 4768 or $e.EventID = 4769 or $e.EventID = 4771) and ($e.Status = "0x9" or $e.Status = "0xA" or $e.Status = "0xB" or $e.Status = "0xF" or $e.Status = "0x10" or $e.Status = "0x11" or $e.Status = "0x13" or $e.Status = "0x14" or $e.Status = "0x1A" or $e.Status = "0x1F" or $e.Status = "0x21" or $e.Status = "0x22" or $e.Status = "0x23" or $e.Status = "0x24" or $e.Status = "0x26" or $e.Status = "0x27" or $e.Status = "0x28" or $e.Status = "0x29" or $e.Status = "0x2C" or $e.Status = "0x2D" or $e.Status = "0x2E" or $e.Status = "0x2F" or $e.Status = "0x31" or $e.Status = "0x32" or $e.Status = "0x3E" or $e.Status = "0x3F" or $e.Status = "0x40" or $e.Status = "0x41" or $e.Status = "0x43" or $e.Status = "0x44"))
+
+  condition:
+    $e
+}

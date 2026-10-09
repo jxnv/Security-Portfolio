@@ -1,0 +1,23 @@
+// Title: HackTool Service Registration or Execution
+// ID: d26ce60c-2151-403c-9a42-49420d87b5e4
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-03-21
+// Tags: attack.execution, attack.t1569.002, attack.s0029
+// Description: Detects installation or execution of services
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule d26ce60c_2151_403c_9a42_49420d87b5e4 {
+  meta:
+    title = "HackTool Service Registration or Execution"
+    description = "Detects installation or execution of services"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.Provider_Name = "Service Control Manager" and ($e.EventID = 7045 or $e.EventID = 7036)) and (($e.ImagePath = /.*bypass.*/ nocase) or (($e.ServiceName = /.*cachedump.*/ nocase or $e.ServiceName = /.*DumpSvc.*/ nocase or $e.ServiceName = /.*gsecdump.*/ nocase or $e.ServiceName = /.*pwdump.*/ nocase or $e.ServiceName = /.*UACBypassedService.*/ nocase or $e.ServiceName = /.*WCE SERVICE.*/ nocase or $e.ServiceName = /.*WCESERVICE.*/ nocase or $e.ServiceName = /.*winexesvc.*/ nocase))))
+
+  condition:
+    $e
+}

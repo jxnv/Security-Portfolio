@@ -1,0 +1,11 @@
+// Title: Rundll32 Execution With Uncommon DLL Extension
+// ID: c3a99af4-35a9-4668-879e-c09aeb4f2bdf
+// Status: test
+// Level: medium
+// Author: Tim Shelton, Florian Roth (Nextron Systems), Yassine Oukessou
+// Date: 2022-01-13
+// Tags: attack.stealth, attack.t1218.011
+// Description: Detects the execution of rundll32 with a command line that doesn't contain a common extension
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where (((process.executable endswith "\\rundll32.exe") or (process.pe.original_file_name == "RUNDLL32.EXE")) and not (((process.command_line == "") or (((process.command_line like "*_.cpl *" or process.command_line like "*_.cpl,*" or process.command_line like "*_.cpl\"*" or process.command_line like "*_.cpl'*" or process.command_line like "*_.dll *" or process.command_line like "*_.dll,*" or process.command_line like "*_.dll\"*" or process.command_line like "*_.dll'*" or process.command_line like "*_.inf *" or process.command_line like "*_.inf,*" or process.command_line like "*_.inf\"*" or process.command_line like "*_.inf'*")) or ((process.command_line endswith ".cpl" or process.command_line endswith ".dll" or process.command_line endswith ".inf"))) or (process.command_line like "*_ -localserver *") or (process.command_line == null) or (process.parent.executable endswith "\\msiexec.exe" and (process.command_line like "*_:\\Windows\\Installer\\*" and process.command_line like "*_.tmp*" and process.command_line like "*_zzzzInvokeManagedCustomActionOutOfProc*")))) and not (((process.parent.command_line like "*_:\\Users\\*" and process.parent.command_line like "*_\\AppData\\Local\\Microsoft\\EdgeUpdate\\Install\\{*" and process.parent.command_line like "*_\\EDGEMITMP_*" and process.parent.command_line like "*_.tmp\\setup.exe*" and process.parent.command_line like "*_--install-archive=*" and process.parent.command_line like "*_--previous-version=*" and process.parent.command_line like "*_--msedgewebview --verbose-logging --do-not-launch-msedge --user-level*"))))

@@ -1,0 +1,23 @@
+// Title: JAMF MDM Execution
+// ID: be2e3a5c-9cc7-4d02-842a-68e9cb26ec49
+// Status: test
+// Level: low
+// Author: Jay Pandit
+// Date: 2023-08-22
+// Tags: attack.execution
+// Description: Detects execution of the "jamf" binary to create user accounts and run commands. For example, the binary can be abused by attackers on the system in order to bypass security controls or remove application control polices.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule be2e3a5c_9cc7_4d02_842a_68e9cb26ec49 {
+  meta:
+    title = "JAMF MDM Execution"
+    description = "Detects execution of the "jamf" binary to create user accounts and run commands. For example, the binary can be abused by attackers on the system in order to bypass security controls or remove application control polices."
+    author = "Jay Pandit"
+    severity = "LOW"
+
+  events:
+    ($e.target.process.file.full_path = /.*/jamf$/ nocase and ($e.target.process.command_line = /.*createAccount.*/ nocase or $e.target.process.command_line = /.*manage.*/ nocase or $e.target.process.command_line = /.*removeFramework.*/ nocase or $e.target.process.command_line = /.*removeMdmProfile.*/ nocase or $e.target.process.command_line = /.*resetPassword.*/ nocase or $e.target.process.command_line = /.*setComputerName.*/ nocase))
+
+  condition:
+    $e
+}

@@ -1,0 +1,23 @@
+// Title: Password Protected ZIP File Opened (Suspicious Filenames)
+// ID: 54f0434b-726f-48a1-b2aa-067df14516e4
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-05-09
+// Tags: attack.command-and-control, attack.stealth, attack.t1027, attack.t1105, attack.t1036
+// Description: Detects the extraction of password protected ZIP archives with suspicious file names. See the filename variable for more details on which file has been opened.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 54f0434b_726f_48a1_b2aa_067df14516e4 {
+  meta:
+    title = "Password Protected ZIP File Opened (Suspicious Filenames)"
+    description = "Detects the extraction of password protected ZIP archives with suspicious file names. See the filename variable for more details on which file has been opened."
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.EventID = 5379 and $e.TargetName = /.*Microsoft_Windows_Shell_ZipFolder:filename.*/ nocase) and (($e.TargetName = /.*invoice.*/ nocase or $e.TargetName = /.*new order.*/ nocase or $e.TargetName = /.*rechnung.*/ nocase or $e.TargetName = /.*factura.*/ nocase or $e.TargetName = /.*delivery.*/ nocase or $e.TargetName = /.*purchase.*/ nocase or $e.TargetName = /.*order.*/ nocase or $e.TargetName = /.*payment.*/ nocase)))
+
+  condition:
+    $e
+}

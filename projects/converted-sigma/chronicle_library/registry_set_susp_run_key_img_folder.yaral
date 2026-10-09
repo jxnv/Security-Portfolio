@@ -1,0 +1,23 @@
+// Title: New RUN Key Pointing to Suspicious Folder
+// ID: 02ee49e2-e294-4d0f-9278-f5b3212fc588
+// Status: experimental
+// Level: high
+// Author: Florian Roth (Nextron Systems), Markus Neis, Sander Wiebing, Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2018-08-25
+// Tags: attack.privilege-escalation, attack.persistence, attack.t1547.001
+// Description: Detects suspicious new RUN key element pointing to an executable in a suspicious folder
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 02ee49e2_e294_4d0f_9278_f5b3212fc588 {
+  meta:
+    title = "New RUN Key Pointing to Suspicious Folder"
+    description = "Detects suspicious new RUN key element pointing to an executable in a suspicious folder"
+    author = "Florian Roth (Nextron Systems), Markus Neis, Sander Wiebing, Swachchhanda Shrawan Poudel (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.TargetObject = /.*\\Software\\Microsoft\\Windows\\CurrentVersion\\Run.*/ nocase or $e.TargetObject = /.*\\Software\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Run.*/ nocase or $e.TargetObject = /.*\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run.*/ nocase)) and ((($e.Details = /.*:\\Perflogs.*/ nocase or $e.Details = /.*:\\ProgramData'.*/ nocase or $e.Details = /.*:\\Windows\\Temp.*/ nocase or $e.Details = /.*:\\Temp.*/ nocase or $e.Details = /.*\\AppData\\Local\\Temp.*/ nocase or $e.Details = /.*\\AppData\\Roaming.*/ nocase or $e.Details = /.*:\\$Recycle.bin.*/ nocase or $e.Details = /.*:\\Users\\Default.*/ nocase or $e.Details = /.*:\\Users\\public.*/ nocase or $e.Details = /.*%temp%.*/ nocase or $e.Details = /.*%tmp%.*/ nocase or $e.Details = /.*%Public%.*/ nocase or $e.Details = /.*%AppData%.*/ nocase)) or (($e.Details = /.*:\\Users\\.*/ nocase) and (($e.Details = /.*\\Favorites.*/ nocase or $e.Details = /.*\\Favourites.*/ nocase or $e.Details = /.*\\Contacts.*/ nocase or $e.Details = /.*\\Music.*/ nocase or $e.Details = /.*\\Pictures.*/ nocase or $e.Details = /.*\\Documents.*/ nocase or $e.Details = /.*\\Photos.*/ nocase)))) and not(($e.TargetObject = /.*\\Microsoft\\Windows\\CurrentVersion\\RunOnce\\.*/ nocase and $e.target.process.file.full_path = /^C:\\Windows\\SoftwareDistribution\\Download\\.*/ nocase and ($e.Details = /.*rundll32.exe .*/ nocase and $e.Details = /.*C:\\WINDOWS\\system32\\advpack.dll,DelNodeRunDLL32.*/ nocase) and ($e.Details = /.*\\AppData\\Local\\Temp\\.*/ nocase or $e.Details = /.*C:\\Windows\\Temp\\.*/ nocase))) and not((($e.target.process.file.full_path = /.*C:\\Program Files\\Spotify\\Spotify.exe$/ nocase or $e.target.process.file.full_path = /.*C:\\Program Files (x86)\\Spotify\\Spotify.exe$/ nocase or $e.target.process.file.full_path = /.*\\AppData\\Roaming\\Spotify\\Spotify.exe$/ nocase) and $e.TargetObject = /.*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\\Spotify$/ nocase and $e.Details = /.*Spotify.exe --autostart --minimized$/ nocase)))
+
+  condition:
+    $e
+}

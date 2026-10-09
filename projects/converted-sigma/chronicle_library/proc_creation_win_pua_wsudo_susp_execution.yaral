@@ -1,0 +1,23 @@
+// Title: PUA - Wsudo Suspicious Execution
+// ID: bdeeabc9-ff2a-4a51-be59-bb253aac7891
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-12-02
+// Tags: attack.execution, attack.privilege-escalation, attack.t1059
+// Description: Detects usage of wsudo (Windows Sudo Utility). Which is a tool that let the user execute programs with different permissions (System, Trusted Installer, Administrator...etc)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule bdeeabc9_ff2a_4a51_be59_bb253aac7891 {
+  meta:
+    title = "PUA - Wsudo Suspicious Execution"
+    description = "Detects usage of wsudo (Windows Sudo Utility). Which is a tool that let the user execute programs with different permissions (System, Trusted Installer, Administrator...etc)"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*-u System.*/ nocase or $e.target.process.command_line = /.*-uSystem.*/ nocase or $e.target.process.command_line = /.*-u TrustedInstaller.*/ nocase or $e.target.process.command_line = /.*-uTrustedInstaller.*/ nocase or $e.target.process.command_line = /.* --ti .*/ nocase)) or (($e.target.process.file.full_path = /.*\\wsudo.exe$/ nocase) or ($e.target.process.file.name = "wsudo.exe") or ($e.Description = "Windows sudo utility") or ($e.principal.process.file.full_path = /.*\\wsudo-bridge.exe$/ nocase)))
+
+  condition:
+    $e
+}

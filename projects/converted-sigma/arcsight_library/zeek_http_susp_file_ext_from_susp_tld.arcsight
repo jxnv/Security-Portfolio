@@ -1,0 +1,11 @@
+// Title: HTTP Request to Low Reputation TLD or Suspicious File Extension
+// ID: 68c2c604-92ad-468b-bf4a-aac49adad08c
+// Status: experimental
+// Level: medium
+// Author: @signalblur, Corelight
+// Date: 2025-02-26
+// Tags: attack.initial-access, attack.command-and-control
+// Description: Detects HTTP requests to low reputation TLDs (e.g. .xyz, .top, .ru) or ending in suspicious file extensions (.exe, .dll, .hta), which may indicate malicious activity.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((host ENDSWITH ".bid" OR host ENDSWITH ".by" OR host ENDSWITH ".cf" OR host ENDSWITH ".click" OR host ENDSWITH ".cm" OR host ENDSWITH ".ga" OR host ENDSWITH ".gq" OR host ENDSWITH ".ir" OR host ENDSWITH ".kp" OR host ENDSWITH ".loan" OR host ENDSWITH ".ml" OR host ENDSWITH ".mm" OR host ENDSWITH ".party" OR host ENDSWITH ".pw" OR host ENDSWITH ".ru" OR host ENDSWITH ".su" OR host ENDSWITH ".sy" OR host ENDSWITH ".tk" OR host ENDSWITH ".top" OR host ENDSWITH ".tv" OR host ENDSWITH ".ve" OR host ENDSWITH ".work" OR host ENDSWITH ".xyz")) AND (((uri ENDSWITH ".bat" OR uri ENDSWITH ".bin" OR uri ENDSWITH ".cmd" OR uri ENDSWITH ".cpl" OR uri ENDSWITH ".dll" OR uri ENDSWITH ".dylib" OR uri ENDSWITH ".elf" OR uri ENDSWITH ".exe" OR uri ENDSWITH ".hta" OR uri ENDSWITH ".iso" OR uri ENDSWITH ".jar" OR uri ENDSWITH ".js" OR uri ENDSWITH ".lnk" OR uri ENDSWITH ".msi" OR uri ENDSWITH ".pif" OR uri ENDSWITH ".ps1" OR uri ENDSWITH ".py" OR uri ENDSWITH ".reg" OR uri ENDSWITH ".scr" OR uri ENDSWITH ".sh" OR uri ENDSWITH ".so" OR uri ENDSWITH ".vbs" OR uri ENDSWITH ".wsf")) OR ((resp_mime_types EQ "application/vnd.microsoft.portable-executable" OR resp_mime_types EQ "application/x-bat" OR resp_mime_types EQ "application/x-dosexec" OR resp_mime_types EQ "application/x-elf" OR resp_mime_types EQ "application/x-iso9660-image" OR resp_mime_types EQ "application/x-java-archive" OR resp_mime_types EQ "application/x-ms-shortcut" OR resp_mime_types EQ "application/x-msdos-program" OR resp_mime_types EQ "application/x-msdownload" OR resp_mime_types EQ "application/x-python-code" OR resp_mime_types EQ "application/x-sh"))))

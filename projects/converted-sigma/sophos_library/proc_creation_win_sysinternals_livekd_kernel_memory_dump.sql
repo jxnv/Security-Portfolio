@@ -1,0 +1,11 @@
+-- Title: Kernel Memory Dump Via LiveKD
+-- ID: c7746f1c-47d3-43d6-8c45-cd1e54b6b0a2
+-- Status: test
+-- Level: high
+-- Author: Nasreddine Bencherchali (Nextron Systems)
+-- Date: 2023-05-16
+-- Tags: attack.stealth
+-- Description: Detects execution of LiveKD with the "-m" flag to potentially dump the kernel memory
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE ((CommandLine ILIKE '% -m%') AND (((Image ILIKE '%\\livekd.exe' OR Image ILIKE '%\\livekd64.exe')) OR (OriginalFileName = 'livekd.exe')))

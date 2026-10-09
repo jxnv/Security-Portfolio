@@ -1,0 +1,23 @@
+// Title: DPAPI Domain Backup Key Extraction
+// ID: 4ac1f50b-3bd0-4968-902d-868b4647937e
+// Status: test
+// Level: high
+// Author: Roberto Rodriguez @Cyb3rWard0g
+// Date: 2019-06-20
+// Tags: attack.credential-access, attack.t1003.004
+// Description: Detects tools extracting LSA secret DPAPI domain backup key from Domain Controllers
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 4ac1f50b_3bd0_4968_902d_868b4647937e {
+  meta:
+    title = "DPAPI Domain Backup Key Extraction"
+    description = "Detects tools extracting LSA secret DPAPI domain backup key from Domain Controllers"
+    author = "Roberto Rodriguez @Cyb3rWard0g"
+    severity = "HIGH"
+
+  events:
+    ($e.EventID = 4662 and $e.ObjectType = "SecretObject" and $e.AccessMask = "0x2" and $e.ObjectName = /.*BCKUPKEY.*/ nocase)
+
+  condition:
+    $e
+}

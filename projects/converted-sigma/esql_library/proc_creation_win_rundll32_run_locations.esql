@@ -1,0 +1,11 @@
+// Title: Suspicious Process Start Locations
+// ID: 15b75071-74cc-47e0-b4c6-b43744a62a2b
+// Status: test
+// Level: medium
+// Author: juju4, Jonhnathan Ribeiro, oscd.community
+// Date: 2019-01-16
+// Tags: attack.stealth, attack.t1036, car.2013-05-002
+// Description: Detects suspicious process run from unusual locations
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE (((process.executable LIKE "%:\\RECYCLER\\%" OR process.executable LIKE "%:\\SystemVolumeInformation\\%")) OR ((process.executable LIKE "C:\\Windows\\Tasks\\%" OR process.executable LIKE "C:\\Windows\\debug\\%" OR process.executable LIKE "C:\\Windows\\fonts\\%" OR process.executable LIKE "C:\\Windows\\help\\%" OR process.executable LIKE "C:\\Windows\\drivers\\%" OR process.executable LIKE "C:\\Windows\\addins\\%" OR process.executable LIKE "C:\\Windows\\cursors\\%" OR process.executable LIKE "C:\\Windows\\system32\\tasks\\%")))

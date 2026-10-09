@@ -1,0 +1,11 @@
+// Title: Tamper Windows Defender Remove-MpPreference
+// ID: 07e3cb2c-0608-410d-be4b-1511cb1a0448
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-05
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects attempts to remove Windows Defender configurations using the 'MpPreference' cmdlet
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((src.process.cmdline containsCIS "Remove-MpPreference") AND ((src.process.cmdline containsCIS "-ControlledFolderAccessProtectedFolders " OR src.process.cmdline containsCIS "-AttackSurfaceReductionRules_Ids " OR src.process.cmdline containsCIS "-AttackSurfaceReductionRules_Actions " OR src.process.cmdline containsCIS "-CheckForSignaturesBeforeRunningScan ")))

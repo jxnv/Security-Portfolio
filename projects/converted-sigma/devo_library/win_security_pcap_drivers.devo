@@ -1,0 +1,11 @@
+// Title: Windows Pcap Drivers
+// ID: 7b687634-ab20-11ea-bb37-0242ac130002
+// Status: test
+// Level: medium
+// Author: Cian Heasley
+// Date: 2020-06-10
+// Tags: attack.discovery, attack.credential-access, attack.t1040
+// Description: Detects Windows Pcap driver installation based on a list of associated .sys files.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+from siem.events where (EventID == "4697" AND (contains(ServiceFileName, "pcap") OR contains(ServiceFileName, "npcap") OR contains(ServiceFileName, "npf") OR contains(ServiceFileName, "nm3") OR contains(ServiceFileName, "ndiscap") OR contains(ServiceFileName, "nmnt") OR contains(ServiceFileName, "windivert") OR contains(ServiceFileName, "USBPcap") OR contains(ServiceFileName, "pktmon")))

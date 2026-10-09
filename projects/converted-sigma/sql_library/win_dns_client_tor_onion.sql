@@ -1,0 +1,11 @@
+-- Title: Query Tor Onion Address - DNS Client
+-- ID: 8384bd26-bde6-4da9-8e5d-4174a7a47ca2
+-- Status: test
+-- Level: high
+-- Author: Nasreddine Bencherchali (Nextron Systems)
+-- Date: 2022-02-20
+-- Tags: attack.command-and-control, attack.t1090.003
+-- Description: Detects DNS resolution of an .onion address related to Tor routing networks
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE (EventID = 3008 AND (QueryName ILIKE '%.hiddenservice.net' OR QueryName ILIKE '%.onion.ca' OR QueryName ILIKE '%.onion.cab' OR QueryName ILIKE '%.onion.casa' OR QueryName ILIKE '%.onion.city' OR QueryName ILIKE '%.onion.direct' OR QueryName ILIKE '%.onion.dog' OR QueryName ILIKE '%.onion.glass' OR QueryName ILIKE '%.onion.gq' OR QueryName ILIKE '%.onion.guide' OR QueryName ILIKE '%.onion.in.net' OR QueryName ILIKE '%.onion.ink' OR QueryName ILIKE '%.onion.it' OR QueryName ILIKE '%.onion.link' OR QueryName ILIKE '%.onion.lt' OR QueryName ILIKE '%.onion.lu' OR QueryName ILIKE '%.onion.ly' OR QueryName ILIKE '%.onion.mn' OR QueryName ILIKE '%.onion.network' OR QueryName ILIKE '%.onion.nu' OR QueryName ILIKE '%.onion.pet' OR QueryName ILIKE '%.onion.plus' OR QueryName ILIKE '%.onion.pt' OR QueryName ILIKE '%.onion.pw' OR QueryName ILIKE '%.onion.rip' OR QueryName ILIKE '%.onion.sh' OR QueryName ILIKE '%.onion.si' OR QueryName ILIKE '%.onion.to' OR QueryName ILIKE '%.onion.top' OR QueryName ILIKE '%.onion.ws' OR QueryName ILIKE '%.onion' OR QueryName ILIKE '%.s1.tor-gateways.de' OR QueryName ILIKE '%.s2.tor-gateways.de' OR QueryName ILIKE '%.s3.tor-gateways.de' OR QueryName ILIKE '%.s4.tor-gateways.de' OR QueryName ILIKE '%.s5.tor-gateways.de' OR QueryName ILIKE '%.t2w.pw' OR QueryName ILIKE '%.tor2web.ae.org' OR QueryName ILIKE '%.tor2web.blutmagie.de' OR QueryName ILIKE '%.tor2web.com' OR QueryName ILIKE '%.tor2web.fi' OR QueryName ILIKE '%.tor2web.io' OR QueryName ILIKE '%.tor2web.org' OR QueryName ILIKE '%.tor2web.xyz' OR QueryName ILIKE '%.torlink.co'))

@@ -1,0 +1,23 @@
+// Title: ETW Logging/Processing Option Disabled On IIS Server
+// ID: a5b40a90-baf5-4bf7-a6f7-373494881d22
+// Status: test
+// Level: medium
+// Author: frack113, Nasreddine Bencherchali
+// Date: 2024-10-06
+// Tags: attack.persistence, attack.defense-impairment, attack.t1685.001, attack.t1505.004
+// Description: Detects changes to of the IIS server configuration in order to disable/remove the ETW logging/processing option.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule a5b40a90_baf5_4bf7_a6f7_373494881d22 {
+  meta:
+    title = "ETW Logging/Processing Option Disabled On IIS Server"
+    description = "Detects changes to of the IIS server configuration in order to disable/remove the ETW logging/processing option."
+    author = "frack113, Nasreddine Bencherchali"
+    severity = "MEDIUM"
+
+  events:
+    (($e.EventID = 29 and $e.Configuration = /.*@logTargetW3C$/ nocase and $e.OldValue = /.*ETW.*/ nocase) and not(($e.NewValue = /.*ETW.*/ nocase)))
+
+  condition:
+    $e
+}

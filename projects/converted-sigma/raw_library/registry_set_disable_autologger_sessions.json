@@ -1,0 +1,49 @@
+{
+  "title": "Potential AutoLogger Sessions Tampering",
+  "id": "f37b4bce-49d0-4087-9f5b-58bffda77316",
+  "status": "test",
+  "description": "Detects tampering with autologger trace sessions which is a technique used by attackers to disable logging.\nThe AutoLogger event tracing session records events up that occur early in the operating system boot process.\nApplications and device drivers can use the AutoLogger session to capture traces before the user logs in, and also used by security solutions as telemetry source.\nAdversaries may disable these sessions to evade detection and prevent security monitoring of early boot activities and system events.\n",
+  "author": "Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2022-08-01",
+  "tags": [
+    "attack.defense-impairment",
+    "attack.t1685.001"
+  ],
+  "level": "high",
+  "logsource": {
+    "category": "registry_set",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_main": {
+      "TargetObject|contains": "\\Control\\WMI\\Autologger\\"
+    },
+    "selection_values": {
+      "TargetObject|contains": [
+        "\\EventLog-",
+        "\\Defender"
+      ],
+      "TargetObject|endswith": [
+        "\\Enabled",
+        "\\Start"
+      ],
+      "Details": "DWORD (0x00000000)"
+    },
+    "filter_main_wevtutil": {
+      "Image": "C:\\Windows\\system32\\wevtutil.exe"
+    },
+    "filter_main_defender": {
+      "Image|startswith": [
+        "C:\\ProgramData\\Microsoft\\Windows Defender\\Platform\\",
+        "C:\\Program Files\\Windows Defender\\",
+        "C:\\Program Files (x86)\\Windows Defender\\"
+      ],
+      "Image|endswith": "\\MsMpEng.exe",
+      "TargetObject|contains": [
+        "\\DefenderApiLogger\\",
+        "\\DefenderAuditLogger\\"
+      ]
+    },
+    "condition": "all of selection_* and not 1 of filter_main_*"
+  }
+}

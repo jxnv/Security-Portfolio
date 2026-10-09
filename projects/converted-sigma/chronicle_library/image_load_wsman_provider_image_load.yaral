@@ -1,0 +1,23 @@
+// Title: Suspicious WSMAN Provider Image Loads
+// ID: ad1f4bb9-8dfb-4765-adb6-2a7cfb6c0f94
+// Status: test
+// Level: medium
+// Author: Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research)
+// Date: 2020-06-24
+// Tags: attack.execution, attack.t1059.001, attack.lateral-movement, attack.t1021.003
+// Description: Detects signs of potential use of the WSMAN provider from uncommon processes locally and remote execution.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule ad1f4bb9_8dfb_4765_adb6_2a7cfb6c0f94 {
+  meta:
+    title = "Suspicious WSMAN Provider Image Loads"
+    description = "Detects signs of potential use of the WSMAN provider from uncommon processes locally and remote execution."
+    author = "Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research)"
+    severity = "MEDIUM"
+
+  events:
+    ((((($e.ImageLoaded = /.*\\WsmSvc.dll$/ nocase or $e.ImageLoaded = /.*\\WsmAuto.dll$/ nocase or $e.ImageLoaded = /.*\\Microsoft.WSMan.Management.ni.dll$/ nocase)) or (($e.target.process.file.name = "WsmSvc.dll" or $e.target.process.file.name = "WSMANAUTOMATION.DLL" or $e.target.process.file.name = "Microsoft.WSMan.Management.dll"))) or ($e.target.process.file.full_path = /.*\\svchost.exe$/ nocase and $e.target.process.file.name = "WsmWmiPl.dll")) and not((($e.target.process.file.full_path = /^C:\\Program Files\\Citrix\\.*/ nocase) or (($e.target.process.file.full_path = "C:\\Program Files (x86)\\PowerShell\\6\\pwsh.exe" or $e.target.process.file.full_path = "C:\\Program Files (x86)\\PowerShell\\7\\pwsh.exe" or $e.target.process.file.full_path = "C:\\Program Files\\PowerShell\\6\\pwsh.exe" or $e.target.process.file.full_path = "C:\\Program Files\\PowerShell\\7\\pwsh.exe" or $e.target.process.file.full_path = "C:\\Windows\\System32\\sdiagnhost.exe" or $e.target.process.file.full_path = "C:\\Windows\\System32\\services.exe" or $e.target.process.file.full_path = "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell_ise.exe" or $e.target.process.file.full_path = "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe")) or ($e.target.process.file.full_path = /^C:\\Program Files\\WindowsApps\\Microsoft.GetHelp_.*/ nocase and $e.target.process.file.full_path = /.*\\GetHelp.exe$/ nocase) or ($e.target.process.file.full_path = /.*\\mmc.exe$/ nocase) or (($e.target.process.file.full_path = /^C:\\Windows\\Microsoft.NET\\Framework64\\v.*/ nocase or $e.target.process.file.full_path = /^C:\\Windows\\Microsoft.NET\\Framework\\v.*/ nocase or $e.target.process.file.full_path = /^C:\\Windows\\Microsoft.NET\\FrameworkArm\\v.*/ nocase or $e.target.process.file.full_path = /^C:\\Windows\\Microsoft.NET\\FrameworkArm64\\v.*/ nocase) and $e.target.process.file.full_path = /.*\\mscorsvw.exe$/ nocase) or ($e.target.process.file.full_path = /^C:\\Windows\\Temp\\asgard2-agent\\.*/ nocase) or (($e.target.process.command_line = /.*svchost.exe -k netsvcs -p -s BITS.*/ nocase or $e.target.process.command_line = /.*svchost.exe -k GraphicsPerfSvcGroup -s GraphicsPerfSvc.*/ nocase or $e.target.process.command_line = /.*svchost.exe -k NetworkService -p -s Wecsvc.*/ nocase or $e.target.process.command_line = /.*svchost.exe -k netsvcs.*/ nocase)) or (($e.target.process.file.full_path = "C:\\Windows\\System32\\Configure-SMRemoting.exe" or $e.target.process.file.full_path = "C:\\Windows\\System32\\ServerManager.exe")) or ($e.target.process.file.full_path = /^C:\\$WINDOWS.~BT\\Sources\\.*/ nocase))) and not((($e.target.process.file.full_path = /.*\\svchost.exe$/ nocase) and (not ($e.target.process.command_line = /.*/)))))
+
+  condition:
+    $e
+}

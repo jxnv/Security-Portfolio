@@ -1,0 +1,23 @@
+// Title: Dump Ntds.dit To Suspicious Location
+// ID: 94dc4390-6b7c-4784-8ffc-335334404650
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-14
+// Tags: attack.execution
+// Description: Detects potential abuse of ntdsutil to dump ntds.dit database to a suspicious location
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 94dc4390_6b7c_4784_8ffc_335334404650 {
+  meta:
+    title = "Dump Ntds.dit To Suspicious Location"
+    description = "Detects potential abuse of ntdsutil to dump ntds.dit database to a suspicious location"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.Data = /.*:\\ntds.dit.*/ nocase or $e.Data = /.*\\Appdata\\.*/ nocase or $e.Data = /.*\\Desktop\\.*/ nocase or $e.Data = /.*\\Downloads\\.*/ nocase or $e.Data = /.*\\Perflogs\\.*/ nocase or $e.Data = /.*\\Temp\\.*/ nocase or $e.Data = /.*\\Users\\Public\\.*/ nocase)) and ($e.Provider_Name = "ESENT" and $e.EventID = 325 and $e.Data = /.*ntds.dit.*/ nocase))
+
+  condition:
+    $e
+}

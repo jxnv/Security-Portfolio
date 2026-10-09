@@ -1,0 +1,11 @@
+# Title: Potentially Suspicious Inline JavaScript Execution via NodeJS Binary
+# ID: 8537c866-072e-460d-bfff-aaf39cbd73d3
+# Status: experimental
+# Level: medium
+# Author: Microsoft (idea), Swachchhanda Shrawan Poudel (Nextron Systems)
+# Date: 2025-04-21
+# Tags: attack.execution, attack.t1059.007
+# Description: Detects potentially suspicious inline JavaScript execution using Node.js with specific keywords in the command line.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((process.command_line:*http* AND process.command_line:*execSync* AND process.command_line:*spawn* AND process.command_line:*fs* AND process.command_line:*path* AND process.command_line:*zlib*)) AND ((process.executable:*\\node.exe) OR (process.pe.original_file_name:"node.exe") OR (Product:"Node.js")))

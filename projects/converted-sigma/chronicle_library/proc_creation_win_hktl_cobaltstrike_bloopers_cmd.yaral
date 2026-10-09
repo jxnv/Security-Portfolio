@@ -1,0 +1,23 @@
+// Title: Operator Bloopers Cobalt Strike Commands
+// ID: 647c7b9e-d784-4fda-b9a0-45c565a7b729
+// Status: test
+// Level: high
+// Author: _pete_0, TheDFIRReport
+// Date: 2022-05-06
+// Tags: attack.execution, attack.t1059.003, stp.1u
+// Description: Detects use of Cobalt Strike commands accidentally entered in the CMD shell
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 647c7b9e_d784_4fda_b9a0_45c565a7b729 {
+  meta:
+    title = "Operator Bloopers Cobalt Strike Commands"
+    description = "Detects use of Cobalt Strike commands accidentally entered in the CMD shell"
+    author = "_pete_0, TheDFIRReport"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /^cmd .*/ nocase or $e.target.process.command_line = /^cmd.exe.*/ nocase or $e.target.process.command_line = /^c:\\windows\\system32\\cmd.exe.*/ nocase) and ($e.target.process.command_line = /.*psinject.*/ nocase or $e.target.process.command_line = /.*spawnas.*/ nocase or $e.target.process.command_line = /.*make_token.*/ nocase or $e.target.process.command_line = /.*remote-exec.*/ nocase or $e.target.process.command_line = /.*rev2self.*/ nocase or $e.target.process.command_line = /.*dcsync.*/ nocase or $e.target.process.command_line = /.*logonpasswords.*/ nocase or $e.target.process.command_line = /.*execute-assembly.*/ nocase or $e.target.process.command_line = /.*getsystem.*/ nocase)) and (($e.target.process.file.name = "Cmd.Exe") or ($e.target.process.file.full_path = /.*\\cmd.exe$/ nocase)))
+
+  condition:
+    $e
+}

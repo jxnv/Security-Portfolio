@@ -1,0 +1,11 @@
+# Title: Potentially Suspicious Rundll32 Activity
+# ID: e593cf51-88db-4ee1-b920-37e89012a3c9
+# Status: test
+# Level: medium
+# Author: juju4, Jonhnathan Ribeiro, oscd.community, Nasreddine Bencherchali (Nextron Systems)
+# Date: 2019-01-16
+# Tags: attack.stealth, attack.t1218.011
+# Description: Detects suspicious execution of rundll32, with specific calls to some DLLs with known LOLBIN functionalities
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((((cmdline:*javascript:* AND cmdline:*.RegisterXLL*)) OR ((cmdline:*url.dll* AND cmdline:*OpenURL*)) OR ((cmdline:*url.dll* AND cmdline:*OpenURLA*)) OR ((cmdline:*url.dll* AND cmdline:*FileProtocolHandler*)) OR ((cmdline:*zipfldr.dll* AND cmdline:*RouteTheCall*)) OR ((cmdline:*shell32.dll* AND cmdline:*Control_RunDLL*)) OR ((cmdline:*shell32.dll* AND cmdline:*ShellExec_RunDLL*)) OR ((cmdline:*mshtml.dll* AND cmdline:*PrintHTML*)) OR ((cmdline:*advpack.dll* AND cmdline:*LaunchINFSection*)) OR ((cmdline:*advpack.dll* AND cmdline:*RegisterOCX*)) OR ((cmdline:*ieadvpack.dll* AND cmdline:*LaunchINFSection*)) OR ((cmdline:*ieadvpack.dll* AND cmdline:*RegisterOCX*)) OR ((cmdline:*ieframe.dll* AND cmdline:*OpenURL*)) OR ((cmdline:*shdocvw.dll* AND cmdline:*OpenURL*)) OR ((cmdline:*syssetup.dll* AND cmdline:*SetupInfObjectInstallAction*)) OR ((cmdline:*setupapi.dll* AND cmdline:*InstallHinfSection*)) OR ((cmdline:*pcwutl.dll* AND cmdline:*LaunchApplication*)) OR ((cmdline:*dfshim.dll* AND cmdline:*ShOpenVerbApplication*)) OR ((cmdline:*dfshim.dll* AND cmdline:*ShOpenVerbShortcut*)) OR ((cmdline:*scrobj.dll* AND cmdline:*GenerateTypeLib* AND cmdline:*http*)) OR ((cmdline:*shimgvw.dll* AND cmdline:*ImageView_Fullscreen* AND cmdline:*http*)) OR ((cmdline:*comsvcs.dll* AND cmdline:*MiniDump*))) AND -(((parent_name:"C:\\Windows\\System32\\control.exe" AND ParentCommandLine:*.cpl* AND (cmdline:*Shell32.dll* AND cmdline:*Control_RunDLL* AND cmdline:*.cpl*)) OR (cmdline:*shell32.dll,Control_RunDLL desk.cpl,screensaver,@screensaver*) OR (parent_name:"C:\\Windows\\System32\\control.exe" AND cmdline:\"C:\\Windows\\system32\\rundll32.exe\" Shell32.dll,Control_RunDLL \"C:\\Windows\\System32\\* AND cmdline:*.cpl\",))))

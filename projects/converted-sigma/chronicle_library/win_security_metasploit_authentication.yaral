@@ -1,0 +1,23 @@
+// Title: Metasploit SMB Authentication
+// ID: 72124974-a68b-4366-b990-d30e0b2a190d
+// Status: test
+// Level: high
+// Author: Chakib Gzenayi (@Chak092), Hosni Mribah
+// Date: 2020-05-06
+// Tags: attack.lateral-movement, attack.t1021.002
+// Description: Alerts on Metasploit host's authentications on the domain.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 72124974_a68b_4366_b990_d30e0b2a190d {
+  meta:
+    title = "Metasploit SMB Authentication"
+    description = "Alerts on Metasploit host's authentications on the domain."
+    author = "Chakib Gzenayi (@Chak092), Hosni Mribah"
+    severity = "HIGH"
+
+  events:
+    ((($e.EventID = 4625 or $e.EventID = 4624) and $e.LogonType = 3 and $e.AuthenticationPackageName = "NTLM" and $e.WorkstationName = /^[A-Za-z0-9]{16}$/ nocase) or ($e.EventID = 4776 and $e.Workstation = /^[A-Za-z0-9]{16}$/ nocase))
+
+  condition:
+    $e
+}

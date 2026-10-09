@@ -1,0 +1,11 @@
+// Title: Potential PowerShell Obfuscation Via Reversed Commands
+// ID: b6b49cd1-34d6-4ead-b1bf-176e9edba9a4
+// Status: test
+// Level: high
+// Author: Teymur Kheirkhabarov (idea), Vasiliy Burov (rule), oscd.community, Tim Shelton
+// Date: 2020-10-11
+// Tags: attack.stealth, attack.t1027, attack.execution, attack.t1059.001
+// Description: Detects the presence of reversed PowerShell commands in the CommandLine. This is often used as a method of obfuscation by attackers
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where ((((process.command_line like "%hctac%" OR process.command_line like "%kaerb%" OR process.command_line like "%dnammoc%" OR process.command_line like "%ekovn%" OR process.command_line like "%eliFd%" OR process.command_line like "%rahc%" OR process.command_line like "%etirw%" OR process.command_line like "%golon%" OR process.command_line like "%tninon%" OR process.command_line like "%eddih%" OR process.command_line like "%tpircS%" OR process.command_line like "%ssecorp%" OR process.command_line like "%llehsrewop%" OR process.command_line like "%esnopser%" OR process.command_line like "%daolnwod%" OR process.command_line like "%tneilCbeW%" OR process.command_line like "%tneilc%" OR process.command_line like "%ptth%" OR process.command_line like "%elifotevas%" OR process.command_line like "%46esab%" OR process.command_line like "%htaPpmeTteG%" OR process.command_line like "%tcejbO%" OR process.command_line like "%maerts%" OR process.command_line like "%hcaerof%" OR process.command_line like "%retupmoc%")) AND (((process.executable="*\\powershell.exe" OR process.executable="*\\pwsh.exe")) OR ((process.pe.original_file_name = "PowerShell.EXE" OR process.pe.original_file_name = "pwsh.dll")))) AND NOT (((process.command_line like "% -EncodedCommand %" OR process.command_line like "% -enc %"))))

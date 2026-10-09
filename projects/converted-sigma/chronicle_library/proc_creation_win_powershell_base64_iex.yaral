@@ -1,0 +1,23 @@
+// Title: PowerShell Base64 Encoded IEX Cmdlet
+// ID: 88f680b8-070e-402c-ae11-d2914f2257f1
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2019-08-23
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects usage of a base64 encoded "IEX" cmdlet in a process command line
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 88f680b8_070e_402c_ae11_d2914f2257f1 {
+  meta:
+    title = "PowerShell Base64 Encoded IEX Cmdlet"
+    description = "Detects usage of a base64 encoded "IEX" cmdlet in a process command line"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*SUVYIChb.*/ nocase or $e.target.process.command_line = /.*lFWCAoW.*/ nocase or $e.target.process.command_line = /.*JRVggKF.*/ nocase or $e.target.process.command_line = /.*aWV4IChb.*/ nocase or $e.target.process.command_line = /.*lleCAoW.*/ nocase or $e.target.process.command_line = /.*pZXggKF.*/ nocase or $e.target.process.command_line = /.*aWV4IChOZX.*/ nocase or $e.target.process.command_line = /.*lleCAoTmV3.*/ nocase or $e.target.process.command_line = /.*pZXggKE5ld.*/ nocase or $e.target.process.command_line = /.*SUVYIChOZX.*/ nocase or $e.target.process.command_line = /.*lFWCAoTmV3.*/ nocase or $e.target.process.command_line = /.*JRVggKE5ld.*/ nocase or $e.target.process.command_line = /.*SUVYKF.*/ nocase or $e.target.process.command_line = /.*lFWChb.*/ nocase or $e.target.process.command_line = /.*JRVgoW.*/ nocase or $e.target.process.command_line = /.*aWV4KF.*/ nocase or $e.target.process.command_line = /.*lleChb.*/ nocase or $e.target.process.command_line = /.*pZXgoW.*/ nocase or $e.target.process.command_line = /.*aWV4KE5ld.*/ nocase or $e.target.process.command_line = /.*lleChOZX.*/ nocase or $e.target.process.command_line = /.*pZXgoTmV3.*/ nocase or $e.target.process.command_line = /.*SUVYKE5ld.*/ nocase or $e.target.process.command_line = /.*lFWChOZX.*/ nocase or $e.target.process.command_line = /.*JRVgoTmV3.*/ nocase or $e.target.process.command_line = /.*SUVYKCgn.*/ nocase or $e.target.process.command_line = /.*lFWCgoJ.*/ nocase or $e.target.process.command_line = /.*JRVgoKC.*/ nocase or $e.target.process.command_line = /.*aWV4KCgn.*/ nocase or $e.target.process.command_line = /.*lleCgoJ.*/ nocase or $e.target.process.command_line = /.*pZXgoKC.*/ nocase)) or (($e.target.process.command_line = /.*SQBFAFgAIAAoAFsA.*/ nocase or $e.target.process.command_line = /.*kARQBYACAAKABbA.*/ nocase or $e.target.process.command_line = /.*JAEUAWAAgACgAWw.*/ nocase or $e.target.process.command_line = /.*aQBlAHgAIAAoAFsA.*/ nocase or $e.target.process.command_line = /.*kAZQB4ACAAKABbA.*/ nocase or $e.target.process.command_line = /.*pAGUAeAAgACgAWw.*/ nocase or $e.target.process.command_line = /.*aQBlAHgAIAAoAE4AZQB3A.*/ nocase or $e.target.process.command_line = /.*kAZQB4ACAAKABOAGUAdw.*/ nocase or $e.target.process.command_line = /.*pAGUAeAAgACgATgBlAHcA.*/ nocase or $e.target.process.command_line = /.*SQBFAFgAIAAoAE4AZQB3A.*/ nocase or $e.target.process.command_line = /.*kARQBYACAAKABOAGUAdw.*/ nocase or $e.target.process.command_line = /.*JAEUAWAAgACgATgBlAHcA.*/ nocase)))
+
+  condition:
+    $e
+}

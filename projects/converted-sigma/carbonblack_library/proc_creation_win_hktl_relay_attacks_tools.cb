@@ -1,0 +1,11 @@
+# Title: Potential SMB Relay Attack Tool Execution
+# ID: 5589ab4f-a767-433c-961d-c91f3f704db1
+# Status: test
+# Level: critical
+# Author: Florian Roth (Nextron Systems)
+# Date: 2021-07-24
+# Tags: attack.collection, attack.execution, attack.credential-access, attack.t1557.001
+# Description: Detects different hacktools used for relay attacks on Windows for privilege escalation
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((cmdline:*.exe -c \"{* AND cmdline:*}\" -z) OR ((process_name:*PetitPotam* OR process_name:*RottenPotato* OR process_name:*HotPotato* OR process_name:*JuicyPotato* OR process_name:*\\just_dce_* OR process_name:*Juicy Potato* OR process_name:*\\temp\\rot.exe* OR process_name:*\\Potato.exe* OR process_name:*\\SpoolSample.exe* OR process_name:*\\Responder.exe* OR process_name:*\\smbrelayx* OR process_name:*\\ntlmrelayx* OR process_name:*\\LocalPotato*)) OR ((cmdline:*Invoke-Tater* OR cmdline:* smbrelay* OR cmdline:* ntlmrelay* OR cmdline:*cme smb * OR cmdline:* /ntlm:NTLMhash * OR cmdline:*Invoke-PetitPotam* OR cmdline:*.exe -t * -p *))) AND -(((process_name:*HotPotatoes6* OR process_name:*HotPotatoes7* OR process_name:*HotPotatoes *))))

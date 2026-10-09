@@ -1,0 +1,24 @@
+// Title: Remote Access Tool - Team Viewer Session Started On MacOS Host
+// ID: f459ccb4-9805-41ea-b5b2-55e279e2424a
+// Status: test
+// Level: low
+// Author: Josh Nickels, Qi Nan
+// Date: 2024-03-11
+// Tags: attack.persistence, attack.initial-access, attack.t1133
+// Description: Detects the command line executed when TeamViewer starts a session started by a remote host.
+// Once a connection has been started, an investigator can verify the connection details by viewing the "incoming_connections.txt" log file in the TeamViewer folder.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule f459ccb4_9805_41ea_b5b2_55e279e2424a {
+  meta:
+    title = "Remote Access Tool - Team Viewer Session Started On MacOS Host"
+    description = "Detects the command line executed when TeamViewer starts a session started by a remote host. Once a connection has been started, an investigator can verify the connection details by viewing the "incoming_connections.txt" log file in the TeamViewer folder."
+    author = "Josh Nickels, Qi Nan"
+    severity = "LOW"
+
+  events:
+    ($e.principal.process.file.full_path = /.*/TeamViewer_Service$/ nocase and $e.target.process.file.full_path = /.*/TeamViewer_Desktop$/ nocase and $e.target.process.command_line = /.*/TeamViewer_Desktop --IPCport 5939 --Module 1$/ nocase)
+
+  condition:
+    $e
+}

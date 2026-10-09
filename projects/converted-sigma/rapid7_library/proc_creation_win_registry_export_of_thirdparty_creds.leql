@@ -1,0 +1,12 @@
+// Title: Registry Export of Third-Party Credentials
+// ID: cc1abf27-78a3-4ac5-a51c-f3070b1d8e40
+// Status: experimental
+// Level: high
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-05-22
+// Tags: attack.credential-access, attack.t1552.002
+// Description: Detects the use of reg.exe to export registry paths associated with third-party credentials.
+// Credential stealers have been known to use this technique to extract sensitive information from the registry.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(CommandLine ICONTAINS "\\Software\\Aerofox\\Foxmail\\V3.1") OR where(CommandLine ICONTAINS "\\Software\\Aerofox\\FoxmailPreview") OR where(CommandLine ICONTAINS "\\Software\\DownloadManager\\Passwords") OR where(CommandLine ICONTAINS "\\Software\\FTPWare\\COREFTP\\Sites") OR where(CommandLine ICONTAINS "\\Software\\IncrediMail\\Identities") OR where(CommandLine ICONTAINS "\\Software\\Martin Prikryl\\WinSCP 2\\Sessions") OR where(CommandLine ICONTAINS "\\Software\\Mobatek\\MobaXterm") OR where(CommandLine ICONTAINS "\\Software\\OpenSSH\\Agent\\Keys") OR where(CommandLine ICONTAINS "\\Software\\OpenVPN-GUI\\configs") OR where(CommandLine ICONTAINS "\\Software\\ORL\\WinVNC3\\Password") OR where(CommandLine ICONTAINS "\\Software\\Qualcomm\\Eudora\\CommandLine") OR where(CommandLine ICONTAINS "\\Software\\RealVNC\\WinVNC4") OR where(CommandLine ICONTAINS "\\Software\\RimArts\\B2\\Settings") OR where(CommandLine ICONTAINS "\\Software\\SimonTatham\\PuTTY\\Sessions") OR where(CommandLine ICONTAINS "\\Software\\SimonTatham\\PuTTY\\SshHostKeys") OR where(CommandLine ICONTAINS "\\Software\\Sota\\FFFTP") OR where(CommandLine ICONTAINS "\\Software\\TightVNC\\Server") OR where(CommandLine ICONTAINS "\\Software\\WOW6432Node\\Radmin\\v3.0\\Server\\Parameters\\Radmin"))) AND ((where(CommandLine ICONTAINS "save") OR where(CommandLine ICONTAINS "export"))) AND ((where(Image IENDSWITH "\\reg.exe")) OR (where(OriginalFileName = "reg.exe"))))

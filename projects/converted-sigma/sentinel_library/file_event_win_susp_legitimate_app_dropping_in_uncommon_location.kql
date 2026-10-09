@@ -1,0 +1,12 @@
+// Title: Legitimate Application Writing Files In Uncommon Location
+// ID: 1cf465a1-2609-4c15-9b66-c32dbe4bfd67
+// Status: experimental
+// Level: high
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-12-10
+// Tags: attack.stealth, attack.t1218, attack.command-and-control, attack.t1105
+// Description: Detects legitimate applications writing any type of file to uncommon or suspicious locations that are not typical for application data storage or execution.
+// Adversaries may leverage legitimate applications (Living off the Land Binaries - LOLBins) to drop or download malicious files to uncommon locations on the system to evade detection by security solutions.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+DeviceProcessEvents | where (((FolderPath endswith "\\eqnedt32.exe" or FolderPath endswith "\\wordpad.exe" or FolderPath endswith "\\wordview.exe" or FolderPath endswith "\\cmdl32.exe" or FolderPath endswith "\\certutil.exe" or FolderPath endswith "\\certoc.exe" or FolderPath endswith "\\CertReq.exe" or FolderPath endswith "\\bitsadmin.exe" or FolderPath endswith "\\Desktopimgdownldr.exe" or FolderPath endswith "\\esentutl.exe" or FolderPath endswith "\\expand.exe" or FolderPath endswith "\\extrac32.exe" or FolderPath endswith "\\replace.exe" or FolderPath endswith "\\mshta.exe" or FolderPath endswith "\\ftp.exe" or FolderPath endswith "\\Ldifde.exe" or FolderPath endswith "\\RdrCEF.exe" or FolderPath endswith "\\hh.exe" or FolderPath endswith "\\finger.exe" or FolderPath endswith "\\findstr.exe")) and ((FileName contains ":\\Perflogs" or FileName contains ":\\ProgramData\\" or FileName contains ":\\Temp\\" or FileName contains ":\\Users\\Public\\" or FileName contains ":\\Windows\\" or FileName contains "\\$Recycle.Bin\\" or FileName contains "\\AppData\\Local\\" or FileName contains "\\AppData\\Roaming\\" or FileName contains "\\Contacts\\" or FileName contains "\\Desktop\\" or FileName contains "\\Favorites\\" or FileName contains "\\Favourites\\" or FileName contains "\\inetpub\\wwwroot\\" or FileName contains "\\Music\\" or FileName contains "\\Pictures\\" or FileName contains "\\Start Menu\\Programs\\Startup\\" or FileName contains "\\Users\\Default\\" or FileName contains "\\Videos\\")))

@@ -1,0 +1,11 @@
+// Title: Suspicious Binaries and Scripts in Public Folder
+// ID: b447f7de-1e53-4cbf-bfb4-f1f6d0b04e4e
+// Status: experimental
+// Level: high
+// Author: The DFIR Report
+// Date: 2025-01-23
+// Tags: attack.execution, attack.t1204
+// Description: Detects the creation of a file with a suspicious extension in the public folder, which could indicate potential malicious activity.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE (file.path LIKE "%:\\Users\\Public\\%" AND (file.path LIKE "%.bat" OR file.path LIKE "%.dll" OR file.path LIKE "%.exe" OR file.path LIKE "%.hta" OR file.path LIKE "%.js" OR file.path LIKE "%.ps1" OR file.path LIKE "%.vbe" OR file.path LIKE "%.vbs"))

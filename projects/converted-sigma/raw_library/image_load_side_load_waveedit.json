@@ -1,0 +1,36 @@
+{
+  "title": "Potential Waveedit.DLL Sideloading",
+  "id": "71b31e99-9ad0-47d4-aeb5-c0ca3928eeeb",
+  "status": "test",
+  "description": "Detects potential DLL sideloading of \"waveedit.dll\", which is part of the Nero WaveEditor audio editing software.",
+  "author": "X__Junior (Nextron Systems)",
+  "date": "2023-06-14",
+  "tags": [
+    "attack.persistence",
+    "attack.privilege-escalation",
+    "attack.execution",
+    "attack.stealth",
+    "attack.t1574.001"
+  ],
+  "level": "high",
+  "logsource": {
+    "category": "image_load",
+    "product": "windows"
+  },
+  "detection": {
+    "selection": {
+      "ImageLoaded|endswith": "\\waveedit.dll"
+    },
+    "filter_main_legit_path": {
+      "Image": [
+        "C:\\Program Files (x86)\\Nero\\Nero Apps\\Nero WaveEditor\\waveedit.exe",
+        "C:\\Program Files\\Nero\\Nero Apps\\Nero WaveEditor\\waveedit.exe"
+      ],
+      "ImageLoaded|startswith": [
+        "C:\\Program Files (x86)\\Nero\\Nero Apps\\Nero WaveEditor\\",
+        "C:\\Program Files\\Nero\\Nero Apps\\Nero WaveEditor\\"
+      ]
+    },
+    "condition": "selection and not 1 of filter_main_*"
+  }
+}

@@ -1,0 +1,11 @@
+// Title: Copy From Or To Admin Share Or Sysvol Folder
+// ID: 855bc8b5-2ae8-402e-a9ed-b889e6df1900
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems), oscd.community, Teymur Kheirkhabarov @HeirhabarovT, Zach Stanford @svch0st, Nasreddine Bencherchali
+// Date: 2019-12-30
+// Tags: attack.lateral-movement, attack.collection, attack.exfiltration, attack.t1039, attack.t1048, attack.t1021.002
+// Description: Detects a copy command or a copy utility execution to or from an Admin share or remote
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where (((process.command_line like "*_\\\\\\\\*\\\\*$*" or process.command_line like "*_\\Sysvol\\*")) and ((((process.executable endswith "\\robocopy.exe" or process.executable endswith "\\xcopy.exe")) or ((process.pe.original_file_name == "robocopy.exe" or process.pe.original_file_name == "XCOPY.EXE"))) or ((process.command_line like "*_copy*") and ((process.executable endswith "\\cmd.exe") or (process.pe.original_file_name == "Cmd.Exe"))) or (((process.command_line like "*_copy-item*" or process.command_line like "*_copy *" or process.command_line like "*_cpi *" or process.command_line like "*_ cp *" or process.command_line like "*_move *" or process.command_line like "*_ move-item*" or process.command_line like "*_ mi *" or process.command_line like "*_ mv *")) and (((process.executable like "*_\\powershell_ise.exe*" or process.executable like "*_\\powershell.exe*" or process.executable like "*_\\pwsh.exe*")) or ((process.pe.original_file_name == "powershell_ise.exe" or process.pe.original_file_name == "PowerShell.EXE" or process.pe.original_file_name == "pwsh.dll"))))))

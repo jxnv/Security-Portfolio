@@ -1,0 +1,23 @@
+// Title: New ODBC Driver Registered
+// ID: 3390fbef-c98d-4bdd-a863-d65ed7c610dd
+// Status: test
+// Level: low
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-05-23
+// Tags: attack.persistence
+// Description: Detects the registration of a new ODBC driver.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 3390fbef_c98d_4bdd_a863_d65ed7c610dd {
+  meta:
+    title = "New ODBC Driver Registered"
+    description = "Detects the registration of a new ODBC driver."
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "LOW"
+
+  events:
+    (($e.TargetObject = /.*\\SOFTWARE\\ODBC\\ODBCINST.INI\\.*/ nocase and $e.TargetObject = /.*\\Driver$/ nocase) and not(($e.TargetObject = /.*\\SQL Server\\.*/ nocase and $e.Details = "%WINDIR%\\System32\\SQLSRV32.dll")) and not((($e.TargetObject = /.*\\Microsoft Access .*/ nocase and $e.Details = /^C:\\Progra.*/ nocase and $e.Details = /.*\\ACEODBC.DLL$/ nocase) or ($e.TargetObject = /.*\\Microsoft Excel Driver.*/ nocase and $e.Details = /^C:\\Progra.*/ nocase and $e.Details = /.*\\ACEODBC.DLL$/ nocase))))
+
+  condition:
+    $e
+}

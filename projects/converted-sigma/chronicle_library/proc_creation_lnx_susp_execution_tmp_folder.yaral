@@ -1,0 +1,23 @@
+// Title: Potentially Suspicious Execution From Tmp Folder
+// ID: 312b42b1-bded-4441-8b58-163a3af58775
+// Status: test
+// Level: medium
+// Author: Joseliyo Sanchez, @Joseliyo_Jstnk
+// Date: 2023-06-02
+// Tags: attack.stealth, attack.t1036
+// Description: Detects a potentially suspicious execution of a process located in the '/tmp/' folder
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 312b42b1_bded_4441_8b58_163a3af58775 {
+  meta:
+    title = "Potentially Suspicious Execution From Tmp Folder"
+    description = "Detects a potentially suspicious execution of a process located in the '/tmp/' folder"
+    author = "Joseliyo Sanchez, @Joseliyo_Jstnk"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.process.file.full_path = /^/tmp/.*/ nocase) and not(($e.target.process.file.full_path = /.*/usr/bin/nextcloud$/ nocase)))
+
+  condition:
+    $e
+}

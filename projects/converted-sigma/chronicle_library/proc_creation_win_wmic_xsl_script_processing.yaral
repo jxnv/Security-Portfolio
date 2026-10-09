@@ -1,0 +1,25 @@
+// Title: XSL Script Execution Via WMIC.EXE
+// ID: 05c36dd6-79d6-4a9a-97da-3db20298ab2d
+// Status: test
+// Level: medium
+// Author: Timur Zinniatullin, oscd.community, Swachchhanda Shrawan Poudel
+// Date: 2019-10-21
+// Tags: attack.stealth, attack.t1047, attack.t1220, attack.execution, attack.t1059.005, attack.t1059.007
+// Description: Detects the execution of WMIC with the "format" flag to potentially load local XSL files.
+// Adversaries abuse this functionality to execute arbitrary files while potentially bypassing application whitelisting defenses.
+// Extensible Stylesheet Language (XSL) files are commonly used to describe the processing and rendering of data within XML files.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 05c36dd6_79d6_4a9a_97da_3db20298ab2d {
+  meta:
+    title = "XSL Script Execution Via WMIC.EXE"
+    description = "Detects the execution of WMIC with the "format" flag to potentially load local XSL files. Adversaries abuse this functionality to execute arbitrary files while potentially bypassing application whitelisting defenses. Extensible Stylesheet Language (XSL) files are commonly used to describe the processing and rendering of data within XML files."
+    author = "Timur Zinniatullin, oscd.community, Swachchhanda Shrawan Poudel"
+    severity = "MEDIUM"
+
+  events:
+    (((($e.target.process.command_line = /.*-format:.*/ nocase or $e.target.process.command_line = /.*/format:.*/ nocase)) and (($e.target.process.file.full_path = /.*\\wmic.exe$/ nocase) or ($e.target.process.file.name = "wmic.exe") or (($e.Hashes = /.*IMPHASH=1B1A3F43BF37B5BFE60751F2EE2F326E.*/ nocase or $e.Hashes = /.*IMPHASH=37777A96245A3C74EB217308F3546F4C.*/ nocase or $e.Hashes = /.*IMPHASH=9D87C9D67CE724033C0B40CC4CA1B206.*/ nocase or $e.Hashes = /.*IMPHASH=B12619881D79C3ACADF45E752A58554A.*/ nocase or $e.Hashes = /.*IMPHASH=16A48C3CABF98A9DC1BF02C07FE1EA00.*/ nocase)))) and not(((($e.target.process.command_line = /.*Format:List.*/ nocase or $e.target.process.command_line = /.*Format:htable.*/ nocase or $e.target.process.command_line = /.*Format:hform.*/ nocase or $e.target.process.command_line = /.*Format:table.*/ nocase or $e.target.process.command_line = /.*Format:mof.*/ nocase or $e.target.process.command_line = /.*Format:value.*/ nocase or $e.target.process.command_line = /.*Format:rawxml.*/ nocase or $e.target.process.command_line = /.*Format:xml.*/ nocase or $e.target.process.command_line = /.*Format:csv.*/ nocase)) or (($e.target.process.command_line = /.*://.*/ nocase or $e.target.process.command_line = /.*\\\\\\\\.*/ nocase)))))
+
+  condition:
+    $e
+}

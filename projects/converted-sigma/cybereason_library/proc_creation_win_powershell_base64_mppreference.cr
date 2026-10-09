@@ -1,0 +1,11 @@
+// Title: Powershell Base64 Encoded MpPreference Cmdlet
+// ID: c6fb44c6-71f5-49e6-9462-1425d328aee3
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-03-04
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects base64 encoded "MpPreference" PowerShell cmdlet code that tries to modifies or tamper with Windows Defender AV
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((CommandLine contains "QWRkLU1wUHJlZmVyZW5jZS" OR CommandLine contains "FkZC1NcFByZWZlcmVuY2Ug" OR CommandLine contains "BZGQtTXBQcmVmZXJlbmNlI" OR CommandLine contains "U2V0LU1wUHJlZmVyZW5jZS" OR CommandLine contains "NldC1NcFByZWZlcmVuY2Ug" OR CommandLine contains "TZXQtTXBQcmVmZXJlbmNlI" OR CommandLine contains "YWRkLW1wcHJlZmVyZW5jZS" OR CommandLine contains "FkZC1tcHByZWZlcmVuY2Ug" OR CommandLine contains "hZGQtbXBwcmVmZXJlbmNlI" OR CommandLine contains "c2V0LW1wcHJlZmVyZW5jZS" OR CommandLine contains "NldC1tcHByZWZlcmVuY2Ug" OR CommandLine contains "zZXQtbXBwcmVmZXJlbmNlI")) OR ((CommandLine contains "QQBkAGQALQBNAHAAUAByAGUAZgBlAHIAZQBuAGMAZQAgA" OR CommandLine contains "EAZABkAC0ATQBwAFAAcgBlAGYAZQByAGUAbgBjAGUAIA" OR CommandLine contains "BAGQAZAAtAE0AcABQAHIAZQBmAGUAcgBlAG4AYwBlACAA" OR CommandLine contains "UwBlAHQALQBNAHAAUAByAGUAZgBlAHIAZQBuAGMAZQAgA" OR CommandLine contains "MAZQB0AC0ATQBwAFAAcgBlAGYAZQByAGUAbgBjAGUAIA" OR CommandLine contains "TAGUAdAAtAE0AcABQAHIAZQBmAGUAcgBlAG4AYwBlACAA" OR CommandLine contains "YQBkAGQALQBtAHAAcAByAGUAZgBlAHIAZQBuAGMAZQAgA" OR CommandLine contains "EAZABkAC0AbQBwAHAAcgBlAGYAZQByAGUAbgBjAGUAIA" OR CommandLine contains "hAGQAZAAtAG0AcABwAHIAZQBmAGUAcgBlAG4AYwBlACAA" OR CommandLine contains "cwBlAHQALQBtAHAAcAByAGUAZgBlAHIAZQBuAGMAZQAgA" OR CommandLine contains "MAZQB0AC0AbQBwAHAAcgBlAGYAZQByAGUAbgBjAGUAIA" OR CommandLine contains "zAGUAdAAtAG0AcABwAHIAZQBmAGUAcgBlAG4AYwBlACAA")))

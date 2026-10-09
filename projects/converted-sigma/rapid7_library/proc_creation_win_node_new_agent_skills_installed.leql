@@ -1,0 +1,17 @@
+// Title: New Agent Skills Installation Attempt Via Node.EXE
+// ID: afa71271-6a97-4e47-810f-83120fb1a4ce
+// Status: experimental
+// Level: medium
+// Author: Marco Pedrinazzi (@pedrinazziM) (InTheCyber)
+// Date: 2026-02-03
+// Tags: attack.execution, attack.t1059.007
+// Description: Detects the attempt to install new skills for AI agents using the "npx skills" command.
+// Agent skills enhance AI agents with new capabilities, but attackers may abuse this mechanism to inject malicious commands executed by the agent on behalf of the user.
+// The "npx skills" command can install skills for various agents (e.g., Claude Code, Cursor, and others).
+// Analysts should review any installed skills to verify their legitimacy.
+// Note: Tune this rule based on whether AI agent tooling is allowed in your environment.
+// In environments where such tooling is authorized, this detection may reflect normal activity and the alert level should be adjusted accordingly.
+// In environments where AI agent tooling is not permitted, this activity is likely suspicious and may require immediate investigation.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(CommandLine ICONTAINS "npx-cli.js") AND where(CommandLine ICONTAINS "skills ") AND where(CommandLine ICONTAINS " add "))) AND ((where(Image IENDSWITH "\\node.exe")) OR (where(OriginalFileName = "node.exe"))))

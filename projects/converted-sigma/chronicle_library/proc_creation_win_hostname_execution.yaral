@@ -1,0 +1,23 @@
+// Title: Suspicious Execution of Hostname
+// ID: 7be5fb68-f9ef-476d-8b51-0256ebece19e
+// Status: test
+// Level: low
+// Author: frack113
+// Date: 2022-01-01
+// Tags: attack.discovery, attack.t1082
+// Description: Use of hostname to get information
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 7be5fb68_f9ef_476d_8b51_0256ebece19e {
+  meta:
+    title = "Suspicious Execution of Hostname"
+    description = "Use of hostname to get information"
+    author = "frack113"
+    severity = "LOW"
+
+  events:
+    ($e.target.process.file.full_path = /.*\\HOSTNAME.EXE$/ nocase)
+
+  condition:
+    $e
+}

@@ -1,0 +1,23 @@
+// Title: Esentutl Steals Browser Information
+// ID: 6a69f62d-ce75-4b57-8dce-6351eb55b362
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-02-13
+// Tags: attack.collection, attack.t1005
+// Description: One way Qbot steals sensitive information is by extracting browser data from Internet Explorer and Microsoft Edge by using the built-in utility esentutl.exe
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 6a69f62d_ce75_4b57_8dce_6351eb55b362 {
+  meta:
+    title = "Esentutl Steals Browser Information"
+    description = "One way Qbot steals sensitive information is by extracting browser data from Internet Explorer and Microsoft Edge by using the built-in utility esentutl.exe"
+    author = "frack113"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.command_line = /.*-r.*/ nocase or $e.target.process.command_line = /.*/r.*/ nocase)) and (($e.target.process.file.full_path = /.*\\esentutl.exe$/ nocase) or ($e.target.process.file.name = "esentutl.exe")) and ($e.target.process.command_line = /.*\\Windows\\WebCache.*/ nocase))
+
+  condition:
+    $e
+}

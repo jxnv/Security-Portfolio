@@ -1,0 +1,13 @@
+-- Title: BaaUpdate.exe Suspicious DLL Load
+-- ID: 6e8fe0a8-ba0b-4a93-8f9e-82657e7a5984
+-- Status: experimental
+-- Level: high
+-- Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+-- Date: 2025-10-18
+-- Tags: attack.stealth, attack.t1218, attack.lateral-movement, attack.t1021.003
+-- Description: Detects BitLocker Access Agent Update Utility (baaupdate.exe) loading DLLs from suspicious locations that are publicly writable which could indicate an attempt to lateral movement via BitLocker DCOM & COM Hijacking.
+-- This technique abuses COM Classes configured as INTERACTIVE USER to spawn processes in the context of the logged-on user's session. Specifically, it targets the BDEUILauncher Class (CLSID ab93b6f1-be76-4185-a488-a9001b105b94)
+-- which can launch BaaUpdate.exe, which is vulnerable to COM Hijacking when started with input parameters. This allows attackers to execute code in the user's context without needing to steal credentials or use additional techniques to compromise the account.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM file WHERE (Image="*\\BaaUpdate.exe" AND ImageLoaded="*.dll" AND (ImageLoaded LIKE '%:\\Perflogs\\%' OR ImageLoaded LIKE '%:\\Users\\Default\\%' OR ImageLoaded LIKE '%:\\Users\\Public\\%' OR ImageLoaded LIKE '%:\\Windows\\Temp\\%' OR ImageLoaded LIKE '%\\AppData\\Local\\Temp\\%' OR ImageLoaded LIKE '%\\AppData\\Roaming\\%' OR ImageLoaded LIKE '%\\Contacts\\%' OR ImageLoaded LIKE '%\\Favorites\\%' OR ImageLoaded LIKE '%\\Favourites\\%' OR ImageLoaded LIKE '%\\Links\\%' OR ImageLoaded LIKE '%\\Music\\%' OR ImageLoaded LIKE '%\\Pictures\\%' OR ImageLoaded LIKE '%\\ProgramData\\%' OR ImageLoaded LIKE '%\\Temporary Internet%' OR ImageLoaded LIKE '%\\Videos\\%'))

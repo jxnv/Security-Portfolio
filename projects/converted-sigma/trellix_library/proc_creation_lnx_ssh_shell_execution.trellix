@@ -1,0 +1,11 @@
+# Title: Shell Invocation Via Ssh - Linux
+# ID: 8737b7f6-8df3-4bb7-b1da-06019b99b687
+# Status: test
+# Level: high
+# Author: Li Ling, Andy Parkidomo, Robert Rakowski, Blake Hartstein (Bloomberg L.P.)
+# Date: 2024-08-29
+# Tags: attack.execution, attack.t1059
+# Description: Detects the use of the "ssh" utility to execute a shell. Such behavior may be associated with privilege escalation, unauthorized command execution, or to break out from restricted environments.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((CommandLine CONTAINS "/bin/bash" OR CommandLine CONTAINS "/bin/dash" OR CommandLine CONTAINS "/bin/fish" OR CommandLine CONTAINS "/bin/sh" OR CommandLine CONTAINS "/bin/zsh" OR CommandLine CONTAINS "sh 0<&2 1>&2" OR CommandLine CONTAINS "sh 1>&2 0<&2")) AND (Image="*/ssh" AND (CommandLine CONTAINS "ProxyCommand=;" OR CommandLine CONTAINS "permitlocalcommand=yes" OR CommandLine CONTAINS "localhost")))

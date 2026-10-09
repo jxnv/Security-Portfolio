@@ -1,0 +1,23 @@
+// Title: Tamper With Sophos AV Registry Keys
+// ID: 9f4662ac-17ca-43aa-8f12-5d7b989d0101
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-09-02
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects tamper attempts to sophos av functionality via registry key modification
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 9f4662ac_17ca_43aa_8f12_5d7b989d0101 {
+  meta:
+    title = "Tamper With Sophos AV Registry Keys"
+    description = "Detects tamper attempts to sophos av functionality via registry key modification"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.TargetObject = /.*\\Sophos Endpoint Defense\\TamperProtection\\Config\\SAVEnabled.*/ nocase or $e.TargetObject = /.*\\Sophos Endpoint Defense\\TamperProtection\\Config\\SEDEnabled.*/ nocase or $e.TargetObject = /.*\\Sophos\\SAVService\\TamperProtection\\Enabled.*/ nocase) and $e.Details = "DWORD (0x00000000)")
+
+  condition:
+    $e
+}

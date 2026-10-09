@@ -1,0 +1,23 @@
+// Title: Renamed SysInternals DebugView Execution
+// ID: cd764533-2e07-40d6-a718-cfeec7f2da7f
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2020-05-28
+// Tags: attack.resource-development, attack.t1588.002
+// Description: Detects suspicious renamed SysInternals DebugView execution
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule cd764533_2e07_40d6_a718_cfeec7f2da7f {
+  meta:
+    title = "Renamed SysInternals DebugView Execution"
+    description = "Detects suspicious renamed SysInternals DebugView execution"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.Product = "Sysinternals DebugView") and not(($e.target.process.file.name = "Dbgview.exe" and $e.target.process.file.full_path = /.*\\Dbgview.exe$/ nocase)))
+
+  condition:
+    $e
+}

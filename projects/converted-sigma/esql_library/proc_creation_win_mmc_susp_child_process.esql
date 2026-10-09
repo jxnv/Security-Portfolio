@@ -1,0 +1,11 @@
+// Title: MMC Spawning Windows Shell
+// ID: 05a2ab7e-ce11-4b63-86db-ab32e763e11d
+// Status: test
+// Level: high
+// Author: Karneades, Swisscom CSIRT
+// Date: 2019-08-05
+// Tags: attack.lateral-movement, attack.t1021.003
+// Description: Detects a Windows command line executable started from MMC
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE ((process.parent.executable LIKE "%\\mmc.exe") AND (((process.executable LIKE "%\\cmd.exe" OR process.executable LIKE "%\\powershell.exe" OR process.executable LIKE "%\\pwsh.exe" OR process.executable LIKE "%\\wscript.exe" OR process.executable LIKE "%\\cscript.exe" OR process.executable LIKE "%\\sh.exe" OR process.executable LIKE "%\\bash.exe" OR process.executable LIKE "%\\reg.exe" OR process.executable LIKE "%\\regsvr32.exe")) OR (process.executable LIKE "%\\BITSADMIN%")))

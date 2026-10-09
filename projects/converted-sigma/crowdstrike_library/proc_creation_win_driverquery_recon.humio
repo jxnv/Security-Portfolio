@@ -1,0 +1,11 @@
+// Title: Potential Recon Activity Using DriverQuery.EXE
+// ID: 9fc3072c-dc8f-4bf7-b231-18950000fadd
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-01-19
+// Tags: attack.discovery
+// Description: Detect usage of the "driverquery" utility to perform reconnaissance on installed drivers
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((ImageFileName = /.*driverquery.exe/i) or (OriginalFilename = "drvqry.exe")) and (((ParentBaseFileName = /.*\\cscript.exe/i or ParentBaseFileName = /.*\\mshta.exe/i or ParentBaseFileName = /.*\\regsvr32.exe/i or ParentBaseFileName = /.*\\rundll32.exe/i or ParentBaseFileName = /.*\\wscript.exe/i)) or ((ParentBaseFileName = /*\\AppData\\Local\\*/i or ParentBaseFileName = /*\\Users\\Public\\*/i or ParentBaseFileName = /*\\Windows\\Temp\\*/i))))

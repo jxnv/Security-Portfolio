@@ -1,0 +1,28 @@
+{
+  "title": "Browser Started with Remote Debugging",
+  "id": "b3d34dc5-2efd-4ae3-845f-8ec14921f449",
+  "status": "test",
+  "description": "Detects browsers starting with the remote debugging flags. Which is a technique often used to perform browser injection attacks",
+  "author": "pH-T (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2022-07-27",
+  "tags": [
+    "attack.credential-access",
+    "attack.collection",
+    "attack.t1185"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_chromium_based": {
+      "CommandLine|contains": " --remote-debugging-"
+    },
+    "selection_firefox": {
+      "Image|endswith": "\\firefox.exe",
+      "CommandLine|contains": " -start-debugger-server"
+    },
+    "condition": "1 of selection_*"
+  }
+}

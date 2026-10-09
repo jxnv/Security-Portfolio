@@ -1,0 +1,23 @@
+// Title: Potentially Suspicious WDAC Policy File Creation
+// ID: 1d2de8a6-4803-4fde-b85b-f58f3aa7a705
+// Status: experimental
+// Level: medium
+// Author: X__Junior
+// Date: 2025-02-07
+// Tags: attack.defense-impairment
+// Description: Detects suspicious Windows Defender Application Control (WDAC) policy file creation from abnormal processes that could be abused by attacker to block EDR/AV components while allowing their own malicious code to run on the system.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 1d2de8a6_4803_4fde_b85b_f58f3aa7a705 {
+  meta:
+    title = "Potentially Suspicious WDAC Policy File Creation"
+    description = "Detects suspicious Windows Defender Application Control (WDAC) policy file creation from abnormal processes that could be abused by attacker to block EDR/AV components while allowing their own malicious code to run on the system."
+    author = "X__Junior"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.file.full_path = /.*\\Windows\\System32\\CodeIntegrity\\.*/ nocase) and not((((($e.target.process.command_line = /.*ConvertFrom-CIPolicy -XmlFilePath.*/ nocase and $e.target.process.command_line = /.*-BinaryFilePath .*/ nocase)) or ($e.target.process.command_line = /.*CiTool --update-policy.*/ nocase) or (($e.target.process.command_line = /.*Copy-Item -Path.*/ nocase and $e.target.process.command_line = /.*-Destination.*/ nocase))) or (($e.target.process.file.full_path = /.*\\Microsoft.ConfigurationManagement.exe$/ nocase or $e.target.process.file.full_path = /.*\\WDAC Wizard.exe$/ nocase or $e.target.process.file.full_path = /.*C:\\Program Files\\PowerShell\\7-preview\\pwsh.exe$/ nocase or $e.target.process.file.full_path = /.*C:\\Program Files\\PowerShell\\7\\pwsh.exe$/ nocase or $e.target.process.file.full_path = /.*C:\\Windows\\System32\\dllhost.exe$/ nocase or $e.target.process.file.full_path = /.*C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell_ise.exe$/ nocase or $e.target.process.file.full_path = /.*C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*C:\\Windows\\SysWOW64\\dllhost.exe$/ nocase or $e.target.process.file.full_path = /.*C:\\Windows\\SysWOW64\\WindowsPowerShell\\v1.0\\powershell_ise.exe$/ nocase or $e.target.process.file.full_path = /.*C:\\Windows\\SysWOW64\\WindowsPowerShell\\v1.0\\powershell.exe$/ nocase)) or ($e.target.process.file.full_path = "System") or ($e.target.process.file.full_path = "C:\\Windows\\System32\\wuauclt.exe") or (($e.target.process.file.full_path = "C:\\Windows\\UUS\\arm64\\wuaucltcore.exe" or $e.target.process.file.full_path = "C:\\Windows\\UUS\\Packages\\Preview\\arm64\\wuaucltcore.exe")))))
+
+  condition:
+    $e
+}

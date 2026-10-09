@@ -1,0 +1,23 @@
+// Title: VMMap Unsigned Dbghelp.DLL Potential Sideloading
+// ID: 273a8dd8-3742-4302-bcc7-7df5a80fe425
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-07-28
+// Tags: attack.persistence, attack.privilege-escalation, attack.execution, attack.stealth, attack.t1574.001
+// Description: Detects potential DLL sideloading of an unsigned dbghelp.dll by the Sysinternals VMMap.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 273a8dd8_3742_4302_bcc7_7df5a80fe425 {
+  meta:
+    title = "VMMap Unsigned Dbghelp.DLL Potential Sideloading"
+    description = "Detects potential DLL sideloading of an unsigned dbghelp.dll by the Sysinternals VMMap."
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.ImageLoaded = /.*C:\\Debuggers\\dbghelp.dll.*/ nocase and ($e.target.process.file.full_path = /.*\\vmmap.exe$/ nocase or $e.target.process.file.full_path = /.*\\vmmap64.exe$/ nocase)) and not(($e.Signed = "true")))
+
+  condition:
+    $e
+}

@@ -1,0 +1,23 @@
+// Title: Suspicious Digital Signature Of AppX Package
+// ID: b5aa7d60-c17e-4538-97de-09029d6cd76b
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-01-16
+// Tags: attack.execution, attack.stealth
+// Description: Detects execution of AppX packages with known suspicious or malicious signature
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule b5aa7d60_c17e_4538_97de_09029d6cd76b {
+  meta:
+    title = "Suspicious Digital Signature Of AppX Package"
+    description = "Detects execution of AppX packages with known suspicious or malicious signature"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ($e.EventID = 157 and $e.subjectName = "CN=Foresee Consulting Inc., O=Foresee Consulting Inc., L=North York, S=Ontario, C=CA, SERIALNUMBER=1004913-1, OID.1.3.6.1.4.1.311.60.2.1.3=CA, OID.2.5.4.15=Private Organization")
+
+  condition:
+    $e
+}

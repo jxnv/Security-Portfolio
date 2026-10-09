@@ -1,0 +1,11 @@
+// Title: Suspicious Processes Spawned by WinRM
+// ID: 5cc2cda8-f261-4d88-a2de-e9e193c86716
+// Status: test
+// Level: high
+// Author: Andreas Hunkeler (@Karneades), Markus Neis
+// Date: 2021-05-20
+// Tags: attack.t1190, attack.initial-access, attack.persistence, attack.privilege-escalation
+// Description: Detects suspicious processes including shells spawnd from WinRM host process
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where (process.parent.executable="*\\wsmprovhost.exe" AND (process.executable="*\\cmd.exe" OR process.executable="*\\sh.exe" OR process.executable="*\\bash.exe" OR process.executable="*\\powershell.exe" OR process.executable="*\\pwsh.exe" OR process.executable="*\\wsl.exe" OR process.executable="*\\schtasks.exe" OR process.executable="*\\certutil.exe" OR process.executable="*\\whoami.exe" OR process.executable="*\\bitsadmin.exe"))

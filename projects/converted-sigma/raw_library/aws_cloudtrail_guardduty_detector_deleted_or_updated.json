@@ -1,0 +1,37 @@
+{
+  "title": "AWS GuardDuty Detector Deleted Or Updated",
+  "id": "d2656e78-c069-4571-8220-9e0ab5913f19",
+  "status": "experimental",
+  "description": "Detects successful deletion or disabling of an AWS GuardDuty detector, possibly by an attacker trying to avoid detection of its malicious activities.\nUpon deletion, GuardDuty stops monitoring the environment and all existing findings are lost.\nVerify with the user identity that this activity is legitimate.\n",
+  "author": "suktech24",
+  "date": "2025-11-27",
+  "tags": [
+    "attack.defense-impairment",
+    "attack.t1685",
+    "attack.t1685.002"
+  ],
+  "level": "high",
+  "logsource": {
+    "product": "aws",
+    "service": "cloudtrail"
+  },
+  "detection": {
+    "selection_event_source": {
+      "eventSource": "guardduty.amazonaws.com"
+    },
+    "selection_action_delete": {
+      "eventName": "DeleteDetector"
+    },
+    "selection_action_update": {
+      "eventName": "UpdateDetector",
+      "requestParameters.enable": "false"
+    },
+    "selection_status_success": {
+      "errorCode": "Success"
+    },
+    "selection_status_null": {
+      "errorCode": null
+    },
+    "condition": "selection_event_source and 1 of selection_action_* and 1 of selection_status_*"
+  }
+}

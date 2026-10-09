@@ -1,0 +1,19 @@
+# Title: MacOS Scripting Interpreter AppleScript
+# ID: 1bc2e6c5-0885-472b-bed6-be5ea8eace55
+# Status: test
+# Level: medium
+# Author: Alejandro Ortuno, oscd.community
+# Date: 2020-10-21
+# Tags: attack.execution, attack.t1059.002
+# Description: Detects execution of AppleScript of the macOS scripting language AppleScript.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: MacOS Scripting Interpreter AppleScript
+def rule(event):
+    # Detection Logic:
+    # ((Image="*/osascript" AND (CommandLine="* -e *" OR CommandLine="*.scpt*" OR CommandLine="*.js*")) AND NOT ((ParentImage="*opencode" AND (CommandLine="*osascript*" AND CommandLine="* -e *" AND CommandLine="*set imageData to the clipboard*" AND CommandLine="*set fileRef*"))))
+    return True
+
+def title(event):
+    return "MacOS Scripting Interpreter AppleScript"
+

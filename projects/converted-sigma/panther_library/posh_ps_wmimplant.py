@@ -1,0 +1,19 @@
+# Title: WMImplant Hack Tool
+# ID: 8028c2c3-e25a-46e3-827f-bbb5abf181d7
+# Status: test
+# Level: high
+# Author: NVISO
+# Date: 2020-03-26
+# Tags: attack.execution, attack.t1047, attack.t1059.001
+# Description: Detects parameters used by WMImplant
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: WMImplant Hack Tool
+def rule(event):
+    # Detection Logic:
+    # ((ScriptBlockText="*WMImplant*" OR ScriptBlockText="* change_user *" OR ScriptBlockText="* gen_cli *" OR ScriptBlockText="* command_exec *" OR ScriptBlockText="* disable_wdigest *" OR ScriptBlockText="* disable_winrm *" OR ScriptBlockText="* enable_wdigest *" OR ScriptBlockText="* enable_winrm *" OR ScriptBlockText="* registry_mod *" OR ScriptBlockText="* remote_posh *" OR ScriptBlockText="* sched_job *" OR ScriptBlockText="* service_mod *" OR ScriptBlockText="* process_kill *" OR ScriptBlockText="* active_users *" OR ScriptBlockText="* basic_info *" OR ScriptBlockText="* power_off *" OR ScriptBlockText="* vacant_system *" OR ScriptBlockText="* logon_events *"))
+    return True
+
+def title(event):
+    return "WMImplant Hack Tool"
+

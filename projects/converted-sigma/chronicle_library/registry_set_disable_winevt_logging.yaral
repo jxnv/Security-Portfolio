@@ -1,0 +1,23 @@
+// Title: Disable Windows Event Logging Via Registry
+// ID: 2f78da12-f7c7-430b-8b19-a28f269b77a3
+// Status: test
+// Level: high
+// Author: frack113, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-07-04
+// Tags: attack.defense-impairment, attack.t1685.001
+// Description: Detects tampering with the "Enabled" registry key in order to disable Windows logging of a Windows event channel
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 2f78da12_f7c7_430b_8b19_a28f269b77a3 {
+  meta:
+    title = "Disable Windows Event Logging Via Registry"
+    description = "Detects tampering with the "Enabled" registry key in order to disable Windows logging of a Windows event channel"
+    author = "frack113, Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.TargetObject = /.*\\Microsoft\\Windows\\CurrentVersion\\WINEVT\\Channels\\.*/ nocase and $e.TargetObject = /.*\\Enabled$/ nocase and $e.Details = "DWORD (0x00000000)") and not((($e.target.process.file.full_path = /^C:\\Windows\\winsxs\\.*/ nocase and $e.target.process.file.full_path = /.*\\TiWorker.exe$/ nocase) or ($e.target.process.file.full_path = "C:\\Windows\\System32\\svchost.exe" and ($e.TargetObject = /.*\\Microsoft\\Windows\\CurrentVersion\\WINEVT\\Channels\\Microsoft-Windows-FileInfoMinifilter.*/ nocase or $e.TargetObject = /.*\\Microsoft\\Windows\\CurrentVersion\\WINEVT\\Channels\\Microsoft-Windows-ASN1\\.*/ nocase or $e.TargetObject = /.*\\Microsoft\\Windows\\CurrentVersion\\WINEVT\\Channels\\Microsoft-Windows-Kernel-AppCompat\\.*/ nocase or $e.TargetObject = /.*\\Microsoft\\Windows\\CurrentVersion\\WINEVT\\Channels\\Microsoft-Windows-Runtime\\Error\\.*/ nocase or $e.TargetObject = /.*\\Microsoft\\Windows\\CurrentVersion\\WINEVT\\Channels\\Microsoft-Windows-CAPI2/Operational\\.*/ nocase)) or ($e.target.process.file.full_path = "C:\\Windows\\servicing\\TrustedInstaller.exe" and $e.TargetObject = /.*\\Microsoft\\Windows\\CurrentVersion\\WINEVT\\Channels\\Microsoft-Windows-Compat-Appraiser.*/ nocase) or ($e.target.process.file.full_path = "C:\\Windows\\system32\\wevtutil.exe"))) and not((($e.target.process.file.full_path = "") or (not ($e.target.process.file.full_path = /.*/)))))
+
+  condition:
+    $e
+}

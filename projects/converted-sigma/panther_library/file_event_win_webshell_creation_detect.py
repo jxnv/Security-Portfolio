@@ -1,0 +1,19 @@
+# Title: Potential Webshell Creation On Static Website
+# ID: 39f1f9f2-9636-45de-98f6-a4046aa8e4b9
+# Status: test
+# Level: medium
+# Author: Beyu Denis, oscd.community, Tim Shelton, Thurein Oo
+# Date: 2019-10-22
+# Tags: attack.persistence, attack.t1505.003
+# Description: Detects the creation of files with certain extensions on a static web site. This can be indicative of potential uploads of a web shell.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Potential Webshell Creation On Static Website
+def rule(event):
+    # Detection Logic:
+    # (((((TargetFilename="*.ashx*" OR TargetFilename="*.asp*" OR TargetFilename="*.ph*" OR TargetFilename="*.soap*")) AND (TargetFilename="*\\inetpub\\wwwroot\\*")) OR ((TargetFilename="*.ph*") AND ((TargetFilename="*\\www\\*" OR TargetFilename="*\\htdocs\\*" OR TargetFilename="*\\html\\*")))) AND NOT (((TargetFilename="*\\xampp*") OR (Image="System") OR ((TargetFilename="*\\AppData\\Local\\Temp\\*" OR TargetFilename="*\\Windows\\Temp\\*")))))
+    return True
+
+def title(event):
+    return "Potential Webshell Creation On Static Website"
+

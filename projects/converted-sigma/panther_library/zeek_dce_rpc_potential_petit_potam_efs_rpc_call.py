@@ -1,0 +1,22 @@
+# Title: Potential PetitPotam Attack Via EFS RPC Calls
+# ID: 4096842a-8f9f-4d36-92b4-d0b2a62f9b2a
+# Status: test
+# Level: medium
+# Author: @neu5ron, @Antonlovesdnb, Mike Remen
+# Date: 2021-08-17
+# Tags: attack.collection, attack.credential-access, attack.t1557.001, attack.t1187
+# Description: Detects usage of the windows RPC library Encrypting File System Remote Protocol (MS-EFSRPC). Variations of this RPC are used within the attack refereed to as PetitPotam.
+# The usage of this RPC function should be rare if ever used at all.
+# Thus usage of this function is uncommon enough that any usage of this RPC function should warrant further investigation to determine if it is legitimate.
+#  View surrounding logs (within a few minutes before and after) from the Source IP to. Logs from from the Source IP would include dce_rpc, smb_mapping, smb_files, rdp, ntlm, kerberos, etc..'
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Potential PetitPotam Attack Via EFS RPC Calls
+def rule(event):
+    # Detection Logic:
+    # (operation="efs*")
+    return True
+
+def title(event):
+    return "Potential PetitPotam Attack Via EFS RPC Calls"
+

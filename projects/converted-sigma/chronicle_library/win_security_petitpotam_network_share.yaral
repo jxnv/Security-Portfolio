@@ -1,0 +1,23 @@
+// Title: Possible PetitPotam Coerce Authentication Attempt
+// ID: 1ce8c8a3-2723-48ed-8246-906ac91061a6
+// Status: test
+// Level: high
+// Author: Mauricio Velazco, Michael Haag
+// Date: 2021-09-02
+// Tags: attack.credential-access, attack.t1187
+// Description: Detect PetitPotam coerced authentication activity.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 1ce8c8a3_2723_48ed_8246_906ac91061a6 {
+  meta:
+    title = "Possible PetitPotam Coerce Authentication Attempt"
+    description = "Detect PetitPotam coerced authentication activity."
+    author = "Mauricio Velazco, Michael Haag"
+    severity = "HIGH"
+
+  events:
+    ($e.EventID = 5145 and $e.ShareName = /^\\\\\\\\.*/ nocase and $e.ShareName = /.*\\IPC$$/ nocase and $e.RelativeTargetName = "lsarpc" and $e.SubjectUserName = "ANONYMOUS LOGON")
+
+  condition:
+    $e
+}

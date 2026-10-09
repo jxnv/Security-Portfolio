@@ -1,0 +1,23 @@
+// Title: Suspicious Reconnaissance Activity Via GatherNetworkInfo.VBS
+// ID: 07aa184a-870d-413d-893a-157f317f6f58
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-02-08
+// Tags: attack.discovery, attack.execution, attack.t1615, attack.t1059.005
+// Description: Detects execution of the built-in script located in "C:\Windows\System32\gatherNetworkInfo.vbs". Which can be used to gather information about the target machine
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 07aa184a_870d_413d_893a_157f317f6f58 {
+  meta:
+    title = "Suspicious Reconnaissance Activity Via GatherNetworkInfo.VBS"
+    description = "Detects execution of the built-in script located in "C:\Windows\System32\gatherNetworkInfo.vbs". Which can be used to gather information about the target machine"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.command_line = /.*gatherNetworkInfo.vbs.*/ nocase) and not((($e.target.process.file.full_path = /.*\\cscript.exe$/ nocase or $e.target.process.file.full_path = /.*\\wscript.exe$/ nocase))))
+
+  condition:
+    $e
+}

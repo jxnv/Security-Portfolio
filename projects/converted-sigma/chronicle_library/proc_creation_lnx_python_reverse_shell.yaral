@@ -1,0 +1,23 @@
+// Title: Python Reverse Shell Execution Via PTY And Socket Modules
+// ID: 32e62bc7-3de0-4bb1-90af-532978fe42c0
+// Status: test
+// Level: high
+// Author: @d4ns4n_, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-04-24
+// Tags: attack.execution
+// Description: Detects the execution of python with calls to the socket and pty module in order to connect and spawn a potential reverse shell.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 32e62bc7_3de0_4bb1_90af_532978fe42c0 {
+  meta:
+    title = "Python Reverse Shell Execution Via PTY And Socket Modules"
+    description = "Detects the execution of python with calls to the socket and pty module in order to connect and spawn a potential reverse shell."
+    author = "@d4ns4n_, Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ($e.target.process.file.full_path = /.*python.*/ nocase and ($e.target.process.command_line = /.* -c .*/ nocase and $e.target.process.command_line = /.*import.*/ nocase and $e.target.process.command_line = /.*pty.*/ nocase and $e.target.process.command_line = /.*socket.*/ nocase and $e.target.process.command_line = /.*spawn.*/ nocase and $e.target.process.command_line = /.*.connect.*/ nocase))
+
+  condition:
+    $e
+}

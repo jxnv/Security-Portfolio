@@ -1,0 +1,11 @@
+// Title: Potential RoboForm.DLL Sideloading
+// ID: f64c9b2d-b0ad-481d-9d03-7fc75020892a
+// Status: test
+// Level: medium
+// Author: X__Junior (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-05-14
+// Tags: attack.persistence, attack.privilege-escalation, attack.execution, attack.stealth, attack.t1574.001
+// Description: Detects potential DLL sideloading of "roboform.dll", a DLL used by RoboForm Password Manager
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((ImageLoaded = /.*\\roboform.dll/i or ImageLoaded = /.*\\roboform-x64.dll/i)) and not(((ImageFileName = / C:\\Program Files (x86)\\Siber Systems\\AI RoboForm\\.*/i or ImageFileName = / C:\\Program Files\\Siber Systems\\AI RoboForm\\.*/i) and (ImageFileName = /.*\\robotaskbaricon.exe/i or ImageFileName = /.*\\robotaskbaricon-x64.exe/i))))

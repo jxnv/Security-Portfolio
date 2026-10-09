@@ -1,0 +1,23 @@
+// Title: NetNTLM Downgrade Attack
+// ID: d3abac66-f11c-4ed0-8acb-50cc29c97eed
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), wagga
+// Date: 2018-03-20
+// Tags: attack.persistence, attack.defense-impairment, attack.t1685, attack.t1112
+// Description: Detects NetNTLM downgrade attack
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule d3abac66_f11c_4ed0_8acb_50cc29c97eed {
+  meta:
+    title = "NetNTLM Downgrade Attack"
+    description = "Detects NetNTLM downgrade attack"
+    author = "Florian Roth (Nextron Systems), wagga"
+    severity = "HIGH"
+
+  events:
+    ($e.EventID = 4657 and ($e.ObjectName = /.*\\REGISTRY\\MACHINE\\SYSTEM.*/ nocase and $e.ObjectName = /.*ControlSet.*/ nocase and $e.ObjectName = /.*\\Control\\Lsa.*/ nocase) and ($e.ObjectValueName = "LmCompatibilityLevel" or $e.ObjectValueName = "NtlmMinClientSec" or $e.ObjectValueName = "RestrictSendingNTLMTraffic"))
+
+  condition:
+    $e
+}

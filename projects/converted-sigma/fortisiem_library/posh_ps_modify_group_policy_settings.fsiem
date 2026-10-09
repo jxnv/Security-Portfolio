@@ -1,0 +1,11 @@
+# Title: Modify Group Policy Settings - ScriptBlockLogging
+# ID: b7216a7d-687e-4c8d-82b1-3080b2ad961f
+# Status: test
+# Level: medium
+# Author: frack113
+# Date: 2022-08-19
+# Tags: attack.privilege-escalation, attack.defense-impairment, attack.t1484.001
+# Description: Detect malicious GPO modifications can be used to implement many other malicious behaviors.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((ScriptBlockText CONTAIN "GroupPolicyRefreshTimeDC" OR ScriptBlockText CONTAIN "GroupPolicyRefreshTimeOffsetDC" OR ScriptBlockText CONTAIN "GroupPolicyRefreshTime" OR ScriptBlockText CONTAIN "GroupPolicyRefreshTimeOffset" OR ScriptBlockText CONTAIN "EnableSmartScreen" OR ScriptBlockText CONTAIN "ShellSmartScreenLevel")) AND (ScriptBlockText CONTAIN "\\SOFTWARE\\Policies\\Microsoft\\Windows\\System"))

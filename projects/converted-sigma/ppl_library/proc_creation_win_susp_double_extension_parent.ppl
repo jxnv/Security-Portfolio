@@ -1,0 +1,11 @@
+// Title: Suspicious Parent Double Extension File Execution
+// ID: 5e6a80c8-2d45-4633-9ef4-fa2671a39c5c
+// Status: test
+// Level: high
+// Author: frack113, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-01-06
+// Tags: attack.stealth, attack.t1036.007
+// Description: Detect execution of suspicious double extension files in ParentCommandLine
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where (((process.parent.executable="*.doc.lnk" OR process.parent.executable="*.docx.lnk" OR process.parent.executable="*.xls.lnk" OR process.parent.executable="*.xlsx.lnk" OR process.parent.executable="*.ppt.lnk" OR process.parent.executable="*.pptx.lnk" OR process.parent.executable="*.rtf.lnk" OR process.parent.executable="*.pdf.lnk" OR process.parent.executable="*.txt.lnk" OR process.parent.executable="*.doc.js" OR process.parent.executable="*.docx.js" OR process.parent.executable="*.xls.js" OR process.parent.executable="*.xlsx.js" OR process.parent.executable="*.ppt.js" OR process.parent.executable="*.pptx.js" OR process.parent.executable="*.rtf.js" OR process.parent.executable="*.pdf.js" OR process.parent.executable="*.txt.js")) OR ((process.parent.command_line like "%.doc.lnk%" OR process.parent.command_line like "%.docx.lnk%" OR process.parent.command_line like "%.xls.lnk%" OR process.parent.command_line like "%.xlsx.lnk%" OR process.parent.command_line like "%.ppt.lnk%" OR process.parent.command_line like "%.pptx.lnk%" OR process.parent.command_line like "%.rtf.lnk%" OR process.parent.command_line like "%.pdf.lnk%" OR process.parent.command_line like "%.txt.lnk%" OR process.parent.command_line like "%.doc.js%" OR process.parent.command_line like "%.docx.js%" OR process.parent.command_line like "%.xls.js%" OR process.parent.command_line like "%.xlsx.js%" OR process.parent.command_line like "%.ppt.js%" OR process.parent.command_line like "%.pptx.js%" OR process.parent.command_line like "%.rtf.js%" OR process.parent.command_line like "%.pdf.js%" OR process.parent.command_line like "%.txt.js%")))

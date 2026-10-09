@@ -1,0 +1,11 @@
+# Title: Wab/Wabmig Unusual Parent Or Child Processes
+# ID: 63d1ccc0-2a43-4f4b-9289-361b308991ff
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-08-12
+# Tags: attack.execution, attack.stealth
+# Description: Detects unusual parent or children of the wab.exe (Windows Contacts) and Wabmig.exe (Microsoft Address Book Import Tool) processes as seen being used with bumblebee activity
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((parent_name:*\\wab.exe OR parent_name:*\\wabmig.exe)) OR ((parent_name:*\\WmiPrvSE.exe OR parent_name:*\\svchost.exe OR parent_name:*\\dllhost.exe) AND (process_name:*\\wab.exe OR process_name:*\\wabmig.exe)))

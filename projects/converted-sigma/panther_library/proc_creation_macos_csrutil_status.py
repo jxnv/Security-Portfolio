@@ -1,0 +1,19 @@
+# Title: System Integrity Protection (SIP) Enumeration
+# ID: 53821412-17b0-4147-ade0-14faae67d54b
+# Status: test
+# Level: low
+# Author: Joseliyo Sanchez, @Joseliyo_Jstnk
+# Date: 2024-01-02
+# Tags: attack.discovery, attack.t1518.001
+# Description: Detects the use of csrutil to view the Configure System Integrity Protection (SIP) status. This technique is used in post-exploit scenarios.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: System Integrity Protection (SIP) Enumeration
+def rule(event):
+    # Detection Logic:
+    # (Image="*/csrutil" AND CommandLine="*status*")
+    return True
+
+def title(event):
+    return "System Integrity Protection (SIP) Enumeration"
+

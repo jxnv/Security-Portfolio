@@ -1,0 +1,141 @@
+{
+  "title": "Potentially Suspicious GrantedAccess Flags On LSASS",
+  "id": "a18dd26b-6450-46de-8c91-9659150cf088",
+  "status": "test",
+  "description": "Detects process access requests to LSASS process with potentially suspicious access flags",
+  "author": "Florian Roth, Roberto Rodriguez, Dimitrios Slamaris, Mark Russinovich, Thomas Patzke, Teymur Kheirkhabarov, Sherif Eldeeb, James Dickenson, Aleksey Potapov, oscd.community",
+  "date": "2021-11-22",
+  "tags": [
+    "attack.credential-access",
+    "attack.t1003.001",
+    "attack.s0002"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "process_access",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_target": {
+      "TargetImage|endswith": "\\lsass.exe"
+    },
+    "selection_access": [
+      {
+        "GrantedAccess|endswith": [
+          "30",
+          "50",
+          "70",
+          "90",
+          "B0",
+          "D0",
+          "F0",
+          "18",
+          "38",
+          "58",
+          "78",
+          "98",
+          "B8",
+          "D8",
+          "F8",
+          "1A",
+          "3A",
+          "5A",
+          "7A",
+          "9A",
+          "BA",
+          "DA",
+          "FA",
+          "0x14C2"
+        ]
+      },
+      {
+        "GrantedAccess|startswith": [
+          "0x100000",
+          "0x1418",
+          "0x1438",
+          "0x143a",
+          "0x1f0fff",
+          "0x1f1fff",
+          "0x1f2fff",
+          "0x1f3fff",
+          "0x40"
+        ]
+      }
+    ],
+    "filter_main_generic": {
+      "SourceImage|contains": [
+        ":\\Program Files (x86)\\",
+        ":\\Program Files\\",
+        ":\\Windows\\System32\\",
+        ":\\Windows\\SysWOW64\\"
+      ]
+    },
+    "filter_optional_malwarebytes": {
+      "SourceImage|endswith": ":\\ProgramData\\MALWAREBYTES\\MBAMSERVICE\\ctlrupdate\\mbupdatr.exe"
+    },
+    "filter_optional_vscode": {
+      "SourceImage|endswith": "\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe"
+    },
+    "filter_main_windefend_1": {
+      "SourceImage|contains": ":\\ProgramData\\Microsoft\\Windows Defender\\",
+      "SourceImage|endswith": "\\MsMpEng.exe"
+    },
+    "filter_main_windefend_2": {
+      "CallTrace|contains|all": [
+        "|?:\\ProgramData\\Microsoft\\Windows Defender\\Definition Updates\\{",
+        "}\\mpengine.dll+"
+      ],
+      "GrantedAccess": "0x1418"
+    },
+    "filter_main_windefend_3": {
+      "CallTrace|contains": [
+        "|c:\\program files\\windows defender\\mprtp.dll",
+        "|c:\\program files\\windows defender\\MpClient.dll"
+      ]
+    },
+    "filter_optional_vmwaretools": {
+      "SourceImage|contains": ":\\ProgramData\\VMware\\VMware Tools\\",
+      "SourceImage|endswith": "\\vmtoolsd.exe"
+    },
+    "filter_optional_sysinternals_process_explorer": {
+      "SourceImage|endswith": [
+        "\\PROCEXP64.EXE",
+        "\\PROCEXP.EXE"
+      ],
+      "GrantedAccess": "0x40"
+    },
+    "filter_optional_mbami": {
+      "SourceImage|endswith": "\\MBAMInstallerService.exe",
+      "GrantedAccess": "0x40"
+    },
+    "filter_optional_nextron": {
+      "SourceImage|endswith": [
+        "\\aurora-agent-64.exe",
+        "\\aurora-agent.exe",
+        "\\thor.exe",
+        "\\thor64.exe"
+      ],
+      "GrantedAccess": "0x40"
+    },
+    "filter_main_explorer": {
+      "SourceImage|endswith": "\\explorer.exe",
+      "GrantedAccess": "0x401"
+    },
+    "filter_optional_sysinternals_handle": {
+      "SourceImage|endswith": [
+        "\\handle.exe",
+        "\\handle64.exe",
+        "\\handle64a.exe"
+      ],
+      "GrantedAccess": "0x40"
+    },
+    "filter_optional_webex": {
+      "SourceImage|endswith": "\\AppData\\Local\\WebEx\\WebexHost.exe",
+      "GrantedAccess": "0x401"
+    },
+    "filter_optional_steam_apps": {
+      "SourceImage|contains": "\\SteamLibrary\\steamapps\\"
+    },
+    "condition": "all of selection_* and not 1 of filter_main_* and not 1 of filter_optional_*"
+  }
+}

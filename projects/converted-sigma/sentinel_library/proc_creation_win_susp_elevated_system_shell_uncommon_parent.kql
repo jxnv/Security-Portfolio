@@ -1,0 +1,11 @@
+// Title: Elevated System Shell Spawned From Uncommon Parent Location
+// ID: 178e615d-e666-498b-9630-9ed363038101
+// Status: test
+// Level: medium
+// Author: frack113, Tim Shelton (update fp)
+// Date: 2022-12-05
+// Tags: attack.privilege-escalation, attack.execution, attack.t1059
+// Description: Detects when a shell program such as the Windows command prompt or PowerShell is launched with system privileges from a uncommon parent location.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+DeviceProcessEvents | where (((((FolderPath endswith "\\powershell.exe" or FolderPath endswith "\\powershell_ise.exe" or FolderPath endswith "\\pwsh.exe" or FolderPath endswith "\\cmd.exe")) or ((ProcessVersionInfoOriginalFileName == "PowerShell.EXE" or ProcessVersionInfoOriginalFileName == "powershell_ise.EXE" or ProcessVersionInfoOriginalFileName == "pwsh.dll" or ProcessVersionInfoOriginalFileName == "Cmd.Exe"))) and ((AccountName contains "AUTHORI" or AccountName contains "AUTORI") and LogonId == "0x3e7")) and not((((InitiatingProcessFolderPath contains ":\\Program Files (x86)\\" or InitiatingProcessFolderPath contains ":\\Program Files\\" or InitiatingProcessFolderPath contains ":\\ProgramData\\" or InitiatingProcessFolderPath contains ":\\Windows\\System32\\" or InitiatingProcessFolderPath contains ":\\Windows\\SysWOW64\\" or InitiatingProcessFolderPath contains ":\\Windows\\Temp\\" or InitiatingProcessFolderPath contains ":\\Windows\\WinSxS\\")) or ((InitiatingProcessFolderPath == "" or InitiatingProcessFolderPath == "-")) or ((isempty(InitiatingProcessFolderPath) or isnull(InitiatingProcessFolderPath))))) and not(((ProcessCommandLine contains ":\\WINDOWS\\system32\\cmd.exe /c \"" and CurrentDirectory contains ":\\WINDOWS\\Temp\\asgard2-agent\\") or (InitiatingProcessFolderPath contains ":\\IBM\\SpectrumProtect\\webserver\\scripts\\" and ProcessCommandLine contains ":\\IBM\\SpectrumProtect\\webserver\\scripts\\") or (InitiatingProcessFolderPath endswith ":\\ManageEngine\\ADManager Plus\\pgsql\\bin\\postgres.exe" and FolderPath endswith "\\cmd.exe"))))

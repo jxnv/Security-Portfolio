@@ -1,0 +1,11 @@
+// Title: Metasploit SMB Authentication
+// ID: 72124974-a68b-4366-b990-d30e0b2a190d
+// Status: test
+// Level: high
+// Author: Chakib Gzenayi (@Chak092), Hosni Mribah
+// Date: 2020-05-06
+// Tags: attack.lateral-movement, attack.t1021.002
+// Description: Alerts on Metasploit host's authentications on the domain.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((EventID = 4625 or EventID = 4624) and LogonType = 3 and AuthenticationPackageName = "NTLM" and WorkstationName =~ /^[A-Za-z0-9]{16}$/i) or (EventID = 4776 and Workstation =~ /^[A-Za-z0-9]{16}$/i))

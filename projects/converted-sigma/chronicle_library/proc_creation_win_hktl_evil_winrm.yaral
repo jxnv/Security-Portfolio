@@ -1,0 +1,23 @@
+// Title: HackTool - WinRM Access Via Evil-WinRM
+// ID: a197e378-d31b-41c0-9635-cfdf1c1bb423
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-01-07
+// Tags: attack.lateral-movement, attack.t1021.006
+// Description: Adversaries may use Valid Accounts to log into a computer using the Remote Desktop Protocol (RDP). The adversary may then perform actions as the logged-on user.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule a197e378_d31b_41c0_9635_cfdf1c1bb423 {
+  meta:
+    title = "HackTool - WinRM Access Via Evil-WinRM"
+    description = "Adversaries may use Valid Accounts to log into a computer using the Remote Desktop Protocol (RDP). The adversary may then perform actions as the logged-on user."
+    author = "frack113"
+    severity = "MEDIUM"
+
+  events:
+    ($e.target.process.file.full_path = /.*\\ruby.exe$/ nocase and ($e.target.process.command_line = /.*-i .*/ nocase and $e.target.process.command_line = /.*-u .*/ nocase and $e.target.process.command_line = /.*-p .*/ nocase))
+
+  condition:
+    $e
+}

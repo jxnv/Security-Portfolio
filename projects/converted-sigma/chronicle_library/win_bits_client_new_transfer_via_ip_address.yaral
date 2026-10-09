@@ -1,0 +1,23 @@
+// Title: BITS Transfer Job Download From Direct IP
+// ID: 90f138c1-f578-4ac3-8c49-eecfd847c8b7
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-01-11
+// Tags: attack.persistence, attack.execution, attack.stealth, attack.t1197
+// Description: Detects a BITS transfer job downloading file(s) from a direct IP address.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 90f138c1_f578_4ac3_8c49_eecfd847c8b7 {
+  meta:
+    title = "BITS Transfer Job Download From Direct IP"
+    description = "Detects a BITS transfer job downloading file(s) from a direct IP address."
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.EventID = 16403 and ($e.RemoteName = /.*http://1.*/ nocase or $e.RemoteName = /.*http://2.*/ nocase or $e.RemoteName = /.*http://3.*/ nocase or $e.RemoteName = /.*http://4.*/ nocase or $e.RemoteName = /.*http://5.*/ nocase or $e.RemoteName = /.*http://6.*/ nocase or $e.RemoteName = /.*http://7.*/ nocase or $e.RemoteName = /.*http://8.*/ nocase or $e.RemoteName = /.*http://9.*/ nocase or $e.RemoteName = /.*https://1.*/ nocase or $e.RemoteName = /.*https://2.*/ nocase or $e.RemoteName = /.*https://3.*/ nocase or $e.RemoteName = /.*https://4.*/ nocase or $e.RemoteName = /.*https://5.*/ nocase or $e.RemoteName = /.*https://6.*/ nocase or $e.RemoteName = /.*https://7.*/ nocase or $e.RemoteName = /.*https://8.*/ nocase or $e.RemoteName = /.*https://9.*/ nocase)) and not(((($e.RemoteName = /.*://10..*/ nocase or $e.RemoteName = /.*://192.168..*/ nocase or $e.RemoteName = /.*://172.16..*/ nocase or $e.RemoteName = /.*://172.17..*/ nocase or $e.RemoteName = /.*://172.18..*/ nocase or $e.RemoteName = /.*://172.19..*/ nocase or $e.RemoteName = /.*://172.20..*/ nocase or $e.RemoteName = /.*://172.21..*/ nocase or $e.RemoteName = /.*://172.22..*/ nocase or $e.RemoteName = /.*://172.23..*/ nocase or $e.RemoteName = /.*://172.24..*/ nocase or $e.RemoteName = /.*://172.25..*/ nocase or $e.RemoteName = /.*://172.26..*/ nocase or $e.RemoteName = /.*://172.27..*/ nocase or $e.RemoteName = /.*://172.28..*/ nocase or $e.RemoteName = /.*://172.29..*/ nocase or $e.RemoteName = /.*://172.30..*/ nocase or $e.RemoteName = /.*://172.31..*/ nocase or $e.RemoteName = /.*://127..*/ nocase or $e.RemoteName = /.*://169.254..*/ nocase)) or (($e.RemoteName = /.*https://7-.*/ nocase or $e.RemoteName = /.*http://7-.*/ nocase)))))
+
+  condition:
+    $e
+}

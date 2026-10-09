@@ -1,0 +1,22 @@
+# Title: Regedit as Trusted Installer
+# ID: 883835a7-df45-43e4-bf1d-4268768afda4
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems)
+# Date: 2021-05-27
+# Tags: attack.privilege-escalation, attack.t1548
+# Description: Detects a regedit started with TrustedInstaller privileges or by ProcessHacker.exe
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# LimaCharlie Detection & Response Rule
+# Name: Regedit as Trusted Installer
+detect:
+  event: process_creation
+  op: and
+  rules:
+    # Filter logic:
+    # (Image="*\\regedit.exe" AND (ParentImage="*\\TrustedInstaller.exe" OR ParentImage="*\\ProcessHacker.exe"))
+respond:
+  - action: report
+    name: Regedit as Trusted Installer
+

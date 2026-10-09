@@ -1,0 +1,11 @@
+-- Title: Suspicious Outlook Child Process
+-- ID: 208748f7-881d-47ac-a29c-07ea84bf691d
+-- Status: test
+-- Level: high
+-- Author: Michael Haag, Florian Roth (Nextron Systems), Markus Neis, Elastic, FPT.EagleEye Team
+-- Date: 2022-02-28
+-- Tags: attack.execution, attack.t1204.002
+-- Description: Detects a suspicious process spawning from an Outlook process.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE (ParentImage ILIKE '%\\OUTLOOK.EXE' AND (Image ILIKE '%\\AppVLP.exe' OR Image ILIKE '%\\bash.exe' OR Image ILIKE '%\\cmd.exe' OR Image ILIKE '%\\cscript.exe' OR Image ILIKE '%\\forfiles.exe' OR Image ILIKE '%\\hh.exe' OR Image ILIKE '%\\mftrace.exe' OR Image ILIKE '%\\msbuild.exe' OR Image ILIKE '%\\msdt.exe' OR Image ILIKE '%\\mshta.exe' OR Image ILIKE '%\\msiexec.exe' OR Image ILIKE '%\\powershell.exe' OR Image ILIKE '%\\pwsh.exe' OR Image ILIKE '%\\regsvr32.exe' OR Image ILIKE '%\\schtasks.exe' OR Image ILIKE '%\\scrcons.exe' OR Image ILIKE '%\\scriptrunner.exe' OR Image ILIKE '%\\sh.exe' OR Image ILIKE '%\\svchost.exe' OR Image ILIKE '%\\wmic.exe' OR Image ILIKE '%\\wscript.exe'))

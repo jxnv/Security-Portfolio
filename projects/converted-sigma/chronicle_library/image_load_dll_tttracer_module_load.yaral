@@ -1,0 +1,23 @@
+// Title: Time Travel Debugging Utility Usage - Image
+// ID: e76c8240-d68f-4773-8880-5c6f63595aaf
+// Status: test
+// Level: high
+// Author: Ensar Şamil, @sblmsrsn, @oscd_initiative
+// Date: 2020-10-06
+// Tags: attack.credential-access, attack.stealth, attack.t1218, attack.t1003.001
+// Description: Detects usage of Time Travel Debugging Utility. Adversaries can execute malicious processes and dump processes, such as lsass.exe, via tttracer.exe.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule e76c8240_d68f_4773_8880_5c6f63595aaf {
+  meta:
+    title = "Time Travel Debugging Utility Usage - Image"
+    description = "Detects usage of Time Travel Debugging Utility. Adversaries can execute malicious processes and dump processes, such as lsass.exe, via tttracer.exe."
+    author = "Ensar Şamil, @sblmsrsn, @oscd_initiative"
+    severity = "HIGH"
+
+  events:
+    (($e.ImageLoaded = /.*\\ttdrecord.dll$/ nocase or $e.ImageLoaded = /.*\\ttdwriter.dll$/ nocase or $e.ImageLoaded = /.*\\ttdloader.dll$/ nocase))
+
+  condition:
+    $e
+}

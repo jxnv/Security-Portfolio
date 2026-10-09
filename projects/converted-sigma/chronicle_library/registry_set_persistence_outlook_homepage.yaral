@@ -1,0 +1,24 @@
+// Title: Potential Persistence Via Outlook Home Page
+// ID: ddd171b5-2cc6-4975-9e78-f0eccd08cc76
+// Status: test
+// Level: high
+// Author: Tobias Michalski (Nextron Systems), David Bertho (@dbertho) & Eirik Sveen (@0xSV1), Storebrand
+// Date: 2021-06-09
+// Tags: attack.persistence, attack.defense-impairment, attack.t1112
+// Description: Detects potential persistence activity via outlook home page.
+// An attacker can set a home page to achieve code execution and persistence by editing the WebView registry keys.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule ddd171b5_2cc6_4975_9e78_f0eccd08cc76 {
+  meta:
+    title = "Potential Persistence Via Outlook Home Page"
+    description = "Detects potential persistence activity via outlook home page. An attacker can set a home page to achieve code execution and persistence by editing the WebView registry keys."
+    author = "Tobias Michalski (Nextron Systems), David Bertho (@dbertho) & Eirik Sveen (@0xSV1), Storebrand"
+    severity = "HIGH"
+
+  events:
+    (($e.TargetObject = /.*\\Software\\Microsoft\\Office\\.*/ nocase and $e.TargetObject = /.*\\Outlook\\WebView\\.*/ nocase) and $e.TargetObject = /.*\\URL$/ nocase)
+
+  condition:
+    $e
+}

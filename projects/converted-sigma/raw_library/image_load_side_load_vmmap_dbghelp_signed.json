@@ -1,0 +1,31 @@
+{
+  "title": "VMMap Signed Dbghelp.DLL Potential Sideloading",
+  "id": "98ffaed4-aec2-4e04-9b07-31492fe68b3d",
+  "status": "test",
+  "description": "Detects potential DLL sideloading of a signed dbghelp.dll by the Sysinternals VMMap.",
+  "author": "Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2023-09-05",
+  "tags": [
+    "attack.persistence",
+    "attack.privilege-escalation",
+    "attack.execution",
+    "attack.stealth",
+    "attack.t1574.001"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "image_load",
+    "product": "windows"
+  },
+  "detection": {
+    "selection": {
+      "ImageLoaded|contains": "C:\\Debuggers\\dbghelp.dll",
+      "Image|endswith": [
+        "\\vmmap.exe",
+        "\\vmmap64.exe"
+      ],
+      "Signed": "true"
+    },
+    "condition": "selection"
+  }
+}

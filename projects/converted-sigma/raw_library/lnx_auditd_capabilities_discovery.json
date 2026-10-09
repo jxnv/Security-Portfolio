@@ -1,0 +1,28 @@
+{
+  "title": "Linux Capabilities Discovery",
+  "id": "fe10751f-1995-40a5-aaa2-c97ccb4123fe",
+  "status": "test",
+  "description": "Detects attempts to discover the files with setuid/setgid capability on them. That would allow adversary to escalate their privileges.",
+  "author": "Pawel Mazur",
+  "date": "2021-11-28",
+  "tags": [
+    "attack.discovery",
+    "attack.privilege-escalation",
+    "attack.t1083",
+    "attack.t1548"
+  ],
+  "level": "low",
+  "logsource": {
+    "product": "linux",
+    "service": "auditd"
+  },
+  "detection": {
+    "selection": {
+      "type": "EXECVE",
+      "a0": "getcap",
+      "a1": "-r",
+      "a2": "/"
+    },
+    "condition": "selection"
+  }
+}

@@ -1,0 +1,11 @@
+# Title: Webshell Hacking Activity Patterns
+# ID: 4ebc877f-4612-45cb-b3a5-8e3834db36c9
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems)
+# Date: 2022-03-17
+# Tags: attack.persistence, attack.discovery, attack.t1505.003, attack.t1018, attack.t1033, attack.t1087
+# Description: Detects certain parent child patterns found in cases in which a web shell is used to perform certain credential dumping or exfiltration activities on a compromised system
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((((parent_name:*\\java.exe OR parent_name:*\\javaw.exe) AND (parent_name:*-tomcat-* OR parent_name:*\\tomcat*)) OR ((parent_name:*\\java.exe OR parent_name:*\\javaw.exe) AND (cmdline:*catalina.jar* OR cmdline:*CATALINA_HOME*)) OR ((parent_name:*\\caddy.exe OR parent_name:*\\httpd.exe OR parent_name:*\\nginx.exe OR parent_name:*\\php-cgi.exe OR parent_name:*\\w3wp.exe OR parent_name:*\\ws_tomcatservice.exe))) AND (((cmdline:*rundll32* AND cmdline:*comsvcs*)) OR ((cmdline:* -hp* AND cmdline:* a * AND cmdline:* -m*)) OR ((cmdline:*net* AND cmdline:* user * AND cmdline:* /add*)) OR ((cmdline:*net* AND cmdline:* localgroup * AND cmdline:* administrators * AND cmdline:*/add*)) OR ((process_name:*\\ntdsutil.exe OR process_name:*\\ldifde.exe OR process_name:*\\adfind.exe OR process_name:*\\procdump.exe OR process_name:*\\Nanodump.exe OR process_name:*\\vssadmin.exe OR process_name:*\\fsutil.exe)) OR ((cmdline:* -decode * OR cmdline:* -NoP * OR cmdline:* -W Hidden * OR cmdline:* /decode * OR cmdline:* /ticket:* OR cmdline:* sekurlsa* OR cmdline:*.dmp full* OR cmdline:*.downloadfile(* OR cmdline:*.downloadstring(* OR cmdline:*FromBase64String* OR cmdline:*process call create* OR cmdline:*reg save * OR cmdline:*whoami /priv*))))

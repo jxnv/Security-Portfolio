@@ -1,0 +1,23 @@
+// Title: Suspicious Regsvr32 Execution From Remote Share
+// ID: 88a87a10-384b-4ad7-8871-2f9bf9259ce5
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-10-31
+// Tags: attack.stealth, attack.t1218.010
+// Description: Detects REGSVR32.exe to execute DLL hosted on remote shares
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 88a87a10_384b_4ad7_8871_2f9bf9259ce5 {
+  meta:
+    title = "Suspicious Regsvr32 Execution From Remote Share"
+    description = "Detects REGSVR32.exe to execute DLL hosted on remote shares"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.command_line = /.* \\\\\\\\.*/ nocase) and (($e.target.process.file.full_path = /.*\\regsvr32.exe$/ nocase) or ($e.target.process.file.name = "\\REGSVR32.EXE")))
+
+  condition:
+    $e
+}

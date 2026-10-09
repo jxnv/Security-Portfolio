@@ -1,0 +1,11 @@
+// Title: Potential Tampering With RDP Related Registry Keys Via Reg.EXE
+// ID: 0d5675be-bc88-4172-86d3-1e96a4476536
+// Status: test
+// Level: high
+// Author: pH-T (Nextron Systems), @Kostastsale, TheDFIRReport
+// Date: 2022-02-12
+// Tags: attack.persistence, attack.lateral-movement, attack.defense-impairment, attack.t1021.001, attack.t1112
+// Description: Detects the execution of "reg.exe" for enabling/disabling the RDP service on the host by tampering with the 'CurrentControlSet\Control\Terminal Server' values
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((where(CommandLine ICONTAINS " add ") AND where(CommandLine ICONTAINS "\\CurrentControlSet\\Control\\Terminal Server") AND where(CommandLine ICONTAINS "REG_DWORD") AND where(CommandLine ICONTAINS " /f"))) AND ((where(Image IENDSWITH "\\reg.exe")) OR (where(OriginalFileName = "reg.exe")))) AND (((where(CommandLine ICONTAINS "Licensing Core") AND where(CommandLine ICONTAINS "EnableConcurrentSessions"))) OR ((where(CommandLine ICONTAINS "AllowTSConnections") OR where(CommandLine ICONTAINS "fDenyTSConnections") OR where(CommandLine ICONTAINS "fEnableWinStation") OR where(CommandLine ICONTAINS "fSingleSessionPerUser") OR where(CommandLine ICONTAINS "IdleWinStationPoolCount") OR where(CommandLine ICONTAINS "MaxInstanceCount") OR where(CommandLine ICONTAINS "SecurityLayer") OR where(CommandLine ICONTAINS "TSAdvertise") OR where(CommandLine ICONTAINS "TSAppCompat") OR where(CommandLine ICONTAINS "TSEnabled") OR where(CommandLine ICONTAINS "TSUserEnabled") OR where(CommandLine ICONTAINS "WinStations\\RDP-Tcp")))) AND NOT (((where(CommandLine ICONTAINS "SecurityLayer") AND where(CommandLine ICONTAINS "02")))))

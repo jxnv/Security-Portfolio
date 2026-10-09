@@ -1,0 +1,23 @@
+// Title: Csc.EXE Execution Form Potentially Suspicious Parent
+// ID: b730a276-6b63-41b8-bcf8-55930c8fc6ee
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems), X__Junior (Nextron Systems)
+// Date: 2019-02-11
+// Tags: attack.execution, attack.stealth, attack.t1059.005, attack.t1059.007, attack.t1218.005, attack.t1027.004
+// Description: Detects a potentially suspicious parent of "csc.exe", which could be a sign of payload delivery.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule b730a276_6b63_41b8_bcf8_55930c8fc6ee {
+  meta:
+    title = "Csc.EXE Execution Form Potentially Suspicious Parent"
+    description = "Detects a potentially suspicious parent of "csc.exe", which could be a sign of payload delivery."
+    author = "Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems), X__Junior (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.file.full_path = /.*\\csc.exe$/ nocase) or ($e.target.process.file.name = "csc.exe")) and ((($e.principal.process.file.full_path = /.*\\cscript.exe$/ nocase or $e.principal.process.file.full_path = /.*\\excel.exe$/ nocase or $e.principal.process.file.full_path = /.*\\mshta.exe$/ nocase or $e.principal.process.file.full_path = /.*\\onenote.exe$/ nocase or $e.principal.process.file.full_path = /.*\\outlook.exe$/ nocase or $e.principal.process.file.full_path = /.*\\powerpnt.exe$/ nocase or $e.principal.process.file.full_path = /.*\\winword.exe$/ nocase or $e.principal.process.file.full_path = /.*\\wscript.exe$/ nocase)) or (($e.principal.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.principal.process.file.full_path = /.*\\pwsh.exe$/ nocase) and ($e.principal.process.command_line = /.*-Encoded .*/ nocase or $e.principal.process.command_line = /.*FromBase64String.*/ nocase)) or (($e.principal.process.command_line = /(?:[Pp]rogram[Dd]ata|%(?:[Ll]ocal)?[Aa]pp[Dd]ata%|\\[Aa]pp[Dd]ata\\(?:[Ll]ocal(?:[Ll]ow)?|[Rr]oaming))\\[^\\]{1,256}$/ nocase) or (($e.principal.process.command_line = /.*:\\PerfLogs\\.*/ nocase or $e.principal.process.command_line = /.*:\\Users\\Public\\.*/ nocase or $e.principal.process.command_line = /.*:\\Windows\\Temp\\.*/ nocase or $e.principal.process.command_line = /.*\\Temporary Internet.*/ nocase)) or (($e.principal.process.command_line = /.*:\\Users\\.*/ nocase and $e.principal.process.command_line = /.*\\Favorites\\.*/ nocase)) or (($e.principal.process.command_line = /.*:\\Users\\.*/ nocase and $e.principal.process.command_line = /.*\\Favourites\\.*/ nocase)) or (($e.principal.process.command_line = /.*:\\Users\\.*/ nocase and $e.principal.process.command_line = /.*\\Contacts\\.*/ nocase)) or (($e.principal.process.command_line = /.*:\\Users\\.*/ nocase and $e.principal.process.command_line = /.*\\Pictures\\.*/ nocase)))) and not(((($e.principal.process.file.full_path = /^C:\\Program Files (x86)\\.*/ nocase or $e.principal.process.file.full_path = /^C:\\Program Files\\.*/ nocase)) or ($e.principal.process.file.full_path = "C:\\Windows\\System32\\sdiagnhost.exe") or ($e.principal.process.file.full_path = "C:\\Windows\\System32\\inetsrv\\w3wp.exe"))) and not(((($e.principal.process.command_line = /.*JwB7ACIAZgBhAGkAbABlAGQAIgA6AHQAcgB1AGUALAAiAG0AcwBnACIAOgAiAEEAbgBzAGkAYgBsAGUAIAByAGUAcQB1AGkAcgBlAHMAIABQAG8AdwBlAHIAUwBoAGUAbABsACAAdgAzAC4AMAAgAG8AcgAgAG4AZQB3AGUAcgAiAH0AJw.*/ nocase or $e.principal.process.command_line = /.*cAewAiAGYAYQBpAGwAZQBkACIAOgB0AHIAdQBlACwAIgBtAHMAZwAiADoAIgBBAG4AcwBpAGIAbABlACAAcgBlAHEAdQBpAHIAZQBzACAAUABvAHcAZQByAFMAaABlAGwAbAAgAHYAMwAuADAAIABvAHIAIABuAGUAdwBlAHIAIgB9ACcA.*/ nocase or $e.principal.process.command_line = /.*nAHsAIgBmAGEAaQBsAGUAZAAiADoAdAByAHUAZQAsACIAbQBzAGcAIgA6ACIAQQBuAHMAaQBiAGwAZQAgAHIAZQBxAHUAaQByAGUAcwAgAFAAbwB3AGUAcgBTAGgAZQBsAGwAIAB2ADMALgAwACAAbwByACAAbgBlAHcAZQByACIAfQAnA.*/ nocase)) or ($e.principal.process.file.full_path = "C:\\ProgramData\\chocolatey\\choco.exe") or ($e.principal.process.command_line = /.*\\ProgramData\\Microsoft\\Windows Defender Advanced Threat Protection.*/ nocase))))
+
+  condition:
+    $e
+}

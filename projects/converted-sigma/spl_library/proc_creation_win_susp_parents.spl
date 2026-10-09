@@ -1,0 +1,11 @@
+# Title: Suspicious Process Parents
+# ID: cbec226f-63d9-4eca-9f52-dfb6652f24df
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems)
+# Date: 2022-03-21
+# Tags: attack.stealth, attack.t1036
+# Description: Detects suspicious parent processes that should not have any children or should only have a single possible child program
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog (((parent_process_path="*\\minesweeper.exe" OR parent_process_path="*\\winver.exe" OR parent_process_path="*\\bitsadmin.exe")) OR (((parent_process_path="*\\csrss.exe" OR parent_process_path="*\\certutil.exe" OR parent_process_path="*\\eventvwr.exe" OR parent_process_path="*\\calc.exe" OR parent_process_path="*\\notepad.exe")) AND NOT (((NOT process_path=*) OR ((process_path="*\\WerFault.exe" OR process_path="*\\wermgr.exe" OR process_path="*\\conhost.exe" OR process_path="*\\mmc.exe" OR process_path="*\\win32calc.exe" OR process_path="*\\notepad.exe"))))))

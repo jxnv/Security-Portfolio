@@ -1,0 +1,23 @@
+// Title: MSSQL Server Failed Logon
+// ID: 218d2855-2bba-4f61-9c85-81d0ea63ac71
+// Status: test
+// Level: low
+// Author: Nasreddine Bencherchali (Nextron Systems), j4son
+// Date: 2023-10-11
+// Tags: attack.credential-access, attack.t1110
+// Description: Detects failed logon attempts from clients to MSSQL server.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 218d2855_2bba_4f61_9c85_81d0ea63ac71 {
+  meta:
+    title = "MSSQL Server Failed Logon"
+    description = "Detects failed logon attempts from clients to MSSQL server."
+    author = "Nasreddine Bencherchali (Nextron Systems), j4son"
+    severity = "LOW"
+
+  events:
+    ($e.Provider_Name = /.*MSSQL.*/ nocase and $e.EventID = 18456)
+
+  condition:
+    $e
+}

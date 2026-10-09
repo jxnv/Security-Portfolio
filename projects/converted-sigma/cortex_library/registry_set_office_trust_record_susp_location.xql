@@ -1,0 +1,11 @@
+// Title: Macro Enabled In A Potentially Suspicious Document
+// ID: a166f74e-bf44-409d-b9ba-ea4b2dd8b3cd
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-06-21
+// Tags: attack.persistence, attack.defense-impairment, attack.t1112
+// Description: Detects registry changes to Office trust records where the path is located in a potentially suspicious location
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter (((TargetObject contains "/AppData/Local/Microsoft/Windows/INetCache/" or TargetObject contains "/AppData/Local/Temp/" or TargetObject contains "/PerfLogs/" or TargetObject contains "C:/Users/Public/" or TargetObject contains "file:///D:/" or TargetObject contains "file:///E:/")) and (TargetObject contains "\\Security\\Trusted Documents\\TrustRecords"))
