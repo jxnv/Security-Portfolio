@@ -1,0 +1,24 @@
+// Title: Suspicious PROCEXP152.sys File Created In TMP
+// ID: 3da70954-0f2c-4103-adff-b7440368f50e
+// Status: test
+// Level: medium
+// Author: xknow (@xknow_infosec), xorxes (@xor_xes)
+// Date: 2019-04-08
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects the creation of the PROCEXP152.sys file in the application-data local temporary folder.
+// This driver is used by Sysinternals Process Explorer but also by KDU (https://github.com/hfiref0x/KDU) or Ghost-In-The-Logs (https://github.com/bats3c/Ghost-In-The-Logs), which uses KDU.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 3da70954_0f2c_4103_adff_b7440368f50e {
+  meta:
+    title = "Suspicious PROCEXP152.sys File Created In TMP"
+    description = "Detects the creation of the PROCEXP152.sys file in the application-data local temporary folder. This driver is used by Sysinternals Process Explorer but also by KDU (https://github.com/hfiref0x/KDU) or Ghost-In-The-Logs (https://github.com/bats3c/Ghost-In-The-Logs), which uses KDU."
+    author = "xknow (@xknow_infosec), xorxes (@xor_xes)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.file.full_path = /.*\\AppData\\Local\\Temp\\.*/ nocase and $e.target.file.full_path = /.*PROCEXP152.sys$/ nocase) and not((($e.target.process.file.full_path = /.*\\procexp64.exe.*/ nocase or $e.target.process.file.full_path = /.*\\procexp64a.exe.*/ nocase or $e.target.process.file.full_path = /.*\\procexp.exe.*/ nocase or $e.target.process.file.full_path = /.*\\procmon64.exe.*/ nocase or $e.target.process.file.full_path = /.*\\procmon64a.exe.*/ nocase or $e.target.process.file.full_path = /.*\\procmon.exe.*/ nocase))))
+
+  condition:
+    $e
+}

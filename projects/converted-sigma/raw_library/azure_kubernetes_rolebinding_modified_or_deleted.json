@@ -1,0 +1,31 @@
+{
+  "title": "Azure Kubernetes RoleBinding/ClusterRoleBinding Modified and Deleted",
+  "id": "25cb259b-bbdc-4b87-98b7-90d7c72f8743",
+  "status": "test",
+  "description": "Detects the creation or patching of potential malicious RoleBinding/ClusterRoleBinding.",
+  "author": "Austin Songer @austinsonger",
+  "date": "2021-08-07",
+  "tags": [
+    "attack.impact",
+    "attack.credential-access",
+    "attack.t1485",
+    "attack.t1496",
+    "attack.t1489"
+  ],
+  "level": "medium",
+  "logsource": {
+    "product": "azure",
+    "service": "activitylogs"
+  },
+  "detection": {
+    "selection": {
+      "operationName": [
+        "MICROSOFT.KUBERNETES/CONNECTEDCLUSTERS/RBAC.AUTHORIZATION.K8S.IO/CLUSTERROLEBINDINGS/WRITE",
+        "MICROSOFT.KUBERNETES/CONNECTEDCLUSTERS/RBAC.AUTHORIZATION.K8S.IO/CLUSTERROLEBINDINGS/DELETE",
+        "MICROSOFT.KUBERNETES/CONNECTEDCLUSTERS/RBAC.AUTHORIZATION.K8S.IO/ROLEBINDINGS/WRITE",
+        "MICROSOFT.KUBERNETES/CONNECTEDCLUSTERS/RBAC.AUTHORIZATION.K8S.IO/ROLEBINDINGS/DELETE"
+      ]
+    },
+    "condition": "selection"
+  }
+}

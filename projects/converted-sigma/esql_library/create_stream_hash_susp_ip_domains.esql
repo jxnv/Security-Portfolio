@@ -1,0 +1,11 @@
+// Title: Unusual File Download from Direct IP Address
+// ID: 025bd229-fd1f-4fdb-97ab-20006e1a5368
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems), Florian Roth (Nextron Systems)
+// Date: 2022-09-07
+// Tags: attack.stealth, attack.t1564.004
+// Description: Detects the download of suspicious file type from URLs with IP
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE (Contents RLIKE "http[s]?://[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}" AND (file.path LIKE "%.ps1:Zone%" OR file.path LIKE "%.bat:Zone%" OR file.path LIKE "%.exe:Zone%" OR file.path LIKE "%.vbe:Zone%" OR file.path LIKE "%.vbs:Zone%" OR file.path LIKE "%.dll:Zone%" OR file.path LIKE "%.one:Zone%" OR file.path LIKE "%.cmd:Zone%" OR file.path LIKE "%.hta:Zone%" OR file.path LIKE "%.xll:Zone%" OR file.path LIKE "%.lnk:Zone%"))

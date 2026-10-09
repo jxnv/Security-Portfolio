@@ -1,0 +1,23 @@
+// Title: PowerShell Scripts Installed as Services
+// ID: a2e5019d-a658-4c6a-92bf-7197b54e2cae
+// Status: test
+// Level: high
+// Author: oscd.community, Natalia Shornikova
+// Date: 2020-10-06
+// Tags: attack.execution, attack.t1569.002
+// Description: Detects powershell script installed as a Service
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule a2e5019d_a658_4c6a_92bf_7197b54e2cae {
+  meta:
+    title = "PowerShell Scripts Installed as Services"
+    description = "Detects powershell script installed as a Service"
+    author = "oscd.community, Natalia Shornikova"
+    severity = "HIGH"
+
+  events:
+    ($e.Provider_Name = "Service Control Manager" and $e.EventID = 7045 and ($e.ImagePath = /.*powershell.*/ nocase or $e.ImagePath = /.*pwsh.*/ nocase))
+
+  condition:
+    $e
+}

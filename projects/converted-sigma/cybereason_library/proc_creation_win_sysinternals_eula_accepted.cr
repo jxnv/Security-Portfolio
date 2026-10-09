@@ -1,0 +1,11 @@
+// Title: Potential Execution of Sysinternals Tools
+// ID: 7cccd811-7ae9-4ebe-9afd-cb5c406b824b
+// Status: test
+// Level: low
+// Author: Markus Neis
+// Date: 2017-08-28
+// Tags: attack.resource-development, attack.t1588.002
+// Description: Detects command lines that contain the 'accepteula' flag which could be a sign of execution of one of the Sysinternals tools
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(CommandLine contains " -accepteula")

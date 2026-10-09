@@ -1,0 +1,35 @@
+{
+  "title": "PUA - Sysinternals Tools Execution - Registry",
+  "id": "c7da8edc-49ae-45a2-9e61-9fd860e4e73d",
+  "status": "test",
+  "description": "Detects the execution of some potentially unwanted tools such as PsExec, Procdump, etc. (part of the Sysinternals suite) via the creation of the \"accepteula\" registry key.",
+  "author": "Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2022-08-24",
+  "tags": [
+    "attack.resource-development",
+    "attack.t1588.002"
+  ],
+  "level": "medium",
+  "logsource": {
+    "product": "windows",
+    "category": "registry_set"
+  },
+  "detection": {
+    "selection": {
+      "TargetObject|contains": [
+        "\\Active Directory Explorer",
+        "\\Handle",
+        "\\LiveKd",
+        "\\Process Explorer",
+        "\\ProcDump",
+        "\\PsExec",
+        "\\PsLoglist",
+        "\\PsPasswd",
+        "\\SDelete",
+        "\\Sysinternals"
+      ],
+      "TargetObject|endswith": "\\EulaAccepted"
+    },
+    "condition": "selection"
+  }
+}

@@ -1,0 +1,11 @@
+# Title: Potential WinAPI Calls Via CommandLine
+# ID: ba3f5c1b-6272-4119-9dbd-0bc8d21c2702
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-09-06
+# Tags: attack.execution, attack.t1106
+# Description: Detects the use of WinAPI Functions via the commandline. As seen used by threat actors via the tool winapiexec
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((cmdline:*AddSecurityPackage* OR cmdline:*AdjustTokenPrivileges* OR cmdline:*Advapi32* OR cmdline:*CloseHandle* OR cmdline:*CreateProcessWithToken* OR cmdline:*CreatePseudoConsole* OR cmdline:*CreateRemoteThread* OR cmdline:*CreateThread* OR cmdline:*CreateUserThread* OR cmdline:*DangerousGetHandle* OR cmdline:*DuplicateTokenEx* OR cmdline:*EnumerateSecurityPackages* OR cmdline:*FreeHGlobal* OR cmdline:*FreeLibrary* OR cmdline:*GetDelegateForFunctionPointer* OR cmdline:*GetLogonSessionData* OR cmdline:*GetModuleHandle* OR cmdline:*GetProcAddress* OR cmdline:*GetProcessHandle* OR cmdline:*GetTokenInformation* OR cmdline:*ImpersonateLoggedOnUser* OR cmdline:*kernel32* OR cmdline:*LoadLibrary* OR cmdline:*memcpy* OR cmdline:*MiniDumpWriteDump* OR cmdline:*ntdll* OR cmdline:*OpenDesktop* OR cmdline:*OpenProcess* OR cmdline:*OpenProcessToken* OR cmdline:*OpenThreadToken* OR cmdline:*OpenWindowStation* OR cmdline:*PtrToString* OR cmdline:*QueueUserApc* OR cmdline:*ReadProcessMemory* OR cmdline:*RevertToSelf* OR cmdline:*RtlCreateUserThread* OR cmdline:*secur32* OR cmdline:*SetThreadToken* OR cmdline:*VirtualAlloc* OR cmdline:*VirtualFree* OR cmdline:*VirtualProtect* OR cmdline:*WaitForSingleObject* OR cmdline:*WriteInt32* OR cmdline:*WriteProcessMemory* OR cmdline:*ZeroFreeGlobalAllocUnicode*)) AND -(((parent_name:*\\CompatTelRunner.exe AND (cmdline:*FreeHGlobal* OR cmdline:*PtrToString* OR cmdline:*kernel32* OR cmdline:*CloseHandle*)) OR (process_name:*\\MpCmdRun.exe AND cmdline:*GetLoadLibraryWAddress32*))))

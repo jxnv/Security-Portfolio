@@ -1,0 +1,11 @@
+-- Title: Potential AD User Enumeration From Non-Machine Account
+-- ID: ab6bffca-beff-4baa-af11-6733f296d57a
+-- Status: test
+-- Level: medium
+-- Author: Maxime Thiebaut (@0xThiebaut)
+-- Date: 2020-03-30
+-- Tags: attack.discovery, attack.t1087.002
+-- Description: Detects read access to a domain user from a non-machine account
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE ((EventID = 4662 AND ObjectType ILIKE '%bf967aba-0de6-11d0-a285-00aa003049e2%' AND (AccessMask ILIKE '%1?' OR AccessMask ILIKE '%3?' OR AccessMask ILIKE '%4?' OR AccessMask ILIKE '%7?' OR AccessMask ILIKE '%9?' OR AccessMask ILIKE '%B?' OR AccessMask ILIKE '%D?' OR AccessMask ILIKE '%F?')) AND NOT (((SubjectUserName ILIKE '%$') OR (SubjectUserName ILIKE 'MSOL_%'))))

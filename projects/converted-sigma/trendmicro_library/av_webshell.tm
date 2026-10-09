@@ -1,0 +1,13 @@
+// Title: Antivirus - Web Shell Detection Signature
+// ID: fdf135a2-9241-4f96-a114-bb404948f736
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Arnim Rupp
+// Date: 2018-09-09
+// Tags: attack.persistence, attack.t1505.003
+// Description: Detects a highly relevant Antivirus alert that reports a web shell.
+// It's highly recommended to tune this rule to the specific strings used by your anti virus solution by downloading a big WebShell repository from e.g. github and checking the matches.
+// This event must not be ignored just because the AV has blocked the malware but investigate, how it came there in the first place.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((Signature="ASP.*" OR Signature="IIS/BackDoor*" OR Signature="JAVA/Backdoor*" OR Signature="JSP.*" OR Signature="Perl.*" OR Signature="PHP.*" OR Signature="Troj/ASP*" OR Signature="Troj/JSP*" OR Signature="Troj/PHP*" OR Signature="VBS/Uxor*")) OR ((Signature: "*ASP_*" OR Signature: "*ASP:*" OR Signature: "*ASP.Agent*" OR Signature: "*ASP/*" OR Signature: "*Aspdoor*" OR Signature: "*ASPXSpy*" OR Signature: "*Backdoor.ASP*" OR Signature: "*Backdoor.Java*" OR Signature: "*Backdoor.JSP*" OR Signature: "*Backdoor.PHP*" OR Signature: "*Backdoor.VBS*" OR Signature: "*Backdoor/ASP*" OR Signature: "*Backdoor/Java*" OR Signature: "*Backdoor/JSP*" OR Signature: "*Backdoor/PHP*" OR Signature: "*Backdoor/VBS*" OR Signature: "*C99shell*" OR Signature: "*Chopper*" OR Signature: "*filebrowser*" OR Signature: "*JSP_*" OR Signature: "*JSP:*" OR Signature: "*JSP.Agent*" OR Signature: "*JSP/*" OR Signature: "*Perl:*" OR Signature: "*Perl/*" OR Signature: "*PHP_*" OR Signature: "*PHP:*" OR Signature: "*PHP.Agent*" OR Signature: "*PHP/*" OR Signature: "*PHPShell*" OR Signature: "*PShlSpy*" OR Signature: "*SinoChoper*" OR Signature: "*Trojan.ASP*" OR Signature: "*Trojan.JSP*" OR Signature: "*Trojan.PHP*" OR Signature: "*Trojan.VBS*" OR Signature: "*VBS.Agent*" OR Signature: "*VBS/Agent*" OR Signature: "*Webshell*")))

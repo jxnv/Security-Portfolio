@@ -1,0 +1,24 @@
+# Title: Potential Homoglyph Attack Using Lookalike Characters
+# ID: 32e280f1-8ad4-46ef-9e80-910657611fbc
+# Status: test
+# Level: medium
+# Author: Micah Babinski, @micahbabinski
+# Date: 2023-05-07
+# Tags: attack.stealth, attack.t1036, attack.t1036.003
+# Description: Detects the presence of unicode characters which are homoglyphs, or identical in appearance, to ASCII letter characters.
+# This is used as an obfuscation and masquerading techniques. Only "perfect" homoglyphs are included; these are characters that
+# are indistinguishable from ASCII characters and thus may make excellent candidates for homoglyph attack characters.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# LimaCharlie Detection & Response Rule
+# Name: Potential Homoglyph Attack Using Lookalike Characters
+detect:
+  event: process_creation
+  op: and
+  rules:
+    # Filter logic:
+    # (((CommandLine="*а*" OR CommandLine="*е*" OR CommandLine="*о*" OR CommandLine="*р*" OR CommandLine="*с*" OR CommandLine="*х*" OR CommandLine="*ѕ*" OR CommandLine="*і*" OR CommandLine="*ӏ*" OR CommandLine="*ј*" OR CommandLine="*һ*" OR CommandLine="*ԁ*" OR CommandLine="*ԛ*" OR CommandLine="*ԝ*" OR CommandLine="*ο*")) OR ((CommandLine="*А*" OR CommandLine="*В*" OR CommandLine="*Е*" OR CommandLine="*К*" OR CommandLine="*М*" OR CommandLine="*Н*" OR CommandLine="*О*" OR CommandLine="*Р*" OR CommandLine="*С*" OR CommandLine="*Т*" OR CommandLine="*Х*" OR CommandLine="*Ѕ*" OR CommandLine="*І*" OR CommandLine="*Ј*" OR CommandLine="*Ү*" OR CommandLine="*Ӏ*" OR CommandLine="*Ԍ*" OR CommandLine="*Ԛ*" OR CommandLine="*Ԝ*" OR CommandLine="*Α*" OR CommandLine="*Β*" OR CommandLine="*Ε*" OR CommandLine="*Ζ*" OR CommandLine="*Η*" OR CommandLine="*Ι*" OR CommandLine="*Κ*" OR CommandLine="*Μ*" OR CommandLine="*Ν*" OR CommandLine="*Ο*" OR CommandLine="*Ρ*" OR CommandLine="*Τ*" OR CommandLine="*Υ*" OR CommandLine="*Χ*")))
+respond:
+  - action: report
+    name: Potential Homoglyph Attack Using Lookalike Characters
+

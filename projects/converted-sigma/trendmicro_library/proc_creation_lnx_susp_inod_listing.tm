@@ -1,0 +1,11 @@
+// Title: Potential Container Discovery Via Inodes Listing
+// ID: 43e26eb5-cd58-48d1-8ce9-a273f5d298d8
+// Status: test
+// Level: low
+// Author: Seth Hanford
+// Date: 2023-08-23
+// Tags: attack.discovery, attack.t1082
+// Description: Detects listing of the inodes of the "/" directory to determine if the we are running inside of a container.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((CommandLine="* /") OR (CommandLine: "* / *")) AND (Image="*/ls") AND (CommandLine=regex("(?:\\s-[^-\\s]{0,20}d|\\s--directory\\s)")) AND (CommandLine=regex("(?:\\s-[^-\\s]{0,20}i|\\s--inode\\s)")))

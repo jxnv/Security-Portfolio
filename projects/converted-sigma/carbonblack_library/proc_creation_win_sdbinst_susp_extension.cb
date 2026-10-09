@@ -1,0 +1,12 @@
+# Title: Uncommon Extension Shim Database Installation Via Sdbinst.EXE
+# ID: 18ee686c-38a3-4f65-9f44-48a077141f42
+# Status: test
+# Level: medium
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2023-08-01
+# Tags: attack.persistence, attack.privilege-escalation, attack.t1546.011
+# Description: Detects installation of a potentially suspicious new shim with an uncommon extension using sdbinst.exe.
+# Adversaries may establish persistence and/or elevate privileges by executing malicious content triggered by application shims
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((process_name:*\\sdbinst.exe) OR (OriginalFileName:"sdbinst.exe")) AND -(((cmdline:"") OR (cmdline:*.sdb*) OR (((cmdline:* -c OR cmdline:* -f OR cmdline:* -mm OR cmdline:* -t)) OR (cmdline:* -m -bg*)) OR (-cmdline:*))))

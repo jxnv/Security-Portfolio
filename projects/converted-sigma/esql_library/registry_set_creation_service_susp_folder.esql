@@ -1,0 +1,11 @@
+// Title: Service Binary in Suspicious Folder
+// ID: a07f0359-4c90-4dc4-a681-8ffea40b4f47
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), frack113
+// Date: 2022-05-02
+// Tags: attack.persistence, attack.defense-impairment, attack.t1112
+// Description: Detect the creation of a service with a service binary located in a suspicious directory
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE (((registry.path LIKE "HKLM\\System\\CurrentControlSet\\Services\\%" AND registry.path LIKE "%\\ImagePath" AND (registry.data.strings LIKE "%\\Users\\Public\\%" OR registry.data.strings LIKE "%\\Perflogs\\%" OR registry.data.strings LIKE "%\\ADMIN$\\%" OR registry.data.strings LIKE "%\\Temp\\%")) OR (registry.path LIKE "HKLM\\System\\CurrentControlSet\\Services\\%" AND registry.path LIKE "%\\Start" AND (process.executable LIKE "%\\Users\\Public\\%" OR process.executable LIKE "%\\Perflogs\\%" OR process.executable LIKE "%\\ADMIN$\\%" OR process.executable LIKE "%\\Temp\\%") AND (registry.data.strings == "DWORD (0x00000000)" OR registry.data.strings == "DWORD (0x00000001)" OR registry.data.strings == "DWORD (0x00000002)"))) AND NOT ((((process.executable LIKE "%\\Common Files\\%" AND process.executable LIKE "%\\Temp\\%")) OR (registry.path LIKE "%\\CurrentControlSet\\Services\\MBAMInstallerService\\ImagePath" AND registry.data.strings LIKE "%\\AppData\\Local\\Temp\\MBAMInstallerService.exe\"" AND process.executable == "C:\\Windows\\system32\\services.exe"))))

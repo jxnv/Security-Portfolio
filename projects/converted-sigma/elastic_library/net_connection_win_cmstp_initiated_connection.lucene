@@ -1,0 +1,12 @@
+# Title: Outbound Network Connection Initiated By Cmstp.EXE
+# ID: efafe0bf-4238-479e-af8f-797bd3490d2d
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-08-30
+# Tags: attack.stealth, attack.t1218.003
+# Description: Detects a network connection initiated by Cmstp.EXE
+# Its uncommon for "cmstp.exe" to initiate an outbound network connection. Investigate the source of such requests to determine if they are malicious.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((process.executable:*\\cmstp.exe AND Initiated:"true") AND NOT (((destination.ip:"127.0.0.0/8" OR destination.ip:"10.0.0.0/8" OR destination.ip:"172.16.0.0/12" OR destination.ip:"192.168.0.0/16" OR destination.ip:"169.254.0.0/16" OR destination.ip:"::1/128" OR destination.ip:"fe80::/10" OR destination.ip:"fc00::/7"))))

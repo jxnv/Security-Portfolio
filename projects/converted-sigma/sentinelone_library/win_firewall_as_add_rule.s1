@@ -1,0 +1,11 @@
+// Title: Uncommon New Firewall Rule Added In Windows Firewall Exception List
+// ID: cde0a575-7d3d-4a49-9817-b8004a7bf105
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-02-19
+// Tags: attack.defense-impairment, attack.t1686.003
+// Description: Detects when a rule has been added to the Windows Firewall exception list
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((EventID = "2004" OR EventID = "2071" OR EventID = "2097")) AND NOT (((Action = "2") OR ((ApplicationPath containsCIS "C:\\PerfLogs\\" OR ApplicationPath containsCIS "C:\\Temp\\" OR ApplicationPath containsCIS "C:\\Tmp\\" OR ApplicationPath containsCIS "C:\\Users\\Public\\" OR ApplicationPath containsCIS "C:\\Windows\\Tasks\\" OR ApplicationPath containsCIS "C:\\Windows\\Temp\\" OR ApplicationPath containsCIS "\\AppData\\Local\\Temp\\")) OR (ApplicationPath startswithCIS "C:\\Windows\\ehome\\" AND ModifyingApplication = "C:\\Windows\\System32\\oobe\\Setup.exe") OR ((ApplicationPath startswithCIS "C:\\Program Files (x86)\\" OR ApplicationPath startswithCIS "C:\\Program Files\\" OR ApplicationPath startswithCIS "C:\\Windows\\System32\\" OR ApplicationPath startswithCIS "C:\\Windows\\SysWOW64\\" OR ApplicationPath startswithCIS "C:\\Windows\\WinSxS\\")) OR (ApplicationPath is null) OR (ApplicationPath = "SYSTEM" AND (ModifyingApplication = "C:\\Windows\\System32\\dllhost.exe" OR ModifyingApplication = "C:\\Windows\\System32\\oobe\\Setup.exe" OR ModifyingApplication = "C:\\Windows\\System32\\svchost.exe")) OR (ModifyingApplication startswithCIS "C:\\Windows\\WinSxS\\" AND ModifyingApplication endswithCIS "\\TiWorker.exe"))) AND NOT (((((ModifyingApplication startswithCIS "C:\\ProgramData\\Microsoft\\Windows Defender\\Platform\\" OR ModifyingApplication startswithCIS "C:\\Program Files\\Windows Defender\\") AND ModifyingApplication endswithCIS "\\MsMpEng.exe") OR ((ApplicationPath startswithCIS "C:\\ProgramData\\Microsoft\\Windows Defender\\Platform\\" OR ApplicationPath startswithCIS "C:\\Program Files\\Windows Defender\\") AND ApplicationPath endswithCIS "\\MsMpEng.exe")) OR ((ModifyingApplication = "C:\\Windows\\System32\\svchost.exe" OR ModifyingApplication = "C:\\Windows\\System32\\dllhost.exe") AND ApplicationPath = "") OR (ApplicationPath startswithCIS "C:\\Windows\\SystemApps\\" AND ModifyingApplication = "C:\\Windows\\System32\\svchost.exe"))))

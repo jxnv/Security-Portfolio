@@ -1,0 +1,11 @@
+// Title: VMGuestLib DLL Sideload
+// ID: 70e8e9b4-6a93-4cb7-8cde-da69502e7aff
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-12-01
+// Tags: attack.persistence, attack.privilege-escalation, attack.execution, attack.stealth, attack.t1574.001
+// Description: Detects DLL sideloading of VMGuestLib.dll by the WmiApSrv service.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(ImageLoaded ICONTAINS "\\VMware\\VMware Tools\\vmStatsProvider\\win32") AND where(ImageLoaded ICONTAINS "\\vmGuestLib.dll")) AND where(Image IENDSWITH "\\Windows\\System32\\wbem\\WmiApSrv.exe")) AND NOT ((where(Signed = "true"))))

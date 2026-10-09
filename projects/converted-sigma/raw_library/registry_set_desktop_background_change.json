@@ -1,0 +1,58 @@
+{
+  "title": "Potentially Suspicious Desktop Background Change Via Registry",
+  "id": "85b88e05-dadc-430b-8a9e-53ff1cd30aae",
+  "status": "test",
+  "description": "Detects registry value settings that would replace the user's desktop background.\nThis is a common technique used by malware to change the desktop background to a ransom note or other image.\n",
+  "author": "Nasreddine Bencherchali (Nextron Systems), Stephen Lincoln @slincoln-aiq (AttackIQ)",
+  "date": "2023-12-21",
+  "tags": [
+    "attack.persistence",
+    "attack.impact",
+    "attack.defense-impairment",
+    "attack.t1112",
+    "attack.t1491.001"
+  ],
+  "level": "medium",
+  "logsource": {
+    "product": "windows",
+    "category": "registry_set"
+  },
+  "detection": {
+    "selection_keys": {
+      "TargetObject|contains": [
+        "Control Panel\\Desktop",
+        "CurrentVersion\\Policies\\ActiveDesktop",
+        "CurrentVersion\\Policies\\System"
+      ]
+    },
+    "selection_values_1": {
+      "TargetObject|endswith": "NoChangingWallpaper",
+      "Details": "DWORD (0x00000001)"
+    },
+    "selection_values_2": {
+      "TargetObject|endswith": "\\Wallpaper"
+    },
+    "selection_values_3": {
+      "TargetObject|endswith": "\\WallpaperStyle",
+      "Details": "2"
+    },
+    "filter_main_svchost": {
+      "Image|endswith": "\\svchost.exe"
+    },
+    "filter_main_empty": {
+      "TargetObject|endswith": "\\Control Panel\\Desktop\\Wallpaper",
+      "Details": "(Empty)"
+    },
+    "filter_main_explorer": {
+      "Image|endswith": "C:\\Windows\\Explorer.EXE"
+    },
+    "filter_optional_ec2launch": {
+      "Image": [
+        "C:\\Program Files\\Amazon\\EC2Launch\\EC2Launch.exe",
+        "C:\\Program Files (x86)\\Amazon\\EC2Launch\\EC2Launch.exe"
+      ],
+      "TargetObject|endswith": "\\Control Panel\\Desktop\\Wallpaper"
+    },
+    "condition": "selection_keys and 1 of selection_values_* and not 1 of filter_main_* and not 1 of filter_optional_*"
+  }
+}

@@ -1,0 +1,11 @@
+-- Title: Account Tampering - Suspicious Failed Logon Reasons
+-- ID: 9eb99343-d336-4020-a3cd-67f3819e68ee
+-- Status: test
+-- Level: medium
+-- Author: Florian Roth (Nextron Systems)
+-- Date: 2017-02-19
+-- Tags: attack.persistence, attack.privilege-escalation, attack.initial-access, attack.stealth, attack.t1078
+-- Description: This method uses uncommon error codes on failed logons to determine suspicious activity and tampering with accounts that have been disabled or somehow restricted.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE ((((EventID = 4625 OR EventID = 4776)) AND (((Status = '0xC0000072' OR Status = '0xC000006F' OR Status = '0xC0000070' OR Status = '0xC0000413' OR Status = '0xC000018C' OR Status = '0xC000015B')) OR ((SubStatus = '0xC0000072' OR SubStatus = '0xC000006F' OR SubStatus = '0xC0000070' OR SubStatus = '0xC0000413' OR SubStatus = '0xC000018C' OR SubStatus = '0xC000015B')))) AND NOT ((SubjectUserSid = 'S-1-0-0')))

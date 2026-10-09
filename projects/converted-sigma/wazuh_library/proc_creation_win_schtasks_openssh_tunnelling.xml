@@ -1,0 +1,16 @@
+<!--
+  Title: Potential SSH Tunnel Persistence Install Using A Scheduled Task
+  ID: 2daa93a0-a5fb-41c5-8cd8-3c11294bfd1f
+  Status: experimental
+  Level: high
+  Author: Rory Duncan
+  Date: 2025-07-14
+  Description: Detects the creation of new scheduled tasks via commandline, using Schtasks.exe. This rule detects tasks creating that call OpenSSH, which may indicate the creation of reverse SSH tunnel to the attacker's server.
+-->
+
+<group name="sigma_converted,">
+  <rule id="100001" level="10">
+    <description>Potential SSH Tunnel Persistence Install Using A Scheduled Task</description>
+    <match>(((Image=\"*\\\\schtasks.exe\") OR (OriginalFileName=\"schtasks.exe\")) AND (((CommandLine=\"* /create *\" AND CommandLine=\"*ssh</match>
+  </rule>
+</group>

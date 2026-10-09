@@ -1,0 +1,23 @@
+// Title: Potential Renamed Rundll32 Execution
+// ID: 2569ed8c-1147-498a-9b8c-2ad3656b10ed
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-22
+// Tags: attack.execution
+// Description: Detects when 'DllRegisterServer' is called in the commandline and the image is not rundll32. This could mean that the 'rundll32' utility has been renamed in order to avoid detection
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 2569ed8c_1147_498a_9b8c_2ad3656b10ed {
+  meta:
+    title = "Potential Renamed Rundll32 Execution"
+    description = "Detects when 'DllRegisterServer' is called in the commandline and the image is not rundll32. This could mean that the 'rundll32' utility has been renamed in order to avoid detection"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.command_line = /.*DllRegisterServer.*/ nocase) and not(($e.target.process.file.full_path = /.*\\rundll32.exe$/ nocase)))
+
+  condition:
+    $e
+}

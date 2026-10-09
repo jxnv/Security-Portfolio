@@ -1,0 +1,12 @@
+// Title: Suspicious ScreenSave Change by Reg.exe
+// ID: 0fc35fc3-efe6-4898-8a37-0b233339524f
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2021-08-19
+// Tags: attack.persistence, attack.privilege-escalation, attack.t1546.002
+// Description: Adversaries may establish persistence by executing malicious content triggered by user inactivity.
+// Screensavers are programs that execute after a configurable time of user inactivity and consist of Portable Executable (PE) files with a .scr file extension
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where ((process.executable endswith "\\reg.exe" and (process.command_line like "*_HKEY_CURRENT_USER\\Control Panel\\Desktop*" or process.command_line like "*_HKCU\\Control Panel\\Desktop*")) and (((process.command_line like "*_/v ScreenSaveActive*" and process.command_line like "*_/t REG_SZ*" and process.command_line like "*_/d 1*" and process.command_line like "*_/f*")) or ((process.command_line like "*_/v ScreenSaveTimeout*" and process.command_line like "*_/t REG_SZ*" and process.command_line like "*_/d *" and process.command_line like "*_/f*")) or ((process.command_line like "*_/v ScreenSaverIsSecure*" and process.command_line like "*_/t REG_SZ*" and process.command_line like "*_/d 0*" and process.command_line like "*_/f*")) or ((process.command_line like "*_/v SCRNSAVE.EXE*" and process.command_line like "*_/t REG_SZ*" and process.command_line like "*_/d *" and process.command_line like "*_.scr*" and process.command_line like "*_/f*"))))

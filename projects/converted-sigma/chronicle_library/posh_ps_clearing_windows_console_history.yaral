@@ -1,0 +1,23 @@
+// Title: Clearing Windows Console History
+// ID: bde47d4b-9987-405c-94c7-b080410e8ea7
+// Status: test
+// Level: high
+// Author: Austin Songer @austinsonger
+// Date: 2021-11-25
+// Tags: attack.stealth, attack.t1070, attack.t1070.003
+// Description: Identifies when a user attempts to clear console history. An adversary may clear the command history of a compromised account to conceal the actions undertaken during an intrusion.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule bde47d4b_9987_405c_94c7_b080410e8ea7 {
+  meta:
+    title = "Clearing Windows Console History"
+    description = "Identifies when a user attempts to clear console history. An adversary may clear the command history of a compromised account to conceal the actions undertaken during an intrusion."
+    author = "Austin Songer @austinsonger"
+    severity = "HIGH"
+
+  events:
+    (($e.ScriptBlockText = /.*Clear-History.*/ nocase) or ((($e.ScriptBlockText = /.*Remove-Item.*/ nocase or $e.ScriptBlockText = /.*rm.*/ nocase)) and (($e.ScriptBlockText = /.*ConsoleHost_history.txt.*/ nocase or $e.ScriptBlockText = /.*(Get-PSReadlineOption).HistorySavePath.*/ nocase))))
+
+  condition:
+    $e
+}

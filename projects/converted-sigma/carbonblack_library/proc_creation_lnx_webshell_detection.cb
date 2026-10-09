@@ -1,0 +1,11 @@
+# Title: Linux Webshell Indicators
+# ID: 818f7b24-0fba-4c49-a073-8b755573b9c7
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+# Date: 2021-10-15
+# Tags: attack.persistence, attack.t1505.003
+# Description: Detects suspicious sub processes of web server processes
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((((parent_name:*/httpd OR parent_name:*/lighttpd OR parent_name:*/nginx OR parent_name:*/apache2 OR parent_name:*/node OR parent_name:*/caddy)) OR ((ParentCommandLine:*/bin/java* AND ParentCommandLine:*tomcat*)) OR ((ParentCommandLine:*/bin/java* AND ParentCommandLine:*websphere*))) AND ((process_name:*/whoami OR process_name:*/ifconfig OR process_name:*/ip OR process_name:*/bin/uname OR process_name:*/bin/cat OR process_name:*/bin/crontab OR process_name:*/hostname OR process_name:*/iptables OR process_name:*/netstat OR process_name:*/pwd OR process_name:*/route)) AND -((parent_name:*/node AND cmdline:*ip neigh show*)))

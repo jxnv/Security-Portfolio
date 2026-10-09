@@ -1,0 +1,11 @@
+// Title: Potential appverifUI.DLL Sideloading
+// ID: ee6cea48-c5b6-4304-a332-10fc6446f484
+// Status: test
+// Level: high
+// Author: X__Junior (Nextron Systems)
+// Date: 2023-06-20
+// Tags: attack.persistence, attack.privilege-escalation, attack.execution, attack.stealth, attack.t1574.001
+// Description: Detects potential DLL sideloading of "appverifUI.dll"
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE ((ImageLoaded LIKE "%\\appverifUI.dll") AND NOT (((process.executable == "C:\\Windows\\SysWOW64\\appverif.exe" OR process.executable == "C:\\Windows\\System32\\appverif.exe") AND (ImageLoaded LIKE "C:\\Windows\\System32\\%" OR ImageLoaded LIKE "C:\\Windows\\SysWOW64\\%" OR ImageLoaded LIKE "C:\\Windows\\WinSxS\\%"))))

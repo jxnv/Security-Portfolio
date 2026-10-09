@@ -1,0 +1,38 @@
+{
+  "title": "Suspicious Get Local Groups Information - PowerShell",
+  "id": "fa6a5a45-3ee2-4529-aa14-ee5edc9e29cb",
+  "status": "test",
+  "description": "Detects the use of PowerShell modules and cmdlets to gather local group information.\nAdversaries may use local system permission groups to determine which groups exist and which users belong to a particular group such as the local administrators group.\n",
+  "author": "frack113",
+  "date": "2021-12-12",
+  "tags": [
+    "attack.discovery",
+    "attack.t1069.001"
+  ],
+  "level": "low",
+  "logsource": {
+    "product": "windows",
+    "category": "ps_script",
+    "definition": "Requirements: Script Block Logging must be enabled"
+  },
+  "detection": {
+    "selection_localgroup": {
+      "ScriptBlockText|contains": [
+        "get-localgroup ",
+        "get-localgroupmember "
+      ]
+    },
+    "selection_wmi_module": {
+      "ScriptBlockText|contains": [
+        "get-wmiobject ",
+        "gwmi ",
+        "get-ciminstance ",
+        "gcim "
+      ]
+    },
+    "selection_wmi_class": {
+      "ScriptBlockText|contains": "win32_group"
+    },
+    "condition": "selection_localgroup or all of selection_wmi_*"
+  }
+}

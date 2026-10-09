@@ -1,0 +1,11 @@
+// Title: Potentially Suspicious Execution Of PDQDeployRunner
+// ID: 12b8e9f5-96b2-41e1-9a42-8c6779a5c184
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-07-22
+// Tags: attack.execution
+// Description: Detects suspicious execution of "PDQDeployRunner" which is part of the PDQDeploy service stack that is responsible for executing commands and packages on a remote machines
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((src.process.image.path endswithCIS "\\bash.exe" OR src.process.image.path endswithCIS "\\certutil.exe" OR src.process.image.path endswithCIS "\\cmd.exe" OR src.process.image.path endswithCIS "\\csc.exe" OR src.process.image.path endswithCIS "\\cscript.exe" OR src.process.image.path endswithCIS "\\dllhost.exe" OR src.process.image.path endswithCIS "\\mshta.exe" OR src.process.image.path endswithCIS "\\msiexec.exe" OR src.process.image.path endswithCIS "\\regsvr32.exe" OR src.process.image.path endswithCIS "\\rundll32.exe" OR src.process.image.path endswithCIS "\\scriptrunner.exe" OR src.process.image.path endswithCIS "\\wmic.exe" OR src.process.image.path endswithCIS "\\wscript.exe" OR src.process.image.path endswithCIS "\\wsl.exe")) OR ((src.process.image.path containsCIS ":\\ProgramData\\" OR src.process.image.path containsCIS ":\\Users\\Public\\" OR src.process.image.path containsCIS ":\\Windows\\TEMP\\" OR src.process.image.path containsCIS "\\AppData\\Local\\Temp")) OR ((src.process.cmdline containsCIS " -decode " OR src.process.cmdline containsCIS " -enc " OR src.process.cmdline containsCIS " -encodedcommand " OR src.process.cmdline containsCIS " -w hidden" OR src.process.cmdline containsCIS "DownloadString" OR src.process.cmdline containsCIS "FromBase64String" OR src.process.cmdline containsCIS "http" OR src.process.cmdline containsCIS "iex " OR src.process.cmdline containsCIS "Invoke-"))) AND (src.process.parent.image.path containsCIS "\\PDQDeployRunner-"))

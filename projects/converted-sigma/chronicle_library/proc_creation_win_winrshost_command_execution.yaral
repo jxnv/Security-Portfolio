@@ -1,0 +1,23 @@
+// Title: Potential Lateral Movement via Windows Remote Shell
+// ID: 79df3f68-dccb-48e9-9171-b75cbc37c51d
+// Status: experimental
+// Level: medium
+// Author: Liran Ravich
+// Date: 2025-10-22
+// Tags: attack.lateral-movement, attack.t1021.006
+// Description: Detects a child process spawned by 'winrshost.exe', which suggests remote command execution through Windows Remote Shell (WinRs) and may indicate potential lateral movement activity.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 79df3f68_dccb_48e9_9171_b75cbc37c51d {
+  meta:
+    title = "Potential Lateral Movement via Windows Remote Shell"
+    description = "Detects a child process spawned by 'winrshost.exe', which suggests remote command execution through Windows Remote Shell (WinRs) and may indicate potential lateral movement activity."
+    author = "Liran Ravich"
+    severity = "MEDIUM"
+
+  events:
+    (($e.principal.process.file.full_path = /.*\\winrshost.exe$/ nocase) and not(($e.target.process.file.full_path = "C:\\Windows\\System32\\conhost.exe")))
+
+  condition:
+    $e
+}

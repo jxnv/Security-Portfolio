@@ -1,0 +1,11 @@
+-- Title: LSASS Memory Access by Tool With Dump Keyword In Name
+-- ID: 9bd012ee-0dff-44d7-84a0-aa698cfd87a3
+-- Status: test
+-- Level: high
+-- Author: Florian Roth (Nextron Systems)
+-- Date: 2022-02-10
+-- Tags: attack.credential-access, attack.t1003.001, attack.s0002
+-- Description: Detects LSASS process access requests from a source process with the "dump" keyword in its image name.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE (TargetImage ILIKE '%\\lsass.exe' AND SourceImage ILIKE '%dump%' AND (GrantedAccess ILIKE '%10' OR GrantedAccess ILIKE '%30' OR GrantedAccess ILIKE '%50' OR GrantedAccess ILIKE '%70' OR GrantedAccess ILIKE '%90' OR GrantedAccess ILIKE '%B0' OR GrantedAccess ILIKE '%D0' OR GrantedAccess ILIKE '%F0' OR GrantedAccess ILIKE '%18' OR GrantedAccess ILIKE '%38' OR GrantedAccess ILIKE '%58' OR GrantedAccess ILIKE '%78' OR GrantedAccess ILIKE '%98' OR GrantedAccess ILIKE '%B8' OR GrantedAccess ILIKE '%D8' OR GrantedAccess ILIKE '%F8' OR GrantedAccess ILIKE '%1A' OR GrantedAccess ILIKE '%3A' OR GrantedAccess ILIKE '%5A' OR GrantedAccess ILIKE '%7A' OR GrantedAccess ILIKE '%9A' OR GrantedAccess ILIKE '%BA' OR GrantedAccess ILIKE '%DA' OR GrantedAccess ILIKE '%FA' OR GrantedAccess ILIKE '%0x14C2' OR GrantedAccess ILIKE '%FF'))

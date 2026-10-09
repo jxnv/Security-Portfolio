@@ -1,0 +1,34 @@
+{
+  "title": "WMIC Unquoted Services Path Lookup - PowerShell",
+  "id": "09658312-bc27-4a3b-91c5-e49ab9046d1b",
+  "status": "test",
+  "description": "Detects known WMI recon method to look for unquoted service paths, often used by pentest inside of powershell scripts attackers enum scripts",
+  "author": "Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2022-06-20",
+  "tags": [
+    "attack.execution",
+    "attack.t1047"
+  ],
+  "level": "medium",
+  "logsource": {
+    "product": "windows",
+    "category": "ps_script",
+    "definition": "Requirements: Script Block Logging must be enabled"
+  },
+  "detection": {
+    "selection": {
+      "ScriptBlockText|contains": [
+        "Get-WmiObject ",
+        "gwmi "
+      ],
+      "ScriptBlockText|contains|all": [
+        " Win32_Service ",
+        "Name",
+        "DisplayName",
+        "PathName",
+        "StartMode"
+      ]
+    },
+    "condition": "selection"
+  }
+}

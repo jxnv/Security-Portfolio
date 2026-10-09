@@ -1,0 +1,23 @@
+// Title: Suspicious Commands Linux
+// ID: 1543ae20-cbdf-4ec1-8d12-7664d667a825
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems)
+// Date: 2017-12-12
+// Tags: attack.execution, attack.t1059.004
+// Description: Detects relevant commands often related to malware or hacking activity
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 1543ae20_cbdf_4ec1_8d12_7664d667a825 {
+  meta:
+    title = "Suspicious Commands Linux"
+    description = "Detects relevant commands often related to malware or hacking activity"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.type = "EXECVE" and $e.a0 = "chmod" and $e.a1 = 777) or ($e.type = "EXECVE" and $e.a0 = "chmod" and $e.a1 = "u+s") or ($e.type = "EXECVE" and $e.a0 = "cp" and $e.a1 = "/bin/ksh") or ($e.type = "EXECVE" and $e.a0 = "cp" and $e.a1 = "/bin/sh"))
+
+  condition:
+    $e
+}

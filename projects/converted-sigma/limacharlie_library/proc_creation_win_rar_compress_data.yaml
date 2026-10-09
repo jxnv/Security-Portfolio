@@ -1,0 +1,22 @@
+# Title: Files Added To An Archive Using Rar.EXE
+# ID: 6f3e2987-db24-4c78-a860-b4f4095a7095
+# Status: test
+# Level: low
+# Author: Timur Zinniatullin, E.M. Anhaus, oscd.community
+# Date: 2019-10-21
+# Tags: attack.collection, attack.t1560.001
+# Description: Detects usage of "rar" to add files to an archive for potential compression. An adversary may compress data (e.g. sensitive documents) that is collected prior to exfiltration in order to make it portable and minimize the amount of data sent over the network.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# LimaCharlie Detection & Response Rule
+# Name: Files Added To An Archive Using Rar.EXE
+detect:
+  event: process_creation
+  op: and
+  rules:
+    # Filter logic:
+    # (Image="*\\rar.exe" AND CommandLine="* a *")
+respond:
+  - action: report
+    name: Files Added To An Archive Using Rar.EXE
+

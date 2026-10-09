@@ -1,0 +1,24 @@
+// Title: Suspicious Outbound SMTP Connections
+// ID: 9976fa64-2804-423c-8a5b-646ade840773
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-01-07
+// Tags: attack.exfiltration, attack.t1048.003
+// Description: Adversaries may steal data by exfiltrating it over an un-encrypted network protocol other than that of the existing command and control channel.
+// The data may also be sent to an alternate network location from the main command and control server.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 9976fa64_2804_423c_8a5b_646ade840773 {
+  meta:
+    title = "Suspicious Outbound SMTP Connections"
+    description = "Adversaries may steal data by exfiltrating it over an un-encrypted network protocol other than that of the existing command and control channel. The data may also be sent to an alternate network location from the main command and control server."
+    author = "frack113"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.port = 25 or $e.target.port = 587 or $e.target.port = 465 or $e.target.port = 2525) and $e.Initiated = "true") and not(((($e.target.process.file.full_path = /.*\\thunderbird.exe$/ nocase or $e.target.process.file.full_path = /.*\\outlook.exe$/ nocase)) or ($e.target.process.file.full_path = /^C:\\Program Files\\Microsoft\\Exchange Server\\.*/ nocase) or ($e.target.process.file.full_path = /^C:\\Program Files\\WindowsApps\\microsoft.windowscommunicationsapps_.*/ nocase and $e.target.process.file.full_path = /.*\\HxTsr.exe$/ nocase))))
+
+  condition:
+    $e
+}

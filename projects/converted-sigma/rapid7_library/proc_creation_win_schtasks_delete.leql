@@ -1,0 +1,11 @@
+// Title: Delete Important Scheduled Task
+// ID: dbc1f800-0fe0-4bc0-9c66-292c2abe3f78
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-09-09
+// Tags: attack.impact, attack.t1489
+// Description: Detects when adversaries stop services or processes by deleting their respective scheduled tasks in order to conduct data destructive activities
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(CommandLine ICONTAINS "/delete") OR where(CommandLine ICONTAINS "-delete"))) AND ((where(CommandLine ICONTAINS "\\Windows\\BitLocker") OR where(CommandLine ICONTAINS "\\Windows\\ExploitGuard") OR where(CommandLine ICONTAINS "\\Windows\\SystemRestore\\SR") OR where(CommandLine ICONTAINS "\\Windows\\UpdateOrchestrator\\") OR where(CommandLine ICONTAINS "\\Windows\\Windows Defender\\") OR where(CommandLine ICONTAINS "\\Windows\\WindowsBackup\\") OR where(CommandLine ICONTAINS "\\Windows\\WindowsUpdate\\"))) AND ((where(Image IENDSWITH "\\schtasks.exe")) OR (where(OriginalFileName = "schtasks.exe"))))

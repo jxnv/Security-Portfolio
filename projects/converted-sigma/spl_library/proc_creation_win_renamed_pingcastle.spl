@@ -1,0 +1,11 @@
+# Title: Renamed PingCastle Binary Execution
+# ID: 2433a154-bb3d-42e4-86c3-a26bdac91c45
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems), X__Junior (Nextron Systems)
+# Date: 2024-01-11
+# Tags: attack.execution, attack.stealth, attack.t1059, attack.t1202
+# Description: Detects the execution of a renamed "PingCastle" binary based on the PE metadata fields.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog ((((process_name="PingCastleReporting.exe" OR process_name="PingCastleCloud.exe" OR process_name="PingCastle.exe")) OR ((process_exec="*--scanner aclcheck*" OR process_exec="*--scanner antivirus*" OR process_exec="*--scanner computerversion*" OR process_exec="*--scanner foreignusers*" OR process_exec="*--scanner laps_bitlocker*" OR process_exec="*--scanner localadmin*" OR process_exec="*--scanner nullsession*" OR process_exec="*--scanner nullsession-trust*" OR process_exec="*--scanner oxidbindings*" OR process_exec="*--scanner remote*" OR process_exec="*--scanner share*" OR process_exec="*--scanner smb*" OR process_exec="*--scanner smb3querynetwork*" OR process_exec="*--scanner spooler*" OR process_exec="*--scanner startup*" OR process_exec="*--scanner zerologon*")) OR (process_exec="*--no-enum-limit*") OR ((process_exec="*--healthcheck*" AND process_exec="*--level Full*")) OR ((process_exec="*--healthcheck*" AND process_exec="*--server *"))) AND NOT (((process_path="*\\PingCastleReporting.exe" OR process_path="*\\PingCastleCloud.exe" OR process_path="*\\PingCastle.exe"))))

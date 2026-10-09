@@ -1,0 +1,29 @@
+{
+  "title": "Potential Startup Shortcut Persistence Via PowerShell.EXE",
+  "id": "92fa78e7-4d39-45f1-91a3-8b23f3f1088d",
+  "status": "test",
+  "description": "Detects PowerShell writing startup shortcuts.\nThis procedure was highlighted in Red Canary Intel Insights Oct. 2021, \"We frequently observe adversaries using PowerShell to write malicious .lnk files into the startup directory to establish persistence.\nAccordingly, this detection opportunity is likely to identify persistence mechanisms in multiple threats.\nIn the context of Yellow Cockatoo, this persistence mechanism eventually launches the command-line script that leads to the installation of a malicious DLL\"\n",
+  "author": "Christopher Peacock '@securepeacock', SCYTHE",
+  "date": "2021-10-24",
+  "tags": [
+    "attack.privilege-escalation",
+    "attack.persistence",
+    "attack.t1547.001"
+  ],
+  "level": "high",
+  "logsource": {
+    "product": "windows",
+    "category": "file_event"
+  },
+  "detection": {
+    "selection": {
+      "Image|endswith": [
+        "\\powershell.exe",
+        "\\pwsh.exe"
+      ],
+      "TargetFilename|contains": "\\start menu\\programs\\startup\\",
+      "TargetFilename|endswith": ".lnk"
+    },
+    "condition": "selection"
+  }
+}

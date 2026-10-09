@@ -1,0 +1,23 @@
+// Title: Windows Registry Trust Record Modification
+// ID: 295a59c1-7b79-4b47-a930-df12c15fc9c2
+// Status: test
+// Level: medium
+// Author: Antonlovesdnb, Trent Liffick (@tliffick)
+// Date: 2020-02-19
+// Tags: attack.initial-access, attack.t1566.001
+// Description: Alerts on trust record modification within the registry, indicating usage of macros
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 295a59c1_7b79_4b47_a930_df12c15fc9c2 {
+  meta:
+    title = "Windows Registry Trust Record Modification"
+    description = "Alerts on trust record modification within the registry, indicating usage of macros"
+    author = "Antonlovesdnb, Trent Liffick (@tliffick)"
+    severity = "MEDIUM"
+
+  events:
+    ($e.TargetObject = /.*\\Security\\Trusted Documents\\TrustRecords.*/ nocase)
+
+  condition:
+    $e
+}

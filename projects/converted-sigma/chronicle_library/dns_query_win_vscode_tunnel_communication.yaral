@@ -1,0 +1,23 @@
+// Title: DNS Query To Visual Studio Code Tunnels Domain
+// ID: b3e6418f-7c7a-4fad-993a-93b65027a9f1
+// Status: test
+// Level: medium
+// Author: citron_ninja
+// Date: 2023-10-25
+// Tags: attack.command-and-control, attack.t1071.001
+// Description: Detects DNS query requests to Visual Studio Code tunnel domains. Attackers can abuse that feature to establish a reverse shell or persistence on a machine.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule b3e6418f_7c7a_4fad_993a_93b65027a9f1 {
+  meta:
+    title = "DNS Query To Visual Studio Code Tunnels Domain"
+    description = "Detects DNS query requests to Visual Studio Code tunnel domains. Attackers can abuse that feature to establish a reverse shell or persistence on a machine."
+    author = "citron_ninja"
+    severity = "MEDIUM"
+
+  events:
+    ($e.QueryName = /.*.tunnels.api.visualstudio.com$/ nocase)
+
+  condition:
+    $e
+}

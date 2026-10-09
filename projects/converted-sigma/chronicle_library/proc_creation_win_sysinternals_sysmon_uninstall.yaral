@@ -1,0 +1,23 @@
+// Title: Uninstall Sysinternals Sysmon
+// ID: 6a5f68d1-c4b5-46b9-94ee-5324892ea939
+// Status: test
+// Level: high
+// Author: frack113
+// Date: 2022-01-12
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects the removal of Sysmon, which could be a potential attempt at defense evasion
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 6a5f68d1_c4b5_46b9_94ee_5324892ea939 {
+  meta:
+    title = "Uninstall Sysinternals Sysmon"
+    description = "Detects the removal of Sysmon, which could be a potential attempt at defense evasion"
+    author = "frack113"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*-u.*/ nocase or $e.target.process.command_line = /.*/u.*/ nocase)) and ((($e.target.process.file.full_path = /.*\\Sysmon64.exe$/ nocase or $e.target.process.file.full_path = /.*\\Sysmon64a.exe$/ nocase or $e.target.process.file.full_path = /.*\\Sysmon.exe$/ nocase)) or ($e.Description = "System activity monitor")))
+
+  condition:
+    $e
+}

@@ -1,0 +1,23 @@
+// Title: Credential Dumping Tools Service Execution - System
+// ID: 4976aa50-8f41-45c6-8b15-ab3fc10e79ed
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Teymur Kheirkhabarov, Daniil Yugoslavskiy, oscd.community
+// Date: 2017-03-05
+// Tags: attack.credential-access, attack.execution, attack.t1003.001, attack.t1003.002, attack.t1003.004, attack.t1003.005, attack.t1003.006, attack.t1569.002, attack.s0005
+// Description: Detects well-known credential dumping tools execution via service execution events
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 4976aa50_8f41_45c6_8b15_ab3fc10e79ed {
+  meta:
+    title = "Credential Dumping Tools Service Execution - System"
+    description = "Detects well-known credential dumping tools execution via service execution events"
+    author = "Florian Roth (Nextron Systems), Teymur Kheirkhabarov, Daniil Yugoslavskiy, oscd.community"
+    severity = "HIGH"
+
+  events:
+    ($e.Provider_Name = "Service Control Manager" and $e.EventID = 7045 and ($e.ImagePath = /.*cachedump.*/ nocase or $e.ImagePath = /.*dumpsvc.*/ nocase or $e.ImagePath = /.*fgexec.*/ nocase or $e.ImagePath = /.*gsecdump.*/ nocase or $e.ImagePath = /.*mimidrv.*/ nocase or $e.ImagePath = /.*pwdump.*/ nocase or $e.ImagePath = /.*servpw.*/ nocase))
+
+  condition:
+    $e
+}

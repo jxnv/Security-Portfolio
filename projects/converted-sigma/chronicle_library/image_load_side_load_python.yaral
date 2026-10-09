@@ -1,0 +1,23 @@
+// Title: Potential Python DLL SideLoading
+// ID: d36f7c12-14a3-4d48-b6b8-774b9c66f44d
+// Status: test
+// Level: medium
+// Author: Swachchhanda Shrawan Poudel
+// Date: 2024-10-06
+// Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.stealth, attack.t1574.001
+// Description: Detects potential DLL sideloading of Python DLL files.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule d36f7c12_14a3_4d48_b6b8_774b9c66f44d {
+  meta:
+    title = "Potential Python DLL SideLoading"
+    description = "Detects potential DLL sideloading of Python DLL files."
+    author = "Swachchhanda Shrawan Poudel"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.ImageLoaded = /.*\\python39.dll$/ nocase or $e.ImageLoaded = /.*\\python310.dll$/ nocase or $e.ImageLoaded = /.*\\python311.dll$/ nocase or $e.ImageLoaded = /.*\\python312.dll$/ nocase)) and not((((($e.ImageLoaded = /^C:\\Program Files\\Python3.*/ nocase or $e.ImageLoaded = /^C:\\Program Files (x86)\\Python3.*/ nocase)) or ($e.ImageLoaded = /.*\\AppData\\Local\\Programs\\Python\\Python3.*/ nocase)) or ($e.Product = "Python" and $e.Signed = "true" and $e.Description = "Python" and $e.Company = "Python Software Foundation"))) and not((($e.ImageLoaded = /^C:\\ProgramData\\Anaconda3\\.*/ nocase) or (($e.ImageLoaded = /.*\\cpython\\externals\\.*/ nocase or $e.ImageLoaded = /.*\\cpython\\PCbuild\\.*/ nocase)) or ($e.ImageLoaded = /^C:\\Users.*/ nocase and $e.ImageLoaded = /.*\\AppData\\Local\\Temp\\_MEI.*/ nocase) or ($e.ImageLoaded = /^C:\\Program Files\\Microsoft Visual Studio\\.*/ nocase))))
+
+  condition:
+    $e
+}

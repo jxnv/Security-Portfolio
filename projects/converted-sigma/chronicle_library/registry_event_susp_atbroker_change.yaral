@@ -1,0 +1,23 @@
+// Title: Atbroker Registry Change
+// ID: 9577edbb-851f-4243-8c91-1d5b50c1a39b
+// Status: test
+// Level: medium
+// Author: Mateusz Wydra, oscd.community
+// Date: 2020-10-13
+// Tags: attack.privilege-escalation, attack.stealth, attack.t1218, attack.persistence, attack.t1547
+// Description: Detects creation/modification of Assistive Technology applications and persistence with usage of 'at'
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 9577edbb_851f_4243_8c91_1d5b50c1a39b {
+  meta:
+    title = "Atbroker Registry Change"
+    description = "Detects creation/modification of Assistive Technology applications and persistence with usage of 'at'"
+    author = "Mateusz Wydra, oscd.community"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.TargetObject = /.*Software\\Microsoft\\Windows NT\\CurrentVersion\\Accessibility\\ATs.*/ nocase or $e.TargetObject = /.*Software\\Microsoft\\Windows NT\\CurrentVersion\\Accessibility\\Configuration.*/ nocase)) and not((($e.target.process.file.full_path = "C:\\Windows\\system32\\atbroker.exe" and $e.TargetObject = /.*\\Microsoft\\Windows NT\\CurrentVersion\\Accessibility\\Configuration.*/ nocase and $e.Details = "(Empty)") or ($e.target.process.file.full_path = /^C:\\Windows\\Installer\\MSI.*/ nocase and $e.TargetObject = /.*Software\\Microsoft\\Windows NT\\CurrentVersion\\Accessibility\\ATs.*/ nocase))))
+
+  condition:
+    $e
+}

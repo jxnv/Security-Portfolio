@@ -1,0 +1,23 @@
+// Title: Execute Pcwrun.EXE To Leverage Follina
+// ID: 6004abd0-afa4-4557-ba90-49d172e0a299
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-06-13
+// Tags: attack.stealth, attack.t1218, attack.execution
+// Description: Detects indirect command execution via Program Compatibility Assistant "pcwrun.exe" leveraging the follina (CVE-2022-30190) vulnerability
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 6004abd0_afa4_4557_ba90_49d172e0a299 {
+  meta:
+    title = "Execute Pcwrun.EXE To Leverage Follina"
+    description = "Detects indirect command execution via Program Compatibility Assistant "pcwrun.exe" leveraging the follina (CVE-2022-30190) vulnerability"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ($e.target.process.file.full_path = /.*\\pcwrun.exe$/ nocase and $e.target.process.command_line = /.*../.*/ nocase)
+
+  condition:
+    $e
+}

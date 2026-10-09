@@ -1,0 +1,13 @@
+# Title: Suspicious Modification Of Scheduled Tasks
+# ID: 1c0e41cd-21bb-4433-9acc-4a2cd6367b9b
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-07-28
+# Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.t1053.005
+# Description: Detects when an attacker tries to modify an already existing scheduled tasks to run from a suspicious location
+# Attackers can create a simple looking task in order to avoid detection on creation as it's often the most focused on
+# Instead they modify the task after creation to include their malicious payload
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((Image="*\\schtasks.exe" AND (CommandLine CONTAIN " /Change " AND CommandLine CONTAIN " /TN ")) AND ((CommandLine CONTAIN "regsvr32" OR CommandLine CONTAIN "rundll32" OR CommandLine CONTAIN "cmd /c " OR CommandLine CONTAIN "cmd /k " OR CommandLine CONTAIN "cmd /r " OR CommandLine CONTAIN "cmd.exe /c " OR CommandLine CONTAIN "cmd.exe /k " OR CommandLine CONTAIN "cmd.exe /r " OR CommandLine CONTAIN "powershell" OR CommandLine CONTAIN "mshta" OR CommandLine CONTAIN "wscript" OR CommandLine CONTAIN "cscript" OR CommandLine CONTAIN "certutil" OR CommandLine CONTAIN "bitsadmin" OR CommandLine CONTAIN "bash.exe" OR CommandLine CONTAIN "bash " OR CommandLine CONTAIN "scrcons" OR CommandLine CONTAIN "wmic " OR CommandLine CONTAIN "wmic.exe" OR CommandLine CONTAIN "forfiles" OR CommandLine CONTAIN "scriptrunner" OR CommandLine CONTAIN "hh.exe" OR CommandLine CONTAIN "hh ")) AND ((CommandLine CONTAIN "\\AppData\\Local\\Temp" OR CommandLine CONTAIN "\\AppData\\Roaming\\" OR CommandLine CONTAIN "\\Users\\Public\\" OR CommandLine CONTAIN "\\WINDOWS\\Temp\\" OR CommandLine CONTAIN "\\Desktop\\" OR CommandLine CONTAIN "\\Downloads\\" OR CommandLine CONTAIN "\\Temporary Internet" OR CommandLine CONTAIN "C:\\ProgramData\\" OR CommandLine CONTAIN "C:\\Perflogs\\" OR CommandLine CONTAIN "%ProgramData%" OR CommandLine CONTAIN "%appdata%" OR CommandLine CONTAIN "%comspec%" OR CommandLine CONTAIN "%localappdata%")))

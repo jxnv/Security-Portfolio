@@ -1,0 +1,23 @@
+// Title: Suspicious File Creation In Uncommon AppData Folder
+// ID: d7b50671-d1ad-4871-aa60-5aa5b331fe04
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-05
+// Tags: attack.execution, attack.stealth
+// Description: Detects the creation of suspicious files and folders inside the user's AppData folder but not inside any of the common and well known directories (Local, Romaing, LocalLow). This method could be used as a method to bypass detection who exclude the AppData folder in fear of FPs
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule d7b50671_d1ad_4871_aa60_5aa5b331fe04 {
+  meta:
+    title = "Suspicious File Creation In Uncommon AppData Folder"
+    description = "Detects the creation of suspicious files and folders inside the user's AppData folder but not inside any of the common and well known directories (Local, Romaing, LocalLow). This method could be used as a method to bypass detection who exclude the AppData folder in fear of FPs"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.target.file.full_path = /^C:\\Users\\.*/ nocase and $e.target.file.full_path = /.*\\AppData\\.*/ nocase and ($e.target.file.full_path = /.*.bat$/ nocase or $e.target.file.full_path = /.*.cmd$/ nocase or $e.target.file.full_path = /.*.cpl$/ nocase or $e.target.file.full_path = /.*.dll$/ nocase or $e.target.file.full_path = /.*.exe$/ nocase or $e.target.file.full_path = /.*.hta$/ nocase or $e.target.file.full_path = /.*.iso$/ nocase or $e.target.file.full_path = /.*.lnk$/ nocase or $e.target.file.full_path = /.*.msi$/ nocase or $e.target.file.full_path = /.*.ps1$/ nocase or $e.target.file.full_path = /.*.psm1$/ nocase or $e.target.file.full_path = /.*.scr$/ nocase or $e.target.file.full_path = /.*.vbe$/ nocase or $e.target.file.full_path = /.*.vbs$/ nocase)) and not(($e.target.file.full_path = /^C:\\Users\\.*/ nocase and ($e.target.file.full_path = /.*\\AppData\\Local\\.*/ nocase or $e.target.file.full_path = /.*\\AppData\\LocalLow\\.*/ nocase or $e.target.file.full_path = /.*\\AppData\\Roaming\\.*/ nocase))))
+
+  condition:
+    $e
+}

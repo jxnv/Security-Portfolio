@@ -1,0 +1,30 @@
+{
+  "title": "HackTool - Hashcat Password Cracker Execution",
+  "id": "39b31e81-5f5f-4898-9c0e-2160cfc0f9bf",
+  "status": "test",
+  "description": "Execute Hashcat.exe with provided SAM file from registry of Windows and Password list to crack against",
+  "author": "frack113",
+  "date": "2021-12-27",
+  "tags": [
+    "attack.credential-access",
+    "attack.t1110.002"
+  ],
+  "level": "high",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_img": {
+      "Image|endswith": "\\hashcat.exe"
+    },
+    "selection_cli": {
+      "CommandLine|contains|all": [
+        "-a ",
+        "-m 1000 ",
+        "-r "
+      ]
+    },
+    "condition": "1 of selection_*"
+  }
+}

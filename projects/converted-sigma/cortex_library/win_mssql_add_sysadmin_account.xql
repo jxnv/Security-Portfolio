@@ -1,0 +1,11 @@
+// Title: MSSQL Add Account To Sysadmin Role
+// ID: 08200f85-2678-463e-9c32-88dce2f073d1
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-07-13
+// Tags: attack.persistence
+// Description: Detects when an attacker tries to backdoor the MSSQL server by adding a backdoor account to the sysadmin fixed server role
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter (Provider_Name contains "MSSQL" and EventID = 33205 and (Data contains "object_name:sysadmin" and Data contains "statement:alter server role [sysadmin] add member "))

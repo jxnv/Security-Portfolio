@@ -1,0 +1,23 @@
+// Title: Suspicious Package Installed - Linux
+// ID: 700fb7e8-2981-401c-8430-be58e189e741
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-01-03
+// Tags: attack.defense-impairment, attack.t1553.004
+// Description: Detects installation of suspicious packages using system installation utilities
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 700fb7e8_2981_401c_8430_be58e189e741 {
+  meta:
+    title = "Suspicious Package Installed - Linux"
+    description = "Detects installation of suspicious packages using system installation utilities"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (((($e.target.process.file.full_path = /.*/apt$/ nocase or $e.target.process.file.full_path = /.*/apt-get$/ nocase) and $e.target.process.command_line = /.*install.*/ nocase) or ($e.target.process.file.full_path = /.*/dpkg$/ nocase and ($e.target.process.command_line = /.*--install.*/ nocase or $e.target.process.command_line = /.*-i.*/ nocase)) or ($e.target.process.file.full_path = /.*/rpm$/ nocase and $e.target.process.command_line = /.*-i.*/ nocase) or ($e.target.process.file.full_path = /.*/yum$/ nocase and ($e.target.process.command_line = /.*localinstall.*/ nocase or $e.target.process.command_line = /.*install.*/ nocase))) and (($e.target.process.command_line = /.*nmap.*/ nocase or $e.target.process.command_line = /.* nc.*/ nocase or $e.target.process.command_line = /.*netcat.*/ nocase or $e.target.process.command_line = /.*wireshark.*/ nocase or $e.target.process.command_line = /.*tshark.*/ nocase or $e.target.process.command_line = /.*openconnect.*/ nocase or $e.target.process.command_line = /.*proxychains.*/ nocase or $e.target.process.command_line = /.*socat.*/ nocase)))
+
+  condition:
+    $e
+}

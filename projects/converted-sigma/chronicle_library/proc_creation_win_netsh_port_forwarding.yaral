@@ -1,0 +1,23 @@
+// Title: New Port Forwarding Rule Added Via Netsh.EXE
+// ID: 322ed9ec-fcab-4f67-9a34-e7c6aef43614
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems), omkar72, oscd.community, Swachchhanda Shrawan Poudel
+// Date: 2019-01-29
+// Tags: attack.lateral-movement, attack.command-and-control, attack.t1090
+// Description: Detects the execution of netsh commands that configure a new port forwarding (PortProxy) rule
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 322ed9ec_fcab_4f67_9a34_e7c6aef43614 {
+  meta:
+    title = "New Port Forwarding Rule Added Via Netsh.EXE"
+    description = "Detects the execution of netsh commands that configure a new port forwarding (PortProxy) rule"
+    author = "Florian Roth (Nextron Systems), omkar72, oscd.community, Swachchhanda Shrawan Poudel"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.file.full_path = /.*\\netsh.exe$/ nocase) or ($e.target.process.file.name = "netsh.exe")) and ((($e.target.process.command_line = /.*interface.*/ nocase and $e.target.process.command_line = /.*portproxy.*/ nocase and $e.target.process.command_line = /.*add.*/ nocase and $e.target.process.command_line = /.*v4tov4.*/ nocase)) or (($e.target.process.command_line = /.*i .*/ nocase and $e.target.process.command_line = /.*p .*/ nocase and $e.target.process.command_line = /.*a .*/ nocase and $e.target.process.command_line = /.*v .*/ nocase)) or (($e.target.process.command_line = /.*connectp.*/ nocase and $e.target.process.command_line = /.*listena.*/ nocase and $e.target.process.command_line = /.*c=.*/ nocase))))
+
+  condition:
+    $e
+}

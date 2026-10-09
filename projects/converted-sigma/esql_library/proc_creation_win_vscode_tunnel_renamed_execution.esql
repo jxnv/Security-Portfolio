@@ -1,0 +1,11 @@
+// Title: Renamed Visual Studio Code Tunnel Execution
+// ID: 2cf29f11-e356-4f61-98c0-1bdb9393d6da
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-09-28
+// Tags: attack.command-and-control, attack.t1071.001, attack.t1219
+// Description: Detects renamed Visual Studio Code tunnel execution. Attackers can abuse this functionality to establish a C2 channel
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE ((((process.pe.original_file_name IS NULL AND process.command_line LIKE "%.exe tunnel") OR ((process.command_line LIKE "%.exe tunnel%" AND process.command_line LIKE "%--accept-server-license-terms%")) OR ((process.command_line LIKE "%tunnel %" AND process.command_line LIKE "%service%" AND process.command_line LIKE "%internal-run%" AND process.command_line LIKE "%tunnel-service.log%"))) AND NOT (((process.executable LIKE "%\\code-tunnel.exe" OR process.executable LIKE "%\\code.exe")))) OR ((process.parent.command_line LIKE "% tunnel" AND process.executable LIKE "%\\cmd.exe" AND (process.command_line LIKE "%/d /c %" AND process.command_line LIKE "%\\servers\\Stable-%" AND process.command_line LIKE "%code-server.cmd%")) AND NOT (((process.parent.executable LIKE "%\\code-tunnel.exe" OR process.parent.executable LIKE "%\\code.exe")))))

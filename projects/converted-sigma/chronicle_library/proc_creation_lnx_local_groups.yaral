@@ -1,0 +1,23 @@
+// Title: Local Groups Discovery - Linux
+// ID: 676381a6-15ca-4d73-a9c8-6a22e970b90d
+// Status: test
+// Level: low
+// Author: Ömer Günal, Alejandro Ortuno, oscd.community
+// Date: 2020-10-11
+// Tags: attack.discovery, attack.t1069.001
+// Description: Detects enumeration of local system groups. Adversaries may attempt to find local system groups and permission settings
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 676381a6_15ca_4d73_a9c8_6a22e970b90d {
+  meta:
+    title = "Local Groups Discovery - Linux"
+    description = "Detects enumeration of local system groups. Adversaries may attempt to find local system groups and permission settings"
+    author = "Ömer Günal, Alejandro Ortuno, oscd.community"
+    severity = "LOW"
+
+  events:
+    (($e.target.process.file.full_path = /.*/groups$/ nocase) or (($e.target.process.file.full_path = /.*/cat$/ nocase or $e.target.process.file.full_path = /.*/ed$/ nocase or $e.target.process.file.full_path = /.*/head$/ nocase or $e.target.process.file.full_path = /.*/less$/ nocase or $e.target.process.file.full_path = /.*/more$/ nocase or $e.target.process.file.full_path = /.*/nano$/ nocase or $e.target.process.file.full_path = /.*/tail$/ nocase or $e.target.process.file.full_path = /.*/vi$/ nocase or $e.target.process.file.full_path = /.*/vim$/ nocase) and $e.target.process.command_line = /.*/etc/group.*/ nocase))
+
+  condition:
+    $e
+}

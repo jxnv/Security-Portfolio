@@ -1,0 +1,11 @@
+// Title: Potentially Suspicious Network Connection To Notion API
+// ID: 7e9cf7b6-e827-11ed-a05b-15959c120003
+// Status: test
+// Level: low
+// Author: Gavin Knapp
+// Date: 2023-05-03
+// Tags: attack.command-and-control, attack.t1102
+// Description: Detects a non-browser process communicating with the Notion API. This could indicate potential use of a covert C2 channel such as "OffensiveNotion C2"
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((where(DestinationHostname ICONTAINS "api.notion.com")) AND NOT (((where(Image IENDSWITH "\\brave.exe")) OR ((where(Image = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe") OR where(Image = "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe"))) OR ((where(Image ISTARTSWITH "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\")) OR (where(Image IENDSWITH "\\WindowsApps\\MicrosoftEdge.exe")) OR ((where(Image = "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe") OR where(Image = "C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe")))) OR ((where(Image ISTARTSWITH "C:\\Program Files (x86)\\Microsoft\\EdgeCore\\") OR where(Image ISTARTSWITH "C:\\Program Files\\Microsoft\\EdgeCore\\")) AND (where(Image IENDSWITH "\\msedge.exe") OR where(Image IENDSWITH "\\msedgewebview2.exe"))) OR ((where(Image = "C:\\Program Files\\Mozilla Firefox\\firefox.exe") OR where(Image = "C:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe"))) OR ((where(Image = "C:\\Program Files (x86)\\Internet Explorer\\iexplore.exe") OR where(Image = "C:\\Program Files\\Internet Explorer\\iexplore.exe"))) OR (where(Image IENDSWITH "\\maxthon.exe")) OR (where(Image IENDSWITH "\\AppData\\Local\\Programs\\Notion\\Notion.exe")) OR (where(Image IENDSWITH "\\opera.exe")) OR (where(Image IENDSWITH "\\safari.exe")) OR (where(Image IENDSWITH "\\seamonkey.exe")) OR (where(Image IENDSWITH "\\vivaldi.exe")) OR (where(Image IENDSWITH "\\whale.exe")))))

@@ -1,0 +1,25 @@
+{
+  "title": "DCERPC SMB Spoolss Named Pipe",
+  "id": "214e8f95-100a-4e04-bb31-ef6cba8ce07e",
+  "status": "test",
+  "description": "Detects the use of the spoolss named pipe over SMB. This can be used to trigger the authentication via NTLM of any machine that has the spoolservice enabled.",
+  "author": "OTR (Open Threat Research)",
+  "date": "2018-11-28",
+  "tags": [
+    "attack.lateral-movement",
+    "attack.t1021.002"
+  ],
+  "level": "medium",
+  "logsource": {
+    "product": "windows",
+    "service": "security"
+  },
+  "detection": {
+    "selection": {
+      "EventID": 5145,
+      "ShareName": "\\\\\\\\\\*\\\\IPC$",
+      "RelativeTargetName": "spoolss"
+    },
+    "condition": "selection"
+  }
+}

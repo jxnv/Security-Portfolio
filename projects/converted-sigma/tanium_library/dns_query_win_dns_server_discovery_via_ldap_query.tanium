@@ -1,0 +1,11 @@
+# Title: DNS Server Discovery Via LDAP Query
+# ID: a21bcd7e-38ec-49ad-b69a-9ea17e69509e
+# Status: test
+# Level: low
+# Author: frack113
+# Date: 2022-08-20
+# Tags: attack.discovery, attack.t1482
+# Description: Detects DNS server discovery via LDAP query requests from uncommon applications
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((QueryName="_ldap.*") AND NOT (((Image contains ":\\ProgramData\\Microsoft\\Windows Defender\\Platform\\" AND Image="*\\MsMpEng.exe") OR ((Image contains ":\\Program Files\\" OR Image contains ":\\Program Files (x86)\\" OR Image contains ":\\Windows\\")) OR (NOT Image=*) OR (Image equals "<unknown process>"))) AND NOT (((Image="C:\\WindowsAzure\\GuestAgent*") OR ((Image="*\\chrome.exe" OR Image="*\\firefox.exe" OR Image="*\\opera.exe")))))

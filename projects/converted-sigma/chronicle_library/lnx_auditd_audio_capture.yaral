@@ -1,0 +1,23 @@
+// Title: Audio Capture
+// ID: a7af2487-9c2f-42e4-9bb9-ff961f0561d5
+// Status: test
+// Level: low
+// Author: Pawel Mazur, Milad Cheraghi
+// Date: 2021-09-04
+// Tags: attack.collection, attack.t1123
+// Description: Detects attempts to record audio using the arecord and ecasound utilities.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule a7af2487_9c2f_42e4_9bb9_ff961f0561d5 {
+  meta:
+    title = "Audio Capture"
+    description = "Detects attempts to record audio using the arecord and ecasound utilities."
+    author = "Pawel Mazur, Milad Cheraghi"
+    severity = "LOW"
+
+  events:
+    (($e.type = "EXECVE" and $e.a0 = "arecord" and $e.a1 = "-vv" and $e.a2 = "-fdat") or ($e.type = "SYSCALL" and $e.exe = /.*/ecasound$/ nocase and $e.SYSCALL = "memfd_create"))
+
+  condition:
+    $e
+}

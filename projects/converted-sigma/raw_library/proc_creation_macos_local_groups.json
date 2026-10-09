@@ -1,0 +1,38 @@
+{
+  "title": "Local Groups Discovery - MacOs",
+  "id": "89bb1f97-c7b9-40e8-b52b-7d6afbd67276",
+  "status": "test",
+  "description": "Detects enumeration of local system groups",
+  "author": "\u00d6mer G\u00fcnal, Alejandro Ortuno, oscd.community",
+  "date": "2020-10-11",
+  "tags": [
+    "attack.discovery",
+    "attack.t1069.001"
+  ],
+  "level": "informational",
+  "logsource": {
+    "category": "process_creation",
+    "product": "macos"
+  },
+  "detection": {
+    "selection_1": {
+      "Image|endswith": "/dscacheutil",
+      "CommandLine|contains|all": [
+        "-q",
+        "group"
+      ]
+    },
+    "selection_2": {
+      "Image|endswith": "/cat",
+      "CommandLine|contains": "/etc/group"
+    },
+    "selection_3": {
+      "Image|endswith": "/dscl",
+      "CommandLine|contains|all": [
+        "-list",
+        "/groups"
+      ]
+    },
+    "condition": "1 of selection*"
+  }
+}

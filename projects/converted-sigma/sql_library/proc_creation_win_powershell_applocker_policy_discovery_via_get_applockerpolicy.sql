@@ -1,0 +1,11 @@
+-- Title: PowerShell AppLocker Policy Discovery Via Get-AppLockerPolicy
+-- ID: f14b1e99-5e53-4598-98dc-6f20ad7b35e0
+-- Status: experimental
+-- Level: low
+-- Author: Tom3306
+-- Date: 2026-08-19
+-- Tags: attack.discovery, attack.t1518.001
+-- Description: Detects AppLocker policy enumeration attempts via PowerShell using the Get-AppLockerPolicy cmdlet and an policy scope of either Effective, LDAP, or Local.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE ((CommandLine ILIKE '%Get-AppLockerPolicy%') AND ((CommandLine ILIKE '% -Effective%' OR CommandLine ILIKE '% -Ldap %' OR CommandLine ILIKE '% -Local%')) AND (((Image ILIKE '%\\powershell.exe' OR Image ILIKE '%\\pwsh.exe')) OR ((OriginalFileName = 'PowerShell.EXE' OR OriginalFileName = 'pwsh.dll'))))

@@ -1,0 +1,11 @@
+// Title: Rundll32 Execution With Uncommon DLL Extension
+// ID: c3a99af4-35a9-4668-879e-c09aeb4f2bdf
+// Status: test
+// Level: medium
+// Author: Tim Shelton, Florian Roth (Nextron Systems), Yassine Oukessou
+// Date: 2022-01-13
+// Tags: attack.stealth, attack.t1218.011
+// Description: Detects the execution of rundll32 with a command line that doesn't contain a common extension
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((ImageFileName = /.*\\rundll32.exe/i) or (OriginalFilename = "RUNDLL32.EXE")) and not(((CommandLine = "") or (((CommandLine = /*.cpl */i or CommandLine = /*.cpl,*/i or CommandLine = /*.cpl\"*/i or CommandLine = /*.cpl'*/i or CommandLine = /*.dll */i or CommandLine = /*.dll,*/i or CommandLine = /*.dll\"*/i or CommandLine = /*.dll'*/i or CommandLine = /*.inf */i or CommandLine = /*.inf,*/i or CommandLine = /*.inf\"*/i or CommandLine = /*.inf'*/i)) or ((CommandLine = /.*.cpl/i or CommandLine = /.*.dll/i or CommandLine = /.*.inf/i))) or (CommandLine = /* -localserver */i) or (not(CommandLine = *)) or (ParentBaseFileName = /.*\\msiexec.exe/i and (CommandLine = /*:\\Windows\\Installer\\*/i and CommandLine = /*.tmp*/i and CommandLine = /*zzzzInvokeManagedCustomActionOutOfProc*/i)))) and not(((ParentCommandLine = /*:\\Users\\*/i and ParentCommandLine = /*\\AppData\\Local\\Microsoft\\EdgeUpdate\\Install\\{*/i and ParentCommandLine = /*\\EDGEMITMP_*/i and ParentCommandLine = /*.tmp\\setup.exe*/i and ParentCommandLine = /*--install-archive=*/i and ParentCommandLine = /*--previous-version=*/i and ParentCommandLine = /*--msedgewebview --verbose-logging --do-not-launch-msedge --user-level*/i))))

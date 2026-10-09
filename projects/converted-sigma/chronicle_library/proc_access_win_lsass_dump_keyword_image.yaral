@@ -1,0 +1,23 @@
+// Title: LSASS Memory Access by Tool With Dump Keyword In Name
+// ID: 9bd012ee-0dff-44d7-84a0-aa698cfd87a3
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-02-10
+// Tags: attack.credential-access, attack.t1003.001, attack.s0002
+// Description: Detects LSASS process access requests from a source process with the "dump" keyword in its image name.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 9bd012ee_0dff_44d7_84a0_aa698cfd87a3 {
+  meta:
+    title = "LSASS Memory Access by Tool With Dump Keyword In Name"
+    description = "Detects LSASS process access requests from a source process with the "dump" keyword in its image name."
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ($e.TargetImage = /.*\\lsass.exe$/ nocase and $e.SourceImage = /.*dump.*/ nocase and ($e.GrantedAccess = /.*10$/ nocase or $e.GrantedAccess = /.*30$/ nocase or $e.GrantedAccess = /.*50$/ nocase or $e.GrantedAccess = /.*70$/ nocase or $e.GrantedAccess = /.*90$/ nocase or $e.GrantedAccess = /.*B0$/ nocase or $e.GrantedAccess = /.*D0$/ nocase or $e.GrantedAccess = /.*F0$/ nocase or $e.GrantedAccess = /.*18$/ nocase or $e.GrantedAccess = /.*38$/ nocase or $e.GrantedAccess = /.*58$/ nocase or $e.GrantedAccess = /.*78$/ nocase or $e.GrantedAccess = /.*98$/ nocase or $e.GrantedAccess = /.*B8$/ nocase or $e.GrantedAccess = /.*D8$/ nocase or $e.GrantedAccess = /.*F8$/ nocase or $e.GrantedAccess = /.*1A$/ nocase or $e.GrantedAccess = /.*3A$/ nocase or $e.GrantedAccess = /.*5A$/ nocase or $e.GrantedAccess = /.*7A$/ nocase or $e.GrantedAccess = /.*9A$/ nocase or $e.GrantedAccess = /.*BA$/ nocase or $e.GrantedAccess = /.*DA$/ nocase or $e.GrantedAccess = /.*FA$/ nocase or $e.GrantedAccess = /.*0x14C2$/ nocase or $e.GrantedAccess = /.*FF$/ nocase))
+
+  condition:
+    $e
+}

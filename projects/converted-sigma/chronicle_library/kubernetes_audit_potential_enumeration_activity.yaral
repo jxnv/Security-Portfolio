@@ -1,0 +1,25 @@
+// Title: Kubernetes Potential Enumeration Activity
+// ID: 597a7e84-187d-458b-9e4f-2f5a0e676711
+// Status: experimental
+// Level: medium
+// Author: uniqu3-us3r
+// Date: 2026-04-28
+// Tags: attack.execution, attack.discovery, attack.t1609, attack.t1613
+// Description: Detects potential Kubernetes enumeration or attack activity via the audit log.
+// This includes the execution of common shells, utilities, or specialized tools like 'Rakkess' (access_matrix) and 'TruffleHog' via Kubernetes API requests.
+// Attackers use these methods to perform reconnaissance (enumeration), secret harvesting, or execute code (exec) within a cluster.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 597a7e84_187d_458b_9e4f_2f5a0e676711 {
+  meta:
+    title = "Kubernetes Potential Enumeration Activity"
+    description = "Detects potential Kubernetes enumeration or attack activity via the audit log. This includes the execution of common shells, utilities, or specialized tools like 'Rakkess' (access_matrix) and 'TruffleHog' via Kubernetes API requests. Attackers use these methods to perform reconnaissance (enumeration), secret harvesting, or execute code (exec) within a cluster."
+    author = "uniqu3-us3r"
+    severity = "MEDIUM"
+
+  events:
+    (($e.responseStatus.code = "ALLOW") and ((($e.requestURI = /.*%2fbin%2fash.*/ nocase or $e.requestURI = /.*%2fbin%2fbash.*/ nocase or $e.requestURI = /.*%2fbin%2fbusybox.*/ nocase or $e.requestURI = /.*%2fbin%2fdash.*/ nocase or $e.requestURI = /.*%2fbin%2fsh.*/ nocase or $e.requestURI = /.*%2fbin%2fzsh.*/ nocase or $e.requestURI = /.*/bin/ash.*/ nocase or $e.requestURI = /.*/bin/bash.*/ nocase or $e.requestURI = /.*/bin/busybox.*/ nocase or $e.requestURI = /.*/bin/dash.*/ nocase or $e.requestURI = /.*/bin/sh.*/ nocase or $e.requestURI = /.*/bin/zsh.*/ nocase or $e.requestURI = /.*%2fusr%2fbin%2fcurl.*/ nocase or $e.requestURI = /.*%2fusr%2fbin%2fkubectl.*/ nocase or $e.requestURI = /.*%2fusr%2fbin%2fperl.*/ nocase or $e.requestURI = /.*%2fusr%2fbin%2fpython.*/ nocase or $e.requestURI = /.*%2fusr%2fbin%2fwget.*/ nocase or $e.requestURI = /.*/usr/bin/curl.*/ nocase or $e.requestURI = /.*/usr/bin/kubectl.*/ nocase or $e.requestURI = /.*/usr/bin/perl.*/ nocase or $e.requestURI = /.*/usr/bin/python.*/ nocase or $e.requestURI = /.*/usr/bin/wget.*/ nocase)) or (($e.userAgent = /.*access_matrix.*/ nocase or $e.userAgent = /.*trufflehog.*/ nocase or $e.userAgent = /.*azurehound.*/ nocase or $e.userAgent = /.*micro-scanner.*/ nocase))))
+
+  condition:
+    $e
+}

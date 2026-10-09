@@ -1,0 +1,11 @@
+// Title: Suspicious User Agent
+// ID: 7195a772-4b3f-43a4-a210-6a003d65caa1
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2017-07-08
+// Tags: attack.command-and-control, attack.t1071.001
+// Description: Detects suspicious malformed user agent strings in proxy logs
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((where(c-useragent ISTARTSWITH "user-agent") OR where(c-useragent ISTARTSWITH "Mozilla/3.0 ") OR where(c-useragent ISTARTSWITH "Mozilla/2.0 ") OR where(c-useragent ISTARTSWITH "Mozilla/1.0 ") OR where(c-useragent ISTARTSWITH "Mozilla ") OR where(c-useragent ISTARTSWITH " Mozilla/") OR where(c-useragent ISTARTSWITH "Mozila/") OR where(c-useragent ISTARTSWITH "Mozilla/4.0 (compatible; MSIE 6.0; MS Web Services Client Protocol"))) OR ((where(c-useragent ICONTAINS " (compatible;MSIE ") OR where(c-useragent ICONTAINS ".0;Windows NT ") OR where(c-useragent ICONTAINS "loader"))) OR ((where(c-useragent = "_") OR where(c-useragent = "CertUtil URL Agent") OR where(c-useragent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:60.0)") OR where(c-useragent = "Mozilla/5.0 (Windows NT 6.3; WOW64; rv:28.0) Gecko/20100101 Firefox/28.0") OR where(c-useragent = "HTTPS") OR where(c-useragent = "Erbium-UA-4ce7c27cb4be9d32e333bf032c88235a") OR where(c-useragent = "x") OR where(c-useragent = "xxx")))) AND NOT (((where(c-useragent = "Mozilla/3.0 * Acrobat *")) OR ((where(cs-host IENDSWITH ".acrobat.com") OR where(cs-host IENDSWITH ".adobe.com") OR where(cs-host IENDSWITH ".adobe.io"))))))

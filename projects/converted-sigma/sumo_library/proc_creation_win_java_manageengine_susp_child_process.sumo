@@ -1,0 +1,11 @@
+// Title: Suspicious Child Process Of Manage Engine ServiceDesk
+// ID: cea2b7ea-792b-405f-95a1-b903ea06458f
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2023-01-18
+// Tags: attack.command-and-control, attack.t1102
+// Description: Detects suspicious child processes of the "Manage Engine ServiceDesk Plus" Java web service
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where (((ParentImage matches "*\\ManageEngine\\ServiceDesk\\*" and ParentImage matches "*\\java.exe*") and (Image matches "*\\AppVLP.exe" or Image matches "*\\bash.exe" or Image matches "*\\bitsadmin.exe" or Image matches "*\\calc.exe" or Image matches "*\\certutil.exe" or Image matches "*\\cscript.exe" or Image matches "*\\curl.exe" or Image matches "*\\forfiles.exe" or Image matches "*\\mftrace.exe" or Image matches "*\\mshta.exe" or Image matches "*\\net.exe" or Image matches "*\\net1.exe" or Image matches "*\\notepad.exe" or Image matches "*\\powershell.exe" or Image matches "*\\pwsh.exe" or Image matches "*\\query.exe" or Image matches "*\\reg.exe" or Image matches "*\\schtasks.exe" or Image matches "*\\scrcons.exe" or Image matches "*\\sh.exe" or Image matches "*\\systeminfo.exe" or Image matches "*\\whoami.exe" or Image matches "*\\wmic.exe" or Image matches "*\\wscript.exe")) and !(((Image matches "*\\net.exe" or Image matches "*\\net1.exe") and CommandLine matches "* stop*")))

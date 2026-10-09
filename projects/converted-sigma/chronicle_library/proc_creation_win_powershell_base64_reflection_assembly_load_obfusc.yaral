@@ -1,0 +1,23 @@
+// Title: Suspicious Encoded And Obfuscated Reflection Assembly Load Function Call
+// ID: 9c0295ce-d60d-40bd-bd74-84673b7592b1
+// Status: test
+// Level: high
+// Author: pH-T (Nextron Systems)
+// Date: 2022-03-01
+// Tags: attack.execution, attack.stealth, attack.t1059.001, attack.t1027
+// Description: Detects suspicious base64 encoded and obfuscated "LOAD" keyword used in .NET "reflection.assembly"
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 9c0295ce_d60d_40bd_bd74_84673b7592b1 {
+  meta:
+    title = "Suspicious Encoded And Obfuscated Reflection Assembly Load Function Call"
+    description = "Detects suspicious base64 encoded and obfuscated "LOAD" keyword used in .NET "reflection.assembly""
+    author = "pH-T (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.command_line = /.*OgA6ACgAIgBMACIAKwAiAG8AYQBkACIAKQ.*/ nocase or $e.target.process.command_line = /.*oAOgAoACIATAAiACsAIgBvAGEAZAAiACkA.*/ nocase or $e.target.process.command_line = /.*6ADoAKAAiAEwAIgArACIAbwBhAGQAIgApA.*/ nocase or $e.target.process.command_line = /.*OgA6ACgAIgBMAG8AIgArACIAYQBkACIAKQ.*/ nocase or $e.target.process.command_line = /.*oAOgAoACIATABvACIAKwAiAGEAZAAiACkA.*/ nocase or $e.target.process.command_line = /.*6ADoAKAAiAEwAbwAiACsAIgBhAGQAIgApA.*/ nocase or $e.target.process.command_line = /.*OgA6ACgAIgBMAG8AYQAiACsAIgBkACIAKQ.*/ nocase or $e.target.process.command_line = /.*oAOgAoACIATABvAGEAIgArACIAZAAiACkA.*/ nocase or $e.target.process.command_line = /.*6ADoAKAAiAEwAbwBhACIAKwAiAGQAIgApA.*/ nocase or $e.target.process.command_line = /.*OgA6ACgAJwBMACcAKwAnAG8AYQBkACcAKQ.*/ nocase or $e.target.process.command_line = /.*oAOgAoACcATAAnACsAJwBvAGEAZAAnACkA.*/ nocase or $e.target.process.command_line = /.*6ADoAKAAnAEwAJwArACcAbwBhAGQAJwApA.*/ nocase or $e.target.process.command_line = /.*OgA6ACgAJwBMAG8AJwArACcAYQBkACcAKQ.*/ nocase or $e.target.process.command_line = /.*oAOgAoACcATABvACcAKwAnAGEAZAAnACkA.*/ nocase or $e.target.process.command_line = /.*6ADoAKAAnAEwAbwAnACsAJwBhAGQAJwApA.*/ nocase or $e.target.process.command_line = /.*OgA6ACgAJwBMAG8AYQAnACsAJwBkACcAKQ.*/ nocase or $e.target.process.command_line = /.*oAOgAoACcATABvAGEAJwArACcAZAAnACkA.*/ nocase or $e.target.process.command_line = /.*6ADoAKAAnAEwAbwBhACcAKwAnAGQAJwApA.*/ nocase))
+
+  condition:
+    $e
+}

@@ -1,0 +1,11 @@
+// Title: Suspicious Manipulation Of Default Accounts Via Net.EXE
+// ID: 5b768e71-86f2-4879-b448-81061cbae951
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-09-01
+// Tags: attack.collection, attack.t1560.001
+// Description: Detects suspicious manipulations of default accounts such as 'administrator' and 'guest'. For example 'enable' or 'disable' accounts or change the password...etc
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+DeviceProcessEvents | where (((((FolderPath endswith "\\net.exe" or FolderPath endswith "\\net1.exe")) or ((ProcessVersionInfoOriginalFileName == "net.exe" or ProcessVersionInfoOriginalFileName == "net1.exe"))) and (ProcessCommandLine contains " user ") and ((ProcessCommandLine contains " Järjestelmänvalvoja " or ProcessCommandLine contains " Rendszergazda " or ProcessCommandLine contains " Администратор " or ProcessCommandLine contains " Administrateur " or ProcessCommandLine contains " Administrador " or ProcessCommandLine contains " Administratör " or ProcessCommandLine contains " Administrator " or ProcessCommandLine contains " guest " or ProcessCommandLine contains " DefaultAccount " or ProcessCommandLine contains " \"Järjestelmänvalvoja\" " or ProcessCommandLine contains " \"Rendszergazda\" " or ProcessCommandLine contains " \"Администратор\" " or ProcessCommandLine contains " \"Administrateur\" " or ProcessCommandLine contains " \"Administrador\" " or ProcessCommandLine contains " \"Administratör\" " or ProcessCommandLine contains " \"Administrator\" " or ProcessCommandLine contains " \"guest\" " or ProcessCommandLine contains " \"DefaultAccount\" " or ProcessCommandLine contains " 'Järjestelmänvalvoja' " or ProcessCommandLine contains " 'Rendszergazda' " or ProcessCommandLine contains " 'Администратор' " or ProcessCommandLine contains " 'Administrateur' " or ProcessCommandLine contains " 'Administrador' " or ProcessCommandLine contains " 'Administratör' " or ProcessCommandLine contains " 'Administrator' " or ProcessCommandLine contains " 'guest' " or ProcessCommandLine contains " 'DefaultAccount' "))) and not(((ProcessCommandLine contains "guest" and ProcessCommandLine contains "/active no"))))

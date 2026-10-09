@@ -1,0 +1,12 @@
+-- Title: Potential PowerShell Execution Via DLL
+-- ID: 6812a10b-60ea-420c-832f-dfcc33b646ba
+-- Status: test
+-- Level: high
+-- Author: Markus Neis, Nasreddine Bencherchali (Nextron Systems)
+-- Date: 2018-08-25
+-- Tags: attack.stealth, attack.t1218.011
+-- Description: Detects potential PowerShell execution from a DLL instead of the usual PowerShell process as seen used in PowerShdll.
+-- This detection assumes that PowerShell commands are passed via the CommandLine.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE (((CommandLine ILIKE '%Default.GetString%' OR CommandLine ILIKE '%DownloadString%' OR CommandLine ILIKE '%FromBase64String%' OR CommandLine ILIKE '%ICM %' OR CommandLine ILIKE '%IEX %' OR CommandLine ILIKE '%Invoke-Command%' OR CommandLine ILIKE '%Invoke-Expression%')) AND (((Image ILIKE '%\\InstallUtil.exe' OR Image ILIKE '%\\RegAsm.exe' OR Image ILIKE '%\\RegSvcs.exe' OR Image ILIKE '%\\regsvr32.exe' OR Image ILIKE '%\\rundll32.exe')) OR ((OriginalFileName = 'InstallUtil.exe' OR OriginalFileName = 'RegAsm.exe' OR OriginalFileName = 'RegSvcs.exe' OR OriginalFileName = 'REGSVR32.EXE' OR OriginalFileName = 'RUNDLL32.EXE'))))

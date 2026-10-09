@@ -1,0 +1,11 @@
+-- Title: Cross Site Scripting Strings
+-- ID: 65354b83-a2ea-4ea6-8414-3ab38be0d409
+-- Status: test
+-- Level: high
+-- Author: Saw Win Naung, Nasreddine Bencherchali
+-- Date: 2021-08-15
+-- Tags: attack.initial-access, attack.t1189
+-- Description: Detects XSS attempts injected via GET requests in access logs
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM events WHERE ((cs-method = 'GET') AND (TEXT SEARCH '=<script>' OR TEXT SEARCH '=%3Cscript%3E' OR TEXT SEARCH '=%253Cscript%253E' OR TEXT SEARCH '<iframe ' OR TEXT SEARCH '%3Ciframe ' OR TEXT SEARCH '<svg ' OR TEXT SEARCH '%3Csvg ' OR TEXT SEARCH 'document.cookie' OR TEXT SEARCH 'document.domain' OR TEXT SEARCH ' onerror=' OR TEXT SEARCH ' onresize=' OR TEXT SEARCH ' onload=\"' OR TEXT SEARCH 'onmouseover=' OR TEXT SEARCH '${alert' OR TEXT SEARCH 'javascript:alert' OR TEXT SEARCH 'javascript%3Aalert') AND NOT ((sc-status = 404)))

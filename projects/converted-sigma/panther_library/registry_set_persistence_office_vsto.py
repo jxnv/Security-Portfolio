@@ -1,0 +1,19 @@
+# Title: Potential Persistence Via Visual Studio Tools for Office
+# ID: 9d15044a-7cfe-4d23-8085-6ebc11df7685
+# Status: test
+# Level: medium
+# Author: Bhabesh Raj
+# Date: 2021-01-10
+# Tags: attack.t1137.006, attack.persistence
+# Description: Detects persistence via Visual Studio Tools for Office (VSTO) add-ins in Office applications.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Potential Persistence Via Visual Studio Tools for Office
+def rule(event):
+    # Detection Logic:
+    # (((TargetObject="*\\Software\\Microsoft\\Office\\Outlook\\Addins\\*" OR TargetObject="*\\Software\\Microsoft\\Office\\Word\\Addins\\*" OR TargetObject="*\\Software\\Microsoft\\Office\\Excel\\Addins\\*" OR TargetObject="*\\Software\\Microsoft\\Office\\Powerpoint\\Addins\\*" OR TargetObject="*\\Software\\Microsoft\\VSTO\\Security\\Inclusion\\*")) AND NOT ((((Image="C:\\Program Files (x86)\\Microsoft Office\\root\\integration\\integrator.exe" OR Image="C:\\Program Files\\Microsoft Office\\root\\integration\\integrator.exe")) OR ((Image="C:\\Program Files\\Microsoft Office\\OFFICE*" OR Image="C:\\Program Files (x86)\\Microsoft Office\\OFFICE*" OR Image="C:\\Program Files\\Microsoft Office\\Root\\OFFICE*" OR Image="C:\\Program Files (x86)\\Microsoft Office\\Root\\OFFICE*" OR Image="C:\\PROGRA~2\\MICROS~2\\Office*") AND (Image="*\\excel.exe" OR Image="*\\Integrator.exe" OR Image="*\\OneNote.exe" OR Image="*\\outlook.exe" OR Image="*\\powerpnt.exe" OR Image="*\\Teams.exe" OR Image="*\\visio.exe" OR Image="*\\winword.exe")) OR ((Image="C:\\Program Files\\Common Files (x86)\\Microsoft Shared\\ClickToRun\\*" OR Image="C:\\Program Files\\Common Files\\Microsoft Shared\\ClickToRun\\*") AND Image="*\\OfficeClickToRun.exe") OR ((Image="C:\\Windows\\System32\\msiexec.exe" OR Image="C:\\Windows\\SysWOW64\\msiexec.exe" OR Image="C:\\Windows\\System32\\regsvr32.exe" OR Image="C:\\Windows\\SysWOW64\\regsvr32.exe")) OR ((Image="C:\\Program Files\\Common Files\\Microsoft Shared\\VSTO\\*" OR Image="C:\\Program Files (x86)\\Microsoft Shared\\VSTO\\*") AND Image="*\\VSTOInstaller.exe"))) AND NOT ((((Image="C:\\Program Files\\Avast Software\\Avast\\RegSvr.exe" OR Image="C:\\Program Files (x86)\\Avast Software\\Avast\\RegSvr.exe") AND TargetObject="*\\Microsoft\\Office\\Outlook\\Addins\\Avast.AsOutExt\\*") OR ((Image="C:\\Program Files\\AVG\\Antivirus\\RegSvr.exe" OR Image="C:\\Program Files (x86)\\AVG\\Antivirus\\RegSvr.exe") AND TargetObject="*\\Microsoft\\Office\\Outlook\\Addins\\Antivirus.AsOutExt\\*"))))
+    return True
+
+def title(event):
+    return "Potential Persistence Via Visual Studio Tools for Office"
+

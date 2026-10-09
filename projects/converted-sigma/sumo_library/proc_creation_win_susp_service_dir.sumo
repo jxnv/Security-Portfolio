@@ -1,0 +1,11 @@
+// Title: Suspicious Service Binary Directory
+// ID: 883faa95-175a-4e22-8181-e5761aeb373c
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2021-03-09
+// Tags: attack.stealth, attack.t1202
+// Description: Detects a service binary running in a suspicious directory
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where ((Image matches "*\\Users\\Public\\*" or Image matches "*\\$Recycle.bin*" or Image matches "*\\Users\\All Users\\*" or Image matches "*\\Users\\Default\\*" or Image matches "*\\Users\\Contacts\\*" or Image matches "*\\Users\\Searches\\*" or Image matches "*C:\\Perflogs\\*" or Image matches "*\\config\\systemprofile\\*" or Image matches "*\\Windows\\Fonts\\*" or Image matches "*\\Windows\\IME\\*" or Image matches "*\\Windows\\addins\\*") and (ParentImage matches "*\\services.exe" or ParentImage matches "*\\svchost.exe"))

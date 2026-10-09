@@ -1,0 +1,35 @@
+{
+  "title": "Data Export From MSSQL Table Via BCP.EXE",
+  "id": "c615d676-f655-46b9-b913-78729021e5d7",
+  "status": "test",
+  "description": "Detects the execution of the BCP utility in order to export data from the database.\nAttackers were seen saving their malware to a database column or table and then later extracting it via \"bcp.exe\" into a file.\n",
+  "author": "Omar Khaled (@beacon_exe), MahirAli Khan (in/mahiralikhan), Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2024-08-20",
+  "tags": [
+    "attack.execution",
+    "attack.exfiltration",
+    "attack.t1048"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_img": [
+      {
+        "Image|endswith": "\\bcp.exe"
+      },
+      {
+        "OriginalFileName": "BCP.exe"
+      }
+    ],
+    "selection_cli": {
+      "CommandLine|contains": [
+        " out ",
+        " queryout "
+      ]
+    },
+    "condition": "all of selection_*"
+  }
+}

@@ -1,0 +1,11 @@
+// Title: Potential Defense Evasion Via Rename Of Highly Relevant Binaries
+// ID: 0ba1da6d-b6ce-4366-828c-18826c9de23e
+// Status: test
+// Level: high
+// Author: Matthew Green - @mgreen27, Florian Roth (Nextron Systems), frack113
+// Date: 2019-06-15
+// Tags: attack.stealth, attack.t1036.003, car.2013-05-009
+// Description: Detects the execution of a renamed binary often used by attackers or malware leveraging new Sysmon OriginalFileName datapoint.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((Description = "Execute processes remotely") or (Product = "Sysinternals PsExec") or ((Description = /Windows PowerShell.*/i or Description = /pwsh.*/i)) or ((OriginalFilename = "certutil.exe" or OriginalFilename = "cmstp.exe" or OriginalFilename = "cscript.exe" or OriginalFilename = "IE4UINIT.EXE" or OriginalFilename = "finger.exe" or OriginalFilename = "mshta.exe" or OriginalFilename = "msiexec.exe" or OriginalFilename = "msxsl.exe" or OriginalFilename = "powershell_ise.exe" or OriginalFilename = "powershell.exe" or OriginalFilename = "psexec.c" or OriginalFilename = "psexec.exe" or OriginalFilename = "psexesvc.exe" or OriginalFilename = "pwsh.dll" or OriginalFilename = "reg.exe" or OriginalFilename = "regsvr32.exe" or OriginalFilename = "rundll32.exe" or OriginalFilename = "WerMgr" or OriginalFilename = "wmic.exe" or OriginalFilename = "wscript.exe"))) and not(((ImageFileName = /.*\\certutil.exe/i or ImageFileName = /.*\\cmstp.exe/i or ImageFileName = /.*\\cscript.exe/i or ImageFileName = /.*\\ie4uinit.exe/i or ImageFileName = /.*\\finger.exe/i or ImageFileName = /.*\\mshta.exe/i or ImageFileName = /.*\\msiexec.exe/i or ImageFileName = /.*\\msxsl.exe/i or ImageFileName = /.*\\powershell_ise.exe/i or ImageFileName = /.*\\powershell.exe/i or ImageFileName = /.*\\psexec.exe/i or ImageFileName = /.*\\psexec64.exe/i or ImageFileName = /.*\\psexec64a.exe/i or ImageFileName = /.*\\PSEXESVC.exe/i or ImageFileName = /.*\\pwsh.exe/i or ImageFileName = /.*\\reg.exe/i or ImageFileName = /.*\\regsvr32.exe/i or ImageFileName = /.*\\rundll32.exe/i or ImageFileName = /.*\\wermgr.exe/i or ImageFileName = /.*\\wmic.exe/i or ImageFileName = /.*\\wscript.exe/i))))

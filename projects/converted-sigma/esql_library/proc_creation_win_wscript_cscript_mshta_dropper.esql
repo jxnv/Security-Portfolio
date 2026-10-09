@@ -1,0 +1,11 @@
+// Title: Potential Dropper Script Execution Via WScript/CScript/MSHTA
+// ID: cea72823-df4d-4567-950c-0b579eaf0846
+// Status: test
+// Level: medium
+// Author: Margaritis Dimitrios (idea), Florian Roth (Nextron Systems), oscd.community, Nasreddine Bencherchali (Nextron Systems), Dave Johnson
+// Date: 2019-01-16
+// Tags: attack.execution, attack.t1059.005, attack.t1059.007
+// Description: Detects wscript/cscript/mshta executions of scripts located in user directories
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE (((process.executable LIKE "%\\wscript.exe" OR process.executable LIKE "%\\cscript.exe" OR process.executable LIKE "%\\mshta.exe")) AND ((process.command_line LIKE "%.hta%" OR process.command_line LIKE "%.js%" OR process.command_line LIKE "%.jse%" OR process.command_line LIKE "%.vba%" OR process.command_line LIKE "%.vbe%" OR process.command_line LIKE "%.vbs%" OR process.command_line LIKE "%.wsf%" OR process.command_line LIKE "%.wsh%")) AND ((process.command_line LIKE "%:\\Perflogs\\%" OR process.command_line LIKE "%:\\Temp\\%" OR process.command_line LIKE "%:\\Tmp\\%" OR process.command_line LIKE "%:\\Users\\Public\\%" OR process.command_line LIKE "%:\\Windows\\Temp\\%" OR process.command_line LIKE "%\\AppData\\Local\\Temp\\%" OR process.command_line LIKE "%\\AppData\\Roaming\\Temp\\%" OR process.command_line LIKE "%\\Start Menu\\Programs\\Startup\\%" OR process.command_line LIKE "%\\Temporary Internet%" OR process.command_line LIKE "%\\Windows\\Temp%" OR process.command_line LIKE "%%LocalAppData%\\Temp\\%" OR process.command_line LIKE "%%TEMP%%" OR process.command_line LIKE "%%TMP%%")))

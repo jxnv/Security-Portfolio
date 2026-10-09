@@ -1,0 +1,12 @@
+// Title: Potentially Suspicious Command Executed Via Run Dialog Box - Registry
+// ID: a7df0e9e-91a5-459a-a003-4cde67c2ff5d
+// Status: test
+// Level: high
+// Author: Ahmed Farouk, Nasreddine Bencherchali
+// Date: 2024-11-01
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects execution of commands via the run dialog box on Windows by checking values of the "RunMRU" registry key.
+// This technique was seen being abused by threat actors to deceive users into pasting and executing malicious commands, often disguised as CAPTCHA verification steps.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where ((TargetObject matches "*\\Microsoft\\Windows\\CurrentVersion\\Explorer\\RunMRU*") and ((((Details matches "*powershell*" or Details matches "*pwsh*")) and ((Details matches "* -e *" or Details matches "* -ec *" or Details matches "* -en *" or Details matches "* -enc *" or Details matches "* -enco*" or Details matches "*ftp*" or Details matches "*Hidden*" or Details matches "*http*" or Details matches "*iex*" or Details matches "*Invoke-*"))) or ((Details matches "*wmic*") and ((Details matches "*shadowcopy*" or Details matches "*process call create*")))))

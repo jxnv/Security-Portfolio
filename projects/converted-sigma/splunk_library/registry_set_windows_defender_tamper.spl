@@ -1,0 +1,11 @@
+# Title: Disable Windows Defender Functionalities Via Registry Keys
+# ID: 0eb46774-f1ab-4a74-8238-1155855f2263
+# Status: test
+# Level: high
+# Author: AlertIQ, Ján Trenčanský, frack113, Nasreddine Bencherchali, Swachchhanda Shrawan Poudel
+# Date: 2022-08-01
+# Tags: attack.defense-impairment, attack.t1685
+# Description: Detects when attackers or tools disable Windows Defender functionalities via the Windows registry
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog (((registry_key_name="*\\SOFTWARE\\Microsoft\\Windows Defender\\*" OR registry_key_name="*\\SOFTWARE\\Policies\\Microsoft\\Windows Defender Security Center\\*" OR registry_key_name="*\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\*")) AND (((registry_key_name="*\\DisallowExploitProtectionOverride" OR registry_key_name="*\\Features\\TamperProtection" OR registry_key_name="*\\MpEngine\\MpEnablePus" OR registry_key_name="*\\PUAProtection" OR registry_key_name="*\\Signature Update\\ForceUpdateFromMU" OR registry_key_name="*\\SpyNet\\SpynetReporting" OR registry_key_name="*\\SpyNet\\SubmitSamplesConsent" OR registry_key_name="*\\Windows Defender Exploit Guard\\Controlled Folder Access\\EnableControlledFolderAccess") AND Details="DWORD (0x00000000)") OR ((registry_key_name="*\\DisableAntiSpyware" OR registry_key_name="*\\DisableAntiVirus" OR registry_key_name="*\\DisableBehaviorMonitoring" OR registry_key_name="*\\DisableBlockAtFirstSeen" OR registry_key_name="*\\DisableEnhancedNotifications" OR registry_key_name="*\\DisableIntrusionPreventionSystem" OR registry_key_name="*\\DisableIOAVProtection" OR registry_key_name="*\\DisableOnAccessProtection" OR registry_key_name="*\\DisableRealtimeMonitoring" OR registry_key_name="*\\DisableScanOnRealtimeEnable" OR registry_key_name="*\\DisableScriptScanning") AND Details="DWORD (0x00000001)")) AND NOT ((process_path="C:\\Program Files\\Symantec\\Symantec Endpoint Protection\\*" AND process_path="*\\sepWscSvc64.exe")))

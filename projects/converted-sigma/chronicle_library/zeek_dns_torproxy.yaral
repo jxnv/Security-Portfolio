@@ -1,0 +1,23 @@
+// Title: DNS TOR Proxies
+// ID: a8322756-015c-42e7-afb1-436e85ed3ff5
+// Status: test
+// Level: medium
+// Author: Saw Winn Naung , Azure-Sentinel
+// Date: 2021-08-15
+// Tags: attack.exfiltration, attack.t1048
+// Description: Identifies IPs performing DNS lookups associated with common Tor proxies.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule a8322756_015c_42e7_afb1_436e85ed3ff5 {
+  meta:
+    title = "DNS TOR Proxies"
+    description = "Identifies IPs performing DNS lookups associated with common Tor proxies."
+    author = "Saw Winn Naung , Azure-Sentinel"
+    severity = "MEDIUM"
+
+  events:
+    (($e.query = /.*.hiddenservice.net$/ nocase or $e.query = /.*.onion.ca$/ nocase or $e.query = /.*.onion.cab$/ nocase or $e.query = /.*.onion.casa$/ nocase or $e.query = /.*.onion.city$/ nocase or $e.query = /.*.onion.direct$/ nocase or $e.query = /.*.onion.dog$/ nocase or $e.query = /.*.onion.glass$/ nocase or $e.query = /.*.onion.gq$/ nocase or $e.query = /.*.onion.guide$/ nocase or $e.query = /.*.onion.in.net$/ nocase or $e.query = /.*.onion.ink$/ nocase or $e.query = /.*.onion.it$/ nocase or $e.query = /.*.onion.link$/ nocase or $e.query = /.*.onion.lt$/ nocase or $e.query = /.*.onion.lu$/ nocase or $e.query = /.*.onion.ly$/ nocase or $e.query = /.*.onion.mn$/ nocase or $e.query = /.*.onion.network$/ nocase or $e.query = /.*.onion.nu$/ nocase or $e.query = /.*.onion.pet$/ nocase or $e.query = /.*.onion.plus$/ nocase or $e.query = /.*.onion.pt$/ nocase or $e.query = /.*.onion.pw$/ nocase or $e.query = /.*.onion.rip$/ nocase or $e.query = /.*.onion.sh$/ nocase or $e.query = /.*.onion.si$/ nocase or $e.query = /.*.onion.to$/ nocase or $e.query = /.*.onion.top$/ nocase or $e.query = /.*.onion.ws$/ nocase or $e.query = /.*.onion$/ nocase or $e.query = /.*.s1.tor-gateways.de$/ nocase or $e.query = /.*.s2.tor-gateways.de$/ nocase or $e.query = /.*.s3.tor-gateways.de$/ nocase or $e.query = /.*.s4.tor-gateways.de$/ nocase or $e.query = /.*.s5.tor-gateways.de$/ nocase or $e.query = /.*.t2w.pw$/ nocase or $e.query = /.*.tor2web.ae.org$/ nocase or $e.query = /.*.tor2web.blutmagie.de$/ nocase or $e.query = /.*.tor2web.com$/ nocase or $e.query = /.*.tor2web.fi$/ nocase or $e.query = /.*.tor2web.io$/ nocase or $e.query = /.*.tor2web.org$/ nocase or $e.query = /.*.tor2web.xyz$/ nocase or $e.query = /.*.torlink.co$/ nocase))
+
+  condition:
+    $e
+}

@@ -1,0 +1,19 @@
+# Title: MSSQL SPProcoption Set
+# ID: b3d57a5c-c92e-4b48-9a79-5f124b7cf964
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-07-13
+# Tags: attack.persistence
+# Description: Detects when the a stored procedure is set or cleared for automatic execution in MSSQL. A stored procedure that is set to automatic execution runs every time an instance of SQL Server is started
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: MSSQL SPProcoption Set
+def rule(event):
+    # Detection Logic:
+    # (Provider_Name="*MSSQL*" AND EventID="33205" AND (Data="*object_name:sp_procoption*" AND Data="*statement:EXEC*"))
+    return True
+
+def title(event):
+    return "MSSQL SPProcoption Set"
+

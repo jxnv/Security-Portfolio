@@ -1,0 +1,23 @@
+// Title: Credentials In Files - Linux
+// ID: df3fcaea-2715-4214-99c5-0056ea59eb35
+// Status: test
+// Level: high
+// Author: Igor Fits, oscd.community
+// Date: 2020-10-15
+// Tags: attack.credential-access, attack.t1552.001
+// Description: Detecting attempts to extract passwords with grep
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule df3fcaea_2715_4214_99c5_0056ea59eb35 {
+  meta:
+    title = "Credentials In Files - Linux"
+    description = "Detecting attempts to extract passwords with grep"
+    author = "Igor Fits, oscd.community"
+    severity = "HIGH"
+
+  events:
+    (($e.type = "EXECVE") and (($e. = "grep" and $e. = "password")))
+
+  condition:
+    $e
+}

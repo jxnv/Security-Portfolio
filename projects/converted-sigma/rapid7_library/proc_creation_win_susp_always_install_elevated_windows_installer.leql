@@ -1,0 +1,11 @@
+// Title: Always Install Elevated Windows Installer
+// ID: cd951fdc-4b2f-47f5-ba99-a33bf61e3770
+// Status: test
+// Level: medium
+// Author: Teymur Kheirkhabarov (idea), Mangatas Tondang (rule), oscd.community
+// Date: 2020-10-13
+// Tags: attack.privilege-escalation, attack.t1548.002
+// Description: Detects Windows Installer service (msiexec.exe) trying to install MSI packages with SYSTEM privilege
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((where(Image ICONTAINS "\\Windows\\Installer\\") AND where(Image ICONTAINS "msi")) AND where(Image IENDSWITH "tmp")) OR (where(Image IENDSWITH "\\msiexec.exe") AND (where(IntegrityLevel = "System") OR where(IntegrityLevel = "S-1-16-16384")))) AND ((where(User ICONTAINS "AUTHORI") OR where(User ICONTAINS "AUTORI"))) AND NOT ((((where(ParentImage ISTARTSWITH "C:\\Program Files\\Avast Software\\") OR where(ParentImage ISTARTSWITH "C:\\Program Files (x86)\\Avast Software\\"))) OR (where(ParentImage ISTARTSWITH "C:\\ProgramData\\Avira\\")) OR ((where(ParentImage ISTARTSWITH "C:\\Program Files\\Google\\Update\\") OR where(ParentImage ISTARTSWITH "C:\\Program Files (x86)\\Google\\Update\\"))) OR (where(ParentImage = "C:\\Windows\\System32\\services.exe")) OR ((where(CommandLine IENDSWITH "\\system32\\msiexec.exe /V")) OR (where(ParentCommandLine IENDSWITH "\\system32\\msiexec.exe /V"))) OR (where(ParentImage ISTARTSWITH "C:\\ProgramData\\Sophos\\")))))

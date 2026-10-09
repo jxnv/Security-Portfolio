@@ -1,0 +1,34 @@
+// Title: DNS Query to External Service Interaction Domains
+// ID: aff715fa-4dd5-497a-8db3-910bea555566
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Matt Kelly (list of domains)
+// Date: 2022-06-07
+// Tags: attack.initial-access, attack.t1190, attack.reconnaissance, attack.t1595.002
+// Description: Detects DNS queries to well-known out-of-band application security testing (OAST) and callback domains.
+// These services (e.g. Burp Collaborator, interactsh, canarytokens, dnslog.cn) are used by security
+// researchers and attackers alike to confirm blind vulnerabilities such as SSRF, XXE, blind RCE, and
+// Log4Shell-style injections, where the exploit payload triggers an external DNS lookup to a controlled domain.
+// 
+// A detection indicates that a host on your network resolved one of these domains, which may mean:
+//     (1) an attacker is actively probing or exploiting a vulnerable service and using the callback to
+//     confirm code execution or data exfiltration,
+//     (2) a security scanner (e.g. Nuclei, Gobies) is running against internal targets.
+// 
+// Investigate the source host, the full DNS query string (the unique subdomain prefix encodes the callback session),
+// and any concurrent outbound connections or process activity to determine intent.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule aff715fa_4dd5_497a_8db3_910bea555566 {
+  meta:
+    title = "DNS Query to External Service Interaction Domains"
+    description = "Detects DNS queries to well-known out-of-band application security testing (OAST) and callback domains. These services (e.g. Burp Collaborator, interactsh, canarytokens, dnslog.cn) are used by security researchers and attackers alike to confirm blind vulnerabilities such as SSRF, XXE, blind RCE, and Log4Shell-style injections, where the exploit payload triggers an external DNS lookup to a controlled domain.  A detection indicates that a host on your network resolved one of these domains, which may mean:     (1) an attacker is actively probing or exploiting a vulnerable service and using the callback to     confirm code execution or data exfiltration,     (2) a security scanner (e.g. Nuclei, Gobies) is running against internal targets.  Investigate the source host, the full DNS query string (the unique subdomain prefix encodes the callback session), and any concurrent outbound connections or process activity to determine intent."
+    author = "Florian Roth (Nextron Systems), Matt Kelly (list of domains)"
+    severity = "HIGH"
+
+  events:
+    ((($e.query = /.*.burpcollaborator.net$/ nocase or $e.query = /.*.canarytokens.com$/ nocase or $e.query = /.*.ceye.io$/ nocase or $e.query = /.*.ddns.1433.eu.org$/ nocase or $e.query = /.*.ddns.bypass.eu.org$/ nocase or $e.query = /.*.ddns.xn--gg8h.eu.org$/ nocase or $e.query = /.*.digimg.store$/ nocase or $e.query = /.*.dns.su18.org$/ nocase or $e.query = /.*.dnshook.site$/ nocase or $e.query = /.*.dnslog.cn$/ nocase or $e.query = /.*.dnslog.ink$/ nocase or $e.query = /.*.gobygo.net$/ nocase or $e.query = /.*.instances.httpworkbench.com$/ nocase or $e.query = /.*.interact.sh$/ nocase or $e.query = /.*.log.dnslog.pp.ua$/ nocase or $e.query = /.*.log.dnslog.qzz.io$/ nocase or $e.query = /.*.log.dnslogs.dpdns.org$/ nocase or $e.query = /.*.log.javaweb.org$/ nocase or $e.query = /.*.log.nat.cloudns.ph$/ nocase or $e.query = /.*.oast.fun$/ nocase or $e.query = /.*.oast.live$/ nocase or $e.query = /.*.oast.me$/ nocase or $e.query = /.*.oast.online$/ nocase or $e.query = /.*.oast.pro$/ nocase or $e.query = /.*.oast.site$/ nocase or $e.query = /.*.oastify.com$/ nocase or $e.query = /.*.p8.lol$/ nocase or $e.query = /.*.requestbin.net$/ nocase)) and not(($e.query = /.*polling.oastify.com.*/ nocase)))
+
+  condition:
+    $e
+}

@@ -1,0 +1,23 @@
+// Title: Azure Container Registry Created or Deleted
+// ID: 93e0ef48-37c8-49ed-a02c-038aab23628e
+// Status: test
+// Level: low
+// Author: Austin Songer @austinsonger
+// Date: 2021-08-07
+// Tags: attack.impact, attack.t1485, attack.t1496, attack.t1489
+// Description: Detects when a Container Registry is created or deleted.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 93e0ef48_37c8_49ed_a02c_038aab23628e {
+  meta:
+    title = "Azure Container Registry Created or Deleted"
+    description = "Detects when a Container Registry is created or deleted."
+    author = "Austin Songer @austinsonger"
+    severity = "LOW"
+
+  events:
+    (($e.operationName = "MICROSOFT.CONTAINERREGISTRY/REGISTRIES/WRITE" or $e.operationName = "MICROSOFT.CONTAINERREGISTRY/REGISTRIES/DELETE"))
+
+  condition:
+    $e
+}

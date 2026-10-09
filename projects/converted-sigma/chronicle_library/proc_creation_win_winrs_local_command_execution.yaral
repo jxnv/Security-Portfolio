@@ -1,0 +1,24 @@
+// Title: Winrs Local Command Execution
+// ID: bcfece3d-56fe-4545-9931-3b8e92927db1
+// Status: experimental
+// Level: high
+// Author: Liran Ravich, Nasreddine Bencherchali
+// Date: 2025-10-22
+// Tags: attack.lateral-movement, attack.stealth, attack.t1021.006, attack.t1218
+// Description: Detects the execution of Winrs.exe where it is used to execute commands locally.
+// Commands executed this way are launched under Winrshost.exe and can represent proxy execution used for defense evasion or lateral movement.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule bcfece3d_56fe_4545_9931_3b8e92927db1 {
+  meta:
+    title = "Winrs Local Command Execution"
+    description = "Detects the execution of Winrs.exe where it is used to execute commands locally. Commands executed this way are launched under Winrshost.exe and can represent proxy execution used for defense evasion or lateral movement."
+    author = "Liran Ravich, Nasreddine Bencherchali"
+    severity = "HIGH"
+
+  events:
+    (((($e.target.process.file.full_path = /.*\\winrs.exe$/ nocase) or ($e.target.process.file.name = "winrs.exe")) and (($e.target.process.command_line = /.*/r:localhost.*/ nocase or $e.target.process.command_line = /.*-r:localhost.*/ nocase or $e.target.process.command_line = /.*/r:127.0.0.1.*/ nocase or $e.target.process.command_line = /.*-r:127.0.0.1.*/ nocase or $e.target.process.command_line = /.*/r:[::1].*/ nocase or $e.target.process.command_line = /.*-r:[::1].*/ nocase or $e.target.process.command_line = /.*/remote:localhost.*/ nocase or $e.target.process.command_line = /.*-remote:localhost.*/ nocase or $e.target.process.command_line = /.*/remote:127.0.0.1.*/ nocase or $e.target.process.command_line = /.*-remote:127.0.0.1.*/ nocase or $e.target.process.command_line = /.*/remote:[::1].*/ nocase or $e.target.process.command_line = /.*-remote:[::1].*/ nocase))) or ((($e.target.process.file.full_path = /.*\\winrs.exe$/ nocase) or ($e.target.process.file.name = "winrs.exe")) and not((($e.target.process.command_line = /.*/r:.*/ nocase or $e.target.process.command_line = /.*-r:.*/ nocase or $e.target.process.command_line = /.*/remote:.*/ nocase or $e.target.process.command_line = /.*-remote:.*/ nocase)))))
+
+  condition:
+    $e
+}

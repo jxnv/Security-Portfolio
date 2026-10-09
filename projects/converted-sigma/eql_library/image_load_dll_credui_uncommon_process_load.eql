@@ -1,0 +1,11 @@
+// Title: CredUI.DLL Loaded By Uncommon Process
+// ID: 9ae01559-cf7e-4f8e-8e14-4c290a1b4784
+// Status: test
+// Level: medium
+// Author: Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research)
+// Date: 2020-10-20
+// Tags: attack.credential-access, attack.collection, attack.t1056.002
+// Description: Detects loading of "credui.dll" and related DLLs by an uncommon process. Attackers might leverage this DLL for potential use of "CredUIPromptForCredentials" or "CredUnPackAuthenticationBufferW".
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+any where ((((ImageLoaded endswith "\\credui.dll" or ImageLoaded endswith "\\wincredui.dll")) or ((process.pe.original_file_name == "credui.dll" or process.pe.original_file_name == "wincredui.dll"))) and not ((((process.executable == "C:\\Windows\\explorer.exe" or process.executable == "C:\\Windows\\ImmersiveControlPanel\\SystemSettings.exe" or process.executable == "C:\\Windows\\regedit.exe")) or ((process.executable startswith "C:\\Program Files (x86)\\" or process.executable startswith "C:\\Program Files\\" or process.executable startswith "C:\\Windows\\System32\\" or process.executable startswith "C:\\Windows\\SysWOW64\\" or process.executable startswith "C:\\Windows\\SystemApps\\")))) and not (((process.executable startswith "C:\\Users\\" and process.executable like "*_\\AppData\\Local\\Microsoft\\OneDrive\\*") or (process.executable endswith "\\opera_autoupdate.exe") or ((process.executable endswith "\\procexp64.exe" or process.executable endswith "\\procexp64a.exe" or process.executable endswith "\\procexp.exe")) or (process.executable startswith "C:\\Users\\" and process.executable like "*_\\AppData\\Local\\Microsoft\\Teams\\*" and process.executable endswith "\\Teams.exe"))))

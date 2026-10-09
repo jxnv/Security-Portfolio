@@ -1,0 +1,11 @@
+// Title: Registry Persistence via Service in Safe Mode
+// ID: 1547e27c-3974-43e2-a7d7-7f484fb928ec
+// Status: test
+// Level: high
+// Author: frack113
+// Date: 2022-04-04
+// Tags: attack.stealth, attack.t1564.001
+// Description: Detects the modification of the registry to allow a driver or service to persist in Safe Mode.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+DeviceProcessEvents | where (((RegistryKey contains "\\Control\\SafeBoot\\Minimal\\" or RegistryKey contains "\\Control\\SafeBoot\\Network\\") and RegistryKey endswith "\\(Default)" and RegistryValueData == "Service") and not(((FolderPath == "C:\\Hexnode\\Hexnode Agent\\Current\\HexnodeAgent.exe" and (RegistryKey endswith "\\Control\\SafeBoot\\Minimal\\Hexnode Updater\\(Default)" or RegistryKey endswith "\\Control\\SafeBoot\\Network\\Hexnode Updater\\(Default)" or RegistryKey endswith "\\Control\\SafeBoot\\Minimal\\Hexnode Agent\\(Default)" or RegistryKey endswith "\\Control\\SafeBoot\\Network\\Hexnode Agent\\(Default)") and RegistryValueData == "Service") or (FolderPath endswith "\\MBAMInstallerService.exe" and RegistryKey endswith "\\MBAMService\\(Default)" and RegistryValueData == "Service") or (FolderPath == "C:\\WINDOWS\\system32\\msiexec.exe" and (RegistryKey endswith "\\Control\\SafeBoot\\Minimal\\SAVService\\(Default)" or RegistryKey endswith "\\Control\\SafeBoot\\Network\\SAVService\\(Default)")))))

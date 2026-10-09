@@ -1,0 +1,11 @@
+// Title: Suspicious Curl.EXE Download
+// ID: e218595b-bbe7-4ee5-8a96-f32a24ad3468
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2020-07-03
+// Tags: attack.command-and-control, attack.t1105
+// Description: Detects a suspicious curl process start on Windows and outputs the requested document to a local file
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where (((process.executable="*\\curl.exe") OR (Product = "The curl executable")) AND (((process.command_line="*.dll" OR process.command_line="*.gif" OR process.command_line="*.jpeg" OR process.command_line="*.jpg" OR process.command_line="*.png" OR process.command_line="*.temp" OR process.command_line="*.tmp" OR process.command_line="*.txt" OR process.command_line="*.vbe" OR process.command_line="*.vbs")) OR ((process.command_line like "%%AppData%%" OR process.command_line like "%%Public%%" OR process.command_line like "%%Temp%%" OR process.command_line like "%%tmp%%" OR process.command_line like "%\\AppData\\%" OR process.command_line like "%\\Desktop\\%" OR process.command_line like "%\\Temp\\%" OR process.command_line like "%\\Users\\Public\\%" OR process.command_line like "%C:\\PerfLogs\\%" OR process.command_line like "%C:\\ProgramData\\%" OR process.command_line like "%C:\\Windows\\Temp\\%"))) AND NOT ((process.parent.executable = "C:\\Program Files\\Git\\usr\\bin\\sh.exe" AND process.executable = "C:\\Program Files\\Git\\mingw64\\bin\\curl.exe" AND (process.command_line like "%--silent --show-error --output %" AND process.command_line like "%gfw-httpget-%" AND process.command_line like "%AppData%"))))

@@ -1,0 +1,23 @@
+// Title: Uncommon One Time Only Scheduled Task At 00:00
+// ID: 970823b7-273b-460a-8afc-3a6811998529
+// Status: test
+// Level: high
+// Author: pH-T (Nextron Systems)
+// Date: 2022-07-15
+// Tags: attack.execution, attack.persistence, attack.privilege-escalation, attack.t1053.005
+// Description: Detects scheduled task creation events that include suspicious actions, and is run once at 00:00
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 970823b7_273b_460a_8afc_3a6811998529 {
+  meta:
+    title = "Uncommon One Time Only Scheduled Task At 00:00"
+    description = "Detects scheduled task creation events that include suspicious actions, and is run once at 00:00"
+    author = "pH-T (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*wscript.*/ nocase or $e.target.process.command_line = /.*vbscript.*/ nocase or $e.target.process.command_line = /.*cscript.*/ nocase or $e.target.process.command_line = /.*wmic .*/ nocase or $e.target.process.command_line = /.*wmic.exe.*/ nocase or $e.target.process.command_line = /.*regsvr32.exe.*/ nocase or $e.target.process.command_line = /.*powershell.*/ nocase or $e.target.process.command_line = /.*\\AppData\\.*/ nocase)) and (($e.target.process.file.full_path = /.*\\schtasks.exe.*/ nocase) or ($e.target.process.file.name = "schtasks.exe")) and (($e.target.process.command_line = /.*once.*/ nocase and $e.target.process.command_line = /.*00:00.*/ nocase)))
+
+  condition:
+    $e
+}

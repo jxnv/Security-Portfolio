@@ -1,0 +1,11 @@
+// Title: Suspicious Autorun Registry Modified via WMI
+// ID: c80e66d8-1780-48a9-b412-46663fd21ac0
+// Status: experimental
+// Level: high
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-02-17
+// Tags: attack.privilege-escalation, attack.execution, attack.persistence, attack.t1547.001, attack.t1047
+// Description: Detects suspicious activity where the WMIC process is used to create an autorun registry entry via reg.exe, which is often indicative of persistence mechanisms employed by malware.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((src.process.cmdline containsCIS "reg" AND src.process.cmdline containsCIS " add ") AND (src.process.cmdline containsCIS "\\Software\\Microsoft\\Windows\\CurrentVersion\\Run" OR src.process.cmdline containsCIS "\\Software\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Run" OR src.process.cmdline containsCIS "\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run")) AND ((src.process.image.path endswithCIS "\\wmic.exe") OR (OriginalFileName = "wmic.exe") OR (src.process.parent.image.path endswithCIS "\\wmiprvse.exe"))) AND (((src.process.cmdline containsCIS ":\\Perflogs" OR src.process.cmdline containsCIS ":\\ProgramData'" OR src.process.cmdline containsCIS ":\\Windows\\Temp" OR src.process.cmdline containsCIS ":\\Temp" OR src.process.cmdline containsCIS "\\AppData\\Local\\Temp" OR src.process.cmdline containsCIS "\\AppData\\Roaming" OR src.process.cmdline containsCIS ":\\$Recycle.bin" OR src.process.cmdline containsCIS ":\\Users\\Default" OR src.process.cmdline containsCIS ":\\Users\\public" OR src.process.cmdline containsCIS "%temp%" OR src.process.cmdline containsCIS "%tmp%" OR src.process.cmdline containsCIS "%Public%" OR src.process.cmdline containsCIS "%AppData%")) OR ((src.process.cmdline containsCIS ":\\Users\\") AND ((src.process.cmdline containsCIS "\\Favorites" OR src.process.cmdline containsCIS "\\Favourites" OR src.process.cmdline containsCIS "\\Contacts" OR src.process.cmdline containsCIS "\\Music" OR src.process.cmdline containsCIS "\\Pictures" OR src.process.cmdline containsCIS "\\Documents" OR src.process.cmdline containsCIS "\\Photos")))))

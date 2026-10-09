@@ -1,0 +1,12 @@
+// Title: Suspicious Copy From or To System Directory
+// ID: fff9d2b7-e11c-4a69-93d3-40ef66189767
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems), Markus Neis, Tim Shelton (HAWK.IO), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2020-07-03
+// Tags: attack.stealth, attack.t1036.003
+// Description: Detects a suspicious copy operation that tries to copy a program from system (System32, SysWOW64, WinSxS) directories to another on disk.
+// Often used to move LOLBINs such as 'certutil' or 'desktopimgdownldr' to a different location with a different name in order to bypass detections based on locations.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(Image IENDSWITH "\\cmd.exe") AND where(CommandLine ICONTAINS "copy ")) OR (((where(Image IENDSWITH "\\robocopy.exe") OR where(Image IENDSWITH "\\xcopy.exe"))) OR ((where(OriginalFileName = "robocopy.exe") OR where(OriginalFileName = "XCOPY.EXE")))) OR ((where(Image IENDSWITH "\\powershell.exe") OR where(Image IENDSWITH "\\pwsh.exe")) AND (where(CommandLine ICONTAINS "copy-item") OR where(CommandLine ICONTAINS " copy ") OR where(CommandLine ICONTAINS "cpi ") OR where(CommandLine ICONTAINS " cp ")))) AND (where(CommandLine /\s['"]?C:\\Windows\\(?:System32|SysWOW64|WinSxS)/)) AND NOT ((where(Image IENDSWITH "\\cmd.exe") AND (where(CommandLine ICONTAINS "/c copy") AND where(CommandLine ICONTAINS "\\Temp\\") AND where(CommandLine ICONTAINS "\\avira_system_speedup.exe")) AND (where(CommandLine ICONTAINS "C:\\Program Files\\Avira\\") OR where(CommandLine ICONTAINS "C:\\Program Files (x86)\\Avira\\")))))

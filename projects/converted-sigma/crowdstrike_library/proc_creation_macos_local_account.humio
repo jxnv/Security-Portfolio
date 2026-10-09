@@ -1,0 +1,12 @@
+// Title: Local System Accounts Discovery - MacOs
+// ID: ddf36b67-e872-4507-ab2e-46bda21b842c
+// Status: test
+// Level: low
+// Author: Alejandro Ortuno, oscd.community
+// Date: 2020-10-08
+// Tags: attack.discovery, attack.t1087.001
+// Description: Detects enumeration of local system accounts on MacOS systems.
+// This can be used by attackers to identify accounts for lateral movement or privilege escalation.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((ImageFileName = /.*/dscacheutil/i and (CommandLine = /*-q*/i and CommandLine = /*user*/i)) or (ImageFileName = /.*/dscl/i and (CommandLine = /*list*/i and CommandLine = /*/users*/i)) or (ImageFileName = /.*/ls/i and (CommandLine = /.*/Users/i or CommandLine = /.*/Users'/i or CommandLine = /.*/Users\"/i)) or (ImageFileName = /.*/id/i) or ((ImageFileName = /.*/who/i or ImageFileName = /.*/w/i or ImageFileName = /.*/users/i or ImageFileName = /.*/last/i)) or ((ImageFileName = /.*/defaults/i or ImageFileName = /.*/plutil/i) and CommandLine = /*com.apple.loginwindow*/i) or (ImageFileName = /.*/lsof/i and CommandLine = /*-u*/i) or ((ImageFileName = /.*/cat/i or ImageFileName = /.*/awk/i or ImageFileName = /.*/grep/i) and (CommandLine = /*/etc/passwd*/i or CommandLine = /*/etc/sudoers*/i)) or (CommandLine = /*'*:0:'*/i))

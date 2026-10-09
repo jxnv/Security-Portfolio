@@ -1,0 +1,11 @@
+-- Title: SQL Injection Strings In URI
+-- ID: 5513deaf-f49a-46c2-a6c8-3f111b5cb453
+-- Status: test
+-- Level: high
+-- Author: Saw Win Naung, Nasreddine Bencherchali (Nextron Systems), Thurein Oo (Yoma Bank)
+-- Date: 2020-02-22
+-- Tags: attack.initial-access, attack.t1190
+-- Description: Detects potential SQL injection attempts via GET requests in access logs.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM events WHERE ((cs-method = 'GET') AND (TEXT SEARCH '@@version' OR TEXT SEARCH '%271%27%3D%271' OR TEXT SEARCH '=select ' OR TEXT SEARCH '=select(' OR TEXT SEARCH '=select%20' OR TEXT SEARCH 'concat_ws(' OR TEXT SEARCH 'CONCAT(0x' OR TEXT SEARCH 'from mysql.innodb_table_stats' OR TEXT SEARCH 'from%20mysql.innodb_table_stats' OR TEXT SEARCH 'group_concat(' OR TEXT SEARCH 'information_schema.tables' OR TEXT SEARCH 'json_arrayagg(' OR TEXT SEARCH 'or 1=1#' OR TEXT SEARCH 'or%201=1#' OR TEXT SEARCH 'order by ' OR TEXT SEARCH 'order%20by%20' OR TEXT SEARCH 'select * ' OR TEXT SEARCH 'select database()' OR TEXT SEARCH 'select version()' OR TEXT SEARCH 'select%20*%20' OR TEXT SEARCH 'select%20database()' OR TEXT SEARCH 'select%20version()' OR TEXT SEARCH 'select%28sleep%2810%29' OR TEXT SEARCH 'SELECTCHAR(' OR TEXT SEARCH 'table_schema' OR TEXT SEARCH 'UNION ALL SELECT' OR TEXT SEARCH 'UNION SELECT' OR TEXT SEARCH 'UNION%20ALL%20SELECT' OR TEXT SEARCH 'UNION%20SELECT' OR TEXT SEARCH ''1'='1') AND NOT ((sc-status = 404)))

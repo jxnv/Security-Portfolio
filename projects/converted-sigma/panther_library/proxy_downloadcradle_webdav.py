@@ -1,0 +1,19 @@
+# Title: Windows WebDAV User Agent
+# ID: e09aed7a-09e0-4c9a-90dd-f0d52507347e
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems)
+# Date: 2018-04-06
+# Tags: attack.command-and-control, attack.t1071.001
+# Description: Detects WebDav DownloadCradle
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Windows WebDAV User Agent
+def rule(event):
+    # Detection Logic:
+    # (c-useragent="Microsoft-WebDAV-MiniRedir/*" AND cs-method="GET")
+    return True
+
+def title(event):
+    return "Windows WebDAV User Agent"
+

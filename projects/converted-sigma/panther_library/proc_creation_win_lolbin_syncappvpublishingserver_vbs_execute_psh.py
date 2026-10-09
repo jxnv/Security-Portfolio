@@ -1,0 +1,19 @@
+# Title: SyncAppvPublishingServer VBS Execute Arbitrary PowerShell Code
+# ID: 36475a7d-0f6d-4dce-9b01-6aeb473bbaf1
+# Status: test
+# Level: medium
+# Author: frack113
+# Date: 2021-07-16
+# Tags: attack.stealth, attack.t1218, attack.t1216
+# Description: Executes arbitrary PowerShell code using SyncAppvPublishingServer.vbs
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: SyncAppvPublishingServer VBS Execute Arbitrary PowerShell Code
+def rule(event):
+    # Detection Logic:
+    # ((CommandLine="*\\SyncAppvPublishingServer.vbs*" AND CommandLine="*;*"))
+    return True
+
+def title(event):
+    return "SyncAppvPublishingServer VBS Execute Arbitrary PowerShell Code"
+

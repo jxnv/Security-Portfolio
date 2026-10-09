@@ -1,0 +1,19 @@
+# Title: UAC Bypass via Event Viewer
+# ID: 7c81fec3-1c1d-43b0-996a-46753041b1b6
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems)
+# Date: 2017-03-19
+# Tags: attack.privilege-escalation, attack.t1548.002, car.2019-04-001
+# Description: Detects UAC bypass method using Windows event viewer
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: UAC Bypass via Event Viewer
+def rule(event):
+    # Detection Logic:
+    # (TargetObject="*\\mscfile\\shell\\open\\command")
+    return True
+
+def title(event):
+    return "UAC Bypass via Event Viewer"
+

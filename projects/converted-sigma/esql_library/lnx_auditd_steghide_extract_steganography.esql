@@ -1,0 +1,11 @@
+// Title: Steganography Extract Files with Steghide
+// ID: a5a827d9-1bbe-4952-9293-c59d897eb41b
+// Status: test
+// Level: low
+// Author: Pawel Mazur
+// Date: 2021-09-11
+// Tags: attack.stealth, attack.t1027.003
+// Description: Detects extraction of files with usage of steghide binary, the adversaries may use this technique to prevent the detection of hidden information.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE (type == "EXECVE" AND a0 == "steghide" AND a1 == "extract" AND a2 == "-sf" AND (a3 LIKE "%.jpg" OR a3 LIKE "%.png"))

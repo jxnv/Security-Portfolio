@@ -1,0 +1,11 @@
+-- Title: Renamed Whoami Execution
+-- ID: f1086bf7-a0c4-4a37-9102-01e573caf4a0
+-- Status: test
+-- Level: critical
+-- Author: Florian Roth (Nextron Systems)
+-- Date: 2021-08-12
+-- Tags: attack.discovery, attack.t1033, car.2016-03-001
+-- Description: Detects the execution of whoami that has been renamed to a different name to avoid detection
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE ((OriginalFileName = 'whoami.exe') AND NOT ((Image ILIKE '%\\whoami.exe')))

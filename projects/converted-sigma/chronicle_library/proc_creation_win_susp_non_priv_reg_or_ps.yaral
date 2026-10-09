@@ -1,0 +1,23 @@
+// Title: Non-privileged Usage of Reg or Powershell
+// ID: 8f02c935-effe-45b3-8fc9-ef8696a9e41d
+// Status: test
+// Level: high
+// Author: Teymur Kheirkhabarov (idea), Ryan Plas (rule), oscd.community
+// Date: 2020-10-05
+// Tags: attack.persistence, attack.defense-impairment, attack.t1112
+// Description: Search for usage of reg or Powershell by non-privileged users to modify service configuration in registry
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 8f02c935_effe_45b3_8fc9_ef8696a9e41d {
+  meta:
+    title = "Non-privileged Usage of Reg or Powershell"
+    description = "Search for usage of reg or Powershell by non-privileged users to modify service configuration in registry"
+    author = "Teymur Kheirkhabarov (idea), Ryan Plas (rule), oscd.community"
+    severity = "HIGH"
+
+  events:
+    (((($e.target.process.command_line = /.*reg .*/ nocase and $e.target.process.command_line = /.*add.*/ nocase)) or (($e.target.process.command_line = /.*powershell.*/ nocase or $e.target.process.command_line = /.*set-itemproperty.*/ nocase or $e.target.process.command_line = /.* sp .*/ nocase or $e.target.process.command_line = /.*new-itemproperty.*/ nocase))) and (($e.IntegrityLevel = "Medium" or $e.IntegrityLevel = "S-1-16-8192") and ($e.target.process.command_line = /.*ControlSet.*/ nocase and $e.target.process.command_line = /.*Services.*/ nocase) and ($e.target.process.command_line = /.*ImagePath.*/ nocase or $e.target.process.command_line = /.*FailureCommand.*/ nocase or $e.target.process.command_line = /.*ServiceDLL.*/ nocase)))
+
+  condition:
+    $e
+}

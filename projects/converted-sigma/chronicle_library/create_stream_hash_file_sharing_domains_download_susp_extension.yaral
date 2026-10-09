@@ -1,0 +1,23 @@
+// Title: Suspicious File Download From File Sharing Websites -  File Stream
+// ID: 52182dfb-afb7-41db-b4bc-5336cb29b464
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-08-24
+// Tags: attack.stealth, attack.s0139, attack.t1564.004
+// Description: Detects the download of suspicious file type from a well-known file and paste sharing domain
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 52182dfb_afb7_41db_b4bc_5336cb29b464 {
+  meta:
+    title = "Suspicious File Download From File Sharing Websites -  File Stream"
+    description = "Detects the download of suspicious file type from a well-known file and paste sharing domain"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.Contents = /.*.githubusercontent.com.*/ nocase or $e.Contents = /.*0x0.st.*/ nocase or $e.Contents = /.*anonfiles.com.*/ nocase or $e.Contents = /.*bashupload.com.*/ nocase or $e.Contents = /.*cdn.discordapp.com.*/ nocase or $e.Contents = /.*chunk.io.*/ nocase or $e.Contents = /.*ddns.net.*/ nocase or $e.Contents = /.*dl.dropboxusercontent.com.*/ nocase or $e.Contents = /.*ghostbin.co.*/ nocase or $e.Contents = /.*github.com.*/ nocase or $e.Contents = /.*glitch.me.*/ nocase or $e.Contents = /.*gofile.io.*/ nocase or $e.Contents = /.*hastebin.com.*/ nocase or $e.Contents = /.*mediafire.com.*/ nocase or $e.Contents = /.*mega.nz.*/ nocase or $e.Contents = /.*onrender.com.*/ nocase or $e.Contents = /.*pages.dev.*/ nocase or $e.Contents = /.*paste.ee.*/ nocase or $e.Contents = /.*pastebin.com.*/ nocase or $e.Contents = /.*pastebin.pl.*/ nocase or $e.Contents = /.*pastetext.net.*/ nocase or $e.Contents = /.*pixeldrain.com.*/ nocase or $e.Contents = /.*privatlab.com.*/ nocase or $e.Contents = /.*privatlab.net.*/ nocase or $e.Contents = /.*send.exploit.in.*/ nocase or $e.Contents = /.*sendspace.com.*/ nocase or $e.Contents = /.*storage.googleapis.com.*/ nocase or $e.Contents = /.*storjshare.io.*/ nocase or $e.Contents = /.*supabase.co.*/ nocase or $e.Contents = /.*temp.sh.*/ nocase or $e.Contents = /.*transfer.sh.*/ nocase or $e.Contents = /.*trycloudflare.com.*/ nocase or $e.Contents = /.*ufile.io.*/ nocase or $e.Contents = /.*w3spaces.com.*/ nocase or $e.Contents = /.*workers.dev.*/ nocase or $e.Contents = /.*x0.at.*/ nocase)) and (($e.target.file.full_path = /.*.cpl:Zone.*/ nocase or $e.target.file.full_path = /.*.dll:Zone.*/ nocase or $e.target.file.full_path = /.*.exe:Zone.*/ nocase or $e.target.file.full_path = /.*.hta:Zone.*/ nocase or $e.target.file.full_path = /.*.lnk:Zone.*/ nocase or $e.target.file.full_path = /.*.one:Zone.*/ nocase or $e.target.file.full_path = /.*.vbe:Zone.*/ nocase or $e.target.file.full_path = /.*.vbs:Zone.*/ nocase or $e.target.file.full_path = /.*.xll:Zone.*/ nocase)))
+
+  condition:
+    $e
+}

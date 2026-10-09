@@ -1,0 +1,11 @@
+// Title: Renamed AutoHotkey.EXE Execution
+// ID: 0f16d9cf-0616-45c8-8fad-becc11b5a41c
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali
+// Date: 2023-02-07
+// Tags: attack.stealth
+// Description: Detects execution of a renamed autohotkey.exe binary based on PE metadata fields
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where (((Product like "*_AutoHotkey*") or (Description like "*_AutoHotkey*") or ((process.pe.original_file_name == "AutoHotkey.exe" or process.pe.original_file_name == "AutoHotkey.rc"))) and not ((((process.executable endswith "\\AutoHotkey.exe" or process.executable endswith "\\AutoHotkey32.exe" or process.executable endswith "\\AutoHotkey32_UIA.exe" or process.executable endswith "\\AutoHotkey64.exe" or process.executable endswith "\\AutoHotkey64_UIA.exe" or process.executable endswith "\\AutoHotkeyA32.exe" or process.executable endswith "\\AutoHotkeyA32_UIA.exe" or process.executable endswith "\\AutoHotkeyU32.exe" or process.executable endswith "\\AutoHotkeyU32_UIA.exe" or process.executable endswith "\\AutoHotkeyU64.exe" or process.executable endswith "\\AutoHotkeyU64_UIA.exe")) or (process.executable like "*_\\AutoHotkey*"))))

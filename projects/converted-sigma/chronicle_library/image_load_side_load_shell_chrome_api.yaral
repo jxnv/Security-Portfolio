@@ -1,0 +1,24 @@
+// Title: DLL Sideloading Of ShellChromeAPI.DLL
+// ID: ee4c5d06-3abc-48cc-8885-77f1c20f4451
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-12-01
+// Tags: attack.persistence, attack.privilege-escalation, attack.execution, attack.stealth, attack.t1574.001
+// Description: Detects processes loading the non-existent DLL "ShellChromeAPI". One known example is the "DeviceEnroller" binary in combination with the "PhoneDeepLink" flag tries to load this DLL.
+// Adversaries can drop their own renamed DLL and execute it via DeviceEnroller.exe using this parameter
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule ee4c5d06_3abc_48cc_8885_77f1c20f4451 {
+  meta:
+    title = "DLL Sideloading Of ShellChromeAPI.DLL"
+    description = "Detects processes loading the non-existent DLL "ShellChromeAPI". One known example is the "DeviceEnroller" binary in combination with the "PhoneDeepLink" flag tries to load this DLL. Adversaries can drop their own renamed DLL and execute it via DeviceEnroller.exe using this parameter"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ($e.ImageLoaded = /.*\\ShellChromeAPI.dll$/ nocase)
+
+  condition:
+    $e
+}

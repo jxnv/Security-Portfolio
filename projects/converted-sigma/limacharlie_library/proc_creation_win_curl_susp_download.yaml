@@ -1,0 +1,22 @@
+# Title: Suspicious Curl.EXE Download
+# ID: e218595b-bbe7-4ee5-8a96-f32a24ad3468
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+# Date: 2020-07-03
+# Tags: attack.command-and-control, attack.t1105
+# Description: Detects a suspicious curl process start on Windows and outputs the requested document to a local file
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# LimaCharlie Detection & Response Rule
+# Name: Suspicious Curl.EXE Download
+detect:
+  event: process_creation
+  op: and
+  rules:
+    # Filter logic:
+    # (((Image="*\\curl.exe") OR (Product="The curl executable")) AND (((CommandLine="*.dll" OR CommandLine="*.gif" OR CommandLine="*.jpeg" OR CommandLine="*.jpg" OR CommandLine="*.png" OR CommandLine="*.temp" OR CommandLine="*.tmp" OR CommandLine="*.txt" OR CommandLine="*.vbe" OR CommandLine="*.vbs")) OR ((CommandLine="*%AppData%*" OR CommandLine="*%Public%*" OR CommandLine="*%Temp%*" OR CommandLine="*%tmp%*" OR CommandLine="*\\AppData\\*" OR CommandLine="*\\Desktop\\*" OR CommandLine="*\\Temp\\*" OR CommandLine="*\\Users\\Public\\*" OR CommandLine="*C:\\PerfLogs\\*" OR CommandLine="*C:\\ProgramData\\*" OR CommandLine="*C:\\Windows\\Temp\\*"))) AND NOT ((ParentImage="C:\\Program Files\\Git\\usr\\bin\\sh.exe" AND Image="C:\\Program Files\\Git\\mingw64\\bin\\curl.exe" AND (CommandLine="*--silent --show-error --output *" AND CommandLine="*gfw-httpget-*" AND CommandLine="*AppData*"))))
+respond:
+  - action: report
+    name: Suspicious Curl.EXE Download
+

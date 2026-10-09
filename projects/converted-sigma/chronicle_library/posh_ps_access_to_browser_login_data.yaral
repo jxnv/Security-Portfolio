@@ -1,0 +1,25 @@
+// Title: Access to Browser Login Data
+// ID: fc028194-969d-4122-8abe-0470d5b8f12f
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-01-30
+// Tags: attack.credential-access, attack.t1555.003
+// Description: Adversaries may acquire credentials from web browsers by reading files specific to the target browser.
+// Web browsers commonly save credentials such as website usernames and passwords so that they do not need to be entered manually in the future.
+// Web browsers typically store the credentials in an encrypted format within a credential store.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule fc028194_969d_4122_8abe_0470d5b8f12f {
+  meta:
+    title = "Access to Browser Login Data"
+    description = "Adversaries may acquire credentials from web browsers by reading files specific to the target browser. Web browsers commonly save credentials such as website usernames and passwords so that they do not need to be entered manually in the future. Web browsers typically store the credentials in an encrypted format within a credential store."
+    author = "frack113"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.ScriptBlockText = /.*Copy-Item.*/ nocase and $e.ScriptBlockText = /.*-Destination.*/ nocase)) and (($e.ScriptBlockText = /.*\\Opera Software\\Opera Stable\\Login Data.*/ nocase or $e.ScriptBlockText = /.*\\Mozilla\\Firefox\\Profiles.*/ nocase or $e.ScriptBlockText = /.*\\Microsoft\\Edge\\User Data\\Default.*/ nocase or $e.ScriptBlockText = /.*\\Google\\Chrome\\User Data\\Default\\Login Data.*/ nocase or $e.ScriptBlockText = /.*\\Google\\Chrome\\User Data\\Default\\Login Data For Account.*/ nocase)))
+
+  condition:
+    $e
+}

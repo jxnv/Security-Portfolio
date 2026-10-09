@@ -1,0 +1,23 @@
+// Title: LSASS Process Reconnaissance Via Findstr.EXE
+// ID: fe63010f-8823-4864-a96b-a7b4a0f7b929
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-08-12
+// Tags: attack.credential-access, attack.t1552.006
+// Description: Detects findstring commands that include the keyword lsass, which indicates recon actviity for the LSASS process PID
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule fe63010f_8823_4864_a96b_a7b4a0f7b929 {
+  meta:
+    title = "LSASS Process Reconnaissance Via Findstr.EXE"
+    description = "Detects findstring commands that include the keyword lsass, which indicates recon actviity for the LSASS process PID"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*lsass.*/ nocase) and ((($e.target.process.file.full_path = /.*\\find.exe$/ nocase or $e.target.process.file.full_path = /.*\\findstr.exe$/ nocase)) or (($e.target.process.file.name = "FIND.EXE" or $e.target.process.file.name = "FINDSTR.EXE")))) or (($e.target.process.command_line = /.* /i \"lsass.*/ nocase or $e.target.process.command_line = /.* /i lsass.exe.*/ nocase or $e.target.process.command_line = /.*findstr \"lsass.*/ nocase or $e.target.process.command_line = /.*findstr lsass.*/ nocase or $e.target.process.command_line = /.*findstr.exe \"lsass.*/ nocase or $e.target.process.command_line = /.*findstr.exe lsass.*/ nocase)))
+
+  condition:
+    $e
+}

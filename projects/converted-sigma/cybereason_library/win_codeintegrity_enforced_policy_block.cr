@@ -1,0 +1,11 @@
+// Title: CodeIntegrity - Blocked Image/Driver Load For Policy Violation
+// ID: e4be5675-4a53-426a-8c81-a8bb2387e947
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-11-10
+// Tags: attack.persistence, attack.privilege-escalation, attack.t1543
+// Description: Detects blocked load events that did not meet the authenticode signing level requirements or violated the code integrity policy.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(EventID == "3077")

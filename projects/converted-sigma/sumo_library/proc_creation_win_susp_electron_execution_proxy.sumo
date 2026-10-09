@@ -1,0 +1,11 @@
+// Title: Potentially Suspicious Electron Application CommandLine
+// ID: 378a05d8-963c-46c9-bcce-13c7657eac99
+// Status: test
+// Level: medium
+// Author: frack113, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-09-05
+// Tags: attack.execution
+// Description: Detects potentially suspicious CommandLine of electron apps (teams, discord, slack, etc.). This could be a sign of abuse to proxy execution through a signed binary.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where (((CommandLine matches "*--browser-subprocess-path*" or CommandLine matches "*--gpu-launcher*" or CommandLine matches "*--renderer-cmd-prefix*" or CommandLine matches "*--utility-cmd-prefix*")) and (((Image matches "*\\chrome.exe" or Image matches "*\\code.exe" or Image matches "*\\discord.exe" or Image matches "*\\GitHubDesktop.exe" or Image matches "*\\keybase.exe" or Image matches "*\\msedge_proxy.exe" or Image matches "*\\msedge.exe" or Image matches "*\\msedgewebview2.exe" or Image matches "*\\msteams.exe" or Image matches "*\\slack.exe" or Image matches "*\\Teams.exe")) or ((OriginalFileName = "chrome.exe" or OriginalFileName = "code.exe" or OriginalFileName = "discord.exe" or OriginalFileName = "GitHubDesktop.exe" or OriginalFileName = "keybase.exe" or OriginalFileName = "msedge_proxy.exe" or OriginalFileName = "msedge.exe" or OriginalFileName = "msedgewebview2.exe" or OriginalFileName = "msteams.exe" or OriginalFileName = "slack.exe" or OriginalFileName = "Teams.exe"))))

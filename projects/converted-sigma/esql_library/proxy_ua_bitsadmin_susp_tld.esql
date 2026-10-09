@@ -1,0 +1,11 @@
+// Title: Bitsadmin to Uncommon TLD
+// ID: 9eb68894-7476-4cd6-8752-23b51f5883a7
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Tim Shelton
+// Date: 2019-03-07
+// Tags: attack.command-and-control, attack.execution, attack.stealth, attack.t1071.001, attack.persistence, attack.t1197, attack.s0190
+// Description: Detects Bitsadmin connections to domains with uncommon TLDs
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE ((c-useragent LIKE "Microsoft BITS/%") AND NOT (((cs-host LIKE "%.com" OR cs-host LIKE "%.microsoft" OR cs-host LIKE "%.net" OR cs-host LIKE "%.org" OR cs-host LIKE "%.scdn.co" OR cs-host LIKE "%.sfx.ms"))))

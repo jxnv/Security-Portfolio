@@ -1,0 +1,11 @@
+// Title: Portable Gpg.EXE Execution
+// ID: 77df53a5-1d78-4f32-bc5a-0e7465bd8f41
+// Status: test
+// Level: medium
+// Author: frack113, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-08-06
+// Tags: attack.impact, attack.t1486
+// Description: Detects the execution of "gpg.exe" from uncommon location. Often used by ransomware and loaders to decrypt/encrypt data.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((where(Image IENDSWITH "\\gpg.exe") OR where(Image IENDSWITH "\\gpg2.exe"))) OR (where(OriginalFileName = "gpg.exe")) OR (where(Description = "GnuPG’s OpenPGP tool"))) AND NOT (((where(Image ICONTAINS ":\\Program Files (x86)\\GNU\\GnuPG\\bin\\") OR where(Image ICONTAINS ":\\Program Files (x86)\\GnuPG VS-Desktop\\") OR where(Image ICONTAINS ":\\Program Files (x86)\\GnuPG\\bin\\") OR where(Image ICONTAINS ":\\Program Files (x86)\\Gpg4win\\bin\\")))))

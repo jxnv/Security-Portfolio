@@ -1,0 +1,12 @@
+-- Title: Manipulation of User Computer or Group Security Principals Across AD
+-- ID: b29a93fb-087c-4b5b-a84d-ee3309e69d08
+-- Status: test
+-- Level: medium
+-- Author: frack113
+-- Date: 2021-12-28
+-- Tags: attack.persistence, attack.t1136.002
+-- Description: Adversaries may create a domain account to maintain access to victim systems.
+-- Domain accounts are those managed by Active Directory Domain Services where access and permissions are configured across systems and services that are part of that domain..
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE (ScriptBlockText ILIKE '%System.DirectoryServices.AccountManagement%')

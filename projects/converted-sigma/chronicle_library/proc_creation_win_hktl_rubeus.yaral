@@ -1,0 +1,23 @@
+// Title: HackTool - Rubeus Execution
+// ID: 7ec2c172-dceb-4c10-92c9-87c1881b7e18
+// Status: stable
+// Level: critical
+// Author: Florian Roth (Nextron Systems)
+// Date: 2018-12-19
+// Tags: attack.credential-access, attack.t1003, attack.t1558.003, attack.lateral-movement, attack.t1550.003
+// Description: Detects the execution of the hacktool Rubeus via PE information of command line parameters
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 7ec2c172_dceb_4c10_92c9_87c1881b7e18 {
+  meta:
+    title = "HackTool - Rubeus Execution"
+    description = "Detects the execution of the hacktool Rubeus via PE information of command line parameters"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "CRITICAL"
+
+  events:
+    (($e.target.process.file.full_path = /.*\\Rubeus.exe$/ nocase) or ($e.target.process.file.name = "Rubeus.exe") or ($e.Description = "Rubeus") or (($e.target.process.command_line = /.*asreproast .*/ nocase or $e.target.process.command_line = /.*dump /service:krbtgt .*/ nocase or $e.target.process.command_line = /.*dump /luid:0x.*/ nocase or $e.target.process.command_line = /.*kerberoast .*/ nocase or $e.target.process.command_line = /.*createnetonly /program:.*/ nocase or $e.target.process.command_line = /.*ptt /ticket:.*/ nocase or $e.target.process.command_line = /.*/impersonateuser:.*/ nocase or $e.target.process.command_line = /.*renew /ticket:.*/ nocase or $e.target.process.command_line = /.*asktgt /user:.*/ nocase or $e.target.process.command_line = /.*harvest /interval:.*/ nocase or $e.target.process.command_line = /.*s4u /user:.*/ nocase or $e.target.process.command_line = /.*s4u /ticket:.*/ nocase or $e.target.process.command_line = /.*hash /password:.*/ nocase or $e.target.process.command_line = /.*golden /aes256:.*/ nocase or $e.target.process.command_line = /.*silver /user:.*/ nocase)))
+
+  condition:
+    $e
+}

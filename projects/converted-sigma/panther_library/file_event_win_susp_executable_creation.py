@@ -1,0 +1,20 @@
+# Title: Suspicious Executable File Creation
+# ID: 74babdd6-a758-4549-9632-26535279e654
+# Status: test
+# Level: high
+# Author: frack113
+# Date: 2022-09-05
+# Tags: attack.stealth, attack.t1564
+# Description: Detect creation of suspicious executable file names.
+# Some strings look for suspicious file extensions, others look for filenames that exploit unquoted service paths.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Suspicious Executable File Creation
+def rule(event):
+    # Detection Logic:
+    # ((TargetFilename="*:\\$Recycle.Bin.exe" OR TargetFilename="*:\\Documents and Settings.exe" OR TargetFilename="*:\\MSOCache.exe" OR TargetFilename="*:\\PerfLogs.exe" OR TargetFilename="*:\\Recovery.exe" OR TargetFilename="*.bat.exe" OR TargetFilename="*.sys.exe"))
+    return True
+
+def title(event):
+    return "Suspicious Executable File Creation"
+

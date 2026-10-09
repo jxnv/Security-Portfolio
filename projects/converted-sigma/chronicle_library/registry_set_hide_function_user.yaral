@@ -1,0 +1,23 @@
+// Title: Registry Hide Function from User
+// ID: 5a93eb65-dffa-4543-b761-94aa60098fb6
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-03-18
+// Tags: attack.persistence, attack.defense-impairment, attack.t1112
+// Description: Detects registry modifications that hide internal tools or functions from the user (malware like Agent Tesla, Hermetic Wiper uses this technique)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 5a93eb65_dffa_4543_b761_94aa60098fb6 {
+  meta:
+    title = "Registry Hide Function from User"
+    description = "Detects registry modifications that hide internal tools or functions from the user (malware like Agent Tesla, Hermetic Wiper uses this technique)"
+    author = "frack113"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.TargetObject = /.*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\ShowInfoTip$/ nocase or $e.TargetObject = /.*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\ShowCompColor$/ nocase) and $e.Details = "DWORD (0x00000000)") or (($e.TargetObject = /.*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\HideClock$/ nocase or $e.TargetObject = /.*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\HideSCAHealth$/ nocase or $e.TargetObject = /.*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\HideSCANetwork$/ nocase or $e.TargetObject = /.*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\HideSCAPower$/ nocase or $e.TargetObject = /.*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\HideSCAVolume$/ nocase) and $e.Details = "DWORD (0x00000001)"))
+
+  condition:
+    $e
+}

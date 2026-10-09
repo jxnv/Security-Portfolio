@@ -1,0 +1,19 @@
+# Title: Hiding User Account Via SpecialAccounts Registry Key - CommandLine
+# ID: 9ec9fb1b-e059-4489-9642-f270c207923d
+# Status: test
+# Level: medium
+# Author: @Kostastsale, TheDFIRReport
+# Date: 2022-05-14
+# Tags: attack.stealth, attack.t1564.002
+# Description: Detects changes to the registry key "HKLM\Software\Microsoft\Windows NT\CurrentVersion\Winlogon\SpecialAccounts\Userlist" where the value is set to "0" in order to hide user account from being listed on the logon screen.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Hiding User Account Via SpecialAccounts Registry Key - CommandLine
+def rule(event):
+    # Detection Logic:
+    # (Image="*\\reg.exe" AND (CommandLine="*\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\SpecialAccounts\\UserList*" AND CommandLine="*add*" AND CommandLine="*/v*" AND CommandLine="*/d 0*"))
+    return True
+
+def title(event):
+    return "Hiding User Account Via SpecialAccounts Registry Key - CommandLine"
+

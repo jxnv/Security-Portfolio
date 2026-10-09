@@ -1,0 +1,23 @@
+// Title: Potentially Suspicious Execution Of PDQDeployRunner
+// ID: 12b8e9f5-96b2-41e1-9a42-8c6779a5c184
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-07-22
+// Tags: attack.execution
+// Description: Detects suspicious execution of "PDQDeployRunner" which is part of the PDQDeploy service stack that is responsible for executing commands and packages on a remote machines
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 12b8e9f5_96b2_41e1_9a42_8c6779a5c184 {
+  meta:
+    title = "Potentially Suspicious Execution Of PDQDeployRunner"
+    description = "Detects suspicious execution of "PDQDeployRunner" which is part of the PDQDeploy service stack that is responsible for executing commands and packages on a remote machines"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (((($e.target.process.file.full_path = /.*\\bash.exe$/ nocase or $e.target.process.file.full_path = /.*\\certutil.exe$/ nocase or $e.target.process.file.full_path = /.*\\cmd.exe$/ nocase or $e.target.process.file.full_path = /.*\\csc.exe$/ nocase or $e.target.process.file.full_path = /.*\\cscript.exe$/ nocase or $e.target.process.file.full_path = /.*\\dllhost.exe$/ nocase or $e.target.process.file.full_path = /.*\\mshta.exe$/ nocase or $e.target.process.file.full_path = /.*\\msiexec.exe$/ nocase or $e.target.process.file.full_path = /.*\\regsvr32.exe$/ nocase or $e.target.process.file.full_path = /.*\\rundll32.exe$/ nocase or $e.target.process.file.full_path = /.*\\scriptrunner.exe$/ nocase or $e.target.process.file.full_path = /.*\\wmic.exe$/ nocase or $e.target.process.file.full_path = /.*\\wscript.exe$/ nocase or $e.target.process.file.full_path = /.*\\wsl.exe$/ nocase)) or (($e.target.process.file.full_path = /.*:\\ProgramData\\.*/ nocase or $e.target.process.file.full_path = /.*:\\Users\\Public\\.*/ nocase or $e.target.process.file.full_path = /.*:\\Windows\\TEMP\\.*/ nocase or $e.target.process.file.full_path = /.*\\AppData\\Local\\Temp.*/ nocase)) or (($e.target.process.command_line = /.* -decode .*/ nocase or $e.target.process.command_line = /.* -enc .*/ nocase or $e.target.process.command_line = /.* -encodedcommand .*/ nocase or $e.target.process.command_line = /.* -w hidden.*/ nocase or $e.target.process.command_line = /.*DownloadString.*/ nocase or $e.target.process.command_line = /.*FromBase64String.*/ nocase or $e.target.process.command_line = /.*http.*/ nocase or $e.target.process.command_line = /.*iex .*/ nocase or $e.target.process.command_line = /.*Invoke-.*/ nocase))) and ($e.principal.process.file.full_path = /.*\\PDQDeployRunner-.*/ nocase))
+
+  condition:
+    $e
+}

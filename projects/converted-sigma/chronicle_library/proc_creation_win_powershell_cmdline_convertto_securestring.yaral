@@ -1,0 +1,23 @@
+// Title: ConvertTo-SecureString Cmdlet Usage Via CommandLine
+// ID: 74403157-20f5-415d-89a7-c505779585cf
+// Status: test
+// Level: medium
+// Author: Teymur Kheirkhabarov (idea), Vasiliy Burov (rule), oscd.community, Tim Shelton
+// Date: 2020-10-11
+// Tags: attack.stealth, attack.t1027, attack.execution, attack.t1059.001
+// Description: Detects usage of the "ConvertTo-SecureString" cmdlet via the commandline. Which is fairly uncommon and could indicate potential suspicious activity
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 74403157_20f5_415d_89a7_c505779585cf {
+  meta:
+    title = "ConvertTo-SecureString Cmdlet Usage Via CommandLine"
+    description = "Detects usage of the "ConvertTo-SecureString" cmdlet via the commandline. Which is fairly uncommon and could indicate potential suspicious activity"
+    author = "Teymur Kheirkhabarov (idea), Vasiliy Burov (rule), oscd.community, Tim Shelton"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.process.command_line = /.*ConvertTo-SecureString.*/ nocase) and ((($e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase)) or (($e.target.process.file.name = "PowerShell.EXE" or $e.target.process.file.name = "pwsh.dll"))))
+
+  condition:
+    $e
+}

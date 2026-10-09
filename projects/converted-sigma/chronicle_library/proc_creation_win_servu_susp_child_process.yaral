@@ -1,0 +1,23 @@
+// Title: Suspicious Serv-U Process Pattern
+// ID: 58f4ea09-0fc2-4520-ba18-b85c540b0eaf
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2021-07-14
+// Tags: attack.credential-access, attack.t1555, cve.2021-35211
+// Description: Detects a suspicious process pattern which could be a sign of an exploited Serv-U service
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 58f4ea09_0fc2_4520_ba18_b85c540b0eaf {
+  meta:
+    title = "Suspicious Serv-U Process Pattern"
+    description = "Detects a suspicious process pattern which could be a sign of an exploited Serv-U service"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ($e.principal.process.file.full_path = /.*\\Serv-U.exe$/ nocase and ($e.target.process.file.full_path = /.*\\cmd.exe$/ nocase or $e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase or $e.target.process.file.full_path = /.*\\wscript.exe$/ nocase or $e.target.process.file.full_path = /.*\\cscript.exe$/ nocase or $e.target.process.file.full_path = /.*\\sh.exe$/ nocase or $e.target.process.file.full_path = /.*\\bash.exe$/ nocase or $e.target.process.file.full_path = /.*\\schtasks.exe$/ nocase or $e.target.process.file.full_path = /.*\\regsvr32.exe$/ nocase or $e.target.process.file.full_path = /.*\\wmic.exe$/ nocase or $e.target.process.file.full_path = /.*\\mshta.exe$/ nocase or $e.target.process.file.full_path = /.*\\rundll32.exe$/ nocase or $e.target.process.file.full_path = /.*\\msiexec.exe$/ nocase or $e.target.process.file.full_path = /.*\\forfiles.exe$/ nocase or $e.target.process.file.full_path = /.*\\scriptrunner.exe$/ nocase))
+
+  condition:
+    $e
+}

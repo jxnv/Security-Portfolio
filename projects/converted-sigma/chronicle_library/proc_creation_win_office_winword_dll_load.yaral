@@ -1,0 +1,23 @@
+// Title: Potential Arbitrary DLL Load Using Winword
+// ID: f7375e28-5c14-432f-b8d1-1db26c832df3
+// Status: test
+// Level: medium
+// Author: Victor Sergeev, oscd.community
+// Date: 2020-10-09
+// Tags: attack.stealth, attack.t1202
+// Description: Detects potential DLL sideloading using the Microsoft Office winword process via the '/l' flag.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule f7375e28_5c14_432f_b8d1_1db26c832df3 {
+  meta:
+    title = "Potential Arbitrary DLL Load Using Winword"
+    description = "Detects potential DLL sideloading using the Microsoft Office winword process via the '/l' flag."
+    author = "Victor Sergeev, oscd.community"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.command_line = /.*/l .*/ nocase and $e.target.process.command_line = /.*.dll.*/ nocase)) and (($e.target.process.file.full_path = /.*\\WINWORD.exe$/ nocase) or ($e.target.process.file.name = "WinWord.exe")))
+
+  condition:
+    $e
+}

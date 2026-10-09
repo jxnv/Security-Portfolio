@@ -1,0 +1,16 @@
+<!--
+  Title: Uncommon Svchost Command Line Parameter
+  ID: f17211f1-1f24-4d0c-829f-31e28dc93cdd
+  Status: experimental
+  Level: high
+  Author: Liran Ravich
+  Date: 2025-11-14
+  Description: Detects instances of svchost.exe running with an unusual or uncommon command line parameter by excluding known legitimate or common patterns. This could point at a file masquerading as svchost, a process injection, or hollowing of a legitimate svchost instance.
+-->
+
+<group name="sigma_converted,">
+  <rule id="100001" level="10">
+    <description>Uncommon Svchost Command Line Parameter</description>
+    <match>((Image=\"*\\\\svchost.exe\") AND NOT (((CommandLine=\"\") OR (CommandLine=regex(\"-k\\\\s\\\\w{1,64}(?:\\\\s?(?:-p|-s))?\")) OR (NOT </match>
+  </rule>
+</group>

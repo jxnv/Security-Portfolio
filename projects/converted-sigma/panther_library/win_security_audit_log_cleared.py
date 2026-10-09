@@ -1,0 +1,19 @@
+# Title: Security Eventlog Cleared
+# ID: d99b79d2-0a6f-4f46-ad8b-260b6e17f982
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems)
+# Date: 2017-01-10
+# Tags: attack.defense-impairment, attack.t1685.005, car.2016-04-002
+# Description: One of the Windows Eventlogs has been cleared. e.g. caused by "wevtutil cl" command execution
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Security Eventlog Cleared
+def rule(event):
+    # Detection Logic:
+    # ((EventID="1102" AND Provider_Name="Microsoft-Windows-Eventlog") OR (EventID="517" AND Provider_Name="Security"))
+    return True
+
+def title(event):
+    return "Security Eventlog Cleared"
+

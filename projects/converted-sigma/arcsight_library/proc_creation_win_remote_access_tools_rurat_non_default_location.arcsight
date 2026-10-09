@@ -1,0 +1,11 @@
+// Title: Remote Access Tool - RURAT Execution From Unusual Location
+// ID: e01fa958-6893-41d4-ae03-182477c5e77d
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-09-19
+// Tags: attack.stealth
+// Description: Detects execution of Remote Utilities RAT (RURAT) from an unusual location (outside of 'C:\Program Files')
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((Image ENDSWITH "\\rutserv.exe" OR Image ENDSWITH "\\rfusclient.exe")) OR (Product EQ "Remote Utilities")) AND NOT (((Image STARTSWITH "C:\\Program Files\\Remote Utilities" OR Image STARTSWITH "C:\\Program Files (x86)\\Remote Utilities"))))

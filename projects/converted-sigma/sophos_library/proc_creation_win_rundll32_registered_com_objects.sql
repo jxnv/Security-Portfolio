@@ -1,0 +1,11 @@
+-- Title: Rundll32 Registered COM Objects
+-- ID: f1edd233-30b5-4823-9e6a-c4171b24d316
+-- Status: test
+-- Level: high
+-- Author: frack113
+-- Date: 2022-02-13
+-- Tags: attack.privilege-escalation, attack.persistence, attack.t1546.015
+-- Description: load malicious registered COM objects
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE (((CommandLine ILIKE '%-sta %' OR CommandLine ILIKE '%-localserver %') AND (CommandLine ILIKE '%{%' AND CommandLine ILIKE '%}%')) AND ((Image ILIKE '%\\rundll32.exe') OR (OriginalFileName = 'RUNDLL32.EXE')))

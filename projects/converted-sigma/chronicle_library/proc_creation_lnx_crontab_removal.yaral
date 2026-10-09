@@ -1,0 +1,24 @@
+// Title: Remove Scheduled Cron Task/Job
+// ID: c2e234de-03a3-41e1-b39a-1e56dc17ba67
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-09-15
+// Tags: attack.stealth
+// Description: Detects usage of the 'crontab' utility to remove the current crontab.
+// This is a common occurrence where cryptocurrency miners compete against each other by removing traces of other miners to hijack the maximum amount of resources possible
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule c2e234de_03a3_41e1_b39a_1e56dc17ba67 {
+  meta:
+    title = "Remove Scheduled Cron Task/Job"
+    description = "Detects usage of the 'crontab' utility to remove the current crontab. This is a common occurrence where cryptocurrency miners compete against each other by removing traces of other miners to hijack the maximum amount of resources possible"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ($e.target.process.file.full_path = /.*crontab$/ nocase and $e.target.process.command_line = /.* -r.*/ nocase)
+
+  condition:
+    $e
+}

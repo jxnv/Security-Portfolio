@@ -1,0 +1,34 @@
+{
+  "title": "Sysinternals PsService Execution",
+  "id": "3371f518-5fe3-4cf6-a14b-2a0ae3fd8a4f",
+  "status": "test",
+  "description": "Detects usage of Sysinternals PsService which can be abused for service reconnaissance and tampering",
+  "author": "Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2022-06-16",
+  "tags": [
+    "attack.privilege-escalation",
+    "attack.discovery",
+    "attack.persistence",
+    "attack.t1543.003"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection": [
+      {
+        "OriginalFileName": "psservice.exe"
+      },
+      {
+        "Image|endswith": [
+          "\\PsService.exe",
+          "\\PsService64.exe",
+          "\\PsService64a.exe"
+        ]
+      }
+    ],
+    "condition": "selection"
+  }
+}

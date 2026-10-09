@@ -1,0 +1,24 @@
+// Title: Outbound RDP Connections Over Non-Standard Tools
+// ID: ed74fe75-7594-4b4b-ae38-e38e3fd2eb23
+// Status: test
+// Level: high
+// Author: Markus Neis
+// Date: 2019-05-15
+// Tags: attack.lateral-movement, attack.t1021.001, car.2013-07-002
+// Description: Detects Non-Standard tools initiating a connection over port 3389 indicating possible lateral movement.
+// An initial baseline is required before using this utility to exclude third party RDP tooling that you might use.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule ed74fe75_7594_4b4b_ae38_e38e3fd2eb23 {
+  meta:
+    title = "Outbound RDP Connections Over Non-Standard Tools"
+    description = "Detects Non-Standard tools initiating a connection over port 3389 indicating possible lateral movement. An initial baseline is required before using this utility to exclude third party RDP tooling that you might use."
+    author = "Markus Neis"
+    severity = "HIGH"
+
+  events:
+    (($e.target.port = 3389 and $e.Initiated = "true") and not((($e.target.process.file.full_path = "C:\\Windows\\System32\\mstsc.exe" or $e.target.process.file.full_path = "C:\\Windows\\SysWOW64\\mstsc.exe"))) and not(((($e.target.process.file.full_path = /.*\\Avast Software\\Avast\\AvastSvc.exe$/ nocase or $e.target.process.file.full_path = /.*\\Avast\\AvastSvc.exe$/ nocase)) or ($e.target.process.file.full_path = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe") or ($e.target.process.file.full_path = "C:\\Windows\\System32\\dns.exe" and $e.principal.port = 53 and $e.Protocol = "udp") or ($e.target.process.file.full_path = "") or ($e.target.process.file.full_path = "C:\\Program Files\\Mozilla Firefox\\firefox.exe") or (not ($e.target.process.file.full_path = /.*/)) or ($e.target.process.file.full_path = /.*\\Ranger\\SentinelRanger.exe$/ nocase) or ($e.target.process.file.full_path = /^C:\\Program Files\\SplunkUniversalForwarder\\bin\\.*/ nocase) or ($e.target.process.file.full_path = /.*\\RDCMan.exe$/ nocase) or (($e.target.process.file.full_path = /.*\\FSAssessment.exe$/ nocase or $e.target.process.file.full_path = /.*\\FSDiscovery.exe$/ nocase or $e.target.process.file.full_path = /.*\\MobaRTE.exe$/ nocase or $e.target.process.file.full_path = /.*\\mRemote.exe$/ nocase or $e.target.process.file.full_path = /.*\\mRemoteNG.exe$/ nocase or $e.target.process.file.full_path = /.*\\Passwordstate.exe$/ nocase or $e.target.process.file.full_path = /.*\\RemoteDesktopManager.exe$/ nocase or $e.target.process.file.full_path = /.*\\RemoteDesktopManager64.exe$/ nocase or $e.target.process.file.full_path = /.*\\RemoteDesktopManagerFree.exe$/ nocase or $e.target.process.file.full_path = /.*\\RSSensor.exe$/ nocase or $e.target.process.file.full_path = /.*\\RTS2App.exe$/ nocase or $e.target.process.file.full_path = /.*\\RTSApp.exe$/ nocase or $e.target.process.file.full_path = /.*\\spiceworks-finder.exe$/ nocase or $e.target.process.file.full_path = /.*\\Terminals.exe$/ nocase or $e.target.process.file.full_path = /.*\\ws_TunnelService.exe$/ nocase)) or (($e.target.process.file.full_path = /.*\\thor.exe$/ nocase or $e.target.process.file.full_path = /.*\\thor64.exe$/ nocase)) or (($e.target.process.file.full_path = "C:\\Program Files\\TSplus\\Java\\bin\\HTML5service.exe" or $e.target.process.file.full_path = "C:\\Program Files (x86)\\TSplus\\Java\\bin\\HTML5service.exe")) or ($e.target.process.file.full_path = "<unknown process>"))))
+
+  condition:
+    $e
+}

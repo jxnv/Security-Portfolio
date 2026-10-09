@@ -1,0 +1,11 @@
+-- Title: CMSTP Execution Process Access
+-- ID: 3b4b232a-af90-427c-a22f-30b0c0837b95
+-- Status: stable
+-- Level: high
+-- Author: Nik Seetharaman
+-- Date: 2018-07-16
+-- Tags: attack.stealth, attack.t1218.003, attack.execution, attack.t1559.001, attack.g0069, attack.g0080, car.2019-04-001
+-- Description: Detects various indicators of Microsoft Connection Manager Profile Installer execution
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE (CallTrace ILIKE '%cmlua.dll%')

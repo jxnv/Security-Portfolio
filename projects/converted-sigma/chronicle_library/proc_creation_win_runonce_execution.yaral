@@ -1,0 +1,23 @@
+// Title: Run Once Task Execution as Configured in Registry
+// ID: 198effb6-6c98-4d0c-9ea3-451fa143c45c
+// Status: test
+// Level: low
+// Author: Avneet Singh @v3t0_, oscd.community, Christopher Peacock @SecurePeacock (updated)
+// Date: 2020-10-18
+// Tags: attack.persistence, attack.defense-impairment, attack.t1112
+// Description: This rule detects the execution of Run Once task as configured in the registry
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 198effb6_6c98_4d0c_9ea3_451fa143c45c {
+  meta:
+    title = "Run Once Task Execution as Configured in Registry"
+    description = "This rule detects the execution of Run Once task as configured in the registry"
+    author = "Avneet Singh @v3t0_, oscd.community, Christopher Peacock @SecurePeacock (updated)"
+    severity = "LOW"
+
+  events:
+    ((($e.target.process.command_line = /.*/AlternateShellStartup.*/ nocase) or ($e.target.process.command_line = /.*/r$/ nocase)) and (($e.target.process.file.full_path = /.*\\runonce.exe$/ nocase) or ($e.Description = "Run Once Wrapper")))
+
+  condition:
+    $e
+}

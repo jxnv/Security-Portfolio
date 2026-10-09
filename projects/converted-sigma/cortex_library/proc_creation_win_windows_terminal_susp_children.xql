@@ -1,0 +1,11 @@
+// Title: Suspicious WindowsTerminal Child Processes
+// ID: 8de89e52-f6e1-4b5b-afd1-41ecfa300d48
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-07-25
+// Tags: attack.execution, attack.persistence
+// Description: Detects suspicious children spawned via the Windows Terminal application which could be a sign of persistence via WindowsTerminal (see references section)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter ((((actor_process_image_path endswith "\\WindowsTerminal.exe" or actor_process_image_path endswith "\\wt.exe")) and (((action_process_image_path endswith "\\rundll32.exe" or action_process_image_path endswith "\\regsvr32.exe" or action_process_image_path endswith "\\certutil.exe" or action_process_image_path endswith "\\cscript.exe" or action_process_image_path endswith "\\wscript.exe" or action_process_image_path endswith "\\csc.exe")) or ((action_process_image_path contains "C:\\Users\\Public\\" or action_process_image_path contains "\\Downloads\\" or action_process_image_path contains "\\Desktop\\" or action_process_image_path contains "\\AppData\\Local\\Temp\\" or action_process_image_path contains "\\Windows\\TEMP\\")) or ((action_process_image_command_line contains " iex " or action_process_image_command_line contains " icm" or action_process_image_command_line contains "Invoke-" or action_process_image_command_line contains "Import-Module " or action_process_image_command_line contains "ipmo " or action_process_image_command_line contains "DownloadString(" or action_process_image_command_line contains " /c " or action_process_image_command_line contains " /k " or action_process_image_command_line contains " /r ")))) and not ((((action_process_image_command_line contains "Import-Module" and action_process_image_command_line contains "Microsoft.VisualStudio.DevShell.dll" and action_process_image_command_line contains "Enter-VsDevShell")) or ((action_process_image_command_line contains "\\AppData\\Local\\Packages\\Microsoft.WindowsTerminal_" and action_process_image_command_line contains "\\LocalState\\settings.json")) or ((action_process_image_command_line contains "C:\\Program Files\\Microsoft Visual Studio\\" and action_process_image_command_line contains "\\Common7\\Tools\\VsDevCmd.bat")))))

@@ -1,0 +1,12 @@
+# Title: Suspicious Deno File Written from Remote Source
+# ID: 6c0ce3b6-85e2-49d4-9c3f-6e008ce9796e
+# Status: experimental
+# Level: low
+# Author: Josh Nickels, Michael Taggart
+# Date: 2025-05-22
+# Tags: attack.execution, attack.t1204, attack.t1059.007, attack.command-and-control, attack.t1105
+# Description: Detects Deno writing a file from a direct HTTP(s) call and writing to the appdata folder or bringing it's own malicious DLL.
+# This behavior may indicate an attempt to execute remotely hosted, potentially malicious files through deno.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((@TargetFilename:*\\deno\\gen\\* OR @TargetFilename:*\\deno\\remote\\https\\*) AND (@TargetFilename:*:\\Users\\* AND @TargetFilename:*\\AppData\\*))

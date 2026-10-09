@@ -1,0 +1,11 @@
+-- Title: Suspicious File Created In PerfLogs
+-- ID: bbb7e38c-0b41-4a11-b306-d2a457b7ac2b
+-- Status: test
+-- Level: medium
+-- Author: Nasreddine Bencherchali (Nextron Systems)
+-- Date: 2023-05-05
+-- Tags: attack.execution, attack.t1059
+-- Description: Detects suspicious file based on their extension being created in "C:\PerfLogs\". Note that this directory mostly contains ".etl" files
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM file WHERE (TargetFilename="C:\\PerfLogs\\*" AND (TargetFilename="*.7z" OR TargetFilename="*.bat" OR TargetFilename="*.bin" OR TargetFilename="*.chm" OR TargetFilename="*.dll" OR TargetFilename="*.exe" OR TargetFilename="*.hta" OR TargetFilename="*.lnk" OR TargetFilename="*.ps1" OR TargetFilename="*.psm1" OR TargetFilename="*.py" OR TargetFilename="*.scr" OR TargetFilename="*.sys" OR TargetFilename="*.vbe" OR TargetFilename="*.vbs" OR TargetFilename="*.zip"))

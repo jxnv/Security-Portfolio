@@ -1,0 +1,11 @@
+-- Title: BITS Transfer Job Downloading File Potential Suspicious Extension
+-- ID: b85e5894-9b19-4d86-8c87-a2f3b81f0521
+-- Status: test
+-- Level: medium
+-- Author: frack113
+-- Date: 2022-03-01
+-- Tags: attack.persistence, attack.execution, attack.stealth, attack.t1197
+-- Description: Detects new BITS transfer job saving local files with potential suspicious extensions
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE ((EventID = 16403 AND (LocalName ILIKE '%.bat' OR LocalName ILIKE '%.dll' OR LocalName ILIKE '%.exe' OR LocalName ILIKE '%.hta' OR LocalName ILIKE '%.ps1' OR LocalName ILIKE '%.psd1' OR LocalName ILIKE '%.sh' OR LocalName ILIKE '%.vbe' OR LocalName ILIKE '%.vbs')) AND NOT ((LocalName ILIKE '%\\AppData\\%' AND RemoteName ILIKE '%.com%')))

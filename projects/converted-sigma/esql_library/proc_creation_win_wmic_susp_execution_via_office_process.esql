@@ -1,0 +1,11 @@
+// Title: Suspicious WMIC Execution Via Office Process
+// ID: e1693bc8-7168-4eab-8718-cdcaa68a1738
+// Status: test
+// Level: high
+// Author: Vadim Khrykov, Cyb3rEng
+// Date: 2021-08-23
+// Tags: attack.stealth, attack.t1204.002, attack.t1047, attack.t1218.010, attack.execution
+// Description: Office application called wmic to proxye execution through a LOLBIN process. This is often used to break suspicious parent-child chain (Office app spawns LOLBin).
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE (((process.parent.executable LIKE "%\\WINWORD.EXE" OR process.parent.executable LIKE "%\\EXCEL.EXE" OR process.parent.executable LIKE "%\\POWERPNT.exe" OR process.parent.executable LIKE "%\\MSPUB.exe" OR process.parent.executable LIKE "%\\VISIO.exe" OR process.parent.executable LIKE "%\\MSACCESS.EXE" OR process.parent.executable LIKE "%\\EQNEDT32.EXE" OR process.parent.executable LIKE "%\\ONENOTE.EXE" OR process.parent.executable LIKE "%\\wordpad.exe" OR process.parent.executable LIKE "%\\wordview.exe")) AND ((process.command_line LIKE "%process%" AND process.command_line LIKE "%create%" AND process.command_line LIKE "%call%") AND (process.command_line LIKE "%regsvr32%" OR process.command_line LIKE "%rundll32%" OR process.command_line LIKE "%msiexec%" OR process.command_line LIKE "%mshta%" OR process.command_line LIKE "%verclsid%" OR process.command_line LIKE "%wscript%" OR process.command_line LIKE "%cscript%")) AND ((process.executable LIKE "%\\wbem\\WMIC.exe") OR (process.pe.original_file_name == "wmic.exe")))

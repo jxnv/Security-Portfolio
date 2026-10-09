@@ -1,0 +1,26 @@
+{
+  "title": "Potential Sidecar Injection Into Running Deployment",
+  "id": "ad9012a6-e518-4432-9890-f3b82b8fc71f",
+  "status": "test",
+  "description": "Detects attempts to inject a sidecar container into a running deployment.\nA sidecar container is an additional container within a pod, that resides alongside the main container.\nOne way to add containers to running resources like Deployments/DeamonSets/StatefulSets, is via a \"kubectl patch\" operation.\nBy injecting a new container within a legitimate pod, an attacker can run their code and hide their activity, instead of running their own separated pod in the cluster.\n",
+  "author": "Leo Tsaousis (@laripping)",
+  "date": "2024-03-26",
+  "tags": [
+    "attack.t1609",
+    "attack.execution"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "application",
+    "product": "kubernetes",
+    "service": "audit"
+  },
+  "detection": {
+    "selection": {
+      "verb": "patch",
+      "apiGroup": "apps",
+      "objectRef.resource": "deployments"
+    },
+    "condition": "selection"
+  }
+}

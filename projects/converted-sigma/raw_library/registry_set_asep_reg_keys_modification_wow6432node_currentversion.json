@@ -1,0 +1,40 @@
+{
+  "title": "Wow6432Node Windows NT CurrentVersion Autorun Keys Modification",
+  "id": "480421f9-417f-4d3b-9552-fd2728443ec8",
+  "status": "test",
+  "description": "Detects modification of autostart extensibility point (ASEP) in registry.",
+  "author": "Victor Sergeev, Daniil Yugoslavskiy, Gleb Sukhodolskiy, Timur Zinniatullin, oscd.community, Tim Shelton, frack113 (split)",
+  "date": "2019-10-25",
+  "tags": [
+    "attack.privilege-escalation",
+    "attack.persistence",
+    "attack.t1547.001"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "registry_set",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_wow_nt_current_version_base": {
+      "TargetObject|contains": "\\SOFTWARE\\Wow6432Node\\Microsoft\\Windows NT\\CurrentVersion"
+    },
+    "selection_wow_nt_current_version": {
+      "TargetObject|contains": [
+        "\\Windows\\Appinit_Dlls",
+        "\\Image File Execution Options",
+        "\\Drivers32"
+      ]
+    },
+    "filter_main_empty": {
+      "Details": "(Empty)"
+    },
+    "filter_main_null": {
+      "Details": null
+    },
+    "filter_main_file_exec_options": {
+      "Details|endswith": "\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options"
+    },
+    "condition": "all of selection_* and not 1 of filter_main_*"
+  }
+}

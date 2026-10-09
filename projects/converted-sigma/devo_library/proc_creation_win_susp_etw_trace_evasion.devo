@@ -1,0 +1,11 @@
+// Title: ETW Trace Evasion Activity
+// ID: a238b5d0-ce2d-4414-a676-7a531b3d13d6
+// Status: test
+// Level: high
+// Author: @neu5ron, Florian Roth (Nextron Systems), Jonhnathan Ribeiro, oscd.community
+// Date: 2019-03-22
+// Tags: attack.stealth, attack.defense-impairment, attack.t1070, attack.t1685, car.2016-04-002
+// Description: Detects command line activity that tries to clear or disable any ETW trace log which could be a sign of logging evasion.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+from siem.events where (((contains(CommandLine, "cl") AND contains(CommandLine, "/Trace"))) OR ((contains(CommandLine, "clear-log") AND contains(CommandLine, "/Trace"))) OR ((contains(CommandLine, "sl") AND contains(CommandLine, "/e:false"))) OR ((contains(CommandLine, "set-log") AND contains(CommandLine, "/e:false"))) OR ((contains(CommandLine, "logman") AND contains(CommandLine, "update") AND contains(CommandLine, "trace") AND contains(CommandLine, "--p") AND contains(CommandLine, "-ets"))) OR (contains(CommandLine, "Remove-EtwTraceProvider")) OR ((contains(CommandLine, "Set-EtwTraceProvider") AND contains(CommandLine, "0x11"))))

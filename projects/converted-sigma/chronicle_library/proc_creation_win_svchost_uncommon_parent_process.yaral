@@ -1,0 +1,23 @@
+// Title: Uncommon Svchost Parent Process
+// ID: 01d2e2a1-5f09-44f7-9fc1-24faa7479b6d
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems)
+// Date: 2017-08-15
+// Tags: attack.stealth, attack.t1036.005
+// Description: Detects an uncommon svchost parent process
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 01d2e2a1_5f09_44f7_9fc1_24faa7479b6d {
+  meta:
+    title = "Uncommon Svchost Parent Process"
+    description = "Detects an uncommon svchost parent process"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.process.file.full_path = /.*\\svchost.exe$/ nocase) and not(((($e.principal.process.file.full_path = /.*\\Mrt.exe$/ nocase or $e.principal.process.file.full_path = /.*\\MsMpEng.exe$/ nocase or $e.principal.process.file.full_path = /.*\\ngen.exe$/ nocase or $e.principal.process.file.full_path = /.*\\rpcnet.exe$/ nocase or $e.principal.process.file.full_path = /.*\\services.exe$/ nocase or $e.principal.process.file.full_path = /.*\\TiWorker.exe$/ nocase)) or (($e.principal.process.file.full_path = "-" or $e.principal.process.file.full_path = "")) or (not ($e.principal.process.file.full_path = /.*/)))))
+
+  condition:
+    $e
+}

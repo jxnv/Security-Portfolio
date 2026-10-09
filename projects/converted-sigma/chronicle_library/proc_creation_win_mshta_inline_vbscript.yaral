@@ -1,0 +1,23 @@
+// Title: Wscript Shell Run In CommandLine
+// ID: 2c28c248-7f50-417a-9186-a85b223010ee
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-31
+// Tags: attack.execution, attack.t1059
+// Description: Detects the presence of the keywords "Wscript", "Shell" and "Run" in the command, which could indicate a suspicious activity
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 2c28c248_7f50_417a_9186_a85b223010ee {
+  meta:
+    title = "Wscript Shell Run In CommandLine"
+    description = "Detects the presence of the keywords "Wscript", "Shell" and "Run" in the command, which could indicate a suspicious activity"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.process.command_line = /.*Wscript..*/ nocase and $e.target.process.command_line = /.*.Shell.*/ nocase and $e.target.process.command_line = /.*.Run.*/ nocase))
+
+  condition:
+    $e
+}

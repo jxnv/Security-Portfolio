@@ -1,0 +1,23 @@
+// Title: File Download Via Windows Defender MpCmpRun.EXE
+// ID: 46123129-1024-423e-9fae-43af4a0fa9a5
+// Status: test
+// Level: high
+// Author: Matthew Matchen
+// Date: 2020-09-04
+// Tags: attack.stealth, attack.t1218, attack.command-and-control, attack.t1105
+// Description: Detects the use of Windows Defender MpCmdRun.EXE to download files
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 46123129_1024_423e_9fae_43af4a0fa9a5 {
+  meta:
+    title = "File Download Via Windows Defender MpCmpRun.EXE"
+    description = "Detects the use of Windows Defender MpCmdRun.EXE to download files"
+    author = "Matthew Matchen"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*DownloadFile.*/ nocase and $e.target.process.command_line = /.*url.*/ nocase)) and (($e.target.process.file.name = "MpCmdRun.exe") or ($e.target.process.file.full_path = /.*\\MpCmdRun.exe$/ nocase) or ($e.target.process.command_line = /.*MpCmdRun.exe.*/ nocase) or ($e.Description = "Microsoft Malware Protection Command Line Utility")))
+
+  condition:
+    $e
+}

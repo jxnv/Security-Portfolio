@@ -1,0 +1,23 @@
+// Title: NTDS.DIT Creation By Uncommon Process
+// ID: 11b1ed55-154d-4e82-8ad7-83739298f720
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-01-11
+// Tags: attack.credential-access, attack.t1003.002, attack.t1003.003
+// Description: Detects creation of a file named "ntds.dit" (Active Directory Database) by an uncommon process or a process located in a suspicious directory
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 11b1ed55_154d_4e82_8ad7_83739298f720 {
+  meta:
+    title = "NTDS.DIT Creation By Uncommon Process"
+    description = "Detects creation of a file named "ntds.dit" (Active Directory Database) by an uncommon process or a process located in a suspicious directory"
+    author = "Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.target.file.full_path = /.*\\ntds.dit$/ nocase) and ((($e.target.process.file.full_path = /.*\\cmd.exe$/ nocase or $e.target.process.file.full_path = /.*\\cscript.exe$/ nocase or $e.target.process.file.full_path = /.*\\mshta.exe$/ nocase or $e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase or $e.target.process.file.full_path = /.*\\regsvr32.exe$/ nocase or $e.target.process.file.full_path = /.*\\rundll32.exe$/ nocase or $e.target.process.file.full_path = /.*\\wscript.exe$/ nocase or $e.target.process.file.full_path = /.*\\wsl.exe$/ nocase or $e.target.process.file.full_path = /.*\\wt.exe$/ nocase)) or (($e.target.process.file.full_path = /.*\\AppData\\.*/ nocase or $e.target.process.file.full_path = /.*\\Temp\\.*/ nocase or $e.target.process.file.full_path = /.*\\Public\\.*/ nocase or $e.target.process.file.full_path = /.*\\PerfLogs\\.*/ nocase))))
+
+  condition:
+    $e
+}

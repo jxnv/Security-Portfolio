@@ -1,0 +1,20 @@
+# Title: Winlogon Notify Key Logon Persistence
+# ID: bbf59793-6efb-4fa1-95ca-a7d288e52c88
+# Status: test
+# Level: high
+# Author: frack113
+# Date: 2021-12-30
+# Tags: attack.privilege-escalation, attack.persistence, attack.t1547.004
+# Description: Adversaries may abuse features of Winlogon to execute DLLs and/or executables when a user logs in.
+# Winlogon.exe is a Windows component responsible for actions at logon/logoff as well as the secure attention sequence (SAS) triggered by Ctrl-Alt-Delete.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Winlogon Notify Key Logon Persistence
+def rule(event):
+    # Detection Logic:
+    # (TargetObject="*\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\Notify\\logon" AND Details="*.dll")
+    return True
+
+def title(event):
+    return "Winlogon Notify Key Logon Persistence"
+

@@ -1,0 +1,11 @@
+-- Title: RTCore Suspicious Service Installation
+-- ID: 91c49341-e2ef-40c0-ac45-49ec5c3fe26c
+-- Status: test
+-- Level: high
+-- Author: Nasreddine Bencherchali (Nextron Systems)
+-- Date: 2022-08-30
+-- Tags: attack.persistence
+-- Description: Detects the installation of RTCore service. Which could be an indication of Micro-Star MSI Afterburner vulnerable driver abuse
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE (Provider_Name = 'Service Control Manager' AND EventID = 7045 AND ServiceName = 'RTCore64')

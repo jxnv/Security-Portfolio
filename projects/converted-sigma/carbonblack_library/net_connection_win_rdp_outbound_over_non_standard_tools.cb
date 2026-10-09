@@ -1,0 +1,12 @@
+# Title: Outbound RDP Connections Over Non-Standard Tools
+# ID: ed74fe75-7594-4b4b-ae38-e38e3fd2eb23
+# Status: test
+# Level: high
+# Author: Markus Neis
+# Date: 2019-05-15
+# Tags: attack.lateral-movement, attack.t1021.001, car.2013-07-002
+# Description: Detects Non-Standard tools initiating a connection over port 3389 indicating possible lateral movement.
+# An initial baseline is required before using this utility to exclude third party RDP tooling that you might use.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((DestinationPort:"3389" AND Initiated:"true") AND -(((process_name:"C:\\Windows\\System32\\mstsc.exe" OR process_name:"C:\\Windows\\SysWOW64\\mstsc.exe"))) AND -((((process_name:*\\Avast Software\\Avast\\AvastSvc.exe OR process_name:*\\Avast\\AvastSvc.exe)) OR (process_name:"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe") OR (process_name:"C:\\Windows\\System32\\dns.exe" AND SourcePort:"53" AND Protocol:"udp") OR (process_name:"") OR (process_name:"C:\\Program Files\\Mozilla Firefox\\firefox.exe") OR (-process_name:*) OR (process_name:*\\Ranger\\SentinelRanger.exe) OR (process_name:C:\\Program Files\\SplunkUniversalForwarder\\bin\\*) OR (process_name:*\\RDCMan.exe) OR ((process_name:*\\FSAssessment.exe OR process_name:*\\FSDiscovery.exe OR process_name:*\\MobaRTE.exe OR process_name:*\\mRemote.exe OR process_name:*\\mRemoteNG.exe OR process_name:*\\Passwordstate.exe OR process_name:*\\RemoteDesktopManager.exe OR process_name:*\\RemoteDesktopManager64.exe OR process_name:*\\RemoteDesktopManagerFree.exe OR process_name:*\\RSSensor.exe OR process_name:*\\RTS2App.exe OR process_name:*\\RTSApp.exe OR process_name:*\\spiceworks-finder.exe OR process_name:*\\Terminals.exe OR process_name:*\\ws_TunnelService.exe)) OR ((process_name:*\\thor.exe OR process_name:*\\thor64.exe)) OR ((process_name:"C:\\Program Files\\TSplus\\Java\\bin\\HTML5service.exe" OR process_name:"C:\\Program Files (x86)\\TSplus\\Java\\bin\\HTML5service.exe")) OR (process_name:"<unknown process>"))))

@@ -1,0 +1,23 @@
+// Title: Potential Tampering With Security Products Via WMIC
+// ID: 847d5ff3-8a31-4737-a970-aeae8fe21765
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2021-01-30
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects uninstallation or termination of security products using the WMIC utility
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 847d5ff3_8a31_4737_a970_aeae8fe21765 {
+  meta:
+    title = "Potential Tampering With Security Products Via WMIC"
+    description = "Detects uninstallation or termination of security products using the WMIC utility"
+    author = "Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (((($e.target.process.command_line = /.*wmic.*/ nocase and $e.target.process.command_line = /.*product .*/ nocase and $e.target.process.command_line = /.*uninstall.*/ nocase) and ($e.target.process.command_line = /.*/nointeractive.*/ nocase or $e.target.process.command_line = /.*-nointeractive.*/ nocase)) or (($e.target.process.command_line = /.*wmic.*/ nocase and $e.target.process.command_line = /.*caption like .*/ nocase) and ($e.target.process.command_line = /.*call delete.*/ nocase or $e.target.process.command_line = /.*call terminate.*/ nocase)) or (($e.target.process.command_line = /.*process .*/ nocase and $e.target.process.command_line = /.*where .*/ nocase and $e.target.process.command_line = /.*delete.*/ nocase))) and (($e.target.process.command_line = /.*%carbon%.*/ nocase or $e.target.process.command_line = /.*%cylance%.*/ nocase or $e.target.process.command_line = /.*%endpoint%.*/ nocase or $e.target.process.command_line = /.*%eset%.*/ nocase or $e.target.process.command_line = /.*%malware%.*/ nocase or $e.target.process.command_line = /.*%Sophos%.*/ nocase or $e.target.process.command_line = /.*%symantec%.*/ nocase or $e.target.process.command_line = /.*Antivirus.*/ nocase or $e.target.process.command_line = /.*AVG .*/ nocase or $e.target.process.command_line = /.*Carbon Black.*/ nocase or $e.target.process.command_line = /.*CarbonBlack.*/ nocase or $e.target.process.command_line = /.*Cb Defense Sensor 64-bit.*/ nocase or $e.target.process.command_line = /.*Crowdstrike Sensor.*/ nocase or $e.target.process.command_line = /.*Cylance .*/ nocase or $e.target.process.command_line = /.*Dell Threat Defense.*/ nocase or $e.target.process.command_line = /.*DLP Endpoint.*/ nocase or $e.target.process.command_line = /.*Endpoint Detection.*/ nocase or $e.target.process.command_line = /.*Endpoint Protection.*/ nocase or $e.target.process.command_line = /.*Endpoint Security.*/ nocase or $e.target.process.command_line = /.*Endpoint Sensor.*/ nocase or $e.target.process.command_line = /.*ESET File Security.*/ nocase or $e.target.process.command_line = /.*LogRhythm System Monitor Service.*/ nocase or $e.target.process.command_line = /.*Malwarebytes.*/ nocase or $e.target.process.command_line = /.*McAfee Agent.*/ nocase or $e.target.process.command_line = /.*Microsoft Security Client.*/ nocase or $e.target.process.command_line = /.*Sophos Anti-Virus.*/ nocase or $e.target.process.command_line = /.*Sophos AutoUpdate.*/ nocase or $e.target.process.command_line = /.*Sophos Credential Store.*/ nocase or $e.target.process.command_line = /.*Sophos Management Console.*/ nocase or $e.target.process.command_line = /.*Sophos Management Database.*/ nocase or $e.target.process.command_line = /.*Sophos Management Server.*/ nocase or $e.target.process.command_line = /.*Sophos Remote Management System.*/ nocase or $e.target.process.command_line = /.*Sophos Update Manager.*/ nocase or $e.target.process.command_line = /.*Threat Protection.*/ nocase or $e.target.process.command_line = /.*VirusScan.*/ nocase or $e.target.process.command_line = /.*Webroot SecureAnywhere.*/ nocase or $e.target.process.command_line = /.*Windows Defender.*/ nocase)))
+
+  condition:
+    $e
+}

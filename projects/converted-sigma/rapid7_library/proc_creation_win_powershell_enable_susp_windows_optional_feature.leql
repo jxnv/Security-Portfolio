@@ -1,0 +1,12 @@
+// Title: Potential Suspicious Windows Feature Enabled - ProcCreation
+// ID: c740d4cf-a1e9-41de-bb16-8a46a4f57918
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-12-29
+// Tags: attack.stealth
+// Description: Detects usage of the built-in PowerShell cmdlet "Enable-WindowsOptionalFeature" used as a Deployment Image Servicing and Management tool.
+// Similar to DISM.exe, this cmdlet is used to enumerate, install, uninstall, configure, and update features and packages in Windows images
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(CommandLine ICONTAINS "Enable-WindowsOptionalFeature") AND where(CommandLine ICONTAINS "-Online") AND where(CommandLine ICONTAINS "-FeatureName"))) AND ((where(CommandLine ICONTAINS "TelnetServer") OR where(CommandLine ICONTAINS "Internet-Explorer-Optional-amd64") OR where(CommandLine ICONTAINS "TFTP") OR where(CommandLine ICONTAINS "SMB1Protocol") OR where(CommandLine ICONTAINS "Client-ProjFS") OR where(CommandLine ICONTAINS "Microsoft-Windows-Subsystem-Linux"))))

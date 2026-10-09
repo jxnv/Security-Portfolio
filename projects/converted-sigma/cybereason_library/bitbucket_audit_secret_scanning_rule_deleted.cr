@@ -1,0 +1,11 @@
+// Title: Bitbucket Secret Scanning Rule Deleted
+// ID: ff91e3f0-ad15-459f-9a85-1556390c138d
+// Status: test
+// Level: low
+// Author: Muhammad Faisal (@faisalusuf)
+// Date: 2024-02-25
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects when secret scanning rule is deleted for the project or repository.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((auditType.category == "Projects" OR auditType.category == "Repositories") AND (auditType.action == "Project secret scanning rule deleted" OR auditType.action == "Repository secret scanning rule deleted"))

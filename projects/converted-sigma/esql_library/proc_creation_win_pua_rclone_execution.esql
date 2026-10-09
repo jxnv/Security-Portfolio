@@ -1,0 +1,11 @@
+// Title: PUA - Rclone Execution
+// ID: e37db05d-d1f9-49c8-b464-cee1a4b11638
+// Status: test
+// Level: high
+// Author: Bhabesh Raj, Sittikorn S, Aaron Greetham (@beardofbinary) - NCC Group
+// Date: 2021-05-10
+// Tags: attack.exfiltration, attack.t1567.002
+// Description: Detects execution of RClone utility for exfiltration as used by various ransomwares strains like REvil, Conti, FiveHands, etc
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE (((process.command_line LIKE "%--config %" AND process.command_line LIKE "%--no-check-certificate %" AND process.command_line LIKE "% copy %")) OR (((process.command_line LIKE "%pass%" OR process.command_line LIKE "%user%" OR process.command_line LIKE "%copy%" OR process.command_line LIKE "%sync%" OR process.command_line LIKE "%config%" OR process.command_line LIKE "%lsd%" OR process.command_line LIKE "%remote%" OR process.command_line LIKE "%ls%" OR process.command_line LIKE "%mega%" OR process.command_line LIKE "%pcloud%" OR process.command_line LIKE "%ftp%" OR process.command_line LIKE "%ignore-existing%" OR process.command_line LIKE "%auto-confirm%" OR process.command_line LIKE "%transfers%" OR process.command_line LIKE "%multi-thread-streams%" OR process.command_line LIKE "%no-check-certificate %")) AND ((process.executable LIKE "%\\rclone.exe") OR (Description == "Rsync for cloud storage"))))

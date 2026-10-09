@@ -1,0 +1,23 @@
+// Title: Network Communication Initiated To Portmap.IO Domain
+// ID: 07837ab9-60e1-481f-a74d-c31fb496a94c
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems)
+// Date: 2024-05-31
+// Tags: attack.t1041, attack.command-and-control, attack.t1090.002, attack.exfiltration
+// Description: Detects an executable accessing the portmap.io domain, which could be a sign of forbidden C2 traffic or data exfiltration by malicious actors
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 07837ab9_60e1_481f_a74d_c31fb496a94c {
+  meta:
+    title = "Network Communication Initiated To Portmap.IO Domain"
+    description = "Detects an executable accessing the portmap.io domain, which could be a sign of forbidden C2 traffic or data exfiltration by malicious actors"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ($e.Initiated = "true" and $e.DestinationHostname = /.*.portmap.io$/ nocase)
+
+  condition:
+    $e
+}

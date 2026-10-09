@@ -1,0 +1,11 @@
+// Title: HackTool - PCHunter Execution
+// ID: fca949cc-79ca-446e-8064-01aa7e52ece5
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali
+// Date: 2022-10-10
+// Tags: attack.execution, attack.discovery, attack.t1082, attack.t1057, attack.t1012, attack.t1083, attack.t1007
+// Description: Detects suspicious use of PCHunter, a tool like Process Hacker to view and manipulate processes, kernel options and other low level stuff
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter (((Hashes contains "SHA1=5F1CBC3D99558307BC1250D084FA968521482025" or Hashes contains "MD5=987B65CD9B9F4E9A1AFD8F8B48CF64A7" or Hashes contains "SHA256=2B214BDDAAB130C274DE6204AF6DBA5AEEC7433DA99AA950022FA306421A6D32" or Hashes contains "IMPHASH=444D210CEA1FF8112F256A4997EED7FF" or Hashes contains "SHA1=3FB89787CB97D902780DA080545584D97FB1C2EB" or Hashes contains "MD5=228DD0C2E6287547E26FFBD973A40F14" or Hashes contains "SHA256=55F041BF4E78E9BFA6D4EE68BE40E496CE3A1353E1CA4306598589E19802522C" or Hashes contains "IMPHASH=0479F44DF47CFA2EF1CCC4416A538663")) or ((action_process_image_path endswith "\\PCHunter64.exe" or action_process_image_path endswith "\\PCHunter32.exe")) or ((action_process_image_name = "PCHunter.exe") or (Description = "Epoolsoft Windows Information View Tools")))

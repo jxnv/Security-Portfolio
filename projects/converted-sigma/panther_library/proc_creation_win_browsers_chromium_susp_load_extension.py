@@ -1,0 +1,19 @@
+# Title: Suspicious Chromium Browser Instance Executed With Custom Extension
+# ID: 27ba3207-dd30-4812-abbf-5d20c57d474e
+# Status: test
+# Level: high
+# Author: Aedan Russell, frack113, X__Junior (Nextron Systems)
+# Date: 2022-06-19
+# Tags: attack.persistence, attack.t1176.001
+# Description: Detects a suspicious process spawning a Chromium based browser process with the 'load-extension' flag to start an instance with a custom extension
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Suspicious Chromium Browser Instance Executed With Custom Extension
+def rule(event):
+    # Detection Logic:
+    # ((ParentImage="*\\cmd.exe" OR ParentImage="*\\cscript.exe" OR ParentImage="*\\mshta.exe" OR ParentImage="*\\powershell.exe" OR ParentImage="*\\pwsh.exe" OR ParentImage="*\\regsvr32.exe" OR ParentImage="*\\rundll32.exe" OR ParentImage="*\\wscript.exe") AND (Image="*\\brave.exe" OR Image="*\\chrome.exe" OR Image="*\\msedge.exe" OR Image="*\\opera.exe" OR Image="*\\vivaldi.exe") AND CommandLine="*--load-extension=*")
+    return True
+
+def title(event):
+    return "Suspicious Chromium Browser Instance Executed With Custom Extension"
+

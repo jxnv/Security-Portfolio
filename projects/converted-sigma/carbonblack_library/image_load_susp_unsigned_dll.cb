@@ -1,0 +1,12 @@
+# Title: Unsigned DLL Loaded by Windows Utility
+# ID: b5de0c9a-6f19-43e0-af4e-55ad01f550af
+# Status: test
+# Level: medium
+# Author: Swachchhanda Shrawan Poudel
+# Date: 2024-02-28
+# Tags: attack.stealth, attack.t1218.011, attack.t1218.010
+# Description: Detects windows utilities loading an unsigned or untrusted DLL.
+# Adversaries often abuse those programs to proxy execution of malicious code.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((process_name:*\\InstallUtil.exe OR process_name:*\\RegAsm.exe OR process_name:*\\RegSvcs.exe OR process_name:*\\regsvr32.exe OR process_name:*\\rundll32.exe)) AND -((((process_name:C:\\Windows\\SysWOW64\\* OR process_name:C:\\Windows\\System32\\* OR process_name:C:\\Windows\\Microsoft.NET\\Framework64*) AND process_name:*\\RegAsm.exe AND ImageLoaded:*.dll AND ImageLoaded:C:\\Windows\\assembly\\NativeImages*) OR ((SignatureStatus:"errorChaining" OR SignatureStatus:"errorCode_endpoint" OR SignatureStatus:"errorExpired" OR SignatureStatus:"trusted" OR SignatureStatus:"Valid")) OR ((SignatureStatus:"" OR SignatureStatus:"-")) OR (-SignatureStatus:*) OR (Signed:"true") OR ((Signed:"" OR Signed:"-")) OR (-Signed:*) OR ((process_name:"C:\\Windows\\SysWOW64\\rundll32.exe" OR process_name:"C:\\Windows\\System32\\rundll32.exe") AND ImageLoaded:C:\\Windows\\Installer\\* AND (ImageLoaded:*.tmp-\\Microsoft.Deployment.WindowsInstaller.dll OR ImageLoaded:*.tmp-\\Avira.OE.Setup.CustomActions.dll)))) AND -(((process_name:"C:\\Windows\\SysWOW64\\regsvr32.exe" OR process_name:"C:\\Windows\\System32\\regsvr32.exe") AND (ImageLoaded:C:\\Program Files (x86)\\K-Lite Codec Pack\\* OR ImageLoaded:C:\\Program Files\\K-Lite Codec Pack\\*))))

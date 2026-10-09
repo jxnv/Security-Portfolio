@@ -1,0 +1,11 @@
+// Title: Interactive Bash Suspicious Children
+// ID: ea3ecad2-db86-4a89-ad0b-132a10d2db55
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-03-14
+// Tags: attack.execution, attack.stealth, attack.t1059.004, attack.t1036
+// Description: Detects suspicious interactive bash as a parent to rather uncommon child processes
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((src.process.parent.cmdline = "bash -i") AND (((src.process.cmdline containsCIS "-c import " OR src.process.cmdline containsCIS "base64" OR src.process.cmdline containsCIS "pty.spawn")) OR ((src.process.image.path endswithCIS "whoami" OR src.process.image.path endswithCIS "iptables" OR src.process.image.path endswithCIS "/ncat" OR src.process.image.path endswithCIS "/nc" OR src.process.image.path endswithCIS "/netcat"))))

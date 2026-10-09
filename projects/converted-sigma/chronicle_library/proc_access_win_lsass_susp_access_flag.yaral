@@ -1,0 +1,23 @@
+// Title: Potentially Suspicious GrantedAccess Flags On LSASS
+// ID: a18dd26b-6450-46de-8c91-9659150cf088
+// Status: test
+// Level: medium
+// Author: Florian Roth, Roberto Rodriguez, Dimitrios Slamaris, Mark Russinovich, Thomas Patzke, Teymur Kheirkhabarov, Sherif Eldeeb, James Dickenson, Aleksey Potapov, oscd.community
+// Date: 2021-11-22
+// Tags: attack.credential-access, attack.t1003.001, attack.s0002
+// Description: Detects process access requests to LSASS process with potentially suspicious access flags
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule a18dd26b_6450_46de_8c91_9659150cf088 {
+  meta:
+    title = "Potentially Suspicious GrantedAccess Flags On LSASS"
+    description = "Detects process access requests to LSASS process with potentially suspicious access flags"
+    author = "Florian Roth, Roberto Rodriguez, Dimitrios Slamaris, Mark Russinovich, Thomas Patzke, Teymur Kheirkhabarov, Sherif Eldeeb, James Dickenson, Aleksey Potapov, oscd.community"
+    severity = "MEDIUM"
+
+  events:
+    ((((($e.GrantedAccess = /.*30$/ nocase or $e.GrantedAccess = /.*50$/ nocase or $e.GrantedAccess = /.*70$/ nocase or $e.GrantedAccess = /.*90$/ nocase or $e.GrantedAccess = /.*B0$/ nocase or $e.GrantedAccess = /.*D0$/ nocase or $e.GrantedAccess = /.*F0$/ nocase or $e.GrantedAccess = /.*18$/ nocase or $e.GrantedAccess = /.*38$/ nocase or $e.GrantedAccess = /.*58$/ nocase or $e.GrantedAccess = /.*78$/ nocase or $e.GrantedAccess = /.*98$/ nocase or $e.GrantedAccess = /.*B8$/ nocase or $e.GrantedAccess = /.*D8$/ nocase or $e.GrantedAccess = /.*F8$/ nocase or $e.GrantedAccess = /.*1A$/ nocase or $e.GrantedAccess = /.*3A$/ nocase or $e.GrantedAccess = /.*5A$/ nocase or $e.GrantedAccess = /.*7A$/ nocase or $e.GrantedAccess = /.*9A$/ nocase or $e.GrantedAccess = /.*BA$/ nocase or $e.GrantedAccess = /.*DA$/ nocase or $e.GrantedAccess = /.*FA$/ nocase or $e.GrantedAccess = /.*0x14C2$/ nocase)) or (($e.GrantedAccess = /^0x100000.*/ nocase or $e.GrantedAccess = /^0x1418.*/ nocase or $e.GrantedAccess = /^0x1438.*/ nocase or $e.GrantedAccess = /^0x143a.*/ nocase or $e.GrantedAccess = /^0x1f0fff.*/ nocase or $e.GrantedAccess = /^0x1f1fff.*/ nocase or $e.GrantedAccess = /^0x1f2fff.*/ nocase or $e.GrantedAccess = /^0x1f3fff.*/ nocase or $e.GrantedAccess = /^0x40.*/ nocase))) and ($e.TargetImage = /.*\\lsass.exe$/ nocase)) and not((($e.SourceImage = /.*\\explorer.exe$/ nocase and $e.GrantedAccess = "0x401") or (($e.SourceImage = /.*:\\Program Files (x86)\\.*/ nocase or $e.SourceImage = /.*:\\Program Files\\.*/ nocase or $e.SourceImage = /.*:\\Windows\\System32\\.*/ nocase or $e.SourceImage = /.*:\\Windows\\SysWOW64\\.*/ nocase)) or ($e.SourceImage = /.*:\\ProgramData\\Microsoft\\Windows Defender\\.*/ nocase and $e.SourceImage = /.*\\MsMpEng.exe$/ nocase) or (($e.CallTrace = /.*|?:\\ProgramData\\Microsoft\\Windows Defender\\Definition Updates\\{.*/ nocase and $e.CallTrace = /.*}\\mpengine.dll+.*/ nocase) and $e.GrantedAccess = "0x1418") or (($e.CallTrace = /.*|c:\\program files\\windows defender\\mprtp.dll.*/ nocase or $e.CallTrace = /.*|c:\\program files\\windows defender\\MpClient.dll.*/ nocase)))) and not((($e.SourceImage = /.*:\\ProgramData\\MALWAREBYTES\\MBAMSERVICE\\ctlrupdate\\mbupdatr.exe$/ nocase) or ($e.SourceImage = /.*\\MBAMInstallerService.exe$/ nocase and $e.GrantedAccess = "0x40") or (($e.SourceImage = /.*\\aurora-agent-64.exe$/ nocase or $e.SourceImage = /.*\\aurora-agent.exe$/ nocase or $e.SourceImage = /.*\\thor.exe$/ nocase or $e.SourceImage = /.*\\thor64.exe$/ nocase) and $e.GrantedAccess = "0x40") or ($e.SourceImage = /.*\\SteamLibrary\\steamapps\\.*/ nocase) or (($e.SourceImage = /.*\\handle.exe$/ nocase or $e.SourceImage = /.*\\handle64.exe$/ nocase or $e.SourceImage = /.*\\handle64a.exe$/ nocase) and $e.GrantedAccess = "0x40") or (($e.SourceImage = /.*\\PROCEXP64.EXE$/ nocase or $e.SourceImage = /.*\\PROCEXP.EXE$/ nocase) and $e.GrantedAccess = "0x40") or ($e.SourceImage = /.*:\\ProgramData\\VMware\\VMware Tools\\.*/ nocase and $e.SourceImage = /.*\\vmtoolsd.exe$/ nocase) or ($e.SourceImage = /.*\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe$/ nocase) or ($e.SourceImage = /.*\\AppData\\Local\\WebEx\\WebexHost.exe$/ nocase and $e.GrantedAccess = "0x401"))))
+
+  condition:
+    $e
+}

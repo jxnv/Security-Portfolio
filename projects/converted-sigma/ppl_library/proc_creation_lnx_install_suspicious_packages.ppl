@@ -1,0 +1,11 @@
+// Title: Suspicious Package Installed - Linux
+// ID: 700fb7e8-2981-401c-8430-be58e189e741
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-01-03
+// Tags: attack.defense-impairment, attack.t1553.004
+// Description: Detects installation of suspicious packages using system installation utilities
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where ((((process.executable="*/apt" OR process.executable="*/apt-get") AND process.command_line like "%install%") OR (process.executable="*/dpkg" AND (process.command_line like "%--install%" OR process.command_line like "%-i%")) OR (process.executable="*/rpm" AND process.command_line like "%-i%") OR (process.executable="*/yum" AND (process.command_line like "%localinstall%" OR process.command_line like "%install%"))) AND ((process.command_line like "%nmap%" OR process.command_line like "% nc%" OR process.command_line like "%netcat%" OR process.command_line like "%wireshark%" OR process.command_line like "%tshark%" OR process.command_line like "%openconnect%" OR process.command_line like "%proxychains%" OR process.command_line like "%socat%")))

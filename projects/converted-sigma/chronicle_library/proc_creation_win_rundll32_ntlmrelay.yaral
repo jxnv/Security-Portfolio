@@ -1,0 +1,23 @@
+// Title: Suspicious NTLM Authentication on the Printer Spooler Service
+// ID: bb76d96b-821c-47cf-944b-7ce377864492
+// Status: test
+// Level: high
+// Author: Elastic (idea), Tobias Michalski (Nextron Systems)
+// Date: 2022-05-04
+// Tags: attack.privilege-escalation, attack.credential-access, attack.t1212
+// Description: Detects a privilege elevation attempt by coercing NTLM authentication on the Printer Spooler service
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule bb76d96b_821c_47cf_944b_7ce377864492 {
+  meta:
+    title = "Suspicious NTLM Authentication on the Printer Spooler Service"
+    description = "Detects a privilege elevation attempt by coercing NTLM authentication on the Printer Spooler service"
+    author = "Elastic (idea), Tobias Michalski (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*C:\\windows\\system32\\davclnt.dll,DavSetCookie.*/ nocase and $e.target.process.command_line = /.*http.*/ nocase) and ($e.target.process.command_line = /.*spoolss.*/ nocase or $e.target.process.command_line = /.*srvsvc.*/ nocase or $e.target.process.command_line = /.*/print/pipe/.*/ nocase)) and (($e.target.process.file.full_path = /.*\\rundll32.exe$/ nocase) or ($e.target.process.file.name = "RUNDLL32.EXE")))
+
+  condition:
+    $e
+}

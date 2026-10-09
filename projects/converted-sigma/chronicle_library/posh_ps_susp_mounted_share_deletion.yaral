@@ -1,0 +1,23 @@
+// Title: PowerShell Deleted Mounted Share
+// ID: 66a4d409-451b-4151-94f4-a55d559c49b0
+// Status: test
+// Level: medium
+// Author: oscd.community, @redcanary, Zach Stanford @svch0st
+// Date: 2020-10-08
+// Tags: attack.stealth, attack.t1070.005
+// Description: Detects when when a mounted share is removed. Adversaries may remove share connections that are no longer useful in order to clean up traces of their operation
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 66a4d409_451b_4151_94f4_a55d559c49b0 {
+  meta:
+    title = "PowerShell Deleted Mounted Share"
+    description = "Detects when when a mounted share is removed. Adversaries may remove share connections that are no longer useful in order to clean up traces of their operation"
+    author = "oscd.community, @redcanary, Zach Stanford @svch0st"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.ScriptBlockText = /.*Remove-SmbShare.*/ nocase or $e.ScriptBlockText = /.*Remove-FileShare.*/ nocase)) and not((($e.ScriptBlockText = /.*FileShare.cdxml.*/ nocase and $e.ScriptBlockText = /.*Microsoft.PowerShell.Core\\Export-ModuleMember.*/ nocase and $e.ScriptBlockText = /.*ROOT/Microsoft/Windows/Storage/MSFT_FileShare.*/ nocase and $e.ScriptBlockText = /.*ObjectModelWrapper.*/ nocase and $e.ScriptBlockText = /.*Cmdletization.MethodParameter.*/ nocase))))
+
+  condition:
+    $e
+}

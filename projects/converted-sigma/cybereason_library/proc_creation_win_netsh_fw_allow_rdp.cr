@@ -1,0 +1,11 @@
+// Title: RDP Connection Allowed Via Netsh.EXE
+// ID: 01aeb693-138d-49d2-9403-c4f52d7d3d62
+// Status: test
+// Level: high
+// Author: Sander Wiebing
+// Date: 2020-05-23
+// Tags: attack.defense-impairment, attack.t1686.003
+// Description: Detects usage of the netsh command to open and allow connections to port 3389 (RDP). As seen used by Sarwent Malware
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((CommandLine contains "firewall " AND CommandLine contains "add " AND CommandLine contains "tcp " AND CommandLine contains "3389") AND (CommandLine contains "portopening" OR CommandLine contains "allow")) AND ((Image="*\\netsh.exe") OR (OriginalFileName == "netsh.exe")))

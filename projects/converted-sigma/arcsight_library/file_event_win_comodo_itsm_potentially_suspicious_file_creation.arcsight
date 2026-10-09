@@ -1,0 +1,13 @@
+// Title: Potentially Suspicious File Creation by OpenEDR's ITSMService
+// ID: 9e4b7d3a-6f2c-4e9a-8d1b-3c5e7a9f2b4d
+// Status: experimental
+// Level: medium
+// Author: @kostastsale
+// Date: 2026-02-19
+// Tags: attack.command-and-control, attack.t1105, attack.lateral-movement, attack.t1570, attack.t1219
+// Description: Detects the creation of potentially suspicious files by OpenEDR's ITSMService process.
+// The ITSMService is responsible for remote management operations and can create files on the system through the Process Explorer or file management features.
+// While legitimate for IT operations, creation of executable or script files could indicate unauthorized file uploads, data staging, or malicious file deployment.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((Image ENDSWITH "\\COMODO\\Endpoint Manager\\ITSMService.exe") AND ((TargetFilename ENDSWITH ".7z" OR TargetFilename ENDSWITH ".bat" OR TargetFilename ENDSWITH ".cmd" OR TargetFilename ENDSWITH ".com" OR TargetFilename ENDSWITH ".dll" OR TargetFilename ENDSWITH ".exe" OR TargetFilename ENDSWITH ".hta" OR TargetFilename ENDSWITH ".js" OR TargetFilename ENDSWITH ".pif" OR TargetFilename ENDSWITH ".ps1" OR TargetFilename ENDSWITH ".rar" OR TargetFilename ENDSWITH ".scr" OR TargetFilename ENDSWITH ".vbe" OR TargetFilename ENDSWITH ".vbs" OR TargetFilename ENDSWITH ".zip")))

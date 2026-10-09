@@ -1,0 +1,12 @@
+// Title: Suspicious Outbound SMTP Connections
+// ID: 9976fa64-2804-423c-8a5b-646ade840773
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-01-07
+// Tags: attack.exfiltration, attack.t1048.003
+// Description: Adversaries may steal data by exfiltrating it over an un-encrypted network protocol other than that of the existing command and control channel.
+// The data may also be sent to an alternate network location from the main command and control server.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+from siem.events where (((DestinationPort == "25" OR DestinationPort == "587" OR DestinationPort == "465" OR DestinationPort == "2525") AND Initiated == "true") AND NOT ((((Image="*\\thunderbird.exe" OR Image="*\\outlook.exe")) OR (Image="C:\\Program Files\\Microsoft\\Exchange Server\\*") OR (Image="C:\\Program Files\\WindowsApps\\microsoft.windowscommunicationsapps_*" AND Image="*\\HxTsr.exe"))))

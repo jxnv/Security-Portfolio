@@ -1,0 +1,12 @@
+// Title: Windows Credential Guard Related Registry Value Deleted - Registry
+// ID: d645ef86-2396-48a1-a2b6-b629ca3f57ff
+// Status: experimental
+// Level: high
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-12-26
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects attempts to disable Windows Credential Guard by deleting registry values. Credential Guard uses virtualization-based security to isolate secrets so that only privileged system software can access them.
+// Adversaries may disable Credential Guard to gain access to sensitive credentials stored in the system, such as NTLM hashes and Kerberos tickets, which can be used for lateral movement and privilege escalation.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter ((TargetObject endswith "\\DeviceGuard\\EnableVirtualizationBasedSecurity" or TargetObject endswith "\\DeviceGuard\\LsaCfgFlags" or TargetObject endswith "\\DeviceGuard\\RequirePlatformSecurityFeatures" or TargetObject endswith "\\Lsa\\LsaCfgFlags"))

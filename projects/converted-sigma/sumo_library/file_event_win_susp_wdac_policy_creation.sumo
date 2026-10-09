@@ -1,0 +1,11 @@
+// Title: Potentially Suspicious WDAC Policy File Creation
+// ID: 1d2de8a6-4803-4fde-b85b-f58f3aa7a705
+// Status: experimental
+// Level: medium
+// Author: X__Junior
+// Date: 2025-02-07
+// Tags: attack.defense-impairment
+// Description: Detects suspicious Windows Defender Application Control (WDAC) policy file creation from abnormal processes that could be abused by attacker to block EDR/AV components while allowing their own malicious code to run on the system.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where ((TargetFilename matches "*\\Windows\\System32\\CodeIntegrity\\*") and !(((((CommandLine matches "*ConvertFrom-CIPolicy -XmlFilePath*" and CommandLine matches "*-BinaryFilePath *")) or (CommandLine matches "*CiTool --update-policy*") or ((CommandLine matches "*Copy-Item -Path*" and CommandLine matches "*-Destination*"))) or ((Image matches "*\\Microsoft.ConfigurationManagement.exe" or Image matches "*\\WDAC Wizard.exe" or Image matches "*C:\\Program Files\\PowerShell\\7-preview\\pwsh.exe" or Image matches "*C:\\Program Files\\PowerShell\\7\\pwsh.exe" or Image matches "*C:\\Windows\\System32\\dllhost.exe" or Image matches "*C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell_ise.exe" or Image matches "*C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" or Image matches "*C:\\Windows\\SysWOW64\\dllhost.exe" or Image matches "*C:\\Windows\\SysWOW64\\WindowsPowerShell\\v1.0\\powershell_ise.exe" or Image matches "*C:\\Windows\\SysWOW64\\WindowsPowerShell\\v1.0\\powershell.exe")) or (Image = "System") or (Image = "C:\\Windows\\System32\\wuauclt.exe") or ((Image = "C:\\Windows\\UUS\\arm64\\wuaucltcore.exe" or Image = "C:\\Windows\\UUS\\Packages\\Preview\\arm64\\wuaucltcore.exe")))))

@@ -1,0 +1,19 @@
+# Title: Potential Unconstrained Delegation Discovery Via Get-ADComputer - ScriptBlock
+# ID: cdfa73b6-3c9d-4bb8-97f8-ddbd8921f5c5
+# Status: experimental
+# Level: medium
+# Author: frack113
+# Date: 2025-03-05
+# Tags: attack.reconnaissance, attack.discovery, attack.credential-access, attack.t1018, attack.t1558, attack.t1589.002
+# Description: Detects the use of the "Get-ADComputer" cmdlet in order to identify systems which are configured for unconstrained delegation.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Potential Unconstrained Delegation Discovery Via Get-ADComputer - ScriptBlock
+def rule(event):
+    # Detection Logic:
+    # ((ScriptBlockText="*-Properties*TrustedForDelegation*" OR ScriptBlockText="*-Properties*TrustedToAuthForDelegation*" OR ScriptBlockText="*-Properties*msDS-AllowedToDelegateTo*" OR ScriptBlockText="*-Properties*PrincipalsAllowedToDelegateToAccount*" OR ScriptBlockText="*-LDAPFilter*(userAccountControl:1.2.840.113556.1.4.803:=524288)*"))
+    return True
+
+def title(event):
+    return "Potential Unconstrained Delegation Discovery Via Get-ADComputer - ScriptBlock"
+

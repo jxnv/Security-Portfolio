@@ -1,0 +1,24 @@
+# Title: Cmd Launched with Hidden Start Flags to Suspicious Targets
+# ID: 5a6b7c8d-9e0f-1a2b-3c4d-5e6f7a8b9c0d
+# Status: experimental
+# Level: medium
+# Author: Vladan Sekulic, Swachchhanda Shrawan Poudel (Nextron Systems)
+# Date: 2026-01-24
+# Tags: attack.stealth, attack.t1564.003
+# Description: Detects cmd.exe executing commands with the "start" utility using "/b" (no window) or "/min" (minimized) flags.
+# To reduce false positives from standard background tasks, detection is restricted to scenarios where the target is a known script extension or located in suspicious temporary/public directories.
+# This technique was observed in Chaos, DarkSide, and Emotet malware campaigns.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# LimaCharlie Detection & Response Rule
+# Name: Cmd Launched with Hidden Start Flags to Suspicious Targets
+detect:
+  event: process_creation
+  op: and
+  rules:
+    # Filter logic:
+    # ((((CommandLine="*start *" OR CommandLine="*start/b*" OR CommandLine="*start/min*")) AND ((CommandLine="*/b *" OR CommandLine="*-b *" OR CommandLine="*/b\"*" OR CommandLine="*-b\"*" OR CommandLine="*/min *" OR CommandLine="*-min *" OR CommandLine="*/min\"*" OR CommandLine="*-min\"*")) AND ((Image="*\\cmd.exe") OR (OriginalFileName="Cmd.Exe"))) AND (((CommandLine="*.bat*" OR CommandLine="*.cmd*" OR CommandLine="*.cpl*" OR CommandLine="*.hta*" OR CommandLine="*.js*" OR CommandLine="*.ps1*" OR CommandLine="*.scr*" OR CommandLine="*.vbe*" OR CommandLine="*.vbs*")) OR ((CommandLine="* -nop *" OR CommandLine="* -sta *" OR CommandLine="*.downloadfile(*" OR CommandLine="*.downloadstring(*" OR CommandLine="*-noni *" OR CommandLine="*-w hidden *")) OR ((CommandLine="*:\\Perflogs\\*" OR CommandLine="*:\\Temp\\*" OR CommandLine="*:\\Users\\Default\\*" OR CommandLine="*:\\Windows\\Temp\\*" OR CommandLine="*\\AppData\\Roaming\\*" OR CommandLine="*\\Contacts\\*" OR CommandLine="*\\Documents\\*" OR CommandLine="*\\Downloads\\*" OR CommandLine="*\\Favorites\\*" OR CommandLine="*\\Favourites\\*" OR CommandLine="*\\inetpub\\*" OR CommandLine="*\\Music\\*" OR CommandLine="*\\Photos\\*" OR CommandLine="*\\Temporary Internet\\*" OR CommandLine="*\\Users\\Public\\*" OR CommandLine="*\\Videos\\*"))))
+respond:
+  - action: report
+    name: Cmd Launched with Hidden Start Flags to Suspicious Targets
+

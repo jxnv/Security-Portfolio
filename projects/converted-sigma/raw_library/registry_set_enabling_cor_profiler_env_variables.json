@@ -1,0 +1,33 @@
+{
+  "title": "Enabling COR Profiler Environment Variables",
+  "id": "ad89044a-8f49-4673-9a55-cbd88a1b374f",
+  "status": "test",
+  "description": "Detects .NET Framework CLR and .NET Core CLR \"cor_enable_profiling\" and \"cor_profiler\" variables being set and configured.",
+  "author": "Jose Rodriguez (@Cyb3rPandaH), OTR (Open Threat Research), Jimmy Bayne (@bohops)",
+  "date": "2020-09-10",
+  "tags": [
+    "attack.persistence",
+    "attack.privilege-escalation",
+    "attack.execution",
+    "attack.stealth",
+    "attack.t1574.012"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "registry_set",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_1": {
+      "TargetObject|endswith": [
+        "\\COR_ENABLE_PROFILING",
+        "\\COR_PROFILER",
+        "\\CORECLR_ENABLE_PROFILING"
+      ]
+    },
+    "selection_2": {
+      "TargetObject|contains": "\\CORECLR_PROFILER_PATH"
+    },
+    "condition": "1 of selection_*"
+  }
+}

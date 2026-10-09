@@ -1,0 +1,48 @@
+{
+  "title": "Linux Package Uninstall",
+  "id": "95d61234-7f56-465c-6f2d-b562c6fedbc4",
+  "status": "test",
+  "description": "Detects linux package removal using builtin tools such as \"yum\", \"apt\", \"apt-get\" or \"dpkg\".",
+  "author": "Tuan Le (NCSGroup), Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2023-03-09",
+  "tags": [
+    "attack.stealth",
+    "attack.t1070"
+  ],
+  "level": "low",
+  "logsource": {
+    "product": "linux",
+    "category": "process_creation"
+  },
+  "detection": {
+    "selection_yum": {
+      "Image|endswith": "/yum",
+      "CommandLine|contains": [
+        "erase",
+        "remove"
+      ]
+    },
+    "selection_apt": {
+      "Image|endswith": [
+        "/apt",
+        "/apt-get"
+      ],
+      "CommandLine|contains": [
+        "remove",
+        "purge"
+      ]
+    },
+    "selection_dpkg": {
+      "Image|endswith": "/dpkg",
+      "CommandLine|contains": [
+        "--remove ",
+        " -r "
+      ]
+    },
+    "selection_rpm": {
+      "Image|endswith": "/rpm",
+      "CommandLine|contains": " -e "
+    },
+    "condition": "1 of selection_*"
+  }
+}

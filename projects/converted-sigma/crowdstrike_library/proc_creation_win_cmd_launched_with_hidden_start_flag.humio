@@ -1,0 +1,13 @@
+// Title: Cmd Launched with Hidden Start Flags to Suspicious Targets
+// ID: 5a6b7c8d-9e0f-1a2b-3c4d-5e6f7a8b9c0d
+// Status: experimental
+// Level: medium
+// Author: Vladan Sekulic, Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2026-01-24
+// Tags: attack.stealth, attack.t1564.003
+// Description: Detects cmd.exe executing commands with the "start" utility using "/b" (no window) or "/min" (minimized) flags.
+// To reduce false positives from standard background tasks, detection is restricted to scenarios where the target is a known script extension or located in suspicious temporary/public directories.
+// This technique was observed in Chaos, DarkSide, and Emotet malware campaigns.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((CommandLine = /*start */i or CommandLine = /*start/b*/i or CommandLine = /*start/min*/i)) and ((CommandLine = /*/b */i or CommandLine = /*-b */i or CommandLine = /*/b\"*/i or CommandLine = /*-b\"*/i or CommandLine = /*/min */i or CommandLine = /*-min */i or CommandLine = /*/min\"*/i or CommandLine = /*-min\"*/i)) and ((ImageFileName = /.*\\cmd.exe/i) or (OriginalFilename = "Cmd.Exe"))) and (((CommandLine = /*.bat*/i or CommandLine = /*.cmd*/i or CommandLine = /*.cpl*/i or CommandLine = /*.hta*/i or CommandLine = /*.js*/i or CommandLine = /*.ps1*/i or CommandLine = /*.scr*/i or CommandLine = /*.vbe*/i or CommandLine = /*.vbs*/i)) or ((CommandLine = /* -nop */i or CommandLine = /* -sta */i or CommandLine = /*.downloadfile(*/i or CommandLine = /*.downloadstring(*/i or CommandLine = /*-noni */i or CommandLine = /*-w hidden */i)) or ((CommandLine = /*:\\Perflogs\\*/i or CommandLine = /*:\\Temp\\*/i or CommandLine = /*:\\Users\\Default\\*/i or CommandLine = /*:\\Windows\\Temp\\*/i or CommandLine = /*\\AppData\\Roaming\\*/i or CommandLine = /*\\Contacts\\*/i or CommandLine = /*\\Documents\\*/i or CommandLine = /*\\Downloads\\*/i or CommandLine = /*\\Favorites\\*/i or CommandLine = /*\\Favourites\\*/i or CommandLine = /*\\inetpub\\*/i or CommandLine = /*\\Music\\*/i or CommandLine = /*\\Photos\\*/i or CommandLine = /*\\Temporary Internet\\*/i or CommandLine = /*\\Users\\Public\\*/i or CommandLine = /*\\Videos\\*/i))))

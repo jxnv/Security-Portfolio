@@ -1,0 +1,37 @@
+{
+  "title": "Potential LSASS Process Dump Via Procdump",
+  "id": "5afee48e-67dd-4e03-a783-f74259dcf998",
+  "status": "stable",
+  "description": "Detects potential credential harvesting attempts through LSASS memory dumps using ProcDump.\nThis rule identifies suspicious command-line patterns that combine memory dump flags (-ma, -mm, -mp) with LSASS-related process markers.\nLSASS (Local Security Authority Subsystem Service) contains sensitive authentication data including plaintext passwords, NTLM hashes, and Kerberos tickets in memory.\nAttackers commonly dump LSASS memory to extract credentials for lateral movement and privilege escalation.\n",
+  "author": "Florian Roth (Nextron Systems)",
+  "date": "2018-10-30",
+  "tags": [
+    "attack.stealth",
+    "attack.t1036",
+    "attack.credential-access",
+    "attack.t1003.001",
+    "car.2013-05-009"
+  ],
+  "level": "high",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_flags": {
+      "CommandLine|contains|windash": [
+        " -ma ",
+        " -mm ",
+        " -mp "
+      ]
+    },
+    "selection_process": {
+      "CommandLine|contains": [
+        " ls",
+        " keyiso",
+        " samss"
+      ]
+    },
+    "condition": "all of selection_*"
+  }
+}

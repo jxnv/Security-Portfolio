@@ -1,0 +1,12 @@
+// Title: Execution of Suspicious File Type Extension
+// ID: c09dad97-1c78-4f71-b127-7edb2b8e491a
+// Status: test
+// Level: medium
+// Author: Max Altgelt (Nextron Systems)
+// Date: 2021-12-09
+// Tags: attack.stealth
+// Description: Detects whether the image specified in a process creation event doesn't refer to an ".exe" (or other known executable extension) file. This can be caused by process ghosting or other unorthodox methods to start a process.
+// This rule might require some initial baselining to align with some third party tooling in the user environment.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(NOT (((where(Image IENDSWITH ".bin") OR where(Image IENDSWITH ".cgi") OR where(Image IENDSWITH ".com") OR where(Image IENDSWITH ".exe") OR where(Image IENDSWITH ".scr") OR where(Image IENDSWITH ".tmp")))) AND NOT (((where(Image ICONTAINS ":\\$Extend\\$Deleted\\")) OR (where(Image ICONTAINS ":\\Windows\\System32\\DriverStore\\FileRepository\\")) OR ((where(Image = "-") OR where(Image = ""))) OR ((where(Image = "System") OR where(Image = "Registry") OR where(Image = "MemCompression") OR where(Image = "vmmem"))) OR (where(Image ICONTAINS ":\\Windows\\Installer\\MSI")) OR (where(Image ICONTAINS ":\\Config.Msi\\") AND (where(Image IENDSWITH ".rbf") OR where(Image IENDSWITH ".rbs"))) OR (NOT Image=*) OR ((where(ParentImage ICONTAINS ":\\Windows\\Temp\\")) OR (where(Image ICONTAINS ":\\Windows\\Temp\\"))))) AND NOT (((where(ParentImage ICONTAINS ":\\ProgramData\\Avira\\")) OR (where(ParentImage = "C:\\Windows\\System32\\services.exe") AND where(Image IENDSWITH "com.docker.service")) OR (where(Image ICONTAINS ":\\Program Files\\Mozilla Firefox\\")) OR (where(Image IENDSWITH "\\LZMA_EXE")) OR ((where(Image IENDSWITH ":\\Program Files (x86)\\MyQ\\Server\\pcltool.dll") OR where(Image IENDSWITH ":\\Program Files\\MyQ\\Server\\pcltool.dll"))) OR (where(Image ICONTAINS "NVIDIA\\NvBackend\\") AND where(Image IENDSWITH ".dat")) OR ((where(Image ICONTAINS ":\\Program Files (x86)\\WINPAKPRO\\") OR where(Image ICONTAINS ":\\Program Files\\WINPAKPRO\\")) AND where(Image IENDSWITH ".ngn")) OR ((where(Image ICONTAINS "\\AppData\\Local\\Packages\\") AND where(Image ICONTAINS "\\LocalState\\rootfs\\"))))))

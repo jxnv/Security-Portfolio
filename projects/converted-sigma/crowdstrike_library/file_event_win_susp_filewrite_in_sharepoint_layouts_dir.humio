@@ -1,0 +1,12 @@
+// Title: Suspicious File Write to SharePoint Layouts Directory
+// ID: 1f0489be-b496-4ddf-b3a9-5900f2044e9c
+// Status: experimental
+// Level: high
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-07-24
+// Tags: attack.initial-access, attack.t1190, attack.persistence, attack.t1505.003
+// Description: Detects suspicious file writes to SharePoint layouts directory which could indicate webshell activity or post-exploitation.
+// This behavior has been observed in the exploitation of SharePoint vulnerabilities such as CVE-2025-49704, CVE-2025-49706 or CVE-2025-53770.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((ImageFileName = /.*\\cmd.exe/i or ImageFileName = /.*\\powershell_ise.exe/i or ImageFileName = /.*\\powershell.exe/i or ImageFileName = /.*\\pwsh.exe/i or ImageFileName = /.*\\w3wp.exe/i) and (TargetFileName = /C:\\Program Files\\Common Files\\Microsoft Shared\\Web Server Extensions\\.*/i or TargetFileName = /C:\\Program Files (x86)\\Common Files\\Microsoft Shared\\Web Server Extensions\\.*/i) and (TargetFileName = /*\\15\\TEMPLATE\\LAYOUTS\\*/i or TargetFileName = /*\\16\\TEMPLATE\\LAYOUTS\\*/i) and (TargetFileName = /.*.asax/i or TargetFileName = /.*.ascx/i or TargetFileName = /.*.ashx/i or TargetFileName = /.*.asmx/i or TargetFileName = /.*.asp/i or TargetFileName = /.*.aspx/i or TargetFileName = /.*.bat/i or TargetFileName = /.*.cmd/i or TargetFileName = /.*.cer/i or TargetFileName = /.*.config/i or TargetFileName = /.*.hta/i or TargetFileName = /.*.js/i or TargetFileName = /.*.jsp/i or TargetFileName = /.*.jspx/i or TargetFileName = /.*.php/i or TargetFileName = /.*.ps1/i or TargetFileName = /.*.vbs/i))

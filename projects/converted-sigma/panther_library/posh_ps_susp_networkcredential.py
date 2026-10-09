@@ -1,0 +1,20 @@
+# Title: Suspicious Connection to Remote Account
+# ID: 1883444f-084b-419b-ac62-e0d0c5b3693f
+# Status: test
+# Level: low
+# Author: frack113
+# Date: 2021-12-27
+# Tags: attack.credential-access, attack.t1110.001
+# Description: Adversaries with no prior knowledge of legitimate credentials within the system or environment may guess passwords to attempt access to accounts.
+# Without knowledge of the password for an account, an adversary may opt to systematically guess the password using a repetitive or iterative mechanism
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Suspicious Connection to Remote Account
+def rule(event):
+    # Detection Logic:
+    # ((ScriptBlockText="*System.DirectoryServices.Protocols.LdapDirectoryIdentifier*" OR ScriptBlockText="*System.Net.NetworkCredential*" OR ScriptBlockText="*System.DirectoryServices.Protocols.LdapConnection*"))
+    return True
+
+def title(event):
+    return "Suspicious Connection to Remote Account"
+

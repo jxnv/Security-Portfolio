@@ -1,0 +1,23 @@
+// Title: Office Application Initiated Network Connection Over Uncommon Ports
+// ID: 3b5ba899-9842-4bc2-acc2-12308498bf42
+// Status: test
+// Level: medium
+// Author: X__Junior (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-07-12
+// Tags: attack.command-and-control, attack.stealth
+// Description: Detects an office suit application (Word, Excel, PowerPoint, Outlook) communicating to target systems over uncommon ports.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 3b5ba899_9842_4bc2_acc2_12308498bf42 {
+  meta:
+    title = "Office Application Initiated Network Connection Over Uncommon Ports"
+    description = "Detects an office suit application (Word, Excel, PowerPoint, Outlook) communicating to target systems over uncommon ports."
+    author = "X__Junior (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.Initiated = "true" and ($e.target.process.file.full_path = /.*\\excel.exe$/ nocase or $e.target.process.file.full_path = /.*\\outlook.exe$/ nocase or $e.target.process.file.full_path = /.*\\powerpnt.exe$/ nocase or $e.target.process.file.full_path = /.*\\winword.exe$/ nocase or $e.target.process.file.full_path = /.*\\wordview.exe$/ nocase)) and not(((($e.target.port = 53 or $e.target.port = 80 or $e.target.port = 139 or $e.target.port = 389 or $e.target.port = 443 or $e.target.port = 445 or $e.target.port = 3268)) or ($e.target.process.file.full_path = /.*:\\Program Files\\Microsoft Office\\.*/ nocase and $e.target.process.file.full_path = /.*\\OUTLOOK.EXE$/ nocase and ($e.target.port = 143 or $e.target.port = 465 or $e.target.port = 587 or $e.target.port = 993 or $e.target.port = 995)))))
+
+  condition:
+    $e
+}

@@ -1,0 +1,23 @@
+// Title: Sysmon Driver Unloaded Via Fltmc.EXE
+// ID: 4d7cda18-1b12-4e52-b45c-d28653210df8
+// Status: test
+// Level: high
+// Author: Kirill Kiryanov, oscd.community
+// Date: 2019-10-23
+// Tags: attack.stealth, attack.defense-impairment, attack.t1070, attack.t1685, attack.t1685.001
+// Description: Detects possible Sysmon filter driver unloaded via fltmc.exe
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 4d7cda18_1b12_4e52_b45c_d28653210df8 {
+  meta:
+    title = "Sysmon Driver Unloaded Via Fltmc.EXE"
+    description = "Detects possible Sysmon filter driver unloaded via fltmc.exe"
+    author = "Kirill Kiryanov, oscd.community"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*unload.*/ nocase and $e.target.process.command_line = /.*sysmon.*/ nocase)) and (($e.target.process.file.full_path = /.*\\fltMC.exe$/ nocase) or ($e.target.process.file.name = "fltMC.exe")))
+
+  condition:
+    $e
+}

@@ -1,0 +1,23 @@
+// Title: Potential CobaltStrike Process Patterns
+// ID: f35c5d71-b489-4e22-a115-f003df287317
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2021-07-27
+// Tags: attack.execution, attack.t1059
+// Description: Detects potential process patterns related to Cobalt Strike beacon activity
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule f35c5d71_b489_4e22_a115_f003df287317 {
+  meta:
+    title = "Potential CobaltStrike Process Patterns"
+    description = "Detects potential process patterns related to Cobalt Strike beacon activity"
+    author = "Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.principal.process.command_line = /.*cmd.exe /C echo.*/ nocase and $e.principal.process.command_line = /.* > \\\\\\\\.\\\\pipe.*/ nocase) and $e.target.process.command_line = /.*conhost.exe 0xffffffff -ForceV1$/ nocase) or ($e.principal.process.command_line = /.*/C whoami$/ nocase and $e.target.process.command_line = /.*conhost.exe 0xffffffff -ForceV1$/ nocase) or ($e.target.process.command_line = /.*cmd.exe /C whoami$/ nocase and $e.principal.process.file.full_path = /^C:\\Temp\\.*/ nocase) or (($e.principal.process.file.full_path = /.*\\runonce.exe$/ nocase or $e.principal.process.file.full_path = /.*\\dllhost.exe$/ nocase) and ($e.target.process.command_line = /.*cmd.exe /c echo.*/ nocase and $e.target.process.command_line = /.*> \\\\\\\\.\\\\pipe.*/ nocase)))
+
+  condition:
+    $e
+}

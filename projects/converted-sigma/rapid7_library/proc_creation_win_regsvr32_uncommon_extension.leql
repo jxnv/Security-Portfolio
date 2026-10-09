@@ -1,0 +1,11 @@
+// Title: Regsvr32 DLL Execution With Uncommon Extension
+// ID: 50919691-7302-437f-8e10-1fe088afa145
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems)
+// Date: 2019-07-17
+// Tags: attack.privilege-escalation, attack.persistence, attack.stealth, attack.t1574, attack.execution
+// Description: Detects a "regsvr32" execution where the DLL doesn't contain a common file extension.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(Image IENDSWITH "\\regsvr32.exe")) OR (where(OriginalFileName = "REGSVR32.EXE"))) AND NOT (((where(CommandLine = "")) OR ((where(CommandLine ICONTAINS ".ax") OR where(CommandLine ICONTAINS ".cpl") OR where(CommandLine ICONTAINS ".dll") OR where(CommandLine ICONTAINS ".ocx"))) OR (NOT CommandLine=*))) AND NOT (((where(CommandLine ICONTAINS ".bav")) OR (where(CommandLine ICONTAINS ".ppl")))))

@@ -1,0 +1,11 @@
+// Title: Sensitive File Dump Via Print.EXE
+// ID: 2fcda7e2-8c57-4904-86ac-37fc3157e09d
+// Status: test
+// Level: high
+// Author: Ayush Anand (Securityinbits)
+// Date: 2026-04-28
+// Tags: attack.credential-access, attack.stealth, attack.t1003.003, attack.t1003.002, attack.t1218
+// Description: Detects the abuse of the Print.exe utility for credential harvesting which involves using Print.Exe to copy sensitive files such as ntds.dit, SAM, SECURITY, or SYSTEM from the Windows directory in order to extract credentials, locally or remotely.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where (((process.command_line like "*_/D*" or process.command_line like "*_-D*") and (process.command_line like "*_\\config\\SAM*" or process.command_line like "*_\\config\\SECURITY*" or process.command_line like "*_\\config\\SYSTEM*" or process.command_line like "*_\\windows\\ntds\\ntds.dit*")) and ((process.executable endswith "\\print.exe") or (process.pe.original_file_name == "Print.EXE")))

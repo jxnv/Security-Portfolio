@@ -1,0 +1,14 @@
+// Title: Suspicious FileFix Execution Pattern
+// ID: b5b29e4e-31fa-4fdf-b058-296e7a1aa0c2
+// Status: experimental
+// Level: high
+// Author: 0xFustang, Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-11-24
+// Tags: attack.execution, attack.t1204.004
+// Description: Detects suspicious FileFix execution patterns where users are tricked into running malicious commands through browser file upload dialog manipulation.
+// This attack typically begins when users visit malicious websites impersonating legitimate services or news platforms,
+// which may display fake CAPTCHA challenges or direct instructions to open file explorer and paste clipboard content.
+// The clipboard content usually contains commands that download and execute malware, such as information stealing tools.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(ParentImage IENDSWITH "\\brave.exe") OR where(ParentImage IENDSWITH "\\chrome.exe") OR where(ParentImage IENDSWITH "\\firefox.exe") OR where(ParentImage IENDSWITH "\\msedge.exe")) AND where(CommandLine ICONTAINS "#")) AND (((where(CommandLine ICONTAINS "account") OR where(CommandLine ICONTAINS "anti-bot") OR where(CommandLine ICONTAINS "botcheck") OR where(CommandLine ICONTAINS "captcha") OR where(CommandLine ICONTAINS "challenge") OR where(CommandLine ICONTAINS "confirmation") OR where(CommandLine ICONTAINS "fraud") OR where(CommandLine ICONTAINS "human") OR where(CommandLine ICONTAINS "identification") OR where(CommandLine ICONTAINS "identificator") OR where(CommandLine ICONTAINS "identity") OR where(CommandLine ICONTAINS "robot") OR where(CommandLine ICONTAINS "validation") OR where(CommandLine ICONTAINS "verification") OR where(CommandLine ICONTAINS "verify"))) OR ((where(CommandLine ICONTAINS "%comspec%") OR where(CommandLine ICONTAINS "bitsadmin") OR where(CommandLine ICONTAINS "certutil") OR where(CommandLine ICONTAINS "cmd") OR where(CommandLine ICONTAINS "cscript") OR where(CommandLine ICONTAINS "curl") OR where(CommandLine ICONTAINS "finger") OR where(CommandLine ICONTAINS "mshta") OR where(CommandLine ICONTAINS "powershell") OR where(CommandLine ICONTAINS "pwsh") OR where(CommandLine ICONTAINS "regsvr32") OR where(CommandLine ICONTAINS "rundll32") OR where(CommandLine ICONTAINS "schtasks") OR where(CommandLine ICONTAINS "wget") OR where(CommandLine ICONTAINS "wscript")))))

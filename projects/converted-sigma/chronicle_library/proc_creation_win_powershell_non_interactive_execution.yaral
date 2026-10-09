@@ -1,0 +1,23 @@
+// Title: Non Interactive PowerShell Process Spawned
+// ID: f4bbd493-b796-416e-bbf2-121235348529
+// Status: test
+// Level: low
+// Author: Roberto Rodriguez @Cyb3rWard0g (rule), oscd.community (improvements)
+// Date: 2019-09-12
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects non-interactive PowerShell activity by looking at the "powershell" process with a non-user GUI process such as "explorer.exe" as a parent.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule f4bbd493_b796_416e_bbf2_121235348529 {
+  meta:
+    title = "Non Interactive PowerShell Process Spawned"
+    description = "Detects non-interactive PowerShell activity by looking at the "powershell" process with a non-user GUI process such as "explorer.exe" as a parent."
+    author = "Roberto Rodriguez @Cyb3rWard0g (rule), oscd.community (improvements)"
+    severity = "LOW"
+
+  events:
+    (((($e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase)) or (($e.target.process.file.name = "PowerShell.EXE" or $e.target.process.file.name = "pwsh.dll"))) and not(((($e.principal.process.file.full_path = /.*:\\Windows\\explorer.exe$/ nocase or $e.principal.process.file.full_path = /.*:\\Windows\\System32\\CompatTelRunner.exe$/ nocase or $e.principal.process.file.full_path = /.*:\\Windows\\SysWOW64\\explorer.exe$/ nocase)) or ($e.principal.process.file.full_path = ":\\$WINDOWS.~BT\\Sources\\SetupHost.exe"))) and not((($e.principal.process.file.full_path = /.*:\\Program Files\\Windows Defender Advanced Threat Protection\\SenseIR.exe$/ nocase) or ($e.principal.process.file.full_path = /.*:\\Program Files\\WindowsApps\\Microsoft.WindowsTerminal_.*/ nocase and $e.principal.process.file.full_path = /.*\\WindowsTerminal.exe$/ nocase) or ($e.principal.process.file.full_path = /.*\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe$/ nocase and $e.principal.process.command_line = /.* --ms-enable-electron-run-as-node .*/ nocase))))
+
+  condition:
+    $e
+}

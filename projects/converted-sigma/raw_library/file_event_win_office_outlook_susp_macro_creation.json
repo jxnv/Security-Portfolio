@@ -1,0 +1,30 @@
+{
+  "title": "Suspicious Outlook Macro Created",
+  "id": "117d3d3a-755c-4a61-b23e-9171146d094c",
+  "status": "test",
+  "description": "Detects the creation of a macro file for Outlook.",
+  "author": "Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2023-02-08",
+  "tags": [
+    "attack.privilege-escalation",
+    "attack.persistence",
+    "attack.command-and-control",
+    "attack.t1137",
+    "attack.t1008",
+    "attack.t1546"
+  ],
+  "level": "high",
+  "logsource": {
+    "category": "file_event",
+    "product": "windows"
+  },
+  "detection": {
+    "selection": {
+      "TargetFilename|endswith": "\\Microsoft\\Outlook\\VbaProject.OTM"
+    },
+    "filter": {
+      "Image|endswith": "\\outlook.exe"
+    },
+    "condition": "selection and not filter"
+  }
+}

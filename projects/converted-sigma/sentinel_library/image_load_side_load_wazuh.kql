@@ -1,0 +1,11 @@
+// Title: Potential Wazuh Security Platform DLL Sideloading
+// ID: db77ce78-7e28-4188-9337-cf30e2b3ba9f
+// Status: test
+// Level: medium
+// Author: X__Junior (Nextron Systems)
+// Date: 2023-03-13
+// Tags: attack.persistence, attack.privilege-escalation, attack.execution, attack.stealth, attack.t1574.001
+// Description: Detects potential DLL side loading of DLLs that are part of the Wazuh security platform
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+DeviceProcessEvents | where (((ImageLoaded endswith "\\libwazuhshared.dll" or ImageLoaded endswith "\\libwinpthread-1.dll")) and not(((ImageLoaded startswith "C:\\Program Files\\" or ImageLoaded startswith "C:\\Program Files (x86)\\"))) and not(((ImageLoaded contains "\\AppData\\Local\\" or ImageLoaded contains "\\ProgramData\\") and ImageLoaded endswith "\\mingw64\\bin\\libwinpthread-1.dll")))

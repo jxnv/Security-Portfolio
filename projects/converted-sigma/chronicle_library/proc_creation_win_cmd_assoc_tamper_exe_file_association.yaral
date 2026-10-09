@@ -1,0 +1,24 @@
+// Title: Change Default File Association To Executable Via Assoc
+// ID: ae6f14e6-14de-45b0-9f44-c0986f50dc89
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-06-28
+// Tags: attack.privilege-escalation, attack.persistence, attack.t1546.001
+// Description: Detects when a program changes the default file association of any extension to an executable.
+// When a file is opened, the default program used to open the file (also called the file association or handler) is checked. File association selections are stored in the Windows Registry and can be edited by users, administrators, or programs that have Registry access or by administrators using the built-in assoc utility. Applications can modify the file association for a given file extension to call an arbitrary program when a file with the given extension is opened.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule ae6f14e6_14de_45b0_9f44_c0986f50dc89 {
+  meta:
+    title = "Change Default File Association To Executable Via Assoc"
+    description = "Detects when a program changes the default file association of any extension to an executable. When a file is opened, the default program used to open the file (also called the file association or handler) is checked. File association selections are stored in the Windows Registry and can be edited by users, administrators, or programs that have Registry access or by administrators using the built-in assoc utility. Applications can modify the file association for a given file extension to call an arbitrary program when a file with the given extension is opened."
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (((($e.target.process.command_line = /.*assoc .*/ nocase and $e.target.process.command_line = /.*exefile.*/ nocase)) and (($e.target.process.file.full_path = /.*\\cmd.exe$/ nocase) or ($e.target.process.file.name = "Cmd.Exe"))) and not(($e.target.process.command_line = /.*.exe=exefile.*/ nocase)))
+
+  condition:
+    $e
+}

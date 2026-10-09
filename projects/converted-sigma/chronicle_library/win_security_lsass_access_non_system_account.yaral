@@ -1,0 +1,23 @@
+// Title: LSASS Access From Non System Account
+// ID: 962fe167-e48d-4fd6-9974-11e5b9a5d6d1
+// Status: test
+// Level: medium
+// Author: Roberto Rodriguez @Cyb3rWard0g
+// Date: 2019-06-20
+// Tags: attack.credential-access, attack.t1003.001
+// Description: Detects potential mimikatz-like tools accessing LSASS from non system account
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 962fe167_e48d_4fd6_9974_11e5b9a5d6d1 {
+  meta:
+    title = "LSASS Access From Non System Account"
+    description = "Detects potential mimikatz-like tools accessing LSASS from non system account"
+    author = "Roberto Rodriguez @Cyb3rWard0g"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.EventID = 4663 or $e.EventID = 4656) and ($e.AccessMask = "0x100000" or $e.AccessMask = "0x1010" or $e.AccessMask = "0x1400" or $e.AccessMask = "0x1410" or $e.AccessMask = "0x1418" or $e.AccessMask = "0x1438" or $e.AccessMask = "0x143a" or $e.AccessMask = "0x1f0fff" or $e.AccessMask = "0x1f1fff" or $e.AccessMask = "0x1f2fff" or $e.AccessMask = "0x1f3fff" or $e.AccessMask = "0x40" or $e.AccessMask = "143a" or $e.AccessMask = "1f0fff" or $e.AccessMask = "1f1fff" or $e.AccessMask = "1f2fff" or $e.AccessMask = "1f3fff") and $e.ObjectType = "Process" and $e.ObjectName = /.*\\lsass.exe$/ nocase) and not(((($e.ProcessName = /.*:\\Program Files\\.*/ nocase or $e.ProcessName = /.*:\\Program Files (x86)\\.*/ nocase)) or ($e.SubjectUserName = /.*$$/ nocase) or ($e.ProcessName = "C:\\Windows\\System32\\wbem\\WmiPrvSE.exe" and $e.AccessMask = "0x1410"))) and not(($e.ProcessName = /.*\\SteamLibrary\\steamapps\\.*/ nocase)))
+
+  condition:
+    $e
+}

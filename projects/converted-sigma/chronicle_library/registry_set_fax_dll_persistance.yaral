@@ -1,0 +1,23 @@
+// Title: Change the Fax Dll
+// ID: 9e3357ba-09d4-4fbd-a7c5-ad6386314513
+// Status: test
+// Level: high
+// Author: frack113
+// Date: 2022-07-17
+// Tags: attack.persistence, attack.defense-impairment, attack.t1112
+// Description: Detect possible persistence using Fax DLL load when service restart
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 9e3357ba_09d4_4fbd_a7c5_ad6386314513 {
+  meta:
+    title = "Change the Fax Dll"
+    description = "Detect possible persistence using Fax DLL load when service restart"
+    author = "frack113"
+    severity = "HIGH"
+
+  events:
+    ((($e.TargetObject = /.*\\Software\\Microsoft\\Fax\\Device Providers\\.*/ nocase and $e.TargetObject = /.*\\ImageName.*/ nocase)) and not(($e.Details = "%systemroot%\\system32\\fxst30.dll")))
+
+  condition:
+    $e
+}

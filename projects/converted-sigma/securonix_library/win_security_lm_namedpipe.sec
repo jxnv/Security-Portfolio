@@ -1,0 +1,11 @@
+// Title: First Time Seen Remote Named Pipe
+// ID: 52d8b0c6-53d6-439a-9e41-52ad442ad9ad
+// Status: test
+// Level: high
+// Author: Samir Bousseaden
+// Date: 2019-04-03
+// Tags: attack.lateral-movement, attack.t1021.002
+// Description: This detection excludes known namped pipes accessible remotely and notify on newly observed ones, may help to detect lateral movement and remote exec using named pipes
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((EventID EQUALS "5145" AND ShareName EQUALS "\\\\\\\\\\*\\\\IPC$") AND NOT (((RelativeTargetName EQUALS "atsvc" OR RelativeTargetName EQUALS "samr" OR RelativeTargetName EQUALS "lsarpc" OR RelativeTargetName EQUALS "lsass" OR RelativeTargetName EQUALS "winreg" OR RelativeTargetName EQUALS "netlogon" OR RelativeTargetName EQUALS "srvsvc" OR RelativeTargetName EQUALS "protected_storage" OR RelativeTargetName EQUALS "wkssvc" OR RelativeTargetName EQUALS "browser" OR RelativeTargetName EQUALS "netdfs" OR RelativeTargetName EQUALS "svcctl" OR RelativeTargetName EQUALS "spoolss" OR RelativeTargetName EQUALS "ntsvcs" OR RelativeTargetName EQUALS "LSM_API_service" OR RelativeTargetName EQUALS "HydraLsPipe" OR RelativeTargetName EQUALS "TermSrv_API_service" OR RelativeTargetName EQUALS "MsFteWds" OR RelativeTargetName EQUALS "sql\\query" OR RelativeTargetName EQUALS "eventlog"))))

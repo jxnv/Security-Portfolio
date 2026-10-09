@@ -1,0 +1,23 @@
+// Title: PUA - 3Proxy Execution
+// ID: f38a82d2-fba3-4781-b549-525efbec8506
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-09-13
+// Tags: attack.command-and-control, attack.t1572
+// Description: Detects the use of 3proxy, a tiny free proxy server
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule f38a82d2_fba3_4781_b549_525efbec8506 {
+  meta:
+    title = "PUA - 3Proxy Execution"
+    description = "Detects the use of 3proxy, a tiny free proxy server"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.file.full_path = /.*\\3proxy.exe$/ nocase) or ($e.target.process.command_line = /.*.exe -i127.0.0.1 -p.*/ nocase) or ($e.Description = "3proxy - tiny proxy server"))
+
+  condition:
+    $e
+}

@@ -1,0 +1,11 @@
+// Title: Suspicious Non-Browser Network Communication With Google API
+// ID: 7e9cf7b6-e827-11ed-a05b-0242ac120003
+// Status: experimental
+// Level: medium
+// Author: Gavin Knapp
+// Date: 2023-05-01
+// Tags: attack.command-and-control, attack.t1102
+// Description: Detects a non-browser process interacting with the Google API which could indicate the use of a covert C2 such as Google Sheet C2 (GC2-sheet)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+DeviceProcessEvents | where (((DestinationHostname contains "drive.googleapis.com" or DestinationHostname contains "oauth2.googleapis.com" or DestinationHostname contains "sheets.googleapis.com" or DestinationHostname contains "www.googleapis.com")) and not(((FolderPath == "") or ((isempty(FolderPath) or isnull(FolderPath))))) and not(((FolderPath endswith "\\brave.exe") or ((FolderPath endswith ":\\Program Files\\Google\\Chrome\\Application\\chrome.exe" or FolderPath endswith ":\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe")) or ((FolderPath contains ":\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\") or ((FolderPath endswith ":\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe" or FolderPath endswith ":\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe" or FolderPath endswith "\\WindowsApps\\MicrosoftEdge.exe"))) or ((FolderPath contains ":\\Program Files (x86)\\Microsoft\\EdgeCore\\" or FolderPath contains ":\\Program Files\\Microsoft\\EdgeCore\\") and (FolderPath endswith "\\msedge.exe" or FolderPath endswith "\\msedgewebview2.exe")) or ((FolderPath endswith ":\\Program Files\\Mozilla Firefox\\firefox.exe" or FolderPath endswith ":\\Program Files (x86)\\Mozilla Firefox\\firefox.exe")) or (FolderPath contains ":\\Program Files\\Google\\Drive File Stream\\" and FolderPath endswith "\\GoogleDriveFS.exe") or (FolderPath endswith "\\GoogleUpdate.exe") or ((FolderPath endswith ":\\Program Files (x86)\\Internet Explorer\\iexplore.exe" or FolderPath endswith ":\\Program Files\\Internet Explorer\\iexplore.exe")) or (FolderPath endswith "\\maxthon.exe") or (FolderPath endswith "\\opera.exe") or (FolderPath endswith "\\outlook.exe") or (FolderPath endswith "\\safari.exe") or (FolderPath endswith "\\seamonkey.exe") or (FolderPath endswith "\\vivaldi.exe") or (FolderPath endswith "\\whale.exe"))))

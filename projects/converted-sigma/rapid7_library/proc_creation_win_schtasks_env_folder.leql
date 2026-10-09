@@ -1,0 +1,11 @@
+// Title: Schedule Task Creation From Env Variable Or Potentially Suspicious Path Via Schtasks.EXE
+// ID: 81325ce1-be01-4250-944f-b4789644556f
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-02-21
+// Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.t1053.005
+// Description: Detects Schtask creations that point to a suspicious folder or an environment variable often used by malware
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((((where(CommandLine ICONTAINS ":\\Perflogs") OR where(CommandLine ICONTAINS ":\\Users\\All Users\\") OR where(CommandLine ICONTAINS ":\\Users\\Default\\") OR where(CommandLine ICONTAINS ":\\Users\\Public") OR where(CommandLine ICONTAINS ":\\Windows\\Temp") OR where(CommandLine ICONTAINS "\\AppData\\Local\\") OR where(CommandLine ICONTAINS "\\AppData\\Roaming\\") OR where(CommandLine ICONTAINS "%AppData%") OR where(CommandLine ICONTAINS "%Public%"))) AND (where(Image IENDSWITH "\\schtasks.exe") AND where(CommandLine ICONTAINS " /create "))) OR ((where(ParentCommandLine IENDSWITH "\\svchost.exe -k netsvcs -p -s Schedule")) AND ((where(CommandLine ICONTAINS ":\\Perflogs") OR where(CommandLine ICONTAINS ":\\Windows\\Temp") OR where(CommandLine ICONTAINS "\\Users\\Public") OR where(CommandLine ICONTAINS "%Public%"))))) AND NOT ((((where(CommandLine ICONTAINS "/Create /Xml ") AND where(CommandLine ICONTAINS "\\Temp\\.CR.") AND where(CommandLine ICONTAINS "\\Avira_Security_Installation.xml"))) OR ((where(CommandLine ICONTAINS "/Create /F /TN") AND where(CommandLine ICONTAINS "/Xml ") AND where(CommandLine ICONTAINS "\\Temp\\") AND where(CommandLine ICONTAINS "Avira_")) AND (where(CommandLine ICONTAINS ".tmp\\UpdateFallbackTask.xml") OR where(CommandLine ICONTAINS ".tmp\\WatchdogServiceControlManagerTimeout.xml") OR where(CommandLine ICONTAINS ".tmp\\SystrayAutostart.xml") OR where(CommandLine ICONTAINS ".tmp\\MaintenanceTask.xml"))) OR ((where(CommandLine ICONTAINS "\\Temp\\") AND where(CommandLine ICONTAINS "/Create /TN \"klcp_update\" /XML ") AND where(CommandLine ICONTAINS "\\klcp_update_task.xml"))) OR ((where(ParentCommandLine ICONTAINS "unattended.ini")) OR (where(CommandLine ICONTAINS "update_task.xml"))) OR (where(CommandLine ICONTAINS "/Create /TN TVInstallRestore /TR")))))

@@ -1,0 +1,14 @@
+// Title: MSHTA Execution with Suspicious File Extensions
+// ID: cc7abbd0-762b-41e3-8a26-57ad50d2eea3
+// Status: test
+// Level: high
+// Author: Diego Perez (@darkquassar), Markus Neis, Swisscom (Improve Rule), Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2019-02-22
+// Tags: attack.stealth, attack.t1140, attack.t1218.005, attack.execution, attack.t1059.007, cve.2020-1599
+// Description: Detects execution of mshta.exe with file types that looks like they do not typically represent HTA (HTML Application) content,
+// such as .png, .jpg, .zip, .pdf, and others, which are often polyglots. MSHTA is a legitimate Windows utility for executing HTML Applications
+// containing VBScript or JScript. Threat actors often abuse this lolbin utility to download and
+// execute malicious scripts disguised as benign files or hosted under misleading extensions to evade detection.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter (((action_process_image_command_line contains ".7z" or action_process_image_command_line contains ".avi" or action_process_image_command_line contains ".bat" or action_process_image_command_line contains ".bmp" or action_process_image_command_line contains ".conf" or action_process_image_command_line contains ".csv" or action_process_image_command_line contains ".dll" or action_process_image_command_line contains ".doc" or action_process_image_command_line contains ".gif" or action_process_image_command_line contains ".gz" or action_process_image_command_line contains ".ini" or action_process_image_command_line contains ".jpe" or action_process_image_command_line contains ".jpg" or action_process_image_command_line contains ".json" or action_process_image_command_line contains ".lnk" or action_process_image_command_line contains ".log" or action_process_image_command_line contains ".mkv" or action_process_image_command_line contains ".mp3" or action_process_image_command_line contains ".mp4" or action_process_image_command_line contains ".pdf" or action_process_image_command_line contains ".png" or action_process_image_command_line contains ".ppt" or action_process_image_command_line contains ".rar" or action_process_image_command_line contains ".rtf" or action_process_image_command_line contains ".svg" or action_process_image_command_line contains ".tar" or action_process_image_command_line contains ".tmp" or action_process_image_command_line contains ".txt" or action_process_image_command_line contains ".xls" or action_process_image_command_line contains ".xml" or action_process_image_command_line contains ".yaml" or action_process_image_command_line contains ".yml" or action_process_image_command_line contains ".zip" or action_process_image_command_line contains "vbscript")) and ((action_process_image_path endswith "\\mshta.exe") or (action_process_image_name = "mshta.exe")))

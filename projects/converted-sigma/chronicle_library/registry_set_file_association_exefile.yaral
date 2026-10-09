@@ -1,0 +1,23 @@
+// Title: New File Association Using Exefile
+// ID: 44a22d59-b175-4f13-8c16-cbaef5b581ff
+// Status: test
+// Level: high
+// Author: Andreas Hunkeler (@Karneades)
+// Date: 2021-11-19
+// Tags: attack.stealth
+// Description: Detects the abuse of the exefile handler in new file association. Used for bypass of security products.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 44a22d59_b175_4f13_8c16_cbaef5b581ff {
+  meta:
+    title = "New File Association Using Exefile"
+    description = "Detects the abuse of the exefile handler in new file association. Used for bypass of security products."
+    author = "Andreas Hunkeler (@Karneades)"
+    severity = "HIGH"
+
+  events:
+    ($e.TargetObject = /.*Classes\\..*/ nocase and $e.Details = "exefile")
+
+  condition:
+    $e
+}

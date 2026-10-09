@@ -1,0 +1,29 @@
+{
+  "title": "Suspicious Process Access of MsMpEng by WerFaultSecure - EDR-Freeze",
+  "id": "387df17d-3b04-448f-8669-9e7fd5e5fd8c",
+  "status": "experimental",
+  "description": "Detects process access events where WerFaultSecure accesses MsMpEng.exe with dbgcore.dll or dbghelp.dll in the call trace, indicating potential EDR freeze techniques.\nThis technique leverages WerFaultSecure.exe running as a Protected Process Light (PPL) with WinTCB protection level to call MiniDumpWriteDump and suspend EDR/AV processes, allowing malicious activity to execute undetected during the suspension period.\n",
+  "author": "Swachchhanda Shrawan Poudel (Nextron Systems)",
+  "date": "2025-11-27",
+  "tags": [
+    "attack.defense-impairment",
+    "attack.t1685"
+  ],
+  "level": "high",
+  "logsource": {
+    "category": "process_access",
+    "product": "windows",
+    "definition": "Requires Sysmon Event ID 10 (ProcessAccess) with CallTrace enabled.\nExample sysmon config snippet with grouping, as logging individual ProcessAccess events can generate excessive logs:\n<ProcessAccess onmatch=\"include\">\n    <Rule groupRelation=\"and\">\n    <TargetImage condition=\"end with\">\\MsMpEng.exe</TargetImage>\n    <SourceImage condition=\"end with\">\\WerFaultSecure.exe</SourceImage>\n    </Rule>\n</ProcessAccess>\n"
+  },
+  "detection": {
+    "selection": {
+      "SourceImage|endswith": "\\WerFaultSecure.exe",
+      "TargetImage|endswith": "\\MsMpEng.exe",
+      "CallTrace|contains": [
+        "\\dbgcore.dll",
+        "\\dbghelp.dll"
+      ]
+    },
+    "condition": "selection"
+  }
+}

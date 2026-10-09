@@ -1,0 +1,13 @@
+# Title: PUA - Restic Backup Tool Execution
+# ID: 6ddff2e8-ea1a-45d0-8938-93dfc1d67ae7
+# Status: experimental
+# Level: high
+# Author: Nounou Mbeiri, Swachchhanda Shrawan Poudel (Nextron Systems)
+# Date: 2025-10-17
+# Tags: attack.exfiltration, attack.t1048, attack.t1567.002
+# Description: Detects the execution of the Restic backup tool, which can be used for data exfiltration.
+# Threat actors may leverage Restic to back up and exfiltrate sensitive data to remote storage locations, including cloud services.
+# If not legitimately used in the enterprise environment, its presence may indicate malicious activity.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog (((process_exec="*sftp:*" OR process_exec="*rest:http*" OR process_exec="*s3:s3.*" OR process_exec="*s3.http*" OR process_exec="*azure:*" OR process_exec="* gs:*" OR process_exec="*rclone:*" OR process_exec="*swift:*" OR process_exec="* b2:*") AND (process_exec="* init *" AND process_exec="* -r *")) OR (((process_exec="*--password-file*" AND process_exec="*init*" AND process_exec="* -r *")) OR ((process_exec="*--use-fs-snapshot*" AND process_exec="*backup*" AND process_exec="* -r *"))))

@@ -1,0 +1,23 @@
+// Title: Potential Persistence Via Visual Studio Tools for Office
+// ID: 9d15044a-7cfe-4d23-8085-6ebc11df7685
+// Status: test
+// Level: medium
+// Author: Bhabesh Raj
+// Date: 2021-01-10
+// Tags: attack.t1137.006, attack.persistence
+// Description: Detects persistence via Visual Studio Tools for Office (VSTO) add-ins in Office applications.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 9d15044a_7cfe_4d23_8085_6ebc11df7685 {
+  meta:
+    title = "Potential Persistence Via Visual Studio Tools for Office"
+    description = "Detects persistence via Visual Studio Tools for Office (VSTO) add-ins in Office applications."
+    author = "Bhabesh Raj"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.TargetObject = /.*\\Software\\Microsoft\\Office\\Outlook\\Addins\\.*/ nocase or $e.TargetObject = /.*\\Software\\Microsoft\\Office\\Word\\Addins\\.*/ nocase or $e.TargetObject = /.*\\Software\\Microsoft\\Office\\Excel\\Addins\\.*/ nocase or $e.TargetObject = /.*\\Software\\Microsoft\\Office\\Powerpoint\\Addins\\.*/ nocase or $e.TargetObject = /.*\\Software\\Microsoft\\VSTO\\Security\\Inclusion\\.*/ nocase)) and not(((($e.target.process.file.full_path = "C:\\Program Files (x86)\\Microsoft Office\\root\\integration\\integrator.exe" or $e.target.process.file.full_path = "C:\\Program Files\\Microsoft Office\\root\\integration\\integrator.exe")) or (($e.target.process.file.full_path = /^C:\\Program Files\\Microsoft Office\\OFFICE.*/ nocase or $e.target.process.file.full_path = /^C:\\Program Files (x86)\\Microsoft Office\\OFFICE.*/ nocase or $e.target.process.file.full_path = /^C:\\Program Files\\Microsoft Office\\Root\\OFFICE.*/ nocase or $e.target.process.file.full_path = /^C:\\Program Files (x86)\\Microsoft Office\\Root\\OFFICE.*/ nocase or $e.target.process.file.full_path = /^C:\\PROGRA~2\\MICROS~2\\Office.*/ nocase) and ($e.target.process.file.full_path = /.*\\excel.exe$/ nocase or $e.target.process.file.full_path = /.*\\Integrator.exe$/ nocase or $e.target.process.file.full_path = /.*\\OneNote.exe$/ nocase or $e.target.process.file.full_path = /.*\\outlook.exe$/ nocase or $e.target.process.file.full_path = /.*\\powerpnt.exe$/ nocase or $e.target.process.file.full_path = /.*\\Teams.exe$/ nocase or $e.target.process.file.full_path = /.*\\visio.exe$/ nocase or $e.target.process.file.full_path = /.*\\winword.exe$/ nocase)) or (($e.target.process.file.full_path = /^C:\\Program Files\\Common Files (x86)\\Microsoft Shared\\ClickToRun\\.*/ nocase or $e.target.process.file.full_path = /^C:\\Program Files\\Common Files\\Microsoft Shared\\ClickToRun\\.*/ nocase) and $e.target.process.file.full_path = /.*\\OfficeClickToRun.exe$/ nocase) or (($e.target.process.file.full_path = "C:\\Windows\\System32\\msiexec.exe" or $e.target.process.file.full_path = "C:\\Windows\\SysWOW64\\msiexec.exe" or $e.target.process.file.full_path = "C:\\Windows\\System32\\regsvr32.exe" or $e.target.process.file.full_path = "C:\\Windows\\SysWOW64\\regsvr32.exe")) or (($e.target.process.file.full_path = /^C:\\Program Files\\Common Files\\Microsoft Shared\\VSTO\\.*/ nocase or $e.target.process.file.full_path = /^C:\\Program Files (x86)\\Microsoft Shared\\VSTO\\.*/ nocase) and $e.target.process.file.full_path = /.*\\VSTOInstaller.exe$/ nocase))) and not(((($e.target.process.file.full_path = "C:\\Program Files\\Avast Software\\Avast\\RegSvr.exe" or $e.target.process.file.full_path = "C:\\Program Files (x86)\\Avast Software\\Avast\\RegSvr.exe") and $e.TargetObject = /.*\\Microsoft\\Office\\Outlook\\Addins\\Avast.AsOutExt\\.*/ nocase) or (($e.target.process.file.full_path = "C:\\Program Files\\AVG\\Antivirus\\RegSvr.exe" or $e.target.process.file.full_path = "C:\\Program Files (x86)\\AVG\\Antivirus\\RegSvr.exe") and $e.TargetObject = /.*\\Microsoft\\Office\\Outlook\\Addins\\Antivirus.AsOutExt\\.*/ nocase))))
+
+  condition:
+    $e
+}

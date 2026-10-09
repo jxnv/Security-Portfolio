@@ -1,0 +1,11 @@
+// Title: Potential Persistence Via Custom Protocol Handler
+// ID: fdbf0b9d-0182-4c43-893b-a1eaab92d085
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-05-30
+// Tags: attack.persistence, attack.defense-impairment, attack.t1112
+// Description: Detects potential persistence activity via the registering of a new custom protocole handlers. While legitimate applications register protocole handlers often times during installation. And attacker can abuse this by setting a custom handler to be used as a persistence mechanism.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter ((TargetObject startswith "HKCR\\" and Details startswith "URL:") and not ((((action_process_image_path startswith "C:\\Program Files (x86)" or action_process_image_path startswith "C:\\Program Files\\" or action_process_image_path startswith "C:\\Windows\\System32\\" or action_process_image_path startswith "C:\\Windows\\SysWOW64\\")) or (Details startswith "URL:ms-"))))

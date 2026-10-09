@@ -1,0 +1,46 @@
+{
+  "title": "Python One-Liners with Base64 Decoding",
+  "id": "50a0aa3d-ab16-4594-a8aa-5145a6e6792b",
+  "status": "experimental",
+  "description": "Detects Python one-liners that use base64 decoding functions in command line executions.\nMalicious scripts or attackers often use python one-liners to decode and execute base64-encoded payloads, which is a common technique for obfuscation and evasion.\n",
+  "author": "Hugh Ryan (HueCodes), Swachchhanda Shrawan Poudel (Nextron Systems)",
+  "date": "2026-03-09",
+  "tags": [
+    "attack.execution",
+    "attack.stealth",
+    "attack.t1059.006",
+    "attack.t1027.010"
+  ],
+  "level": "high",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_img": [
+      {
+        "Image|contains": "\\python"
+      },
+      {
+        "OriginalFileName|contains": "python"
+      }
+    ],
+    "selection_cli": {
+      "CommandLine|contains|all": [
+        "import",
+        "base64",
+        " -c"
+      ],
+      "CommandLine|contains": [
+        ".decode",
+        "b16decode",
+        "b32decode",
+        "b32hexdecode",
+        "b64decode",
+        "b85decode",
+        "z85decode"
+      ]
+    },
+    "condition": "all of selection_*"
+  }
+}

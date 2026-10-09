@@ -1,0 +1,23 @@
+// Title: File Encryption/Decryption Via Gpg4win From Suspicious Locations
+// ID: e1e0b7d7-e10b-4ee4-ac49-a4bda05d320d
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems), X__Junior (Nextron Systems)
+// Date: 2022-11-30
+// Tags: attack.execution
+// Description: Detects usage of Gpg4win to encrypt/decrypt files located in potentially suspicious locations.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule e1e0b7d7_e10b_4ee4_ac49_a4bda05d320d {
+  meta:
+    title = "File Encryption/Decryption Via Gpg4win From Suspicious Locations"
+    description = "Detects usage of Gpg4win to encrypt/decrypt files located in potentially suspicious locations."
+    author = "Nasreddine Bencherchali (Nextron Systems), X__Junior (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.command_line = /.*-passphrase.*/ nocase) and ((($e.target.process.file.full_path = /.*\\gpg.exe$/ nocase or $e.target.process.file.full_path = /.*\\gpg2.exe$/ nocase)) or ($e.Product = "GNU Privacy Guard (GnuPG)") or ($e.Description = "GnuPG’s OpenPGP tool")) and (($e.target.process.command_line = /.*:\\PerfLogs\\.*/ nocase or $e.target.process.command_line = /.*:\\Temp\\.*/ nocase or $e.target.process.command_line = /.*:\\Users\\Public\\.*/ nocase or $e.target.process.command_line = /.*:\\Windows\\Temp\\.*/ nocase or $e.target.process.command_line = /.*\\AppData\\Local\\Temp\\.*/ nocase or $e.target.process.command_line = /.*\\AppData\\Roaming\\.*/ nocase)))
+
+  condition:
+    $e
+}

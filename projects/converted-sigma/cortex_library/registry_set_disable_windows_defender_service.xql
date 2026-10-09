@@ -1,0 +1,11 @@
+// Title: Windows Defender Service Disabled - Registry
+// ID: e1aa95de-610a-427d-b9e7-9b46cfafbe6a
+// Status: test
+// Level: high
+// Author: Ján Trenčanský, frack113, AlertIQ, Nasreddine Bencherchali
+// Date: 2022-08-01
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects when an attacker or tool disables the  Windows Defender service (WinDefend) via the registry
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter (TargetObject endswith "\\Services\\WinDefend\\Start" and Details = "DWORD (0x00000004)")

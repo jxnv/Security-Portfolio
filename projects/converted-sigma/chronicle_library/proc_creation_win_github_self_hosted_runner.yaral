@@ -1,0 +1,25 @@
+// Title: Github Self-Hosted Runner Execution
+// ID: 5bac7a56-da88-4c27-922e-c81e113b20cb
+// Status: test
+// Level: medium
+// Author: Daniel Koifman (KoifSec)
+// Date: 2025-11-29
+// Tags: attack.command-and-control, attack.t1102.002, attack.t1071
+// Description: Detects GitHub self-hosted runners executing workflows on local infrastructure that could be abused for persistence and code execution.
+// Shai-Hulud is an npm supply chain worm targeting CI/CD environments.
+// It installs runners on compromised systems to maintain access after credential theft, leveraging their access to secrets and internal networks.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 5bac7a56_da88_4c27_922e_c81e113b20cb {
+  meta:
+    title = "Github Self-Hosted Runner Execution"
+    description = "Detects GitHub self-hosted runners executing workflows on local infrastructure that could be abused for persistence and code execution. Shai-Hulud is an npm supply chain worm targeting CI/CD environments. It installs runners on compromised systems to maintain access after credential theft, leveraging their access to secrets and internal networks."
+    author = "Daniel Koifman (KoifSec)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.command_line = /.*spawnclient.*/ nocase) and (($e.target.process.file.full_path = /.*\\Runner.Worker.exe$/ nocase) or ($e.target.process.file.name = "Runner.Worker.dll"))) or ((($e.target.process.command_line = /.*run.*/ nocase or $e.target.process.command_line = /.*configure.*/ nocase)) and (($e.target.process.file.full_path = /.*\\Runner.Listener.exe$/ nocase) or ($e.target.process.file.name = "Runner.Listener.dll"))))
+
+  condition:
+    $e
+}

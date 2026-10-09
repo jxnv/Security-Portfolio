@@ -1,0 +1,11 @@
+// Title: Add Windows Capability Via PowerShell Script
+// ID: 155c7fd5-47b4-49b2-bbeb-eb4fab335429
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-01-22
+// Tags: attack.execution
+// Description: Detects usage of the "Add-WindowsCapability" cmdlet to add Windows capabilities. Notable capabilities could be "OpenSSH" and others.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((ScriptBlockText: "*-Name OpenSSH.*") AND (ScriptBlockText: "*Add-WindowsCapability *"))

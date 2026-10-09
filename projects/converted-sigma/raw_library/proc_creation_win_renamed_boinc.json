@@ -1,0 +1,26 @@
+{
+  "title": "Renamed BOINC Client Execution",
+  "id": "30d07da2-83ab-45d8-ae75-ec7c0edcaffc",
+  "status": "test",
+  "description": "Detects the execution of a renamed BOINC binary.",
+  "author": "Matt Anderson (Huntress)",
+  "date": "2024-07-23",
+  "tags": [
+    "attack.defense-impairment",
+    "attack.t1553"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection": {
+      "OriginalFileName": "BOINC.exe"
+    },
+    "filter_main_legit_name": {
+      "Image|endswith": "\\BOINC.exe"
+    },
+    "condition": "selection and not 1 of filter_main_*"
+  }
+}

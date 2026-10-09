@@ -1,0 +1,11 @@
+// Title: Usage of Renamed Sysinternals Tools - RegistrySet
+// ID: 8023f872-3f1d-4301-a384-801889917ab4
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-24
+// Tags: attack.resource-development, attack.t1588.002
+// Description: Detects non-sysinternals tools setting the "accepteula" key which normally is set on sysinternals tool execution
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where (((registry.path like "%\\PsExec%" OR registry.path like "%\\ProcDump%" OR registry.path like "%\\Handle%" OR registry.path like "%\\LiveKd%" OR registry.path like "%\\Process Explorer%" OR registry.path like "%\\PsLoglist%" OR registry.path like "%\\PsPasswd%" OR registry.path like "%\\Active Directory Explorer%") AND registry.path="*\\EulaAccepted") AND NOT (((process.executable="*\\PsExec.exe" OR process.executable="*\\PsExec64.exe" OR process.executable="*\\PsExec64a.exe" OR process.executable="*\\procdump.exe" OR process.executable="*\\procdump64.exe" OR process.executable="*\\procdump64a.exe" OR process.executable="*\\handle.exe" OR process.executable="*\\handle64.exe" OR process.executable="*\\handle64a.exe" OR process.executable="*\\livekd.exe" OR process.executable="*\\livekd64.exe" OR process.executable="*\\procexp.exe" OR process.executable="*\\procexp64.exe" OR process.executable="*\\procexp64a.exe" OR process.executable="*\\psloglist.exe" OR process.executable="*\\psloglist64.exe" OR process.executable="*\\psloglist64a.exe" OR process.executable="*\\pspasswd.exe" OR process.executable="*\\pspasswd64.exe" OR process.executable="*\\pspasswd64a.exe" OR process.executable="*\\ADExplorer.exe" OR process.executable="*\\ADExplorer64.exe" OR process.executable="*\\ADExplorer64a.exe"))) AND NOT ((NOT process.executable=*)))

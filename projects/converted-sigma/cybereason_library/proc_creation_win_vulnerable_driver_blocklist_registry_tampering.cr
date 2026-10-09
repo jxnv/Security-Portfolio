@@ -1,0 +1,14 @@
+// Title: Vulnerable Driver Blocklist Registry Tampering Via CommandLine
+// ID: 22154f0e-5132-4a54-aa78-cc62f6def531
+// Status: experimental
+// Level: high
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2026-01-26
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects tampering of the Vulnerable Driver Blocklist registry via command line tools such as PowerShell or REG.EXE.
+// The Vulnerable Driver Blocklist is a security feature that helps prevent the loading of known vulnerable drivers.
+// Disabling this feature may indicate an attempt to bypass security controls, often targeted by threat actors
+// to facilitate the installation of malicious or vulnerable drivers, particularly in scenarios involving Endpoint Detection and Response
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((CommandLine contains "add " OR CommandLine contains "New-ItemProperty " OR CommandLine contains "Set-ItemProperty " OR CommandLine contains "si ")) AND ((CommandLine contains "\\Control\\CI\\Config" AND CommandLine contains "VulnerableDriverBlocklistEnable")) AND (((Image="*\\powershell.exe" OR Image="*\\pwsh.exe" OR Image="*\\reg.exe")) OR ((OriginalFileName == "PowerShell.EXE" OR OriginalFileName == "pwsh.dll" OR OriginalFileName == "reg.exe"))))

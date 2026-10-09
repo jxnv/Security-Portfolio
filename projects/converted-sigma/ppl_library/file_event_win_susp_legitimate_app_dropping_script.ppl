@@ -1,0 +1,12 @@
+// Title: Legitimate Application Dropped Script
+// ID: 7d604714-e071-49ff-8726-edeb95a70679
+// Status: test
+// Level: high
+// Author: frack113, Florian Roth (Nextron Systems)
+// Date: 2022-08-21
+// Tags: attack.stealth, attack.t1218
+// Description: Detects LOLBINs and applications that should not legitimately drop script files to disk.
+// This may indicate malware staging or abuse of a trusted binary for script-based code execution.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where (((process.executable="*\\eqnedt32.exe" OR process.executable="*\\wordpad.exe" OR process.executable="*\\wordview.exe" OR process.executable="*\\certutil.exe" OR process.executable="*\\certoc.exe" OR process.executable="*\\CertReq.exe" OR process.executable="*\\Desktopimgdownldr.exe" OR process.executable="*\\esentutl.exe" OR process.executable="*\\mshta.exe" OR process.executable="*\\AcroRd32.exe" OR process.executable="*\\RdrCEF.exe" OR process.executable="*\\hh.exe" OR process.executable="*\\finger.exe") AND (file.path="*.bat" OR file.path="*.chm" OR file.path="*.csproj" OR file.path="*.hta" OR file.path="*.js" OR file.path="*.jse" OR file.path="*.proj" OR file.path="*.ps1" OR file.path="*.py" OR file.path="*.scf" OR file.path="*.vbe" OR file.path="*.vbs" OR file.path="*.wsf" OR file.path="*.wsh")) AND NOT ((process.executable="*\\mshta.exe" AND file.path="*.hta")))

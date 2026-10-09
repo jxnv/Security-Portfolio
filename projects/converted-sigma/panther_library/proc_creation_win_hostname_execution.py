@@ -1,0 +1,19 @@
+# Title: Suspicious Execution of Hostname
+# ID: 7be5fb68-f9ef-476d-8b51-0256ebece19e
+# Status: test
+# Level: low
+# Author: frack113
+# Date: 2022-01-01
+# Tags: attack.discovery, attack.t1082
+# Description: Use of hostname to get information
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Suspicious Execution of Hostname
+def rule(event):
+    # Detection Logic:
+    # (Image="*\\HOSTNAME.EXE")
+    return True
+
+def title(event):
+    return "Suspicious Execution of Hostname"
+

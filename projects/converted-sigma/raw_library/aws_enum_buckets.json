@@ -1,0 +1,28 @@
+{
+  "title": "Potential Bucket Enumeration on AWS",
+  "id": "f305fd62-beca-47da-ad95-7690a0620084",
+  "status": "test",
+  "description": "Looks for potential enumeration of AWS buckets via ListBuckets.",
+  "author": "Christopher Peacock @securepeacock, SCYTHE @scythe_io",
+  "date": "2023-01-06",
+  "tags": [
+    "attack.discovery",
+    "attack.t1580",
+    "attack.t1619"
+  ],
+  "level": "low",
+  "logsource": {
+    "product": "aws",
+    "service": "cloudtrail"
+  },
+  "detection": {
+    "selection": {
+      "eventSource": "s3.amazonaws.com",
+      "eventName": "ListBuckets"
+    },
+    "filter": {
+      "userIdentity.type": "AssumedRole"
+    },
+    "condition": "selection and not filter"
+  }
+}

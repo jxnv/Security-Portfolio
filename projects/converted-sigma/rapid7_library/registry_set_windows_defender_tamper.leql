@@ -1,0 +1,11 @@
+// Title: Disable Windows Defender Functionalities Via Registry Keys
+// ID: 0eb46774-f1ab-4a74-8238-1155855f2263
+// Status: test
+// Level: high
+// Author: AlertIQ, Ján Trenčanský, frack113, Nasreddine Bencherchali, Swachchhanda Shrawan Poudel
+// Date: 2022-08-01
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects when attackers or tools disable Windows Defender functionalities via the Windows registry
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(TargetObject ICONTAINS "\\SOFTWARE\\Microsoft\\Windows Defender\\") OR where(TargetObject ICONTAINS "\\SOFTWARE\\Policies\\Microsoft\\Windows Defender Security Center\\") OR where(TargetObject ICONTAINS "\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\"))) AND (((where(TargetObject IENDSWITH "\\DisallowExploitProtectionOverride") OR where(TargetObject IENDSWITH "\\Features\\TamperProtection") OR where(TargetObject IENDSWITH "\\MpEngine\\MpEnablePus") OR where(TargetObject IENDSWITH "\\PUAProtection") OR where(TargetObject IENDSWITH "\\Signature Update\\ForceUpdateFromMU") OR where(TargetObject IENDSWITH "\\SpyNet\\SpynetReporting") OR where(TargetObject IENDSWITH "\\SpyNet\\SubmitSamplesConsent") OR where(TargetObject IENDSWITH "\\Windows Defender Exploit Guard\\Controlled Folder Access\\EnableControlledFolderAccess")) AND where(Details = "DWORD (0x00000000)")) OR ((where(TargetObject IENDSWITH "\\DisableAntiSpyware") OR where(TargetObject IENDSWITH "\\DisableAntiVirus") OR where(TargetObject IENDSWITH "\\DisableBehaviorMonitoring") OR where(TargetObject IENDSWITH "\\DisableBlockAtFirstSeen") OR where(TargetObject IENDSWITH "\\DisableEnhancedNotifications") OR where(TargetObject IENDSWITH "\\DisableIntrusionPreventionSystem") OR where(TargetObject IENDSWITH "\\DisableIOAVProtection") OR where(TargetObject IENDSWITH "\\DisableOnAccessProtection") OR where(TargetObject IENDSWITH "\\DisableRealtimeMonitoring") OR where(TargetObject IENDSWITH "\\DisableScanOnRealtimeEnable") OR where(TargetObject IENDSWITH "\\DisableScriptScanning")) AND where(Details = "DWORD (0x00000001)"))) AND NOT ((where(Image ISTARTSWITH "C:\\Program Files\\Symantec\\Symantec Endpoint Protection\\") AND where(Image IENDSWITH "\\sepWscSvc64.exe"))))

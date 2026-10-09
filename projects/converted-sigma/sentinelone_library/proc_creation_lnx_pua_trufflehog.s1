@@ -1,0 +1,13 @@
+// Title: PUA - TruffleHog Execution - Linux
+// ID: d7a650c4-226c-451e-948f-cc490db506aa
+// Status: experimental
+// Level: medium
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-09-24
+// Tags: attack.discovery, attack.credential-access, attack.t1083, attack.t1552.001
+// Description: Detects execution of TruffleHog, a tool used to search for secrets in different platforms like Git, Jira, Slack, SharePoint, etc. that could be used maliciously.
+// While it is a legitimate tool, intended for use in CI pipelines and security assessments,
+// It was observed in the Shai-Hulud malware campaign targeting npm packages to steal sensitive information.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((src.process.image.path endswithCIS "/trufflehog") OR (((src.process.cmdline containsCIS " docker --image " OR src.process.cmdline containsCIS " Git " OR src.process.cmdline containsCIS " GitHub " OR src.process.cmdline containsCIS " Jira " OR src.process.cmdline containsCIS " Slack " OR src.process.cmdline containsCIS " Confluence " OR src.process.cmdline containsCIS " SharePoint " OR src.process.cmdline containsCIS " s3 " OR src.process.cmdline containsCIS " gcs ")) AND (src.process.cmdline containsCIS " --results=verified")))

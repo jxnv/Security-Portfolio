@@ -1,0 +1,23 @@
+// Title: Suspicious Schtasks Schedule Type With High Privileges
+// ID: 7a02e22e-b885-4404-b38b-1ddc7e65258a
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-31
+// Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.t1053.005
+// Description: Detects scheduled task creations or modification to be run with high privileges on a suspicious schedule type
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 7a02e22e_b885_4404_b38b_1ddc7e65258a {
+  meta:
+    title = "Suspicious Schtasks Schedule Type With High Privileges"
+    description = "Detects scheduled task creations or modification to be run with high privileges on a suspicious schedule type"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.file.full_path = /.*\\schtasks.exe$/ nocase) or ($e.target.process.file.name = "schtasks.exe")) and (($e.target.process.command_line = /.*NT AUT.*/ nocase or $e.target.process.command_line = /.* SYSTEM.*/ nocase or $e.target.process.command_line = /.*HIGHEST.*/ nocase)) and (($e.target.process.command_line = /.* ONLOGON .*/ nocase or $e.target.process.command_line = /.* ONSTART .*/ nocase or $e.target.process.command_line = /.* ONCE .*/ nocase or $e.target.process.command_line = /.* ONIDLE .*/ nocase)))
+
+  condition:
+    $e
+}

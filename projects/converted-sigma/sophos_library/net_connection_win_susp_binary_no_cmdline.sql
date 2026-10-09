@@ -1,0 +1,11 @@
+-- Title: Suspicious Network Connection Binary No CommandLine
+-- ID: 20384606-a124-4fec-acbb-8bd373728613
+-- Status: test
+-- Level: high
+-- Author: Florian Roth (Nextron Systems)
+-- Date: 2022-07-03
+-- Tags: attack.stealth
+-- Description: Detects suspicious network connections made by a well-known Windows binary run with no command line parameters
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE ((Initiated = 'true' AND (Image ILIKE '%\\regsvr32.exe' OR Image ILIKE '%\\rundll32.exe' OR Image ILIKE '%\\dllhost.exe') AND (CommandLine ILIKE '%\\regsvr32.exe' OR CommandLine ILIKE '%\\rundll32.exe' OR CommandLine ILIKE '%\\dllhost.exe')) AND NOT (((CommandLine = '') OR (CommandLine IS NULL))))

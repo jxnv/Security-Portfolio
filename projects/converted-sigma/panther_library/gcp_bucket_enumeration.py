@@ -1,0 +1,19 @@
+# Title: Google Cloud Storage Buckets Enumeration
+# ID: e2feb918-4e77-4608-9697-990a1aaf74c3
+# Status: test
+# Level: low
+# Author: Austin Songer @austinsonger
+# Date: 2021-08-14
+# Tags: attack.discovery
+# Description: Detects when storage bucket is enumerated in Google Cloud.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Google Cloud Storage Buckets Enumeration
+def rule(event):
+    # Detection Logic:
+    # ((gcp.audit.method_name="storage.buckets.list" OR gcp.audit.method_name="storage.buckets.listChannels"))
+    return True
+
+def title(event):
+    return "Google Cloud Storage Buckets Enumeration"
+

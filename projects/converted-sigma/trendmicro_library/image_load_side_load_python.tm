@@ -1,0 +1,11 @@
+// Title: Potential Python DLL SideLoading
+// ID: d36f7c12-14a3-4d48-b6b8-774b9c66f44d
+// Status: test
+// Level: medium
+// Author: Swachchhanda Shrawan Poudel
+// Date: 2024-10-06
+// Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.stealth, attack.t1574.001
+// Description: Detects potential DLL sideloading of Python DLL files.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((ImageLoaded="*\\python39.dll" OR ImageLoaded="*\\python310.dll" OR ImageLoaded="*\\python311.dll" OR ImageLoaded="*\\python312.dll")) AND NOT (((((ImageLoaded="C:\\Program Files\\Python3*" OR ImageLoaded="C:\\Program Files (x86)\\Python3*")) OR (ImageLoaded: "*\\AppData\\Local\\Programs\\Python\\Python3*")) OR (Product: "Python" AND Signed: "true" AND Description: "Python" AND Company: "Python Software Foundation"))) AND NOT (((ImageLoaded="C:\\ProgramData\\Anaconda3\\*") OR ((ImageLoaded: "*\\cpython\\externals\\*" OR ImageLoaded: "*\\cpython\\PCbuild\\*")) OR (ImageLoaded="C:\\Users*" AND ImageLoaded: "*\\AppData\\Local\\Temp\\_MEI*") OR (ImageLoaded="C:\\Program Files\\Microsoft Visual Studio\\*"))))

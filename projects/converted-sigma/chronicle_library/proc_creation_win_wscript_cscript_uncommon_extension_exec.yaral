@@ -1,0 +1,23 @@
+// Title: Cscript/Wscript Uncommon Script Extension Execution
+// ID: 99b7460d-c9f1-40d7-a316-1f36f61d52ee
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-05-15
+// Tags: attack.execution, attack.t1059.005, attack.t1059.007
+// Description: Detects Wscript/Cscript executing a file with an uncommon (i.e. non-script) extension
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 99b7460d_c9f1_40d7_a316_1f36f61d52ee {
+  meta:
+    title = "Cscript/Wscript Uncommon Script Extension Execution"
+    description = "Detects Wscript/Cscript executing a file with an uncommon (i.e. non-script) extension"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*.csv.*/ nocase or $e.target.process.command_line = /.*.dat.*/ nocase or $e.target.process.command_line = /.*.doc.*/ nocase or $e.target.process.command_line = /.*.gif.*/ nocase or $e.target.process.command_line = /.*.jpeg.*/ nocase or $e.target.process.command_line = /.*.jpg.*/ nocase or $e.target.process.command_line = /.*.png.*/ nocase or $e.target.process.command_line = /.*.ppt.*/ nocase or $e.target.process.command_line = /.*.txt.*/ nocase or $e.target.process.command_line = /.*.xls.*/ nocase or $e.target.process.command_line = /.*.xml.*/ nocase)) and ((($e.target.process.file.name = "wscript.exe" or $e.target.process.file.name = "cscript.exe")) or (($e.target.process.file.full_path = /.*\\wscript.exe$/ nocase or $e.target.process.file.full_path = /.*\\cscript.exe$/ nocase))))
+
+  condition:
+    $e
+}

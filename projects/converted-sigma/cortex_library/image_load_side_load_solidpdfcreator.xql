@@ -1,0 +1,11 @@
+// Title: Potential SolidPDFCreator.DLL Sideloading
+// ID: a2edbce1-95c8-4291-8676-0d45146862b3
+// Status: test
+// Level: medium
+// Author: X__Junior (Nextron Systems)
+// Date: 2023-05-07
+// Tags: attack.persistence, attack.privilege-escalation, attack.execution, attack.stealth, attack.t1574.001
+// Description: Detects potential DLL sideloading of "SolidPDFCreator.dll"
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter ((ImageLoaded endswith "\\SolidPDFCreator.dll") and not ((action_process_image_path endswith "\\SolidPDFCreator.exe" and (ImageLoaded startswith "C:\\Program Files (x86)\\SolidDocuments\\SolidPDFCreator\\" or ImageLoaded startswith "C:\\Program Files\\SolidDocuments\\SolidPDFCreator\\"))))

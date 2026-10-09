@@ -1,0 +1,11 @@
+// Title: Suspicious XOR Encoded PowerShell Command
+// ID: bb780e0c-16cf-4383-8383-1e5471db6cf9
+// Status: test
+// Level: medium
+// Author: Sami Ruohonen, Harish Segar, Tim Shelton, Teymur Kheirkhabarov, Vasiliy Burov, oscd.community, Nasreddine Bencherchali
+// Date: 2018-09-05
+// Tags: attack.execution, attack.stealth, attack.t1059.001, attack.t1140, attack.t1027
+// Description: Detects presence of a potentially xor encoded powershell command
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(CommandLine ICONTAINS "ForEach") OR where(CommandLine ICONTAINS "for(") OR where(CommandLine ICONTAINS "for ") OR where(CommandLine ICONTAINS "-join ") OR where(CommandLine ICONTAINS "-join'") OR where(CommandLine ICONTAINS "-join\"") OR where(CommandLine ICONTAINS "-join`") OR where(CommandLine ICONTAINS "::Join") OR where(CommandLine ICONTAINS "[char]"))) AND (where(CommandLine ICONTAINS "bxor")) AND (((where(Image IENDSWITH "\\powershell.exe") OR where(Image IENDSWITH "\\pwsh.exe"))) OR ((where(OriginalFileName = "PowerShell.EXE") OR where(OriginalFileName = "pwsh.dll"))) OR (where(Description = "Windows PowerShell")) OR (where(Product = "PowerShell Core 6"))))

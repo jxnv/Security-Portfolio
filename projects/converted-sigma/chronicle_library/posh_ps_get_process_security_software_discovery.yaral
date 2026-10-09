@@ -1,0 +1,24 @@
+// Title: Security Software Discovery Via Powershell Script
+// ID: 904e8e61-8edf-4350-b59c-b905fc8e810c
+// Status: test
+// Level: medium
+// Author: frack113, Anish Bogati, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2021-12-16
+// Tags: attack.discovery, attack.t1518.001
+// Description: Detects calls to "get-process" where the output is piped to a "where-object" filter to search for security solution processes.
+// Adversaries may attempt to get a listing of security software, configurations, defensive tools, and sensors that are installed on a system or in a cloud environment. This may include things such as firewall rules and anti-virus
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 904e8e61_8edf_4350_b59c_b905fc8e810c {
+  meta:
+    title = "Security Software Discovery Via Powershell Script"
+    description = "Detects calls to "get-process" where the output is piped to a "where-object" filter to search for security solution processes. Adversaries may attempt to get a listing of security software, configurations, defensive tools, and sensors that are installed on a system or in a cloud environment. This may include things such as firewall rules and anti-virus"
+    author = "frack113, Anish Bogati, Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.ScriptBlockText = /.*get-process | \\?.*/ nocase or $e.ScriptBlockText = /.*get-process | where.*/ nocase or $e.ScriptBlockText = /.*gps | \\?.*/ nocase or $e.ScriptBlockText = /.*gps | where.*/ nocase)) and (($e.ScriptBlockText = /.*Company -like.*/ nocase or $e.ScriptBlockText = /.*Description -like.*/ nocase or $e.ScriptBlockText = /.*Name -like.*/ nocase or $e.ScriptBlockText = /.*Path -like.*/ nocase or $e.ScriptBlockText = /.*Product -like.*/ nocase)) and (($e.ScriptBlockText = /.*\\*avira\\*.*/ nocase or $e.ScriptBlockText = /.*\\*carbonblack\\*.*/ nocase or $e.ScriptBlockText = /.*\\*cylance\\*.*/ nocase or $e.ScriptBlockText = /.*\\*defender\\*.*/ nocase or $e.ScriptBlockText = /.*\\*kaspersky\\*.*/ nocase or $e.ScriptBlockText = /.*\\*malware\\*.*/ nocase or $e.ScriptBlockText = /.*\\*sentinel\\*.*/ nocase or $e.ScriptBlockText = /.*\\*symantec\\*.*/ nocase or $e.ScriptBlockText = /.*\\*virus\\*.*/ nocase)))
+
+  condition:
+    $e
+}

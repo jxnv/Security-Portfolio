@@ -1,0 +1,23 @@
+// Title: UAC Bypass Using MSConfig Token Modification - File
+// ID: 41bb431f-56d8-4691-bb56-ed34e390906f
+// Status: test
+// Level: high
+// Author: Christian Burkard (Nextron Systems)
+// Date: 2021-08-30
+// Tags: attack.privilege-escalation, attack.t1548.002
+// Description: Detects the pattern of UAC Bypass using a msconfig GUI hack (UACMe 55)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 41bb431f_56d8_4691_bb56_ed34e390906f {
+  meta:
+    title = "UAC Bypass Using MSConfig Token Modification - File"
+    description = "Detects the pattern of UAC Bypass using a msconfig GUI hack (UACMe 55)"
+    author = "Christian Burkard (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ($e.target.file.full_path = /^C:\\Users\\.*/ nocase and $e.target.file.full_path = /.*\\AppData\\Local\\Temp\\pkgmgr.exe$/ nocase)
+
+  condition:
+    $e
+}

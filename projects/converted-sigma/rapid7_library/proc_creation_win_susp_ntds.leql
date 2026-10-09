@@ -1,0 +1,11 @@
+// Title: Suspicious Process Patterns NTDS.DIT Exfil
+// ID: 8bc64091-6875-4881-aaf9-7bd25b5dda08
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-03-11
+// Tags: attack.credential-access, attack.t1003.003
+// Description: Detects suspicious process patterns used in NTDS.DIT exfiltration
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((where(CommandLine ICONTAINS "ac i ntds") AND where(CommandLine ICONTAINS "create full"))) OR ((where(CommandLine ICONTAINS "/c copy ") AND where(CommandLine ICONTAINS "\\windows\\ntds\\ntds.dit"))) OR ((where(CommandLine ICONTAINS "activate instance ntds") AND where(CommandLine ICONTAINS "create full"))) OR ((where(CommandLine ICONTAINS "powershell") AND where(CommandLine ICONTAINS "ntds.dit"))) OR (((where(Image IENDSWITH "\\NTDSDump.exe") OR where(Image IENDSWITH "\\NTDSDumpEx.exe"))) OR ((where(CommandLine ICONTAINS "ntds.dit") AND where(CommandLine ICONTAINS "system.hiv"))) OR (where(CommandLine ICONTAINS "NTDSgrab.ps1")))) OR ((((where(ParentImage ICONTAINS "\\apache") OR where(ParentImage ICONTAINS "\\tomcat") OR where(ParentImage ICONTAINS "\\AppData\\") OR where(ParentImage ICONTAINS "\\Temp\\") OR where(ParentImage ICONTAINS "\\Public\\") OR where(ParentImage ICONTAINS "\\PerfLogs\\"))) OR ((where(Image ICONTAINS "\\apache") OR where(Image ICONTAINS "\\tomcat") OR where(Image ICONTAINS "\\AppData\\") OR where(Image ICONTAINS "\\Temp\\") OR where(Image ICONTAINS "\\Public\\") OR where(Image ICONTAINS "\\PerfLogs\\")))) AND (where(CommandLine ICONTAINS "ntds.dit"))))

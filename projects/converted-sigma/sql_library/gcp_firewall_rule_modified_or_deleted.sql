@@ -1,0 +1,11 @@
+-- Title: Google Cloud Firewall Modified or Deleted
+-- ID: fe513c69-734c-4d4a-8548-ac5f609be82b
+-- Status: test
+-- Level: medium
+-- Author: Austin Songer @austinsonger
+-- Date: 2021-08-13
+-- Tags: attack.defense-impairment, attack.t1685
+-- Description: Detects  when a firewall rule is modified or deleted in Google Cloud Platform (GCP).
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE ((gcp.audit.method_name = 'v*.Compute.Firewalls.Delete' OR gcp.audit.method_name = 'v*.Compute.Firewalls.Patch' OR gcp.audit.method_name = 'v*.Compute.Firewalls.Update' OR gcp.audit.method_name = 'v*.Compute.Firewalls.Insert'))

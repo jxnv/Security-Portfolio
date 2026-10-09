@@ -1,0 +1,11 @@
+// Title: Suspicious PowerShell Invocations - Specific - ProcessCreation
+// ID: 536e2947-3729-478c-9903-745aaffe60d2
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-01-05
+// Tags: attack.stealth
+// Description: Detects suspicious PowerShell invocation command parameters
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE ((((process.command_line LIKE "%-nop%" AND process.command_line LIKE "% -w %" AND process.command_line LIKE "%hidden%" AND process.command_line LIKE "% -c %" AND process.command_line LIKE "%[Convert]::FromBase64String%")) OR ((process.command_line LIKE "% -w %" AND process.command_line LIKE "%hidden%" AND process.command_line LIKE "%-ep%" AND process.command_line LIKE "%bypass%" AND process.command_line LIKE "%-Enc%")) OR ((process.command_line LIKE "% -w %" AND process.command_line LIKE "%hidden%" AND process.command_line LIKE "%-noni%" AND process.command_line LIKE "%-nop%" AND process.command_line LIKE "% -c %" AND process.command_line LIKE "%iex%" AND process.command_line LIKE "%New-Object%")) OR ((process.command_line LIKE "%iex%" AND process.command_line LIKE "%New-Object%" AND process.command_line LIKE "%Net.WebClient%" AND process.command_line LIKE "%.Download%")) OR ((process.command_line LIKE "%powershell%" AND process.command_line LIKE "%reg%" AND process.command_line LIKE "%add%" AND process.command_line LIKE "%\\software\\%")) OR ((process.command_line LIKE "%bypass%" AND process.command_line LIKE "%-noprofile%" AND process.command_line LIKE "%-windowstyle%" AND process.command_line LIKE "%hidden%" AND process.command_line LIKE "%new-object%" AND process.command_line LIKE "%system.net.webclient%" AND process.command_line LIKE "%.download%"))) AND NOT (((process.command_line LIKE "%(New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1%" OR process.command_line LIKE "%Write-ChocolateyWarning%"))))

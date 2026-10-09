@@ -1,0 +1,19 @@
+# Title: Possible Impacket SecretDump Remote Activity - Zeek
+# ID: 92dae1ed-1c9d-4eff-a567-33acbd95b00e
+# Status: test
+# Level: high
+# Author: Samir Bousseaden, @neu5ron
+# Date: 2020-03-19
+# Tags: attack.credential-access, attack.t1003.002, attack.t1003.004, attack.t1003.003
+# Description: Detect AD credential dumping using impacket secretdump HKTL. Based on the SIGMA rules/windows/builtin/win_impacket_secretdump.yml
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Possible Impacket SecretDump Remote Activity - Zeek
+def rule(event):
+    # Detection Logic:
+    # ((path="*\\*" AND path="*ADMIN$*") AND name="*SYSTEM32\\*" AND name="*.tmp")
+    return True
+
+def title(event):
+    return "Possible Impacket SecretDump Remote Activity - Zeek"
+

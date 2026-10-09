@@ -1,0 +1,23 @@
+// Title: MacOS Scripting Interpreter AppleScript
+// ID: 1bc2e6c5-0885-472b-bed6-be5ea8eace55
+// Status: test
+// Level: medium
+// Author: Alejandro Ortuno, oscd.community
+// Date: 2020-10-21
+// Tags: attack.execution, attack.t1059.002
+// Description: Detects execution of AppleScript of the macOS scripting language AppleScript.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 1bc2e6c5_0885_472b_bed6_be5ea8eace55 {
+  meta:
+    title = "MacOS Scripting Interpreter AppleScript"
+    description = "Detects execution of AppleScript of the macOS scripting language AppleScript."
+    author = "Alejandro Ortuno, oscd.community"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.process.file.full_path = /.*/osascript$/ nocase and ($e.target.process.command_line = /.* -e .*/ nocase or $e.target.process.command_line = /.*.scpt.*/ nocase or $e.target.process.command_line = /.*.js.*/ nocase)) and not(($e.principal.process.file.full_path = /.*opencode$/ nocase and ($e.target.process.command_line = /.*osascript.*/ nocase and $e.target.process.command_line = /.* -e .*/ nocase and $e.target.process.command_line = /.*set imageData to the clipboard.*/ nocase and $e.target.process.command_line = /.*set fileRef.*/ nocase))))
+
+  condition:
+    $e
+}

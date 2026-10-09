@@ -1,0 +1,22 @@
+# Title: Drop Binaries Into Spool Drivers Color Folder
+# ID: ce7066a6-508a-42d3-995b-2952c65dc2ce
+# Status: test
+# Level: medium
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-07-28
+# Tags: attack.stealth
+# Description: Detects the creation of suspcious binary files inside the "\windows\system32\spool\drivers\color\" as seen in the blog referenced below
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# LimaCharlie Detection & Response Rule
+# Name: Drop Binaries Into Spool Drivers Color Folder
+detect:
+  event: file_event
+  op: and
+  rules:
+    # Filter logic:
+    # (TargetFilename="C:\\Windows\\System32\\spool\\drivers\\color\\*" AND (TargetFilename="*.dll" OR TargetFilename="*.exe" OR TargetFilename="*.sys"))
+respond:
+  - action: report
+    name: Drop Binaries Into Spool Drivers Color Folder
+

@@ -1,0 +1,11 @@
+// Title: Suspicious Download from Office Domain
+// ID: 00d49ed5-4491-4271-a8db-650a4ef6f8c1
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2021-12-27
+// Tags: attack.command-and-control, attack.resource-development, attack.t1105, attack.t1608
+// Description: Detects suspicious ways to download files from Microsoft domains that are used to store attachments in Emails or OneNote documents
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where (((process.command_line like "*_https://attachment.outlook.live.net/owa/*" or process.command_line like "*_https://onenoteonlinesync.onenote.com/onenoteonlinesync/*")) and (((process.executable endswith "\\curl.exe" or process.executable endswith "\\wget.exe")) or ((process.command_line like "*_Invoke-WebRequest*" or process.command_line like "*_iwr *" or process.command_line like "*_curl *" or process.command_line like "*_wget *" or process.command_line like "*_Start-BitsTransfer*" or process.command_line like "*_.DownloadFile(*" or process.command_line like "*_.DownloadString(*"))))

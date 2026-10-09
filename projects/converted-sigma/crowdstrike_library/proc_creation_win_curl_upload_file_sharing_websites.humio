@@ -1,0 +1,11 @@
+// Title: Curl File Upload To File Sharing Websites
+// ID: e328cc73-f92a-42fb-b3fa-7c2cffda981a
+// Status: experimental
+// Level: high
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2026-03-29
+// Tags: attack.exfiltration, attack.t1567.002
+// Description: Detects usage of curl to upload files to known file sharing domains, which may indicate data exfiltration.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((CommandLine = /*0x0.st*/i or CommandLine = /*bashupload.com*/i or CommandLine = /*chunk.io*/i or CommandLine = /*file.io*/i or CommandLine = /*filebin.net*/i or CommandLine = /*pastebin*/i or CommandLine = /*send.firefox.com*/i or CommandLine = /*temp.sh*/i or CommandLine = /*transfer.sh*/i or CommandLine = /*ufile.io*/i or CommandLine = /*uploadfiles.io*/i or CommandLine = /*wetransfer.com*/i or CommandLine = /*x0.at*/i)) and (((CommandLine = /* --form*/i or CommandLine = /* --upload-file*/i or CommandLine = /* --data*/i or CommandLine = /* -X POST*/i or CommandLine = /* --request POST */i)) or ((CommandLine =~ /\s-[FTd]\s/i or CommandLine =~ /\s-sT\s/i))) and ((ImageFileName = /.*\\curl.exe/i) or (OriginalFilename = "curl.exe")))

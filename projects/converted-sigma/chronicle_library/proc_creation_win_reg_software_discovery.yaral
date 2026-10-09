@@ -1,0 +1,23 @@
+// Title: Detected Windows Software Discovery
+// ID: e13f668e-7f95-443d-98d2-1816a7648a7b
+// Status: test
+// Level: medium
+// Author: Nikita Nazarov, oscd.community
+// Date: 2020-10-16
+// Tags: attack.discovery, attack.t1518
+// Description: Adversaries may attempt to enumerate software for a variety of reasons, such as figuring out what security measures are present or if the compromised system has a version of software that is vulnerable.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule e13f668e_7f95_443d_98d2_1816a7648a7b {
+  meta:
+    title = "Detected Windows Software Discovery"
+    description = "Adversaries may attempt to enumerate software for a variety of reasons, such as figuring out what security measures are present or if the compromised system has a version of software that is vulnerable."
+    author = "Nikita Nazarov, oscd.community"
+    severity = "MEDIUM"
+
+  events:
+    ($e.target.process.file.full_path = /.*\\reg.exe$/ nocase and ($e.target.process.command_line = /.*query.*/ nocase and $e.target.process.command_line = /.*\\software\\.*/ nocase and $e.target.process.command_line = /.*/v.*/ nocase and $e.target.process.command_line = /.*svcversion.*/ nocase))
+
+  condition:
+    $e
+}

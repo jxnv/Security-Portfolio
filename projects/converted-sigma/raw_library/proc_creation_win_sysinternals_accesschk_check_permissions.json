@@ -1,0 +1,46 @@
+{
+  "title": "Permission Check Via Accesschk.EXE",
+  "id": "c625d754-6a3d-4f65-9c9a-536aea960d37",
+  "status": "test",
+  "description": "Detects the usage of the \"Accesschk\" utility, an access and privilege audit tool developed by SysInternal and often being abused by attacker to verify process privileges",
+  "author": "Teymur Kheirkhabarov (idea), Mangatas Tondang, oscd.community, Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2020-10-13",
+  "tags": [
+    "attack.discovery",
+    "attack.t1069.001"
+  ],
+  "level": "medium",
+  "logsource": {
+    "product": "windows",
+    "category": "process_creation"
+  },
+  "detection": {
+    "selection_img": [
+      {
+        "Product|endswith": "AccessChk"
+      },
+      {
+        "Description|contains": "Reports effective permissions"
+      },
+      {
+        "Image|endswith": [
+          "\\accesschk.exe",
+          "\\accesschk64.exe",
+          "\\accesschk64a.exe"
+        ]
+      },
+      {
+        "OriginalFileName": "accesschk.exe"
+      }
+    ],
+    "selection_cli": {
+      "CommandLine|contains": [
+        "uwcqv ",
+        "kwsu ",
+        "qwsu ",
+        "uwdqs "
+      ]
+    },
+    "condition": "all of selection*"
+  }
+}

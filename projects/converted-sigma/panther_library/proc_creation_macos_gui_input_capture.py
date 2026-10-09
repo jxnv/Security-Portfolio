@@ -1,0 +1,19 @@
+# Title: GUI Input Capture - macOS
+# ID: 60f1ce20-484e-41bd-85f4-ac4afec2c541
+# Status: test
+# Level: low
+# Author: remotephone, oscd.community
+# Date: 2020-10-13
+# Tags: attack.collection, attack.credential-access, attack.t1056.002
+# Description: Detects attempts to use system dialog prompts to capture user credentials
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: GUI Input Capture - macOS
+def rule(event):
+    # Detection Logic:
+    # (((CommandLine="*-e*" AND CommandLine="*display*" AND CommandLine="*dialog*" AND CommandLine="*answer*")) AND ((CommandLine="*admin*" OR CommandLine="*administrator*" OR CommandLine="*authenticate*" OR CommandLine="*authentication*" OR CommandLine="*credentials*" OR CommandLine="*pass*" OR CommandLine="*password*" OR CommandLine="*unlock*")) AND (Image="*/osascript"))
+    return True
+
+def title(event):
+    return "GUI Input Capture - macOS"
+

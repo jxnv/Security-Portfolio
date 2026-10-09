@@ -1,0 +1,23 @@
+// Title: Suspicious CodePage Switch Via CHCP
+// ID: c7942406-33dd-4377-a564-0f62db0593a3
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems), Jonhnathan Ribeiro, oscd.community
+// Date: 2019-10-14
+// Tags: attack.stealth, attack.t1036
+// Description: Detects a code page switch in command line or batch scripts to a rare language
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule c7942406_33dd_4377_a564_0f62db0593a3 {
+  meta:
+    title = "Suspicious CodePage Switch Via CHCP"
+    description = "Detects a code page switch in command line or batch scripts to a rare language"
+    author = "Florian Roth (Nextron Systems), Jonhnathan Ribeiro, oscd.community"
+    severity = "MEDIUM"
+
+  events:
+    ($e.target.process.file.full_path = /.*\\chcp.com$/ nocase and ($e.target.process.command_line = /.* 936$/ nocase or $e.target.process.command_line = /.* 1258$/ nocase))
+
+  condition:
+    $e
+}

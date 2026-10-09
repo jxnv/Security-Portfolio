@@ -1,0 +1,23 @@
+// Title: Potentially Suspicious Child Process Of ClickOnce Application
+// ID: 67bc0e75-c0a9-4cfc-8754-84a505b63c04
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-06-12
+// Tags: attack.execution, attack.stealth
+// Description: Detects potentially suspicious child processes of a ClickOnce deployment application
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 67bc0e75_c0a9_4cfc_8754_84a505b63c04 {
+  meta:
+    title = "Potentially Suspicious Child Process Of ClickOnce Application"
+    description = "Detects potentially suspicious child processes of a ClickOnce deployment application"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ($e.principal.process.file.full_path = /.*\\AppData\\Local\\Apps\\2.0\\.*/ nocase and ($e.target.process.file.full_path = /.*\\calc.exe$/ nocase or $e.target.process.file.full_path = /.*\\cmd.exe$/ nocase or $e.target.process.file.full_path = /.*\\cscript.exe$/ nocase or $e.target.process.file.full_path = /.*\\explorer.exe$/ nocase or $e.target.process.file.full_path = /.*\\mshta.exe$/ nocase or $e.target.process.file.full_path = /.*\\net.exe$/ nocase or $e.target.process.file.full_path = /.*\\net1.exe$/ nocase or $e.target.process.file.full_path = /.*\\nltest.exe$/ nocase or $e.target.process.file.full_path = /.*\\notepad.exe$/ nocase or $e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase or $e.target.process.file.full_path = /.*\\reg.exe$/ nocase or $e.target.process.file.full_path = /.*\\regsvr32.exe$/ nocase or $e.target.process.file.full_path = /.*\\rundll32.exe$/ nocase or $e.target.process.file.full_path = /.*\\schtasks.exe$/ nocase or $e.target.process.file.full_path = /.*\\werfault.exe$/ nocase or $e.target.process.file.full_path = /.*\\wscript.exe$/ nocase))
+
+  condition:
+    $e
+}

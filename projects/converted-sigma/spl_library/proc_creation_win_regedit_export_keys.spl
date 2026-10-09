@@ -1,0 +1,11 @@
+# Title: Exports Registry Key To a File
+# ID: f0e53e89-8d22-46ea-9db5-9d4796ee2f8a
+# Status: test
+# Level: low
+# Author: Oddvar Moe, Sander Wiebing, oscd.community
+# Date: 2020-10-07
+# Tags: attack.exfiltration, attack.discovery, attack.t1012
+# Description: Detects the export of the target Registry key to a file.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog (((process_exec="* -E *") AND ((process_path="*\\regedit.exe") OR (process_name="REGEDIT.EXE"))) AND NOT ((((process_exec="*hklm*" OR process_exec="*hkey_local_machine*")) AND ((process_exec="*\\system" OR process_exec="*\\sam" OR process_exec="*\\security")))))

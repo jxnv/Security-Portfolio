@@ -1,0 +1,44 @@
+{
+  "title": "Potentially Suspicious Execution Of Regasm/Regsvcs With Uncommon Extension",
+  "id": "e9f8f8cc-07cc-4e81-b724-f387db9175e4",
+  "status": "test",
+  "description": "Detects potentially suspicious execution of the Regasm/Regsvcs utilities with an uncommon extension.",
+  "author": "Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2023-02-13",
+  "tags": [
+    "attack.stealth",
+    "attack.t1218.009"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_img": [
+      {
+        "Image|endswith": [
+          "\\Regsvcs.exe",
+          "\\Regasm.exe"
+        ]
+      },
+      {
+        "OriginalFileName": [
+          "RegSvcs.exe",
+          "RegAsm.exe"
+        ]
+      }
+    ],
+    "selection_extension": {
+      "CommandLine|contains": [
+        ".dat",
+        ".gif",
+        ".jpeg",
+        ".jpg",
+        ".png",
+        ".txt"
+      ]
+    },
+    "condition": "all of selection_*"
+  }
+}

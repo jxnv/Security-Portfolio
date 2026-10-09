@@ -1,0 +1,24 @@
+// Title: Script Interpreter Execution From Suspicious Folder
+// ID: 1228c958-e64e-4e71-92ad-7d429f4138ba
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-02-08
+// Tags: attack.execution, attack.t1059
+// Description: Detects suspicious script execution from suspicious directories or folders accessible by environment variables that may indicate malware activity.
+// Script interpreters (cscript, wscript, mshta, powershell) executing from folders like Temp, Public, or user profile directories may suggest attempts to evade detection or execute malicious scripts.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 1228c958_e64e_4e71_92ad_7d429f4138ba {
+  meta:
+    title = "Script Interpreter Execution From Suspicious Folder"
+    description = "Detects suspicious script execution from suspicious directories or folders accessible by environment variables that may indicate malware activity. Script interpreters (cscript, wscript, mshta, powershell) executing from folders like Temp, Public, or user profile directories may suggest attempts to evade detection or execute malicious scripts."
+    author = "Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (((($e.target.process.command_line = /.* -ep bypass .*/ nocase or $e.target.process.command_line = /.* -ExecutionPolicy bypass .*/ nocase or $e.target.process.command_line = /.* -w hidden .*/ nocase or $e.target.process.command_line = /.*/e:javascript .*/ nocase or $e.target.process.command_line = /.*/e:Jscript .*/ nocase or $e.target.process.command_line = /.*/e:vbscript .*/ nocase)) or (($e.target.process.file.full_path = /.*\\cscript.exe$/ nocase or $e.target.process.file.full_path = /.*\\mshta.exe$/ nocase or $e.target.process.file.full_path = /.*\\wscript.exe$/ nocase)) or (($e.target.process.file.name = "cscript.exe" or $e.target.process.file.name = "mshta.exe" or $e.target.process.file.name = "wscript.exe"))) and ((($e.target.process.command_line = /.*:\\Perflogs\\.*/ nocase or $e.target.process.command_line = /.*:\\Users\\Public\\.*/ nocase or $e.target.process.command_line = /.*\\%Public%.*/ nocase or $e.target.process.command_line = /.*\\AppData\\Local\\Temp.*/ nocase or $e.target.process.command_line = /.*\\AppData\\Roaming\\Temp.*/ nocase or $e.target.process.command_line = /.*\\Temporary Internet.*/ nocase or $e.target.process.command_line = /.*\\Windows\\Temp.*/ nocase or $e.target.process.command_line = /.*\\Start Menu\\Programs\\Startup\\.*/ nocase or $e.target.process.command_line = /.*%TEMP%.*/ nocase or $e.target.process.command_line = /.*%TMP%.*/ nocase or $e.target.process.command_line = /.*%LocalAppData%\\Temp.*/ nocase)) or ((($e.target.process.command_line = /.*:\\Users\\.*/ nocase and $e.target.process.command_line = /.*\\Favorites\\.*/ nocase)) or (($e.target.process.command_line = /.*:\\Users\\.*/ nocase and $e.target.process.command_line = /.*\\Favourites\\.*/ nocase)) or (($e.target.process.command_line = /.*:\\Users\\.*/ nocase and $e.target.process.command_line = /.*\\Contacts\\.*/ nocase)) or (($e.target.process.command_line = /.*:\\Users\\.*/ nocase and $e.target.process.command_line = /.*\\Documents\\.*/ nocase)) or (($e.target.process.command_line = /.*:\\Users\\.*/ nocase and $e.target.process.command_line = /.*\\Music\\.*/ nocase)) or (($e.target.process.command_line = /.*:\\Users\\.*/ nocase and $e.target.process.command_line = /.*\\Pictures\\.*/ nocase)) or (($e.target.process.command_line = /.*:\\Users\\.*/ nocase and $e.target.process.command_line = /.*\\Videos\\.*/ nocase)))) and not((($e.principal.process.file.full_path = "C:\\Windows\\System32\\Msiexec.exe" or $e.principal.process.file.full_path = "C:\\Windows\\SysWOW64\\Msiexec.exe") and $e.target.process.file.full_path = /.*\\powershell.exe$/ nocase and ($e.target.process.command_line = /.*-NoProfile -ExecutionPolicy Bypass -Command.*/ nocase and $e.target.process.command_line = /.*AppData\\Local\\Temp\\.*/ nocase and $e.target.process.command_line = /.*Install-Chocolatey.ps1.*/ nocase))))
+
+  condition:
+    $e
+}

@@ -1,0 +1,16 @@
+<!--
+  Title: Potentially Suspicious CMD Shell Output Redirect
+  ID: 8e0bb260-d4b2-4fff-bb8d-3f82118e6892
+  Status: test
+  Level: medium
+  Author: Nasreddine Bencherchali (Nextron Systems)
+  Date: 2022-07-12
+  Description: Detects inline Windows shell commands redirecting output via the ">" symbol to a suspicious location. This technique is sometimes used by malicious actors in order to redirect the output of reconnaissance commands such as "hostname" and "dir" to files for future exfiltration.
+-->
+
+<group name="sigma_converted,">
+  <rule id="100001" level="5">
+    <description>Potentially Suspicious CMD Shell Output Redirect</description>
+    <match>(((Image=\"*\\\\cmd.exe\") OR (OriginalFileName=\"Cmd.Exe\")) AND (((CommandLine=\"*>?%APPDATA%\\\\*\" OR CommandLine=\"*>?%TEMP%\\\\</match>
+  </rule>
+</group>

@@ -1,0 +1,11 @@
+// Title: Windows Share Mount Via Net.EXE
+// ID: f117933c-980c-4f78-b384-e3d838111165
+// Status: test
+// Level: low
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-02-02
+// Tags: attack.lateral-movement, attack.t1021.002
+// Description: Detects when a share is mounted using the "net.exe" utility
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((CommandLine: "* use *" OR CommandLine: "* \\\\\\\\*")) AND (((Image="*\\net.exe" OR Image="*\\net1.exe")) OR ((OriginalFileName: "net.exe" OR OriginalFileName: "net1.exe"))))

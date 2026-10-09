@@ -1,0 +1,11 @@
+// Title: Potential Discovery Activity Using Find - Linux
+// ID: 8344c0e5-5783-47cc-9cf9-a0f7fd03e6cf
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-12-28
+// Tags: attack.discovery, attack.t1083
+// Description: Detects usage of "find" binary in a suspicious manner to perform discovery
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE (process.executable LIKE "%/find" AND (process.command_line LIKE "%-perm -4000%" OR process.command_line LIKE "%-perm -2000%" OR process.command_line LIKE "%-perm 0777%" OR process.command_line LIKE "%-perm -222%" OR process.command_line LIKE "%-perm -o w%" OR process.command_line LIKE "%-perm -o x%" OR process.command_line LIKE "%-perm -u=s%" OR process.command_line LIKE "%-perm -g=s%"))

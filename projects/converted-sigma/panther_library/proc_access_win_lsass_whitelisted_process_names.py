@@ -1,0 +1,19 @@
+# Title: LSASS Access From Potentially White-Listed Processes
+# ID: 4be8b654-0c01-4c9d-a10c-6b28467fc651
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems)
+# Date: 2022-02-10
+# Tags: attack.credential-access, attack.t1003.001, attack.s0002
+# Description: Detects a possible process memory dump that uses a white-listed filename like TrolleyExpress.exe as a way to dump the LSASS process memory without Microsoft Defender interference
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: LSASS Access From Potentially White-Listed Processes
+def rule(event):
+    # Detection Logic:
+    # (TargetImage="*\\lsass.exe" AND (SourceImage="*\\TrolleyExpress.exe" OR SourceImage="*\\ProcessDump.exe" OR SourceImage="*\\dump64.exe") AND (GrantedAccess="*10" OR GrantedAccess="*30" OR GrantedAccess="*50" OR GrantedAccess="*70" OR GrantedAccess="*90" OR GrantedAccess="*B0" OR GrantedAccess="*D0" OR GrantedAccess="*F0" OR GrantedAccess="*18" OR GrantedAccess="*38" OR GrantedAccess="*58" OR GrantedAccess="*78" OR GrantedAccess="*98" OR GrantedAccess="*B8" OR GrantedAccess="*D8" OR GrantedAccess="*F8" OR GrantedAccess="*1A" OR GrantedAccess="*3A" OR GrantedAccess="*5A" OR GrantedAccess="*7A" OR GrantedAccess="*9A" OR GrantedAccess="*BA" OR GrantedAccess="*DA" OR GrantedAccess="*FA" OR GrantedAccess="*0x14C2" OR GrantedAccess="*FF"))
+    return True
+
+def title(event):
+    return "LSASS Access From Potentially White-Listed Processes"
+

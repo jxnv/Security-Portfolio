@@ -1,0 +1,11 @@
+// Title: Office Macro File Creation
+// ID: 91174a41-dc8f-401b-be89-7bfc140612a0
+// Status: test
+// Level: low
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-01-23
+// Tags: attack.initial-access, attack.t1566.001
+// Description: Detects the creation of a new office macro files on the systems
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE (((file.path LIKE "%.docm" OR file.path LIKE "%.dotm" OR file.path LIKE "%.xlsm" OR file.path LIKE "%.xltm" OR file.path LIKE "%.potm" OR file.path LIKE "%.pptm")) AND NOT (((process.executable LIKE "C:\\Program Files\\Microsoft Office\\%" OR process.executable LIKE "C:\\Program Files (x86)\\Microsoft Office\\%") AND (process.executable LIKE "%\\WINWORD.EXE" OR process.executable LIKE "%\\EXCEL.EXE" OR process.executable LIKE "%\\POWERPNT.EXE") AND file.path LIKE "%\\~$%")))

@@ -1,0 +1,11 @@
+# Title: Uncommon File Created In Office Startup Folder
+# ID: a10a2c40-2c4d-49f8-b557-1a946bc55d9d
+# Status: test
+# Level: high
+# Author: frack113, Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-06-05
+# Tags: attack.resource-development, attack.t1587.001
+# Description: Detects the creation of a file with an uncommon extension in an Office application startup folder
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((((file.path:*\\Microsoft\\Word\\STARTUP*) OR ((file.path:*\\Office* AND file.path:*\\Program Files* AND file.path:*\\STARTUP*))) AND NOT (((file.path:*.docb OR file.path:*.docm OR file.path:*.docx OR file.path:*.dotm OR file.path:*.mdb OR file.path:*.mdw OR file.path:*.pdf OR file.path:*.wll OR file.path:*.wwl)))) OR (((file.path:*\\Microsoft\\Excel\\XLSTART*) OR ((file.path:*\\Office* AND file.path:*\\Program Files* AND file.path:*\\XLSTART*))) AND NOT (((file.path:*.xll OR file.path:*.xls OR file.path:*.xlsm OR file.path:*.xlsx OR file.path:*.xlt OR file.path:*.xltm OR file.path:*.xlw))))) AND NOT ((((process.executable:*:\\Program Files\\Microsoft Office\\* OR process.executable:*:\\Program Files (x86)\\Microsoft Office\\*) AND (process.executable:*\\winword.exe OR process.executable:*\\excel.exe)) OR (process.executable:*:\\Program Files\\Common Files\\Microsoft Shared\\ClickToRun\\* AND process.executable:*\\OfficeClickToRun.exe))))

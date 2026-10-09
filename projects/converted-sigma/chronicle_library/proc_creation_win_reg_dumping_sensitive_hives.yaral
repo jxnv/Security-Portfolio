@@ -1,0 +1,23 @@
+// Title: Dumping of Sensitive Hives Via Reg.EXE
+// ID: fd877b94-9bb5-4191-bb25-d79cbd93c167
+// Status: test
+// Level: high
+// Author: Teymur Kheirkhabarov, Endgame, JHasenbusch, Daniil Yugoslavskiy, oscd.community, frack113
+// Date: 2019-10-22
+// Tags: attack.credential-access, attack.t1003.002, attack.t1003.004, attack.t1003.005, car.2013-07-001
+// Description: Detects the usage of "reg.exe" in order to dump sensitive registry hives. This includes SAM, SYSTEM and SECURITY hives.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule fd877b94_9bb5_4191_bb25_d79cbd93c167 {
+  meta:
+    title = "Dumping of Sensitive Hives Via Reg.EXE"
+    description = "Detects the usage of "reg.exe" in order to dump sensitive registry hives. This includes SAM, SYSTEM and SECURITY hives."
+    author = "Teymur Kheirkhabarov, Endgame, JHasenbusch, Daniil Yugoslavskiy, oscd.community, frack113"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.* save .*/ nocase or $e.target.process.command_line = /.* export .*/ nocase or $e.target.process.command_line = /.* ˢave .*/ nocase or $e.target.process.command_line = /.* eˣport .*/ nocase)) and (($e.target.process.command_line = /.*\\system.*/ nocase or $e.target.process.command_line = /.*\\sam.*/ nocase or $e.target.process.command_line = /.*\\security.*/ nocase or $e.target.process.command_line = /.*\\ˢystem.*/ nocase or $e.target.process.command_line = /.*\\syˢtem.*/ nocase or $e.target.process.command_line = /.*\\ˢyˢtem.*/ nocase or $e.target.process.command_line = /.*\\ˢam.*/ nocase or $e.target.process.command_line = /.*\\ˢecurity.*/ nocase)) and (($e.target.process.command_line = /.*hklm.*/ nocase or $e.target.process.command_line = /.*hk˪m.*/ nocase or $e.target.process.command_line = /.*hkey_local_machine.*/ nocase or $e.target.process.command_line = /.*hkey_˪ocal_machine.*/ nocase or $e.target.process.command_line = /.*hkey_loca˪_machine.*/ nocase or $e.target.process.command_line = /.*hkey_˪oca˪_machine.*/ nocase)) and (($e.target.process.file.full_path = /.*\\reg.exe$/ nocase) or ($e.target.process.file.name = "reg.exe")))
+
+  condition:
+    $e
+}

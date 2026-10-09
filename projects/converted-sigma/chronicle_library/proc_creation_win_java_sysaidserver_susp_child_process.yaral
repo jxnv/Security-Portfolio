@@ -1,0 +1,23 @@
+// Title: Suspicious SysAidServer Child
+// ID: 60bfeac3-0d35-4302-8efb-1dd16f715bc6
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-08-26
+// Tags: attack.lateral-movement, attack.t1210
+// Description: Detects suspicious child processes of SysAidServer (as seen in MERCURY threat actor intrusions)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 60bfeac3_0d35_4302_8efb_1dd16f715bc6 {
+  meta:
+    title = "Suspicious SysAidServer Child"
+    description = "Detects suspicious child processes of SysAidServer (as seen in MERCURY threat actor intrusions)"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.principal.process.file.full_path = /.*\\java.exe$/ nocase or $e.principal.process.file.full_path = /.*\\javaw.exe$/ nocase) and $e.principal.process.command_line = /.*SysAidServer.*/ nocase)
+
+  condition:
+    $e
+}

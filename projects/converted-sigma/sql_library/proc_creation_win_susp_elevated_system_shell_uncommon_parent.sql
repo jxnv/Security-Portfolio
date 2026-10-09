@@ -1,0 +1,11 @@
+-- Title: Elevated System Shell Spawned From Uncommon Parent Location
+-- ID: 178e615d-e666-498b-9630-9ed363038101
+-- Status: test
+-- Level: medium
+-- Author: frack113, Tim Shelton (update fp)
+-- Date: 2022-12-05
+-- Tags: attack.privilege-escalation, attack.execution, attack.t1059
+-- Description: Detects when a shell program such as the Windows command prompt or PowerShell is launched with system privileges from a uncommon parent location.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE (((((Image ILIKE '%\\powershell.exe' OR Image ILIKE '%\\powershell_ise.exe' OR Image ILIKE '%\\pwsh.exe' OR Image ILIKE '%\\cmd.exe')) OR ((OriginalFileName = 'PowerShell.EXE' OR OriginalFileName = 'powershell_ise.EXE' OR OriginalFileName = 'pwsh.dll' OR OriginalFileName = 'Cmd.Exe'))) AND ((User ILIKE '%AUTHORI%' OR User ILIKE '%AUTORI%') AND LogonId = '0x3e7')) AND NOT ((((ParentImage ILIKE '%:\\Program Files (x86)\\%' OR ParentImage ILIKE '%:\\Program Files\\%' OR ParentImage ILIKE '%:\\ProgramData\\%' OR ParentImage ILIKE '%:\\Windows\\System32\\%' OR ParentImage ILIKE '%:\\Windows\\SysWOW64\\%' OR ParentImage ILIKE '%:\\Windows\\Temp\\%' OR ParentImage ILIKE '%:\\Windows\\WinSxS\\%')) OR ((ParentImage = '' OR ParentImage = '-')) OR (ParentImage IS NULL))) AND NOT (((CommandLine ILIKE '%:\\WINDOWS\\system32\\cmd.exe /c \"%' AND CurrentDirectory ILIKE '%:\\WINDOWS\\Temp\\asgard2-agent\\%') OR (ParentImage ILIKE '%:\\IBM\\SpectrumProtect\\webserver\\scripts\\%' AND CommandLine ILIKE '%:\\IBM\\SpectrumProtect\\webserver\\scripts\\%') OR (ParentImage ILIKE '%:\\ManageEngine\\ADManager Plus\\pgsql\\bin\\postgres.exe' AND Image ILIKE '%\\cmd.exe'))))

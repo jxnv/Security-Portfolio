@@ -1,0 +1,23 @@
+// Title: Domain Trust Discovery Via Dsquery
+// ID: 3bad990e-4848-4a78-9530-b427d854aac0
+// Status: test
+// Level: medium
+// Author: E.M. Anhaus, Tony Lambert, oscd.community, omkar72
+// Date: 2019-10-24
+// Tags: attack.discovery, attack.t1482
+// Description: Detects execution of "dsquery.exe" for domain trust discovery
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 3bad990e_4848_4a78_9530_b427d854aac0 {
+  meta:
+    title = "Domain Trust Discovery Via Dsquery"
+    description = "Detects execution of "dsquery.exe" for domain trust discovery"
+    author = "E.M. Anhaus, Tony Lambert, oscd.community, omkar72"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.process.command_line = /.*trustedDomain.*/ nocase) and (($e.target.process.file.full_path = /.*\\dsquery.exe$/ nocase) or ($e.target.process.file.name = "dsquery.exe")))
+
+  condition:
+    $e
+}

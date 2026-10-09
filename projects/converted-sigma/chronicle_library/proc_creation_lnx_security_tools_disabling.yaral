@@ -1,0 +1,23 @@
+// Title: Disabling Security Tools
+// ID: e3a8a052-111f-4606-9aee-f28ebeb76776
+// Status: test
+// Level: medium
+// Author: Ömer Günal, Alejandro Ortuno, oscd.community
+// Date: 2020-06-17
+// Tags: attack.defense-impairment, attack.t1686
+// Description: Detects disabling security tools
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule e3a8a052_111f_4606_9aee_f28ebeb76776 {
+  meta:
+    title = "Disabling Security Tools"
+    description = "Detects disabling security tools"
+    author = "Ömer Günal, Alejandro Ortuno, oscd.community"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.process.file.full_path = /.*/service$/ nocase and ($e.target.process.command_line = /.*cbdaemon.*/ nocase and $e.target.process.command_line = /.*stop.*/ nocase)) or ($e.target.process.file.full_path = /.*/chkconfig$/ nocase and ($e.target.process.command_line = /.*cbdaemon.*/ nocase and $e.target.process.command_line = /.*off.*/ nocase)) or ($e.target.process.file.full_path = /.*/systemctl$/ nocase and ($e.target.process.command_line = /.*cbdaemon.*/ nocase and $e.target.process.command_line = /.*stop.*/ nocase)) or ($e.target.process.file.full_path = /.*/systemctl$/ nocase and ($e.target.process.command_line = /.*cbdaemon.*/ nocase and $e.target.process.command_line = /.*disable.*/ nocase)) or ($e.target.process.file.full_path = /.*/systemctl$/ nocase and ($e.target.process.command_line = /.*stop.*/ nocase and $e.target.process.command_line = /.*falcon-sensor.*/ nocase)) or ($e.target.process.file.full_path = /.*/systemctl$/ nocase and ($e.target.process.command_line = /.*disable.*/ nocase and $e.target.process.command_line = /.*falcon-sensor.*/ nocase)) or ($e.target.process.file.full_path = /.*/systemctl$/ nocase and ($e.target.process.command_line = /.*firewalld.*/ nocase and $e.target.process.command_line = /.*stop.*/ nocase)) or ($e.target.process.file.full_path = /.*/systemctl$/ nocase and ($e.target.process.command_line = /.*firewalld.*/ nocase and $e.target.process.command_line = /.*disable.*/ nocase)) or ($e.target.process.file.full_path = /.*/service$/ nocase and ($e.target.process.command_line = /.*iptables.*/ nocase and $e.target.process.command_line = /.*stop.*/ nocase)) or ($e.target.process.file.full_path = /.*/service$/ nocase and ($e.target.process.command_line = /.*ip6tables.*/ nocase and $e.target.process.command_line = /.*stop.*/ nocase)) or ($e.target.process.file.full_path = /.*/chkconfig$/ nocase and ($e.target.process.command_line = /.*iptables.*/ nocase and $e.target.process.command_line = /.*stop.*/ nocase)) or ($e.target.process.file.full_path = /.*/chkconfig$/ nocase and ($e.target.process.command_line = /.*ip6tables.*/ nocase and $e.target.process.command_line = /.*stop.*/ nocase)) or ($e.target.process.file.full_path = /.*/setenforce$/ nocase and $e.target.process.command_line = /.*0.*/ nocase))
+
+  condition:
+    $e
+}

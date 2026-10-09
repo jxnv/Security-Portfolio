@@ -1,0 +1,19 @@
+# Title: Cisco Sniffing
+# ID: b9e1f193-d236-4451-aaae-2f3d2102120d
+# Status: test
+# Level: medium
+# Author: Austin Clark
+# Date: 2019-08-11
+# Tags: attack.credential-access, attack.discovery, attack.t1040
+# Description: Show when a monitor or a span/rspan is setup or modified
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Cisco Sniffing
+def rule(event):
+    # Detection Logic:
+    # ("monitor capture point" OR "set span" OR "set rspan")
+    return True
+
+def title(event):
+    return "Cisco Sniffing"
+

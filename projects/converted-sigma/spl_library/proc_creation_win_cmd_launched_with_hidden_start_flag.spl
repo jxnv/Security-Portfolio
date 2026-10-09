@@ -1,0 +1,13 @@
+# Title: Cmd Launched with Hidden Start Flags to Suspicious Targets
+# ID: 5a6b7c8d-9e0f-1a2b-3c4d-5e6f7a8b9c0d
+# Status: experimental
+# Level: medium
+# Author: Vladan Sekulic, Swachchhanda Shrawan Poudel (Nextron Systems)
+# Date: 2026-01-24
+# Tags: attack.stealth, attack.t1564.003
+# Description: Detects cmd.exe executing commands with the "start" utility using "/b" (no window) or "/min" (minimized) flags.
+# To reduce false positives from standard background tasks, detection is restricted to scenarios where the target is a known script extension or located in suspicious temporary/public directories.
+# This technique was observed in Chaos, DarkSide, and Emotet malware campaigns.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog ((((process_exec="*start *" OR process_exec="*start/b*" OR process_exec="*start/min*")) AND ((process_exec="*/b *" OR process_exec="*-b *" OR process_exec="*/b\"*" OR process_exec="*-b\"*" OR process_exec="*/min *" OR process_exec="*-min *" OR process_exec="*/min\"*" OR process_exec="*-min\"*")) AND ((process_path="*\\cmd.exe") OR (process_name="Cmd.Exe"))) AND (((process_exec="*.bat*" OR process_exec="*.cmd*" OR process_exec="*.cpl*" OR process_exec="*.hta*" OR process_exec="*.js*" OR process_exec="*.ps1*" OR process_exec="*.scr*" OR process_exec="*.vbe*" OR process_exec="*.vbs*")) OR ((process_exec="* -nop *" OR process_exec="* -sta *" OR process_exec="*.downloadfile(*" OR process_exec="*.downloadstring(*" OR process_exec="*-noni *" OR process_exec="*-w hidden *")) OR ((process_exec="*:\\Perflogs\\*" OR process_exec="*:\\Temp\\*" OR process_exec="*:\\Users\\Default\\*" OR process_exec="*:\\Windows\\Temp\\*" OR process_exec="*\\AppData\\Roaming\\*" OR process_exec="*\\Contacts\\*" OR process_exec="*\\Documents\\*" OR process_exec="*\\Downloads\\*" OR process_exec="*\\Favorites\\*" OR process_exec="*\\Favourites\\*" OR process_exec="*\\inetpub\\*" OR process_exec="*\\Music\\*" OR process_exec="*\\Photos\\*" OR process_exec="*\\Temporary Internet\\*" OR process_exec="*\\Users\\Public\\*" OR process_exec="*\\Videos\\*"))))

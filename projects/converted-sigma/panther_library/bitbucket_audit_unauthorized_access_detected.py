@@ -1,0 +1,19 @@
+# Title: Bitbucket Unauthorized Access To A Resource
+# ID: 7215374a-de4f-4b33-8ba5-70804c9251d3
+# Status: test
+# Level: critical
+# Author: Muhammad Faisal (@faisalusuf)
+# Date: 2024-02-25
+# Tags: attack.resource-development, attack.t1586
+# Description: Detects unauthorized access attempts to a resource.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Bitbucket Unauthorized Access To A Resource
+def rule(event):
+    # Detection Logic:
+    # (auditType.category="Security" AND auditType.action="Unauthorized access to a resource")
+    return True
+
+def title(event):
+    return "Bitbucket Unauthorized Access To A Resource"
+

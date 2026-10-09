@@ -1,0 +1,11 @@
+// Title: File With Suspicious Extension Downloaded Via Bitsadmin
+// ID: 5b80a791-ad9b-4b75-bcc1-ad4e1e89c200
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-06-28
+// Tags: attack.persistence, attack.execution, attack.stealth, attack.t1197, attack.s0190, attack.t1036.003, attack.command-and-control, attack.t1105
+// Description: Detects usage of bitsadmin downloading a file with a suspicious extension
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(CommandLine ICONTAINS ".7z") OR where(CommandLine ICONTAINS ".asax") OR where(CommandLine ICONTAINS ".ashx") OR where(CommandLine ICONTAINS ".asmx") OR where(CommandLine ICONTAINS ".asp") OR where(CommandLine ICONTAINS ".aspx") OR where(CommandLine ICONTAINS ".bat") OR where(CommandLine ICONTAINS ".cfm") OR where(CommandLine ICONTAINS ".cgi") OR where(CommandLine ICONTAINS ".chm") OR where(CommandLine ICONTAINS ".cmd") OR where(CommandLine ICONTAINS ".dll") OR where(CommandLine ICONTAINS ".gif") OR where(CommandLine ICONTAINS ".jpeg") OR where(CommandLine ICONTAINS ".jpg") OR where(CommandLine ICONTAINS ".jsp") OR where(CommandLine ICONTAINS ".jspx") OR where(CommandLine ICONTAINS ".log") OR where(CommandLine ICONTAINS ".png") OR where(CommandLine ICONTAINS ".ps1") OR where(CommandLine ICONTAINS ".psm1") OR where(CommandLine ICONTAINS ".rar") OR where(CommandLine ICONTAINS ".scf") OR where(CommandLine ICONTAINS ".sct") OR where(CommandLine ICONTAINS ".txt") OR where(CommandLine ICONTAINS ".vbe") OR where(CommandLine ICONTAINS ".vbs") OR where(CommandLine ICONTAINS ".war") OR where(CommandLine ICONTAINS ".wsf") OR where(CommandLine ICONTAINS ".wsh") OR where(CommandLine ICONTAINS ".xll") OR where(CommandLine ICONTAINS ".zip"))) AND ((where(CommandLine ICONTAINS " /transfer ") OR where(CommandLine ICONTAINS " /create ") OR where(CommandLine ICONTAINS " /addfile "))) AND ((where(Image IENDSWITH "\\bitsadmin.exe")) OR (where(OriginalFileName = "bitsadmin.exe"))))

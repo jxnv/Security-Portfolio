@@ -1,0 +1,16 @@
+<!--
+  Title: Suspicious Service DACL Modification Via Set-Service Cmdlet - PS
+  ID: 22d80745-6f2c-46da-826b-77adaededd74
+  Status: test
+  Level: high
+  Author: Nasreddine Bencherchali (Nextron Systems)
+  Date: 2022-10-24
+  Description: Detects usage of the "Set-Service" powershell cmdlet to configure a new SecurityDescriptor that allows a service to be hidden from other utilities such as "sc.exe", "Get-Service"...etc. (Works only in powershell 7)
+-->
+
+<group name="sigma_converted,">
+  <rule id="100001" level="10">
+    <description>Suspicious Service DACL Modification Via Set-Service Cmdlet - PS</description>
+    <match>(((ScriptBlockText=\"*-SecurityDescriptorSddl *\" OR ScriptBlockText=\"*-sd *\")) AND ((ScriptBlockText=\"*Set-Service *\" AND</match>
+  </rule>
+</group>

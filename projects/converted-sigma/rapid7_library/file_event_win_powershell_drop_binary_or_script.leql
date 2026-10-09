@@ -1,0 +1,11 @@
+// Title: Potential Binary Or Script Dropper Via PowerShell
+// ID: 7047d730-036f-4f40-b9d8-1c63e36d5e62
+// Status: test
+// Level: medium
+// Author: frack113, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-03-17
+// Tags: attack.persistence
+// Description: Detects PowerShell creating a binary executable or a script file.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(Image IENDSWITH "\\powershell.exe") OR where(Image IENDSWITH "\\powershell_ise.exe") OR where(Image IENDSWITH "\\pwsh.exe")) AND (where(TargetFilename IENDSWITH ".bat") OR where(TargetFilename IENDSWITH ".chm") OR where(TargetFilename IENDSWITH ".cmd") OR where(TargetFilename IENDSWITH ".com") OR where(TargetFilename IENDSWITH ".dll") OR where(TargetFilename IENDSWITH ".exe") OR where(TargetFilename IENDSWITH ".hta") OR where(TargetFilename IENDSWITH ".jar") OR where(TargetFilename IENDSWITH ".js") OR where(TargetFilename IENDSWITH ".ocx") OR where(TargetFilename IENDSWITH ".scr") OR where(TargetFilename IENDSWITH ".sys") OR where(TargetFilename IENDSWITH ".vbe") OR where(TargetFilename IENDSWITH ".vbs") OR where(TargetFilename IENDSWITH ".wsf"))) AND NOT (((where(TargetFilename ISTARTSWITH "C:\\Program Files\\PackageManagement\\ProviderAssemblies\\nuget\\") AND where(TargetFilename IENDSWITH "\\Microsoft.PackageManagement.NuGetProvider.dll")) OR ((where(TargetFilename ISTARTSWITH "C:\\Windows\\Temp\\") OR where(TargetFilename ISTARTSWITH "C:\\Windows\\SystemTemp\\")) AND (where(TargetFilename IENDSWITH ".dll") OR where(TargetFilename IENDSWITH ".exe"))) OR (where(TargetFilename ISTARTSWITH "C:\\Users\\") AND where(TargetFilename ICONTAINS "\\WindowsPowerShell\\Modules\\") AND where(TargetFilename IENDSWITH ".dll")) OR (where(TargetFilename ISTARTSWITH "C:\\Users\\") AND where(TargetFilename ICONTAINS "\\AppData\\Local\\Temp\\") AND (where(TargetFilename IENDSWITH ".dll") OR where(TargetFilename IENDSWITH ".exe"))))))

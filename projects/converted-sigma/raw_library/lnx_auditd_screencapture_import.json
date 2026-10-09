@@ -1,0 +1,40 @@
+{
+  "title": "Screen Capture with Import Tool",
+  "id": "dbe4b9c5-c254-4258-9688-d6af0b7967fd",
+  "status": "test",
+  "description": "Detects adversary creating screen capture of a desktop with Import Tool.\nHighly recommended using rule on servers, due to high usage of screenshot utilities on user workstations.\nImageMagick must be installed.\n",
+  "author": "Pawel Mazur",
+  "date": "2021-09-21",
+  "tags": [
+    "attack.collection",
+    "attack.t1113"
+  ],
+  "level": "low",
+  "logsource": {
+    "product": "linux",
+    "service": "auditd"
+  },
+  "detection": {
+    "import": {
+      "type": "EXECVE",
+      "a0": "import"
+    },
+    "import_window_root": {
+      "a1": "-window",
+      "a2": "root",
+      "a3|endswith": [
+        ".png",
+        ".jpg",
+        ".jpeg"
+      ]
+    },
+    "import_no_window_root": {
+      "a1|endswith": [
+        ".png",
+        ".jpg",
+        ".jpeg"
+      ]
+    },
+    "condition": "import and (import_window_root or import_no_window_root)"
+  }
+}

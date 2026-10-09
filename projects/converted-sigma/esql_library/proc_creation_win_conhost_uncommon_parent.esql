@@ -1,0 +1,11 @@
+// Title: Conhost Spawned By Uncommon Parent Process
+// ID: cbb9e3d1-2386-4e59-912e-62f1484f7a89
+// Status: test
+// Level: medium
+// Author: Tim Rauch, Elastic (idea)
+// Date: 2022-09-28
+// Tags: attack.execution, attack.t1059
+// Description: Detects when the Console Window Host (conhost.exe) process is spawned by an uncommon parent process, which could be indicative of potential code injection activity.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE ((process.executable LIKE "%\\conhost.exe" AND (process.parent.executable LIKE "%\\explorer.exe" OR process.parent.executable LIKE "%\\lsass.exe" OR process.parent.executable LIKE "%\\regsvr32.exe" OR process.parent.executable LIKE "%\\rundll32.exe" OR process.parent.executable LIKE "%\\services.exe" OR process.parent.executable LIKE "%\\smss.exe" OR process.parent.executable LIKE "%\\spoolsv.exe" OR process.parent.executable LIKE "%\\svchost.exe" OR process.parent.executable LIKE "%\\userinit.exe" OR process.parent.executable LIKE "%\\wininit.exe" OR process.parent.executable LIKE "%\\winlogon.exe")) AND NOT (((process.parent.command_line LIKE "%-k apphost -s AppHostSvc%" OR process.parent.command_line LIKE "%-k imgsvc%" OR process.parent.command_line LIKE "%-k localService -p -s RemoteRegistry%" OR process.parent.command_line LIKE "%-k LocalSystemNetworkRestricted -p -s NgcSvc%" OR process.parent.command_line LIKE "%-k NetSvcs -p -s NcaSvc%" OR process.parent.command_line LIKE "%-k netsvcs -p -s NetSetupSvc%" OR process.parent.command_line LIKE "%-k netsvcs -p -s wlidsvc%" OR process.parent.command_line LIKE "%-k NetworkService -p -s DoSvc%" OR process.parent.command_line LIKE "%-k wsappx -p -s AppXSvc%" OR process.parent.command_line LIKE "%-k wsappx -p -s ClipSVC%" OR process.parent.command_line LIKE "%-k wusvcs -p -s WaaSMedicSvc%"))) AND NOT (((process.parent.command_line LIKE "%C:\\Program Files (x86)\\Dropbox\\Client\\%" OR process.parent.command_line LIKE "%C:\\Program Files\\Dropbox\\Client\\%"))))

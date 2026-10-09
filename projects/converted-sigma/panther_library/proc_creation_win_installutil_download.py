@@ -1,0 +1,19 @@
+# Title: File Download Via InstallUtil.EXE
+# ID: 75edd216-1939-4c73-8d61-7f3a0d85b5cc
+# Status: test
+# Level: medium
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-08-19
+# Tags: attack.stealth, attack.t1218
+# Description: Detects use of .NET InstallUtil.exe in order to download arbitrary files. The files will be written to "%LOCALAPPDATA%\Microsoft\Windows\INetCache\IE\"
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: File Download Via InstallUtil.EXE
+def rule(event):
+    # Detection Logic:
+    # (((CommandLine="*ftp://*" OR CommandLine="*http://*" OR CommandLine="*https://*")) AND ((Image="*\\InstallUtil.exe") OR (OriginalFileName="InstallUtil.exe")))
+    return True
+
+def title(event):
+    return "File Download Via InstallUtil.EXE"
+

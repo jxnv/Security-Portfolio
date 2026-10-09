@@ -1,0 +1,12 @@
+// Title: Antivirus - Ransomware Signature
+// ID: 4c6ca276-d4d0-4a8c-9e4c-d69832f8671f
+// Status: test
+// Level: critical
+// Author: Florian Roth (Nextron Systems), Arnim Rupp
+// Date: 2022-05-12
+// Tags: attack.t1486, attack.impact
+// Description: Detects a highly relevant Antivirus alert that reports ransomware.
+// This event must not be ignored just because the AV has blocked the malware but investigate, how it came there in the first place.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter ((Signature contains "Babuk" or Signature contains "Babyk" or Signature contains "BlackWorm" or Signature contains "Chaos" or Signature contains "Cobra" or Signature contains "ContiCrypt" or Signature contains "Crypter" or Signature contains "Cryptes" or Signature contains "Cryptor" or Signature contains "CylanCrypt" or Signature contains "DelShad" or Signature contains "Destructor" or Signature contains "Filecoder" or Signature contains "GandCrab" or Signature contains "GrandCrab" or Signature contains "Haperlock" or Signature contains "Hiddentear" or Signature contains "HydraCrypt" or Signature contains "Krypt" or Signature contains "Lockbit" or Signature contains "Locker" or Signature contains "Mallox" or Signature contains "Medusa" or Signature contains "Phobos" or Signature contains "Ransom" or Signature contains "Rook" or Signature contains "Ryuk" or Signature contains "Ryzerlo" or Signature contains "Stopcrypt" or Signature contains "Tescrypt" or Signature contains "TeslaCrypt" or Signature contains "WannaCry" or Signature contains "Xorist"))

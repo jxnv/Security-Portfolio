@@ -1,0 +1,23 @@
+// Title: Remote Access Tool - ScreenConnect Potential Suspicious Remote Command Execution
+// ID: 7b582f1a-b318-4c6a-bf4e-66fe49bf55a5
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems), @Kostastsale
+// Date: 2022-02-25
+// Tags: attack.command-and-control, attack.t1219.002
+// Description: Detects potentially suspicious child processes launched via the ScreenConnect client service.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 7b582f1a_b318_4c6a_bf4e_66fe49bf55a5 {
+  meta:
+    title = "Remote Access Tool - ScreenConnect Potential Suspicious Remote Command Execution"
+    description = "Detects potentially suspicious child processes launched via the ScreenConnect client service."
+    author = "Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems), @Kostastsale"
+    severity = "MEDIUM"
+
+  events:
+    (($e.principal.process.command_line = /.*:\\Windows\\TEMP\\ScreenConnect\\.*/ nocase and $e.principal.process.command_line = /.*run.cmd.*/ nocase) and ($e.target.process.file.full_path = /.*\\bitsadmin.exe$/ nocase or $e.target.process.file.full_path = /.*\\cmd.exe$/ nocase or $e.target.process.file.full_path = /.*\\curl.exe$/ nocase or $e.target.process.file.full_path = /.*\\dllhost.exe$/ nocase or $e.target.process.file.full_path = /.*\\net.exe$/ nocase or $e.target.process.file.full_path = /.*\\nltest.exe$/ nocase or $e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase or $e.target.process.file.full_path = /.*\\rundll32.exe$/ nocase or $e.target.process.file.full_path = /.*\\wevtutil.exe$/ nocase))
+
+  condition:
+    $e
+}

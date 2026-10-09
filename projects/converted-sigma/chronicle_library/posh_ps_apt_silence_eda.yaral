@@ -1,0 +1,23 @@
+// Title: Silence.EDA Detection
+// ID: 3ceb2083-a27f-449a-be33-14ec1b7cc973
+// Status: test
+// Level: critical
+// Author: Alina Stepchenkova, Group-IB, oscd.community
+// Date: 2019-11-01
+// Tags: attack.execution, attack.t1059.001, attack.command-and-control, attack.t1071.004, attack.t1572, attack.impact, attack.t1529, attack.g0091, attack.s0363
+// Description: Detects Silence EmpireDNSAgent as described in the Group-IP report
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 3ceb2083_a27f_449a_be33_14ec1b7cc973 {
+  meta:
+    title = "Silence.EDA Detection"
+    description = "Detects Silence EmpireDNSAgent as described in the Group-IP report"
+    author = "Alina Stepchenkova, Group-IB, oscd.community"
+    severity = "CRITICAL"
+
+  events:
+    ((($e.ScriptBlockText = /.*System.Diagnostics.Process.*/ nocase and $e.ScriptBlockText = /.*Stop-Computer.*/ nocase and $e.ScriptBlockText = /.*Restart-Computer.*/ nocase and $e.ScriptBlockText = /.*Exception in execution.*/ nocase and $e.ScriptBlockText = /.*$cmdargs.*/ nocase and $e.ScriptBlockText = /.*Close-Dnscat2Tunnel.*/ nocase)) and (($e.ScriptBlockText = /.*set type=$LookupType`nserver.*/ nocase and $e.ScriptBlockText = /.*$Command | nslookup 2>&1 | Out-String.*/ nocase and $e.ScriptBlockText = /.*New-RandomDNSField.*/ nocase and $e.ScriptBlockText = /.*[Convert]::ToString($SYNOptions, 16).*/ nocase and $e.ScriptBlockText = /.*$Session.Dead = $True.*/ nocase and $e.ScriptBlockText = /.*$Session[\"Driver\"] -eq.*/ nocase)))
+
+  condition:
+    $e
+}

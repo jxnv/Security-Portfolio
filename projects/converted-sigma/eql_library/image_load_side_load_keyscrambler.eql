@@ -1,0 +1,12 @@
+// Title: Potential DLL Sideloading Of KeyScramblerIE.DLL Via KeyScrambler.EXE
+// ID: d2451be2-b582-4e15-8701-4196ac180260
+// Status: test
+// Level: high
+// Author: Swachchhanda Shrawan Poudel
+// Date: 2024-04-15
+// Tags: attack.persistence, attack.privilege-escalation, attack.execution, attack.stealth, attack.t1574.001
+// Description: Detects potential DLL side loading of "KeyScramblerIE.dll" by "KeyScrambler.exe".
+// Various threat actors and malware have been found side loading a masqueraded "KeyScramblerIE.dll" through "KeyScrambler.exe".
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+any where (((process.executable endswith "\\KeyScrambler.exe" or process.executable endswith "\\KeyScramblerLogon.exe") and ImageLoaded endswith "\\KeyScramblerIE.dll") and not ((((process.executable like "*_C:\\Program Files (x86)\\KeyScrambler\\*" or process.executable like "*_C:\\Program Files\\KeyScrambler\\*") and (ImageLoaded like "*_C:\\Program Files (x86)\\KeyScrambler\\*" or ImageLoaded like "*_C:\\Program Files\\KeyScrambler\\*")) or (Signature == "QFX Software Corporation" and SignatureStatus == "Valid"))))

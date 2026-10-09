@@ -1,0 +1,11 @@
+-- Title: Potential Data Exfiltration Activity Via CommandLine Tools
+-- ID: 7d1aaf3d-4304-425c-b7c3-162055e0b3ab
+-- Status: test
+-- Level: high
+-- Author: Nasreddine Bencherchali (Nextron Systems)
+-- Date: 2022-08-02
+-- Tags: attack.execution, attack.t1059.001
+-- Description: Detects the use of various CLI utilities exfiltrating data via web requests
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE ((((Image ILIKE '%\\powershell_ise.exe' OR Image ILIKE '%\\powershell.exe' OR Image ILIKE '%\\pwsh.exe' OR Image ILIKE '%\\cmd.exe') AND (CommandLine ILIKE '%curl %' OR CommandLine ILIKE '%Invoke-RestMethod%' OR CommandLine ILIKE '%Invoke-WebRequest%' OR CommandLine ILIKE '%irm %' OR CommandLine ILIKE '%iwr %' OR CommandLine ILIKE '%wget %') AND (CommandLine ILIKE '% -ur%' AND CommandLine ILIKE '% -me%' AND CommandLine ILIKE '% -b%' AND CommandLine ILIKE '% POST %')) OR ((Image ILIKE '%\\curl.exe' AND CommandLine ILIKE '%--ur%') AND ((CommandLine ILIKE '% -d %' OR CommandLine ILIKE '% --data %'))) OR (Image ILIKE '%\\wget.exe' AND (CommandLine ILIKE '%--post-data%' OR CommandLine ILIKE '%--post-file%'))) AND (((REGEXP_LIKE(CommandLine, 'net\s+view') OR REGEXP_LIKE(CommandLine, 'sc\s+query'))) OR ((CommandLine ILIKE '%Get-Content%' OR CommandLine ILIKE '%GetBytes%' OR CommandLine ILIKE '%hostname%' OR CommandLine ILIKE '%ifconfig%' OR CommandLine ILIKE '%ipconfig%' OR CommandLine ILIKE '%netstat%' OR CommandLine ILIKE '%nltest%' OR CommandLine ILIKE '%qprocess%' OR CommandLine ILIKE '%systeminfo%' OR CommandLine ILIKE '%tasklist%' OR CommandLine ILIKE '%ToBase64String%' OR CommandLine ILIKE '%whoami%')) OR ((CommandLine ILIKE '%type %' AND CommandLine ILIKE '% > %' AND CommandLine ILIKE '% C:\\%'))))

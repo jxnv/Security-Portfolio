@@ -1,0 +1,11 @@
+// Title: Suspicious Schtasks Schedule Types
+// ID: 24c8392b-aa3c-46b7-a545-43f71657fe98
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-09-09
+// Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.t1053.005
+// Description: Detects scheduled task creations or modification on a suspicious schedule type
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+from siem.events where ((((Image="*\\schtasks.exe") OR (OriginalFileName == "schtasks.exe")) AND ((contains(CommandLine, " ONLOGON ") OR contains(CommandLine, " ONSTART ") OR contains(CommandLine, " ONCE ") OR contains(CommandLine, " ONIDLE ")))) AND NOT (((contains(CommandLine, "NT AUT") OR contains(CommandLine, " SYSTEM") OR contains(CommandLine, "HIGHEST")))))

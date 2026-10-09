@@ -1,0 +1,23 @@
+// Title: Suspicious Camera and Microphone Access
+// ID: 62120148-6b7a-42be-8b91-271c04e281a3
+// Status: test
+// Level: high
+// Author: Den Iuzvyk
+// Date: 2020-06-07
+// Tags: attack.collection, attack.t1125, attack.t1123
+// Description: Detects Processes accessing the camera and microphone from suspicious folder
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 62120148_6b7a_42be_8b91_271c04e281a3 {
+  meta:
+    title = "Suspicious Camera and Microphone Access"
+    description = "Detects Processes accessing the camera and microphone from suspicious folder"
+    author = "Den Iuzvyk"
+    severity = "HIGH"
+
+  events:
+    ((($e.TargetObject = /.*\\Software\\Microsoft\\Windows\\CurrentVersion\\CapabilityAccessManager\\ConsentStore\\.*/ nocase and $e.TargetObject = /.*\\NonPackaged.*/ nocase)) and (($e.TargetObject = /.*microphone.*/ nocase or $e.TargetObject = /.*webcam.*/ nocase)) and (($e.TargetObject = /.*:#Windows#Temp#.*/ nocase or $e.TargetObject = /.*:#$Recycle.bin#.*/ nocase or $e.TargetObject = /.*:#Temp#.*/ nocase or $e.TargetObject = /.*:#Users#Public#.*/ nocase or $e.TargetObject = /.*:#Users#Default#.*/ nocase or $e.TargetObject = /.*:#Users#Desktop#.*/ nocase)))
+
+  condition:
+    $e
+}

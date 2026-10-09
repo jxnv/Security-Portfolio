@@ -1,0 +1,11 @@
+// Title: Suspicious Electron Application Child Processes
+// ID: f26eb764-fd89-464b-85e2-dc4a8e6e77b8
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-10-21
+// Tags: attack.execution
+// Description: Detects suspicious child processes of electron apps (teams, discord, slack, etc.). This could be a potential sign of ".asar" file tampering (See reference section for more information) or binary execution proxy through specific CLI arguments (see related rule)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE (((process.parent.executable LIKE "%\\chrome.exe" OR process.parent.executable LIKE "%\\discord.exe" OR process.parent.executable LIKE "%\\GitHubDesktop.exe" OR process.parent.executable LIKE "%\\keybase.exe" OR process.parent.executable LIKE "%\\msedge.exe" OR process.parent.executable LIKE "%\\msedgewebview2.exe" OR process.parent.executable LIKE "%\\msteams.exe" OR process.parent.executable LIKE "%\\slack.exe" OR process.parent.executable LIKE "%\\teams.exe")) AND (((process.executable LIKE "%\\cmd.exe" OR process.executable LIKE "%\\cscript.exe" OR process.executable LIKE "%\\mshta.exe" OR process.executable LIKE "%\\powershell.exe" OR process.executable LIKE "%\\pwsh.exe" OR process.executable LIKE "%\\regsvr32.exe" OR process.executable LIKE "%\\whoami.exe" OR process.executable LIKE "%\\wscript.exe")) OR ((process.executable LIKE "%:\\ProgramData\\%" OR process.executable LIKE "%:\\Temp\\%" OR process.executable LIKE "%\\AppData\\Local\\Temp\\%" OR process.executable LIKE "%\\Users\\Public\\%" OR process.executable LIKE "%\\Windows\\Temp\\%"))) AND NOT ((process.parent.executable LIKE "%\\Discord.exe" AND process.executable LIKE "%\\cmd.exe" AND process.command_line LIKE "%\\NVSMI\\nvidia-smi.exe%")))

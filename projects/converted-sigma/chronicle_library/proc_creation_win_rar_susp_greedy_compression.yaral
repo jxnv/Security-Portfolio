@@ -1,0 +1,23 @@
+// Title: Suspicious Greedy Compression Using Rar.EXE
+// ID: afe52666-401e-4a02-b4ff-5d128990b8cb
+// Status: test
+// Level: high
+// Author: X__Junior (Nextron Systems), Florian Roth (Nextron Systems)
+// Date: 2022-12-15
+// Tags: attack.execution, attack.t1059
+// Description: Detects RAR usage that creates an archive from a suspicious folder, either a system folder or one of the folders often used by attackers for staging purposes
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule afe52666_401e_4a02_b4ff_5d128990b8cb {
+  meta:
+    title = "Suspicious Greedy Compression Using Rar.EXE"
+    description = "Detects RAR usage that creates an archive from a suspicious folder, either a system folder or one of the folders often used by attackers for staging purposes"
+    author = "X__Junior (Nextron Systems), Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (((($e.target.process.file.full_path = /.*\\rar.exe$/ nocase) or ($e.Description = "Command line RAR")) or (($e.target.process.command_line = /.*.exe a .*/ nocase or $e.target.process.command_line = /.* a -m.*/ nocase))) and ((($e.target.process.command_line = /.* -hp.*/ nocase and $e.target.process.command_line = /.* -r .*/ nocase)) and (($e.target.process.command_line = /.* ?:\\\\\\*..*/ nocase or $e.target.process.command_line = /.* ?:\\\\\\\\\\*..*/ nocase or $e.target.process.command_line = /.* ?:\\$Recycle.bin\\.*/ nocase or $e.target.process.command_line = /.* ?:\\PerfLogs\\.*/ nocase or $e.target.process.command_line = /.* ?:\\Temp.*/ nocase or $e.target.process.command_line = /.* ?:\\Users\\Public\\.*/ nocase or $e.target.process.command_line = /.* ?:\\Windows\\.*/ nocase or $e.target.process.command_line = /.* %public%.*/ nocase))))
+
+  condition:
+    $e
+}

@@ -1,0 +1,19 @@
+# Title: Suspicious Manipulation Of Default Accounts Via Net.EXE
+# ID: 5b768e71-86f2-4879-b448-81061cbae951
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-09-01
+# Tags: attack.collection, attack.t1560.001
+# Description: Detects suspicious manipulations of default accounts such as 'administrator' and 'guest'. For example 'enable' or 'disable' accounts or change the password...etc
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Suspicious Manipulation Of Default Accounts Via Net.EXE
+def rule(event):
+    # Detection Logic:
+    # (((((Image="*\\net.exe" OR Image="*\\net1.exe")) OR ((OriginalFileName="net.exe" OR OriginalFileName="net1.exe"))) AND (CommandLine="* user *") AND ((CommandLine="* Järjestelmänvalvoja *" OR CommandLine="* Rendszergazda *" OR CommandLine="* Администратор *" OR CommandLine="* Administrateur *" OR CommandLine="* Administrador *" OR CommandLine="* Administratör *" OR CommandLine="* Administrator *" OR CommandLine="* guest *" OR CommandLine="* DefaultAccount *" OR CommandLine="* \"Järjestelmänvalvoja\" *" OR CommandLine="* \"Rendszergazda\" *" OR CommandLine="* \"Администратор\" *" OR CommandLine="* \"Administrateur\" *" OR CommandLine="* \"Administrador\" *" OR CommandLine="* \"Administratör\" *" OR CommandLine="* \"Administrator\" *" OR CommandLine="* \"guest\" *" OR CommandLine="* \"DefaultAccount\" *" OR CommandLine="* 'Järjestelmänvalvoja' *" OR CommandLine="* 'Rendszergazda' *" OR CommandLine="* 'Администратор' *" OR CommandLine="* 'Administrateur' *" OR CommandLine="* 'Administrador' *" OR CommandLine="* 'Administratör' *" OR CommandLine="* 'Administrator' *" OR CommandLine="* 'guest' *" OR CommandLine="* 'DefaultAccount' *"))) AND NOT (((CommandLine="*guest*" AND CommandLine="*/active no*"))))
+    return True
+
+def title(event):
+    return "Suspicious Manipulation Of Default Accounts Via Net.EXE"
+

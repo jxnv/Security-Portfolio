@@ -1,0 +1,11 @@
+-- Title: DNS Query Request By QuickAssist.EXE
+-- ID: 882e858a-3233-4ba8-855e-2f3d3575803d
+-- Status: experimental
+-- Level: low
+-- Author: Muhammad Faisal (@faisalusuf)
+-- Date: 2024-12-19
+-- Tags: attack.command-and-control, attack.initial-access, attack.lateral-movement, attack.t1071.001, attack.t1210
+-- Description: Detects DNS queries initiated by "QuickAssist.exe" to Microsoft Quick Assist primary endpoint that is used to establish a session.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE (Image ILIKE '%\\QuickAssist.exe' AND QueryName ILIKE '%remoteassistance.support.services.microsoft.com')

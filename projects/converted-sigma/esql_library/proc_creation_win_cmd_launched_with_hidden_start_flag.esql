@@ -1,0 +1,13 @@
+// Title: Cmd Launched with Hidden Start Flags to Suspicious Targets
+// ID: 5a6b7c8d-9e0f-1a2b-3c4d-5e6f7a8b9c0d
+// Status: experimental
+// Level: medium
+// Author: Vladan Sekulic, Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2026-01-24
+// Tags: attack.stealth, attack.t1564.003
+// Description: Detects cmd.exe executing commands with the "start" utility using "/b" (no window) or "/min" (minimized) flags.
+// To reduce false positives from standard background tasks, detection is restricted to scenarios where the target is a known script extension or located in suspicious temporary/public directories.
+// This technique was observed in Chaos, DarkSide, and Emotet malware campaigns.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE ((((process.command_line LIKE "%start %" OR process.command_line LIKE "%start/b%" OR process.command_line LIKE "%start/min%")) AND ((process.command_line LIKE "%/b %" OR process.command_line LIKE "%-b %" OR process.command_line LIKE "%/b\"%" OR process.command_line LIKE "%-b\"%" OR process.command_line LIKE "%/min %" OR process.command_line LIKE "%-min %" OR process.command_line LIKE "%/min\"%" OR process.command_line LIKE "%-min\"%")) AND ((process.executable LIKE "%\\cmd.exe") OR (process.pe.original_file_name == "Cmd.Exe"))) AND (((process.command_line LIKE "%.bat%" OR process.command_line LIKE "%.cmd%" OR process.command_line LIKE "%.cpl%" OR process.command_line LIKE "%.hta%" OR process.command_line LIKE "%.js%" OR process.command_line LIKE "%.ps1%" OR process.command_line LIKE "%.scr%" OR process.command_line LIKE "%.vbe%" OR process.command_line LIKE "%.vbs%")) OR ((process.command_line LIKE "% -nop %" OR process.command_line LIKE "% -sta %" OR process.command_line LIKE "%.downloadfile(%" OR process.command_line LIKE "%.downloadstring(%" OR process.command_line LIKE "%-noni %" OR process.command_line LIKE "%-w hidden %")) OR ((process.command_line LIKE "%:\\Perflogs\\%" OR process.command_line LIKE "%:\\Temp\\%" OR process.command_line LIKE "%:\\Users\\Default\\%" OR process.command_line LIKE "%:\\Windows\\Temp\\%" OR process.command_line LIKE "%\\AppData\\Roaming\\%" OR process.command_line LIKE "%\\Contacts\\%" OR process.command_line LIKE "%\\Documents\\%" OR process.command_line LIKE "%\\Downloads\\%" OR process.command_line LIKE "%\\Favorites\\%" OR process.command_line LIKE "%\\Favourites\\%" OR process.command_line LIKE "%\\inetpub\\%" OR process.command_line LIKE "%\\Music\\%" OR process.command_line LIKE "%\\Photos\\%" OR process.command_line LIKE "%\\Temporary Internet\\%" OR process.command_line LIKE "%\\Users\\Public\\%" OR process.command_line LIKE "%\\Videos\\%"))))

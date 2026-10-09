@@ -1,0 +1,20 @@
+# Title: Malicious Windows Script Components File Execution by TAEF Detection
+# ID: 634b00d5-ccc3-4a06-ae3b-0ec8444dd51b
+# Status: test
+# Level: low
+# Author: Agro (@agro_sev) oscd.community
+# Date: 2020-10-13
+# Tags: attack.stealth, attack.t1218
+# Description: Windows Test Authoring and Execution Framework (TAEF) framework allows you to run automation by executing tests files written on different languages (C, C#, Microsoft COM Scripting interfaces
+# Adversaries may execute malicious code (such as WSC file with VBScript, dll and so on) directly by running te.exe
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Malicious Windows Script Components File Execution by TAEF Detection
+def rule(event):
+    # Detection Logic:
+    # ((Image="*\\te.exe") OR (ParentImage="*\\te.exe") OR (OriginalFileName="\\te.exe"))
+    return True
+
+def title(event):
+    return "Malicious Windows Script Components File Execution by TAEF Detection"
+

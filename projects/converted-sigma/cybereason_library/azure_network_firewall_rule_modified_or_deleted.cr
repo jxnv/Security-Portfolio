@@ -1,0 +1,11 @@
+// Title: Azure Firewall Rule Configuration Modified or Deleted
+// ID: 2a7d64cf-81fa-4daf-ab1b-ab80b789c067
+// Status: test
+// Level: medium
+// Author: Austin Songer @austinsonger
+// Date: 2021-08-08
+// Tags: attack.impact
+// Description: Identifies when a Firewall Rule Configuration is Modified or Deleted.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((operationName == "MICROSOFT.NETWORK/FIREWALLPOLICIES/RULECOLLECTIONGROUPS/WRITE" OR operationName == "MICROSOFT.NETWORK/FIREWALLPOLICIES/RULECOLLECTIONGROUPS/DELETE" OR operationName == "MICROSOFT.NETWORK/FIREWALLPOLICIES/RULEGROUPS/WRITE" OR operationName == "MICROSOFT.NETWORK/FIREWALLPOLICIES/RULEGROUPS/DELETE"))

@@ -1,0 +1,12 @@
+// Title: Office Macro File Download
+// ID: 0e29e3a7-1ad8-40aa-b691-9f82ecd33d66
+// Status: test
+// Level: low
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-01-23
+// Tags: attack.initial-access, attack.t1566.001
+// Description: Detects the creation of a new office macro files on the system via an application (browser, mail client).
+// This can help identify potential malicious activity, such as the download of macro-enabled documents that could be used for exploitation.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((TargetFilename ENDSWITH ".docm" OR TargetFilename ENDSWITH ".dotm" OR TargetFilename ENDSWITH ".xlsm" OR TargetFilename ENDSWITH ".xltm" OR TargetFilename ENDSWITH ".potm" OR TargetFilename ENDSWITH ".pptm")) OR ((TargetFilename CONTAINS ".docm:Zone" OR TargetFilename CONTAINS ".dotm:Zone" OR TargetFilename CONTAINS ".xlsm:Zone" OR TargetFilename CONTAINS ".xltm:Zone" OR TargetFilename CONTAINS ".potm:Zone" OR TargetFilename CONTAINS ".pptm:Zone"))) AND ((Image ENDSWITH "\\RuntimeBroker.exe" OR Image ENDSWITH "\\outlook.exe" OR Image ENDSWITH "\\thunderbird.exe" OR Image ENDSWITH "\\brave.exe" OR Image ENDSWITH "\\chrome.exe" OR Image ENDSWITH "\\firefox.exe" OR Image ENDSWITH "\\iexplore.exe" OR Image ENDSWITH "\\maxthon.exe" OR Image ENDSWITH "\\MicrosoftEdge.exe" OR Image ENDSWITH "\\msedge.exe" OR Image ENDSWITH "\\msedgewebview2.exe" OR Image ENDSWITH "\\opera.exe" OR Image ENDSWITH "\\safari.exe" OR Image ENDSWITH "\\seamonkey.exe" OR Image ENDSWITH "\\vivaldi.exe" OR Image ENDSWITH "\\whale.exe")))

@@ -1,0 +1,11 @@
+// Title: New Firewall Rule Added Via Netsh.EXE
+// ID: cd5cfd80-aa5f-44c0-9c20-108c4ae12e3c
+// Status: test
+// Level: medium
+// Author: Markus Neis, Sander Wiebing
+// Date: 2019-01-29
+// Tags: attack.defense-impairment, attack.t1686.003, attack.s0246
+// Description: Detects the addition of a new rule to the Windows firewall via netsh
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((CommandLine: "* firewall *" AND CommandLine: "* add *")) AND ((Image="*\\netsh.exe") OR (OriginalFileName: "netsh.exe"))) AND NOT (((CommandLine: "*advfirewall firewall add rule name=Dropbox dir=in action=allow \"program=?:\\Program Files (x86)\\Dropbox\\Client\\Dropbox.exe\" enable=yes profile=Any*" OR CommandLine: "*advfirewall firewall add rule name=Dropbox dir=in action=allow \"program=?:\\Program Files\\Dropbox\\Client\\Dropbox.exe\" enable=yes profile=Any*"))))

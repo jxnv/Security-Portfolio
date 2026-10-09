@@ -1,0 +1,23 @@
+// Title: Potential MSTSC Shadowing Activity
+// ID: 6ba5a05f-b095-4f0a-8654-b825f4f16334
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2020-01-24
+// Tags: attack.lateral-movement, attack.t1563.002
+// Description: Detects RDP session hijacking by using MSTSC shadowing
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 6ba5a05f_b095_4f0a_8654_b825f4f16334 {
+  meta:
+    title = "Potential MSTSC Shadowing Activity"
+    description = "Detects RDP session hijacking by using MSTSC shadowing"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.command_line = /.*noconsentprompt.*/ nocase and $e.target.process.command_line = /.*shadow:.*/ nocase))
+
+  condition:
+    $e
+}

@@ -1,0 +1,32 @@
+{
+  "title": "Potential Privilege Escalation via Local Kerberos Relay over LDAP",
+  "id": "749c9f5e-b353-4b90-a9c1-05243357ca4b",
+  "status": "test",
+  "description": "Detects a suspicious local successful logon event where the Logon Package is Kerberos, the remote address is set to localhost, and the target user SID is the built-in local Administrator account.\nThis may indicate an attempt to leverage a Kerberos relay attack variant that can be used to elevate privilege locally from a domain joined limited user to local System privileges.\n",
+  "author": "Elastic, @SBousseaden",
+  "date": "2022-04-27",
+  "tags": [
+    "attack.privilege-escalation",
+    "attack.credential-access",
+    "attack.t1548"
+  ],
+  "level": "high",
+  "logsource": {
+    "product": "windows",
+    "service": "security"
+  },
+  "detection": {
+    "selection": {
+      "EventID": 4624,
+      "LogonType": 3,
+      "AuthenticationPackageName": "Kerberos",
+      "IpAddress": "127.0.0.1",
+      "TargetUserSid|startswith": "S-1-5-21-",
+      "TargetUserSid|endswith": "-500"
+    },
+    "filter_main_ip_null": {
+      "IpPort": "0"
+    },
+    "condition": "selection and not 1 of filter_main_*"
+  }
+}

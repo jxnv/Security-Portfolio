@@ -1,0 +1,22 @@
+# Title: PST Export Alert Using New-ComplianceSearchAction
+# ID: 6897cd82-6664-11ed-9022-0242ac120002
+# Status: test
+# Level: medium
+# Author: Nikita Khalimonenkov
+# Date: 2022-11-17
+# Tags: attack.collection, attack.t1114
+# Description: Alert when a user has performed an export to a search using 'New-ComplianceSearchAction' with the '-Export' flag. This detection will detect PST export even if the 'eDiscovery search or exported' alert is disabled in the O365.This rule will apply to ExchangePowerShell usage and from the cloud.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# LimaCharlie Detection & Response Rule
+# Name: PST Export Alert Using New-ComplianceSearchAction
+detect:
+  event: NEW_PROCESS
+  op: and
+  rules:
+    # Filter logic:
+    # (eventSource="SecurityComplianceCenter" AND (Payload="*New-ComplianceSearchAction*" AND Payload="*Export*" AND Payload="*pst*"))
+respond:
+  - action: report
+    name: PST Export Alert Using New-ComplianceSearchAction
+

@@ -1,0 +1,23 @@
+// Title: Potential WWlib.DLL Sideloading
+// ID: e2e01011-5910-4267-9c3b-4149ed5479cf
+// Status: test
+// Level: medium
+// Author: X__Junior (Nextron Systems)
+// Date: 2023-05-18
+// Tags: attack.persistence, attack.privilege-escalation, attack.execution, attack.stealth, attack.t1574.001
+// Description: Detects potential DLL sideloading of "wwlib.dll"
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule e2e01011_5910_4267_9c3b_4149ed5479cf {
+  meta:
+    title = "Potential WWlib.DLL Sideloading"
+    description = "Detects potential DLL sideloading of "wwlib.dll""
+    author = "X__Junior (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.ImageLoaded = /.*\\wwlib.dll$/ nocase) and not((($e.target.process.file.full_path = /^C:\\Program Files (x86)\\Microsoft Office\\.*/ nocase or $e.target.process.file.full_path = /^C:\\Program Files\\Microsoft Office\\.*/ nocase) and $e.target.process.file.full_path = /.*\\winword.exe$/ nocase and ($e.ImageLoaded = /^C:\\Program Files (x86)\\Microsoft Office\\.*/ nocase or $e.ImageLoaded = /^C:\\Program Files\\Microsoft Office\\.*/ nocase))))
+
+  condition:
+    $e
+}

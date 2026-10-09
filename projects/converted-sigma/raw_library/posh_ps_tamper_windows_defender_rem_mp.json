@@ -1,0 +1,32 @@
+{
+  "title": "Tamper Windows Defender Remove-MpPreference - ScriptBlockLogging",
+  "id": "ae2bdd58-0681-48ac-be7f-58ab4e593458",
+  "status": "test",
+  "description": "Detects attempts to remove Windows Defender configuration using the 'MpPreference' cmdlet",
+  "author": "Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2022-08-05",
+  "tags": [
+    "attack.defense-impairment",
+    "attack.t1685"
+  ],
+  "level": "high",
+  "logsource": {
+    "product": "windows",
+    "category": "ps_script",
+    "definition": "Requirements: Script Block Logging must be enabled"
+  },
+  "detection": {
+    "selection_remove": {
+      "ScriptBlockText|contains": "Remove-MpPreference"
+    },
+    "selection_tamper": {
+      "ScriptBlockText|contains": [
+        "-ControlledFolderAccessProtectedFolders ",
+        "-AttackSurfaceReductionRules_Ids ",
+        "-AttackSurfaceReductionRules_Actions ",
+        "-CheckForSignaturesBeforeRunningScan "
+      ]
+    },
+    "condition": "all of selection_*"
+  }
+}

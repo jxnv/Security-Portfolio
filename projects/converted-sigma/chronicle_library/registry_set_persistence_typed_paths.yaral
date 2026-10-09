@@ -1,0 +1,23 @@
+// Title: Potential Persistence Via TypedPaths
+// ID: 086ae989-9ca6-4fe7-895a-759c5544f247
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-22
+// Tags: attack.persistence
+// Description: Detects modification addition to the 'TypedPaths' key in the user or admin registry from a non standard application. Which might indicate persistence attempt
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 086ae989_9ca6_4fe7_895a_759c5544f247 {
+  meta:
+    title = "Potential Persistence Via TypedPaths"
+    description = "Detects modification addition to the 'TypedPaths' key in the user or admin registry from a non standard application. Which might indicate persistence attempt"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.TargetObject = /.*\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\TypedPaths\\.*/ nocase) and not((($e.target.process.file.full_path = "C:\\Windows\\explorer.exe" or $e.target.process.file.full_path = "C:\\Windows\\SysWOW64\\explorer.exe"))))
+
+  condition:
+    $e
+}

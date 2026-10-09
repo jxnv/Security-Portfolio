@@ -1,0 +1,11 @@
+-- Title: Shellshock Expression
+-- ID: c67e0c98-4d39-46ee-8f6b-437ebf6b950e
+-- Status: test
+-- Level: high
+-- Author: Florian Roth (Nextron Systems)
+-- Date: 2017-03-14
+-- Tags: attack.persistence, attack.t1505.003
+-- Description: Detects shellshock expressions in log files
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE ("(){:;};" OR "() {:;};" OR "() { :;};" OR "() { :; };")

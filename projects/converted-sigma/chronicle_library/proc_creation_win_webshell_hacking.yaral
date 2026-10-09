@@ -1,0 +1,23 @@
+// Title: Webshell Hacking Activity Patterns
+// ID: 4ebc877f-4612-45cb-b3a5-8e3834db36c9
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-03-17
+// Tags: attack.persistence, attack.discovery, attack.t1505.003, attack.t1018, attack.t1033, attack.t1087
+// Description: Detects certain parent child patterns found in cases in which a web shell is used to perform certain credential dumping or exfiltration activities on a compromised system
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 4ebc877f_4612_45cb_b3a5_8e3834db36c9 {
+  meta:
+    title = "Webshell Hacking Activity Patterns"
+    description = "Detects certain parent child patterns found in cases in which a web shell is used to perform certain credential dumping or exfiltration activities on a compromised system"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (((($e.principal.process.file.full_path = /.*\\java.exe$/ nocase or $e.principal.process.file.full_path = /.*\\javaw.exe$/ nocase) and ($e.principal.process.file.full_path = /.*-tomcat-.*/ nocase or $e.principal.process.file.full_path = /.*\\tomcat.*/ nocase)) or (($e.principal.process.file.full_path = /.*\\java.exe$/ nocase or $e.principal.process.file.full_path = /.*\\javaw.exe$/ nocase) and ($e.target.process.command_line = /.*catalina.jar.*/ nocase or $e.target.process.command_line = /.*CATALINA_HOME.*/ nocase)) or (($e.principal.process.file.full_path = /.*\\caddy.exe$/ nocase or $e.principal.process.file.full_path = /.*\\httpd.exe$/ nocase or $e.principal.process.file.full_path = /.*\\nginx.exe$/ nocase or $e.principal.process.file.full_path = /.*\\php-cgi.exe$/ nocase or $e.principal.process.file.full_path = /.*\\w3wp.exe$/ nocase or $e.principal.process.file.full_path = /.*\\ws_tomcatservice.exe$/ nocase))) and ((($e.target.process.command_line = /.*rundll32.*/ nocase and $e.target.process.command_line = /.*comsvcs.*/ nocase)) or (($e.target.process.command_line = /.* -hp.*/ nocase and $e.target.process.command_line = /.* a .*/ nocase and $e.target.process.command_line = /.* -m.*/ nocase)) or (($e.target.process.command_line = /.*net.*/ nocase and $e.target.process.command_line = /.* user .*/ nocase and $e.target.process.command_line = /.* /add.*/ nocase)) or (($e.target.process.command_line = /.*net.*/ nocase and $e.target.process.command_line = /.* localgroup .*/ nocase and $e.target.process.command_line = /.* administrators .*/ nocase and $e.target.process.command_line = /.*/add.*/ nocase)) or (($e.target.process.file.full_path = /.*\\ntdsutil.exe$/ nocase or $e.target.process.file.full_path = /.*\\ldifde.exe$/ nocase or $e.target.process.file.full_path = /.*\\adfind.exe$/ nocase or $e.target.process.file.full_path = /.*\\procdump.exe$/ nocase or $e.target.process.file.full_path = /.*\\Nanodump.exe$/ nocase or $e.target.process.file.full_path = /.*\\vssadmin.exe$/ nocase or $e.target.process.file.full_path = /.*\\fsutil.exe$/ nocase)) or (($e.target.process.command_line = /.* -decode .*/ nocase or $e.target.process.command_line = /.* -NoP .*/ nocase or $e.target.process.command_line = /.* -W Hidden .*/ nocase or $e.target.process.command_line = /.* /decode .*/ nocase or $e.target.process.command_line = /.* /ticket:.*/ nocase or $e.target.process.command_line = /.* sekurlsa.*/ nocase or $e.target.process.command_line = /.*.dmp full.*/ nocase or $e.target.process.command_line = /.*.downloadfile(.*/ nocase or $e.target.process.command_line = /.*.downloadstring(.*/ nocase or $e.target.process.command_line = /.*FromBase64String.*/ nocase or $e.target.process.command_line = /.*process call create.*/ nocase or $e.target.process.command_line = /.*reg save .*/ nocase or $e.target.process.command_line = /.*whoami /priv.*/ nocase))))
+
+  condition:
+    $e
+}

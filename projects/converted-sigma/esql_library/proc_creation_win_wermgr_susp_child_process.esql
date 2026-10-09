@@ -1,0 +1,11 @@
+// Title: Suspicious Child Process Of Wermgr.EXE
+// ID: 396f6630-f3ac-44e3-bfc8-1b161bc00c4e
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-10-14
+// Tags: attack.privilege-escalation, attack.stealth, attack.t1055, attack.t1036
+// Description: Detects suspicious Windows Error Reporting manager (wermgr.exe) child process
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE ((process.parent.executable LIKE "%\\wermgr.exe" AND (process.executable LIKE "%\\cmd.exe" OR process.executable LIKE "%\\cscript.exe" OR process.executable LIKE "%\\ipconfig.exe" OR process.executable LIKE "%\\mshta.exe" OR process.executable LIKE "%\\net.exe" OR process.executable LIKE "%\\net1.exe" OR process.executable LIKE "%\\netstat.exe" OR process.executable LIKE "%\\nslookup.exe" OR process.executable LIKE "%\\powershell_ise.exe" OR process.executable LIKE "%\\powershell.exe" OR process.executable LIKE "%\\pwsh.exe" OR process.executable LIKE "%\\regsvr32.exe" OR process.executable LIKE "%\\rundll32.exe" OR process.executable LIKE "%\\systeminfo.exe" OR process.executable LIKE "%\\whoami.exe" OR process.executable LIKE "%\\wscript.exe")) AND NOT ((process.executable LIKE "%\\rundll32.exe" AND (process.command_line LIKE "%C:\\Windows\\system32\\WerConCpl.dll%" AND process.command_line LIKE "%LaunchErcApp %") AND (process.command_line LIKE "%-queuereporting%" OR process.command_line LIKE "%-responsepester%"))))

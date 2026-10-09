@@ -1,0 +1,32 @@
+{
+  "title": "Windows Terminal Profile Settings Modification By Uncommon Process",
+  "id": "9b64de98-9db3-4033-bd7a-f51430105f00",
+  "status": "test",
+  "description": "Detects the creation or modification of the Windows Terminal Profile settings file \"settings.json\" by an uncommon process.",
+  "author": "frack113, Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2023-07-22",
+  "tags": [
+    "attack.privilege-escalation",
+    "attack.persistence",
+    "attack.t1547.015"
+  ],
+  "level": "medium",
+  "logsource": {
+    "product": "windows",
+    "category": "file_event"
+  },
+  "detection": {
+    "selection": {
+      "Image|endswith": [
+        "\\cmd.exe",
+        "\\cscript.exe",
+        "\\mshta.exe",
+        "\\powershell.exe",
+        "\\pwsh.exe",
+        "\\wscript.exe"
+      ],
+      "TargetFilename|endswith": "\\AppData\\Local\\Packages\\Microsoft.WindowsTerminal_8wekyb3d8bbwe\\LocalState\\settings.json"
+    },
+    "condition": "selection"
+  }
+}

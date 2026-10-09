@@ -1,0 +1,23 @@
+// Title: Suspicious GetTypeFromCLSID ShellExecute
+// ID: 8bc063d5-3a3a-4f01-a140-bc15e55e8437
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-04-02
+// Tags: attack.privilege-escalation, attack.persistence, attack.t1546.015
+// Description: Detects suspicious Powershell code that execute COM Objects
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 8bc063d5_3a3a_4f01_a140_bc15e55e8437 {
+  meta:
+    title = "Suspicious GetTypeFromCLSID ShellExecute"
+    description = "Detects suspicious Powershell code that execute COM Objects"
+    author = "frack113"
+    severity = "MEDIUM"
+
+  events:
+    (($e.ScriptBlockText = /.*::GetTypeFromCLSID(.*/ nocase and $e.ScriptBlockText = /.*.ShellExecute(.*/ nocase))
+
+  condition:
+    $e
+}

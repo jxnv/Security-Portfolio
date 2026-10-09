@@ -1,0 +1,23 @@
+// Title: Linux Package Uninstall
+// ID: 95d61234-7f56-465c-6f2d-b562c6fedbc4
+// Status: test
+// Level: low
+// Author: Tuan Le (NCSGroup), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-03-09
+// Tags: attack.stealth, attack.t1070
+// Description: Detects linux package removal using builtin tools such as "yum", "apt", "apt-get" or "dpkg".
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 95d61234_7f56_465c_6f2d_b562c6fedbc4 {
+  meta:
+    title = "Linux Package Uninstall"
+    description = "Detects linux package removal using builtin tools such as "yum", "apt", "apt-get" or "dpkg"."
+    author = "Tuan Le (NCSGroup), Nasreddine Bencherchali (Nextron Systems)"
+    severity = "LOW"
+
+  events:
+    ((($e.target.process.file.full_path = /.*/apt$/ nocase or $e.target.process.file.full_path = /.*/apt-get$/ nocase) and ($e.target.process.command_line = /.*remove.*/ nocase or $e.target.process.command_line = /.*purge.*/ nocase)) or ($e.target.process.file.full_path = /.*/dpkg$/ nocase and ($e.target.process.command_line = /.*--remove .*/ nocase or $e.target.process.command_line = /.* -r .*/ nocase)) or ($e.target.process.file.full_path = /.*/rpm$/ nocase and $e.target.process.command_line = /.* -e .*/ nocase) or ($e.target.process.file.full_path = /.*/yum$/ nocase and ($e.target.process.command_line = /.*erase.*/ nocase or $e.target.process.command_line = /.*remove.*/ nocase)))
+
+  condition:
+    $e
+}

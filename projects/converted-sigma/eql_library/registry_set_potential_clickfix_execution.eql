@@ -1,0 +1,14 @@
+// Title: Potential ClickFix Execution Pattern - Registry
+// ID: f5fe36cf-f1ec-4c23-903d-09a3110f6bbb
+// Status: experimental
+// Level: high
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-03-25
+// Tags: attack.execution, attack.t1204.001
+// Description: Detects potential ClickFix malware execution patterns by monitoring registry modifications in RunMRU keys containing HTTP/HTTPS links.
+// ClickFix is known to be distributed through phishing campaigns and uses techniques like clipboard hijacking and fake CAPTCHA pages.
+// Through the fakecaptcha pages, the adversary tricks users into opening the Run dialog box and pasting clipboard-hijacked content,
+// such as one-liners that execute remotely hosted malicious files or scripts.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+registry where (((registry.data.strings like "*_http://*" or registry.data.strings like "*_https://*")) and (registry.path like "*_\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\RunMRU\\*") and (((registry.data.strings like "*_account*" or registry.data.strings like "*_anti-bot*" or registry.data.strings like "*_botcheck*" or registry.data.strings like "*_captcha*" or registry.data.strings like "*_challenge*" or registry.data.strings like "*_confirmation*" or registry.data.strings like "*_fraud*" or registry.data.strings like "*_human*" or registry.data.strings like "*_identification*" or registry.data.strings like "*_identificator*" or registry.data.strings like "*_identity*" or registry.data.strings like "*_robot*" or registry.data.strings like "*_validation*" or registry.data.strings like "*_verification*" or registry.data.strings like "*_verify*")) or ((registry.data.strings like "*_%comspec%*" or registry.data.strings like "*_bitsadmin*" or registry.data.strings like "*_certutil*" or registry.data.strings like "*_cmd*" or registry.data.strings like "*_cscript*" or registry.data.strings like "*_curl*" or registry.data.strings like "*_finger*" or registry.data.strings like "*_mshta*" or registry.data.strings like "*_powershell*" or registry.data.strings like "*_pwsh*" or registry.data.strings like "*_regsvr32*" or registry.data.strings like "*_rundll32*" or registry.data.strings like "*_schtasks*" or registry.data.strings like "*_wget*" or registry.data.strings like "*_wscript*"))))

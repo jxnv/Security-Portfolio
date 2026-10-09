@@ -1,0 +1,23 @@
+// Title: Remote CHM File Download/Execution Via HH.EXE
+// ID: f57c58b3-ee69-4ef5-9041-455bf39aaa89
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-09-29
+// Tags: attack.stealth, attack.t1218.001
+// Description: Detects the usage of "hh.exe" to execute/download remotely hosted ".chm" files.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule f57c58b3_ee69_4ef5_9041_455bf39aaa89 {
+  meta:
+    title = "Remote CHM File Download/Execution Via HH.EXE"
+    description = "Detects the usage of "hh.exe" to execute/download remotely hosted ".chm" files."
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*http://.*/ nocase or $e.target.process.command_line = /.*https://.*/ nocase or $e.target.process.command_line = /.*\\\\\\\\.*/ nocase)) and (($e.target.process.file.name = "HH.exe") or ($e.target.process.file.full_path = /.*\\hh.exe$/ nocase)))
+
+  condition:
+    $e
+}

@@ -1,0 +1,23 @@
+// Title: RemCom Service Installation
+// ID: 9e36ed87-4986-482e-8e3b-5c23ffff11bf
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-08-07
+// Tags: attack.execution, attack.t1569.002
+// Description: Detects RemCom service installation and execution events
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 9e36ed87_4986_482e_8e3b_5c23ffff11bf {
+  meta:
+    title = "RemCom Service Installation"
+    description = "Detects RemCom service installation and execution events"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.Provider_Name = "Service Control Manager" and $e.EventID = 7045) and (($e.ServiceName = "RemComSvc") or ($e.ImagePath = /.*\\RemComSvc.exe$/ nocase)))
+
+  condition:
+    $e
+}

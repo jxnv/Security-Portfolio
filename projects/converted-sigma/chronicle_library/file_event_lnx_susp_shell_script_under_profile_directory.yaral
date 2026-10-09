@@ -1,0 +1,23 @@
+// Title: Potentially Suspicious Shell Script Creation in Profile Folder
+// ID: 13f08f54-e705-4498-91fd-cce9d9cee9f1
+// Status: test
+// Level: low
+// Author: Joseliyo Sanchez, @Joseliyo_Jstnk
+// Date: 2023-06-02
+// Tags: attack.persistence
+// Description: Detects the creation of shell scripts under the "profile.d" path.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 13f08f54_e705_4498_91fd_cce9d9cee9f1 {
+  meta:
+    title = "Potentially Suspicious Shell Script Creation in Profile Folder"
+    description = "Detects the creation of shell scripts under the "profile.d" path."
+    author = "Joseliyo Sanchez, @Joseliyo_Jstnk"
+    severity = "LOW"
+
+  events:
+    ($e.target.file.full_path = /.*/etc/profile.d/.*/ nocase and ($e.target.file.full_path = /.*.csh$/ nocase or $e.target.file.full_path = /.*.sh$/ nocase))
+
+  condition:
+    $e
+}

@@ -1,0 +1,23 @@
+// Title: Allow Service Access Using Security Descriptor Tampering Via Sc.EXE
+// ID: 6c8fbee5-dee8-49bc-851d-c3142d02aa47
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-02-28
+// Tags: attack.privilege-escalation, attack.persistence, attack.t1543.003
+// Description: Detects suspicious DACL modifications to allow access to a service from a suspicious trustee. This can be used to override access restrictions set by previous ACLs.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 6c8fbee5_dee8_49bc_851d_c3142d02aa47 {
+  meta:
+    title = "Allow Service Access Using Security Descriptor Tampering Via Sc.EXE"
+    description = "Detects suspicious DACL modifications to allow access to a service from a suspicious trustee. This can be used to override access restrictions set by previous ACLs."
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (((($e.target.process.file.full_path = /.*\\sc.exe$/ nocase) or ($e.target.process.file.name = "sc.exe")) and (($e.target.process.command_line = /.*sdset.*/ nocase and $e.target.process.command_line = /.*A;.*/ nocase)) and (($e.target.process.command_line = /.*;IU.*/ nocase or $e.target.process.command_line = /.*;SU.*/ nocase or $e.target.process.command_line = /.*;BA.*/ nocase or $e.target.process.command_line = /.*;SY.*/ nocase or $e.target.process.command_line = /.*;WD.*/ nocase))) and not(($e.principal.process.file.full_path = "C:\\Hexnode\\Hexnode Agent\\Current\\HexnodeAgent.exe")))
+
+  condition:
+    $e
+}

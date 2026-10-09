@@ -1,0 +1,26 @@
+// Title: Remote Access Tool - AnyDesk Execution With Known Revoked Signing Certificate
+// ID: 41f407b5-3096-44ea-a74f-96d04fbc41be
+// Status: test
+// Level: medium
+// Author: Sai Prashanth Pulisetti, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2024-02-08
+// Tags: attack.execution, attack.initial-access
+// Description: Detects the execution of an AnyDesk binary with a version prior to 8.0.8.
+// Prior to version 8.0.8, the Anydesk application used a signing certificate that got compromised by threat actors.
+// Use this rule to detect instances of older versions of Anydesk using the compromised certificate
+// This is recommended in order to avoid attackers leveraging the certificate and signing their binaries to bypass detections.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 41f407b5_3096_44ea_a74f_96d04fbc41be {
+  meta:
+    title = "Remote Access Tool - AnyDesk Execution With Known Revoked Signing Certificate"
+    description = "Detects the execution of an AnyDesk binary with a version prior to 8.0.8. Prior to version 8.0.8, the Anydesk application used a signing certificate that got compromised by threat actors. Use this rule to detect instances of older versions of Anydesk using the compromised certificate This is recommended in order to avoid attackers leveraging the certificate and signing their binaries to bypass detections."
+    author = "Sai Prashanth Pulisetti, Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (((($e.target.process.file.full_path = /.*\\AnyDesk.exe$/ nocase) or ($e.Description = "AnyDesk") or ($e.Product = "AnyDesk") or ($e.Company = "AnyDesk Software GmbH")) and (($e.FileVersion = /^7.0..*/ nocase or $e.FileVersion = /^7.1..*/ nocase or $e.FileVersion = /^8.0.1.*/ nocase or $e.FileVersion = /^8.0.2.*/ nocase or $e.FileVersion = /^8.0.3.*/ nocase or $e.FileVersion = /^8.0.4.*/ nocase or $e.FileVersion = /^8.0.5.*/ nocase or $e.FileVersion = /^8.0.6.*/ nocase or $e.FileVersion = /^8.0.7.*/ nocase))) and not((($e.target.process.command_line = /.* --remove.*/ nocase or $e.target.process.command_line = /.* --uninstall.*/ nocase))))
+
+  condition:
+    $e
+}

@@ -1,0 +1,23 @@
+// Title: Google Cloud Storage Buckets Enumeration
+// ID: e2feb918-4e77-4608-9697-990a1aaf74c3
+// Status: test
+// Level: low
+// Author: Austin Songer @austinsonger
+// Date: 2021-08-14
+// Tags: attack.discovery
+// Description: Detects when storage bucket is enumerated in Google Cloud.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule e2feb918_4e77_4608_9697_990a1aaf74c3 {
+  meta:
+    title = "Google Cloud Storage Buckets Enumeration"
+    description = "Detects when storage bucket is enumerated in Google Cloud."
+    author = "Austin Songer @austinsonger"
+    severity = "LOW"
+
+  events:
+    (($e.gcp.audit.method_name = "storage.buckets.list" or $e.gcp.audit.method_name = "storage.buckets.listChannels"))
+
+  condition:
+    $e
+}

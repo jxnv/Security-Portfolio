@@ -1,0 +1,23 @@
+// Title: Remote File Download Via Desktopimgdownldr Utility
+// ID: 214641c2-c579-4ecb-8427-0cf19df6842e
+// Status: test
+// Level: medium
+// Author: Tim Rauch, Elastic (idea)
+// Date: 2022-09-27
+// Tags: attack.command-and-control, attack.t1105
+// Description: Detects the desktopimgdownldr utility being used to download a remote file. An adversary may use desktopimgdownldr to download arbitrary files as an alternative to certutil.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 214641c2_c579_4ecb_8427_0cf19df6842e {
+  meta:
+    title = "Remote File Download Via Desktopimgdownldr Utility"
+    description = "Detects the desktopimgdownldr utility being used to download a remote file. An adversary may use desktopimgdownldr to download arbitrary files as an alternative to certutil."
+    author = "Tim Rauch, Elastic (idea)"
+    severity = "MEDIUM"
+
+  events:
+    ($e.target.process.file.full_path = /.*\\desktopimgdownldr.exe$/ nocase and $e.principal.process.file.full_path = /.*\\desktopimgdownldr.exe$/ nocase and $e.target.process.command_line = /.*/lockscreenurl:http.*/ nocase)
+
+  condition:
+    $e
+}

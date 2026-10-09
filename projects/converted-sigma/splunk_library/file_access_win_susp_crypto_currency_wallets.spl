@@ -1,0 +1,12 @@
+# Title: Access To Crypto Currency Wallets By Uncommon Applications
+# ID: f41b0311-44f9-44f0-816d-dd45e39d4bc8
+# Status: test
+# Level: medium
+# Author: X__Junior (Nextron Systems)
+# Date: 2024-07-29
+# Tags: attack.t1003, attack.credential-access
+# Description: Detects file access requests to crypto currency files by uncommon processes.
+# Could indicate potential attempt of crypto currency wallet stealing.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog ((((FileName="*\\AppData\\Roaming\\Ethereum\\keystore\\*" OR FileName="*\\AppData\\Roaming\\EthereumClassic\\keystore\\*" OR FileName="*\\AppData\\Roaming\\monero\\wallets\\*")) OR ((FileName="*\\AppData\\Roaming\\Bitcoin\\wallet.dat" OR FileName="*\\AppData\\Roaming\\BitcoinABC\\wallet.dat" OR FileName="*\\AppData\\Roaming\\BitcoinSV\\wallet.dat" OR FileName="*\\AppData\\Roaming\\DashCore\\wallet.dat" OR FileName="*\\AppData\\Roaming\\DogeCoin\\wallet.dat" OR FileName="*\\AppData\\Roaming\\Litecoin\\wallet.dat" OR FileName="*\\AppData\\Roaming\\Ripple\\wallet.dat" OR FileName="*\\AppData\\Roaming\\Zcash\\wallet.dat"))) AND NOT ((((process_path="C:\\Program Files (x86)\\*" OR process_path="C:\\Program Files\\*" OR process_path="C:\\Windows\\system32\\*" OR process_path="C:\\Windows\\SysWOW64\\*")) OR (process_path="System"))) AND NOT ((process_path="C:\\ProgramData\\Microsoft\\Windows Defender\\*" AND (process_path="*\\MpCopyAccelerator.exe" OR process_path="*\\MsMpEng.exe"))))

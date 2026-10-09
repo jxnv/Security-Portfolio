@@ -1,0 +1,23 @@
+// Title: Suspicious File Download From IP Via Wget.EXE
+// ID: 17f0c0a8-8bd5-4ee0-8c5f-a342c0199f35
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-07-27
+// Tags: attack.execution
+// Description: Detects potentially suspicious file downloads directly from IP addresses using Wget.exe
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 17f0c0a8_8bd5_4ee0_8c5f_a342c0199f35 {
+  meta:
+    title = "Suspicious File Download From IP Via Wget.EXE"
+    description = "Detects potentially suspicious file downloads directly from IP addresses using Wget.exe"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*.ps1$/ nocase or $e.target.process.command_line = /.*.ps1'$/ nocase or $e.target.process.command_line = /.*.ps1\"$/ nocase or $e.target.process.command_line = /.*.dat$/ nocase or $e.target.process.command_line = /.*.dat'$/ nocase or $e.target.process.command_line = /.*.dat\"$/ nocase or $e.target.process.command_line = /.*.msi$/ nocase or $e.target.process.command_line = /.*.msi'$/ nocase or $e.target.process.command_line = /.*.msi\"$/ nocase or $e.target.process.command_line = /.*.bat$/ nocase or $e.target.process.command_line = /.*.bat'$/ nocase or $e.target.process.command_line = /.*.bat\"$/ nocase or $e.target.process.command_line = /.*.exe$/ nocase or $e.target.process.command_line = /.*.exe'$/ nocase or $e.target.process.command_line = /.*.exe\"$/ nocase or $e.target.process.command_line = /.*.vbs$/ nocase or $e.target.process.command_line = /.*.vbs'$/ nocase or $e.target.process.command_line = /.*.vbs\"$/ nocase or $e.target.process.command_line = /.*.vbe$/ nocase or $e.target.process.command_line = /.*.vbe'$/ nocase or $e.target.process.command_line = /.*.vbe\"$/ nocase or $e.target.process.command_line = /.*.hta$/ nocase or $e.target.process.command_line = /.*.hta'$/ nocase or $e.target.process.command_line = /.*.hta\"$/ nocase or $e.target.process.command_line = /.*.dll$/ nocase or $e.target.process.command_line = /.*.dll'$/ nocase or $e.target.process.command_line = /.*.dll\"$/ nocase or $e.target.process.command_line = /.*.psm1$/ nocase or $e.target.process.command_line = /.*.psm1'$/ nocase or $e.target.process.command_line = /.*.psm1\"$/ nocase)) and (($e.target.process.command_line = /\s-O\s/ nocase) or ($e.target.process.command_line = /.*--output-document.*/ nocase)) and ($e.target.process.command_line = /.*http.*/ nocase) and (($e.target.process.file.full_path = /.*\\wget.exe$/ nocase) or ($e.target.process.file.name = "wget.exe")) and ($e.target.process.command_line = /://[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/ nocase))
+
+  condition:
+    $e
+}

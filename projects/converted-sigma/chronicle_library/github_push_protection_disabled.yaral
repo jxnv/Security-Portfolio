@@ -1,0 +1,23 @@
+// Title: Github Push Protection Disabled
+// ID: ccd55945-badd-4bae-936b-823a735d37dd
+// Status: test
+// Level: high
+// Author: Muhammad Faisal (@faisalusuf)
+// Date: 2024-03-07
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects if the push protection feature is disabled for an organization, enterprise, repositories or custom pattern rules.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule ccd55945_badd_4bae_936b_823a735d37dd {
+  meta:
+    title = "Github Push Protection Disabled"
+    description = "Detects if the push protection feature is disabled for an organization, enterprise, repositories or custom pattern rules."
+    author = "Muhammad Faisal (@faisalusuf)"
+    severity = "HIGH"
+
+  events:
+    (($e.action = "business_secret_scanning_custom_pattern_push_protection.disabled" or $e.action = "business_secret_scanning_push_protection.disable" or $e.action = "business_secret_scanning_push_protection.disabled_for_new_repos" or $e.action = "org.secret_scanning_custom_pattern_push_protection_disabled" or $e.action = "org.secret_scanning_push_protection_disable" or $e.action = "org.secret_scanning_push_protection_new_repos_disable" or $e.action = "repository_secret_scanning_custom_pattern_push_protection.disabled"))
+
+  condition:
+    $e
+}

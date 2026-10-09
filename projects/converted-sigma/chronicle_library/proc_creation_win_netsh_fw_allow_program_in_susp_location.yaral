@@ -1,0 +1,23 @@
+// Title: Suspicious Program Location Whitelisted In Firewall Via Netsh.EXE
+// ID: a35f5a72-f347-4e36-8895-9869b0d5fc6d
+// Status: test
+// Level: high
+// Author: Sander Wiebing, Jonhnathan Ribeiro, Daniil Yugoslavskiy, oscd.community
+// Date: 2020-05-25
+// Tags: attack.defense-impairment, attack.t1686.003
+// Description: Detects Netsh command execution that whitelists a program located in a suspicious location in the Windows Firewall
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule a35f5a72_f347_4e36_8895_9869b0d5fc6d {
+  meta:
+    title = "Suspicious Program Location Whitelisted In Firewall Via Netsh.EXE"
+    description = "Detects Netsh command execution that whitelists a program located in a suspicious location in the Windows Firewall"
+    author = "Sander Wiebing, Jonhnathan Ribeiro, Daniil Yugoslavskiy, oscd.community"
+    severity = "HIGH"
+
+  events:
+    (((($e.target.process.command_line = /.*firewall.*/ nocase and $e.target.process.command_line = /.*add.*/ nocase and $e.target.process.command_line = /.*allowedprogram.*/ nocase)) or (($e.target.process.command_line = /.*advfirewall.*/ nocase and $e.target.process.command_line = /.*firewall.*/ nocase and $e.target.process.command_line = /.*add.*/ nocase and $e.target.process.command_line = /.*rule.*/ nocase and $e.target.process.command_line = /.*action=allow.*/ nocase and $e.target.process.command_line = /.*program=.*/ nocase))) and (($e.target.process.file.full_path = /.*\\netsh.exe$/ nocase) or ($e.target.process.file.name = "netsh.exe")) and (($e.target.process.command_line = /.*:\\$Recycle.bin\\.*/ nocase or $e.target.process.command_line = /.*:\\RECYCLER.BIN\\.*/ nocase or $e.target.process.command_line = /.*:\\RECYCLERS.BIN\\.*/ nocase or $e.target.process.command_line = /.*:\\SystemVolumeInformation\\.*/ nocase or $e.target.process.command_line = /.*:\\Temp\\.*/ nocase or $e.target.process.command_line = /.*:\\Users\\Default\\.*/ nocase or $e.target.process.command_line = /.*:\\Users\\Desktop\\.*/ nocase or $e.target.process.command_line = /.*:\\Users\\Public\\.*/ nocase or $e.target.process.command_line = /.*:\\Windows\\addins\\.*/ nocase or $e.target.process.command_line = /.*:\\Windows\\cursors\\.*/ nocase or $e.target.process.command_line = /.*:\\Windows\\debug\\.*/ nocase or $e.target.process.command_line = /.*:\\Windows\\drivers\\.*/ nocase or $e.target.process.command_line = /.*:\\Windows\\fonts\\.*/ nocase or $e.target.process.command_line = /.*:\\Windows\\help\\.*/ nocase or $e.target.process.command_line = /.*:\\Windows\\system32\\tasks\\.*/ nocase or $e.target.process.command_line = /.*:\\Windows\\Tasks\\.*/ nocase or $e.target.process.command_line = /.*:\\Windows\\Temp\\.*/ nocase or $e.target.process.command_line = /.*\\Downloads\\.*/ nocase or $e.target.process.command_line = /.*\\Local Settings\\Temporary Internet Files\\.*/ nocase or $e.target.process.command_line = /.*\\Temporary Internet Files\\Content.Outlook\\.*/ nocase or $e.target.process.command_line = /.*%Public%\\.*/ nocase or $e.target.process.command_line = /.*%TEMP%.*/ nocase or $e.target.process.command_line = /.*%TMP%.*/ nocase)))
+
+  condition:
+    $e
+}

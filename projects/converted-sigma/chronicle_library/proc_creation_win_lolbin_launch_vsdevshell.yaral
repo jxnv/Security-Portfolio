@@ -1,0 +1,23 @@
+// Title: Launch-VsDevShell.PS1 Proxy Execution
+// ID: 45d3a03d-f441-458c-8883-df101a3bb146
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-19
+// Tags: attack.stealth, attack.t1216.001
+// Description: Detects the use of the 'Launch-VsDevShell.ps1' Microsoft signed script to execute commands.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 45d3a03d_f441_458c_8883_df101a3bb146 {
+  meta:
+    title = "Launch-VsDevShell.PS1 Proxy Execution"
+    description = "Detects the use of the 'Launch-VsDevShell.ps1' Microsoft signed script to execute commands."
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.command_line = /.*VsWherePath .*/ nocase or $e.target.process.command_line = /.*VsInstallationPath .*/ nocase)) and ($e.target.process.command_line = /.*Launch-VsDevShell.ps1.*/ nocase))
+
+  condition:
+    $e
+}

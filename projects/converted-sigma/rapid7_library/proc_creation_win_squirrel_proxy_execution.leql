@@ -1,0 +1,11 @@
+// Title: Process Proxy Execution Via Squirrel.EXE
+// ID: 45239e6a-b035-4aaf-b339-8ad379fcb67e
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems), Karneades / Markus Neis, Jonhnathan Ribeiro, oscd.community
+// Date: 2022-06-09
+// Tags: attack.execution, attack.stealth, attack.t1218
+// Description: Detects the usage of the "Squirrel.exe" binary to execute arbitrary processes. This binary is part of multiple Electron based software installations (Slack, Teams, Discord, etc.)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((where(CommandLine ICONTAINS "--processStart") OR where(CommandLine ICONTAINS "--processStartAndWait") OR where(CommandLine ICONTAINS "--createShortcut"))) AND ((where(Image IENDSWITH "\\squirrel.exe") OR where(Image IENDSWITH "\\update.exe")))) AND NOT ((((where(CommandLine ICONTAINS ":\\Users\\") AND where(CommandLine ICONTAINS "\\AppData\\Local\\Discord\\Update.exe") AND where(CommandLine ICONTAINS "Discord.exe")) AND (where(CommandLine ICONTAINS "--createShortcut") OR where(CommandLine ICONTAINS "--processStart"))) OR ((where(CommandLine ICONTAINS ":\\Users\\") AND where(CommandLine ICONTAINS "\\AppData\\Local\\GitHubDesktop\\Update.exe") AND where(CommandLine ICONTAINS "GitHubDesktop.exe")) AND (where(CommandLine ICONTAINS "--createShortcut") OR where(CommandLine ICONTAINS "--processStartAndWait"))) OR ((where(CommandLine ICONTAINS ":\\Users\\") AND where(CommandLine ICONTAINS "\\AppData\\Local\\Microsoft\\Teams\\Update.exe") AND where(CommandLine ICONTAINS "Teams.exe")) AND (where(CommandLine ICONTAINS "--processStart") OR where(CommandLine ICONTAINS "--createShortcut"))) OR ((where(CommandLine ICONTAINS ":\\Users\\") AND where(CommandLine ICONTAINS "\\AppData\\Local\\yammerdesktop\\Update.exe") AND where(CommandLine ICONTAINS "Yammer.exe")) AND (where(CommandLine ICONTAINS "--processStart") OR where(CommandLine ICONTAINS "--createShortcut"))))))

@@ -1,0 +1,11 @@
+// Title: LSASS Access From Potentially White-Listed Processes
+// ID: 4be8b654-0c01-4c9d-a10c-6b28467fc651
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-02-10
+// Tags: attack.credential-access, attack.t1003.001, attack.s0002
+// Description: Detects a possible process memory dump that uses a white-listed filename like TrolleyExpress.exe as a way to dump the LSASS process memory without Microsoft Defender interference
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(TargetImage = /.*\\lsass.exe/i and (SourceImage = /.*\\TrolleyExpress.exe/i or SourceImage = /.*\\ProcessDump.exe/i or SourceImage = /.*\\dump64.exe/i) and (GrantedAccess = /.*10/i or GrantedAccess = /.*30/i or GrantedAccess = /.*50/i or GrantedAccess = /.*70/i or GrantedAccess = /.*90/i or GrantedAccess = /.*B0/i or GrantedAccess = /.*D0/i or GrantedAccess = /.*F0/i or GrantedAccess = /.*18/i or GrantedAccess = /.*38/i or GrantedAccess = /.*58/i or GrantedAccess = /.*78/i or GrantedAccess = /.*98/i or GrantedAccess = /.*B8/i or GrantedAccess = /.*D8/i or GrantedAccess = /.*F8/i or GrantedAccess = /.*1A/i or GrantedAccess = /.*3A/i or GrantedAccess = /.*5A/i or GrantedAccess = /.*7A/i or GrantedAccess = /.*9A/i or GrantedAccess = /.*BA/i or GrantedAccess = /.*DA/i or GrantedAccess = /.*FA/i or GrantedAccess = /.*0x14C2/i or GrantedAccess = /.*FF/i))

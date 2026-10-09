@@ -1,0 +1,11 @@
+# Title: System Restore Registry Modification via CommandLine
+# ID: 7c06ab9b-b1d2-4ba9-b06e-09491ded20d9
+# Status: experimental
+# Level: high
+# Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+# Date: 2026-03-11
+# Tags: attack.impact, attack.t1490
+# Description: Detects system restore registry modification via command line, which can be used by adversaries to disable system restore on the computer.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((cmdline:* add * OR cmdline:*Set-ItemProperty* OR cmdline:*New-ItemProperty*)) AND ((cmdline:*DisableConfig* OR cmdline:*DisableSR*)) AND ((cmdline:*\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\SystemRestore* OR cmdline:*\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\SystemRestore*)) AND (((process_name:*\\powershell.exe OR process_name:*\\pwsh.exe OR process_name:*\\reg.exe)) OR ((OriginalFileName:"powershell.exe" OR OriginalFileName:"pwsh.dll" OR OriginalFileName:"reg.exe"))))

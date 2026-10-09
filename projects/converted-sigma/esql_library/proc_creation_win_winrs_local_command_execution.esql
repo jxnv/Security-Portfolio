@@ -1,0 +1,12 @@
+// Title: Winrs Local Command Execution
+// ID: bcfece3d-56fe-4545-9931-3b8e92927db1
+// Status: experimental
+// Level: high
+// Author: Liran Ravich, Nasreddine Bencherchali
+// Date: 2025-10-22
+// Tags: attack.lateral-movement, attack.stealth, attack.t1021.006, attack.t1218
+// Description: Detects the execution of Winrs.exe where it is used to execute commands locally.
+// Commands executed this way are launched under Winrshost.exe and can represent proxy execution used for defense evasion or lateral movement.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE ((((process.executable LIKE "%\\winrs.exe") OR (process.pe.original_file_name == "winrs.exe")) AND ((process.command_line LIKE "%/r:localhost%" OR process.command_line LIKE "%-r:localhost%" OR process.command_line LIKE "%/r:127.0.0.1%" OR process.command_line LIKE "%-r:127.0.0.1%" OR process.command_line LIKE "%/r:[::1]%" OR process.command_line LIKE "%-r:[::1]%" OR process.command_line LIKE "%/remote:localhost%" OR process.command_line LIKE "%-remote:localhost%" OR process.command_line LIKE "%/remote:127.0.0.1%" OR process.command_line LIKE "%-remote:127.0.0.1%" OR process.command_line LIKE "%/remote:[::1]%" OR process.command_line LIKE "%-remote:[::1]%"))) OR (((process.executable LIKE "%\\winrs.exe") OR (process.pe.original_file_name == "winrs.exe")) AND NOT (((process.command_line LIKE "%/r:%" OR process.command_line LIKE "%-r:%" OR process.command_line LIKE "%/remote:%" OR process.command_line LIKE "%-remote:%")))))

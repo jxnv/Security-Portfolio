@@ -1,0 +1,23 @@
+// Title: WMI Event Consumer Created Named Pipe
+// ID: 493fb4ab-cdcc-4c4f-818c-0e363bd1e4bb
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems)
+// Date: 2021-09-01
+// Tags: attack.t1047, attack.execution
+// Description: Detects the WMI Event Consumer service scrcons.exe creating a named pipe
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 493fb4ab_cdcc_4c4f_818c_0e363bd1e4bb {
+  meta:
+    title = "WMI Event Consumer Created Named Pipe"
+    description = "Detects the WMI Event Consumer service scrcons.exe creating a named pipe"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ($e.target.process.file.full_path = /.*\\scrcons.exe$/ nocase)
+
+  condition:
+    $e
+}

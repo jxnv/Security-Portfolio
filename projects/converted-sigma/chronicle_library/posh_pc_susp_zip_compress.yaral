@@ -1,0 +1,24 @@
+// Title: Zip A Folder With PowerShell For Staging In Temp - PowerShell
+// ID: 71ff406e-b633-4989-96ec-bc49d825a412
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems), frack113
+// Date: 2021-07-20
+// Tags: attack.collection, attack.t1074.001
+// Description: Detects PowerShell scripts that make use of the "Compress-Archive" Cmdlet in order to compress folders and files where the output is stored in a potentially suspicious location that is used often by malware for exfiltration.
+// An adversary might compress data (e.g., sensitive documents) that is collected prior to exfiltration in order to make it portable and minimize the amount of data sent over the network.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 71ff406e_b633_4989_96ec_bc49d825a412 {
+  meta:
+    title = "Zip A Folder With PowerShell For Staging In Temp - PowerShell"
+    description = "Detects PowerShell scripts that make use of the "Compress-Archive" Cmdlet in order to compress folders and files where the output is stored in a potentially suspicious location that is used often by malware for exfiltration. An adversary might compress data (e.g., sensitive documents) that is collected prior to exfiltration in order to make it portable and minimize the amount of data sent over the network."
+    author = "Nasreddine Bencherchali (Nextron Systems), frack113"
+    severity = "MEDIUM"
+
+  events:
+    (($e.Data = /.*Compress-Archive -Path*-DestinationPath $env:TEMP.*/ nocase or $e.Data = /.*Compress-Archive -Path*-DestinationPath*\\AppData\\Local\\Temp\\.*/ nocase or $e.Data = /.*Compress-Archive -Path*-DestinationPath*:\\Windows\\Temp\\.*/ nocase))
+
+  condition:
+    $e
+}

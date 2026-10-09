@@ -1,0 +1,19 @@
+# Title: DllUnregisterServer Function Call Via Msiexec.EXE
+# ID: 84f52741-8834-4a8c-a413-2eb2269aa6c8
+# Status: test
+# Level: medium
+# Author: frack113
+# Date: 2022-04-24
+# Tags: attack.stealth, attack.t1218.007
+# Description: Detects MsiExec loading a DLL and calling its DllUnregisterServer function
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: DllUnregisterServer Function Call Via Msiexec.EXE
+def rule(event):
+    # Detection Logic:
+    # ((CommandLine="*.dll*") AND (CommandLine="* -z *") AND ((Image="*\\msiexec.exe") OR (OriginalFileName="\\msiexec.exe")))
+    return True
+
+def title(event):
+    return "DllUnregisterServer Function Call Via Msiexec.EXE"
+

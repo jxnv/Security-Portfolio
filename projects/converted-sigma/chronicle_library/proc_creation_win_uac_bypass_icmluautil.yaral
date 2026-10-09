@@ -1,0 +1,23 @@
+// Title: UAC Bypass via ICMLuaUtil
+// ID: 49f2f17b-b4c8-4172-a68b-d5bf95d05130
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Elastic (idea)
+// Date: 2022-09-13
+// Tags: attack.privilege-escalation, attack.t1548.002
+// Description: Detects the pattern of UAC Bypass using ICMLuaUtil Elevated COM interface
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 49f2f17b_b4c8_4172_a68b_d5bf95d05130 {
+  meta:
+    title = "UAC Bypass via ICMLuaUtil"
+    description = "Detects the pattern of UAC Bypass using ICMLuaUtil Elevated COM interface"
+    author = "Florian Roth (Nextron Systems), Elastic (idea)"
+    severity = "HIGH"
+
+  events:
+    (($e.principal.process.file.full_path = /.*\\dllhost.exe$/ nocase and ($e.principal.process.command_line = /.*/Processid:{3E5FC7F9-9A51-4367-9063-A120244FBEC7}.*/ nocase or $e.principal.process.command_line = /.*/Processid:{D2E7041B-2927-42FB-8E9F-7CE93B6DC937}.*/ nocase)) and not((($e.target.process.file.full_path = /.*\\WerFault.exe$/ nocase) or ($e.target.process.file.name = "WerFault.exe"))))
+
+  condition:
+    $e
+}

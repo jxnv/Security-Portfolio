@@ -1,0 +1,19 @@
+# Title: HTTP Request to Low Reputation TLD or Suspicious File Extension
+# ID: 68c2c604-92ad-468b-bf4a-aac49adad08c
+# Status: experimental
+# Level: medium
+# Author: @signalblur, Corelight
+# Date: 2025-02-26
+# Tags: attack.initial-access, attack.command-and-control
+# Description: Detects HTTP requests to low reputation TLDs (e.g. .xyz, .top, .ru) or ending in suspicious file extensions (.exe, .dll, .hta), which may indicate malicious activity.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: HTTP Request to Low Reputation TLD or Suspicious File Extension
+def rule(event):
+    # Detection Logic:
+    # (((host="*.bid" OR host="*.by" OR host="*.cf" OR host="*.click" OR host="*.cm" OR host="*.ga" OR host="*.gq" OR host="*.ir" OR host="*.kp" OR host="*.loan" OR host="*.ml" OR host="*.mm" OR host="*.party" OR host="*.pw" OR host="*.ru" OR host="*.su" OR host="*.sy" OR host="*.tk" OR host="*.top" OR host="*.tv" OR host="*.ve" OR host="*.work" OR host="*.xyz")) AND (((uri="*.bat" OR uri="*.bin" OR uri="*.cmd" OR uri="*.cpl" OR uri="*.dll" OR uri="*.dylib" OR uri="*.elf" OR uri="*.exe" OR uri="*.hta" OR uri="*.iso" OR uri="*.jar" OR uri="*.js" OR uri="*.lnk" OR uri="*.msi" OR uri="*.pif" OR uri="*.ps1" OR uri="*.py" OR uri="*.reg" OR uri="*.scr" OR uri="*.sh" OR uri="*.so" OR uri="*.vbs" OR uri="*.wsf")) OR ((resp_mime_types="application/vnd.microsoft.portable-executable" OR resp_mime_types="application/x-bat" OR resp_mime_types="application/x-dosexec" OR resp_mime_types="application/x-elf" OR resp_mime_types="application/x-iso9660-image" OR resp_mime_types="application/x-java-archive" OR resp_mime_types="application/x-ms-shortcut" OR resp_mime_types="application/x-msdos-program" OR resp_mime_types="application/x-msdownload" OR resp_mime_types="application/x-python-code" OR resp_mime_types="application/x-sh"))))
+    return True
+
+def title(event):
+    return "HTTP Request to Low Reputation TLD or Suspicious File Extension"
+

@@ -1,0 +1,45 @@
+{
+  "title": "Suspicious Startup Folder Persistence",
+  "id": "28208707-fe31-437f-9a7f-4b1108b94d2e",
+  "status": "test",
+  "description": "Detects the creation of potentially malicious script and executable files in Windows startup folders, which is a common persistence technique used by threat actors.\nThese files (.ps1, .vbs, .js, .bat, etc.) are automatically executed when a user logs in, making the Startup folder an attractive target for attackers.\nThis technique is frequently observed in malvertising campaigns and malware distribution where attackers attempt to maintain long-term access to compromised systems.\n",
+  "author": "Nasreddine Bencherchali (Nextron Systems), Swachchhanda Shrawan Poudel (Nextron Systems)",
+  "date": "2022-08-10",
+  "tags": [
+    "attack.privilege-escalation",
+    "attack.execution",
+    "attack.t1204.002",
+    "attack.persistence",
+    "attack.t1547.001"
+  ],
+  "level": "high",
+  "logsource": {
+    "product": "windows",
+    "category": "file_event"
+  },
+  "detection": {
+    "selection": {
+      "TargetFilename|contains": "\\Windows\\Start Menu\\Programs\\Startup\\",
+      "TargetFilename|endswith": [
+        ".bat",
+        ".cmd",
+        ".dll",
+        ".hta",
+        ".jar",
+        ".js",
+        ".jse",
+        ".msi",
+        ".ps1",
+        ".psd1",
+        ".psm1",
+        ".scr",
+        ".url",
+        ".vba",
+        ".vbe",
+        ".vbs",
+        ".wsf"
+      ]
+    },
+    "condition": "selection"
+  }
+}

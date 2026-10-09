@@ -1,0 +1,20 @@
+# Title: Potential Process Reconnaissance via Wmic.EXE
+# ID: 221b251a-357a-49a9-920a-271802777cc0
+# Status: test
+# Level: medium
+# Author: frack113
+# Date: 2022-01-01
+# Tags: attack.execution, attack.t1047, attack.discovery, attack.t1057
+# Description: Detects the execution of "wmic" with the "process" flag, which might indicate an attempt to perform reconnaissance on running processes.
+# Adversaries may use wmic to query for running processes and their details as part of their reconnaissance efforts.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Potential Process Reconnaissance via Wmic.EXE
+def rule(event):
+    # Detection Logic:
+    # (((CommandLine="*process*") AND ((Image="*\\WMIC.exe") OR (OriginalFileName="wmic.exe"))) AND NOT ((((CommandLine="*call*" AND CommandLine="*create*")) OR ((CommandLine="*call*" AND CommandLine="*terminate*")))))
+    return True
+
+def title(event):
+    return "Potential Process Reconnaissance via Wmic.EXE"
+

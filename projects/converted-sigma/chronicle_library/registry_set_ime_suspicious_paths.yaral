@@ -1,0 +1,25 @@
+// Title: Suspicious Path In Keyboard Layout IME File Registry Value
+// ID: 9d8f9bb8-01af-4e15-a3a2-349071530530
+// Status: test
+// Level: high
+// Author: X__Junior (Nextron Systems)
+// Date: 2023-11-21
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects usage of Windows Input Method Editor (IME) keyboard layout feature, which allows an attacker to load a DLL into the process after sending the WM_INPUTLANGCHANGEREQUEST message.
+// Before doing this, the client needs to register the DLL in a special registry key that is assumed to implement this keyboard layout. This registry key should store a value named "Ime File" with a DLL path.
+// IMEs are essential for languages that have more characters than can be represented on a standard keyboard, such as Chinese, Japanese, and Korean.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 9d8f9bb8_01af_4e15_a3a2_349071530530 {
+  meta:
+    title = "Suspicious Path In Keyboard Layout IME File Registry Value"
+    description = "Detects usage of Windows Input Method Editor (IME) keyboard layout feature, which allows an attacker to load a DLL into the process after sending the WM_INPUTLANGCHANGEREQUEST message. Before doing this, the client needs to register the DLL in a special registry key that is assumed to implement this keyboard layout. This registry key should store a value named "Ime File" with a DLL path. IMEs are essential for languages that have more characters than can be represented on a standard keyboard, such as Chinese, Japanese, and Korean."
+    author = "X__Junior (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.TargetObject = /.*\\Control\\Keyboard Layouts\\.*/ nocase and $e.TargetObject = /.*Ime File.*/ nocase)) and ((($e.Details = /.*:\\Perflogs\\.*/ nocase or $e.Details = /.*:\\Users\\Public\\.*/ nocase or $e.Details = /.*:\\Windows\\Temp\\.*/ nocase or $e.Details = /.*\\AppData\\Local\\Temp\\.*/ nocase or $e.Details = /.*\\AppData\\Roaming\\.*/ nocase or $e.Details = /.*\\Temporary Internet.*/ nocase)) or ((($e.Details = /.*:\\Users\\.*/ nocase and $e.Details = /.*\\Favorites\\.*/ nocase)) or (($e.Details = /.*:\\Users\\.*/ nocase and $e.Details = /.*\\Favourites\\.*/ nocase)) or (($e.Details = /.*:\\Users\\.*/ nocase and $e.Details = /.*\\Contacts\\.*/ nocase)))))
+
+  condition:
+    $e
+}

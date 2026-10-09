@@ -1,0 +1,19 @@
+# Title: Private Keys Reconnaissance Via CommandLine Tools
+# ID: 213d6a77-3d55-4ce8-ba74-fcfef741974e
+# Status: test
+# Level: medium
+# Author: frack113, Nasreddine Bencherchali (Nextron Systems)
+# Date: 2021-07-20
+# Tags: attack.credential-access, attack.t1552.004
+# Description: Adversaries may search for private key certificate files on compromised systems for insecurely stored credential
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Private Keys Reconnaissance Via CommandLine Tools
+def rule(event):
+    # Detection Logic:
+    # (((CommandLine="*.key*" OR CommandLine="*.pgp*" OR CommandLine="*.gpg*" OR CommandLine="*.ppk*" OR CommandLine="*.p12*" OR CommandLine="*.pem*" OR CommandLine="*.pfx*" OR CommandLine="*.cer*" OR CommandLine="*.p7b*" OR CommandLine="*.asc*")) AND (((CommandLine="*dir *") AND ((Image="*\\cmd.exe") OR (OriginalFileName="Cmd.Exe"))) OR ((CommandLine="*Get-ChildItem *") AND (((Image="*\\powershell.exe" OR Image="*\\pwsh.exe")) OR ((OriginalFileName="PowerShell.EXE" OR OriginalFileName="pwsh.dll")))) OR ((Image="*\\findstr.exe") OR (OriginalFileName="FINDSTR.EXE"))))
+    return True
+
+def title(event):
+    return "Private Keys Reconnaissance Via CommandLine Tools"
+

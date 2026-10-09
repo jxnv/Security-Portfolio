@@ -1,0 +1,11 @@
+// Title: Tap Installer Execution
+// ID: 99793437-3e16-439b-be0f-078782cf953d
+// Status: test
+// Level: medium
+// Author: Daniil Yugoslavskiy, Ian Davis, oscd.community
+// Date: 2019-10-24
+// Tags: attack.exfiltration, attack.t1048
+// Description: Well-known TAP software installation. Possible preparation for data exfiltration using tunneling techniques
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where ((process.executable="*\\tapinstall.exe") AND NOT ((((process.executable like "%:\\Program Files\\Avast Software\\SecureLine VPN\\%" OR process.executable like "%:\\Program Files (x86)\\Avast Software\\SecureLine VPN\\%")) OR (process.executable like "%:\\Program Files\\OpenVPN Connect\\drivers\\tap\\%") OR (process.executable like "%:\\Program Files (x86)\\Proton Technologies\\ProtonVPNTap\\installer\\%"))))

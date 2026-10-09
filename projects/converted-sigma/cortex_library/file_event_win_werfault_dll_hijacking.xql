@@ -1,0 +1,11 @@
+// Title: Creation of WerFault.exe/Wer.dll in Unusual Folder
+// ID: 28a452f3-786c-4fd8-b8f2-bddbe9d616d1
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-05-09
+// Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.stealth, attack.t1574.001
+// Description: Detects the creation of a file named "WerFault.exe" or "wer.dll" in an uncommon folder, which could be a sign of WerFault DLL hijacking.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter (((action_file_path endswith "\\WerFault.exe" or action_file_path endswith "\\wer.dll")) and not ((((action_file_path startswith "C:\\Windows\\SoftwareDistribution\\" or action_file_path startswith "C:\\Windows\\System32\\" or action_file_path startswith "C:\\Windows\\SysWOW64\\" or action_file_path startswith "C:\\Windows\\WinSxS\\" or action_file_path startswith "C:\\Windows\\UUS\\")) or (action_process_image_path endswith "\\wuaucltcore.exe"))))

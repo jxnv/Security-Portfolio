@@ -1,0 +1,11 @@
+// Title: File Download Via Bitsadmin To A Suspicious Target Folder
+// ID: 2ddef153-167b-4e89-86b6-757a9e65dcac
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-06-28
+// Tags: attack.persistence, attack.execution, attack.stealth, attack.t1197, attack.s0190, attack.t1036.003, attack.command-and-control, attack.t1105
+// Description: Detects usage of bitsadmin downloading a file to a suspicious target folder
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((src.process.cmdline containsCIS " /transfer " OR src.process.cmdline containsCIS " /create " OR src.process.cmdline containsCIS " /addfile ")) AND ((src.process.cmdline containsCIS ":\\Perflogs" OR src.process.cmdline containsCIS ":\\ProgramData\\" OR src.process.cmdline containsCIS ":\\Temp\\" OR src.process.cmdline containsCIS ":\\Users\\Public\\" OR src.process.cmdline containsCIS ":\\Windows\\" OR src.process.cmdline containsCIS "\\$Recycle.Bin\\" OR src.process.cmdline containsCIS "\\AppData\\Local\\" OR src.process.cmdline containsCIS "\\AppData\\Roaming\\" OR src.process.cmdline containsCIS "\\Contacts\\" OR src.process.cmdline containsCIS "\\Desktop\\" OR src.process.cmdline containsCIS "\\Favorites\\" OR src.process.cmdline containsCIS "\\Favourites\\" OR src.process.cmdline containsCIS "\\inetpub\\wwwroot\\" OR src.process.cmdline containsCIS "\\Music\\" OR src.process.cmdline containsCIS "\\Pictures\\" OR src.process.cmdline containsCIS "\\Start Menu\\Programs\\Startup\\" OR src.process.cmdline containsCIS "\\Users\\Default\\" OR src.process.cmdline containsCIS "\\Videos\\" OR src.process.cmdline containsCIS "%ProgramData%" OR src.process.cmdline containsCIS "%public%" OR src.process.cmdline containsCIS "%temp%" OR src.process.cmdline containsCIS "%tmp%")) AND ((src.process.image.path endswithCIS "\\bitsadmin.exe") OR (OriginalFileName = "bitsadmin.exe")))

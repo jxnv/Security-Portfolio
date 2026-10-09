@@ -1,0 +1,23 @@
+// Title: Suspicious DNS Query for IP Lookup Service APIs
+// ID: ec82e2a5-81ea-4211-a1f8-37a0286df2c2
+// Status: test
+// Level: medium
+// Author: Brandon George (blog post), Thomas Patzke
+// Date: 2021-07-08
+// Tags: attack.reconnaissance, attack.t1590
+// Description: Detects DNS queries for IP lookup services such as "api.ipify.org" originating from a non browser process.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule ec82e2a5_81ea_4211_a1f8_37a0286df2c2 {
+  meta:
+    title = "Suspicious DNS Query for IP Lookup Service APIs"
+    description = "Detects DNS queries for IP lookup services such as "api.ipify.org" originating from a non browser process."
+    author = "Brandon George (blog post), Thomas Patzke"
+    severity = "MEDIUM"
+
+  events:
+    (((($e.QueryName = "www.ip.cn" or $e.QueryName = "l2.io")) or (($e.QueryName = /.*api.2ip.ua.*/ nocase or $e.QueryName = /.*api.bigdatacloud.net.*/ nocase or $e.QueryName = /.*api.ipify.org.*/ nocase or $e.QueryName = /.*bot.whatismyipaddress.com.*/ nocase or $e.QueryName = /.*canireachthe.net.*/ nocase or $e.QueryName = /.*checkip.amazonaws.com.*/ nocase or $e.QueryName = /.*checkip.dyndns.org.*/ nocase or $e.QueryName = /.*curlmyip.com.*/ nocase or $e.QueryName = /.*db-ip.com.*/ nocase or $e.QueryName = /.*edns.ip-api.com.*/ nocase or $e.QueryName = /.*eth0.me.*/ nocase or $e.QueryName = /.*freegeoip.app.*/ nocase or $e.QueryName = /.*geoipy.com.*/ nocase or $e.QueryName = /.*getip.pro.*/ nocase or $e.QueryName = /.*icanhazip.com.*/ nocase or $e.QueryName = /.*ident.me.*/ nocase or $e.QueryName = /.*ifconfig.io.*/ nocase or $e.QueryName = /.*ifconfig.me.*/ nocase or $e.QueryName = /.*ip-api.com.*/ nocase or $e.QueryName = /.*ip.360.cn.*/ nocase or $e.QueryName = /.*ip.anysrc.net.*/ nocase or $e.QueryName = /.*ip.taobao.com.*/ nocase or $e.QueryName = /.*ip.tyk.nu.*/ nocase or $e.QueryName = /.*ipaddressworld.com.*/ nocase or $e.QueryName = /.*ipapi.co.*/ nocase or $e.QueryName = /.*ipconfig.io.*/ nocase or $e.QueryName = /.*ipecho.net.*/ nocase or $e.QueryName = /.*ipinfo.io.*/ nocase or $e.QueryName = /.*ipip.net.*/ nocase or $e.QueryName = /.*ipof.in.*/ nocase or $e.QueryName = /.*ipv4.icanhazip.com.*/ nocase or $e.QueryName = /.*ipv4bot.whatismyipaddress.com.*/ nocase or $e.QueryName = /.*ipv6-test.com.*/ nocase or $e.QueryName = /.*ipwho.is.*/ nocase or $e.QueryName = /.*jsonip.com.*/ nocase or $e.QueryName = /.*myexternalip.com.*/ nocase or $e.QueryName = /.*seeip.org.*/ nocase or $e.QueryName = /.*wgetip.com.*/ nocase or $e.QueryName = /.*whatismyip.akamai.com.*/ nocase or $e.QueryName = /.*whois.pconline.com.cn.*/ nocase or $e.QueryName = /.*wtfismyip.com.*/ nocase))) and not((($e.target.process.file.full_path = /.*\\brave.exe$/ nocase) or (($e.target.process.file.full_path = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe" or $e.target.process.file.full_path = "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe")) or (($e.target.process.file.full_path = /^C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\.*/ nocase) or ($e.target.process.file.full_path = /.*\\WindowsApps\\MicrosoftEdge.exe$/ nocase) or (($e.target.process.file.full_path = "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe" or $e.target.process.file.full_path = "C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe"))) or (($e.target.process.file.full_path = /^C:\\Program Files (x86)\\Microsoft\\EdgeCore\\.*/ nocase or $e.target.process.file.full_path = /^C:\\Program Files\\Microsoft\\EdgeCore\\.*/ nocase) and ($e.target.process.file.full_path = /.*\\msedge.exe$/ nocase or $e.target.process.file.full_path = /.*\\msedgewebview2.exe$/ nocase)) or (($e.target.process.file.full_path = "C:\\Program Files\\Mozilla Firefox\\firefox.exe" or $e.target.process.file.full_path = "C:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe")) or (($e.target.process.file.full_path = "C:\\Program Files (x86)\\Internet Explorer\\iexplore.exe" or $e.target.process.file.full_path = "C:\\Program Files\\Internet Explorer\\iexplore.exe")) or ($e.target.process.file.full_path = /.*\\maxthon.exe$/ nocase) or ($e.target.process.file.full_path = /.*\\opera.exe$/ nocase) or ($e.target.process.file.full_path = /.*\\safari.exe$/ nocase) or ($e.target.process.file.full_path = /.*\\seamonkey.exe$/ nocase) or ($e.target.process.file.full_path = /.*\\vivaldi.exe$/ nocase) or ($e.target.process.file.full_path = /.*\\whale.exe$/ nocase))))
+
+  condition:
+    $e
+}

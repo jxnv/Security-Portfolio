@@ -1,0 +1,23 @@
+// Title: Root Certificate Installed From Susp Locations
+// ID: 5f6a601c-2ecb-498b-9c33-660362323afa
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-09-09
+// Tags: attack.defense-impairment, attack.t1553.004
+// Description: Adversaries may install a root certificate on a compromised system to avoid warnings when connecting to adversary controlled web servers.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 5f6a601c_2ecb_498b_9c33_660362323afa {
+  meta:
+    title = "Root Certificate Installed From Susp Locations"
+    description = "Adversaries may install a root certificate on a compromised system to avoid warnings when connecting to adversary controlled web servers."
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.command_line = /.*Import-Certificate.*/ nocase and $e.target.process.command_line = /.* -FilePath .*/ nocase and $e.target.process.command_line = /.*Cert:\\LocalMachine\\Root.*/ nocase) and ($e.target.process.command_line = /.*\\AppData\\Local\\Temp\\.*/ nocase or $e.target.process.command_line = /.*:\\Windows\\TEMP\\.*/ nocase or $e.target.process.command_line = /.*\\Desktop\\.*/ nocase or $e.target.process.command_line = /.*\\Downloads\\.*/ nocase or $e.target.process.command_line = /.*\\Perflogs\\.*/ nocase or $e.target.process.command_line = /.*:\\Users\\Public\\.*/ nocase))
+
+  condition:
+    $e
+}

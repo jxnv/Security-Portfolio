@@ -1,0 +1,11 @@
+// Title: Obfuscated IP Download Activity
+// ID: cb5a2333-56cf-4562-8fcb-22ba1bca728d
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems), X__Junior (Nextron Systems)
+// Date: 2022-08-03
+// Tags: attack.discovery
+// Description: Detects use of an encoded/obfuscated version of an IP address (hex, octal...) in an URL combined with a download command
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where (((CommandLine matches "*Invoke-WebRequest*" or CommandLine matches "*iwr *" or CommandLine matches "*Invoke-RestMethod*" or CommandLine matches "*irm *" or CommandLine matches "*wget *" or CommandLine matches "*curl *" or CommandLine matches "*DownloadFile*" or CommandLine matches "*DownloadString*")) and (((CommandLine matches "* 0x*" or CommandLine matches "*//0x*" or CommandLine matches "*.0x*" or CommandLine matches "*.00x*")) or ((CommandLine matches "*http://%*" and CommandLine matches "*%2e*")) or ((CommandLine matches /https?://[0-9]{1,3}\.[0-9]{1,3}\.0[0-9]{3,4}/) or (CommandLine matches /https?://[0-9]{1,3}\.0[0-9]{3,7}/) or (CommandLine matches /https?://0[0-9]{3,11}/) or (CommandLine matches /https?://(?:0[0-9]{1,11}\.){3}0[0-9]{1,11}/) or (CommandLine matches /https?://0[0-9]{1,11}/) or (CommandLine matches / [0-7]{7,13}/))) and !((CommandLine matches /https?://(?:(?:25[0-5]|(?:2[0-4]|1\d|[1-9])?\d)(?:\.|\b)){4}/)))

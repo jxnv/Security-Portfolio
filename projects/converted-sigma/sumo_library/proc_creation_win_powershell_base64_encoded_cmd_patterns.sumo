@@ -1,0 +1,11 @@
+// Title: Suspicious PowerShell Encoded Command Patterns
+// ID: b9d9cc83-380b-4ba3-8d8f-60c0e7e2930c
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-05-24
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects PowerShell command line patterns in combincation with encoded commands that often appear in malware infection chains
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where ((((CommandLine matches "* JAB*" or CommandLine matches "* SUVYI*" or CommandLine matches "* SQBFAFgA*" or CommandLine matches "* aWV4I*" or CommandLine matches "* IAB*" or CommandLine matches "* PAA*" or CommandLine matches "* aQBlAHgA*")) and ((CommandLine matches "* -e *" or CommandLine matches "* -en *" or CommandLine matches "* -enc *" or CommandLine matches "* -enco*")) and (((Image matches "*\\powershell.exe" or Image matches "*\\pwsh.exe")) or ((OriginalFileName = "PowerShell.Exe" or OriginalFileName = "pwsh.dll")))) and !(((ParentImage matches "*C:\\Packages\\Plugins\\Microsoft.GuestConfiguration.ConfigurationforWindows\\*" or ParentImage matches "*\\gc_worker.exe*"))))

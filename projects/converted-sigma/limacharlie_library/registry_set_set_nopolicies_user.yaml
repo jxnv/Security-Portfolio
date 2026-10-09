@@ -1,0 +1,22 @@
+# Title: Registry Explorer Policy Modification
+# ID: 1c3121ed-041b-4d97-a075-07f54f20fb4a
+# Status: test
+# Level: medium
+# Author: frack113
+# Date: 2022-03-18
+# Tags: attack.persistence, attack.defense-impairment, attack.t1112
+# Description: Detects registry modifications that disable internal tools or functions in explorer (malware like Agent Tesla uses this technique)
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# LimaCharlie Detection & Response Rule
+# Name: Registry Explorer Policy Modification
+detect:
+  event: registry_set
+  op: and
+  rules:
+    # Filter logic:
+    # ((TargetObject="*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\NoLogOff" OR TargetObject="*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\NoDesktop" OR TargetObject="*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\NoRun" OR TargetObject="*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\NoFind" OR TargetObject="*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\NoControlPanel" OR TargetObject="*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\NoFileMenu" OR TargetObject="*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\NoClose" OR TargetObject="*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\NoSetTaskbar" OR TargetObject="*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\NoPropertiesMyDocuments" OR TargetObject="*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\NoTrayContextMenu") AND Details="DWORD (0x00000001)")
+respond:
+  - action: report
+    name: Registry Explorer Policy Modification
+

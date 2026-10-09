@@ -1,0 +1,11 @@
+// Title: Renamed PingCastle Binary Execution
+// ID: 2433a154-bb3d-42e4-86c3-a26bdac91c45
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems), X__Junior (Nextron Systems)
+// Date: 2024-01-11
+// Tags: attack.execution, attack.stealth, attack.t1059, attack.t1202
+// Description: Detects the execution of a renamed "PingCastle" binary based on the PE metadata fields.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter ((((action_process_image_name = "PingCastleReporting.exe" or action_process_image_name = "PingCastleCloud.exe" or action_process_image_name = "PingCastle.exe")) or ((action_process_image_command_line contains "--scanner aclcheck" or action_process_image_command_line contains "--scanner antivirus" or action_process_image_command_line contains "--scanner computerversion" or action_process_image_command_line contains "--scanner foreignusers" or action_process_image_command_line contains "--scanner laps_bitlocker" or action_process_image_command_line contains "--scanner localadmin" or action_process_image_command_line contains "--scanner nullsession" or action_process_image_command_line contains "--scanner nullsession-trust" or action_process_image_command_line contains "--scanner oxidbindings" or action_process_image_command_line contains "--scanner remote" or action_process_image_command_line contains "--scanner share" or action_process_image_command_line contains "--scanner smb" or action_process_image_command_line contains "--scanner smb3querynetwork" or action_process_image_command_line contains "--scanner spooler" or action_process_image_command_line contains "--scanner startup" or action_process_image_command_line contains "--scanner zerologon")) or (action_process_image_command_line contains "--no-enum-limit") or ((action_process_image_command_line contains "--healthcheck" and action_process_image_command_line contains "--level Full")) or ((action_process_image_command_line contains "--healthcheck" and action_process_image_command_line contains "--server "))) and not (((action_process_image_path endswith "\\PingCastleReporting.exe" or action_process_image_path endswith "\\PingCastleCloud.exe" or action_process_image_path endswith "\\PingCastle.exe"))))

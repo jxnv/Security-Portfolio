@@ -1,0 +1,11 @@
+-- Title: Delegated Permissions Granted For All Users
+-- ID: a6355fbe-f36f-45d8-8efc-ab42465cbc52
+-- Status: test
+-- Level: high
+-- Author: Bailey Bercik '@baileybercik', Mark Morowczynski '@markmorow'
+-- Date: 2022-07-28
+-- Tags: attack.credential-access, attack.t1528
+-- Description: Detects when highly privileged delegated permissions are granted on behalf of all users
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE (properties.message = 'Add delegated permission grant')

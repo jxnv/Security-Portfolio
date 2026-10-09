@@ -1,0 +1,19 @@
+# Title: Suspicious SQL Query
+# ID: d84c0ded-edd7-4123-80ed-348bb3ccc4d5
+# Status: test
+# Level: medium
+# Author: @juju4
+# Date: 2022-12-27
+# Tags: attack.exfiltration, attack.initial-access, attack.privilege-escalation, attack.persistence, attack.t1190, attack.t1505.001
+# Description: Detects suspicious SQL query keywrods that are often used during recon, exfiltration or destructive activities. Such as dropping tables and selecting wildcard fields
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Suspicious SQL Query
+def rule(event):
+    # Detection Logic:
+    # ("drop" OR "truncate" OR "dump" OR "select \\*")
+    return True
+
+def title(event):
+    return "Suspicious SQL Query"
+

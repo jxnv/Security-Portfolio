@@ -1,0 +1,23 @@
+// Title: Abusable DLL Potential Sideloading From Suspicious Location
+// ID: 799a5f48-0ac1-4e0f-9152-71d137d48c2a
+// Status: test
+// Level: high
+// Author: X__Junior (Nextron Systems)
+// Date: 2023-07-11
+// Tags: attack.execution, attack.t1059
+// Description: Detects potential DLL sideloading of DLLs that are known to be abused from suspicious locations
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 799a5f48_0ac1_4e0f_9152_71d137d48c2a {
+  meta:
+    title = "Abusable DLL Potential Sideloading From Suspicious Location"
+    description = "Detects potential DLL sideloading of DLLs that are known to be abused from suspicious locations"
+    author = "X__Junior (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.ImageLoaded = /.*\\coreclr.dll$/ nocase or $e.ImageLoaded = /.*\\facesdk.dll$/ nocase or $e.ImageLoaded = /.*\\HPCustPartUI.dll$/ nocase or $e.ImageLoaded = /.*\\libcef.dll$/ nocase or $e.ImageLoaded = /.*\\ZIPDLL.dll$/ nocase)) and ((($e.ImageLoaded = /.*:\\Perflogs\\.*/ nocase or $e.ImageLoaded = /.*:\\Users\\Public\\.*/ nocase or $e.ImageLoaded = /.*\\Temporary Internet.*/ nocase or $e.ImageLoaded = /.*\\Windows\\Temp\\.*/ nocase)) or ((($e.ImageLoaded = /.*:\\Users\\.*/ nocase and $e.ImageLoaded = /.*\\Favorites\\.*/ nocase)) or (($e.ImageLoaded = /.*:\\Users\\.*/ nocase and $e.ImageLoaded = /.*\\Favourites\\.*/ nocase)) or (($e.ImageLoaded = /.*:\\Users\\.*/ nocase and $e.ImageLoaded = /.*\\Contacts\\.*/ nocase)) or (($e.ImageLoaded = /.*:\\Users\\.*/ nocase and $e.ImageLoaded = /.*\\Pictures\\.*/ nocase)))))
+
+  condition:
+    $e
+}

@@ -1,0 +1,19 @@
+# Title: Use of Remote.exe
+# ID: 4eddc365-79b4-43ff-a9d7-99422dc34b93
+# Status: test
+# Level: medium
+# Author: Christopher Peacock @SecurePeacock, SCYTHE @scythe_io
+# Date: 2022-06-02
+# Tags: attack.execution, attack.stealth, attack.t1127
+# Description: Remote.exe is part of WinDbg in the Windows SDK and can be used for AWL bypass and running remote files.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Use of Remote.exe
+def rule(event):
+    # Detection Logic:
+    # ((Image="*\\remote.exe") OR (OriginalFileName="remote.exe"))
+    return True
+
+def title(event):
+    return "Use of Remote.exe"
+

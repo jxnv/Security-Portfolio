@@ -1,0 +1,11 @@
+# Title: Potential Tampering With Security Products Via WMIC
+# ID: 847d5ff3-8a31-4737-a970-aeae8fe21765
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+# Date: 2021-01-30
+# Tags: attack.defense-impairment, attack.t1685
+# Description: Detects uninstallation or termination of security products using the WMIC utility
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((((cmdline:*wmic* AND cmdline:*product * AND cmdline:*uninstall*) AND (cmdline:*/nointeractive* OR cmdline:*-nointeractive*)) OR ((cmdline:*wmic* AND cmdline:*caption like *) AND (cmdline:*call delete* OR cmdline:*call terminate*)) OR ((cmdline:*process * AND cmdline:*where * AND cmdline:*delete*))) AND ((cmdline:*%carbon%* OR cmdline:*%cylance%* OR cmdline:*%endpoint%* OR cmdline:*%eset%* OR cmdline:*%malware%* OR cmdline:*%Sophos%* OR cmdline:*%symantec%* OR cmdline:*Antivirus* OR cmdline:*AVG * OR cmdline:*Carbon Black* OR cmdline:*CarbonBlack* OR cmdline:*Cb Defense Sensor 64-bit* OR cmdline:*Crowdstrike Sensor* OR cmdline:*Cylance * OR cmdline:*Dell Threat Defense* OR cmdline:*DLP Endpoint* OR cmdline:*Endpoint Detection* OR cmdline:*Endpoint Protection* OR cmdline:*Endpoint Security* OR cmdline:*Endpoint Sensor* OR cmdline:*ESET File Security* OR cmdline:*LogRhythm System Monitor Service* OR cmdline:*Malwarebytes* OR cmdline:*McAfee Agent* OR cmdline:*Microsoft Security Client* OR cmdline:*Sophos Anti-Virus* OR cmdline:*Sophos AutoUpdate* OR cmdline:*Sophos Credential Store* OR cmdline:*Sophos Management Console* OR cmdline:*Sophos Management Database* OR cmdline:*Sophos Management Server* OR cmdline:*Sophos Remote Management System* OR cmdline:*Sophos Update Manager* OR cmdline:*Threat Protection* OR cmdline:*VirusScan* OR cmdline:*Webroot SecureAnywhere* OR cmdline:*Windows Defender*)))

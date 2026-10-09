@@ -1,0 +1,19 @@
+# Title: New BITS Job Created Via Bitsadmin
+# ID: 1ff315dc-2a3a-4b71-8dde-873818d25d39
+# Status: test
+# Level: low
+# Author: frack113
+# Date: 2022-03-01
+# Tags: attack.persistence, attack.execution, attack.stealth, attack.t1197
+# Description: Detects the creation of a new bits job by Bitsadmin
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: New BITS Job Created Via Bitsadmin
+def rule(event):
+    # Detection Logic:
+    # (EventID="3" AND processPath="*\\bitsadmin.exe")
+    return True
+
+def title(event):
+    return "New BITS Job Created Via Bitsadmin"
+

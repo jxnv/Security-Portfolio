@@ -1,0 +1,11 @@
+// Title: Alternate PowerShell Hosts Pipe
+// ID: 58cb02d5-78ce-4692-b3e1-dce850aae41a
+// Status: test
+// Level: medium
+// Author: Roberto Rodriguez @Cyb3rWard0g, Tim Shelton
+// Date: 2019-09-12
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects alternate PowerShell hosts potentially bypassing detections looking for powershell.exe
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((PipeName = /\\PSHost.*/i) and not(((((ImageFileName = /*:\\Program Files\\PowerShell\\7-preview\\pwsh.exe*/i or ImageFileName = /*:\\Program Files\\PowerShell\\7\\pwsh.exe*/i or ImageFileName = /*:\\Windows\\system32\\dsac.exe*/i or ImageFileName = /*:\\Windows\\system32\\inetsrv\\w3wp.exe*/i or ImageFileName = /*:\\Windows\\System32\\sdiagnhost.exe*/i or ImageFileName = /*:\\Windows\\system32\\ServerManager.exe*/i or ImageFileName = /*:\\Windows\\system32\\wbem\\wmiprvse.exe*/i or ImageFileName = /*:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell_ise.exe*/i or ImageFileName = /*:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe*/i or ImageFileName = /*:\\Windows\\System32\\wsmprovhost.exe*/i or ImageFileName = /*:\\Windows\\SysWOW64\\WindowsPowerShell\\v1.0\\powershell_ise.exe*/i or ImageFileName = /*:\\Windows\\SysWOW64\\WindowsPowerShell\\v1.0\\powershell.exe*/i)) or ((ImageFileName = /*C:\\Program Files\\WindowsApps\\Microsoft.PowerShellPreview*/i and ImageFileName = /*\\pwsh.exe*/i)) or ((ImageFileName = /*\\AppData\\Local\\Microsoft\\WindowsApps\\Microsoft.PowerShellPreview*/i and ImageFileName = /*\\pwsh.exe*/i))) or (not(ImageFileName = *)))) and not(((ImageFileName = /C:\\Program Files\\AzureConnectedMachineAgent\\GCArcService.*/i and ImageFileName = /.*\\GC\\gc_worker.exe/i) or (ImageFileName = /C:\\Program Files\\Citrix\\.*/i) or (ImageFileName = /C:\\Program Files\\Microsoft\\Exchange Server\\.*/i) or ((ImageFileName = /C:\\Program Files (x86)\\.*/i or ImageFileName = /C:\\Program Files\\.*/i) and ImageFileName = /*\\Microsoft SQL Server\\*/i and ImageFileName = /.*\\Tools\\Binn\\SQLPS.exe/i))))

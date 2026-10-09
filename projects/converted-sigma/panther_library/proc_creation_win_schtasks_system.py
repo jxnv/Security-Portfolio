@@ -1,0 +1,19 @@
+# Title: Schtasks Creation Or Modification With SYSTEM Privileges
+# ID: 89ca78fd-b37c-4310-b3d3-81a023f83936
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-07-28
+# Tags: attack.privilege-escalation, attack.execution, attack.persistence, attack.t1053.005
+# Description: Detects the creation or update of a scheduled task to run with "NT AUTHORITY\SYSTEM" privileges
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Schtasks Creation Or Modification With SYSTEM Privileges
+def rule(event):
+    # Detection Logic:
+    # (((Image="*\\schtasks.exe" AND (CommandLine="* /change *" OR CommandLine="* /create *")) AND (CommandLine="*/ru *") AND ((CommandLine="*NT AUT*" OR CommandLine="* SYSTEM *"))) AND NOT ((((CommandLine="*/Create /F /RU System /SC WEEKLY /TN AviraSystemSpeedupVerify /TR *" OR CommandLine="*:\\Program Files (x86)\\Avira\\System Speedup\\setup\\avira_speedup_setup.exe*" OR CommandLine="*/VERIFY /VERYSILENT /NOSTART /NODOTNET /NORESTART\" /RL HIGHEST*")) OR ((CommandLine="*Subscription Heartbeat*" AND CommandLine="*\\HeartbeatConfig.xml*" AND CommandLine="*\\Microsoft Shared\\OFFICE*")) OR (Image="*\\schtasks.exe" AND (CommandLine="*/TN TVInstallRestore*" AND CommandLine="*\\TeamViewer_.exe*")))))
+    return True
+
+def title(event):
+    return "Schtasks Creation Or Modification With SYSTEM Privileges"
+

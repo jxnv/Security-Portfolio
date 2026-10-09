@@ -1,0 +1,19 @@
+# Title: AD Privileged Users or Groups Reconnaissance
+# ID: 35ba1d85-724d-42a3-889f-2e2362bcaf23
+# Status: test
+# Level: high
+# Author: Samir Bousseaden
+# Date: 2019-04-03
+# Tags: attack.discovery, attack.t1087.002
+# Description: Detect priv users or groups recon based on 4661 eventid and known privileged users or groups SIDs
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: AD Privileged Users or Groups Reconnaissance
+def rule(event):
+    # Detection Logic:
+    # ((EventID="4661" AND (ObjectType="SAM_USER" OR ObjectType="SAM_GROUP")) AND (((ObjectName="*-512" OR ObjectName="*-502" OR ObjectName="*-500" OR ObjectName="*-505" OR ObjectName="*-519" OR ObjectName="*-520" OR ObjectName="*-544" OR ObjectName="*-551" OR ObjectName="*-555")) OR (ObjectName="*admin*")) AND NOT ((SubjectUserName="*$")))
+    return True
+
+def title(event):
+    return "AD Privileged Users or Groups Reconnaissance"
+

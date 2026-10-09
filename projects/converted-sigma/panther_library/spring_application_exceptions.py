@@ -1,0 +1,19 @@
+# Title: Spring Framework Exceptions
+# ID: ae48ab93-45f7-4051-9dfe-5d30a3f78e33
+# Status: stable
+# Level: medium
+# Author: Thomas Patzke
+# Date: 2017-08-06
+# Tags: attack.initial-access, attack.t1190
+# Description: Detects suspicious Spring framework exceptions that could indicate exploitation attempts
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Spring Framework Exceptions
+def rule(event):
+    # Detection Logic:
+    # ("AccessDeniedException" OR "CsrfException" OR "InvalidCsrfTokenException" OR "MissingCsrfTokenException" OR "CookieTheftException" OR "InvalidCookieException" OR "RequestRejectedException")
+    return True
+
+def title(event):
+    return "Spring Framework Exceptions"
+

@@ -1,0 +1,11 @@
+-- Title: Potentially Suspicious Child Process Of ClickOnce Application
+-- ID: 67bc0e75-c0a9-4cfc-8754-84a505b63c04
+-- Status: test
+-- Level: medium
+-- Author: Nasreddine Bencherchali (Nextron Systems)
+-- Date: 2023-06-12
+-- Tags: attack.execution, attack.stealth
+-- Description: Detects potentially suspicious child processes of a ClickOnce deployment application
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM processes WHERE (ParentImage LIKE '%\\AppData\\Local\\Apps\\2.0\\%' AND (Image="*\\calc.exe" OR Image="*\\cmd.exe" OR Image="*\\cscript.exe" OR Image="*\\explorer.exe" OR Image="*\\mshta.exe" OR Image="*\\net.exe" OR Image="*\\net1.exe" OR Image="*\\nltest.exe" OR Image="*\\notepad.exe" OR Image="*\\powershell.exe" OR Image="*\\pwsh.exe" OR Image="*\\reg.exe" OR Image="*\\regsvr32.exe" OR Image="*\\rundll32.exe" OR Image="*\\schtasks.exe" OR Image="*\\werfault.exe" OR Image="*\\wscript.exe"))

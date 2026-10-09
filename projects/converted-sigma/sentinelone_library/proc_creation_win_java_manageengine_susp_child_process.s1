@@ -1,0 +1,11 @@
+// Title: Suspicious Child Process Of Manage Engine ServiceDesk
+// ID: cea2b7ea-792b-405f-95a1-b903ea06458f
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2023-01-18
+// Tags: attack.command-and-control, attack.t1102
+// Description: Detects suspicious child processes of the "Manage Engine ServiceDesk Plus" Java web service
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((src.process.parent.image.path containsCIS "\\ManageEngine\\ServiceDesk\\" AND src.process.parent.image.path containsCIS "\\java.exe") AND (src.process.image.path endswithCIS "\\AppVLP.exe" OR src.process.image.path endswithCIS "\\bash.exe" OR src.process.image.path endswithCIS "\\bitsadmin.exe" OR src.process.image.path endswithCIS "\\calc.exe" OR src.process.image.path endswithCIS "\\certutil.exe" OR src.process.image.path endswithCIS "\\cscript.exe" OR src.process.image.path endswithCIS "\\curl.exe" OR src.process.image.path endswithCIS "\\forfiles.exe" OR src.process.image.path endswithCIS "\\mftrace.exe" OR src.process.image.path endswithCIS "\\mshta.exe" OR src.process.image.path endswithCIS "\\net.exe" OR src.process.image.path endswithCIS "\\net1.exe" OR src.process.image.path endswithCIS "\\notepad.exe" OR src.process.image.path endswithCIS "\\powershell.exe" OR src.process.image.path endswithCIS "\\pwsh.exe" OR src.process.image.path endswithCIS "\\query.exe" OR src.process.image.path endswithCIS "\\reg.exe" OR src.process.image.path endswithCIS "\\schtasks.exe" OR src.process.image.path endswithCIS "\\scrcons.exe" OR src.process.image.path endswithCIS "\\sh.exe" OR src.process.image.path endswithCIS "\\systeminfo.exe" OR src.process.image.path endswithCIS "\\whoami.exe" OR src.process.image.path endswithCIS "\\wmic.exe" OR src.process.image.path endswithCIS "\\wscript.exe")) AND NOT (((src.process.image.path endswithCIS "\\net.exe" OR src.process.image.path endswithCIS "\\net1.exe") AND src.process.cmdline containsCIS " stop")))

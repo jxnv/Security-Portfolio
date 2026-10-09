@@ -1,0 +1,23 @@
+// Title: Execution DLL of Choice Using WAB.EXE
+// ID: fc014922-5def-4da9-a0fc-28c973f41bfb
+// Status: test
+// Level: high
+// Author: oscd.community, Natalia Shornikova
+// Date: 2020-10-13
+// Tags: attack.stealth, attack.t1218
+// Description: This rule detects that the path to the DLL written in the registry is different from the default one. Launched WAB.exe tries to load the DLL from Registry.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule fc014922_5def_4da9_a0fc_28c973f41bfb {
+  meta:
+    title = "Execution DLL of Choice Using WAB.EXE"
+    description = "This rule detects that the path to the DLL written in the registry is different from the default one. Launched WAB.exe tries to load the DLL from Registry."
+    author = "oscd.community, Natalia Shornikova"
+    severity = "HIGH"
+
+  events:
+    (($e.TargetObject = /.*\\Software\\Microsoft\\WAB\\DLLPath$/ nocase) and not(($e.Details = "%CommonProgramFiles%\\System\\wab32.dll")))
+
+  condition:
+    $e
+}

@@ -1,0 +1,11 @@
+// Title: Suspicious Program Location Whitelisted In Firewall Via Netsh.EXE
+// ID: a35f5a72-f347-4e36-8895-9869b0d5fc6d
+// Status: test
+// Level: high
+// Author: Sander Wiebing, Jonhnathan Ribeiro, Daniil Yugoslavskiy, oscd.community
+// Date: 2020-05-25
+// Tags: attack.defense-impairment, attack.t1686.003
+// Description: Detects Netsh command execution that whitelists a program located in a suspicious location in the Windows Firewall
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where ((((CommandLine matches "*firewall*" and CommandLine matches "*add*" and CommandLine matches "*allowedprogram*")) or ((CommandLine matches "*advfirewall*" and CommandLine matches "*firewall*" and CommandLine matches "*add*" and CommandLine matches "*rule*" and CommandLine matches "*action=allow*" and CommandLine matches "*program=*"))) and ((Image matches "*\\netsh.exe") or (OriginalFileName = "netsh.exe")) and ((CommandLine matches "*:\\$Recycle.bin\\*" or CommandLine matches "*:\\RECYCLER.BIN\\*" or CommandLine matches "*:\\RECYCLERS.BIN\\*" or CommandLine matches "*:\\SystemVolumeInformation\\*" or CommandLine matches "*:\\Temp\\*" or CommandLine matches "*:\\Users\\Default\\*" or CommandLine matches "*:\\Users\\Desktop\\*" or CommandLine matches "*:\\Users\\Public\\*" or CommandLine matches "*:\\Windows\\addins\\*" or CommandLine matches "*:\\Windows\\cursors\\*" or CommandLine matches "*:\\Windows\\debug\\*" or CommandLine matches "*:\\Windows\\drivers\\*" or CommandLine matches "*:\\Windows\\fonts\\*" or CommandLine matches "*:\\Windows\\help\\*" or CommandLine matches "*:\\Windows\\system32\\tasks\\*" or CommandLine matches "*:\\Windows\\Tasks\\*" or CommandLine matches "*:\\Windows\\Temp\\*" or CommandLine matches "*\\Downloads\\*" or CommandLine matches "*\\Local Settings\\Temporary Internet Files\\*" or CommandLine matches "*\\Temporary Internet Files\\Content.Outlook\\*" or CommandLine matches "*%Public%\\*" or CommandLine matches "*%TEMP%*" or CommandLine matches "*%TMP%*")))

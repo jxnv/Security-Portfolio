@@ -1,0 +1,42 @@
+{
+  "title": "Important Scheduled Task Deleted or Disabled",
+  "id": "9e3cb244-bdb8-4632-8c90-6079c8f4f16d",
+  "status": "test",
+  "description": "Detects when adversaries try to stop system services or processes by deleting or disabling their respective scheduled tasks in order to conduct data destructive activities\n",
+  "author": "frack113",
+  "date": "2023-01-13",
+  "tags": [
+    "attack.impact",
+    "attack.t1489"
+  ],
+  "level": "high",
+  "logsource": {
+    "product": "windows",
+    "service": "taskscheduler",
+    "definition": "Requirements: The \"Microsoft-Windows-TaskScheduler/Operational\" is disabled by default and needs to be enabled in order for this detection to trigger"
+  },
+  "detection": {
+    "selection": {
+      "EventID": [
+        141,
+        142
+      ],
+      "TaskName|contains": [
+        "\\Windows\\SystemRestore\\SR",
+        "\\Windows\\Windows Defender\\",
+        "\\Windows\\BitLocker",
+        "\\Windows\\WindowsBackup\\",
+        "\\Windows\\WindowsUpdate\\",
+        "\\Windows\\UpdateOrchestrator\\",
+        "\\Windows\\ExploitGuard"
+      ]
+    },
+    "filter_main_user": {
+      "UserName|contains": [
+        "AUTHORI",
+        "AUTORI"
+      ]
+    },
+    "condition": "selection and not 1 of filter_main_*"
+  }
+}

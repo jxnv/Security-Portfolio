@@ -1,0 +1,11 @@
+# Title: Suspicious File Downloaded From File-Sharing Website Via Certutil.EXE
+# ID: 42a5f1e7-9603-4f6d-97ae-3f37d130d794
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2023-02-15
+# Tags: attack.stealth, attack.t1027, attack.command-and-control, attack.t1105
+# Description: Detects the execution of certutil with certain flags that allow the utility to download files from file-sharing websites.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((CommandLine CONTAIN "urlcache " OR CommandLine CONTAIN "verifyctl " OR CommandLine CONTAIN "URL ")) AND ((CommandLine CONTAIN ".githubusercontent.com" OR CommandLine CONTAIN "0x0.st" OR CommandLine CONTAIN "anonfiles.com" OR CommandLine CONTAIN "bashupload.com" OR CommandLine CONTAIN "cdn.discordapp.com" OR CommandLine CONTAIN "chunk.io" OR CommandLine CONTAIN "ddns.net" OR CommandLine CONTAIN "dl.dropboxusercontent.com" OR CommandLine CONTAIN "ghostbin.co" OR CommandLine CONTAIN "github.com" OR CommandLine CONTAIN "glitch.me" OR CommandLine CONTAIN "gofile.io" OR CommandLine CONTAIN "hastebin.com" OR CommandLine CONTAIN "mediafire.com" OR CommandLine CONTAIN "mega.nz" OR CommandLine CONTAIN "onrender.com" OR CommandLine CONTAIN "pages.dev" OR CommandLine CONTAIN "paste.ee" OR CommandLine CONTAIN "pastebin.com" OR CommandLine CONTAIN "pastebin.pl" OR CommandLine CONTAIN "pastetext.net" OR CommandLine CONTAIN "privatlab.com" OR CommandLine CONTAIN "privatlab.net" OR CommandLine CONTAIN "send.exploit.in" OR CommandLine CONTAIN "sendspace.com" OR CommandLine CONTAIN "storage.googleapis.com" OR CommandLine CONTAIN "storjshare.io" OR CommandLine CONTAIN "supabase.co" OR CommandLine CONTAIN "temp.sh" OR CommandLine CONTAIN "transfer.sh" OR CommandLine CONTAIN "trycloudflare.com" OR CommandLine CONTAIN "ufile.io" OR CommandLine CONTAIN "w3spaces.com" OR CommandLine CONTAIN "workers.dev" OR CommandLine CONTAIN "x0.at")) AND ((Image="*\\certutil.exe") OR (OriginalFileName = "CertUtil.exe")))

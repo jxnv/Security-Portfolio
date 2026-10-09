@@ -1,0 +1,23 @@
+// Title: Scripting/CommandLine Process Spawned Regsvr32
+// ID: ab37a6ec-6068-432b-a64e-2c7bf95b1d22
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-05-26
+// Tags: attack.stealth, attack.t1218.010
+// Description: Detects various command line and scripting engines/processes such as "PowerShell", "Wscript", "Cmd", etc. spawning a "regsvr32" instance.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule ab37a6ec_6068_432b_a64e_2c7bf95b1d22 {
+  meta:
+    title = "Scripting/CommandLine Process Spawned Regsvr32"
+    description = "Detects various command line and scripting engines/processes such as "PowerShell", "Wscript", "Cmd", etc. spawning a "regsvr32" instance."
+    author = "Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.principal.process.file.full_path = /.*\\cmd.exe$/ nocase or $e.principal.process.file.full_path = /.*\\cscript.exe$/ nocase or $e.principal.process.file.full_path = /.*\\mshta.exe$/ nocase or $e.principal.process.file.full_path = /.*\\powershell_ise.exe$/ nocase or $e.principal.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.principal.process.file.full_path = /.*\\pwsh.exe$/ nocase or $e.principal.process.file.full_path = /.*\\wscript.exe$/ nocase) and $e.target.process.file.full_path = /.*\\regsvr32.exe$/ nocase) and not(($e.principal.process.file.full_path = "C:\\Windows\\System32\\cmd.exe" and $e.target.process.command_line = /.* /s C:\\Windows\\System32\\RpcProxy\\RpcProxy.dll$/ nocase)))
+
+  condition:
+    $e
+}

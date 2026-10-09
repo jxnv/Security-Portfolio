@@ -1,0 +1,23 @@
+// Title: Google Workspace MFA Disabled
+// ID: 780601d1-6376-4f2a-884e-b8d45599f78c
+// Status: test
+// Level: medium
+// Author: Austin Songer
+// Date: 2021-08-26
+// Tags: attack.impact
+// Description: Detects when multi-factor authentication (MFA) is disabled.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 780601d1_6376_4f2a_884e_b8d45599f78c {
+  meta:
+    title = "Google Workspace MFA Disabled"
+    description = "Detects when multi-factor authentication (MFA) is disabled."
+    author = "Austin Songer"
+    severity = "MEDIUM"
+
+  events:
+    (($e.eventService = "admin.googleapis.com" and ($e.eventName = "ENFORCE_STRONG_AUTHENTICATION" or $e.eventName = "ALLOW_STRONG_AUTHENTICATION")) and ($e.new_value = "false"))
+
+  condition:
+    $e
+}

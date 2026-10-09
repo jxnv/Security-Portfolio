@@ -1,0 +1,23 @@
+// Title: Disable Internal Tools or Feature in Registry
+// ID: e2482f8d-3443-4237-b906-cc145d87a076
+// Status: test
+// Level: medium
+// Author: frack113, Nasreddine Bencherchali (Nextron Systems), CrimpSec
+// Date: 2022-03-18
+// Tags: attack.persistence, attack.defense-impairment, attack.t1112
+// Description: Detects registry modifications that change features of internal Windows tools (malware like Agent Tesla uses this technique)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule e2482f8d_3443_4237_b906_cc145d87a076 {
+  meta:
+    title = "Disable Internal Tools or Feature in Registry"
+    description = "Detects registry modifications that change features of internal Windows tools (malware like Agent Tesla uses this technique)"
+    author = "frack113, Nasreddine Bencherchali (Nextron Systems), CrimpSec"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.TargetObject = /.*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\ConsentPromptBehaviorAdmin$/ nocase or $e.TargetObject = /.*Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\InactivityTimeoutSecs$/ nocase or $e.TargetObject = /.*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\shutdownwithoutlogon$/ nocase or $e.TargetObject = /.*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\PushNotifications\\ToastEnabled$/ nocase or $e.TargetObject = /.*SYSTEM\\CurrentControlSet\\Control\\Storage\\Write Protection$/ nocase or $e.TargetObject = /.*SYSTEM\\CurrentControlSet\\Control\\StorageDevicePolicies\\WriteProtect$/ nocase) and $e.Details = "DWORD (0x00000000)") or (($e.TargetObject = /.*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\DisableCMD$/ nocase or $e.TargetObject = /.*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\NoControlPanel$/ nocase or $e.TargetObject = /.*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\NoRun$/ nocase or $e.TargetObject = /.*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\StartMenuLogOff$/ nocase or $e.TargetObject = /.*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\DisableChangePassword$/ nocase or $e.TargetObject = /.*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\DisableLockWorkstation$/ nocase or $e.TargetObject = /.*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\DisableRegistryTools$/ nocase or $e.TargetObject = /.*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\DisableTaskmgr$/ nocase or $e.TargetObject = /.*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\NoDispBackgroundPage$/ nocase or $e.TargetObject = /.*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\NoDispCPL$/ nocase or $e.TargetObject = /.*SOFTWARE\\Policies\\Microsoft\\Windows\\Explorer\\DisableNotificationCenter$/ nocase or $e.TargetObject = /.*SOFTWARE\\Policies\\Microsoft\\Windows\\System\\DisableCMD$/ nocase) and $e.Details = "DWORD (0x00000001)"))
+
+  condition:
+    $e
+}

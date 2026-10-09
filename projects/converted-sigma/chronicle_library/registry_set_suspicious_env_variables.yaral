@@ -1,0 +1,23 @@
+// Title: Suspicious Environment Variable Has Been Registered
+// ID: 966315ef-c5e1-4767-ba25-fce9c8de3660
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-12-20
+// Tags: attack.persistence, attack.stealth
+// Description: Detects the creation of user-specific or system-wide environment variables via the registry. Which contains suspicious commands and strings
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 966315ef_c5e1_4767_ba25_fce9c8de3660 {
+  meta:
+    title = "Suspicious Environment Variable Has Been Registered"
+    description = "Detects the creation of user-specific or system-wide environment variables via the registry. Which contains suspicious commands and strings"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (((($e.Details = "powershell" or $e.Details = "pwsh")) or (($e.Details = /.*\\AppData\\Local\\Temp\\.*/ nocase or $e.Details = /.*C:\\Users\\Public\\.*/ nocase or $e.Details = /.*TVqQAAMAAAAEAAAA.*/ nocase or $e.Details = /.*TVpQAAIAAAAEAA8A.*/ nocase or $e.Details = /.*TVqAAAEAAAAEABAA.*/ nocase or $e.Details = /.*TVoAAAAAAAAAAAAA.*/ nocase or $e.Details = /.*TVpTAQEAAAAEAAAA.*/ nocase or $e.Details = /.*SW52b2tlL.*/ nocase or $e.Details = /.*ludm9rZS.*/ nocase or $e.Details = /.*JbnZva2Ut.*/ nocase or $e.Details = /.*SQBuAHYAbwBrAGUALQ.*/ nocase or $e.Details = /.*kAbgB2AG8AawBlAC0A.*/ nocase or $e.Details = /.*JAG4AdgBvAGsAZQAtA.*/ nocase)) or (($e.Details = /^SUVY.*/ nocase or $e.Details = /^SQBFAF.*/ nocase or $e.Details = /^SQBuAH.*/ nocase or $e.Details = /^cwBhA.*/ nocase or $e.Details = /^aWV4.*/ nocase or $e.Details = /^aQBlA.*/ nocase or $e.Details = /^R2V0.*/ nocase or $e.Details = /^dmFy.*/ nocase or $e.Details = /^dgBhA.*/ nocase or $e.Details = /^dXNpbm.*/ nocase or $e.Details = /^H4sIA.*/ nocase or $e.Details = /^Y21k.*/ nocase or $e.Details = /^cABhAH.*/ nocase or $e.Details = /^Qzpc.*/ nocase or $e.Details = /^Yzpc.*/ nocase))) and ($e.TargetObject = /.*\\Environment\\.*/ nocase))
+
+  condition:
+    $e
+}

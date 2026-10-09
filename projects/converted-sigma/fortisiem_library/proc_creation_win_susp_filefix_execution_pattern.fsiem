@@ -1,0 +1,14 @@
+# Title: Suspicious FileFix Execution Pattern
+# ID: b5b29e4e-31fa-4fdf-b058-296e7a1aa0c2
+# Status: experimental
+# Level: high
+# Author: 0xFustang, Swachchhanda Shrawan Poudel (Nextron Systems)
+# Date: 2025-11-24
+# Tags: attack.execution, attack.t1204.004
+# Description: Detects suspicious FileFix execution patterns where users are tricked into running malicious commands through browser file upload dialog manipulation.
+# This attack typically begins when users visit malicious websites impersonating legitimate services or news platforms,
+# which may display fake CAPTCHA challenges or direct instructions to open file explorer and paste clipboard content.
+# The clipboard content usually contains commands that download and execute malware, such as information stealing tools.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((ParentImage="*\\brave.exe" OR ParentImage="*\\chrome.exe" OR ParentImage="*\\firefox.exe" OR ParentImage="*\\msedge.exe") AND CommandLine CONTAIN "#") AND (((CommandLine CONTAIN "account" OR CommandLine CONTAIN "anti-bot" OR CommandLine CONTAIN "botcheck" OR CommandLine CONTAIN "captcha" OR CommandLine CONTAIN "challenge" OR CommandLine CONTAIN "confirmation" OR CommandLine CONTAIN "fraud" OR CommandLine CONTAIN "human" OR CommandLine CONTAIN "identification" OR CommandLine CONTAIN "identificator" OR CommandLine CONTAIN "identity" OR CommandLine CONTAIN "robot" OR CommandLine CONTAIN "validation" OR CommandLine CONTAIN "verification" OR CommandLine CONTAIN "verify")) OR ((CommandLine CONTAIN "%comspec%" OR CommandLine CONTAIN "bitsadmin" OR CommandLine CONTAIN "certutil" OR CommandLine CONTAIN "cmd" OR CommandLine CONTAIN "cscript" OR CommandLine CONTAIN "curl" OR CommandLine CONTAIN "finger" OR CommandLine CONTAIN "mshta" OR CommandLine CONTAIN "powershell" OR CommandLine CONTAIN "pwsh" OR CommandLine CONTAIN "regsvr32" OR CommandLine CONTAIN "rundll32" OR CommandLine CONTAIN "schtasks" OR CommandLine CONTAIN "wget" OR CommandLine CONTAIN "wscript"))))

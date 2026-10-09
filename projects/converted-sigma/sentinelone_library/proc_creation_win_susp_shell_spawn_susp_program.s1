@@ -1,0 +1,11 @@
+// Title: Windows Shell/Scripting Processes Spawning Suspicious Programs
+// ID: 3a6586ad-127a-4d3b-a677-1e6eacdf8fde
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Tim Shelton
+// Date: 2018-04-06
+// Tags: attack.execution, attack.stealth, attack.t1059.005, attack.t1059.001, attack.t1218
+// Description: Detects suspicious child processes of a Windows shell and scripting processes such as wscript, rundll32, powershell, mshta...etc.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((src.process.parent.image.path endswithCIS "\\mshta.exe" OR src.process.parent.image.path endswithCIS "\\powershell.exe" OR src.process.parent.image.path endswithCIS "\\pwsh.exe" OR src.process.parent.image.path endswithCIS "\\rundll32.exe" OR src.process.parent.image.path endswithCIS "\\cscript.exe" OR src.process.parent.image.path endswithCIS "\\wscript.exe" OR src.process.parent.image.path endswithCIS "\\wmiprvse.exe" OR src.process.parent.image.path endswithCIS "\\regsvr32.exe") AND (src.process.image.path endswithCIS "\\schtasks.exe" OR src.process.image.path endswithCIS "\\nslookup.exe" OR src.process.image.path endswithCIS "\\certutil.exe" OR src.process.image.path endswithCIS "\\bitsadmin.exe" OR src.process.image.path endswithCIS "\\mshta.exe")) AND NOT ((((src.process.parent.cmdline containsCIS "\\Program Files\\Amazon\\WorkSpacesConfig\\Scripts\\setup-scheduledtask.ps1" OR src.process.parent.cmdline containsCIS "\\Program Files\\Amazon\\WorkSpacesConfig\\Scripts\\set-selfhealing.ps1" OR src.process.parent.cmdline containsCIS "\\Program Files\\Amazon\\WorkSpacesConfig\\Scripts\\check-workspacehealth.ps1" OR src.process.parent.cmdline containsCIS "\\nessus_")) OR (CurrentDirectory containsCIS "\\ccmcache\\") OR (src.process.cmdline containsCIS "\\nessus_") OR (src.process.parent.image.path endswithCIS "\\mshta.exe" AND src.process.image.path endswithCIS "\\mshta.exe" AND (src.process.parent.cmdline containsCIS "C:\\MEM_Configmgr_" AND src.process.parent.cmdline containsCIS "\\splash.hta" AND src.process.parent.cmdline containsCIS "{1E460BD7-F1C3-4B2E-88BF-4E770A288AF5}") AND (src.process.cmdline containsCIS "C:\\MEM_Configmgr_" AND src.process.cmdline containsCIS "\\SMSSETUP\\BIN\\" AND src.process.cmdline containsCIS "\\autorun.hta" AND src.process.cmdline containsCIS "{1E460BD7-F1C3-4B2E-88BF-4E770A288AF5}")))))

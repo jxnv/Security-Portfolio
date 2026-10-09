@@ -1,0 +1,11 @@
+// Title: Local Accounts Discovery
+// ID: 502b42de-4306-40b4-9596-6f590c81f073
+// Status: test
+// Level: low
+// Author: Timur Zinniatullin, Daniil Yugoslavskiy, oscd.community
+// Date: 2019-10-21
+// Tags: attack.discovery, attack.t1033, attack.t1087.001
+// Description: Local accounts, System Owner/User discovery using operating systems utilities
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where (((process.executable="*\\cmd.exe" AND (process.command_line like "% /c%" AND process.command_line like "%dir %" AND process.command_line like "%\\Users\\%")) AND NOT ((process.command_line like "% rmdir %"))) OR (((process.executable="*\\net.exe" OR process.executable="*\\net1.exe") AND process.command_line like "%user%") AND NOT (((process.command_line like "%/domain%" OR process.command_line like "%/add%" OR process.command_line like "%/delete%" OR process.command_line like "%/active%" OR process.command_line like "%/expires%" OR process.command_line like "%/passwordreq%" OR process.command_line like "%/scriptpath%" OR process.command_line like "%/times%" OR process.command_line like "%/workstations%")))) OR ((process.executable="*\\cmdkey.exe" AND process.command_line like "% /l%") OR (((process.executable="*\\whoami.exe" OR process.executable="*\\quser.exe" OR process.executable="*\\qwinsta.exe")) OR ((process.pe.original_file_name = "whoami.exe" OR process.pe.original_file_name = "quser.exe" OR process.pe.original_file_name = "qwinsta.exe"))) OR (process.executable="*\\wmic.exe" AND (process.command_line like "%useraccount%" AND process.command_line like "%get%"))))

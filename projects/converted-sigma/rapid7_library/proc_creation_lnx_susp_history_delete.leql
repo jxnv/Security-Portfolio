@@ -1,0 +1,11 @@
+// Title: History File Deletion
+// ID: 1182f3b3-e716-4efa-99ab-d2685d04360f
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-06-20
+// Tags: attack.impact, attack.t1565.001
+// Description: Detects events in which a history file gets deleted, e.g. the ~/bash_history to remove traces of malicious activity
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(Image IENDSWITH "/rm") OR where(Image IENDSWITH "/unlink") OR where(Image IENDSWITH "/shred"))) AND (((where(CommandLine ICONTAINS "/.bash_history") OR where(CommandLine ICONTAINS "/.zsh_history"))) OR ((where(CommandLine IENDSWITH "_history") OR where(CommandLine IENDSWITH ".history") OR where(CommandLine IENDSWITH "zhistory")))))

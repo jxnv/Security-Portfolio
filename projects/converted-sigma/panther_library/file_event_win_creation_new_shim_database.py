@@ -1,0 +1,20 @@
+# Title: New Custom Shim Database Created
+# ID: ee63c85c-6d51-4d12-ad09-04e25877a947
+# Status: test
+# Level: medium
+# Author: frack113, Nasreddine Bencherchali (Nextron Systems)
+# Date: 2021-12-29
+# Tags: attack.privilege-escalation, attack.persistence, attack.t1547.009
+# Description: Adversaries may establish persistence and/or elevate privileges by executing malicious content triggered by application shims.
+# The Microsoft Windows Application Compatibility Infrastructure/Framework (Application Shim) was created to allow for backward compatibility of software as the operating system codebase changes over time.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: New Custom Shim Database Created
+def rule(event):
+    # Detection Logic:
+    # ((TargetFilename="*:\\Windows\\apppatch\\Custom\\*" OR TargetFilename="*:\\Windows\\apppatch\\CustomSDB\\*"))
+    return True
+
+def title(event):
+    return "New Custom Shim Database Created"
+

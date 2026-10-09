@@ -1,0 +1,11 @@
+// Title: ADS Zone.Identifier Deleted By Uncommon Application
+// ID: 3109530e-ab47-4cc6-a953-cac5ebcc93ae
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-09-04
+// Tags: attack.stealth, attack.t1070.004
+// Description: Detects the deletion of the "Zone.Identifier" ADS by an uncommon process. Attackers can leverage this in order to bypass security restrictions that make use of the ADS such as Microsoft Office apps.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter ((action_file_path endswith ":Zone.Identifier") and not (((action_process_image_path = "C:\\Program Files\\PowerShell\\7-preview\\pwsh.exe" or action_process_image_path = "C:\\Program Files\\PowerShell\\7\\pwsh.exe" or action_process_image_path = "C:\\Windows\\explorer.exe" or action_process_image_path = "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" or action_process_image_path = "C:\\Windows\\SysWOW64\\explorer.exe" or action_process_image_path = "C:\\Windows\\SysWOW64\\WindowsPowerShell\\v1.0\\powershell.exe"))) and not ((((action_process_image_path = "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe" or action_process_image_path = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe")) or ((action_process_image_path = "C:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe" or action_process_image_path = "C:\\Program Files\\Mozilla Firefox\\firefox.exe")) or ((action_process_image_path = "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe" or action_process_image_path = "C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe")))))

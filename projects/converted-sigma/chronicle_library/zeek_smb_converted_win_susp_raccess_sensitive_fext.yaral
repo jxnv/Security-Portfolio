@@ -1,0 +1,23 @@
+// Title: Suspicious Access to Sensitive File Extensions - Zeek
+// ID: 286b47ed-f6fe-40b3-b3a8-35129acd43bc
+// Status: test
+// Level: medium
+// Author: Samir Bousseaden, @neu5ron
+// Date: 2020-04-02
+// Tags: attack.collection
+// Description: Detects known sensitive file extensions via Zeek
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 286b47ed_f6fe_40b3_b3a8_35129acd43bc {
+  meta:
+    title = "Suspicious Access to Sensitive File Extensions - Zeek"
+    description = "Detects known sensitive file extensions via Zeek"
+    author = "Samir Bousseaden, @neu5ron"
+    severity = "MEDIUM"
+
+  events:
+    (($e.name = /.*.pst$/ nocase or $e.name = /.*.ost$/ nocase or $e.name = /.*.msg$/ nocase or $e.name = /.*.nst$/ nocase or $e.name = /.*.oab$/ nocase or $e.name = /.*.edb$/ nocase or $e.name = /.*.nsf$/ nocase or $e.name = /.*.bak$/ nocase or $e.name = /.*.dmp$/ nocase or $e.name = /.*.kirbi$/ nocase or $e.name = /.*.rdp$/ nocase))
+
+  condition:
+    $e
+}

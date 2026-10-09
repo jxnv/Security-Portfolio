@@ -1,0 +1,88 @@
+{
+  "title": "Suspicious PowerShell Invocations - Specific",
+  "id": "ae7fbf8e-f3cb-49fd-8db4-5f3bed522c71",
+  "status": "test",
+  "description": "Detects suspicious PowerShell invocation command parameters",
+  "author": "Florian Roth (Nextron Systems), Jonhnathan Ribeiro",
+  "date": "2017-03-05",
+  "tags": [
+    "attack.execution",
+    "attack.t1059.001"
+  ],
+  "level": "high",
+  "logsource": {
+    "product": "windows",
+    "category": "ps_script",
+    "definition": "Requirements: Script Block Logging must be enabled"
+  },
+  "detection": {
+    "selection_convert_b64": {
+      "ScriptBlockText|contains|all": [
+        "-nop",
+        " -w ",
+        "hidden",
+        " -c ",
+        "[Convert]::FromBase64String"
+      ]
+    },
+    "selection_iex_selection": {
+      "ScriptBlockText|contains|all": [
+        " -w ",
+        "hidden",
+        "-noni",
+        "-nop",
+        " -c ",
+        "iex",
+        "New-Object"
+      ]
+    },
+    "selection_enc_selection": {
+      "ScriptBlockText|contains|all": [
+        " -w ",
+        "hidden",
+        "-ep",
+        "bypass",
+        "-Enc"
+      ]
+    },
+    "selection_reg_selection": {
+      "ScriptBlockText|contains|all": [
+        "powershell",
+        "reg",
+        "add"
+      ],
+      "ScriptBlockText|contains": [
+        "\\software\\microsoft\\windows\\currentversion\\run",
+        "\\software\\wow6432node\\microsoft\\windows\\currentversion\\run",
+        "\\software\\microsoft\\windows\\currentversion\\policies\\explorer\\run"
+      ]
+    },
+    "selection_webclient_selection": {
+      "ScriptBlockText|contains|all": [
+        "bypass",
+        "-noprofile",
+        "-windowstyle",
+        "hidden",
+        "new-object",
+        "system.net.webclient",
+        ".download"
+      ]
+    },
+    "selection_iex_webclient": {
+      "ScriptBlockText|contains|all": [
+        "iex",
+        "New-Object",
+        "Net.WebClient",
+        ".Download"
+      ]
+    },
+    "filter_chocolatey": {
+      "ScriptBlockText|contains": [
+        "(New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1",
+        "(New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1')",
+        "Write-ChocolateyWarning"
+      ]
+    },
+    "condition": "1 of selection_* and not 1 of filter_*"
+  }
+}

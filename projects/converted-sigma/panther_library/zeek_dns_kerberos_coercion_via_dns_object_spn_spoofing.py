@@ -1,0 +1,23 @@
+# Title: Suspicious DNS Query Indicating Kerberos Coercion via DNS Object SPN Spoofing - Network
+# ID: 5588576c-5898-4fac-bcdd-7475a60e8f43
+# Status: experimental
+# Level: high
+# Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+# Date: 2025-06-20
+# Tags: attack.collection, attack.credential-access, attack.persistence, attack.privilege-escalation, attack.t1557.001, attack.t1187
+# Description: Detects DNS queries containing patterns associated with Kerberos coercion attacks via DNS object spoofing.
+# The pattern "1UWhRCAAAAA..BAAAA" is a base64-encoded signature that corresponds to a marshaled CREDENTIAL_TARGET_INFORMATION structure.
+# Attackers can use this technique to coerce authentication from victim systems to attacker-controlled hosts.
+# It is one of the strong indicators of a Kerberos coercion attack, where adversaries manipulate DNS records
+# to spoof Service Principal Names (SPNs) and redirect authentication requests like CVE-2025-33073.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Suspicious DNS Query Indicating Kerberos Coercion via DNS Object SPN Spoofing - Network
+def rule(event):
+    # Detection Logic:
+    # ((query="*UWhRCA*" AND query="*BAAAA*"))
+    return True
+
+def title(event):
+    return "Suspicious DNS Query Indicating Kerberos Coercion via DNS Object SPN Spoofing - Network"
+

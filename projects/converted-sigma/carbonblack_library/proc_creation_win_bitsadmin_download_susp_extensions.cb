@@ -1,0 +1,11 @@
+# Title: File With Suspicious Extension Downloaded Via Bitsadmin
+# ID: 5b80a791-ad9b-4b75-bcc1-ad4e1e89c200
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-06-28
+# Tags: attack.persistence, attack.execution, attack.stealth, attack.t1197, attack.s0190, attack.t1036.003, attack.command-and-control, attack.t1105
+# Description: Detects usage of bitsadmin downloading a file with a suspicious extension
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((cmdline:*.7z* OR cmdline:*.asax* OR cmdline:*.ashx* OR cmdline:*.asmx* OR cmdline:*.asp* OR cmdline:*.aspx* OR cmdline:*.bat* OR cmdline:*.cfm* OR cmdline:*.cgi* OR cmdline:*.chm* OR cmdline:*.cmd* OR cmdline:*.dll* OR cmdline:*.gif* OR cmdline:*.jpeg* OR cmdline:*.jpg* OR cmdline:*.jsp* OR cmdline:*.jspx* OR cmdline:*.log* OR cmdline:*.png* OR cmdline:*.ps1* OR cmdline:*.psm1* OR cmdline:*.rar* OR cmdline:*.scf* OR cmdline:*.sct* OR cmdline:*.txt* OR cmdline:*.vbe* OR cmdline:*.vbs* OR cmdline:*.war* OR cmdline:*.wsf* OR cmdline:*.wsh* OR cmdline:*.xll* OR cmdline:*.zip*)) AND ((cmdline:* /transfer * OR cmdline:* /create * OR cmdline:* /addfile *)) AND ((process_name:*\\bitsadmin.exe) OR (OriginalFileName:"bitsadmin.exe")))

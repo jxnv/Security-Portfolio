@@ -1,0 +1,11 @@
+// Title: PUA - Seatbelt Execution
+// ID: 38646daa-e78f-4ace-9de0-55547b2d30da
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-10-18
+// Tags: attack.discovery, attack.t1526, attack.t1087, attack.t1083
+// Description: Detects the execution of the PUA/Recon tool Seatbelt via PE information of command line parameters
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where (((process.executable="*\\Seatbelt.exe") OR (process.pe.original_file_name = "Seatbelt.exe") OR (Description = "Seatbelt") OR ((process.command_line like "% DpapiMasterKeys%" OR process.command_line like "% InterestingProcesses%" OR process.command_line like "% InterestingFiles%" OR process.command_line like "% CertificateThumbprints%" OR process.command_line like "% ChromiumBookmarks%" OR process.command_line like "% ChromiumHistory%" OR process.command_line like "% ChromiumPresence%" OR process.command_line like "% CloudCredentials%" OR process.command_line like "% CredEnum%" OR process.command_line like "% CredGuard%" OR process.command_line like "% FirefoxHistory%" OR process.command_line like "% ProcessCreationEvents%"))) OR (((process.command_line like "% -group=misc%" OR process.command_line like "% -group=remote%" OR process.command_line like "% -group=chromium%" OR process.command_line like "% -group=slack%" OR process.command_line like "% -group=system%" OR process.command_line like "% -group=user%" OR process.command_line like "% -group=all%")) AND (process.command_line like "% -outputfile=%")))

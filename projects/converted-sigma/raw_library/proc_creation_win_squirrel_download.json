@@ -1,0 +1,37 @@
+{
+  "title": "Arbitrary File Download Via Squirrel.EXE",
+  "id": "1e75c1cc-c5d4-42aa-ac3d-91b0b68b3b4c",
+  "status": "test",
+  "description": "Detects the usage of the \"Squirrel.exe\" to download arbitrary files. This binary is part of multiple Electron based software installations (Slack, Teams, Discord, etc.)\n",
+  "author": "Nasreddine Bencherchali (Nextron Systems), Karneades / Markus Neis, Jonhnathan Ribeiro, oscd.community",
+  "date": "2022-06-09",
+  "tags": [
+    "attack.execution",
+    "attack.stealth",
+    "attack.t1218"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_img": {
+      "Image|endswith": [
+        "\\squirrel.exe",
+        "\\update.exe"
+      ]
+    },
+    "selection_download_cli": {
+      "CommandLine|contains": [
+        " --download ",
+        " --update ",
+        " --updateRollback="
+      ]
+    },
+    "selection_download_http_keyword": {
+      "CommandLine|contains": "http"
+    },
+    "condition": "all of selection_*"
+  }
+}

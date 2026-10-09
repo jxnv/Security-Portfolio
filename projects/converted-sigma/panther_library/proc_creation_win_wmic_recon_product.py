@@ -1,0 +1,19 @@
+# Title: Potential Product Reconnaissance Via Wmic.EXE
+# ID: 15434e33-5027-4914-88d5-3d4145ec25a9
+# Status: test
+# Level: medium
+# Author: Nasreddine Bencherchali
+# Date: 2023-02-14
+# Tags: attack.execution, attack.t1047
+# Description: Detects the execution of WMIC in order to get a list of firewall and antivirus products
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Potential Product Reconnaissance Via Wmic.EXE
+def rule(event):
+    # Detection Logic:
+    # (((CommandLine="*Product*") AND ((Image="*\\wmic.exe") OR (OriginalFileName="wmic.exe"))) AND NOT ((((CommandLine="* uninstall*" OR CommandLine="* install*")) OR (CommandLine="*csproduct*"))))
+    return True
+
+def title(event):
+    return "Potential Product Reconnaissance Via Wmic.EXE"
+

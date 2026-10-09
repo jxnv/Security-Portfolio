@@ -1,0 +1,11 @@
+# Title: Suspicious Process By Web Server Process
+# ID: 8202070f-edeb-4d31-a010-a26c72ac5600
+# Status: test
+# Level: high
+# Author: Thomas Patzke, Florian Roth (Nextron Systems), Zach Stanford @svch0st, Tim Shelton, Nasreddine Bencherchali (Nextron Systems)
+# Date: 2019-01-16
+# Tags: attack.persistence, attack.initial-access, attack.t1505.003, attack.t1190
+# Description: Detects potentially suspicious processes being spawned by a web server process which could be the result of a successfully placed web shell or exploitation
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((((parent_name:*\\java.exe OR parent_name:*\\javaw.exe) AND (parent_name:*-tomcat-* OR parent_name:*\\tomcat*)) OR ((parent_name:*\\java.exe OR parent_name:*\\javaw.exe) AND (ParentCommandLine:*CATALINA_HOME* OR ParentCommandLine:*catalina.home* OR ParentCommandLine:*catalina.jar*)) OR ((parent_name:*\\caddy.exe OR parent_name:*\\httpd.exe OR parent_name:*\\nginx.exe OR parent_name:*\\php-cgi.exe OR parent_name:*\\php.exe OR parent_name:*\\tomcat.exe OR parent_name:*\\UMWorkerProcess.exe OR parent_name:*\\w3wp.exe OR parent_name:*\\ws_TomcatService.exe))) AND ((process_name:*\\arp.exe OR process_name:*\\at.exe OR process_name:*\\bash.exe OR process_name:*\\bitsadmin.exe OR process_name:*\\certutil.exe OR process_name:*\\cmd.exe OR process_name:*\\cscript.exe OR process_name:*\\dsget.exe OR process_name:*\\hostname.exe OR process_name:*\\nbtstat.exe OR process_name:*\\net.exe OR process_name:*\\net1.exe OR process_name:*\\netdom.exe OR process_name:*\\netsh.exe OR process_name:*\\nltest.exe OR process_name:*\\ntdsutil.exe OR process_name:*\\powershell_ise.exe OR process_name:*\\powershell.exe OR process_name:*\\pwsh.exe OR process_name:*\\qprocess.exe OR process_name:*\\query.exe OR process_name:*\\qwinsta.exe OR process_name:*\\reg.exe OR process_name:*\\rundll32.exe OR process_name:*\\sc.exe OR process_name:*\\sh.exe OR process_name:*\\wmic.exe OR process_name:*\\wscript.exe OR process_name:*\\wusa.exe)) AND -(((parent_name:*\\java.exe AND cmdline:*Windows\\system32\\cmd.exe /c C:\\ManageEngine\\ADManager \"Plus\\ES\\bin\\elasticsearch.bat -Enode.name=RMP-NODE1 -pelasticsearch-pid.txt) OR (parent_name:*\\java.exe AND (cmdline:*sc query* AND cmdline:*ADManager Plus*)))))

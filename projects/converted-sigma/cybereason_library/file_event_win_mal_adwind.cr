@@ -1,0 +1,11 @@
+// Title: Adwind RAT / JRAT File Artifact
+// ID: 0bcfabcb-7929-47f4-93d6-b33fb67d34d1
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Tom Ueltschi, Jonhnathan Ribeiro, oscd.community
+// Date: 2017-11-10
+// Tags: attack.execution, attack.t1059.005, attack.t1059.007
+// Description: Detects javaw.exe in AppData folder as used by Adwind / JRAT
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((TargetFilename contains "\\AppData\\Roaming\\Oracle\\bin\\java" AND TargetFilename contains ".exe")) OR ((TargetFilename contains "\\Retrive" AND TargetFilename contains ".vbs")))

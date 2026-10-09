@@ -1,0 +1,23 @@
+// Title: Exports Registry Key To an Alternate Data Stream
+// ID: 0d7a9363-af70-4e7b-a3b7-1a176b7fbe84
+// Status: test
+// Level: high
+// Author: Oddvar Moe, Sander Wiebing, oscd.community
+// Date: 2020-10-07
+// Tags: attack.stealth, attack.t1564.004
+// Description: Exports the target Registry key and hides it in the specified alternate data stream.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 0d7a9363_af70_4e7b_a3b7_1a176b7fbe84 {
+  meta:
+    title = "Exports Registry Key To an Alternate Data Stream"
+    description = "Exports the target Registry key and hides it in the specified alternate data stream."
+    author = "Oddvar Moe, Sander Wiebing, oscd.community"
+    severity = "HIGH"
+
+  events:
+    ($e.target.process.file.full_path = /.*\\regedit.exe$/ nocase)
+
+  condition:
+    $e
+}

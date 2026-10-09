@@ -1,0 +1,36 @@
+{
+  "title": "Unusual File Download from Direct IP Address",
+  "id": "025bd229-fd1f-4fdb-97ab-20006e1a5368",
+  "status": "test",
+  "description": "Detects the download of suspicious file type from URLs with IP",
+  "author": "Nasreddine Bencherchali (Nextron Systems), Florian Roth (Nextron Systems)",
+  "date": "2022-09-07",
+  "tags": [
+    "attack.stealth",
+    "attack.t1564.004"
+  ],
+  "level": "high",
+  "logsource": {
+    "product": "windows",
+    "category": "create_stream_hash"
+  },
+  "detection": {
+    "selection": {
+      "Contents|re": "http[s]?://[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}",
+      "TargetFilename|contains": [
+        ".ps1:Zone",
+        ".bat:Zone",
+        ".exe:Zone",
+        ".vbe:Zone",
+        ".vbs:Zone",
+        ".dll:Zone",
+        ".one:Zone",
+        ".cmd:Zone",
+        ".hta:Zone",
+        ".xll:Zone",
+        ".lnk:Zone"
+      ]
+    },
+    "condition": "selection"
+  }
+}

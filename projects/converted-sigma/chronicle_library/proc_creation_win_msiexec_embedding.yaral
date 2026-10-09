@@ -1,0 +1,23 @@
+// Title: Suspicious MsiExec Embedding Parent
+// ID: 4a2a2c3e-209f-4d01-b513-4155a540b469
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-04-16
+// Tags: attack.stealth, attack.t1218.007
+// Description: Adversaries may abuse msiexec.exe to proxy the execution of malicious payloads
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 4a2a2c3e_209f_4d01_b513_4155a540b469 {
+  meta:
+    title = "Suspicious MsiExec Embedding Parent"
+    description = "Adversaries may abuse msiexec.exe to proxy the execution of malicious payloads"
+    author = "frack113"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase or $e.target.process.file.full_path = /.*\\cmd.exe$/ nocase) and ($e.principal.process.command_line = /.*MsiExec.exe.*/ nocase and $e.principal.process.command_line = /.*-Embedding .*/ nocase)) and not((($e.target.process.file.full_path = /.*:\\Windows\\System32\\cmd.exe$/ nocase and $e.target.process.command_line = /.*C:\\Program Files\\SplunkUniversalForwarder\\bin\\.*/ nocase) or (($e.target.process.command_line = /.*\\DismFoDInstall.cmd.*/ nocase) or (($e.principal.process.command_line = /.*\\MsiExec.exe -Embedding .*/ nocase and $e.principal.process.command_line = /.*Global\\MSI0000.*/ nocase))))))
+
+  condition:
+    $e
+}

@@ -1,0 +1,11 @@
+# Title: PowerShell Logging Disabled Via Registry Key Tampering
+# ID: fecfd1a1-cc78-4313-a1ea-2ee2e8ec27a7
+# Status: test
+# Level: high
+# Author: frack113
+# Date: 2022-04-02
+# Tags: attack.stealth, attack.defense-impairment, attack.t1564.001, attack.t1112, attack.persistence
+# Description: Detects changes to the registry for the currently logged-in user. In order to disable PowerShell module logging, script block logging or transcription and script execution logging
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog ((registry_key_name="*\\Microsoft\\Windows\\PowerShell\\*" OR registry_key_name="*\\Microsoft\\PowerShellCore\\*") AND (registry_key_name="*\\ModuleLogging\\EnableModuleLogging" OR registry_key_name="*\\ScriptBlockLogging\\EnableScriptBlockLogging" OR registry_key_name="*\\ScriptBlockLogging\\EnableScriptBlockInvocationLogging" OR registry_key_name="*\\Transcription\\EnableTranscripting" OR registry_key_name="*\\Transcription\\EnableInvocationHeader" OR registry_key_name="*\\EnableScripts") AND Details="DWORD (0x00000000)")

@@ -1,0 +1,11 @@
+# Title: Potential SMB Relay Attack Tool Execution
+# ID: 5589ab4f-a767-433c-961d-c91f3f704db1
+# Status: test
+# Level: critical
+# Author: Florian Roth (Nextron Systems)
+# Date: 2021-07-24
+# Tags: attack.collection, attack.execution, attack.credential-access, attack.t1557.001
+# Description: Detects different hacktools used for relay attacks on Windows for privilege escalation
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((CommandLine CONTAIN ".exe -c \"{" AND CommandLine="*}\" -z") OR ((Image CONTAIN "PetitPotam" OR Image CONTAIN "RottenPotato" OR Image CONTAIN "HotPotato" OR Image CONTAIN "JuicyPotato" OR Image CONTAIN "\\just_dce_" OR Image CONTAIN "Juicy Potato" OR Image CONTAIN "\\temp\\rot.exe" OR Image CONTAIN "\\Potato.exe" OR Image CONTAIN "\\SpoolSample.exe" OR Image CONTAIN "\\Responder.exe" OR Image CONTAIN "\\smbrelayx" OR Image CONTAIN "\\ntlmrelayx" OR Image CONTAIN "\\LocalPotato")) OR ((CommandLine CONTAIN "Invoke-Tater" OR CommandLine CONTAIN " smbrelay" OR CommandLine CONTAIN " ntlmrelay" OR CommandLine CONTAIN "cme smb " OR CommandLine CONTAIN " /ntlm:NTLMhash " OR CommandLine CONTAIN "Invoke-PetitPotam" OR CommandLine CONTAIN ".exe -t * -p "))) AND NOT (((Image CONTAIN "HotPotatoes6" OR Image CONTAIN "HotPotatoes7" OR Image CONTAIN "HotPotatoes "))))

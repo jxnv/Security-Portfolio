@@ -1,0 +1,23 @@
+// Title: Execution via stordiag.exe
+// ID: 961e0abb-1b1e-4c84-a453-aafe56ad0d34
+// Status: test
+// Level: high
+// Author: Austin Songer (@austinsonger)
+// Date: 2021-10-21
+// Tags: attack.stealth, attack.t1218
+// Description: Detects the use of stordiag.exe to execute schtasks.exe systeminfo.exe and fltmc.exe
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 961e0abb_1b1e_4c84_a453_aafe56ad0d34 {
+  meta:
+    title = "Execution via stordiag.exe"
+    description = "Detects the use of stordiag.exe to execute schtasks.exe systeminfo.exe and fltmc.exe"
+    author = "Austin Songer (@austinsonger)"
+    severity = "HIGH"
+
+  events:
+    (($e.principal.process.file.full_path = /.*\\stordiag.exe$/ nocase and ($e.target.process.file.full_path = /.*\\schtasks.exe$/ nocase or $e.target.process.file.full_path = /.*\\systeminfo.exe$/ nocase or $e.target.process.file.full_path = /.*\\fltmc.exe$/ nocase)) and not((($e.principal.process.file.full_path = /^c:\\windows\\system32\\.*/ nocase or $e.principal.process.file.full_path = /^c:\\windows\\syswow64\\.*/ nocase))))
+
+  condition:
+    $e
+}

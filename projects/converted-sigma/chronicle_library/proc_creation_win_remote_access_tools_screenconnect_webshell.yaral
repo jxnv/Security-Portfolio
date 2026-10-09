@@ -1,0 +1,23 @@
+// Title: Remote Access Tool - ScreenConnect Server Web Shell Execution
+// ID: b19146a3-25d4-41b4-928b-1e2a92641b1b
+// Status: test
+// Level: high
+// Author: Jason Rathbun (Blackpoint Cyber)
+// Date: 2024-02-26
+// Tags: attack.initial-access, attack.t1190
+// Description: Detects potential web shell execution from the ScreenConnect server process.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule b19146a3_25d4_41b4_928b_1e2a92641b1b {
+  meta:
+    title = "Remote Access Tool - ScreenConnect Server Web Shell Execution"
+    description = "Detects potential web shell execution from the ScreenConnect server process."
+    author = "Jason Rathbun (Blackpoint Cyber)"
+    severity = "HIGH"
+
+  events:
+    ($e.principal.process.file.full_path = /.*\\ScreenConnect.Service.exe$/ nocase and ($e.target.process.file.full_path = /.*\\cmd.exe$/ nocase or $e.target.process.file.full_path = /.*\\csc.exe$/ nocase))
+
+  condition:
+    $e
+}

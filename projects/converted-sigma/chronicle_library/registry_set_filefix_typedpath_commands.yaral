@@ -1,0 +1,23 @@
+// Title: FileFix - Command Evidence in TypedPaths
+// ID: 4fee3d51-8069-4a4c-a0f7-924fcaff2c70
+// Status: experimental
+// Level: high
+// Author: Alfie Champion (delivr.to), Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-07-05
+// Tags: attack.execution, attack.t1204.004
+// Description: Detects commonly-used chained commands and strings in the most recent 'url' value of the 'TypedPaths' key, which could be indicative of a user being targeted by the FileFix technique.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 4fee3d51_8069_4a4c_a0f7_924fcaff2c70 {
+  meta:
+    title = "FileFix - Command Evidence in TypedPaths"
+    description = "Detects commonly-used chained commands and strings in the most recent 'url' value of the 'TypedPaths' key, which could be indicative of a user being targeted by the FileFix technique."
+    author = "Alfie Champion (delivr.to), Swachchhanda Shrawan Poudel (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.TargetObject = /.*\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\TypedPaths\\url1$/ nocase and ($e.Details = /.*#.*/ nocase and $e.Details = /.*http.*/ nocase)) and ((($e.Details = /.*account.*/ nocase or $e.Details = /.*anti-bot.*/ nocase or $e.Details = /.*botcheck.*/ nocase or $e.Details = /.*captcha.*/ nocase or $e.Details = /.*challenge.*/ nocase or $e.Details = /.*confirmation.*/ nocase or $e.Details = /.*fraud.*/ nocase or $e.Details = /.*human.*/ nocase or $e.Details = /.*identification.*/ nocase or $e.Details = /.*identificator.*/ nocase or $e.Details = /.*identity.*/ nocase or $e.Details = /.*robot.*/ nocase or $e.Details = /.*validation.*/ nocase or $e.Details = /.*verification.*/ nocase or $e.Details = /.*verify.*/ nocase)) or (($e.Details = /.*%comspec%.*/ nocase or $e.Details = /.*bitsadmin.*/ nocase or $e.Details = /.*certutil.*/ nocase or $e.Details = /.*cmd.*/ nocase or $e.Details = /.*cscript.*/ nocase or $e.Details = /.*curl.*/ nocase or $e.Details = /.*finger.*/ nocase or $e.Details = /.*mshta.*/ nocase or $e.Details = /.*powershell.*/ nocase or $e.Details = /.*pwsh.*/ nocase or $e.Details = /.*regsvr32.*/ nocase or $e.Details = /.*rundll32.*/ nocase or $e.Details = /.*schtasks.*/ nocase or $e.Details = /.*wget.*/ nocase or $e.Details = /.*wscript.*/ nocase))))
+
+  condition:
+    $e
+}

@@ -1,0 +1,38 @@
+{
+  "title": "Winrar Compressing Dump Files",
+  "id": "1ac14d38-3dfc-4635-92c7-e3fd1c5f5bfc",
+  "status": "test",
+  "description": "Detects execution of WinRAR in order to compress a file with a \".dmp\"/\".dump\" extension, which could be a step in a process of dump file exfiltration.",
+  "author": "Florian Roth (Nextron Systems)",
+  "date": "2022-01-04",
+  "tags": [
+    "attack.collection",
+    "attack.t1560.001"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_img": [
+      {
+        "Image|endswith": [
+          "\\rar.exe",
+          "\\winrar.exe"
+        ]
+      },
+      {
+        "Description": "Command line RAR"
+      }
+    ],
+    "selection_extension": {
+      "CommandLine|contains": [
+        ".dmp",
+        ".dump",
+        ".hdmp"
+      ]
+    },
+    "condition": "all of selection_*"
+  }
+}

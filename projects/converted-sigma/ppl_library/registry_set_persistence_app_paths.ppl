@@ -1,0 +1,14 @@
+// Title: Potential Persistence Via App Paths Default Property
+// ID: 707e097c-e20f-4f67-8807-1f72ff4500d6
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-10
+// Tags: attack.privilege-escalation, attack.persistence, attack.t1546.012
+// Description: Detects changes to the "Default" property for keys located in the \Software\Microsoft\Windows\CurrentVersion\App Paths\ registry. Which might be used as a method of persistence
+// The entries found under App Paths are used primarily for the following purposes.
+// First, to map an application's executable file name to that file's fully qualified path.
+// Second, to prepend information to the PATH environment variable on a per-application, per-process basis.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where (registry.path like "%\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths%" AND (registry.path="*(Default)" OR registry.path="*Path") AND (registry.data.strings like "%\\Users\\Public%" OR registry.data.strings like "%\\AppData\\Local\\Temp\\%" OR registry.data.strings like "%\\Windows\\Temp\\%" OR registry.data.strings like "%\\Desktop\\%" OR registry.data.strings like "%\\Downloads\\%" OR registry.data.strings like "%%temp%%" OR registry.data.strings like "%%tmp%%" OR registry.data.strings like "%iex%" OR registry.data.strings like "%Invoke-%" OR registry.data.strings like "%rundll32%" OR registry.data.strings like "%regsvr32%" OR registry.data.strings like "%mshta%" OR registry.data.strings like "%cscript%" OR registry.data.strings like "%wscript%" OR registry.data.strings like "%.bat%" OR registry.data.strings like "%.hta%" OR registry.data.strings like "%.dll%" OR registry.data.strings like "%.ps1%"))

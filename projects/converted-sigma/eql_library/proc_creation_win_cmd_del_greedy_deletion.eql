@@ -1,0 +1,11 @@
+// Title: Greedy File Deletion Using Del
+// ID: 204b17ae-4007-471b-917b-b917b315c5db
+// Status: test
+// Level: medium
+// Author: frack113 , X__Junior (Nextron Systems)
+// Date: 2021-12-02
+// Tags: attack.stealth, attack.t1070.004
+// Description: Detects execution of the "del" builtin command to remove files using greedy/wildcard expression. This is often used by malware to delete content of folders that perhaps contains the initial malware infection or to delete evidence.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where (((process.command_line like "*_del *" or process.command_line like "*_erase *")) and ((process.command_line like "*_\\\\\\*.au3*" or process.command_line like "*_\\\\\\*.dll*" or process.command_line like "*_\\\\\\*.exe*" or process.command_line like "*_\\\\\\*.js*")) and ((process.executable endswith "\\cmd.exe") or (process.pe.original_file_name == "Cmd.Exe")))

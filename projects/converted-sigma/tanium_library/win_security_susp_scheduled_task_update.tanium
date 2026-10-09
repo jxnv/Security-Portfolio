@@ -1,0 +1,11 @@
+# Title: Suspicious Scheduled Task Update
+# ID: 614cf376-6651-47c4-9dcc-6b9527f749f4
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-12-05
+# Tags: attack.execution, attack.privilege-escalation, attack.persistence, attack.t1053.005
+# Description: Detects update to a scheduled task event that contain suspicious keywords.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((TaskContentNew contains "regsvr32" OR TaskContentNew contains "rundll32" OR TaskContentNew contains "cmd.exe</Command>" OR TaskContentNew contains "cmd</Command>" OR TaskContentNew contains "<Arguments>/c " OR TaskContentNew contains "<Arguments>/k " OR TaskContentNew contains "<Arguments>/r " OR TaskContentNew contains "powershell" OR TaskContentNew contains "pwsh" OR TaskContentNew contains "mshta" OR TaskContentNew contains "wscript" OR TaskContentNew contains "cscript" OR TaskContentNew contains "certutil" OR TaskContentNew contains "bitsadmin" OR TaskContentNew contains "bash.exe" OR TaskContentNew contains "bash " OR TaskContentNew contains "scrcons" OR TaskContentNew contains "wmic " OR TaskContentNew contains "wmic.exe" OR TaskContentNew contains "forfiles" OR TaskContentNew contains "scriptrunner" OR TaskContentNew contains "hh.exe")) AND (EventID equals "4702") AND ((TaskContentNew contains "\\AppData\\Local\\Temp\\" OR TaskContentNew contains "\\AppData\\Roaming\\" OR TaskContentNew contains "\\Users\\Public\\" OR TaskContentNew contains "\\WINDOWS\\Temp\\" OR TaskContentNew contains "C:\\Temp\\" OR TaskContentNew contains "\\Desktop\\" OR TaskContentNew contains "\\Downloads\\" OR TaskContentNew contains "\\Temporary Internet" OR TaskContentNew contains "C:\\ProgramData\\" OR TaskContentNew contains "C:\\Perflogs\\")))

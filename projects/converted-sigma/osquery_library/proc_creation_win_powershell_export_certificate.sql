@@ -1,0 +1,11 @@
+-- Title: Certificate Exported Via PowerShell
+-- ID: 9e716b33-63b2-46da-86a4-bd3c3b9b5dfb
+-- Status: test
+-- Level: medium
+-- Author: Nasreddine Bencherchali (Nextron Systems)
+-- Date: 2023-05-18
+-- Tags: attack.credential-access, attack.execution, attack.t1552.004, attack.t1059.001
+-- Description: Detects calls to cmdlets that are used to export certificates from the local certificate store. Threat actors were seen abusing this to steal private keys from compromised machines.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM processes WHERE ((CommandLine LIKE '%Export-PfxCertificate %' OR CommandLine LIKE '%Export-Certificate %'))

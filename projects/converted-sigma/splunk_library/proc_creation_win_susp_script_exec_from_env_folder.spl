@@ -1,0 +1,12 @@
+# Title: Script Interpreter Execution From Suspicious Folder
+# ID: 1228c958-e64e-4e71-92ad-7d429f4138ba
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-02-08
+# Tags: attack.execution, attack.t1059
+# Description: Detects suspicious script execution from suspicious directories or folders accessible by environment variables that may indicate malware activity.
+# Script interpreters (cscript, wscript, mshta, powershell) executing from folders like Temp, Public, or user profile directories may suggest attempts to evade detection or execute malicious scripts.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog ((((process_exec="* -ep bypass *" OR process_exec="* -ExecutionPolicy bypass *" OR process_exec="* -w hidden *" OR process_exec="*/e:javascript *" OR process_exec="*/e:Jscript *" OR process_exec="*/e:vbscript *")) OR ((process_path="*\\cscript.exe" OR process_path="*\\mshta.exe" OR process_path="*\\wscript.exe")) OR ((process_name="cscript.exe" OR process_name="mshta.exe" OR process_name="wscript.exe"))) AND (((process_exec="*:\\Perflogs\\*" OR process_exec="*:\\Users\\Public\\*" OR process_exec="*\\%Public%*" OR process_exec="*\\AppData\\Local\\Temp*" OR process_exec="*\\AppData\\Roaming\\Temp*" OR process_exec="*\\Temporary Internet*" OR process_exec="*\\Windows\\Temp*" OR process_exec="*\\Start Menu\\Programs\\Startup\\*" OR process_exec="*%TEMP%*" OR process_exec="*%TMP%*" OR process_exec="*%LocalAppData%\\Temp*")) OR (((process_exec="*:\\Users\\*" AND process_exec="*\\Favorites\\*")) OR ((process_exec="*:\\Users\\*" AND process_exec="*\\Favourites\\*")) OR ((process_exec="*:\\Users\\*" AND process_exec="*\\Contacts\\*")) OR ((process_exec="*:\\Users\\*" AND process_exec="*\\Documents\\*")) OR ((process_exec="*:\\Users\\*" AND process_exec="*\\Music\\*")) OR ((process_exec="*:\\Users\\*" AND process_exec="*\\Pictures\\*")) OR ((process_exec="*:\\Users\\*" AND process_exec="*\\Videos\\*")))) AND NOT (((parent_process_path="C:\\Windows\\System32\\Msiexec.exe" OR parent_process_path="C:\\Windows\\SysWOW64\\Msiexec.exe") AND process_path="*\\powershell.exe" AND (process_exec="*-NoProfile -ExecutionPolicy Bypass -Command*" AND process_exec="*AppData\\Local\\Temp\\*" AND process_exec="*Install-Chocolatey.ps1*"))))

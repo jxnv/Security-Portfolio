@@ -1,0 +1,11 @@
+// Title: Potential Discovery Activity Via Dnscmd.EXE
+// ID: b6457d63-d2a2-4e29-859d-4e7affc153d1
+// Status: test
+// Level: medium
+// Author: @gott_cyber
+// Date: 2022-07-31
+// Tags: attack.discovery, attack.execution
+// Description: Detects an attempt to leverage dnscmd.exe to enumerate the DNS zones of a domain. DNS zones used to host the DNS records for a particular domain.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((src.process.cmdline containsCIS "/enumrecords" OR src.process.cmdline containsCIS "/enumzones" OR src.process.cmdline containsCIS "/ZonePrint" OR src.process.cmdline containsCIS "/info")) AND (src.process.image.path endswithCIS "\\dnscmd.exe"))

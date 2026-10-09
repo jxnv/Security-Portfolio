@@ -1,0 +1,11 @@
+// Title: Suspicious Process Patterns NTDS.DIT Exfil
+// ID: 8bc64091-6875-4881-aaf9-7bd25b5dda08
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-03-11
+// Tags: attack.credential-access, attack.t1003.003
+// Description: Detects suspicious process patterns used in NTDS.DIT exfiltration
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((src.process.cmdline containsCIS "ac i ntds" AND src.process.cmdline containsCIS "create full")) OR ((src.process.cmdline containsCIS "/c copy " AND src.process.cmdline containsCIS "\\windows\\ntds\\ntds.dit")) OR ((src.process.cmdline containsCIS "activate instance ntds" AND src.process.cmdline containsCIS "create full")) OR ((src.process.cmdline containsCIS "powershell" AND src.process.cmdline containsCIS "ntds.dit")) OR (((src.process.image.path endswithCIS "\\NTDSDump.exe" OR src.process.image.path endswithCIS "\\NTDSDumpEx.exe")) OR ((src.process.cmdline containsCIS "ntds.dit" AND src.process.cmdline containsCIS "system.hiv")) OR (src.process.cmdline containsCIS "NTDSgrab.ps1"))) OR ((((src.process.parent.image.path containsCIS "\\apache" OR src.process.parent.image.path containsCIS "\\tomcat" OR src.process.parent.image.path containsCIS "\\AppData\\" OR src.process.parent.image.path containsCIS "\\Temp\\" OR src.process.parent.image.path containsCIS "\\Public\\" OR src.process.parent.image.path containsCIS "\\PerfLogs\\")) OR ((src.process.image.path containsCIS "\\apache" OR src.process.image.path containsCIS "\\tomcat" OR src.process.image.path containsCIS "\\AppData\\" OR src.process.image.path containsCIS "\\Temp\\" OR src.process.image.path containsCIS "\\Public\\" OR src.process.image.path containsCIS "\\PerfLogs\\"))) AND (src.process.cmdline containsCIS "ntds.dit")))

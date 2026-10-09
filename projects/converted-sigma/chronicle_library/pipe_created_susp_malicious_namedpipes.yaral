@@ -1,0 +1,23 @@
+// Title: Malicious Named Pipe Created
+// ID: fe3ac066-98bb-432a-b1e7-a5229cb39d4a
+// Status: test
+// Level: critical
+// Author: Florian Roth (Nextron Systems), blueteam0ps, elhoim
+// Date: 2017-11-06
+// Tags: attack.privilege-escalation, attack.stealth, attack.t1055
+// Description: Detects the creation of a named pipe seen used by known APTs or malware.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule fe3ac066_98bb_432a_b1e7_a5229cb39d4a {
+  meta:
+    title = "Malicious Named Pipe Created"
+    description = "Detects the creation of a named pipe seen used by known APTs or malware."
+    author = "Florian Roth (Nextron Systems), blueteam0ps, elhoim"
+    severity = "CRITICAL"
+
+  events:
+    (($e.PipeName = "\\46a676ab7f179e511e30dd2dc41bd388" or $e.PipeName = "\\583da945-62af-10e8-4902-a8f205c72b2e" or $e.PipeName = "\\6e7645c4-32c5-4fe3-aabf-e94c2f4370e7" or $e.PipeName = "\\9f81f59bc58452127884ce513865ed20" or $e.PipeName = "\\adschemerpc" or $e.PipeName = "\\ahexec" or $e.PipeName = "\\AnonymousPipe" or $e.PipeName = "\\bc31a7" or $e.PipeName = "\\bc367" or $e.PipeName = "\\bizkaz" or $e.PipeName = "\\csexecsvc" or $e.PipeName = "\\dce_3d" or $e.PipeName = "\\e710f28d59aa529d6792ca6ff0ca1b34" or $e.PipeName = "\\gruntsvc" or $e.PipeName = "\\isapi_dg" or $e.PipeName = "\\isapi_dg2" or $e.PipeName = "\\isapi_http" or $e.PipeName = "\\jaccdpqnvbrrxlaf" or $e.PipeName = "\\lsassw" or $e.PipeName = "\\NamePipe_MoreWindows" or $e.PipeName = "\\pcheap_reuse" or $e.PipeName = "\\Posh*" or $e.PipeName = "\\rpchlp_3" or $e.PipeName = "\\sdlrpc" or $e.PipeName = "\\svcctl" or $e.PipeName = "\\testPipe" or $e.PipeName = "\\winsession"))
+
+  condition:
+    $e
+}

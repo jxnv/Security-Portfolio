@@ -1,0 +1,11 @@
+# Title: HackTool - Certipy Execution
+# ID: 6938366d-8954-4ddc-baff-c830b3ba8fcd
+# Status: test
+# Level: high
+# Author: pH-T (Nextron Systems), Sittikorn Sangrattanapitak
+# Date: 2023-04-17
+# Tags: attack.discovery, attack.credential-access, attack.t1649
+# Description: Detects Certipy execution, a tool for Active Directory Certificate Services enumeration and abuse based on PE metadata characteristics and common command line arguments.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog (((process_path="*\\Certipy.exe") OR (process_name="Certipy.exe") OR (Description="*Certipy*")) OR (((process_exec="* account *" OR process_exec="* auth *" OR process_exec="* cert *" OR process_exec="* find *" OR process_exec="* forge *" OR process_exec="* ptt *" OR process_exec="* relay *" OR process_exec="* req *" OR process_exec="* shadow *" OR process_exec="* template *")) AND ((process_exec="* -bloodhound*" OR process_exec="* -ca-pfx *" OR process_exec="* -dc-ip *" OR process_exec="* -kirbi*" OR process_exec="* -old-bloodhound*" OR process_exec="* -pfx *" OR process_exec="* -target*" OR process_exec="* -template*" OR process_exec="* -username *" OR process_exec="* -vulnerable*" OR process_exec="*auth -pfx*" OR process_exec="*shadow auto*" OR process_exec="*shadow list*"))))

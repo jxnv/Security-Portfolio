@@ -1,0 +1,12 @@
+// Title: Outbound RDP Connections Over Non-Standard Tools
+// ID: ed74fe75-7594-4b4b-ae38-e38e3fd2eb23
+// Status: test
+// Level: high
+// Author: Markus Neis
+// Date: 2019-05-15
+// Tags: attack.lateral-movement, attack.t1021.001, car.2013-07-002
+// Description: Detects Non-Standard tools initiating a connection over port 3389 indicating possible lateral movement.
+// An initial baseline is required before using this utility to exclude third party RDP tooling that you might use.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((DestinationPort EQ "3389" AND Initiated EQ "true") AND NOT (((Image EQ "C:\\Windows\\System32\\mstsc.exe" OR Image EQ "C:\\Windows\\SysWOW64\\mstsc.exe"))) AND NOT ((((Image ENDSWITH "\\Avast Software\\Avast\\AvastSvc.exe" OR Image ENDSWITH "\\Avast\\AvastSvc.exe")) OR (Image EQ "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe") OR (Image EQ "C:\\Windows\\System32\\dns.exe" AND SourcePort EQ "53" AND Protocol EQ "udp") OR (Image EQ "") OR (Image EQ "C:\\Program Files\\Mozilla Firefox\\firefox.exe") OR (NOT Image=*) OR (Image ENDSWITH "\\Ranger\\SentinelRanger.exe") OR (Image STARTSWITH "C:\\Program Files\\SplunkUniversalForwarder\\bin\\") OR (Image ENDSWITH "\\RDCMan.exe") OR ((Image ENDSWITH "\\FSAssessment.exe" OR Image ENDSWITH "\\FSDiscovery.exe" OR Image ENDSWITH "\\MobaRTE.exe" OR Image ENDSWITH "\\mRemote.exe" OR Image ENDSWITH "\\mRemoteNG.exe" OR Image ENDSWITH "\\Passwordstate.exe" OR Image ENDSWITH "\\RemoteDesktopManager.exe" OR Image ENDSWITH "\\RemoteDesktopManager64.exe" OR Image ENDSWITH "\\RemoteDesktopManagerFree.exe" OR Image ENDSWITH "\\RSSensor.exe" OR Image ENDSWITH "\\RTS2App.exe" OR Image ENDSWITH "\\RTSApp.exe" OR Image ENDSWITH "\\spiceworks-finder.exe" OR Image ENDSWITH "\\Terminals.exe" OR Image ENDSWITH "\\ws_TunnelService.exe")) OR ((Image ENDSWITH "\\thor.exe" OR Image ENDSWITH "\\thor64.exe")) OR ((Image EQ "C:\\Program Files\\TSplus\\Java\\bin\\HTML5service.exe" OR Image EQ "C:\\Program Files (x86)\\TSplus\\Java\\bin\\HTML5service.exe")) OR (Image EQ "<unknown process>"))))

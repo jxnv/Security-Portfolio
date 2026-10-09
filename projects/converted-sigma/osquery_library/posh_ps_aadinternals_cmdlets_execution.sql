@@ -1,0 +1,11 @@
+-- Title: AADInternals PowerShell Cmdlets Execution - PsScript
+-- ID: 91e69562-2426-42ce-a647-711b8152ced6
+-- Status: test
+-- Level: high
+-- Author: Austin Songer (@austinsonger), Nasreddine Bencherchali (Nextron Systems), Swachchhanda Shrawan Poudel (Nextron Systems)
+-- Date: 2022-12-23
+-- Tags: attack.execution, attack.reconnaissance, attack.discovery, attack.credential-access, attack.impact
+-- Description: Detects ADDInternals Cmdlet execution. A tool for administering Azure AD and Office 365. Which can be abused by threat actors to attack Azure AD or Office 365.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM file WHERE ((ScriptBlockText LIKE '%Add-AADInt%' OR ScriptBlockText LIKE '%ConvertTo-AADInt%' OR ScriptBlockText LIKE '%Disable-AADInt%' OR ScriptBlockText LIKE '%Enable-AADInt%' OR ScriptBlockText LIKE '%Export-AADInt%' OR ScriptBlockText LIKE '%Find-AADInt%' OR ScriptBlockText LIKE '%Get-AADInt%' OR ScriptBlockText LIKE '%Grant-AADInt%' OR ScriptBlockText LIKE '%Initialize-AADInt%' OR ScriptBlockText LIKE '%Install-AADInt%' OR ScriptBlockText LIKE '%Invoke-AADInt%' OR ScriptBlockText LIKE '%Join-AADInt%' OR ScriptBlockText LIKE '%New-AADInt%' OR ScriptBlockText LIKE '%Open-AADInt%' OR ScriptBlockText LIKE '%Read-AADInt%' OR ScriptBlockText LIKE '%Register-AADInt%' OR ScriptBlockText LIKE '%Remove-AADInt%' OR ScriptBlockText LIKE '%Reset-AADInt%' OR ScriptBlockText LIKE '%Resolve-AADInt%' OR ScriptBlockText LIKE '%Restore-AADInt%' OR ScriptBlockText LIKE '%Save-AADInt%' OR ScriptBlockText LIKE '%Search-AADInt%' OR ScriptBlockText LIKE '%Send-AADInt%' OR ScriptBlockText LIKE '%Set-AADInt%' OR ScriptBlockText LIKE '%Start-AADInt%' OR ScriptBlockText LIKE '%Unprotect-AADInt%' OR ScriptBlockText LIKE '%Update-AADInt%'))

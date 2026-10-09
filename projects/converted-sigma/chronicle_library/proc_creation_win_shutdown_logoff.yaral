@@ -1,0 +1,23 @@
+// Title: Suspicious Execution of Shutdown to Log Out
+// ID: ec290c06-9b6b-4338-8b6b-095c0f284f10
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-10-01
+// Tags: attack.impact, attack.t1529
+// Description: Detects the rare use of the command line tool shutdown to logoff a user
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule ec290c06_9b6b_4338_8b6b_095c0f284f10 {
+  meta:
+    title = "Suspicious Execution of Shutdown to Log Out"
+    description = "Detects the rare use of the command line tool shutdown to logoff a user"
+    author = "frack113"
+    severity = "MEDIUM"
+
+  events:
+    ($e.target.process.file.full_path = /.*\\shutdown.exe$/ nocase and $e.target.process.command_line = /.*/l.*/ nocase)
+
+  condition:
+    $e
+}

@@ -1,0 +1,19 @@
+# Title: Suspicious Electron Application Child Processes
+# ID: f26eb764-fd89-464b-85e2-dc4a8e6e77b8
+# Status: test
+# Level: medium
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-10-21
+# Tags: attack.execution
+# Description: Detects suspicious child processes of electron apps (teams, discord, slack, etc.). This could be a potential sign of ".asar" file tampering (See reference section for more information) or binary execution proxy through specific CLI arguments (see related rule)
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Suspicious Electron Application Child Processes
+def rule(event):
+    # Detection Logic:
+    # (((ParentImage="*\\chrome.exe" OR ParentImage="*\\discord.exe" OR ParentImage="*\\GitHubDesktop.exe" OR ParentImage="*\\keybase.exe" OR ParentImage="*\\msedge.exe" OR ParentImage="*\\msedgewebview2.exe" OR ParentImage="*\\msteams.exe" OR ParentImage="*\\slack.exe" OR ParentImage="*\\teams.exe")) AND (((Image="*\\cmd.exe" OR Image="*\\cscript.exe" OR Image="*\\mshta.exe" OR Image="*\\powershell.exe" OR Image="*\\pwsh.exe" OR Image="*\\regsvr32.exe" OR Image="*\\whoami.exe" OR Image="*\\wscript.exe")) OR ((Image="*:\\ProgramData\\*" OR Image="*:\\Temp\\*" OR Image="*\\AppData\\Local\\Temp\\*" OR Image="*\\Users\\Public\\*" OR Image="*\\Windows\\Temp\\*"))) AND NOT ((ParentImage="*\\Discord.exe" AND Image="*\\cmd.exe" AND CommandLine="*\\NVSMI\\nvidia-smi.exe*")))
+    return True
+
+def title(event):
+    return "Suspicious Electron Application Child Processes"
+

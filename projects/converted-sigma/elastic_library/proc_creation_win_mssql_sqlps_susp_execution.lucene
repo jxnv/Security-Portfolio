@@ -1,0 +1,12 @@
+# Title: Detection of PowerShell Execution via Sqlps.exe
+# ID: 0152550d-3a26-4efd-9f0e-54a0b28ae2f3
+# Status: test
+# Level: medium
+# Author: Agro (@agro_sev) oscd.community
+# Date: 2020-10-10
+# Tags: attack.execution, attack.stealth, attack.t1059.001, attack.t1127
+# Description: This rule detects execution of a PowerShell code through the sqlps.exe utility, which is included in the standard set of utilities supplied with the MSSQL Server.
+# Script blocks are not logged in this case, so this utility helps to bypass protection mechanisms based on the analysis of these logs.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((process.parent.executable:*\\sqlps.exe) OR (((process.executable:*\\sqlps.exe) OR (process.pe.original_file_name:"sqlps.exe")) AND NOT ((process.parent.executable:*\\sqlagent.exe))))

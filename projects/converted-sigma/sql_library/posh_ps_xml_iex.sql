@@ -1,0 +1,13 @@
+-- Title: Powershell XML Execute Command
+-- ID: 6c6c6282-7671-4fe9-a0ce-a2dcebdc342b
+-- Status: test
+-- Level: medium
+-- Author: frack113
+-- Date: 2022-01-19
+-- Tags: attack.execution, attack.t1059.001
+-- Description: Adversaries may abuse PowerShell commands and scripts for execution.
+-- PowerShell is a powerful interactive command-line interface and scripting environment included in the Windows operating system. (Citation: TechNet PowerShell)
+-- Adversaries can use PowerShell to perform a number of actions, including discovery of information and execution of code
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE (((ScriptBlockText ILIKE '%IEX %' OR ScriptBlockText ILIKE '%Invoke-Expression %' OR ScriptBlockText ILIKE '%Invoke-Command %' OR ScriptBlockText ILIKE '%ICM -%')) AND ((ScriptBlockText ILIKE '%New-Object%' AND ScriptBlockText ILIKE '%System.Xml.XmlDocument%' AND ScriptBlockText ILIKE '%.Load%')))

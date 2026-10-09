@@ -1,0 +1,23 @@
+// Title: PUA - Advanced IP/Port Scanner Update Check
+// ID: 1a9bb21a-1bb5-42d7-aa05-3219c7c8f47d
+// Status: test
+// Level: medium
+// Author: Axel Olsson
+// Date: 2022-08-14
+// Tags: attack.discovery, attack.reconnaissance, attack.t1590
+// Description: Detect the update check performed by Advanced IP/Port Scanner utilities.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 1a9bb21a_1bb5_42d7_aa05_3219c7c8f47d {
+  meta:
+    title = "PUA - Advanced IP/Port Scanner Update Check"
+    description = "Detect the update check performed by Advanced IP/Port Scanner utilities."
+    author = "Axel Olsson"
+    severity = "MEDIUM"
+
+  events:
+    ($e.c-uri = /.*/checkupdate.php.*/ nocase and ($e.c-uri-query = /.*lng=.*/ nocase and $e.c-uri-query = /.*ver=.*/ nocase and $e.c-uri-query = /.*beta=.*/ nocase and $e.c-uri-query = /.*type=.*/ nocase and $e.c-uri-query = /.*rmode=.*/ nocase and $e.c-uri-query = /.*product=.*/ nocase))
+
+  condition:
+    $e
+}

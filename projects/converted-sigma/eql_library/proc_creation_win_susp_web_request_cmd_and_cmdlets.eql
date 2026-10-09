@@ -1,0 +1,11 @@
+// Title: Usage Of Web Request Commands And Cmdlets
+// ID: 9fc51a3c-81b3-4fa7-b35f-7c02cf10fd2d
+// Status: test
+// Level: medium
+// Author: James Pemberton / @4A616D6573, Endgame, JHasenbusch, oscd.community, Austin Songer @austinsonger
+// Date: 2019-10-24
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects the use of various web request commands with commandline tools and Windows PowerShell cmdlets (including aliases) via CommandLine
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where ((process.command_line like "*_[System.Net.WebRequest]::create*" or process.command_line like "*_curl *" or process.command_line like "*_Invoke-RestMethod*" or process.command_line like "*_Invoke-WebRequest*" or process.command_line like "*_ irm *" or process.command_line like "*_iwr *" or process.command_line like "*_Resume-BitsTransfer*" or process.command_line like "*_Start-BitsTransfer*" or process.command_line like "*_wget *" or process.command_line like "*_WinHttp.WinHttpRequest*"))

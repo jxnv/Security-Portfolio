@@ -1,0 +1,40 @@
+{
+  "title": "Powershell WMI Persistence",
+  "id": "9e07f6e7-83aa-45c6-998e-0af26efd0a85",
+  "status": "test",
+  "description": "Adversaries may establish persistence and elevate privileges by executing malicious content triggered by a Windows Management Instrumentation (WMI) event subscription.",
+  "author": "frack113",
+  "date": "2021-08-19",
+  "tags": [
+    "attack.persistence",
+    "attack.privilege-escalation",
+    "attack.t1546.003"
+  ],
+  "level": "medium",
+  "logsource": {
+    "product": "windows",
+    "category": "ps_script",
+    "definition": "Requirements: Script Block Logging must be enabled"
+  },
+  "detection": {
+    "selection_ioc": [
+      {
+        "ScriptBlockText|contains|all": [
+          "New-CimInstance ",
+          "-Namespace root/subscription ",
+          "-ClassName __EventFilter ",
+          "-Property "
+        ]
+      },
+      {
+        "ScriptBlockText|contains|all": [
+          "New-CimInstance ",
+          "-Namespace root/subscription ",
+          "-ClassName CommandLineEventConsumer ",
+          "-Property "
+        ]
+      }
+    ],
+    "condition": "selection_ioc"
+  }
+}

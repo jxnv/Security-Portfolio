@@ -1,0 +1,11 @@
+// Title: CurrentControlSet Autorun Keys Modification
+// ID: f674e36a-4b91-431e-8aef-f8a96c2aca35
+// Status: test
+// Level: medium
+// Author: Victor Sergeev, Daniil Yugoslavskiy, Gleb Sukhodolskiy, Timur Zinniatullin, oscd.community, Tim Shelton, frack113 (split)
+// Date: 2019-10-25
+// Tags: attack.privilege-escalation, attack.persistence, attack.t1547.001
+// Description: Detects modification of autostart extensibility point (ASEP) in registry.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+registry where (((registry.path like "*_\\SYSTEM\\CurrentControlSet\\Control*") and ((registry.path like "*_\\Terminal Server\\WinStations\\RDP-Tcp\\InitialProgram*" or registry.path like "*_\\Terminal Server\\Wds\\rdpwd\\StartupPrograms*" or registry.path like "*_\\SecurityProviders\\SecurityProviders*" or registry.path like "*_\\SafeBoot\\AlternateShell*" or registry.path like "*_\\Print\\Providers*" or registry.path like "*_\\Print\\Monitors*" or registry.path like "*_\\NetworkProvider\\Order*" or registry.path like "*_\\Lsa\\Notification Packages*" or registry.path like "*_\\Lsa\\Authentication Packages*" or registry.path like "*_\\BootVerificationProgram\\ImagePath*"))) and not (((process.executable == "C:\\Windows\\System32\\spoolsv.exe" and registry.path like "*_\\Print\\Monitors\\CutePDF Writer Monitor*" and (registry.data.strings == "cpwmon64_v40.dll" or registry.data.strings == "CutePDF Writer")) or (registry.data.strings == "(Empty)") or (process.executable == "C:\\Windows\\System32\\spoolsv.exe" and registry.path like "*_Print\\Monitors\\Appmon\\Ports\\Microsoft.Office.OneNote_*" and (user.name like "*_AUTHORI*" or user.name like "*_AUTORI*")) or (process.executable == "C:\\Windows\\System32\\poqexec.exe" and registry.path endswith "\\NetworkProvider\\Order\\ProviderOrder") or (process.executable == "C:\\Windows\\System32\\spoolsv.exe" and registry.path endswith "\\Print\\Monitors\\MONVNC\\Driver" and registry.data.strings == "VNCpm.dll"))))

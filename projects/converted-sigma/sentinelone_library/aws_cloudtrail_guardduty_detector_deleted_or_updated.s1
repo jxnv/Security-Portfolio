@@ -1,0 +1,13 @@
+// Title: AWS GuardDuty Detector Deleted Or Updated
+// ID: d2656e78-c069-4571-8220-9e0ab5913f19
+// Status: experimental
+// Level: high
+// Author: suktech24
+// Date: 2025-11-27
+// Tags: attack.defense-impairment, attack.t1685, attack.t1685.002
+// Description: Detects successful deletion or disabling of an AWS GuardDuty detector, possibly by an attacker trying to avoid detection of its malicious activities.
+// Upon deletion, GuardDuty stops monitoring the environment and all existing findings are lost.
+// Verify with the user identity that this activity is legitimate.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((eventSource = "guardduty.amazonaws.com") AND ((eventName = "DeleteDetector") OR (eventName = "UpdateDetector" AND requestParameters.enable = "false")) AND ((errorCode is null) OR (errorCode = "Success")))

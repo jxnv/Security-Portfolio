@@ -1,0 +1,23 @@
+// Title: Scheduled Task Executing Encoded Payload from Registry
+// ID: c4eeeeae-89f4-43a7-8b48-8d1bdfa66c78
+// Status: test
+// Level: high
+// Author: pH-T (Nextron Systems), @Kostastsale, TheDFIRReport, X__Junior (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-02-12
+// Tags: attack.privilege-escalation, attack.execution, attack.persistence, attack.t1053.005, attack.t1059.001
+// Description: Detects the creation of a schtask that potentially executes a base64 encoded payload stored in the Windows Registry using PowerShell.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule c4eeeeae_89f4_43a7_8b48_8d1bdfa66c78 {
+  meta:
+    title = "Scheduled Task Executing Encoded Payload from Registry"
+    description = "Detects the creation of a schtask that potentially executes a base64 encoded payload stored in the Windows Registry using PowerShell."
+    author = "pH-T (Nextron Systems), @Kostastsale, TheDFIRReport, X__Junior (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.command_line = /.*/Create.*/ nocase) and (($e.target.process.command_line = /.*FromBase64String.*/ nocase or $e.target.process.command_line = /.*encodedcommand.*/ nocase)) and (($e.target.process.command_line = /.*Get-ItemProperty.*/ nocase or $e.target.process.command_line = /.* gp .*/ nocase)) and (($e.target.process.command_line = /.*HKCU:.*/ nocase or $e.target.process.command_line = /.*HKLM:.*/ nocase or $e.target.process.command_line = /.*registry::.*/ nocase or $e.target.process.command_line = /.*HKEY_.*/ nocase)) and (($e.target.process.file.full_path = /.*\\schtasks.exe$/ nocase) or ($e.target.process.file.name = "schtasks.exe")))
+
+  condition:
+    $e
+}

@@ -1,0 +1,12 @@
+// Title: Uncommon File Creation By Mysql Daemon Process
+// ID: c61daa90-3c1e-4f18-af62-8f288b5c9aaf
+// Status: test
+// Level: high
+// Author: Joseph Kamau
+// Date: 2024-05-27
+// Tags: attack.stealth
+// Description: Detects the creation of files with scripting or executable extensions by Mysql daemon.
+// Which could be an indicator of "User Defined Functions" abuse to download malware.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+DeviceProcessEvents | where ((FolderPath endswith "\\mysqld.exe" or FolderPath endswith "\\mysqld-nt.exe") and (FileName endswith ".bat" or FileName endswith ".dat" or FileName endswith ".dll" or FileName endswith ".exe" or FileName endswith ".ps1" or FileName endswith ".psm1" or FileName endswith ".vbe" or FileName endswith ".vbs"))

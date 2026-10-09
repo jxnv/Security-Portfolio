@@ -1,0 +1,23 @@
+// Title: Always Install Elevated MSI Spawned Cmd And Powershell
+// ID: 1e53dd56-8d83-4eb4-a43e-b790a05510aa
+// Status: test
+// Level: medium
+// Author: Teymur Kheirkhabarov (idea), Mangatas Tondang (rule), oscd.community
+// Date: 2020-10-13
+// Tags: attack.privilege-escalation, attack.t1548.002
+// Description: Detects Windows Installer service (msiexec.exe) spawning "cmd" or "powershell"
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 1e53dd56_8d83_4eb4_a43e_b790a05510aa {
+  meta:
+    title = "Always Install Elevated MSI Spawned Cmd And Powershell"
+    description = "Detects Windows Installer service (msiexec.exe) spawning "cmd" or "powershell""
+    author = "Teymur Kheirkhabarov (idea), Mangatas Tondang (rule), oscd.community"
+    severity = "MEDIUM"
+
+  events:
+    (((($e.target.process.file.full_path = /.*\\cmd.exe$/ nocase or $e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase)) or (($e.target.process.file.name = "Cmd.Exe" or $e.target.process.file.name = "PowerShell.EXE" or $e.target.process.file.name = "pwsh.dll"))) and (($e.principal.process.file.full_path = /.*\\Windows\\Installer\\.*/ nocase and $e.principal.process.file.full_path = /.*msi.*/ nocase) and $e.principal.process.file.full_path = /.*tmp$/ nocase))
+
+  condition:
+    $e
+}

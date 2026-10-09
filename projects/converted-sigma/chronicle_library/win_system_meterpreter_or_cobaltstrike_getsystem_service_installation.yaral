@@ -1,0 +1,23 @@
+// Title: Meterpreter or Cobalt Strike Getsystem Service Installation - System
+// ID: 843544a7-56e0-4dcc-a44f-5cc266dd97d6
+// Status: test
+// Level: high
+// Author: Teymur Kheirkhabarov, Ecco, Florian Roth (Nextron Systems)
+// Date: 2019-10-26
+// Tags: attack.privilege-escalation, attack.stealth, attack.t1134.001, attack.t1134.002
+// Description: Detects the use of getsystem Meterpreter/Cobalt Strike command by detecting a specific service installation
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 843544a7_56e0_4dcc_a44f_5cc266dd97d6 {
+  meta:
+    title = "Meterpreter or Cobalt Strike Getsystem Service Installation - System"
+    description = "Detects the use of getsystem Meterpreter/Cobalt Strike command by detecting a specific service installation"
+    author = "Teymur Kheirkhabarov, Ecco, Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.Provider_Name = "Service Control Manager" and $e.EventID = 7045) and ((($e.ImagePath = /.*/c.*/ nocase and $e.ImagePath = /.*echo.*/ nocase and $e.ImagePath = /.*\\pipe\\.*/ nocase) and ($e.ImagePath = /.*cmd.*/ nocase or $e.ImagePath = /.*%COMSPEC%.*/ nocase)) or (($e.ImagePath = /.*rundll32.*/ nocase and $e.ImagePath = /.*.dll,a.*/ nocase and $e.ImagePath = /.*/p:.*/ nocase)) or ($e.ImagePath = /^\\\\\\\\127.0.0.1\\\\ADMIN$\\.*/ nocase)))
+
+  condition:
+    $e
+}

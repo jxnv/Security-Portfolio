@@ -1,0 +1,23 @@
+// Title: Removal Of Index Value to Hide Schedule Task - Registry
+// ID: 526cc8bc-1cdc-48ad-8b26-f19bff969cec
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-26
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects when the "index" value of a scheduled task is removed or deleted from the registry. Which effectively hides it from any tooling such as "schtasks /query"
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 526cc8bc_1cdc_48ad_8b26_f19bff969cec {
+  meta:
+    title = "Removal Of Index Value to Hide Schedule Task - Registry"
+    description = "Detects when the "index" value of a scheduled task is removed or deleted from the registry. Which effectively hides it from any tooling such as "schtasks /query""
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.TargetObject = /.*\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Schedule\\TaskCache\\Tree\\.*/ nocase and $e.TargetObject = /.*Index.*/ nocase))
+
+  condition:
+    $e
+}

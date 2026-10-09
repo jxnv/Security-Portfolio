@@ -1,0 +1,13 @@
+// Title: Automated Collection Bookmarks Using Get-ChildItem PowerShell
+// ID: e0565f5d-d420-4e02-8a68-ac00d864f9cf
+// Status: test
+// Level: low
+// Author: frack113
+// Date: 2021-12-13
+// Tags: attack.discovery, attack.t1217
+// Description: Adversaries may enumerate browser bookmarks to learn more about compromised hosts.
+// Browser bookmarks may reveal personal information about users (ex: banking sites, interests, social media, etc.) as well as details about
+// internal network resources such as servers, tools/dashboards, or other related infrastructure.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((ScriptBlockText contains "Get-ChildItem" AND ScriptBlockText contains " -Recurse " AND ScriptBlockText contains " -Path " AND ScriptBlockText contains " -Filter Bookmarks" AND ScriptBlockText contains " -ErrorAction SilentlyContinue" AND ScriptBlockText contains " -Force"))

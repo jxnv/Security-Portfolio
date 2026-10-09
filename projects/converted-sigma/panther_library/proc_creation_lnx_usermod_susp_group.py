@@ -1,0 +1,19 @@
+# Title: User Added To Root/Sudoers Group Using Usermod
+# ID: 6a50f16c-3b7b-42d1-b081-0fdd3ba70a73
+# Status: test
+# Level: medium
+# Author: TuanLe (GTSC)
+# Date: 2022-12-21
+# Tags: attack.privilege-escalation, attack.persistence
+# Description: Detects usage of the "usermod" binary to add users add users to the root or suoders groups
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: User Added To Root/Sudoers Group Using Usermod
+def rule(event):
+    # Detection Logic:
+    # (Image="*/usermod" AND (CommandLine="*-aG root*" OR CommandLine="*-aG sudoers*"))
+    return True
+
+def title(event):
+    return "User Added To Root/Sudoers Group Using Usermod"
+

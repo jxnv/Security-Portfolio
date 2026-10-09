@@ -1,0 +1,11 @@
+// Title: Uncommon Svchost Parent Process
+// ID: 01d2e2a1-5f09-44f7-9fc1-24faa7479b6d
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems)
+// Date: 2017-08-15
+// Tags: attack.stealth, attack.t1036.005
+// Description: Detects an uncommon svchost parent process
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+DeviceProcessEvents | where ((FolderPath endswith "\\svchost.exe") and not((((InitiatingProcessFolderPath endswith "\\Mrt.exe" or InitiatingProcessFolderPath endswith "\\MsMpEng.exe" or InitiatingProcessFolderPath endswith "\\ngen.exe" or InitiatingProcessFolderPath endswith "\\rpcnet.exe" or InitiatingProcessFolderPath endswith "\\services.exe" or InitiatingProcessFolderPath endswith "\\TiWorker.exe")) or ((InitiatingProcessFolderPath == "-" or InitiatingProcessFolderPath == "")) or ((isempty(InitiatingProcessFolderPath) or isnull(InitiatingProcessFolderPath))))))

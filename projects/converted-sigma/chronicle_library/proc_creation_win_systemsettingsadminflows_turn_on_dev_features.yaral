@@ -1,0 +1,23 @@
+// Title: Potential Signing Bypass Via Windows Developer Features
+// ID: a383dec4-deec-4e6e-913b-ed9249670848
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-01-11
+// Tags: attack.stealth
+// Description: Detects when a user enable developer features such as "Developer Mode" or "Application Sideloading". Which allows the user to install untrusted packages.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule a383dec4_deec_4e6e_913b_ed9249670848 {
+  meta:
+    title = "Potential Signing Bypass Via Windows Developer Features"
+    description = "Detects when a user enable developer features such as "Developer Mode" or "Application Sideloading". Which allows the user to install untrusted packages."
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.command_line = /.*TurnOnDeveloperFeatures.*/ nocase) and (($e.target.process.file.full_path = /.*\\SystemSettingsAdminFlows.exe$/ nocase) or ($e.target.process.file.name = "SystemSettingsAdminFlows.EXE")) and (($e.target.process.command_line = /.*DeveloperUnlock.*/ nocase or $e.target.process.command_line = /.*EnableSideloading.*/ nocase)))
+
+  condition:
+    $e
+}

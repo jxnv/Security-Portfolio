@@ -1,0 +1,24 @@
+// Title: Access To Windows Credential History File By Uncommon Applications
+// ID: 7a2a22ea-a203-4cd3-9abf-20eb1c5c6cd2
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-10-17
+// Tags: attack.credential-access, attack.t1555.004
+// Description: Detects file access requests to the Windows Credential History File by an uncommon application.
+// This can be a sign of credential stealing. Example case would be usage of mimikatz "dpapi::credhist" function
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 7a2a22ea_a203_4cd3_9abf_20eb1c5c6cd2 {
+  meta:
+    title = "Access To Windows Credential History File By Uncommon Applications"
+    description = "Detects file access requests to the Windows Credential History File by an uncommon application. This can be a sign of credential stealing. Example case would be usage of mimikatz "dpapi::credhist" function"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.FileName = /.*\\Microsoft\\Protect\\CREDHIST$/ nocase) and not((($e.target.process.file.full_path = "C:\\Windows\\explorer.exe") or (($e.target.process.file.full_path = /^C:\\Program Files\\.*/ nocase or $e.target.process.file.full_path = /^C:\\Program Files (x86)\\.*/ nocase or $e.target.process.file.full_path = /^C:\\Windows\\system32\\.*/ nocase or $e.target.process.file.full_path = /^C:\\Windows\\SysWOW64\\.*/ nocase)))))
+
+  condition:
+    $e
+}

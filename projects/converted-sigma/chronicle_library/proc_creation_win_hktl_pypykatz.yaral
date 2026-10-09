@@ -1,0 +1,23 @@
+// Title: HackTool - Pypykatz Credentials Dumping Activity
+// ID: a29808fd-ef50-49ff-9c7a-59a9b040b404
+// Status: test
+// Level: high
+// Author: frack113
+// Date: 2022-01-05
+// Tags: attack.credential-access, attack.t1003.002
+// Description: Detects the usage of "pypykatz" to obtain stored credentials. Adversaries may attempt to extract credential material from the Security Account Manager (SAM) database through Windows registry where the SAM database is stored
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule a29808fd_ef50_49ff_9c7a_59a9b040b404 {
+  meta:
+    title = "HackTool - Pypykatz Credentials Dumping Activity"
+    description = "Detects the usage of "pypykatz" to obtain stored credentials. Adversaries may attempt to extract credential material from the Security Account Manager (SAM) database through Windows registry where the SAM database is stored"
+    author = "frack113"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.file.full_path = /.*\\pypykatz.exe$/ nocase or $e.target.process.file.full_path = /.*\\python.exe$/ nocase) and ($e.target.process.command_line = /.*live.*/ nocase and $e.target.process.command_line = /.*registry.*/ nocase))
+
+  condition:
+    $e
+}

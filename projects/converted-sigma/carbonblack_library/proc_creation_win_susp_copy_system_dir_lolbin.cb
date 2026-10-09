@@ -1,0 +1,11 @@
+# Title: LOL-Binary Copied From System Directory
+# ID: f5d19838-41b5-476c-98d8-ba8af4929ee2
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2023-08-29
+# Tags: attack.stealth, attack.t1036.003
+# Description: Detects a suspicious copy operation that tries to copy a known LOLBIN from system (System32, SysWOW64, WinSxS) directories to another on disk in order to bypass detections based on locations.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((process_name:*\\cmd.exe AND cmdline:*copy *) OR (((process_name:*\\robocopy.exe OR process_name:*\\xcopy.exe)) OR ((OriginalFileName:"robocopy.exe" OR OriginalFileName:"XCOPY.EXE"))) OR ((process_name:*\\powershell.exe OR process_name:*\\pwsh.exe) AND (cmdline:*copy-item* OR cmdline:* copy * OR cmdline:*cpi * OR cmdline:* cp *))) AND (((cmdline:*\\bitsadmin.exe* OR cmdline:*\\calc.exe* OR cmdline:*\\certutil.exe* OR cmdline:*\\cmdl32.exe* OR cmdline:*\\cscript.exe* OR cmdline:*\\mshta.exe* OR cmdline:*\\rundll32.exe* OR cmdline:*\\wscript.exe* OR cmdline:*\\ie4uinit.exe*)) AND ((cmdline:*\\System32* OR cmdline:*\\SysWOW64* OR cmdline:*\\WinSxS*))))

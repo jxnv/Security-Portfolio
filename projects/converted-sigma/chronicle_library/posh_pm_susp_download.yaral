@@ -1,0 +1,23 @@
+// Title: Suspicious PowerShell Download - PoshModule
+// ID: de41232e-12e8-49fa-86bc-c05c7e722df9
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems)
+// Date: 2017-03-05
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects suspicious PowerShell download command
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule de41232e_12e8_49fa_86bc_c05c7e722df9 {
+  meta:
+    title = "Suspicious PowerShell Download - PoshModule"
+    description = "Detects suspicious PowerShell download command"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.ContextInfo = /.*.DownloadFile(.*/ nocase or $e.ContextInfo = /.*.DownloadString(.*/ nocase)) and ($e.ContextInfo = /.*System.Net.WebClient.*/ nocase))
+
+  condition:
+    $e
+}

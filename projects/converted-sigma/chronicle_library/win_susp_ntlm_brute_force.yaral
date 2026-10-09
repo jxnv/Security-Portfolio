@@ -1,0 +1,23 @@
+// Title: NTLM Brute Force
+// ID: 9c8acf1a-cbf9-4db6-b63c-74baabe03e59
+// Status: test
+// Level: medium
+// Author: Jerry Shockley '@jsh0x'
+// Date: 2022-02-02
+// Tags: attack.credential-access, attack.t1110
+// Description: Detects common NTLM brute force device names
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 9c8acf1a_cbf9_4db6_b63c_74baabe03e59 {
+  meta:
+    title = "NTLM Brute Force"
+    description = "Detects common NTLM brute force device names"
+    author = "Jerry Shockley '@jsh0x'"
+    severity = "MEDIUM"
+
+  events:
+    (($e.EventID = 8004) and (($e.WorkstationName = "Rdesktop" or $e.WorkstationName = "Remmina" or $e.WorkstationName = "Freerdp" or $e.WorkstationName = "Windows7" or $e.WorkstationName = "Windows8" or $e.WorkstationName = "Windows2012" or $e.WorkstationName = "Windows2016" or $e.WorkstationName = "Windows2019")))
+
+  condition:
+    $e
+}

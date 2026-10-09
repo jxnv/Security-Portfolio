@@ -1,0 +1,20 @@
+# Title: Write Protect For Storage Disabled
+# ID: 75f7a0e2-7154-4c4d-9eae-5cdb4e0a5c13
+# Status: test
+# Level: medium
+# Author: Sreeman
+# Date: 2021-06-11
+# Tags: attack.defense-impairment, attack.t1685
+# Description: Detects applications trying to modify the registry in order to disable any write-protect property for storage devices.
+# This could be a precursor to a ransomware attack and has been an observed technique used by cypherpunk group.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Write Protect For Storage Disabled
+def rule(event):
+    # Detection Logic:
+    # ((CommandLine="*\\System\\CurrentControlSet\\Control*" AND CommandLine="*Write Protection*" AND CommandLine="*0*" AND CommandLine="*storage*"))
+    return True
+
+def title(event):
+    return "Write Protect For Storage Disabled"
+

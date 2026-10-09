@@ -1,0 +1,11 @@
+-- Title: Potential PSFactoryBuffer COM Hijacking
+-- ID: 243380fa-11eb-4141-af92-e14925e77c1b
+-- Status: test
+-- Level: high
+-- Author: BlackBerry Threat Research and Intelligence Team - @Joseliyo_Jstnk
+-- Date: 2023-06-07
+-- Tags: attack.privilege-escalation, attack.persistence, attack.t1546.015
+-- Description: Detects changes to the PSFactory COM InProcServer32 registry. This technique was used by RomCom to create persistence storing a malicious DLL.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM events WHERE ((TargetObject ILIKE '%\\CLSID\\{c90250f3-4d7d-4991-9b69-a5c5bc1c2ae6}\\InProcServer32\\(Default)') AND NOT (((Details = '%windir%\\System32\\ActXPrxy.dll' OR Details = 'C:\\Windows\\System32\\ActXPrxy.dll'))))

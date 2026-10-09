@@ -1,0 +1,11 @@
+// Title: HackTool - KrbRelayUp Execution
+// ID: 12827a56-61a4-476a-a9cb-f3068f191073
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-04-26
+// Tags: attack.credential-access, attack.t1558.003, attack.lateral-movement, attack.t1550.003
+// Description: Detects KrbRelayUp used to perform a universal no-fix local privilege escalation in Windows domain environments where LDAP signing is not enforced
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((CommandLine contains " relay " AND CommandLine contains " -Domain " AND CommandLine contains " -ComputerName ")) OR ((CommandLine contains " krbscm " AND CommandLine contains " -sc ")) OR ((CommandLine contains " spawn " AND CommandLine contains " -d " AND CommandLine contains " -cn " AND CommandLine contains " -cp ")) OR ((Image="*\\KrbRelayUp.exe") OR (OriginalFileName == "KrbRelayUp.exe")))

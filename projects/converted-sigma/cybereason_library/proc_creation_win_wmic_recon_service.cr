@@ -1,0 +1,14 @@
+// Title: Service Reconnaissance Via Wmic.EXE
+// ID: 76f55eaa-d27f-4213-9d45-7b0e4b60bbae
+// Status: test
+// Level: medium
+// Author: frack113, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-02-14
+// Tags: attack.execution, attack.t1047
+// Description: An adversary might use WMI to check if a certain remote service is running on a remote device.
+// When the test completes, a service information will be displayed on the screen if it exists.
+// A common feedback message is that "No instance(s) Available" if the service queried is not running.
+// A common error message is "Node - (provided IP or default) ERROR Description =The RPC server is unavailable" if the provided remote host is unreachable
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((CommandLine contains "service") AND ((Image="*\\WMIC.exe") OR (OriginalFileName == "wmic.exe"))) AND NOT ((((CommandLine contains "stopservice" OR CommandLine contains "startservice")) OR ((CommandLine contains "Change" OR CommandLine contains "Create" OR CommandLine contains "Delete" OR CommandLine contains "PauseService" OR CommandLine contains "ResumeService" OR CommandLine contains "SetSecurityDescriptor" OR CommandLine contains "StartService" OR CommandLine contains "StopService" OR CommandLine contains "UserControlService")))))

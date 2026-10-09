@@ -1,0 +1,27 @@
+{
+  "title": "Suspicious Unsigned Dbghelp/Dbgcore DLL Loaded",
+  "id": "bdc64095-d59a-42a2-8588-71fd9c9d9abc",
+  "status": "test",
+  "description": "Detects the load of dbghelp/dbgcore DLL (used to make memory dumps) by suspicious processes.\nTools like ProcessHacker and some attacker tradecract use MiniDumpWriteDump API found in dbghelp.dll or dbgcore.dll.\nAs an example, SilentTrynity C2 Framework has a module that leverages this API to dump the contents of Lsass.exe and transfer it over the network back to the attacker's machine.\n",
+  "author": "Perez Diego (@darkquassar), oscd.community, Ecco",
+  "date": "2019-10-27",
+  "tags": [
+    "attack.credential-access",
+    "attack.t1003.001"
+  ],
+  "level": "high",
+  "logsource": {
+    "category": "image_load",
+    "product": "windows"
+  },
+  "detection": {
+    "selection": {
+      "ImageLoaded|endswith": [
+        "\\dbghelp.dll",
+        "\\dbgcore.dll"
+      ],
+      "Signed": "false"
+    },
+    "condition": "selection"
+  }
+}

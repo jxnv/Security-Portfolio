@@ -1,0 +1,23 @@
+// Title: Suspicious Spool Service Child Process
+// ID: dcdbc940-0bff-46b2-95f3-2d73f848e33b
+// Status: test
+// Level: high
+// Author: Justin C. (@endisphotic), @dreadphones (detection), Thomas Patzke (Sigma rule)
+// Date: 2021-07-11
+// Tags: attack.execution, attack.t1203, attack.privilege-escalation, attack.t1068
+// Description: Detects suspicious print spool service (spoolsv.exe) child processes.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule dcdbc940_0bff_46b2_95f3_2d73f848e33b {
+  meta:
+    title = "Suspicious Spool Service Child Process"
+    description = "Detects suspicious print spool service (spoolsv.exe) child processes."
+    author = "Justin C. (@endisphotic), @dreadphones (detection), Thomas Patzke (Sigma rule)"
+    severity = "HIGH"
+
+  events:
+    (($e.principal.process.file.full_path = /.*\\spoolsv.exe$/ nocase and ($e.IntegrityLevel = "System" or $e.IntegrityLevel = "S-1-16-16384")) and ((($e.target.process.file.full_path = /.*\\gpupdate.exe$/ nocase or $e.target.process.file.full_path = /.*\\whoami.exe$/ nocase or $e.target.process.file.full_path = /.*\\nltest.exe$/ nocase or $e.target.process.file.full_path = /.*\\taskkill.exe$/ nocase or $e.target.process.file.full_path = /.*\\wmic.exe$/ nocase or $e.target.process.file.full_path = /.*\\taskmgr.exe$/ nocase or $e.target.process.file.full_path = /.*\\sc.exe$/ nocase or $e.target.process.file.full_path = /.*\\findstr.exe$/ nocase or $e.target.process.file.full_path = /.*\\curl.exe$/ nocase or $e.target.process.file.full_path = /.*\\wget.exe$/ nocase or $e.target.process.file.full_path = /.*\\certutil.exe$/ nocase or $e.target.process.file.full_path = /.*\\bitsadmin.exe$/ nocase or $e.target.process.file.full_path = /.*\\accesschk.exe$/ nocase or $e.target.process.file.full_path = /.*\\wevtutil.exe$/ nocase or $e.target.process.file.full_path = /.*\\bcdedit.exe$/ nocase or $e.target.process.file.full_path = /.*\\fsutil.exe$/ nocase or $e.target.process.file.full_path = /.*\\cipher.exe$/ nocase or $e.target.process.file.full_path = /.*\\schtasks.exe$/ nocase or $e.target.process.file.full_path = /.*\\write.exe$/ nocase or $e.target.process.file.full_path = /.*\\wuauclt.exe$/ nocase or $e.target.process.file.full_path = /.*\\systeminfo.exe$/ nocase or $e.target.process.file.full_path = /.*\\reg.exe$/ nocase or $e.target.process.file.full_path = /.*\\query.exe$/ nocase)) or ((($e.target.process.file.full_path = /.*\\net.exe$/ nocase or $e.target.process.file.full_path = /.*\\net1.exe$/ nocase)) and not(($e.target.process.command_line = /.*start.*/ nocase))) or (($e.target.process.file.full_path = /.*\\cmd.exe$/ nocase) and not((($e.target.process.command_line = /.*.spl.*/ nocase or $e.target.process.command_line = /.*route add.*/ nocase or $e.target.process.command_line = /.*program files.*/ nocase)))) or (($e.target.process.file.full_path = /.*\\netsh.exe$/ nocase) and not((($e.target.process.command_line = /.*add portopening.*/ nocase or $e.target.process.command_line = /.*rule name.*/ nocase)))) or ((($e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase)) and not(($e.target.process.command_line = /.*.spl.*/ nocase))) or (($e.target.process.command_line = /.*rundll32.exe$/ nocase) and (($e.target.process.file.full_path = /.*\\rundll32.exe$/ nocase) or ($e.target.process.file.name = "RUNDLL32.EXE")))))
+
+  condition:
+    $e
+}

@@ -1,0 +1,11 @@
+// Title: Suspicious Scheduled Task Creation
+// ID: 3a734d25-df5c-4b99-8034-af1ddb5883a4
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-12-05
+// Tags: attack.execution, attack.privilege-escalation, attack.persistence, attack.t1053.005
+// Description: Detects suspicious scheduled task creation events. Based on attributes such as paths, commands line flags, etc.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(TaskContent ICONTAINS "regsvr32") OR where(TaskContent ICONTAINS "rundll32") OR where(TaskContent ICONTAINS "cmd.exe</Command>") OR where(TaskContent ICONTAINS "cmd</Command>") OR where(TaskContent ICONTAINS "<Arguments>/c ") OR where(TaskContent ICONTAINS "<Arguments>/k ") OR where(TaskContent ICONTAINS "<Arguments>/r ") OR where(TaskContent ICONTAINS "powershell") OR where(TaskContent ICONTAINS "pwsh") OR where(TaskContent ICONTAINS "mshta") OR where(TaskContent ICONTAINS "wscript") OR where(TaskContent ICONTAINS "cscript") OR where(TaskContent ICONTAINS "certutil") OR where(TaskContent ICONTAINS "bitsadmin") OR where(TaskContent ICONTAINS "bash.exe") OR where(TaskContent ICONTAINS "bash ") OR where(TaskContent ICONTAINS "scrcons") OR where(TaskContent ICONTAINS "wmic ") OR where(TaskContent ICONTAINS "wmic.exe") OR where(TaskContent ICONTAINS "forfiles") OR where(TaskContent ICONTAINS "scriptrunner") OR where(TaskContent ICONTAINS "hh.exe"))) AND (where(EventID = "4698")) AND ((where(TaskContent ICONTAINS "\\AppData\\Local\\Temp\\") OR where(TaskContent ICONTAINS "\\AppData\\Roaming\\") OR where(TaskContent ICONTAINS "\\Users\\Public\\") OR where(TaskContent ICONTAINS "\\WINDOWS\\Temp\\") OR where(TaskContent ICONTAINS "C:\\Temp\\") OR where(TaskContent ICONTAINS "\\Desktop\\") OR where(TaskContent ICONTAINS "\\Downloads\\") OR where(TaskContent ICONTAINS "\\Temporary Internet") OR where(TaskContent ICONTAINS "C:\\ProgramData\\") OR where(TaskContent ICONTAINS "C:\\Perflogs\\"))))

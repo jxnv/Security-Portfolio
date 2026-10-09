@@ -1,0 +1,23 @@
+// Title: Potential Adplus.EXE Abuse
+// ID: 2f869d59-7f6a-4931-992c-cce556ff2d53
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-06-09
+// Tags: attack.execution, attack.credential-access, attack.t1003.001
+// Description: Detects execution of "AdPlus.exe", a binary that is part of the Windows SDK that can be used as a LOLBIN in order to dump process memory and execute arbitrary commands.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 2f869d59_7f6a_4931_992c_cce556ff2d53 {
+  meta:
+    title = "Potential Adplus.EXE Abuse"
+    description = "Detects execution of "AdPlus.exe", a binary that is part of the Windows SDK that can be used as a LOLBIN in order to dump process memory and execute arbitrary commands."
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.* -hang .*/ nocase or $e.target.process.command_line = /.* -pn .*/ nocase or $e.target.process.command_line = /.* -pmn .*/ nocase or $e.target.process.command_line = /.* -p .*/ nocase or $e.target.process.command_line = /.* -po .*/ nocase or $e.target.process.command_line = /.* -c .*/ nocase or $e.target.process.command_line = /.* -sc .*/ nocase)) and (($e.target.process.file.full_path = /.*\\adplus.exe$/ nocase) or ($e.target.process.file.name = "Adplus.exe")))
+
+  condition:
+    $e
+}

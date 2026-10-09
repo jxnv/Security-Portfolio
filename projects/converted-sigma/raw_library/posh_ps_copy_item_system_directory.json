@@ -1,0 +1,26 @@
+{
+  "title": "Powershell Install a DLL in System Directory",
+  "id": "63bf8794-9917-45bc-88dd-e1b5abc0ecfd",
+  "status": "test",
+  "description": "Uses PowerShell to install/copy a file into a system directory such as \"System32\" or \"SysWOW64\"",
+  "author": "frack113, Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2021-12-27",
+  "tags": [
+    "attack.persistence",
+    "attack.credential-access",
+    "attack.defense-impairment",
+    "attack.t1556.002"
+  ],
+  "level": "high",
+  "logsource": {
+    "product": "windows",
+    "category": "ps_script",
+    "definition": "Requirements: Script Block Logging must be enabled"
+  },
+  "detection": {
+    "selection": {
+      "ScriptBlockText|re": "(Copy-Item|cpi) .{2,128} -Destination .{1,32}\\\\Windows\\\\(System32|SysWOW64)"
+    },
+    "condition": "selection"
+  }
+}

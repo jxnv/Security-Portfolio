@@ -1,0 +1,21 @@
+# Title: Changing Existing Service ImagePath Value Via Reg.EXE
+# ID: 9b0b7ac3-6223-47aa-a3fd-e8f211e637db
+# Status: test
+# Level: medium
+# Author: frack113
+# Date: 2021-12-30
+# Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.stealth, attack.t1574.011
+# Description: Adversaries may execute their own malicious payloads by hijacking the Registry entries used by services.
+# Adversaries may use flaws in the permissions for registry to redirect from the originally specified executable to one that they control, in order to launch their own code at Service start.
+# Windows stores local service configuration information in the Registry under HKLM\SYSTEM\CurrentControlSet\Services
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Changing Existing Service ImagePath Value Via Reg.EXE
+def rule(event):
+    # Detection Logic:
+    # ((Image="*\\reg.exe" AND (CommandLine="*add *" AND CommandLine="*SYSTEM\\CurrentControlSet\\Services\\*" AND CommandLine="* ImagePath *")) AND (CommandLine="* -d *"))
+    return True
+
+def title(event):
+    return "Changing Existing Service ImagePath Value Via Reg.EXE"
+

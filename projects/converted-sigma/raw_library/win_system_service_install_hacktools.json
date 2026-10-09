@@ -1,0 +1,43 @@
+{
+  "title": "HackTool Service Registration or Execution",
+  "id": "d26ce60c-2151-403c-9a42-49420d87b5e4",
+  "status": "test",
+  "description": "Detects installation or execution of services",
+  "author": "Florian Roth (Nextron Systems)",
+  "date": "2022-03-21",
+  "tags": [
+    "attack.execution",
+    "attack.t1569.002",
+    "attack.s0029"
+  ],
+  "level": "high",
+  "logsource": {
+    "product": "windows",
+    "service": "system"
+  },
+  "detection": {
+    "selection_eid": {
+      "Provider_Name": "Service Control Manager",
+      "EventID": [
+        7045,
+        7036
+      ]
+    },
+    "selection_service_name": {
+      "ServiceName|contains": [
+        "cachedump",
+        "DumpSvc",
+        "gsecdump",
+        "pwdump",
+        "UACBypassedService",
+        "WCE SERVICE",
+        "WCESERVICE",
+        "winexesvc"
+      ]
+    },
+    "selection_service_image": {
+      "ImagePath|contains": "bypass"
+    },
+    "condition": "selection_eid and 1 of selection_service_*"
+  }
+}

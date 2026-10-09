@@ -1,0 +1,19 @@
+# Title: Unsigned AppX Installation Attempt Using Add-AppxPackage - PsScript
+# ID: 975b2262-9a49-439d-92a6-0709cccdf0b2
+# Status: test
+# Level: medium
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2023-01-31
+# Tags: attack.persistence, attack.stealth
+# Description: Detects usage of the "Add-AppxPackage" or it's alias "Add-AppPackage" to install unsigned AppX packages
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Unsigned AppX Installation Attempt Using Add-AppxPackage - PsScript
+def rule(event):
+    # Detection Logic:
+    # (((ScriptBlockText="*Add-AppPackage *" OR ScriptBlockText="*Add-AppxPackage *")) AND (ScriptBlockText="* -AllowUnsigned*"))
+    return True
+
+def title(event):
+    return "Unsigned AppX Installation Attempt Using Add-AppxPackage - PsScript"
+

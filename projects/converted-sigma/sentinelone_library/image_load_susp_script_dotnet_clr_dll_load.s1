@@ -1,0 +1,11 @@
+// Title: DotNet CLR DLL Loaded By Scripting Applications
+// ID: 4508a70e-97ef-4300-b62b-ff27992990ea
+// Status: test
+// Level: high
+// Author: omkar72, oscd.community
+// Date: 2020-10-14
+// Tags: attack.execution, attack.privilege-escalation, attack.stealth, attack.t1055
+// Description: Detects .NET CLR DLLs being loaded by scripting applications such as wscript or cscript. This could be an indication of potential suspicious execution.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((src.process.image.path endswithCIS "\\cmstp.exe" OR src.process.image.path endswithCIS "\\cscript.exe" OR src.process.image.path endswithCIS "\\mshta.exe" OR src.process.image.path endswithCIS "\\msxsl.exe" OR src.process.image.path endswithCIS "\\regsvr32.exe" OR src.process.image.path endswithCIS "\\wmic.exe" OR src.process.image.path endswithCIS "\\wscript.exe") AND (ImageLoaded endswithCIS "\\clr.dll" OR ImageLoaded endswithCIS "\\mscoree.dll" OR ImageLoaded endswithCIS "\\mscorlib.dll"))

@@ -1,0 +1,25 @@
+// Title: Powershell XML Execute Command
+// ID: 6c6c6282-7671-4fe9-a0ce-a2dcebdc342b
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-01-19
+// Tags: attack.execution, attack.t1059.001
+// Description: Adversaries may abuse PowerShell commands and scripts for execution.
+// PowerShell is a powerful interactive command-line interface and scripting environment included in the Windows operating system. (Citation: TechNet PowerShell)
+// Adversaries can use PowerShell to perform a number of actions, including discovery of information and execution of code
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 6c6c6282_7671_4fe9_a0ce_a2dcebdc342b {
+  meta:
+    title = "Powershell XML Execute Command"
+    description = "Adversaries may abuse PowerShell commands and scripts for execution. PowerShell is a powerful interactive command-line interface and scripting environment included in the Windows operating system. (Citation: TechNet PowerShell) Adversaries can use PowerShell to perform a number of actions, including discovery of information and execution of code"
+    author = "frack113"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.ScriptBlockText = /.*IEX .*/ nocase or $e.ScriptBlockText = /.*Invoke-Expression .*/ nocase or $e.ScriptBlockText = /.*Invoke-Command .*/ nocase or $e.ScriptBlockText = /.*ICM -.*/ nocase)) and (($e.ScriptBlockText = /.*New-Object.*/ nocase and $e.ScriptBlockText = /.*System.Xml.XmlDocument.*/ nocase and $e.ScriptBlockText = /.*.Load.*/ nocase)))
+
+  condition:
+    $e
+}

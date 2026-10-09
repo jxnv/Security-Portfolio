@@ -1,0 +1,25 @@
+{
+  "title": "Special File Creation via Mknod Syscall",
+  "id": "710bdbce-495d-491d-9a8f-7d0d88d2b41e",
+  "status": "experimental",
+  "description": "Detects usage of the `mknod` syscall to create special files (e.g., character or block devices).\nAttackers or malware might use `mknod` to create fake devices, interact with kernel interfaces,\nor establish covert channels in Linux systems.\nMonitoring the use of `mknod` is important because this syscall is rarely used by legitimate applications,\nand it can be abused to bypass file system restrictions or create backdoors.\n",
+  "author": "Milad Cheraghi",
+  "date": "2025-05-31",
+  "tags": [
+    "attack.privilege-escalation",
+    "attack.persistence",
+    "attack.t1543.003"
+  ],
+  "level": "low",
+  "logsource": {
+    "product": "linux",
+    "service": "auditd"
+  },
+  "detection": {
+    "selection": {
+      "type": "SYSCALL",
+      "SYSCALL": "mknod"
+    },
+    "condition": "selection"
+  }
+}

@@ -1,0 +1,23 @@
+// Title: Vulnerable HackSys Extreme Vulnerable Driver Load
+// ID: 295c9289-acee-4503-a571-8eacaef36b28
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-18
+// Tags: attack.persistence, attack.privilege-escalation, attack.t1543.003
+// Description: Detects the load of HackSys Extreme Vulnerable Driver which is an intentionally vulnerable Windows driver developed for security enthusiasts to learn and polish their exploitation skills at Kernel level and often abused by threat actors
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 295c9289_acee_4503_a571_8eacaef36b28 {
+  meta:
+    title = "Vulnerable HackSys Extreme Vulnerable Driver Load"
+    description = "Detects the load of HackSys Extreme Vulnerable Driver which is an intentionally vulnerable Windows driver developed for security enthusiasts to learn and polish their exploitation skills at Kernel level and often abused by threat actors"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.ImageLoaded = /.*\\HEVD.sys$/ nocase) or (($e.Hashes = /.*IMPHASH=f26d0b110873a1c7d8c4f08fbeab89c5.*/ nocase or $e.Hashes = /.*IMPHASH=c46ea2e651fd5f7f716c8867c6d13594.*/ nocase)))
+
+  condition:
+    $e
+}

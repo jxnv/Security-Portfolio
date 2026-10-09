@@ -1,0 +1,23 @@
+// Title: Suspicious MSExchangeMailboxReplication ASPX Write
+// ID: 7280c9f3-a5af-45d0-916a-bc01cb4151c9
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-02-25
+// Tags: attack.initial-access, attack.t1190, attack.persistence, attack.t1505.003
+// Description: Detects suspicious activity in which the MSExchangeMailboxReplication process writes .asp and .apsx files to disk, which could be a sign of ProxyShell exploitation
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 7280c9f3_a5af_45d0_916a_bc01cb4151c9 {
+  meta:
+    title = "Suspicious MSExchangeMailboxReplication ASPX Write"
+    description = "Detects suspicious activity in which the MSExchangeMailboxReplication process writes .asp and .apsx files to disk, which could be a sign of ProxyShell exploitation"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ($e.target.process.file.full_path = /.*\\MSExchangeMailboxReplication.exe$/ nocase and ($e.target.file.full_path = /.*.aspx$/ nocase or $e.target.file.full_path = /.*.asp$/ nocase))
+
+  condition:
+    $e
+}

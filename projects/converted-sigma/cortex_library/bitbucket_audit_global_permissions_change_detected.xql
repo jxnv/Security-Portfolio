@@ -1,0 +1,11 @@
+// Title: Bitbucket Global Permission Changed
+// ID: aac6c4f4-87c7-4961-96ac-c3fd3a42c310
+// Status: test
+// Level: medium
+// Author: Muhammad Faisal (@faisalusuf)
+// Date: 2024-02-25
+// Tags: attack.persistence, attack.privilege-escalation, attack.t1098
+// Description: Detects global permissions change activity.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter (auditType.category = "Permissions" and (auditType.action = "Global permission remove request" or auditType.action = "Global permission removed" or auditType.action = "Global permission granted" or auditType.action = "Global permission requested"))

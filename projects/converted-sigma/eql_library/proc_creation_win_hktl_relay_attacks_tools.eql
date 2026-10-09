@@ -1,0 +1,11 @@
+// Title: Potential SMB Relay Attack Tool Execution
+// ID: 5589ab4f-a767-433c-961d-c91f3f704db1
+// Status: test
+// Level: critical
+// Author: Florian Roth (Nextron Systems)
+// Date: 2021-07-24
+// Tags: attack.collection, attack.execution, attack.credential-access, attack.t1557.001
+// Description: Detects different hacktools used for relay attacks on Windows for privilege escalation
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where (((process.command_line like "*_.exe -c \"{*" and process.command_line endswith "}\" -z") or ((process.executable like "*_PetitPotam*" or process.executable like "*_RottenPotato*" or process.executable like "*_HotPotato*" or process.executable like "*_JuicyPotato*" or process.executable like "*_\\just_dce_*" or process.executable like "*_Juicy Potato*" or process.executable like "*_\\temp\\rot.exe*" or process.executable like "*_\\Potato.exe*" or process.executable like "*_\\SpoolSample.exe*" or process.executable like "*_\\Responder.exe*" or process.executable like "*_\\smbrelayx*" or process.executable like "*_\\ntlmrelayx*" or process.executable like "*_\\LocalPotato*")) or ((process.command_line like "*_Invoke-Tater*" or process.command_line like "*_ smbrelay*" or process.command_line like "*_ ntlmrelay*" or process.command_line like "*_cme smb *" or process.command_line like "*_ /ntlm:NTLMhash *" or process.command_line like "*_Invoke-PetitPotam*" or process.command_line like "*_.exe -t * -p *"))) and not (((process.executable like "*_HotPotatoes6*" or process.executable like "*_HotPotatoes7*" or process.executable like "*_HotPotatoes *"))))

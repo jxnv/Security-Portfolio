@@ -1,0 +1,24 @@
+// Title: Local System Accounts Discovery - MacOs
+// ID: ddf36b67-e872-4507-ab2e-46bda21b842c
+// Status: test
+// Level: low
+// Author: Alejandro Ortuno, oscd.community
+// Date: 2020-10-08
+// Tags: attack.discovery, attack.t1087.001
+// Description: Detects enumeration of local system accounts on MacOS systems.
+// This can be used by attackers to identify accounts for lateral movement or privilege escalation.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule ddf36b67_e872_4507_ab2e_46bda21b842c {
+  meta:
+    title = "Local System Accounts Discovery - MacOs"
+    description = "Detects enumeration of local system accounts on MacOS systems. This can be used by attackers to identify accounts for lateral movement or privilege escalation."
+    author = "Alejandro Ortuno, oscd.community"
+    severity = "LOW"
+
+  events:
+    (($e.target.process.file.full_path = /.*/dscacheutil$/ nocase and ($e.target.process.command_line = /.*-q.*/ nocase and $e.target.process.command_line = /.*user.*/ nocase)) or ($e.target.process.file.full_path = /.*/dscl$/ nocase and ($e.target.process.command_line = /.*list.*/ nocase and $e.target.process.command_line = /.*/users.*/ nocase)) or ($e.target.process.file.full_path = /.*/ls$/ nocase and ($e.target.process.command_line = /.*/Users$/ nocase or $e.target.process.command_line = /.*/Users'$/ nocase or $e.target.process.command_line = /.*/Users\"$/ nocase)) or ($e.target.process.file.full_path = /.*/id$/ nocase) or (($e.target.process.file.full_path = /.*/who$/ nocase or $e.target.process.file.full_path = /.*/w$/ nocase or $e.target.process.file.full_path = /.*/users$/ nocase or $e.target.process.file.full_path = /.*/last$/ nocase)) or (($e.target.process.file.full_path = /.*/defaults$/ nocase or $e.target.process.file.full_path = /.*/plutil$/ nocase) and $e.target.process.command_line = /.*com.apple.loginwindow.*/ nocase) or ($e.target.process.file.full_path = /.*/lsof$/ nocase and $e.target.process.command_line = /.*-u.*/ nocase) or (($e.target.process.file.full_path = /.*/cat$/ nocase or $e.target.process.file.full_path = /.*/awk$/ nocase or $e.target.process.file.full_path = /.*/grep$/ nocase) and ($e.target.process.command_line = /.*/etc/passwd.*/ nocase or $e.target.process.command_line = /.*/etc/sudoers.*/ nocase)) or ($e.target.process.command_line = /.*'*:0:'.*/ nocase))
+
+  condition:
+    $e
+}

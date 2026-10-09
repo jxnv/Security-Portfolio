@@ -1,0 +1,19 @@
+# Title: Enumeration for 3rd Party Creds From CLI
+# ID: 87a476dc-0079-4583-a985-dee7a20a03de
+# Status: test
+# Level: medium
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-06-20
+# Tags: attack.credential-access, attack.t1552.002
+# Description: Detects processes that query known 3rd party registry keys that holds credentials via commandline
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Enumeration for 3rd Party Creds From CLI
+def rule(event):
+    # Detection Logic:
+    # (((CommandLine="*\\Software\\Aerofox\\Foxmail\\V3.1*" OR CommandLine="*\\Software\\Aerofox\\FoxmailPreview*" OR CommandLine="*\\Software\\DownloadManager\\Passwords*" OR CommandLine="*\\Software\\FTPWare\\COREFTP\\Sites*" OR CommandLine="*\\Software\\IncrediMail\\Identities*" OR CommandLine="*\\Software\\Martin Prikryl\\WinSCP 2\\Sessions*" OR CommandLine="*\\Software\\Mobatek\\MobaXterm\\*" OR CommandLine="*\\Software\\OpenSSH\\Agent\\Keys*" OR CommandLine="*\\Software\\OpenVPN-GUI\\configs*" OR CommandLine="*\\Software\\ORL\\WinVNC3\\Password*" OR CommandLine="*\\Software\\Qualcomm\\Eudora\\CommandLine*" OR CommandLine="*\\Software\\RealVNC\\WinVNC4*" OR CommandLine="*\\Software\\RimArts\\B2\\Settings*" OR CommandLine="*\\Software\\SimonTatham\\PuTTY\\Sessions*" OR CommandLine="*\\Software\\SimonTatham\\PuTTY\\SshHostKeys\\*" OR CommandLine="*\\Software\\Sota\\FFFTP*" OR CommandLine="*\\Software\\TightVNC\\Server*" OR CommandLine="*\\Software\\WOW6432Node\\Radmin\\v3.0\\Server\\Parameters\\Radmin*")) AND NOT ((Image="*reg.exe" AND (CommandLine="*export*" OR CommandLine="*save*"))))
+    return True
+
+def title(event):
+    return "Enumeration for 3rd Party Creds From CLI"
+

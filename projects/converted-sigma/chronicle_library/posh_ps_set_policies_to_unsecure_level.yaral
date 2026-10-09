@@ -1,0 +1,23 @@
+// Title: Change PowerShell Policies to an Insecure Level - PowerShell
+// ID: 61d0475c-173f-4844-86f7-f3eebae1c66b
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2021-10-20
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects changing the PowerShell script execution policy to a potentially insecure level using the "Set-ExecutionPolicy" cmdlet.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 61d0475c_173f_4844_86f7_f3eebae1c66b {
+  meta:
+    title = "Change PowerShell Policies to an Insecure Level - PowerShell"
+    description = "Detects changing the PowerShell script execution policy to a potentially insecure level using the "Set-ExecutionPolicy" cmdlet."
+    author = "frack113"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.ScriptBlockText = /.*Set-ExecutionPolicy.*/ nocase) and (($e.ScriptBlockText = /.*Unrestricted.*/ nocase or $e.ScriptBlockText = /.*bypass.*/ nocase))) and not((($e.ScriptBlockText = /.*(New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1').*/ nocase or $e.ScriptBlockText = /.*(New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1').*/ nocase))))
+
+  condition:
+    $e
+}

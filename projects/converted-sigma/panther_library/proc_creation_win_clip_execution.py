@@ -1,0 +1,19 @@
+# Title: Data Copied To Clipboard Via Clip.EXE
+# ID: ddeff553-5233-4ae9-bbab-d64d2bd634be
+# Status: test
+# Level: low
+# Author: frack113
+# Date: 2021-07-27
+# Tags: attack.collection, attack.t1115
+# Description: Detects the execution of clip.exe in order to copy data to the clipboard. Adversaries may collect data stored in the clipboard from users copying information within or between applications.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Data Copied To Clipboard Via Clip.EXE
+def rule(event):
+    # Detection Logic:
+    # ((Image="*\\clip.exe") OR (OriginalFileName="clip.exe"))
+    return True
+
+def title(event):
+    return "Data Copied To Clipboard Via Clip.EXE"
+

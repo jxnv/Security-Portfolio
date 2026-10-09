@@ -1,0 +1,11 @@
+// Title: Connection Proxy
+// ID: 72f4ab3f-787d-495d-a55d-68c2ff46cf4c
+// Status: test
+// Level: low
+// Author: Ömer Günal
+// Date: 2020-06-17
+// Tags: attack.command-and-control, attack.t1090
+// Description: Detects setting proxy configuration
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter ((action_process_image_command_line contains "http_proxy=" or action_process_image_command_line contains "https_proxy="))

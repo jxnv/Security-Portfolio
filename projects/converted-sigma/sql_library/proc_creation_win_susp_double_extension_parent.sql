@@ -1,0 +1,11 @@
+-- Title: Suspicious Parent Double Extension File Execution
+-- ID: 5e6a80c8-2d45-4633-9ef4-fa2671a39c5c
+-- Status: test
+-- Level: high
+-- Author: frack113, Nasreddine Bencherchali (Nextron Systems)
+-- Date: 2023-01-06
+-- Tags: attack.stealth, attack.t1036.007
+-- Description: Detect execution of suspicious double extension files in ParentCommandLine
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE (((ParentImage ILIKE '%.doc.lnk' OR ParentImage ILIKE '%.docx.lnk' OR ParentImage ILIKE '%.xls.lnk' OR ParentImage ILIKE '%.xlsx.lnk' OR ParentImage ILIKE '%.ppt.lnk' OR ParentImage ILIKE '%.pptx.lnk' OR ParentImage ILIKE '%.rtf.lnk' OR ParentImage ILIKE '%.pdf.lnk' OR ParentImage ILIKE '%.txt.lnk' OR ParentImage ILIKE '%.doc.js' OR ParentImage ILIKE '%.docx.js' OR ParentImage ILIKE '%.xls.js' OR ParentImage ILIKE '%.xlsx.js' OR ParentImage ILIKE '%.ppt.js' OR ParentImage ILIKE '%.pptx.js' OR ParentImage ILIKE '%.rtf.js' OR ParentImage ILIKE '%.pdf.js' OR ParentImage ILIKE '%.txt.js')) OR ((ParentCommandLine ILIKE '%.doc.lnk%' OR ParentCommandLine ILIKE '%.docx.lnk%' OR ParentCommandLine ILIKE '%.xls.lnk%' OR ParentCommandLine ILIKE '%.xlsx.lnk%' OR ParentCommandLine ILIKE '%.ppt.lnk%' OR ParentCommandLine ILIKE '%.pptx.lnk%' OR ParentCommandLine ILIKE '%.rtf.lnk%' OR ParentCommandLine ILIKE '%.pdf.lnk%' OR ParentCommandLine ILIKE '%.txt.lnk%' OR ParentCommandLine ILIKE '%.doc.js%' OR ParentCommandLine ILIKE '%.docx.js%' OR ParentCommandLine ILIKE '%.xls.js%' OR ParentCommandLine ILIKE '%.xlsx.js%' OR ParentCommandLine ILIKE '%.ppt.js%' OR ParentCommandLine ILIKE '%.pptx.js%' OR ParentCommandLine ILIKE '%.rtf.js%' OR ParentCommandLine ILIKE '%.pdf.js%' OR ParentCommandLine ILIKE '%.txt.js%')))

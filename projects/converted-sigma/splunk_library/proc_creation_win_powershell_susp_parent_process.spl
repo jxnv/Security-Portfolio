@@ -1,0 +1,11 @@
+# Title: Suspicious PowerShell Parent Process
+# ID: 754ed792-634f-40ae-b3bc-e0448d33f695
+# Status: test
+# Level: high
+# Author: Teymur Kheirkhabarov, Harish Segar
+# Date: 2020-03-20
+# Tags: attack.execution, attack.t1059.001
+# Description: Detects a suspicious or uncommon parent processes of PowerShell
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog (((parent_process_path="*tomcat*") OR ((parent_process_path="*\\amigo.exe" OR parent_process_path="*\\browser.exe" OR parent_process_path="*\\chrome.exe" OR parent_process_path="*\\firefox.exe" OR parent_process_path="*\\httpd.exe" OR parent_process_path="*\\iexplore.exe" OR parent_process_path="*\\jbosssvc.exe" OR parent_process_path="*\\microsoftedge.exe" OR parent_process_path="*\\microsoftedgecp.exe" OR parent_process_path="*\\MicrosoftEdgeSH.exe" OR parent_process_path="*\\mshta.exe" OR parent_process_path="*\\nginx.exe" OR parent_process_path="*\\outlook.exe" OR parent_process_path="*\\php-cgi.exe" OR parent_process_path="*\\regsvr32.exe" OR parent_process_path="*\\rundll32.exe" OR parent_process_path="*\\safari.exe" OR parent_process_path="*\\services.exe" OR parent_process_path="*\\sqlagent.exe" OR parent_process_path="*\\sqlserver.exe" OR parent_process_path="*\\sqlservr.exe" OR parent_process_path="*\\vivaldi.exe" OR parent_process_path="*\\w3wp.exe"))) AND (((process_path="*\\powershell.exe" OR process_path="*\\pwsh.exe")) OR ((process_exec="*/c powershell*" OR process_exec="*/c pwsh*")) OR (Description="Windows PowerShell") OR (Product="PowerShell Core 6") OR ((process_name="PowerShell.EXE" OR process_name="pwsh.dll"))))

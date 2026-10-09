@@ -1,0 +1,24 @@
+// Title: HackTool - WSASS Execution
+// ID: 589ac73f-8e12-409c-964e-31a2f5775ae2
+// Status: experimental
+// Level: high
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-11-23
+// Tags: attack.credential-access, attack.t1003.001
+// Description: Detects execution of WSASS, a tool used to dump LSASS memory on Windows systems by leveraging WER's
+// (Windows Error Reporting) WerFaultSecure.EXE to bypass PPL (Protected Process Light) protections.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 589ac73f_8e12_409c_964e_31a2f5775ae2 {
+  meta:
+    title = "HackTool - WSASS Execution"
+    description = "Detects execution of WSASS, a tool used to dump LSASS memory on Windows systems by leveraging WER's (Windows Error Reporting) WerFaultSecure.EXE to bypass PPL (Protected Process Light) protections."
+    author = "Swachchhanda Shrawan Poudel (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.command_line = /(?i)\.exe[\"\']?\s+[^\"]{0,64}werfaultsecure\.exe[\"\']?\s+\d{2,10}/ nocase) or ($e.Hashes = /.*IMPHASH=32F5095C9BBDCACF28FD4060EB4DFC42.*/ nocase) or ($e.target.process.file.full_path = /.*\\wsass.exe$/ nocase))
+
+  condition:
+    $e
+}

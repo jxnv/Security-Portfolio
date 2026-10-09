@@ -1,0 +1,12 @@
+# Title: Suspicious Eventlog Clearing or Configuration Change Activity
+# ID: cc36992a-4671-4f21-a91d-6c2b72a2edf5
+# Status: stable
+# Level: high
+# Author: Ecco, Daniil Yugoslavskiy, oscd.community, D3F7A5105, Swachchhanda Shrawan Poudel (Nextron Systems)
+# Date: 2019-09-26
+# Tags: attack.defense-impairment, attack.t1685.005, attack.t1685.001, car.2016-04-002
+# Description: Detects the clearing or configuration tampering of EventLog using utilities such as "wevtutil", "powershell" and "wmic".
+# This technique were seen used by threat actors and ransomware strains in order to evade defenses.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((((CommandLine CONTAIN "clear-log " OR CommandLine CONTAIN " cl " OR CommandLine CONTAIN "set-log " OR CommandLine CONTAIN " sl " OR CommandLine CONTAIN "lfn:")) AND ((Image="*\\wevtutil.exe") OR (OriginalFileName = "wevtutil.exe"))) OR ((((CommandLine CONTAIN "Clear-EventLog " OR CommandLine CONTAIN "Remove-EventLog " OR CommandLine CONTAIN "Limit-EventLog " OR CommandLine CONTAIN "Clear-WinEvent ")) OR ((CommandLine CONTAIN "Eventing.Reader.EventLogSession" AND CommandLine CONTAIN "ClearLog")) OR ((CommandLine CONTAIN "Diagnostics.EventLog" AND CommandLine CONTAIN "Clear"))) AND ((Image="*\\powershell.exe" OR Image="*\\powershell_ise.exe" OR Image="*\\pwsh.exe"))) OR ((Image="*\\powershell.exe" OR Image="*\\powershell_ise.exe" OR Image="*\\pwsh.exe" OR Image="*\\wmic.exe") AND CommandLine CONTAIN "ClearEventLog")) AND NOT (((ParentImage = "C:\\Windows\\SysWOW64\\msiexec.exe" OR ParentImage = "C:\\Windows\\System32\\msiexec.exe") AND CommandLine CONTAIN " sl ")))

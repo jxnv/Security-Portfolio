@@ -1,0 +1,11 @@
+// Title: Potential Tampering With RDP Related Registry Keys Via Reg.EXE
+// ID: 0d5675be-bc88-4172-86d3-1e96a4476536
+// Status: test
+// Level: high
+// Author: pH-T (Nextron Systems), @Kostastsale, TheDFIRReport
+// Date: 2022-02-12
+// Tags: attack.persistence, attack.lateral-movement, attack.defense-impairment, attack.t1021.001, attack.t1112
+// Description: Detects the execution of "reg.exe" for enabling/disabling the RDP service on the host by tampering with the 'CurrentControlSet\Control\Terminal Server' values
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((CommandLine = /* add */i and CommandLine = /*\\CurrentControlSet\\Control\\Terminal Server*/i and CommandLine = /*REG_DWORD*/i and CommandLine = /* /f*/i)) and ((ImageFileName = /.*\\reg.exe/i) or (OriginalFilename = "reg.exe"))) and (((CommandLine = /*Licensing Core*/i and CommandLine = /*EnableConcurrentSessions*/i)) or ((CommandLine = /*AllowTSConnections*/i or CommandLine = /*fDenyTSConnections*/i or CommandLine = /*fEnableWinStation*/i or CommandLine = /*fSingleSessionPerUser*/i or CommandLine = /*IdleWinStationPoolCount*/i or CommandLine = /*MaxInstanceCount*/i or CommandLine = /*SecurityLayer*/i or CommandLine = /*TSAdvertise*/i or CommandLine = /*TSAppCompat*/i or CommandLine = /*TSEnabled*/i or CommandLine = /*TSUserEnabled*/i or CommandLine = /*WinStations\\RDP-Tcp*/i))) and not(((CommandLine = /*SecurityLayer*/i and CommandLine = /*02*/i))))

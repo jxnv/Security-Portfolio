@@ -1,0 +1,25 @@
+// Title: Renamed Schtasks Execution
+// ID: f91e51c9-f344-4b32-969b-0b6f6b8537d4
+// Status: experimental
+// Level: high
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-11-27
+// Tags: attack.execution, attack.persistence, attack.privilege-escalation, attack.stealth, attack.t1036.003, attack.t1053.005
+// Description: Detects the execution of renamed schtasks.exe binary, which is a legitimate Windows utility used for scheduling tasks.
+// One of the very common persistence techniques is schedule malicious tasks using schtasks.exe.
+// Since, it is heavily abused, it is also heavily monitored by security products. To evade detection, threat actors may rename the schtasks.exe binary to schedule their malicious tasks.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule f91e51c9_f344_4b32_969b_0b6f6b8537d4 {
+  meta:
+    title = "Renamed Schtasks Execution"
+    description = "Detects the execution of renamed schtasks.exe binary, which is a legitimate Windows utility used for scheduling tasks. One of the very common persistence techniques is schedule malicious tasks using schtasks.exe. Since, it is heavily abused, it is also heavily monitored by security products. To evade detection, threat actors may rename the schtasks.exe binary to schedule their malicious tasks."
+    author = "Swachchhanda Shrawan Poudel (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((((($e.target.process.command_line = /.* /tn .*/ nocase or $e.target.process.command_line = /.* /tr .*/ nocase or $e.target.process.command_line = /.* /sc .*/ nocase or $e.target.process.command_line = /.* /st .*/ nocase or $e.target.process.command_line = /.* /ru .*/ nocase or $e.target.process.command_line = /.* /fo .*/ nocase)) and (($e.target.process.command_line = /.* /create .*/ nocase or $e.target.process.command_line = /.* /delete .*/ nocase or $e.target.process.command_line = /.* /query .*/ nocase or $e.target.process.command_line = /.* /change .*/ nocase or $e.target.process.command_line = /.* /run .*/ nocase or $e.target.process.command_line = /.* /end .*/ nocase))) and not(($e.target.process.command_line = /.*schtasks.*/ nocase)) and not((($e.target.process.command_line = /.*openfiles.*/ nocase and $e.target.process.command_line = /.* /query .*/ nocase and $e.target.process.command_line = /.* /fo.*/ nocase)))) or (($e.target.process.file.name = "schtasks.exe") and not(($e.target.process.file.full_path = /.*\\schtasks.exe$/ nocase))))
+
+  condition:
+    $e
+}

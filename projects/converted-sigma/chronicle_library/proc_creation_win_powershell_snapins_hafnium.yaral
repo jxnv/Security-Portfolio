@@ -1,0 +1,23 @@
+// Title: Exchange PowerShell Snap-Ins Usage
+// ID: 25676e10-2121-446e-80a4-71ff8506af47
+// Status: test
+// Level: high
+// Author: FPT.EagleEye, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2021-03-03
+// Tags: attack.execution, attack.t1059.001, attack.collection, attack.t1114
+// Description: Detects adding and using Exchange PowerShell snap-ins to export mailbox data. As seen used by HAFNIUM and APT27
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 25676e10_2121_446e_80a4_71ff8506af47 {
+  meta:
+    title = "Exchange PowerShell Snap-Ins Usage"
+    description = "Detects adding and using Exchange PowerShell snap-ins to export mailbox data. As seen used by HAFNIUM and APT27"
+    author = "FPT.EagleEye, Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*Add-PSSnapin.*/ nocase) and ((($e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase)) or (($e.target.process.file.name = "PowerShell.EXE" or $e.target.process.file.name = "pwsh.dll"))) and (($e.target.process.command_line = /.*Microsoft.Exchange.Powershell.Snapin.*/ nocase or $e.target.process.command_line = /.*Microsoft.Exchange.Management.PowerShell.SnapIn.*/ nocase))) and not(($e.principal.process.file.full_path = "C:\\Windows\\System32\\msiexec.exe" and $e.target.process.command_line = /.*$exserver=Get-ExchangeServer ([Environment]::MachineName) -ErrorVariable exerr 2> $null.*/ nocase)))
+
+  condition:
+    $e
+}

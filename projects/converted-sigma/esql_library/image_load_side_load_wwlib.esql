@@ -1,0 +1,11 @@
+// Title: Potential WWlib.DLL Sideloading
+// ID: e2e01011-5910-4267-9c3b-4149ed5479cf
+// Status: test
+// Level: medium
+// Author: X__Junior (Nextron Systems)
+// Date: 2023-05-18
+// Tags: attack.persistence, attack.privilege-escalation, attack.execution, attack.stealth, attack.t1574.001
+// Description: Detects potential DLL sideloading of "wwlib.dll"
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE ((ImageLoaded LIKE "%\\wwlib.dll") AND NOT (((process.executable LIKE "C:\\Program Files (x86)\\Microsoft Office\\%" OR process.executable LIKE "C:\\Program Files\\Microsoft Office\\%") AND process.executable LIKE "%\\winword.exe" AND (ImageLoaded LIKE "C:\\Program Files (x86)\\Microsoft Office\\%" OR ImageLoaded LIKE "C:\\Program Files\\Microsoft Office\\%"))))

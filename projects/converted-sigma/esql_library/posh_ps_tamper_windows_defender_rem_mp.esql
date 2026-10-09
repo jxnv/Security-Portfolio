@@ -1,0 +1,11 @@
+// Title: Tamper Windows Defender Remove-MpPreference - ScriptBlockLogging
+// ID: ae2bdd58-0681-48ac-be7f-58ab4e593458
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-05
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects attempts to remove Windows Defender configuration using the 'MpPreference' cmdlet
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE ((ScriptBlockText LIKE "%Remove-MpPreference%") AND ((ScriptBlockText LIKE "%-ControlledFolderAccessProtectedFolders %" OR ScriptBlockText LIKE "%-AttackSurfaceReductionRules_Ids %" OR ScriptBlockText LIKE "%-AttackSurfaceReductionRules_Actions %" OR ScriptBlockText LIKE "%-CheckForSignaturesBeforeRunningScan %")))

@@ -1,0 +1,13 @@
+// Title: Suspicious Volume Shadow Copy VSS_PS.dll Load
+// ID: 333cdbe8-27bb-4246-bf82-b41a0dca4b70
+// Status: test
+// Level: high
+// Author: Markus Neis, @markus_neis
+// Date: 2021-07-07
+// Tags: attack.impact, attack.t1490
+// Description: Detects the image load of vss_ps.dll by uncommon executables. This DLL is used by the Volume Shadow Copy Service (VSS) to manage shadow copies of files and volumes.
+// It is often abused by attackers to delete or manipulate shadow copies, which can hinder forensic investigations and data recovery efforts.
+// The fact that it is loaded by processes that are not typically associated with VSS operations can indicate suspicious activity.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((ImageLoaded ENDSWITH "\\vss_ps.dll") AND NOT (((NOT Image=*) OR (Image STARTSWITH "C:\\Windows\\" AND (Image ENDSWITH "\\clussvc.exe" OR Image ENDSWITH "\\dismhost.exe" OR Image ENDSWITH "\\dllhost.exe" OR Image ENDSWITH "\\inetsrv\\appcmd.exe" OR Image ENDSWITH "\\inetsrv\\iissetup.exe" OR Image ENDSWITH "\\msiexec.exe" OR Image ENDSWITH "\\rundll32.exe" OR Image ENDSWITH "\\searchindexer.exe" OR Image ENDSWITH "\\srtasks.exe" OR Image ENDSWITH "\\svchost.exe" OR Image ENDSWITH "\\System32\\SystemPropertiesAdvanced.exe" OR Image ENDSWITH "\\taskhostw.exe" OR Image ENDSWITH "\\thor.exe" OR Image ENDSWITH "\\thor64.exe" OR Image ENDSWITH "\\tiworker.exe" OR Image ENDSWITH "\\vssvc.exe" OR Image ENDSWITH "\\vssadmin.exe" OR Image ENDSWITH "\\WmiPrvSE.exe" OR Image ENDSWITH "\\wsmprovhost.exe")) OR (CommandLine STARTSWITH "C:\\$WinREAgent\\Scratch\\" AND CommandLine CONTAINS "\\dismhost.exe {"))) AND NOT (((Image STARTSWITH "C:\\Program Files\\" OR Image STARTSWITH "C:\\Program Files (x86)\\"))))

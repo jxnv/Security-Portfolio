@@ -1,0 +1,11 @@
+// Title: Suspicious Mstsc.EXE Execution With Local RDP File
+// ID: 6e22722b-dfb1-4508-a911-49ac840b40f8
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-04-18
+// Tags: attack.command-and-control, attack.t1219.002
+// Description: Detects potential RDP connection via Mstsc using a local ".rdp" file located in suspicious locations.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where (((CommandLine matches "*.rdp" or CommandLine matches "*.rdp\"")) and ((Image matches "*\\mstsc.exe") or (OriginalFileName = "mstsc.exe")) and ((CommandLine matches "*:\\Users\\Public\\*" or CommandLine matches "*:\\Windows\\System32\\spool\\drivers\\color*" or CommandLine matches "*:\\Windows\\System32\\Tasks_Migrated *" or CommandLine matches "*:\\Windows\\Tasks\\*" or CommandLine matches "*:\\Windows\\Temp\\*" or CommandLine matches "*:\\Windows\\Tracing\\*" or CommandLine matches "*\\AppData\\Local\\Temp\\*" or CommandLine matches "*\\Downloads\\*")))

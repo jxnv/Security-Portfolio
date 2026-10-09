@@ -1,0 +1,14 @@
+// Title: Suspicious FileFix Execution Pattern
+// ID: b5b29e4e-31fa-4fdf-b058-296e7a1aa0c2
+// Status: experimental
+// Level: high
+// Author: 0xFustang, Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-11-24
+// Tags: attack.execution, attack.t1204.004
+// Description: Detects suspicious FileFix execution patterns where users are tricked into running malicious commands through browser file upload dialog manipulation.
+// This attack typically begins when users visit malicious websites impersonating legitimate services or news platforms,
+// which may display fake CAPTCHA challenges or direct instructions to open file explorer and paste clipboard content.
+// The clipboard content usually contains commands that download and execute malware, such as information stealing tools.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where (((process.parent.executable="*\\brave.exe" OR process.parent.executable="*\\chrome.exe" OR process.parent.executable="*\\firefox.exe" OR process.parent.executable="*\\msedge.exe") AND process.command_line like "%#%") AND (((process.command_line like "%account%" OR process.command_line like "%anti-bot%" OR process.command_line like "%botcheck%" OR process.command_line like "%captcha%" OR process.command_line like "%challenge%" OR process.command_line like "%confirmation%" OR process.command_line like "%fraud%" OR process.command_line like "%human%" OR process.command_line like "%identification%" OR process.command_line like "%identificator%" OR process.command_line like "%identity%" OR process.command_line like "%robot%" OR process.command_line like "%validation%" OR process.command_line like "%verification%" OR process.command_line like "%verify%")) OR ((process.command_line like "%%comspec%%" OR process.command_line like "%bitsadmin%" OR process.command_line like "%certutil%" OR process.command_line like "%cmd%" OR process.command_line like "%cscript%" OR process.command_line like "%curl%" OR process.command_line like "%finger%" OR process.command_line like "%mshta%" OR process.command_line like "%powershell%" OR process.command_line like "%pwsh%" OR process.command_line like "%regsvr32%" OR process.command_line like "%rundll32%" OR process.command_line like "%schtasks%" OR process.command_line like "%wget%" OR process.command_line like "%wscript%"))))

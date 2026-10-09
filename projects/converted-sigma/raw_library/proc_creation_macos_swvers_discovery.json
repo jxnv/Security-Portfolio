@@ -1,0 +1,30 @@
+{
+  "title": "System Information Discovery Using sw_vers",
+  "id": "5de06a6f-673a-4fc0-8d48-bcfe3837b033",
+  "status": "test",
+  "description": "Detects the use of \"sw_vers\" for system information discovery",
+  "author": "Joseliyo Sanchez, @Joseliyo_Jstnk",
+  "date": "2023-12-20",
+  "tags": [
+    "attack.discovery",
+    "attack.t1082"
+  ],
+  "level": "medium",
+  "logsource": {
+    "product": "macos",
+    "category": "process_creation"
+  },
+  "detection": {
+    "selection_image": {
+      "Image|endswith": "/sw_vers"
+    },
+    "selection_options": {
+      "CommandLine|contains": [
+        "-buildVersion",
+        "-productName",
+        "-productVersion"
+      ]
+    },
+    "condition": "all of selection_*"
+  }
+}

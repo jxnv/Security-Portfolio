@@ -1,0 +1,11 @@
+-- Title: Activate Suppression of Windows Security Center Notifications
+-- ID: 0c93308a-3f1b-40a9-b649-57ea1a1c1d63
+-- Status: test
+-- Level: medium
+-- Author: frack113
+-- Date: 2022-08-19
+-- Tags: attack.persistence, attack.defense-impairment, attack.t1112
+-- Description: Detect set Notification_Suppress to 1 to disable the Windows security center notification
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM file WHERE (TargetObject="*SOFTWARE\\Policies\\Microsoft\\Windows Defender\\UX Configuration\\Notification_Suppress" AND Details = 'DWORD (0x00000001)')

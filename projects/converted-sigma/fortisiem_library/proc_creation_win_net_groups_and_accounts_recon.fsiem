@@ -1,0 +1,12 @@
+# Title: Suspicious Group And Account Reconnaissance Activity Using Net.EXE
+# ID: d95de845-b83c-4a9a-8a6a-4fc802ebf6c0
+# Status: test
+# Level: medium
+# Author: Florian Roth (Nextron Systems), omkar72, @svch0st, Nasreddine Bencherchali (Nextron Systems)
+# Date: 2019-01-16
+# Tags: attack.discovery, attack.t1087.001, attack.t1087.002
+# Description: Detects suspicious reconnaissance command line activity on Windows systems using Net.EXE
+# Check if the user that executed the commands is suspicious (e.g. service accounts, LOCAL_SYSTEM)
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((((Image="*\\net.exe" OR Image="*\\net1.exe")) OR ((OriginalFileName = "net.exe" OR OriginalFileName = "net1.exe"))) AND (((((CommandLine CONTAIN "domain admins" OR CommandLine CONTAIN " administrator" OR CommandLine CONTAIN " administrateur" OR CommandLine CONTAIN "enterprise admins" OR CommandLine CONTAIN "Exchange Trusted Subsystem" OR CommandLine CONTAIN "Remote Desktop Users" OR CommandLine CONTAIN "Utilisateurs du Bureau à distance" OR CommandLine CONTAIN "Usuarios de escritorio remoto" OR CommandLine CONTAIN " /do")) AND ((CommandLine CONTAIN " group " OR CommandLine CONTAIN " localgroup "))) AND NOT ((CommandLine CONTAIN " /add"))) OR ((CommandLine CONTAIN " /do") AND (CommandLine CONTAIN " accounts "))))

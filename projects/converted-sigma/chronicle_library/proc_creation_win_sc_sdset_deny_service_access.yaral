@@ -1,0 +1,23 @@
+// Title: Deny Service Access Using Security Descriptor Tampering Via Sc.EXE
+// ID: 99cf1e02-00fb-4c0d-8375-563f978dfd37
+// Status: test
+// Level: high
+// Author: Jonhnathan Ribeiro, oscd.community
+// Date: 2020-10-16
+// Tags: attack.privilege-escalation, attack.persistence, attack.t1543.003
+// Description: Detects suspicious DACL modifications to deny access to a service that affects critical trustees. This can be used to hide services or make them unstoppable.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 99cf1e02_00fb_4c0d_8375_563f978dfd37 {
+  meta:
+    title = "Deny Service Access Using Security Descriptor Tampering Via Sc.EXE"
+    description = "Detects suspicious DACL modifications to deny access to a service that affects critical trustees. This can be used to hide services or make them unstoppable."
+    author = "Jonhnathan Ribeiro, oscd.community"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.file.full_path = /.*\\sc.exe$/ nocase) or ($e.target.process.file.name = "sc.exe")) and (($e.target.process.command_line = /.*sdset.*/ nocase and $e.target.process.command_line = /.*D;.*/ nocase)) and (($e.target.process.command_line = /.*;IU.*/ nocase or $e.target.process.command_line = /.*;SU.*/ nocase or $e.target.process.command_line = /.*;BA.*/ nocase or $e.target.process.command_line = /.*;SY.*/ nocase or $e.target.process.command_line = /.*;WD.*/ nocase)))
+
+  condition:
+    $e
+}

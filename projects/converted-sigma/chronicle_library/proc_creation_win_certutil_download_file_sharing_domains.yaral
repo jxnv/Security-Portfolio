@@ -1,0 +1,23 @@
+// Title: Suspicious File Downloaded From File-Sharing Website Via Certutil.EXE
+// ID: 42a5f1e7-9603-4f6d-97ae-3f37d130d794
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-02-15
+// Tags: attack.stealth, attack.t1027, attack.command-and-control, attack.t1105
+// Description: Detects the execution of certutil with certain flags that allow the utility to download files from file-sharing websites.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 42a5f1e7_9603_4f6d_97ae_3f37d130d794 {
+  meta:
+    title = "Suspicious File Downloaded From File-Sharing Website Via Certutil.EXE"
+    description = "Detects the execution of certutil with certain flags that allow the utility to download files from file-sharing websites."
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*urlcache .*/ nocase or $e.target.process.command_line = /.*verifyctl .*/ nocase or $e.target.process.command_line = /.*URL .*/ nocase)) and (($e.target.process.command_line = /.*.githubusercontent.com.*/ nocase or $e.target.process.command_line = /.*0x0.st.*/ nocase or $e.target.process.command_line = /.*anonfiles.com.*/ nocase or $e.target.process.command_line = /.*bashupload.com.*/ nocase or $e.target.process.command_line = /.*cdn.discordapp.com.*/ nocase or $e.target.process.command_line = /.*chunk.io.*/ nocase or $e.target.process.command_line = /.*ddns.net.*/ nocase or $e.target.process.command_line = /.*dl.dropboxusercontent.com.*/ nocase or $e.target.process.command_line = /.*ghostbin.co.*/ nocase or $e.target.process.command_line = /.*github.com.*/ nocase or $e.target.process.command_line = /.*glitch.me.*/ nocase or $e.target.process.command_line = /.*gofile.io.*/ nocase or $e.target.process.command_line = /.*hastebin.com.*/ nocase or $e.target.process.command_line = /.*mediafire.com.*/ nocase or $e.target.process.command_line = /.*mega.nz.*/ nocase or $e.target.process.command_line = /.*onrender.com.*/ nocase or $e.target.process.command_line = /.*pages.dev.*/ nocase or $e.target.process.command_line = /.*paste.ee.*/ nocase or $e.target.process.command_line = /.*pastebin.com.*/ nocase or $e.target.process.command_line = /.*pastebin.pl.*/ nocase or $e.target.process.command_line = /.*pastetext.net.*/ nocase or $e.target.process.command_line = /.*privatlab.com.*/ nocase or $e.target.process.command_line = /.*privatlab.net.*/ nocase or $e.target.process.command_line = /.*send.exploit.in.*/ nocase or $e.target.process.command_line = /.*sendspace.com.*/ nocase or $e.target.process.command_line = /.*storage.googleapis.com.*/ nocase or $e.target.process.command_line = /.*storjshare.io.*/ nocase or $e.target.process.command_line = /.*supabase.co.*/ nocase or $e.target.process.command_line = /.*temp.sh.*/ nocase or $e.target.process.command_line = /.*transfer.sh.*/ nocase or $e.target.process.command_line = /.*trycloudflare.com.*/ nocase or $e.target.process.command_line = /.*ufile.io.*/ nocase or $e.target.process.command_line = /.*w3spaces.com.*/ nocase or $e.target.process.command_line = /.*workers.dev.*/ nocase or $e.target.process.command_line = /.*x0.at.*/ nocase)) and (($e.target.process.file.full_path = /.*\\certutil.exe$/ nocase) or ($e.target.process.file.name = "CertUtil.exe")))
+
+  condition:
+    $e
+}

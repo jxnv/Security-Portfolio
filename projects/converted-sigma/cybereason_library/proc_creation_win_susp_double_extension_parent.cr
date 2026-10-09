@@ -1,0 +1,11 @@
+// Title: Suspicious Parent Double Extension File Execution
+// ID: 5e6a80c8-2d45-4633-9ef4-fa2671a39c5c
+// Status: test
+// Level: high
+// Author: frack113, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-01-06
+// Tags: attack.stealth, attack.t1036.007
+// Description: Detect execution of suspicious double extension files in ParentCommandLine
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((ParentImage="*.doc.lnk" OR ParentImage="*.docx.lnk" OR ParentImage="*.xls.lnk" OR ParentImage="*.xlsx.lnk" OR ParentImage="*.ppt.lnk" OR ParentImage="*.pptx.lnk" OR ParentImage="*.rtf.lnk" OR ParentImage="*.pdf.lnk" OR ParentImage="*.txt.lnk" OR ParentImage="*.doc.js" OR ParentImage="*.docx.js" OR ParentImage="*.xls.js" OR ParentImage="*.xlsx.js" OR ParentImage="*.ppt.js" OR ParentImage="*.pptx.js" OR ParentImage="*.rtf.js" OR ParentImage="*.pdf.js" OR ParentImage="*.txt.js")) OR ((ParentCommandLine contains ".doc.lnk" OR ParentCommandLine contains ".docx.lnk" OR ParentCommandLine contains ".xls.lnk" OR ParentCommandLine contains ".xlsx.lnk" OR ParentCommandLine contains ".ppt.lnk" OR ParentCommandLine contains ".pptx.lnk" OR ParentCommandLine contains ".rtf.lnk" OR ParentCommandLine contains ".pdf.lnk" OR ParentCommandLine contains ".txt.lnk" OR ParentCommandLine contains ".doc.js" OR ParentCommandLine contains ".docx.js" OR ParentCommandLine contains ".xls.js" OR ParentCommandLine contains ".xlsx.js" OR ParentCommandLine contains ".ppt.js" OR ParentCommandLine contains ".pptx.js" OR ParentCommandLine contains ".rtf.js" OR ParentCommandLine contains ".pdf.js" OR ParentCommandLine contains ".txt.js")))

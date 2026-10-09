@@ -1,0 +1,23 @@
+// Title: ESXi Network Configuration Discovery Via ESXCLI
+// ID: 33e814e0-1f00-4e43-9c34-31fb7ae2b174
+// Status: test
+// Level: medium
+// Author: Cedric Maurugeon
+// Date: 2023-09-04
+// Tags: attack.discovery, attack.execution, attack.t1033, attack.t1007, attack.t1059.012
+// Description: Detects execution of the "esxcli" command with the "network" flag in order to retrieve information about the network configuration.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 33e814e0_1f00_4e43_9c34_31fb7ae2b174 {
+  meta:
+    title = "ESXi Network Configuration Discovery Via ESXCLI"
+    description = "Detects execution of the "esxcli" command with the "network" flag in order to retrieve information about the network configuration."
+    author = "Cedric Maurugeon"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.command_line = /.* get.*/ nocase or $e.target.process.command_line = /.* list.*/ nocase)) and ($e.target.process.file.full_path = /.*/esxcli$/ nocase and $e.target.process.command_line = /.*network.*/ nocase))
+
+  condition:
+    $e
+}

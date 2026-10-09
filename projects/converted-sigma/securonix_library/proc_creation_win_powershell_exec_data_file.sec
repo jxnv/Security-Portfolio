@@ -1,0 +1,11 @@
+// Title: Powershell Inline Execution From A File
+// ID: ee218c12-627a-4d27-9e30-d6fb2fe22ed2
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-12-25
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects inline execution of PowerShell code from a file
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((CommandLine CONTAINS "iex " OR CommandLine CONTAINS "Invoke-Expression " OR CommandLine CONTAINS "Invoke-Command " OR CommandLine CONTAINS "icm ")) AND (CommandLine CONTAINS " -raw") AND ((CommandLine CONTAINS "cat " OR CommandLine CONTAINS "get-content " OR CommandLine CONTAINS "type ")))

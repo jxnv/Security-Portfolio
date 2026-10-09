@@ -1,0 +1,23 @@
+// Title: Registry Modification Via Regini.EXE
+// ID: 5f60740a-f57b-4e76-82a1-15b6ff2cb134
+// Status: test
+// Level: low
+// Author: Eli Salem, Sander Wiebing, oscd.community
+// Date: 2020-10-08
+// Tags: attack.persistence, attack.defense-impairment, attack.t1112
+// Description: Detects the execution of regini.exe which can be used to modify registry keys, the changes are imported from one or more text files.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 5f60740a_f57b_4e76_82a1_15b6ff2cb134 {
+  meta:
+    title = "Registry Modification Via Regini.EXE"
+    description = "Detects the execution of regini.exe which can be used to modify registry keys, the changes are imported from one or more text files."
+    author = "Eli Salem, Sander Wiebing, oscd.community"
+    severity = "LOW"
+
+  events:
+    ((($e.target.process.file.full_path = /.*\\regini.exe$/ nocase) or ($e.target.process.file.name = "REGINI.EXE")) and not(($e.target.process.command_line = /:[^ \\]/ nocase)))
+
+  condition:
+    $e
+}

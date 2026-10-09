@@ -1,0 +1,30 @@
+{
+  "title": "Microsoft Malware Protection Engine Crash - WER",
+  "id": "6c82cf5c-090d-4d57-9188-533577631108",
+  "status": "test",
+  "description": "This rule detects a suspicious crash of the Microsoft Malware Protection Engine",
+  "author": "Florian Roth (Nextron Systems)",
+  "date": "2017-05-09",
+  "tags": [
+    "attack.stealth",
+    "attack.defense-impairment",
+    "attack.t1211",
+    "attack.t1685"
+  ],
+  "level": "high",
+  "logsource": {
+    "product": "windows",
+    "service": "application"
+  },
+  "detection": {
+    "selection": {
+      "Provider_Name": "Windows Error Reporting",
+      "EventID": 1001,
+      "Data|contains|all": [
+        "MsMpEng.exe",
+        "mpengine.dll"
+      ]
+    },
+    "condition": "selection"
+  }
+}

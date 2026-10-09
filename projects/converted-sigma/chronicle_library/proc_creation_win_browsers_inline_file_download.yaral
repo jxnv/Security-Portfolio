@@ -1,0 +1,23 @@
+// Title: File Download From Browser Process Via Inline URL
+// ID: 94771a71-ba41-4b6e-a757-b531372eaab6
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-01-11
+// Tags: attack.command-and-control, attack.t1105
+// Description: Detects execution of a browser process with a URL argument pointing to a file with a potentially interesting extension. This can be abused to download arbitrary files or to hide from the user for example by launching the browser in a minimized state.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 94771a71_ba41_4b6e_a757_b531372eaab6 {
+  meta:
+    title = "File Download From Browser Process Via Inline URL"
+    description = "Detects execution of a browser process with a URL argument pointing to a file with a potentially interesting extension. This can be abused to download arbitrary files or to hide from the user for example by launching the browser in a minimized state."
+    author = "Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (((($e.target.process.command_line = /.*.7z$/ nocase or $e.target.process.command_line = /.*.dat$/ nocase or $e.target.process.command_line = /.*.dll$/ nocase or $e.target.process.command_line = /.*.exe$/ nocase or $e.target.process.command_line = /.*.hta$/ nocase or $e.target.process.command_line = /.*.ps1$/ nocase or $e.target.process.command_line = /.*.psm1$/ nocase or $e.target.process.command_line = /.*.txt$/ nocase or $e.target.process.command_line = /.*.vbe$/ nocase or $e.target.process.command_line = /.*.vbs$/ nocase or $e.target.process.command_line = /.*.zip$/ nocase)) or (($e.target.process.command_line = /.*.7z\".*/ nocase or $e.target.process.command_line = /.*.dat\".*/ nocase or $e.target.process.command_line = /.*.dll\".*/ nocase or $e.target.process.command_line = /.*.hta\".*/ nocase or $e.target.process.command_line = /.*.ps1\".*/ nocase or $e.target.process.command_line = /.*.psm1\".*/ nocase or $e.target.process.command_line = /.*.txt\".*/ nocase or $e.target.process.command_line = /.*.vbe\".*/ nocase or $e.target.process.command_line = /.*.vbs\".*/ nocase or $e.target.process.command_line = /.*.zip\".*/ nocase))) and ($e.target.process.command_line = /.*http.*/ nocase) and (($e.target.process.file.full_path = /.*\\brave.exe$/ nocase or $e.target.process.file.full_path = /.*\\chrome.exe$/ nocase or $e.target.process.file.full_path = /.*\\msedge.exe$/ nocase or $e.target.process.file.full_path = /.*\\opera.exe$/ nocase or $e.target.process.file.full_path = /.*\\vivaldi.exe$/ nocase)))
+
+  condition:
+    $e
+}

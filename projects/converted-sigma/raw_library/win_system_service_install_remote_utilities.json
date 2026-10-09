@@ -1,0 +1,34 @@
+{
+  "title": "Remote Utilities Host Service Install",
+  "id": "85cce894-dd8b-4427-a958-5cc47a4dc9b9",
+  "status": "test",
+  "description": "Detects Remote Utilities Host service installation on the target system.",
+  "author": "Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2022-10-31",
+  "tags": [
+    "attack.persistence"
+  ],
+  "level": "medium",
+  "logsource": {
+    "product": "windows",
+    "service": "system"
+  },
+  "detection": {
+    "selection_root": {
+      "Provider_Name": "Service Control Manager",
+      "EventID": 7045
+    },
+    "selection_service": [
+      {
+        "ImagePath|contains|all": [
+          "\\rutserv.exe",
+          "-service"
+        ]
+      },
+      {
+        "ServiceName": "Remote Utilities - Host"
+      }
+    ],
+    "condition": "all of selection_*"
+  }
+}

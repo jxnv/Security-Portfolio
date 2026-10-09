@@ -1,0 +1,23 @@
+// Title: Delete Defender Scan ShellEx Context Menu Registry Key
+// ID: 72a0369a-2576-4aaf-bfc9-6bb24a574ac6
+// Status: experimental
+// Level: medium
+// Author: Matt Anderson (Huntress)
+// Date: 2025-07-11
+// Tags: attack.defense-impairment
+// Description: Detects deletion of registry key that adds 'Scan with Defender' option in context menu. Attackers may use this to make it harder for users to scan files that are suspicious.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 72a0369a_2576_4aaf_bfc9_6bb24a574ac6 {
+  meta:
+    title = "Delete Defender Scan ShellEx Context Menu Registry Key"
+    description = "Detects deletion of registry key that adds 'Scan with Defender' option in context menu. Attackers may use this to make it harder for users to scan files that are suspicious."
+    author = "Matt Anderson (Huntress)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.TargetObject = /.*shellex\\ContextMenuHandlers\\EPP.*/ nocase) and not((($e.target.process.file.full_path = /^C:\\ProgramData\\Microsoft\\Windows Defender\\Platform\\.*/ nocase or $e.target.process.file.full_path = /^C:\\Program Files\\Windows Defender\\.*/ nocase or $e.target.process.file.full_path = /^C:\\Program Files (x86)\\Windows Defender\\.*/ nocase) and $e.target.process.file.full_path = /.*\\MsMpEng.exe$/ nocase)))
+
+  condition:
+    $e
+}

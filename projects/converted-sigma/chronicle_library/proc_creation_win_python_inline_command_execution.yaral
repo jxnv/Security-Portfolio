@@ -1,0 +1,23 @@
+// Title: Python Inline Command Execution
+// ID: 899133d5-4d7c-4a7f-94ee-27355c879d90
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-01-02
+// Tags: attack.execution, attack.t1059
+// Description: Detects execution of python using the "-c" flag. This is could be used as a way to launch a reverse shell or execute live python code.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 899133d5_4d7c_4a7f_94ee_27355c879d90 {
+  meta:
+    title = "Python Inline Command Execution"
+    description = "Detects execution of python using the "-c" flag. This is could be used as a way to launch a reverse shell or execute live python code."
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.command_line = /.* -c.*/ nocase) and (($e.target.process.file.name = "python.exe") or (($e.target.process.file.full_path = /.*python.exe$/ nocase or $e.target.process.file.full_path = /.*python3.exe$/ nocase or $e.target.process.file.full_path = /.*python2.exe$/ nocase)))) and not(((($e.principal.process.file.full_path = /^C:\\Program Files\\Python.*/ nocase or $e.principal.process.file.full_path = /^C:\\Program Files (x86)\\Python.*/ nocase) and $e.principal.process.file.full_path = /.*\\python.exe$/ nocase and $e.principal.process.command_line = /.*-E -s -m ensurepip -U --default-pip.*/ nocase) or (($e.principal.process.file.full_path = /^C:\\Program Files\\Python.*/ nocase or $e.principal.process.file.full_path = /^C:\\Program Files (x86)\\Python.*/ nocase) and ($e.target.process.command_line = /.*-W ignore::DeprecationWarning.*/ nocase and $e.target.process.command_line = /.*['install', '--no-cache-dir', '--no-index', '--find-links',.*/ nocase and $e.target.process.command_line = /.*'--upgrade', 'pip'.*/ nocase)))) and not(((($e.target.process.command_line = /.*<pip-setuptools-caller>.*/ nocase and $e.target.process.command_line = /.*exec(compile(.*/ nocase)) or (($e.principal.process.file.full_path = /.*\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe$/ nocase) or (($e.principal.process.file.full_path = "C:\\Program Files\\Microsoft VS Code\\Code.exe" or $e.principal.process.file.full_path = "C:\\Program Files (x86)\\Microsoft VS Code\\Code.exe"))))))
+
+  condition:
+    $e
+}

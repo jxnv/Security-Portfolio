@@ -1,0 +1,23 @@
+// Title: Potential Ransomware or Unauthorized MBR Tampering Via Bcdedit.EXE
+// ID: c9fbe8e9-119d-40a6-9b59-dd58a5d84429
+// Status: test
+// Level: medium
+// Author: @neu5ron
+// Date: 2019-02-07
+// Tags: attack.stealth, attack.t1070, attack.persistence, attack.t1542.003
+// Description: Detects potential malicious and unauthorized usage of bcdedit.exe
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule c9fbe8e9_119d_40a6_9b59_dd58a5d84429 {
+  meta:
+    title = "Potential Ransomware or Unauthorized MBR Tampering Via Bcdedit.EXE"
+    description = "Detects potential malicious and unauthorized usage of bcdedit.exe"
+    author = "@neu5ron"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.command_line = /.*delete.*/ nocase or $e.target.process.command_line = /.*deletevalue.*/ nocase or $e.target.process.command_line = /.*import.*/ nocase or $e.target.process.command_line = /.*safeboot.*/ nocase or $e.target.process.command_line = /.*network.*/ nocase)) and (($e.target.process.file.full_path = /.*\\bcdedit.exe$/ nocase) or ($e.target.process.file.name = "bcdedit.exe")))
+
+  condition:
+    $e
+}

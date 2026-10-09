@@ -1,0 +1,13 @@
+// Title: Suspicious Get-Variable.exe Creation
+// ID: 0c3fac91-5627-46e8-a6a8-a0d7b9b8ae1b
+// Status: test
+// Level: high
+// Author: frack113
+// Date: 2022-04-23
+// Tags: attack.privilege-escalation, attack.persistence, attack.stealth, attack.t1546, attack.t1027
+// Description: Get-Variable is a valid PowerShell cmdlet
+// WindowsApps is by default in the path where PowerShell is executed.
+// So when the Get-Variable command is issued on PowerShell execution, the system first looks for the Get-Variable executable in the path and executes the malicious binary instead of looking for the PowerShell cmdlet.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+file where (file.path endswith "Local\\Microsoft\\WindowsApps\\Get-Variable.exe")

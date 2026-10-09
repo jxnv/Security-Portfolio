@@ -1,0 +1,26 @@
+// Title: NewActiveScriptEventConsumer Creation Attempt via Wmic.EXE
+// ID: ebef4391-1a81-4761-a40a-1db446c0e625
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2021-06-25
+// Tags: attack.privilege-escalation, attack.persistence, attack.t1546.003
+// Description: Detects the attempt to create an ActiveScriptEventConsumer via WMIC.EXE.
+// An ActiveScriptEventConsumer is a built-in Windows Management Instrumentation (WMI) class that
+// automatically executes a predefined script (in VBScript or JScript) whenever a specific system event occurs.
+// Adversaries often abuse ActiveScriptEventConsumer to maintain persistence on a compromised host by executing a malicious script whenever a specific event occurs.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule ebef4391_1a81_4761_a40a_1db446c0e625 {
+  meta:
+    title = "NewActiveScriptEventConsumer Creation Attempt via Wmic.EXE"
+    description = "Detects the attempt to create an ActiveScriptEventConsumer via WMIC.EXE. An ActiveScriptEventConsumer is a built-in Windows Management Instrumentation (WMI) class that automatically executes a predefined script (in VBScript or JScript) whenever a specific system event occurs. Adversaries often abuse ActiveScriptEventConsumer to maintain persistence on a compromised host by executing a malicious script whenever a specific event occurs."
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*ActiveScriptEventConsumer.*/ nocase and $e.target.process.command_line = /.* CREATE .*/ nocase)) and (($e.target.process.file.name = "wmic.exe") or ($e.target.process.file.full_path = /.*\\WMIC.exe$/ nocase)))
+
+  condition:
+    $e
+}

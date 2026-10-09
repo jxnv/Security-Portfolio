@@ -1,0 +1,23 @@
+// Title: Potential Goopdate.DLL Sideloading
+// ID: b6188d2f-b3c4-4d2c-a17d-9706e0851af0
+// Status: test
+// Level: medium
+// Author: X__Junior (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-05-15
+// Tags: attack.persistence, attack.privilege-escalation, attack.execution, attack.stealth, attack.t1574.001
+// Description: Detects potential DLL sideloading of "goopdate.dll", a DLL used by googleupdate.exe
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule b6188d2f_b3c4_4d2c_a17d_9706e0851af0 {
+  meta:
+    title = "Potential Goopdate.DLL Sideloading"
+    description = "Detects potential DLL sideloading of "goopdate.dll", a DLL used by googleupdate.exe"
+    author = "X__Junior (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.ImageLoaded = /.*\\goopdate.dll$/ nocase) and not((($e.ImageLoaded = /^C:\\Program Files (x86)\\.*/ nocase or $e.ImageLoaded = /^C:\\Program Files\\.*/ nocase))) and not(((($e.target.process.file.full_path = /.*\\AppData\\Local\\Temp\\GUM.*/ nocase and $e.target.process.file.full_path = /.*.tmp\\Dropbox.*/ nocase) and ($e.ImageLoaded = /.*\\AppData\\Local\\Temp\\GUM.*/ nocase and $e.ImageLoaded = /.*.tmp\\goopdate.dll.*/ nocase)) or (($e.target.process.file.full_path = /.*\\AppData\\Local\\Temp\\GUM.*/ nocase or $e.target.process.file.full_path = /.*:\\Windows\\SystemTemp\\GUM.*/ nocase) and $e.target.process.file.full_path = /.*.tmp\\GoogleUpdate.exe$/ nocase and ($e.ImageLoaded = /.*\\AppData\\Local\\Temp\\GUM.*/ nocase or $e.ImageLoaded = /.*:\\Windows\\SystemTemp\\GUM.*/ nocase)))))
+
+  condition:
+    $e
+}

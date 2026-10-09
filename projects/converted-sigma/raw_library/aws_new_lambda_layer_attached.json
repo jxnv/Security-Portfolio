@@ -1,0 +1,24 @@
+{
+  "title": "AWS New Lambda Layer Attached",
+  "id": "97fbabf8-8e1b-47a2-b7d5-a418d2b95e3d",
+  "status": "test",
+  "description": "Detects when a user attached a Lambda layer to an existing Lambda function.\nA malicious Lambda layer could execute arbitrary code in the context of the function's IAM role.\nThis would give an adversary access to resources that the function has access to.\n",
+  "author": "Austin Songer",
+  "date": "2021-09-23",
+  "tags": [
+    "attack.privilege-escalation"
+  ],
+  "level": "low",
+  "logsource": {
+    "product": "aws",
+    "service": "cloudtrail"
+  },
+  "detection": {
+    "selection": {
+      "eventSource": "lambda.amazonaws.com",
+      "eventName|startswith": "UpdateFunctionConfiguration",
+      "requestParameters.layers|contains": "*"
+    },
+    "condition": "selection"
+  }
+}

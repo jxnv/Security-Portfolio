@@ -1,0 +1,23 @@
+// Title: PowerShell Hotfix Enumeration
+// ID: f5d1def8-1de0-4a0e-9794-1f6f27dd605c
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-06-21
+// Tags: attack.discovery
+// Description: Detects call to "Win32_QuickFixEngineering" in order to enumerate installed hotfixes often used in "enum" scripts by attackers
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule f5d1def8_1de0_4a0e_9794_1f6f27dd605c {
+  meta:
+    title = "PowerShell Hotfix Enumeration"
+    description = "Detects call to "Win32_QuickFixEngineering" in order to enumerate installed hotfixes often used in "enum" scripts by attackers"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.ScriptBlockText = /.*Win32_QuickFixEngineering.*/ nocase and $e.ScriptBlockText = /.*HotFixID.*/ nocase))
+
+  condition:
+    $e
+}

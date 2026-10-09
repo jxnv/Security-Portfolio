@@ -1,0 +1,11 @@
+// Title: AWL Bypass with Winrm.vbs and Malicious WsmPty.xsl/WsmTxt.xsl - File
+// ID: d353dac0-1b41-46c2-820c-d7d2561fc6ed
+// Status: test
+// Level: medium
+// Author: Julia Fomina, oscd.community
+// Date: 2020-10-06
+// Tags: attack.stealth, attack.t1216
+// Description: Detects execution of attacker-controlled WsmPty.xsl or WsmTxt.xsl via winrm.vbs and copied cscript.exe (can be renamed)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter (((action_file_path endswith "WsmPty.xsl" or action_file_path endswith "WsmTxt.xsl")) and not (((action_file_path startswith "C:\\Windows\\System32\\" or action_file_path startswith "C:\\Windows\\SysWOW64\\"))))

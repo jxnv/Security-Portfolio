@@ -1,0 +1,11 @@
+-- Title: Potential Suspicious BPF Activity - Linux
+-- ID: 0fadd880-6af3-4610-b1e5-008dc3a11b8a
+-- Status: test
+-- Level: high
+-- Author: Red Canary (idea), Nasreddine Bencherchali
+-- Date: 2023-01-25
+-- Tags: attack.persistence, attack.stealth
+-- Description: Detects the presence of "bpf_probe_write_user" BPF helper-generated warning messages. Which could be a sign of suspicious eBPF activity on the system.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE ("bpf_probe_write_user")

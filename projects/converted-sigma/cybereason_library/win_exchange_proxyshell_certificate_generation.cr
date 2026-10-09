@@ -1,0 +1,11 @@
+// Title: Certificate Request Export to Exchange Webserver
+// ID: b7bc7038-638b-4ffd-880c-292c692209ef
+// Status: test
+// Level: critical
+// Author: Max Altgelt (Nextron Systems)
+// Date: 2021-08-23
+// Tags: attack.persistence, attack.t1505.003
+// Description: Detects a write of an Exchange CSR to an untypical directory or with aspx name suffix which can be used to place a webshell
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((( == "New-ExchangeCertificate" AND  == " -GenerateRequest" AND  == " -BinaryEncoded" AND  == " -RequestFile")) AND ("\\\\\\\\localhost\\\\C$" OR "\\\\\\\\127.0.0.1\\\\C$" OR "C:\\\\inetpub" OR ".aspx"))

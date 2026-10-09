@@ -1,0 +1,19 @@
+# Title: New DNS ServerLevelPluginDll Installed
+# ID: e61e8a88-59a9-451c-874e-70fcc9740d67
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems)
+# Date: 2017-05-08
+# Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.stealth, attack.defense-impairment, attack.t1574.001, attack.t1112
+# Description: Detects the installation of a DNS plugin DLL via ServerLevelPluginDll parameter in registry, which can be used to execute code in context of the DNS server (restart required)
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: New DNS ServerLevelPluginDll Installed
+def rule(event):
+    # Detection Logic:
+    # (TargetObject="*\\services\\DNS\\Parameters\\ServerLevelPluginDll")
+    return True
+
+def title(event):
+    return "New DNS ServerLevelPluginDll Installed"
+

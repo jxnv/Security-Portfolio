@@ -1,0 +1,11 @@
+# Title: Potential Attachment Manager Settings Attachments Tamper
+# ID: ee77a5db-b0f3-4be2-bfd4-b58be1c6b15a
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-08-01
+# Tags: attack.defense-impairment
+# Description: Detects tampering with attachment manager settings policies attachments (See reference for more information)
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog ((registry_key_name="*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Attachments\\*") AND ((registry_key_name="*\\HideZoneInfoOnProperties" AND Details="DWORD (0x00000001)") OR (registry_key_name="*\\SaveZoneInformation" AND Details="DWORD (0x00000002)") OR (registry_key_name="*\\ScanWithAntiVirus" AND Details="DWORD (0x00000001)")))

@@ -1,0 +1,23 @@
+// Title: Invoke-Obfuscation Via Use Clip
+// ID: e1561947-b4e3-4a74-9bdd-83baed21bdb5
+// Status: test
+// Level: high
+// Author: Nikita Nazarov, oscd.community
+// Date: 2020-10-09
+// Tags: attack.stealth, attack.t1027, attack.execution, attack.t1059.001
+// Description: Detects Obfuscated Powershell via use Clip.exe in Scripts
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule e1561947_b4e3_4a74_9bdd_83baed21bdb5 {
+  meta:
+    title = "Invoke-Obfuscation Via Use Clip"
+    description = "Detects Obfuscated Powershell via use Clip.exe in Scripts"
+    author = "Nikita Nazarov, oscd.community"
+    severity = "HIGH"
+
+  events:
+    ($e.target.process.command_line = /(?i)echo.*clip.*&&.*(?:Clipboard|i`?n`?v`?o`?k`?e`?)/ nocase)
+
+  condition:
+    $e
+}

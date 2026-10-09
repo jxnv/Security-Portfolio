@@ -1,0 +1,19 @@
+# Title: Suspicious Extrac32 Execution
+# ID: aa8e035d-7be4-48d3-a944-102aec04400d
+# Status: test
+# Level: medium
+# Author: frack113
+# Date: 2021-11-26
+# Tags: attack.command-and-control, attack.t1105
+# Description: Download or Copy file with Extrac32
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Suspicious Extrac32 Execution
+def rule(event):
+    # Detection Logic:
+    # ((CommandLine="*.cab*") AND ((CommandLine="*extrac32.exe*") OR (Image="*\\extrac32.exe") OR (OriginalFileName="extrac32.exe")) AND ((CommandLine="*/C*" OR CommandLine="*/Y*" OR CommandLine="* \\\\\\\\*")))
+    return True
+
+def title(event):
+    return "Suspicious Extrac32 Execution"
+

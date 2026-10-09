@@ -1,0 +1,11 @@
+// Title: Process Proxy Execution Via Squirrel.EXE
+// ID: 45239e6a-b035-4aaf-b339-8ad379fcb67e
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems), Karneades / Markus Neis, Jonhnathan Ribeiro, oscd.community
+// Date: 2022-06-09
+// Tags: attack.execution, attack.stealth, attack.t1218
+// Description: Detects the usage of the "Squirrel.exe" binary to execute arbitrary processes. This binary is part of multiple Electron based software installations (Slack, Teams, Discord, etc.)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where ((((process.command_line like "*_--processStart*" or process.command_line like "*_--processStartAndWait*" or process.command_line like "*_--createShortcut*")) and ((process.executable endswith "\\squirrel.exe" or process.executable endswith "\\update.exe"))) and not ((((process.command_line like "*_:\\Users\\*" and process.command_line like "*_\\AppData\\Local\\Discord\\Update.exe*" and process.command_line like "*_Discord.exe*") and (process.command_line like "*_--createShortcut*" or process.command_line like "*_--processStart*")) or ((process.command_line like "*_:\\Users\\*" and process.command_line like "*_\\AppData\\Local\\GitHubDesktop\\Update.exe*" and process.command_line like "*_GitHubDesktop.exe*") and (process.command_line like "*_--createShortcut*" or process.command_line like "*_--processStartAndWait*")) or ((process.command_line like "*_:\\Users\\*" and process.command_line like "*_\\AppData\\Local\\Microsoft\\Teams\\Update.exe*" and process.command_line like "*_Teams.exe*") and (process.command_line like "*_--processStart*" or process.command_line like "*_--createShortcut*")) or ((process.command_line like "*_:\\Users\\*" and process.command_line like "*_\\AppData\\Local\\yammerdesktop\\Update.exe*" and process.command_line like "*_Yammer.exe*") and (process.command_line like "*_--processStart*" or process.command_line like "*_--createShortcut*")))))

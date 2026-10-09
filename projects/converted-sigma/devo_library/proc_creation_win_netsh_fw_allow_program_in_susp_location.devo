@@ -1,0 +1,11 @@
+// Title: Suspicious Program Location Whitelisted In Firewall Via Netsh.EXE
+// ID: a35f5a72-f347-4e36-8895-9869b0d5fc6d
+// Status: test
+// Level: high
+// Author: Sander Wiebing, Jonhnathan Ribeiro, Daniil Yugoslavskiy, oscd.community
+// Date: 2020-05-25
+// Tags: attack.defense-impairment, attack.t1686.003
+// Description: Detects Netsh command execution that whitelists a program located in a suspicious location in the Windows Firewall
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+from siem.events where ((((contains(CommandLine, "firewall") AND contains(CommandLine, "add") AND contains(CommandLine, "allowedprogram"))) OR ((contains(CommandLine, "advfirewall") AND contains(CommandLine, "firewall") AND contains(CommandLine, "add") AND contains(CommandLine, "rule") AND contains(CommandLine, "action=allow") AND contains(CommandLine, "program=")))) AND ((Image="*\\netsh.exe") OR (OriginalFileName == "netsh.exe")) AND ((contains(CommandLine, ":\\$Recycle.bin\\") OR contains(CommandLine, ":\\RECYCLER.BIN\\") OR contains(CommandLine, ":\\RECYCLERS.BIN\\") OR contains(CommandLine, ":\\SystemVolumeInformation\\") OR contains(CommandLine, ":\\Temp\\") OR contains(CommandLine, ":\\Users\\Default\\") OR contains(CommandLine, ":\\Users\\Desktop\\") OR contains(CommandLine, ":\\Users\\Public\\") OR contains(CommandLine, ":\\Windows\\addins\\") OR contains(CommandLine, ":\\Windows\\cursors\\") OR contains(CommandLine, ":\\Windows\\debug\\") OR contains(CommandLine, ":\\Windows\\drivers\\") OR contains(CommandLine, ":\\Windows\\fonts\\") OR contains(CommandLine, ":\\Windows\\help\\") OR contains(CommandLine, ":\\Windows\\system32\\tasks\\") OR contains(CommandLine, ":\\Windows\\Tasks\\") OR contains(CommandLine, ":\\Windows\\Temp\\") OR contains(CommandLine, "\\Downloads\\") OR contains(CommandLine, "\\Local Settings\\Temporary Internet Files\\") OR contains(CommandLine, "\\Temporary Internet Files\\Content.Outlook\\") OR contains(CommandLine, "%Public%\\") OR contains(CommandLine, "%TEMP%") OR contains(CommandLine, "%TMP%"))))

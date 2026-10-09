@@ -1,0 +1,11 @@
+// Title: CodeIntegrity - Revoked Image Loaded
+// ID: 881b7725-47cc-4055-8000-425823344c59
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-06-06
+// Tags: attack.privilege-escalation
+// Description: Detects image load events with revoked certificates by code integrity.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((EventID == "3032" OR EventID == "3035"))

@@ -1,0 +1,23 @@
+// Title: Windows Shell/Scripting Application File Write to Suspicious Folder
+// ID: 1277f594-a7d1-4f28-a2d3-73af5cbeab43
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2021-11-20
+// Tags: attack.execution, attack.t1059
+// Description: Detects Windows shells and scripting applications that write files to suspicious folders
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 1277f594_a7d1_4f28_a2d3_73af5cbeab43 {
+  meta:
+    title = "Windows Shell/Scripting Application File Write to Suspicious Folder"
+    description = "Detects Windows shells and scripting applications that write files to suspicious folders"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.file.full_path = /.*\\bash.exe$/ nocase or $e.target.process.file.full_path = /.*\\cmd.exe$/ nocase or $e.target.process.file.full_path = /.*\\cscript.exe$/ nocase or $e.target.process.file.full_path = /.*\\msbuild.exe$/ nocase or $e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase or $e.target.process.file.full_path = /.*\\sh.exe$/ nocase or $e.target.process.file.full_path = /.*\\wscript.exe$/ nocase) and ($e.target.file.full_path = /^C:\\PerfLogs\\.*/ nocase or $e.target.file.full_path = /^C:\\Users\\Public\\.*/ nocase)) or (($e.target.process.file.full_path = /.*\\certutil.exe$/ nocase or $e.target.process.file.full_path = /.*\\forfiles.exe$/ nocase or $e.target.process.file.full_path = /.*\\mshta.exe$/ nocase or $e.target.process.file.full_path = /.*\\schtasks.exe$/ nocase or $e.target.process.file.full_path = /.*\\scriptrunner.exe$/ nocase or $e.target.process.file.full_path = /.*\\wmic.exe$/ nocase) and ($e.target.file.full_path = /.*C:\\PerfLogs\\.*/ nocase or $e.target.file.full_path = /.*C:\\Users\\Public\\.*/ nocase or $e.target.file.full_path = /.*C:\\Windows\\Temp\\.*/ nocase)))
+
+  condition:
+    $e
+}

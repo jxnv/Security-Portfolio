@@ -1,0 +1,23 @@
+// Title: Potential Credential Dumping Attempt Using New NetworkProvider - REG
+// ID: 0442defa-b4a2-41c9-ae2c-ea7042fc4701
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-23
+// Tags: attack.credential-access, attack.t1003
+// Description: Detects when an attacker tries to add a new network provider in order to dump clear text credentials, similar to how the NPPSpy tool does it
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 0442defa_b4a2_41c9_ae2c_ea7042fc4701 {
+  meta:
+    title = "Potential Credential Dumping Attempt Using New NetworkProvider - REG"
+    description = "Detects when an attacker tries to add a new network provider in order to dump clear text credentials, similar to how the NPPSpy tool does it"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.TargetObject = /.*\\System\\CurrentControlSet\\Services\\.*/ nocase and $e.TargetObject = /.*\\NetworkProvider.*/ nocase)) and not(((($e.TargetObject = /.*\\System\\CurrentControlSet\\Services\\WebClient\\NetworkProvider.*/ nocase or $e.TargetObject = /.*\\System\\CurrentControlSet\\Services\\LanmanWorkstation\\NetworkProvider.*/ nocase or $e.TargetObject = /.*\\System\\CurrentControlSet\\Services\\RDPNP\\NetworkProvider.*/ nocase)) or ($e.target.process.file.full_path = "C:\\Windows\\System32\\poqexec.exe"))))
+
+  condition:
+    $e
+}

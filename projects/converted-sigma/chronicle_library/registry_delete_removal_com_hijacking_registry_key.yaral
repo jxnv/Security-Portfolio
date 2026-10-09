@@ -1,0 +1,24 @@
+// Title: Removal of Potential COM Hijacking Registry Keys
+// ID: 96f697b0-b499-4e5d-9908-a67bec11cdb6
+// Status: test
+// Level: medium
+// Author: Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research)
+// Date: 2020-05-02
+// Tags: attack.persistence, attack.defense-impairment, attack.t1112
+// Description: Detects any deletion of entries in ".*\shell\open\command" registry keys.
+// These registry keys might have been used for COM hijacking activities by a threat actor or an attacker and the deletion could indicate steps to remove its tracks.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 96f697b0_b499_4e5d_9908_a67bec11cdb6 {
+  meta:
+    title = "Removal of Potential COM Hijacking Registry Keys"
+    description = "Detects any deletion of entries in ".*\shell\open\command" registry keys. These registry keys might have been used for COM hijacking activities by a threat actor or an attacker and the deletion could indicate steps to remove its tracks."
+    author = "Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.TargetObject = /.*\\shell\\open\\command$/ nocase) and not((($e.target.process.file.full_path = /.*C:\\Windows\\explorer.exe$/ nocase) or (($e.target.process.file.full_path = /^C:\\Program Files\\.*/ nocase or $e.target.process.file.full_path = /^C:\\Program Files (x86)\\.*/ nocase)) or (($e.target.process.file.full_path = "C:\\Windows\\System32\\msiexec.exe" or $e.target.process.file.full_path = "C:\\Windows\\SysWOW64\\msiexec.exe")) or ($e.target.process.file.full_path = "C:\\Windows\\System32\\OpenWith.exe") or ($e.target.process.file.full_path = "C:\\Windows\\system32\\svchost.exe"))) and not(((($e.target.process.file.full_path = "C:\\Program Files (x86)\\Avira\\Antivirus\\" or $e.target.process.file.full_path = "C:\\Program Files\\Avira\\Antivirus\\") and ($e.TargetObject = /.*\\CLSID\\{305CA226-D286-468e-B848-2B2E8E697B74}\\Shell\\Open\\Command$/ nocase or $e.TargetObject = /.*\\AntiVir.Keyfile\\shell\\open\\command$/ nocase)) or ($e.target.process.file.full_path = /.*\\reg.exe$/ nocase and $e.TargetObject = /.*\\Discord\\shell\\open\\command$/ nocase) or ($e.target.process.file.full_path = /.*\\Dropbox.exe$/ nocase and $e.TargetObject = /.*\\Dropbox..*/ nocase) or ($e.target.process.file.full_path = /.*C:\\eclipse\\eclipse.exe$/ nocase and $e.TargetObject = /.*_Classes\\eclipse+.*/ nocase) or ($e.target.process.file.full_path = /.*\\Microsoft\\EdgeUpdate\\Install.*/ nocase) or ($e.target.process.file.full_path = /.*\\Everything.exe$/ nocase and $e.TargetObject = /.*\\Everything..*/ nocase) or ((($e.target.process.file.full_path = /.*AppData\\Local\\Temp.*/ nocase and $e.target.process.file.full_path = /.*\\setup.exe.*/ nocase)) or (($e.target.process.file.full_path = /.*\\Temp\\is-.*/ nocase and $e.target.process.file.full_path = /.*\\target.tmp.*/ nocase))) or ($e.target.process.file.full_path = /^C:\\Program Files (x86)\\Java\\.*/ nocase and $e.target.process.file.full_path = /.*\\installer.exe$/ nocase and $e.TargetObject = /.*\\Classes\\WOW6432Node\\CLSID\\{4299124F-F2C3-41b4-9C73-9236B2AD0E8F}.*/ nocase) or ($e.target.process.file.full_path = /.*\\ninite.exe$/ nocase) or ($e.target.process.file.full_path = /.*peazip.*/ nocase and $e.TargetObject = /.*\\PeaZip..*/ nocase) or ($e.target.process.file.full_path = /.*\\Spotify.exe$/ nocase and $e.TargetObject = /.*\\Spotify\\shell\\open\\command$/ nocase) or (($e.target.process.file.full_path = /.*\\Temp.*/ nocase and $e.target.process.file.full_path = /.*\\TeamViewer.*/ nocase)) or ($e.target.process.file.full_path = /^C:\\Windows\\Installer\\MSI.*/ nocase) or ($e.target.process.file.full_path = /.*\\AppData\\Local\\Temp\\Wireshark_uninstaller.exe$/ nocase and $e.TargetObject = /.*\\wireshark-capture-file\\.*/ nocase))))
+
+  condition:
+    $e
+}

@@ -1,0 +1,19 @@
+# Title: Suspicious File Download From File Sharing Domain Via Wget.EXE
+# ID: a0d7e4d2-bede-4141-8896-bc6e237e977c
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2023-05-05
+# Tags: attack.execution
+# Description: Detects potentially suspicious file downloads from file sharing domains using wget.exe
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Suspicious File Download From File Sharing Domain Via Wget.EXE
+def rule(event):
+    # Detection Logic:
+    # (((CommandLine="*.ps1" OR CommandLine="*.ps1'" OR CommandLine="*.ps1\"" OR CommandLine="*.dat" OR CommandLine="*.dat'" OR CommandLine="*.dat\"" OR CommandLine="*.msi" OR CommandLine="*.msi'" OR CommandLine="*.msi\"" OR CommandLine="*.bat" OR CommandLine="*.bat'" OR CommandLine="*.bat\"" OR CommandLine="*.exe" OR CommandLine="*.exe'" OR CommandLine="*.exe\"" OR CommandLine="*.vbs" OR CommandLine="*.vbs'" OR CommandLine="*.vbs\"" OR CommandLine="*.vbe" OR CommandLine="*.vbe'" OR CommandLine="*.vbe\"" OR CommandLine="*.hta" OR CommandLine="*.hta'" OR CommandLine="*.hta\"" OR CommandLine="*.dll" OR CommandLine="*.dll'" OR CommandLine="*.dll\"" OR CommandLine="*.psm1" OR CommandLine="*.psm1'" OR CommandLine="*.psm1\"")) AND ((CommandLine=regex("\\s-O\\s")) OR (CommandLine="*--output-document*")) AND (CommandLine="*http*") AND ((Image="*\\wget.exe") OR (OriginalFileName="wget.exe")) AND ((CommandLine="*.githubusercontent.com*" OR CommandLine="*0x0.st*" OR CommandLine="*anonfiles.com*" OR CommandLine="*bashupload.com*" OR CommandLine="*cdn.discordapp.com*" OR CommandLine="*chunk.io*" OR CommandLine="*ddns.net*" OR CommandLine="*dl.dropboxusercontent.com*" OR CommandLine="*ghostbin.co*" OR CommandLine="*github.com*" OR CommandLine="*glitch.me*" OR CommandLine="*gofile.io*" OR CommandLine="*hastebin.com*" OR CommandLine="*mediafire.com*" OR CommandLine="*mega.nz*" OR CommandLine="*onrender.com*" OR CommandLine="*pages.dev*" OR CommandLine="*paste.ee*" OR CommandLine="*pastebin.com*" OR CommandLine="*pastebin.pl*" OR CommandLine="*pastetext.net*" OR CommandLine="*pixeldrain.com*" OR CommandLine="*privatlab.com*" OR CommandLine="*privatlab.net*" OR CommandLine="*send.exploit.in*" OR CommandLine="*sendspace.com*" OR CommandLine="*storage.googleapis.com*" OR CommandLine="*storjshare.io*" OR CommandLine="*supabase.co*" OR CommandLine="*temp.sh*" OR CommandLine="*transfer.sh*" OR CommandLine="*trycloudflare.com*" OR CommandLine="*ufile.io*" OR CommandLine="*w3spaces.com*" OR CommandLine="*workers.dev*" OR CommandLine="*x0.at*")))
+    return True
+
+def title(event):
+    return "Suspicious File Download From File Sharing Domain Via Wget.EXE"
+

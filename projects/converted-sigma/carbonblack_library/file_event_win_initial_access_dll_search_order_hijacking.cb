@@ -1,0 +1,11 @@
+# Title: Potential Initial Access via DLL Search Order Hijacking
+# ID: dbbd9f66-2ed3-4ca2-98a4-6ea985dd1a1c
+# Status: test
+# Level: medium
+# Author: Tim Rauch (rule), Elastic (idea)
+# Date: 2022-10-21
+# Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.stealth, attack.t1566, attack.t1566.001, attack.initial-access, attack.t1574, attack.t1574.001
+# Description: Detects attempts to create a DLL file to a known desktop application dependencies folder such as Slack, Teams or OneDrive and by an unusual process. This may indicate an attempt to load a malicious module via DLL search order hijacking.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((process_name:*\\winword.exe OR process_name:*\\excel.exe OR process_name:*\\powerpnt.exe OR process_name:*\\MSACCESS.EXE OR process_name:*\\MSPUB.EXE OR process_name:*\\fltldr.exe OR process_name:*\\cmd.exe OR process_name:*\\certutil.exe OR process_name:*\\mshta.exe OR process_name:*\\cscript.exe OR process_name:*\\wscript.exe OR process_name:*\\curl.exe OR process_name:*\\powershell.exe OR process_name:*\\pwsh.exe) AND filemod_name:*.dll AND (filemod_name:*\\Users\\* AND filemod_name:*\\AppData\\*) AND (filemod_name:*\\Microsoft\\OneDrive\\* OR filemod_name:*\\Microsoft OneDrive\\* OR filemod_name:*\\Microsoft\\Teams\\* OR filemod_name:*\\Local\\slack\\app-* OR filemod_name:*\\Local\\Programs\\Microsoft VS Code\\*)) AND -((process_name:*\\cmd.exe AND (filemod_name:*\\Users\\* AND filemod_name:*\\AppData\\* AND filemod_name:*\\Microsoft\\OneDrive\\* AND filemod_name:*\\api-ms-win-core-*))))

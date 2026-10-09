@@ -1,0 +1,23 @@
+// Title: Disable Macro Runtime Scan Scope
+// ID: ab871450-37dc-4a3a-997f-6662aa8ae0f1
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-10-25
+// Tags: attack.defense-impairment
+// Description: Detects tampering with the MacroRuntimeScanScope registry key to disable runtime scanning of enabled macros
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule ab871450_37dc_4a3a_997f_6662aa8ae0f1 {
+  meta:
+    title = "Disable Macro Runtime Scan Scope"
+    description = "Detects tampering with the MacroRuntimeScanScope registry key to disable runtime scanning of enabled macros"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.TargetObject = /.*\\SOFTWARE\\.*/ nocase and $e.TargetObject = /.*\\Microsoft\\Office\\.*/ nocase and $e.TargetObject = /.*\\Common\\Security.*/ nocase) and $e.TargetObject = /.*\\MacroRuntimeScanScope$/ nocase and $e.Details = "DWORD (0x00000000)")
+
+  condition:
+    $e
+}

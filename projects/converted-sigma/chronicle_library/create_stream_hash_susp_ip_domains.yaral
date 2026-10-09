@@ -1,0 +1,23 @@
+// Title: Unusual File Download from Direct IP Address
+// ID: 025bd229-fd1f-4fdb-97ab-20006e1a5368
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems), Florian Roth (Nextron Systems)
+// Date: 2022-09-07
+// Tags: attack.stealth, attack.t1564.004
+// Description: Detects the download of suspicious file type from URLs with IP
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 025bd229_fd1f_4fdb_97ab_20006e1a5368 {
+  meta:
+    title = "Unusual File Download from Direct IP Address"
+    description = "Detects the download of suspicious file type from URLs with IP"
+    author = "Nasreddine Bencherchali (Nextron Systems), Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ($e.Contents = /http[s]?://[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/ nocase and ($e.target.file.full_path = /.*.ps1:Zone.*/ nocase or $e.target.file.full_path = /.*.bat:Zone.*/ nocase or $e.target.file.full_path = /.*.exe:Zone.*/ nocase or $e.target.file.full_path = /.*.vbe:Zone.*/ nocase or $e.target.file.full_path = /.*.vbs:Zone.*/ nocase or $e.target.file.full_path = /.*.dll:Zone.*/ nocase or $e.target.file.full_path = /.*.one:Zone.*/ nocase or $e.target.file.full_path = /.*.cmd:Zone.*/ nocase or $e.target.file.full_path = /.*.hta:Zone.*/ nocase or $e.target.file.full_path = /.*.xll:Zone.*/ nocase or $e.target.file.full_path = /.*.lnk:Zone.*/ nocase))
+
+  condition:
+    $e
+}

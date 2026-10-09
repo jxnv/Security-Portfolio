@@ -1,0 +1,11 @@
+// Title: LSASS Access From Potentially White-Listed Processes
+// ID: 4be8b654-0c01-4c9d-a10c-6b28467fc651
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-02-10
+// Tags: attack.credential-access, attack.t1003.001, attack.s0002
+// Description: Detects a possible process memory dump that uses a white-listed filename like TrolleyExpress.exe as a way to dump the LSASS process memory without Microsoft Defender interference
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(where(TargetImage IENDSWITH "\\lsass.exe") AND (where(SourceImage IENDSWITH "\\TrolleyExpress.exe") OR where(SourceImage IENDSWITH "\\ProcessDump.exe") OR where(SourceImage IENDSWITH "\\dump64.exe")) AND (where(GrantedAccess IENDSWITH "10") OR where(GrantedAccess IENDSWITH "30") OR where(GrantedAccess IENDSWITH "50") OR where(GrantedAccess IENDSWITH "70") OR where(GrantedAccess IENDSWITH "90") OR where(GrantedAccess IENDSWITH "B0") OR where(GrantedAccess IENDSWITH "D0") OR where(GrantedAccess IENDSWITH "F0") OR where(GrantedAccess IENDSWITH "18") OR where(GrantedAccess IENDSWITH "38") OR where(GrantedAccess IENDSWITH "58") OR where(GrantedAccess IENDSWITH "78") OR where(GrantedAccess IENDSWITH "98") OR where(GrantedAccess IENDSWITH "B8") OR where(GrantedAccess IENDSWITH "D8") OR where(GrantedAccess IENDSWITH "F8") OR where(GrantedAccess IENDSWITH "1A") OR where(GrantedAccess IENDSWITH "3A") OR where(GrantedAccess IENDSWITH "5A") OR where(GrantedAccess IENDSWITH "7A") OR where(GrantedAccess IENDSWITH "9A") OR where(GrantedAccess IENDSWITH "BA") OR where(GrantedAccess IENDSWITH "DA") OR where(GrantedAccess IENDSWITH "FA") OR where(GrantedAccess IENDSWITH "0x14C2") OR where(GrantedAccess IENDSWITH "FF")))

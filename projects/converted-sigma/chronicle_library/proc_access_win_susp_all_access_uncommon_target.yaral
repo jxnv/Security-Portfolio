@@ -1,0 +1,23 @@
+// Title: Uncommon Process Access Rights For Target Image
+// ID: a24e5861-c6ca-4fde-a93c-ba9256feddf0
+// Status: test
+// Level: low
+// Author: Nasreddine Bencherchali (Nextron Systems), frack113
+// Date: 2024-05-27
+// Tags: attack.privilege-escalation, attack.stealth, attack.t1055.011
+// Description: Detects process access request to uncommon target images with a "PROCESS_ALL_ACCESS" access mask.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule a24e5861_c6ca_4fde_a93c_ba9256feddf0 {
+  meta:
+    title = "Uncommon Process Access Rights For Target Image"
+    description = "Detects process access request to uncommon target images with a "PROCESS_ALL_ACCESS" access mask."
+    author = "Nasreddine Bencherchali (Nextron Systems), frack113"
+    severity = "LOW"
+
+  events:
+    (($e.TargetImage = /.*\\calc.exe$/ nocase or $e.TargetImage = /.*\\calculator.exe$/ nocase or $e.TargetImage = /.*\\mspaint.exe$/ nocase or $e.TargetImage = /.*\\notepad.exe$/ nocase or $e.TargetImage = /.*\\ping.exe$/ nocase or $e.TargetImage = /.*\\wordpad.exe$/ nocase or $e.TargetImage = /.*\\write.exe$/ nocase) and $e.GrantedAccess = "0x1FFFFF")
+
+  condition:
+    $e
+}

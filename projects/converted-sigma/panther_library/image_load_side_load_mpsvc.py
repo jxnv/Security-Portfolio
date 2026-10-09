@@ -1,0 +1,19 @@
+# Title: Potential DLL Sideloading Of MpSvc.DLL
+# ID: 5ba243e5-8165-4cf7-8c69-e1d3669654c1
+# Status: test
+# Level: medium
+# Author: Nasreddine Bencherchali (Nextron Systems), Wietze Beukema
+# Date: 2024-07-11
+# Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.stealth, attack.t1574.001
+# Description: Detects potential DLL sideloading of "MpSvc.dll".
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Potential DLL Sideloading Of MpSvc.DLL
+def rule(event):
+    # Detection Logic:
+    # ((ImageLoaded="*\\MpSvc.dll") AND NOT (((ImageLoaded="C:\\Program Files\\Windows Defender\\*" OR ImageLoaded="C:\\ProgramData\\Microsoft\\Windows Defender\\Platform\\*" OR ImageLoaded="C:\\Windows\\WinSxS\\*"))))
+    return True
+
+def title(event):
+    return "Potential DLL Sideloading Of MpSvc.DLL"
+

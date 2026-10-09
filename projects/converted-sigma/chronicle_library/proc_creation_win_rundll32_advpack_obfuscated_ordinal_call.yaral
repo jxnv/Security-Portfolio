@@ -1,0 +1,23 @@
+// Title: Suspicious Advpack Call Via Rundll32.EXE
+// ID: a1473adb-5338-4a20-b4c3-126763e2d3d3
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-05-17
+// Tags: attack.stealth
+// Description: Detects execution of "rundll32" calling "advpack.dll" with potential obfuscated ordinal calls in order to leverage the "RegisterOCX" function
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule a1473adb_5338_4a20_b4c3_126763e2d3d3 {
+  meta:
+    title = "Suspicious Advpack Call Via Rundll32.EXE"
+    description = "Detects execution of "rundll32" calling "advpack.dll" with potential obfuscated ordinal calls in order to leverage the "RegisterOCX" function"
+    author = "Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.command_line = /.*advpack.*/ nocase) and ((($e.target.process.command_line = /.*#+.*/ nocase and $e.target.process.command_line = /.*12.*/ nocase)) or ($e.target.process.command_line = /.*#-.*/ nocase)) and (($e.target.process.file.full_path = /.*\\rundll32.exe$/ nocase) or ($e.target.process.file.name = "RUNDLL32.EXE") or ($e.target.process.command_line = /.*rundll32.*/ nocase)))
+
+  condition:
+    $e
+}

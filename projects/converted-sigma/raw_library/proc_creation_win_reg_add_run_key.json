@@ -1,0 +1,33 @@
+{
+  "title": "Potential Persistence Attempt Via Run Keys Using Reg.EXE",
+  "id": "de587dce-915e-4218-aac4-835ca6af6f70",
+  "status": "test",
+  "description": "Detects suspicious command line reg.exe tool adding key to RUN key in Registry",
+  "author": "Florian Roth (Nextron Systems), Swachchhanda Shrawan Poudel (Nextron Systems)",
+  "date": "2021-06-28",
+  "tags": [
+    "attack.privilege-escalation",
+    "attack.persistence",
+    "attack.t1547.001"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection": {
+      "Image|endswith": "\\reg.exe",
+      "CommandLine|contains|all": [
+        "reg",
+        " add "
+      ],
+      "CommandLine|contains": [
+        "Software\\Microsoft\\Windows\\CurrentVersion\\Run",
+        "\\Software\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Run",
+        "\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run"
+      ]
+    },
+    "condition": "selection"
+  }
+}

@@ -1,0 +1,23 @@
+// Title: HackTool - ADCSPwn Execution
+// ID: cd8c163e-a19b-402e-bdd5-419ff5859f12
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2021-07-31
+// Tags: attack.collection, attack.credential-access, attack.t1557.001
+// Description: Detects command line parameters used by ADCSPwn, a tool to escalate privileges in an active directory network by coercing authenticate from machine accounts and relaying to the certificate service
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule cd8c163e_a19b_402e_bdd5_419ff5859f12 {
+  meta:
+    title = "HackTool - ADCSPwn Execution"
+    description = "Detects command line parameters used by ADCSPwn, a tool to escalate privileges in an active directory network by coercing authenticate from machine accounts and relaying to the certificate service"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.command_line = /.* --adcs .*/ nocase and $e.target.process.command_line = /.* --port .*/ nocase))
+
+  condition:
+    $e
+}

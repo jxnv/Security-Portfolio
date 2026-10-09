@@ -1,0 +1,23 @@
+// Title: Remote Access Tool - ScreenConnect Installation Execution
+// ID: 75bfe6e6-cd8e-429e-91d3-03921e1d7962
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems)
+// Date: 2021-02-11
+// Tags: attack.persistence, attack.initial-access, attack.t1133
+// Description: Detects ScreenConnect program starts that establish a remote access to a system.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 75bfe6e6_cd8e_429e_91d3_03921e1d7962 {
+  meta:
+    title = "Remote Access Tool - ScreenConnect Installation Execution"
+    description = "Detects ScreenConnect program starts that establish a remote access to a system."
+    author = "Florian Roth (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.process.command_line = /.*e=Access&.*/ nocase and $e.target.process.command_line = /.*y=Guest&.*/ nocase and $e.target.process.command_line = /.*&p=.*/ nocase and $e.target.process.command_line = /.*&c=.*/ nocase and $e.target.process.command_line = /.*&k=.*/ nocase))
+
+  condition:
+    $e
+}

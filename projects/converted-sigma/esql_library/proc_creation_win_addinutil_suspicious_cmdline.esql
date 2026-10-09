@@ -1,0 +1,11 @@
+// Title: Suspicious AddinUtil.EXE CommandLine Execution
+// ID: 631b22a4-70f4-4e2f-9ea8-42f84d9df6d8
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems), Michael McKinley (@McKinleyMike), Tony Latteri (@TheLatteri)
+// Date: 2023-09-18
+// Tags: attack.stealth, attack.t1218
+// Description: Detects execution of the Add-In deployment cache updating utility (AddInutil.exe) with suspicious Addinroot or Pipelineroot paths. An adversary may execute AddinUtil.exe with uncommon Addinroot/Pipelineroot paths that point to the adversaries Addins.Store payload.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE (((process.executable LIKE "%\\addinutil.exe") OR (process.pe.original_file_name == "AddInUtil.exe")) AND ((((process.command_line LIKE "%-AddInRoot:%" OR process.command_line LIKE "%-PipelineRoot:%")) AND ((process.command_line LIKE "%\\AppData\\Local\\Temp\\%" OR process.command_line LIKE "%\\Desktop\\%" OR process.command_line LIKE "%\\Downloads\\%" OR process.command_line LIKE "%\\Users\\Public\\%" OR process.command_line LIKE "%\\Windows\\Temp\\%"))) OR ((process.command_line LIKE "%-AddInRoot:.%" OR process.command_line LIKE "%-AddInRoot:\".\"%" OR process.command_line LIKE "%-PipelineRoot:.%" OR process.command_line LIKE "%-PipelineRoot:\".\"%") AND (CurrentDirectory LIKE "%\\AppData\\Local\\Temp\\%" OR CurrentDirectory LIKE "%\\Desktop\\%" OR CurrentDirectory LIKE "%\\Downloads\\%" OR CurrentDirectory LIKE "%\\Users\\Public\\%" OR CurrentDirectory LIKE "%\\Windows\\Temp\\%"))))

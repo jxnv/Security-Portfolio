@@ -1,0 +1,25 @@
+// Title: Service Registry Permissions Weakness Check
+// ID: 95afc12e-3cbb-40c3-9340-84a032e596a3
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2021-12-30
+// Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.stealth, attack.t1574.011, stp.2a
+// Description: Adversaries may execute their own malicious payloads by hijacking the Registry entries used by services.
+// Adversaries may use flaws in the permissions for registry to redirect from the originally specified executable to one that they control, in order to launch their own code at Service start.
+// Windows stores local service configuration information in the Registry under HKLM\SYSTEM\CurrentControlSet\Services
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 95afc12e_3cbb_40c3_9340_84a032e596a3 {
+  meta:
+    title = "Service Registry Permissions Weakness Check"
+    description = "Adversaries may execute their own malicious payloads by hijacking the Registry entries used by services. Adversaries may use flaws in the permissions for registry to redirect from the originally specified executable to one that they control, in order to launch their own code at Service start. Windows stores local service configuration information in the Registry under HKLM\SYSTEM\CurrentControlSet\Services"
+    author = "frack113"
+    severity = "MEDIUM"
+
+  events:
+    (($e.ScriptBlockText = /.*get-acl.*/ nocase and $e.ScriptBlockText = /.*REGISTRY::HKLM\\SYSTEM\\CurrentControlSet\\Services\\.*/ nocase))
+
+  condition:
+    $e
+}

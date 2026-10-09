@@ -1,0 +1,11 @@
+// Title: Potential Base64 Decoded From Images
+// ID: 09a910bf-f71f-4737-9c40-88880ba5913d
+// Status: test
+// Level: high
+// Author: Joseliyo Sanchez, @Joseliyo_Jstnk
+// Date: 2023-12-20
+// Tags: attack.stealth, attack.t1140
+// Description: Detects the use of tail to extract bytes at an offset from an image and then decode the base64 value to create a new file with the decoded content. The detected execution is a bash one-liner.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where (((process.command_line like "*_base64*" and process.command_line like "*_-d*" and process.command_line like "*_>*")) and ((process.command_line like "*_.avif*" or process.command_line like "*_.gif*" or process.command_line like "*_.jfif*" or process.command_line like "*_.jpeg*" or process.command_line like "*_.jpg*" or process.command_line like "*_.pjp*" or process.command_line like "*_.pjpeg*" or process.command_line like "*_.png*" or process.command_line like "*_.svg*" or process.command_line like "*_.webp*")) and (process.executable endswith "/bash") and ((process.command_line like "*_tail*" and process.command_line like "*_-c*")))

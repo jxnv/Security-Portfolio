@@ -1,0 +1,11 @@
+// Title: HackTool - Evil-WinRm Execution - PowerShell Module
+// ID: 9fe55ea2-4cd6-4491-8a54-dd6871651b51
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2024-02-25
+// Tags: attack.lateral-movement
+// Description: Detects the execution of Evil-WinRM via PowerShell Module logs by leveraging the hardcoded strings inside the utility.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+from siem.events where (((contains(ContextInfo, ":\\Windows\\System32\\wsmprovhost.exe") OR contains(ContextInfo, ":\\Windows\\SysWOW64\\wsmprovhost.exe"))) AND (((contains(Payload, "value=\"(get-location).path") OR contains(Payload, "value=\"(get-item*).length") OR contains(Payload, "Invoke-Binary ") OR contains(Payload, "Donut-Loader -process_id*-donutfile") OR contains(Payload, "Bypass-4MSI") OR contains(Payload, "IEX ([System.Text.Encoding]::ASCII.GetString([System.Convert]::FromBase64String($a))).replace('???','')"))) OR ((contains(Payload, "$servicios = Get-ItemProperty \"registry::HKLM\\System\\CurrentControlSet\\Services\\\"") AND contains(Payload, "Where-Object {$_.imagepath -notmatch \"system\" -and $_.imagepath -ne $null } | Select-Object pschildname,imagepath"))) OR ((contains(Payload, "$a +=  \\\"$($_.FullName.Replace('\\\\','/'))/\\\"}else{  $a += \\\"$($_.FullName.Replace('\\\\', '/'))\\\" }") AND contains(Payload, "$a=@();$")))))

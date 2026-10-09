@@ -1,0 +1,27 @@
+{
+  "title": "AWS STS AssumeRole Misuse",
+  "id": "905d389b-b853-46d0-9d3d-dea0d3a3cd49",
+  "status": "test",
+  "description": "Identifies the suspicious use of AssumeRole. Attackers could move laterally and escalate privileges.",
+  "author": "Austin Songer @austinsonger",
+  "date": "2021-07-24",
+  "tags": [
+    "attack.lateral-movement",
+    "attack.privilege-escalation",
+    "attack.t1548",
+    "attack.t1550",
+    "attack.t1550.001"
+  ],
+  "level": "low",
+  "logsource": {
+    "product": "aws",
+    "service": "cloudtrail"
+  },
+  "detection": {
+    "selection": {
+      "userIdentity.type": "AssumedRole",
+      "userIdentity.sessionContext.sessionIssuer.type": "Role"
+    },
+    "condition": "selection"
+  }
+}

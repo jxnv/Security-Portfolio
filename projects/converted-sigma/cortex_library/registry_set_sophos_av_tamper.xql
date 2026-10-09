@@ -1,0 +1,11 @@
+// Title: Tamper With Sophos AV Registry Keys
+// ID: 9f4662ac-17ca-43aa-8f12-5d7b989d0101
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-09-02
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects tamper attempts to sophos av functionality via registry key modification
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter ((TargetObject contains "\\Sophos Endpoint Defense\\TamperProtection\\Config\\SAVEnabled" or TargetObject contains "\\Sophos Endpoint Defense\\TamperProtection\\Config\\SEDEnabled" or TargetObject contains "\\Sophos\\SAVService\\TamperProtection\\Enabled") and Details = "DWORD (0x00000000)")

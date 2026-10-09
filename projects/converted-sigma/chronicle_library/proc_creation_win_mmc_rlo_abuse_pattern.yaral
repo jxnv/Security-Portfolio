@@ -1,0 +1,23 @@
+// Title: MMC Executing Files with Reversed Extensions Using RTLO Abuse
+// ID: 9cfe4b27-1e56-48b4-b7a8-d46851c91a44
+// Status: experimental
+// Level: high
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-02-05
+// Tags: attack.execution, attack.stealth, attack.t1204.002, attack.t1218.014, attack.t1036.002
+// Description: Detects malicious behavior where the MMC utility (`mmc.exe`) executes files with reversed extensions caused by Right-to-Left Override (RLO) abuse, disguising them as document formats.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 9cfe4b27_1e56_48b4_b7a8_d46851c91a44 {
+  meta:
+    title = "MMC Executing Files with Reversed Extensions Using RTLO Abuse"
+    description = "Detects malicious behavior where the MMC utility (`mmc.exe`) executes files with reversed extensions caused by Right-to-Left Override (RLO) abuse, disguising them as document formats."
+    author = "Swachchhanda Shrawan Poudel (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*cod.msc.*/ nocase or $e.target.process.command_line = /.*fdp.msc.*/ nocase or $e.target.process.command_line = /.*ftr.msc.*/ nocase or $e.target.process.command_line = /.*lmth.msc.*/ nocase or $e.target.process.command_line = /.*slx.msc.*/ nocase or $e.target.process.command_line = /.*tdo.msc.*/ nocase or $e.target.process.command_line = /.*xcod.msc.*/ nocase or $e.target.process.command_line = /.*xslx.msc.*/ nocase or $e.target.process.command_line = /.*xtpp.msc.*/ nocase)) and (($e.target.process.file.full_path = /.*\\mmc.exe$/ nocase) or ($e.target.process.file.name = "MMC.exe")))
+
+  condition:
+    $e
+}

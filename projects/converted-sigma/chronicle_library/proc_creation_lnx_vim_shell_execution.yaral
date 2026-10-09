@@ -1,0 +1,24 @@
+// Title: Vim GTFOBin Abuse - Linux
+// ID: 7ab8f73a-fcff-428b-84aa-6a5ff7877dea
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems), Luc Génaux
+// Date: 2022-12-28
+// Tags: attack.execution, attack.discovery, attack.t1059, attack.t1083
+// Description: Detects the use of "vim" and it's siblings commands to execute a shell or proxy commands.
+// Such behavior may be associated with privilege escalation, unauthorized command execution, or to break out from restricted environments.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 7ab8f73a_fcff_428b_84aa_6a5ff7877dea {
+  meta:
+    title = "Vim GTFOBin Abuse - Linux"
+    description = "Detects the use of "vim" and it's siblings commands to execute a shell or proxy commands. Such behavior may be associated with privilege escalation, unauthorized command execution, or to break out from restricted environments."
+    author = "Nasreddine Bencherchali (Nextron Systems), Luc Génaux"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*:!/.*/ nocase or $e.target.process.command_line = /.*:!$.*/ nocase or $e.target.process.command_line = /.*:!...*/ nocase or $e.target.process.command_line = /.*:lua .*/ nocase or $e.target.process.command_line = /.*:py .*/ nocase or $e.target.process.command_line = /.*:shell.*/ nocase or $e.target.process.command_line = /.*/bin/bash.*/ nocase or $e.target.process.command_line = /.*/bin/dash.*/ nocase or $e.target.process.command_line = /.*/bin/fish.*/ nocase or $e.target.process.command_line = /.*/bin/sh.*/ nocase or $e.target.process.command_line = /.*/bin/csh.*/ nocase or $e.target.process.command_line = /.*/bin/ksh.*/ nocase or $e.target.process.command_line = /.*/bin/zsh.*/ nocase or $e.target.process.command_line = /.*/bin/tmux.*/ nocase)) and (($e.target.process.file.full_path = /.*/rvim$/ nocase or $e.target.process.file.full_path = /.*/vi$/ nocase or $e.target.process.file.full_path = /.*/vim$/ nocase or $e.target.process.file.full_path = /.*/vimdiff$/ nocase) and ($e.target.process.command_line = /.* --cmd .*/ nocase or $e.target.process.command_line = /.* -c.*/ nocase)))
+
+  condition:
+    $e
+}

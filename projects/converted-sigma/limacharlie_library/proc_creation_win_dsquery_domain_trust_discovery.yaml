@@ -1,0 +1,22 @@
+# Title: Domain Trust Discovery Via Dsquery
+# ID: 3bad990e-4848-4a78-9530-b427d854aac0
+# Status: test
+# Level: medium
+# Author: E.M. Anhaus, Tony Lambert, oscd.community, omkar72
+# Date: 2019-10-24
+# Tags: attack.discovery, attack.t1482
+# Description: Detects execution of "dsquery.exe" for domain trust discovery
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# LimaCharlie Detection & Response Rule
+# Name: Domain Trust Discovery Via Dsquery
+detect:
+  event: process_creation
+  op: and
+  rules:
+    # Filter logic:
+    # ((CommandLine="*trustedDomain*") AND ((Image="*\\dsquery.exe") OR (OriginalFileName="dsquery.exe")))
+respond:
+  - action: report
+    name: Domain Trust Discovery Via Dsquery
+

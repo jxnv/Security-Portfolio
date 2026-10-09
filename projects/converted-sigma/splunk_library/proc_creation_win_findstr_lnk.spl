@@ -1,0 +1,11 @@
+# Title: Findstr Launching .lnk File
+# ID: 33339be3-148b-4e16-af56-ad16ec6c7e7b
+# Status: test
+# Level: medium
+# Author: Trent Liffick
+# Date: 2020-05-01
+# Tags: attack.stealth, attack.t1036, attack.t1202, attack.t1027.003
+# Description: Detects usage of findstr to identify and execute a lnk file as seen within the HHS redirect attack
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog (((process_exec="*.lnk" OR process_exec="*.lnk\"" OR process_exec="*.lnk'")) AND (((process_path="*\\find.exe" OR process_path="*\\findstr.exe")) OR ((process_name="FIND.EXE" OR process_name="FINDSTR.EXE"))))

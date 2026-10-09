@@ -1,0 +1,11 @@
+-- Title: IIS WebServer Access Logs Deleted
+-- ID: 3eb8c339-a765-48cc-a150-4364c04652bf
+-- Status: test
+-- Level: medium
+-- Author: Tim Rauch (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+-- Date: 2022-09-16
+-- Tags: attack.stealth, attack.t1070
+-- Description: Detects the deletion of IIS WebServer access logs which may indicate an attempt to destroy forensic evidence
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE (TargetFilename ILIKE '%\\inetpub\\logs\\LogFiles\\%' AND TargetFilename ILIKE '%.log')

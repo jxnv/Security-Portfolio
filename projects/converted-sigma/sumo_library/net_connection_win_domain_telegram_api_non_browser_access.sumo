@@ -1,0 +1,11 @@
+// Title: Suspicious Non-Browser Network Communication With Telegram API
+// ID: c3dbbc9f-ef1d-470a-a90a-d343448d5875
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-05-19
+// Tags: attack.command-and-control, attack.exfiltration, attack.t1102, attack.t1567, attack.t1105
+// Description: Detects an a non-browser process interacting with the Telegram API which could indicate use of a covert C2
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where ((DestinationHostname matches "*api.telegram.org*") and !(((Image matches "*\\brave.exe") or ((Image = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe" or Image = "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe")) or ((Image matches "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\*") or (Image matches "*\\WindowsApps\\MicrosoftEdge.exe") or ((Image = "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe" or Image = "C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe"))) or ((Image matches "C:\\Program Files (x86)\\Microsoft\\EdgeCore\\*" or Image matches "C:\\Program Files\\Microsoft\\EdgeCore\\*") and (Image matches "*\\msedge.exe" or Image matches "*\\msedgewebview2.exe")) or ((Image = "C:\\Program Files\\Mozilla Firefox\\firefox.exe" or Image = "C:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe")) or ((Image = "C:\\Program Files (x86)\\Internet Explorer\\iexplore.exe" or Image = "C:\\Program Files\\Internet Explorer\\iexplore.exe")) or (Image matches "*\\maxthon.exe") or (Image matches "*\\opera.exe") or (Image matches "*\\safari.exe") or (Image matches "*\\seamonkey.exe") or (Image matches "*\\vivaldi.exe") or (Image matches "*\\whale.exe"))))

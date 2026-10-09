@@ -1,0 +1,11 @@
+// Title: HackTool - Bloodhound/Sharphound Execution
+// ID: f376c8a7-a2d0-4ddc-aa0c-16c17236d962
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2019-12-20
+// Tags: attack.discovery, attack.t1087.001, attack.t1087.002, attack.t1482, attack.t1069.001, attack.t1069.002, attack.execution, attack.t1059.001
+// Description: Detects command line parameters used by Bloodhound and Sharphound hack tools
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where (((process.command_line like "% -CollectionMethod All %" OR process.command_line like "% --CollectionMethods Session %" OR process.command_line like "% --Loop --Loopduration %" OR process.command_line like "% --PortScanTimeout %" OR process.command_line like "%.exe -c All -d %" OR process.command_line like "%Invoke-Bloodhound%" OR process.command_line like "%Get-BloodHoundData%")) OR ((process.command_line like "% -JsonFolder %" AND process.command_line like "% -ZipFileName %")) OR ((process.command_line like "% DCOnly %" AND process.command_line like "% --NoSaveCache %")) OR ((Product like "%SharpHound%") OR (Description like "%SharpHound%") OR ((Company like "%SpecterOps%" OR Company like "%evil corp%")) OR ((process.executable like "%\\Bloodhound.exe%" OR process.executable like "%\\SharpHound.exe%"))))

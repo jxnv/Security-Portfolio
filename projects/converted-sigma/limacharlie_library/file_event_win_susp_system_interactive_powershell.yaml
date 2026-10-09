@@ -1,0 +1,22 @@
+# Title: Suspicious Interactive PowerShell as SYSTEM
+# ID: 5b40a734-99b6-4b98-a1d0-1cea51a08ab2
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems)
+# Date: 2021-12-07
+# Tags: attack.execution, attack.t1059.001
+# Description: Detects the creation of files that indicator an interactive use of PowerShell in the SYSTEM user context
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# LimaCharlie Detection & Response Rule
+# Name: Suspicious Interactive PowerShell as SYSTEM
+detect:
+  event: file_event
+  op: and
+  rules:
+    # Filter logic:
+    # ((TargetFilename="C:\\Windows\\System32\\config\\systemprofile\\AppData\\Roaming\\Microsoft\\Windows\\PowerShell\\PSReadLine\\ConsoleHost_history.txt" OR TargetFilename="C:\\Windows\\System32\\config\\systemprofile\\AppData\\Local\\Microsoft\\Windows\\PowerShell\\StartupProfileData-Interactive"))
+respond:
+  - action: report
+    name: Suspicious Interactive PowerShell as SYSTEM
+

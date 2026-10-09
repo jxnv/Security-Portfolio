@@ -1,0 +1,11 @@
+# Title: Copy From Or To Admin Share Or Sysvol Folder
+# ID: 855bc8b5-2ae8-402e-a9ed-b889e6df1900
+# Status: test
+# Level: medium
+# Author: Florian Roth (Nextron Systems), oscd.community, Teymur Kheirkhabarov @HeirhabarovT, Zach Stanford @svch0st, Nasreddine Bencherchali
+# Date: 2019-12-30
+# Tags: attack.lateral-movement, attack.collection, attack.exfiltration, attack.t1039, attack.t1048, attack.t1021.002
+# Description: Detects a copy command or a copy utility execution to or from an Admin share or remote
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((CommandLine CONTAIN "\\\\\\\\*\\\\*$" OR CommandLine CONTAIN "\\Sysvol\\")) AND ((((Image="*\\robocopy.exe" OR Image="*\\xcopy.exe")) OR ((OriginalFileName = "robocopy.exe" OR OriginalFileName = "XCOPY.EXE"))) OR ((CommandLine CONTAIN "copy") AND ((Image="*\\cmd.exe") OR (OriginalFileName = "Cmd.Exe"))) OR (((CommandLine CONTAIN "copy-item" OR CommandLine CONTAIN "copy " OR CommandLine CONTAIN "cpi " OR CommandLine CONTAIN " cp " OR CommandLine CONTAIN "move " OR CommandLine CONTAIN " move-item" OR CommandLine CONTAIN " mi " OR CommandLine CONTAIN " mv ")) AND (((Image CONTAIN "\\powershell_ise.exe" OR Image CONTAIN "\\powershell.exe" OR Image CONTAIN "\\pwsh.exe")) OR ((OriginalFileName = "powershell_ise.exe" OR OriginalFileName = "PowerShell.EXE" OR OriginalFileName = "pwsh.dll"))))))

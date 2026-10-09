@@ -1,0 +1,23 @@
+// Title: Potential Persistence Via Microsoft Office Add-In
+// ID: 8e1cb247-6cf6-42fa-b440-3f27d57e9936
+// Status: test
+// Level: high
+// Author: NVISO
+// Date: 2020-05-11
+// Tags: attack.persistence, attack.t1137.006
+// Description: Detects potential persistence activity via startup add-ins that load when Microsoft Office starts (.wll/.xll are simply .dll fit for Word or Excel).
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 8e1cb247_6cf6_42fa_b440_3f27d57e9936 {
+  meta:
+    title = "Potential Persistence Via Microsoft Office Add-In"
+    description = "Detects potential persistence activity via startup add-ins that load when Microsoft Office starts (.wll/.xll are simply .dll fit for Word or Excel)."
+    author = "NVISO"
+    severity = "HIGH"
+
+  events:
+    (($e.target.file.full_path = /.*\\Microsoft\\Addins\\.*/ nocase and ($e.target.file.full_path = /.*.xlam$/ nocase or $e.target.file.full_path = /.*.xla$/ nocase or $e.target.file.full_path = /.*.ppam$/ nocase)) or ($e.target.file.full_path = /.*\\Microsoft\\Word\\Startup\\.*/ nocase and $e.target.file.full_path = /.*.wll$/ nocase) or ($e.target.file.full_path = /.*Microsoft\\Excel\\XLSTART\\.*/ nocase and $e.target.file.full_path = /.*.xlam$/ nocase) or ($e.target.file.full_path = /.*\\Microsoft\\Excel\\Startup\\.*/ nocase and $e.target.file.full_path = /.*.xll$/ nocase))
+
+  condition:
+    $e
+}

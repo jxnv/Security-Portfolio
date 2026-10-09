@@ -1,0 +1,23 @@
+// Title: HackTool - Wmiexec Default Powershell Command
+// ID: 022eaba8-f0bf-4dd9-9217-4604b0bb3bb0
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-03-08
+// Tags: attack.lateral-movement, attack.stealth
+// Description: Detects the execution of PowerShell with a specific flag sequence that is used by the Wmiexec script
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 022eaba8_f0bf_4dd9_9217_4604b0bb3bb0 {
+  meta:
+    title = "HackTool - Wmiexec Default Powershell Command"
+    description = "Detects the execution of PowerShell with a specific flag sequence that is used by the Wmiexec script"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ($e.target.process.command_line = /.*-NoP -NoL -sta -NonI -W Hidden -Exec Bypass -Enc.*/ nocase)
+
+  condition:
+    $e
+}

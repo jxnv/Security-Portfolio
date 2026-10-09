@@ -1,0 +1,11 @@
+# Title: Potential Binary Or Script Dropper Via PowerShell
+# ID: 7047d730-036f-4f40-b9d8-1c63e36d5e62
+# Status: test
+# Level: medium
+# Author: frack113, Nasreddine Bencherchali (Nextron Systems)
+# Date: 2023-03-17
+# Tags: attack.persistence
+# Description: Detects PowerShell creating a binary executable or a script file.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((process.executable:*\\powershell.exe OR process.executable:*\\powershell_ise.exe OR process.executable:*\\pwsh.exe) AND (file.path:*.bat OR file.path:*.chm OR file.path:*.cmd OR file.path:*.com OR file.path:*.dll OR file.path:*.exe OR file.path:*.hta OR file.path:*.jar OR file.path:*.js OR file.path:*.ocx OR file.path:*.scr OR file.path:*.sys OR file.path:*.vbe OR file.path:*.vbs OR file.path:*.wsf)) AND NOT (((file.path:C:\\Program Files\\PackageManagement\\ProviderAssemblies\\nuget\\* AND file.path:*\\Microsoft.PackageManagement.NuGetProvider.dll) OR ((file.path:C:\\Windows\\Temp\\* OR file.path:C:\\Windows\\SystemTemp\\*) AND (file.path:*.dll OR file.path:*.exe)) OR (file.path:C:\\Users\\* AND file.path:*\\WindowsPowerShell\\Modules\\* AND file.path:*.dll) OR (file.path:C:\\Users\\* AND file.path:*\\AppData\\Local\\Temp\\* AND (file.path:*.dll OR file.path:*.exe)))))

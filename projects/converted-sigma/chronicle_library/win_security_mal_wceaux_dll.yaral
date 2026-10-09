@@ -1,0 +1,23 @@
+// Title: WCE wceaux.dll Access
+// ID: 1de68c67-af5c-4097-9c85-fe5578e09e67
+// Status: test
+// Level: critical
+// Author: Thomas Patzke
+// Date: 2017-06-14
+// Tags: attack.credential-access, attack.t1003, attack.s0005
+// Description: Detects wceaux.dll access while WCE pass-the-hash remote command execution on source host
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 1de68c67_af5c_4097_9c85_fe5578e09e67 {
+  meta:
+    title = "WCE wceaux.dll Access"
+    description = "Detects wceaux.dll access while WCE pass-the-hash remote command execution on source host"
+    author = "Thomas Patzke"
+    severity = "CRITICAL"
+
+  events:
+    (($e.EventID = 4656 or $e.EventID = 4663) and $e.ObjectName = /.*\\wceaux.dll$/ nocase)
+
+  condition:
+    $e
+}

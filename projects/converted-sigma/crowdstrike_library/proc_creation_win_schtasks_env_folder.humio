@@ -1,0 +1,11 @@
+// Title: Schedule Task Creation From Env Variable Or Potentially Suspicious Path Via Schtasks.EXE
+// ID: 81325ce1-be01-4250-944f-b4789644556f
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-02-21
+// Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.t1053.005
+// Description: Detects Schtask creations that point to a suspicious folder or an environment variable often used by malware
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((((CommandLine = /*:\\Perflogs*/i or CommandLine = /*:\\Users\\All Users\\*/i or CommandLine = /*:\\Users\\Default\\*/i or CommandLine = /*:\\Users\\Public*/i or CommandLine = /*:\\Windows\\Temp*/i or CommandLine = /*\\AppData\\Local\\*/i or CommandLine = /*\\AppData\\Roaming\\*/i or CommandLine = /*%AppData%*/i or CommandLine = /*%Public%*/i)) and (ImageFileName = /.*\\schtasks.exe/i and CommandLine = /* /create */i)) or ((ParentCommandLine = /.*\\svchost.exe -k netsvcs -p -s Schedule/i) and ((CommandLine = /*:\\Perflogs*/i or CommandLine = /*:\\Windows\\Temp*/i or CommandLine = /*\\Users\\Public*/i or CommandLine = /*%Public%*/i)))) and not((((CommandLine = /*/Create /Xml */i and CommandLine = /*\\Temp\\.CR.*/i and CommandLine = /*\\Avira_Security_Installation.xml*/i)) or ((CommandLine = /*/Create /F /TN*/i and CommandLine = /*/Xml */i and CommandLine = /*\\Temp\\*/i and CommandLine = /*Avira_*/i) and (CommandLine = /*.tmp\\UpdateFallbackTask.xml*/i or CommandLine = /*.tmp\\WatchdogServiceControlManagerTimeout.xml*/i or CommandLine = /*.tmp\\SystrayAutostart.xml*/i or CommandLine = /*.tmp\\MaintenanceTask.xml*/i)) or ((CommandLine = /*\\Temp\\*/i and CommandLine = /*/Create /TN \"klcp_update\" /XML */i and CommandLine = /*\\klcp_update_task.xml*/i)) or ((ParentCommandLine = /*unattended.ini*/i) or (CommandLine = /*update_task.xml*/i)) or (CommandLine = /*/Create /TN TVInstallRestore /TR*/i))))

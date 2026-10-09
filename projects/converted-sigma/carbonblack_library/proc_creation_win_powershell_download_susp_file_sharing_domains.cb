@@ -1,0 +1,11 @@
+# Title: Potentially Suspicious File Download From File Sharing Domain Via PowerShell.EXE
+# ID: b6e04788-29e1-4557-bb14-77f761848ab8
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2024-02-23
+# Tags: attack.execution
+# Description: Detects potentially suspicious file downloads from file sharing domains using PowerShell.exe
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((cmdline:*.DownloadString(* OR cmdline:*.DownloadFile(* OR cmdline:*Invoke-WebRequest * OR cmdline:*iwr * OR cmdline:*wget *)) AND (((process_name:*\\powershell.exe OR process_name:*\\pwsh.exe)) OR ((OriginalFileName:"PowerShell.EXE" OR OriginalFileName:"pwsh.dll"))) AND ((cmdline:*0x0.st* OR cmdline:*anonfiles.com* OR cmdline:*bashupload.com* OR cmdline:*cdn.discordapp.com* OR cmdline:*chunk.io* OR cmdline:*ddns.net* OR cmdline:*dl.dropboxusercontent.com* OR cmdline:*ghostbin.co* OR cmdline:*glitch.me* OR cmdline:*gofile.io* OR cmdline:*hastebin.com* OR cmdline:*mediafire.com* OR cmdline:*mega.nz* OR cmdline:*onrender.com* OR cmdline:*pages.dev* OR cmdline:*paste.ee* OR cmdline:*pastebin.com* OR cmdline:*pastebin.pl* OR cmdline:*pastetext.net* OR cmdline:*pixeldrain.com* OR cmdline:*privatlab.com* OR cmdline:*privatlab.net* OR cmdline:*send.exploit.in* OR cmdline:*sendspace.com* OR cmdline:*storage.googleapis.com* OR cmdline:*storjshare.io* OR cmdline:*supabase.co* OR cmdline:*temp.sh* OR cmdline:*transfer.sh* OR cmdline:*trycloudflare.com* OR cmdline:*ufile.io* OR cmdline:*w3spaces.com* OR cmdline:*workers.dev* OR cmdline:*x0.at*)))

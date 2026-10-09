@@ -1,0 +1,11 @@
+// Title: Netsh Allow Group Policy on Microsoft Defender Firewall
+// ID: 347906f3-e207-4d18-ae5b-a9403d6bcdef
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-01-09
+// Tags: attack.defense-impairment, attack.t1686.003
+// Description: Adversaries may modify system firewalls in order to bypass controls limiting network usage
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(CommandLine ICONTAINS "advfirewall") AND where(CommandLine ICONTAINS "firewall") AND where(CommandLine ICONTAINS "set") AND where(CommandLine ICONTAINS "rule") AND where(CommandLine ICONTAINS "group=") AND where(CommandLine ICONTAINS "new") AND where(CommandLine ICONTAINS "enable=Yes"))) AND ((where(Image IENDSWITH "\\netsh.exe")) OR (where(OriginalFileName = "netsh.exe"))))

@@ -1,0 +1,19 @@
+# Title: Potential Base64 Encoded User-Agent
+# ID: 894a8613-cf12-48b3-8e57-9085f54aa0c3
+# Status: test
+# Level: medium
+# Author: Florian Roth (Nextron Systems), Brian Ingram (update)
+# Date: 2022-07-08
+# Tags: attack.command-and-control, attack.t1071.001
+# Description: Detects User Agent strings that end with an equal sign, which can be a sign of base64 encoding.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Potential Base64 Encoded User-Agent
+def rule(event):
+    # Detection Logic:
+    # (c-useragent="*=")
+    return True
+
+def title(event):
+    return "Potential Base64 Encoded User-Agent"
+

@@ -1,0 +1,23 @@
+// Title: Potential Persistence Via Netsh Helper DLL - Registry
+// ID: c90362e0-2df3-4e61-94fe-b37615814cb1
+// Status: test
+// Level: medium
+// Author: Anish Bogati
+// Date: 2023-11-28
+// Tags: attack.privilege-escalation, attack.persistence, attack.t1546.007
+// Description: Detects changes to the Netsh registry key to add a new DLL value. This change might be an indication of a potential persistence attempt by adding a malicious Netsh helper
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule c90362e0_2df3_4e61_94fe_b37615814cb1 {
+  meta:
+    title = "Potential Persistence Via Netsh Helper DLL - Registry"
+    description = "Detects changes to the Netsh registry key to add a new DLL value. This change might be an indication of a potential persistence attempt by adding a malicious Netsh helper"
+    author = "Anish Bogati"
+    severity = "MEDIUM"
+
+  events:
+    (($e.TargetObject = /.*\\SOFTWARE\\Microsoft\\NetSh.*/ nocase and $e.Details = /.*.dll.*/ nocase) and not(($e.target.process.file.full_path = "C:\\Windows\\System32\\poqexec.exe" and ($e.Details = "ipmontr.dll" or $e.Details = "iasmontr.dll" or $e.Details = "ippromon.dll"))))
+
+  condition:
+    $e
+}

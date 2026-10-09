@@ -1,0 +1,23 @@
+// Title: VBScript Payload Stored in Registry
+// ID: 46490193-1b22-4c29-bdd6-5bf63907216f
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2021-03-05
+// Tags: attack.privilege-escalation, attack.persistence, attack.t1547.001
+// Description: Detects VBScript content stored into registry keys as seen being used by UNC2452 group
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 46490193_1b22_4c29_bdd6_5bf63907216f {
+  meta:
+    title = "VBScript Payload Stored in Registry"
+    description = "Detects VBScript content stored into registry keys as seen being used by UNC2452 group"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.TargetObject = /.*Software\\Microsoft\\Windows\\CurrentVersion.*/ nocase and ($e.Details = /.*vbscript:.*/ nocase or $e.Details = /.*jscript:.*/ nocase or $e.Details = /.*mshtml,.*/ nocase or $e.Details = /.*RunHTMLApplication.*/ nocase or $e.Details = /.*Execute(.*/ nocase or $e.Details = /.*CreateObject.*/ nocase or $e.Details = /.*window.close.*/ nocase)) and not((($e.TargetObject = /.*Software\\Microsoft\\Windows\\CurrentVersion\\Run.*/ nocase) or ($e.target.process.file.full_path = /.*\\msiexec.exe$/ nocase and $e.TargetObject = /.*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Installer\\UserData\\.*/ nocase and ($e.Details = /.*\\Microsoft.NET\\Primary Interop Assemblies\\Microsoft.mshtml.dll.*/ nocase or $e.Details = /.*<\\Microsoft.mshtml,fileVersion=.*/ nocase or $e.Details = /.*_mshtml_dll_.*/ nocase or $e.Details = /.*<\\Microsoft.mshtml,culture=.*/ nocase)))))
+
+  condition:
+    $e
+}

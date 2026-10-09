@@ -1,0 +1,11 @@
+// Title: Potential Webshell Creation On Static Website
+// ID: 39f1f9f2-9636-45de-98f6-a4046aa8e4b9
+// Status: test
+// Level: medium
+// Author: Beyu Denis, oscd.community, Tim Shelton, Thurein Oo
+// Date: 2019-10-22
+// Tags: attack.persistence, attack.t1505.003
+// Description: Detects the creation of files with certain extensions on a static web site. This can be indicative of potential uploads of a web shell.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+file where (((((file.path like "*_.ashx*" or file.path like "*_.asp*" or file.path like "*_.ph*" or file.path like "*_.soap*")) and (file.path like "*_\\inetpub\\wwwroot\\*")) or ((file.path like "*_.ph*") and ((file.path like "*_\\www\\*" or file.path like "*_\\htdocs\\*" or file.path like "*_\\html\\*")))) and not (((file.path like "*_\\xampp*") or (process.executable == "System") or ((file.path like "*_\\AppData\\Local\\Temp\\*" or file.path like "*_\\Windows\\Temp\\*")))))

@@ -1,0 +1,32 @@
+{
+  "title": "RDP to HTTP or HTTPS Target Ports",
+  "id": "b1e5da3b-ca8e-4adf-915c-9921f3d85481",
+  "status": "test",
+  "description": "Detects svchost hosting RDP termsvcs communicating to target systems on TCP port 80 or 443",
+  "author": "Florian Roth (Nextron Systems)",
+  "date": "2022-04-29",
+  "tags": [
+    "attack.command-and-control",
+    "attack.t1572",
+    "attack.lateral-movement",
+    "attack.t1021.001",
+    "car.2013-07-002"
+  ],
+  "level": "high",
+  "logsource": {
+    "category": "network_connection",
+    "product": "windows"
+  },
+  "detection": {
+    "selection": {
+      "Image|endswith": "\\svchost.exe",
+      "Initiated": "true",
+      "SourcePort": 3389,
+      "DestinationPort": [
+        80,
+        443
+      ]
+    },
+    "condition": "selection"
+  }
+}

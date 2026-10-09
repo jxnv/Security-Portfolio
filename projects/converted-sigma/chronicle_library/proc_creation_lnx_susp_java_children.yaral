@@ -1,0 +1,23 @@
+// Title: Suspicious Java Children Processes
+// ID: d292e0af-9a18-420c-9525-ec0ac3936892
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-06-03
+// Tags: attack.execution, attack.t1059
+// Description: Detects java process spawning suspicious children
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule d292e0af_9a18_420c_9525_ec0ac3936892 {
+  meta:
+    title = "Suspicious Java Children Processes"
+    description = "Detects java process spawning suspicious children"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ($e.principal.process.file.full_path = /.*/java$/ nocase and ($e.target.process.command_line = /.*/bin/sh.*/ nocase or $e.target.process.command_line = /.*bash.*/ nocase or $e.target.process.command_line = /.*dash.*/ nocase or $e.target.process.command_line = /.*ksh.*/ nocase or $e.target.process.command_line = /.*zsh.*/ nocase or $e.target.process.command_line = /.*csh.*/ nocase or $e.target.process.command_line = /.*fish.*/ nocase or $e.target.process.command_line = /.*curl.*/ nocase or $e.target.process.command_line = /.*wget.*/ nocase or $e.target.process.command_line = /.*python.*/ nocase))
+
+  condition:
+    $e
+}

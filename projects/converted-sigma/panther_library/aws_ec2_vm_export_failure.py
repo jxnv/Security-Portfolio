@@ -1,0 +1,19 @@
+# Title: AWS EC2 VM Export Failure
+# ID: 54b9a76a-3c71-4673-b4b3-2edb4566ea7b
+# Status: test
+# Level: low
+# Author: Diogo Braz
+# Date: 2020-04-16
+# Tags: attack.collection, attack.t1005, attack.exfiltration, attack.t1537
+# Description: An attempt to export an AWS EC2 instance has been detected. A VM Export might indicate an attempt to extract information from an instance.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: AWS EC2 VM Export Failure
+def rule(event):
+    # Detection Logic:
+    # ((eventName="CreateInstanceExportTask" AND eventSource="ec2.amazonaws.com") AND NOT (((errorMessage="***") OR (errorCode="***") OR (responseElements="*Failure*"))))
+    return True
+
+def title(event):
+    return "AWS EC2 VM Export Failure"
+

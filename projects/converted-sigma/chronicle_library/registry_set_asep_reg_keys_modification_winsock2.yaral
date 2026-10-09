@@ -1,0 +1,23 @@
+// Title: WinSock2 Autorun Keys Modification
+// ID: d6c2ce7e-afb5-4337-9ca4-4b5254ed0565
+// Status: test
+// Level: medium
+// Author: Victor Sergeev, Daniil Yugoslavskiy, Gleb Sukhodolskiy, Timur Zinniatullin, oscd.community, Tim Shelton, frack113 (split)
+// Date: 2019-10-25
+// Tags: attack.privilege-escalation, attack.persistence, attack.t1547.001
+// Description: Detects modification of autostart extensibility point (ASEP) in registry.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule d6c2ce7e_afb5_4337_9ca4_4b5254ed0565 {
+  meta:
+    title = "WinSock2 Autorun Keys Modification"
+    description = "Detects modification of autostart extensibility point (ASEP) in registry."
+    author = "Victor Sergeev, Daniil Yugoslavskiy, Gleb Sukhodolskiy, Timur Zinniatullin, oscd.community, Tim Shelton, frack113 (split)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.TargetObject = /.*\\System\\CurrentControlSet\\Services\\WinSock2\\Parameters.*/ nocase) and (($e.TargetObject = /.*\\Protocol_Catalog9\\Catalog_Entries.*/ nocase or $e.TargetObject = /.*\\NameSpace_Catalog5\\Catalog_Entries.*/ nocase)) and not((($e.Details = "(Empty)") or ($e.target.process.file.full_path = "C:\\Windows\\System32\\MsiExec.exe") or ($e.target.process.file.full_path = "C:\\Windows\\syswow64\\MsiExec.exe"))))
+
+  condition:
+    $e
+}

@@ -1,0 +1,11 @@
+// Title: VBScript Payload Stored in Registry
+// ID: 46490193-1b22-4c29-bdd6-5bf63907216f
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2021-03-05
+// Tags: attack.privilege-escalation, attack.persistence, attack.t1547.001
+// Description: Detects VBScript content stored into registry keys as seen being used by UNC2452 group
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+registry where ((registry.path like "*_Software\\Microsoft\\Windows\\CurrentVersion*" and (registry.data.strings like "*_vbscript:*" or registry.data.strings like "*_jscript:*" or registry.data.strings like "*_mshtml,*" or registry.data.strings like "*_RunHTMLApplication*" or registry.data.strings like "*_Execute(*" or registry.data.strings like "*_CreateObject*" or registry.data.strings like "*_window.close*")) and not (((registry.path like "*_Software\\Microsoft\\Windows\\CurrentVersion\\Run*") or (process.executable endswith "\\msiexec.exe" and registry.path like "*_\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Installer\\UserData\\*" and (registry.data.strings like "*_\\Microsoft.NET\\Primary Interop Assemblies\\Microsoft.mshtml.dll*" or registry.data.strings like "*_<\\Microsoft.mshtml,fileVersion=*" or registry.data.strings like "*__mshtml_dll_*" or registry.data.strings like "*_<\\Microsoft.mshtml,culture=*")))))

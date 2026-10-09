@@ -1,0 +1,24 @@
+// Title: Potentially Suspicious Wuauclt Network Connection
+// ID: c649a6c7-cd8c-4a78-9c04-000fc76df954
+// Status: test
+// Level: medium
+// Author: Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research)
+// Date: 2020-10-12
+// Tags: attack.stealth, attack.t1218
+// Description: Detects the use of the Windows Update Client binary (wuauclt.exe) to proxy execute code and making network connections.
+// One could easily make the DLL spawn a new process and inject to it to proxy the network connection and bypass this rule.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule c649a6c7_cd8c_4a78_9c04_000fc76df954 {
+  meta:
+    title = "Potentially Suspicious Wuauclt Network Connection"
+    description = "Detects the use of the Windows Update Client binary (wuauclt.exe) to proxy execute code and making network connections. One could easily make the DLL spawn a new process and inject to it to proxy the network connection and bypass this rule."
+    author = "Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.process.file.full_path = /.*wuauclt.*/ nocase and $e.target.process.command_line = /.* /RunHandlerComServer.*/ nocase) and not((($e.target.process.command_line = "") or (not ($e.target.process.command_line = /.*/)) or ((net.ip_in_range_cidr($e.target.ip, "127.0.0.0/8") or net.ip_in_range_cidr($e.target.ip, "10.0.0.0/8") or net.ip_in_range_cidr($e.target.ip, "169.254.0.0/16") or net.ip_in_range_cidr($e.target.ip, "172.16.0.0/12") or net.ip_in_range_cidr($e.target.ip, "192.168.0.0/16") or net.ip_in_range_cidr($e.target.ip, "::1/128") or net.ip_in_range_cidr($e.target.ip, "fe80::/10") or net.ip_in_range_cidr($e.target.ip, "fc00::/7"))) or ((net.ip_in_range_cidr($e.target.ip, "20.184.0.0/13") or net.ip_in_range_cidr($e.target.ip, "20.192.0.0/10") or net.ip_in_range_cidr($e.target.ip, "23.79.0.0/16") or net.ip_in_range_cidr($e.target.ip, "51.10.0.0/15") or net.ip_in_range_cidr($e.target.ip, "51.103.0.0/16") or net.ip_in_range_cidr($e.target.ip, "51.104.0.0/15") or net.ip_in_range_cidr($e.target.ip, "52.224.0.0/11"))) or (($e.target.process.command_line = /.*:\\Windows\\UUS\\Packages\\Preview\\amd64\\updatedeploy.dll /ClassId.*/ nocase or $e.target.process.command_line = /.*:\\Windows\\UUS\\amd64\\UpdateDeploy.dll /ClassId.*/ nocase)) or (($e.target.process.command_line = /.*:\\Windows\\WinSxS\\.*/ nocase and $e.target.process.command_line = /.*\\UpdateDeploy.dll /ClassId .*/ nocase)))))
+
+  condition:
+    $e
+}

@@ -1,0 +1,11 @@
+// Title: Alternate PowerShell Hosts - PowerShell Module
+// ID: 64e8e417-c19a-475a-8d19-98ea705394cc
+// Status: test
+// Level: medium
+// Author: Roberto Rodriguez @Cyb3rWard0g
+// Date: 2019-08-11
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects alternate PowerShell hosts potentially bypassing detections looking for powershell.exe
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+any where ((ContextInfo like "*_**") and not (((ContextInfo like "*_C:\\Windows\\system32\\dsac.exe*") or (ContextInfo like "*_ConfigSyncRun.exe*") or ((Payload like "*_Update-Help*" or Payload like "*_Failed to update Help for the module*")) or ((ContextInfo like "*_= powershell*" or ContextInfo like "*_= C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell*" or ContextInfo like "*_= C:\\Windows\\SysWOW64\\WindowsPowerShell\\v1.0\\powershell*" or ContextInfo like "*_= C:/Windows/System32/WindowsPowerShell/v1.0/powershell*" or ContextInfo like "*_= C:/Windows/SysWOW64/WindowsPowerShell/v1.0/powershell*" or ContextInfo like "*_= \\\\\\?\\?\\C:Windows\\System32\\WindowsPowerShell\\v1.0\\powershell*" or ContextInfo like "*_= \\\\\\?\\?\\C:Windows\\SysWOW64\\WindowsPowerShell\\v1.0\\powershell*")) or (ContextInfo like "*_= C:\\WINDOWS\\System32\\sdiagnhost.exe -Embedding*") or (ContextInfo like "*_C:\\Windows\\system32\\wsmprovhost.exe -Embedding*"))))

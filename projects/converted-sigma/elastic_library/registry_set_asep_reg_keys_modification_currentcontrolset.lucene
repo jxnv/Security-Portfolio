@@ -1,0 +1,11 @@
+# Title: CurrentControlSet Autorun Keys Modification
+# ID: f674e36a-4b91-431e-8aef-f8a96c2aca35
+# Status: test
+# Level: medium
+# Author: Victor Sergeev, Daniil Yugoslavskiy, Gleb Sukhodolskiy, Timur Zinniatullin, oscd.community, Tim Shelton, frack113 (split)
+# Date: 2019-10-25
+# Tags: attack.privilege-escalation, attack.persistence, attack.t1547.001
+# Description: Detects modification of autostart extensibility point (ASEP) in registry.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((registry.path:*\\SYSTEM\\CurrentControlSet\\Control*) AND ((registry.path:*\\Terminal Server\\WinStations\\RDP-Tcp\\InitialProgram* OR registry.path:*\\Terminal Server\\Wds\\rdpwd\\StartupPrograms* OR registry.path:*\\SecurityProviders\\SecurityProviders* OR registry.path:*\\SafeBoot\\AlternateShell* OR registry.path:*\\Print\\Providers* OR registry.path:*\\Print\\Monitors* OR registry.path:*\\NetworkProvider\\Order* OR registry.path:*\\Lsa\\Notification Packages* OR registry.path:*\\Lsa\\Authentication Packages* OR registry.path:*\\BootVerificationProgram\\ImagePath*))) AND NOT (((process.executable:"C:\\Windows\\System32\\spoolsv.exe" AND registry.path:*\\Print\\Monitors\\CutePDF Writer Monitor* AND (registry.data.strings:"cpwmon64_v40.dll" OR registry.data.strings:"CutePDF Writer")) OR (registry.data.strings:"(Empty)") OR (process.executable:"C:\\Windows\\System32\\spoolsv.exe" AND registry.path:*Print\\Monitors\\Appmon\\Ports\\Microsoft.Office.OneNote_* AND (user.name:*AUTHORI* OR user.name:*AUTORI*)) OR (process.executable:"C:\\Windows\\System32\\poqexec.exe" AND registry.path:*\\NetworkProvider\\Order\\ProviderOrder) OR (process.executable:"C:\\Windows\\System32\\spoolsv.exe" AND registry.path:*\\Print\\Monitors\\MONVNC\\Driver AND registry.data.strings:"VNCpm.dll"))))

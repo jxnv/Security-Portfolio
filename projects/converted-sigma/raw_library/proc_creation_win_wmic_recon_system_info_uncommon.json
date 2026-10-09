@@ -1,0 +1,37 @@
+{
+  "title": "Uncommon System Information Discovery Via Wmic.EXE",
+  "id": "9d5a1274-922a-49d0-87f3-8c653483b909",
+  "status": "test",
+  "description": "Detects the use of the WMI command-line (WMIC) utility to identify and display various system information,\nincluding OS, CPU, GPU, and disk drive names; memory capacity; display resolution; and baseboard, BIOS,\nand GPU driver products/versions.\nSome of these commands were used by Aurora Stealer in late 2022/early 2023.\n",
+  "author": "TropChaud",
+  "date": "2023-01-26",
+  "tags": [
+    "attack.discovery",
+    "attack.t1082"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_wmic": [
+      {
+        "Description": "WMI Commandline Utility"
+      },
+      {
+        "OriginalFileName": "wmic.exe"
+      },
+      {
+        "Image|endswith": "\\WMIC.exe"
+      }
+    ],
+    "selection_commands": {
+      "CommandLine|contains": [
+        "LOGICALDISK get Name,Size,FreeSpace",
+        "os get Caption,OSArchitecture,Version"
+      ]
+    },
+    "condition": "all of selection_*"
+  }
+}

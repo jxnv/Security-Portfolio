@@ -1,0 +1,23 @@
+// Title: Suspicious Download From Direct IP Via Bitsadmin
+// ID: 99c840f2-2012-46fd-9141-c761987550ef
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-06-28
+// Tags: attack.persistence, attack.execution, attack.stealth, attack.t1197, attack.s0190, attack.t1036.003
+// Description: Detects usage of bitsadmin downloading a file using an URL that contains an IP
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 99c840f2_2012_46fd_9141_c761987550ef {
+  meta:
+    title = "Suspicious Download From Direct IP Via Bitsadmin"
+    description = "Detects usage of bitsadmin downloading a file using an URL that contains an IP"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (((($e.target.process.command_line = /.*://1.*/ nocase or $e.target.process.command_line = /.*://2.*/ nocase or $e.target.process.command_line = /.*://3.*/ nocase or $e.target.process.command_line = /.*://4.*/ nocase or $e.target.process.command_line = /.*://5.*/ nocase or $e.target.process.command_line = /.*://6.*/ nocase or $e.target.process.command_line = /.*://7.*/ nocase or $e.target.process.command_line = /.*://8.*/ nocase or $e.target.process.command_line = /.*://9.*/ nocase)) and (($e.target.process.command_line = /.* /transfer .*/ nocase or $e.target.process.command_line = /.* /create .*/ nocase or $e.target.process.command_line = /.* /addfile .*/ nocase)) and (($e.target.process.file.full_path = /.*\\bitsadmin.exe$/ nocase) or ($e.target.process.file.name = "bitsadmin.exe"))) and not(($e.target.process.command_line = /.*://7-.*/ nocase)))
+
+  condition:
+    $e
+}

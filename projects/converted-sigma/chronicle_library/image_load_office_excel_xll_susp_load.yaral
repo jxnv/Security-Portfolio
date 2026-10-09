@@ -1,0 +1,23 @@
+// Title: Microsoft Excel Add-In Loaded From Uncommon Location
+// ID: af4c4609-5755-42fe-8075-4effb49f5d44
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-05-12
+// Tags: attack.execution, attack.t1204.002
+// Description: Detects Microsoft Excel loading an Add-In (.xll) file from an uncommon location
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule af4c4609_5755_42fe_8075_4effb49f5d44 {
+  meta:
+    title = "Microsoft Excel Add-In Loaded From Uncommon Location"
+    description = "Detects Microsoft Excel loading an Add-In (.xll) file from an uncommon location"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ($e.target.process.file.full_path = /.*\\excel.exe$/ nocase and ($e.ImageLoaded = /.*\\Desktop\\.*/ nocase or $e.ImageLoaded = /.*\\Downloads\\.*/ nocase or $e.ImageLoaded = /.*\\Perflogs\\.*/ nocase or $e.ImageLoaded = /.*\\Temp\\.*/ nocase or $e.ImageLoaded = /.*\\Users\\Public\\.*/ nocase or $e.ImageLoaded = /.*\\Windows\\Tasks\\.*/ nocase) and $e.ImageLoaded = /.*.xll$/ nocase)
+
+  condition:
+    $e
+}

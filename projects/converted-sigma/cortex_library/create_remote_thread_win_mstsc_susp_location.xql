@@ -1,0 +1,12 @@
+// Title: Remote Thread Creation In Mstsc.Exe From Suspicious Location
+// ID: c0aac16a-b1e7-4330-bab0-3c27bb4987c7
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-07-28
+// Tags: attack.credential-access
+// Description: Detects remote thread creation in the "mstsc.exe" process by a process located in a potentially suspicious location.
+// This technique is often used by attackers in order to hook some APIs used by DLLs loaded by "mstsc.exe" during RDP authentications in order to steal credentials.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter (TargetImage endswith "\\mstsc.exe" and (SourceImage contains ":\\Temp\\" or SourceImage contains ":\\Users\\Public\\" or SourceImage contains ":\\Windows\\PerfLogs\\" or SourceImage contains ":\\Windows\\Tasks\\" or SourceImage contains ":\\Windows\\Temp\\" or SourceImage contains "\\AppData\\Local\\Temp\\"))

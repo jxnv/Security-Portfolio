@@ -1,0 +1,11 @@
+-- Title: Potential DLL Sideloading Of DBGCORE.DLL
+-- ID: 9ca2bf31-0570-44d8-a543-534c47c33ed7
+-- Status: test
+-- Level: medium
+-- Author: Nasreddine Bencherchali (Nextron Systems), Wietze Beukema (project and research)
+-- Date: 2022-10-25
+-- Tags: attack.persistence, attack.privilege-escalation, attack.execution, attack.stealth, attack.t1574.001
+-- Description: Detects DLL sideloading of "dbgcore.dll"
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE ((ImageLoaded ILIKE '%\\dbgcore.dll') AND NOT (((ImageLoaded ILIKE 'C:\\Program Files (x86)\\%' OR ImageLoaded ILIKE 'C:\\Program Files\\%' OR ImageLoaded ILIKE 'C:\\Windows\\SoftwareDistribution\\%' OR ImageLoaded ILIKE 'C:\\Windows\\System32\\%' OR ImageLoaded ILIKE 'C:\\Windows\\SystemTemp\\%' OR ImageLoaded ILIKE 'C:\\Windows\\SysWOW64\\%' OR ImageLoaded ILIKE 'C:\\Windows\\WinSxS\\%'))) AND NOT (((ImageLoaded ILIKE '%opera\\Opera Installer Temp\\opera_package%' AND ImageLoaded ILIKE '%\\assistant\\dbgcore.dll') OR (ImageLoaded ILIKE '%\\Steam\\bin\\cef\\cef.win7x64\\dbgcore.dll'))))

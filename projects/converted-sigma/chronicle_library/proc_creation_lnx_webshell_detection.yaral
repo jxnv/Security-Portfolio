@@ -1,0 +1,23 @@
+// Title: Linux Webshell Indicators
+// ID: 818f7b24-0fba-4c49-a073-8b755573b9c7
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2021-10-15
+// Tags: attack.persistence, attack.t1505.003
+// Description: Detects suspicious sub processes of web server processes
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 818f7b24_0fba_4c49_a073_8b755573b9c7 {
+  meta:
+    title = "Linux Webshell Indicators"
+    description = "Detects suspicious sub processes of web server processes"
+    author = "Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (((($e.principal.process.file.full_path = /.*/httpd$/ nocase or $e.principal.process.file.full_path = /.*/lighttpd$/ nocase or $e.principal.process.file.full_path = /.*/nginx$/ nocase or $e.principal.process.file.full_path = /.*/apache2$/ nocase or $e.principal.process.file.full_path = /.*/node$/ nocase or $e.principal.process.file.full_path = /.*/caddy$/ nocase)) or (($e.principal.process.command_line = /.*/bin/java.*/ nocase and $e.principal.process.command_line = /.*tomcat.*/ nocase)) or (($e.principal.process.command_line = /.*/bin/java.*/ nocase and $e.principal.process.command_line = /.*websphere.*/ nocase))) and (($e.target.process.file.full_path = /.*/whoami$/ nocase or $e.target.process.file.full_path = /.*/ifconfig$/ nocase or $e.target.process.file.full_path = /.*/ip$/ nocase or $e.target.process.file.full_path = /.*/bin/uname$/ nocase or $e.target.process.file.full_path = /.*/bin/cat$/ nocase or $e.target.process.file.full_path = /.*/bin/crontab$/ nocase or $e.target.process.file.full_path = /.*/hostname$/ nocase or $e.target.process.file.full_path = /.*/iptables$/ nocase or $e.target.process.file.full_path = /.*/netstat$/ nocase or $e.target.process.file.full_path = /.*/pwd$/ nocase or $e.target.process.file.full_path = /.*/route$/ nocase)) and not(($e.principal.process.file.full_path = /.*/node$/ nocase and $e.target.process.command_line = /.*ip neigh show.*/ nocase)))
+
+  condition:
+    $e
+}

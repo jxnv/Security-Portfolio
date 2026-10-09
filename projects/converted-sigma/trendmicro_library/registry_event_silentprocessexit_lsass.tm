@@ -1,0 +1,11 @@
+// Title: Potential Credential Dumping Via LSASS SilentProcessExit Technique
+// ID: 55e29995-75e7-451a-bef0-6225e2f13597
+// Status: test
+// Level: critical
+// Author: Florian Roth (Nextron Systems)
+// Date: 2021-02-26
+// Tags: attack.credential-access, attack.t1003.001
+// Description: Detects changes to the Registry in which a monitor program gets registered to dump the memory of the lsass.exe process
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(TargetObject: "*Microsoft\\Windows NT\\CurrentVersion\\SilentProcessExit\\lsass.exe*")

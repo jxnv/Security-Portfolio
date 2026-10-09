@@ -1,0 +1,24 @@
+// Title: HKTL - SharpSuccessor Privilege Escalation Tool Execution
+// ID: 38a1ac5f-9c74-47d2-a345-dd6f5eb4e7c8
+// Status: experimental
+// Level: high
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-06-06
+// Tags: attack.privilege-escalation, attack.t1068
+// Description: Detects the execution of SharpSuccessor, a tool used to exploit the BadSuccessor attack for privilege escalation in WinServer 2025 Active Directory environments.
+// Successful usage of this tool can let the attackers gain the domain admin privileges by exploiting the BadSuccessor vulnerability.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 38a1ac5f_9c74_47d2_a345_dd6f5eb4e7c8 {
+  meta:
+    title = "HKTL - SharpSuccessor Privilege Escalation Tool Execution"
+    description = "Detects the execution of SharpSuccessor, a tool used to exploit the BadSuccessor attack for privilege escalation in WinServer 2025 Active Directory environments. Successful usage of this tool can let the attackers gain the domain admin privileges by exploiting the BadSuccessor vulnerability."
+    author = "Swachchhanda Shrawan Poudel (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.file.full_path = /.*\\SharpSuccessor.exe$/ nocase) or ($e.target.process.file.name = "SharpSuccessor.exe") or ($e.target.process.command_line = /.*SharpSuccessor.*/ nocase) or (($e.target.process.command_line = /.* add .*/ nocase and $e.target.process.command_line = /.* /impersonate.*/ nocase and $e.target.process.command_line = /.* /path.*/ nocase and $e.target.process.command_line = /.* /account.*/ nocase and $e.target.process.command_line = /.* /name.*/ nocase)))
+
+  condition:
+    $e
+}

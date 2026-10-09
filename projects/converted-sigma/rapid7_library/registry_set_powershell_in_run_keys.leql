@@ -1,0 +1,11 @@
+// Title: Suspicious PowerShell In Registry Run Keys
+// ID: 8d85cf08-bf97-4260-ba49-986a2a65129c
+// Status: test
+// Level: medium
+// Author: frack113, Florian Roth (Nextron Systems)
+// Date: 2022-03-17
+// Tags: attack.privilege-escalation, attack.persistence, attack.t1547.001
+// Description: Detects potential PowerShell commands or code within registry run keys
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((where(TargetObject ICONTAINS "\\Software\\Microsoft\\Windows\\CurrentVersion\\Run") OR where(TargetObject ICONTAINS "\\Software\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Run") OR where(TargetObject ICONTAINS "\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run")) AND (where(Details ICONTAINS "powershell") OR where(Details ICONTAINS "pwsh ") OR where(Details ICONTAINS "FromBase64String") OR where(Details ICONTAINS ".DownloadFile(") OR where(Details ICONTAINS ".DownloadString(") OR where(Details ICONTAINS " -w hidden ") OR where(Details ICONTAINS " -w 1 ") OR where(Details ICONTAINS "-windowstyle hidden") OR where(Details ICONTAINS "-window hidden") OR where(Details ICONTAINS " -nop ") OR where(Details ICONTAINS " -encodedcommand ") OR where(Details ICONTAINS "-ExecutionPolicy Bypass") OR where(Details ICONTAINS "Invoke-Expression") OR where(Details ICONTAINS "IEX (") OR where(Details ICONTAINS "Invoke-Command") OR where(Details ICONTAINS "ICM -") OR where(Details ICONTAINS "Invoke-WebRequest") OR where(Details ICONTAINS "IWR ") OR where(Details ICONTAINS "Invoke-RestMethod") OR where(Details ICONTAINS "IRM ") OR where(Details ICONTAINS " -noni ") OR where(Details ICONTAINS " -noninteractive ")))

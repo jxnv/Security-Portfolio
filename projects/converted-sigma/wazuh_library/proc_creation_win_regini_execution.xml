@@ -1,0 +1,16 @@
+<!--
+  Title: Registry Modification Via Regini.EXE
+  ID: 5f60740a-f57b-4e76-82a1-15b6ff2cb134
+  Status: test
+  Level: low
+  Author: Eli Salem, Sander Wiebing, oscd.community
+  Date: 2020-10-08
+  Description: Detects the execution of regini.exe which can be used to modify registry keys, the changes are imported from one or more text files.
+-->
+
+<group name="sigma_converted,">
+  <rule id="100001" level="5">
+    <description>Registry Modification Via Regini.EXE</description>
+    <match>(((Image=\"*\\\\regini.exe\") OR (OriginalFileName=\"REGINI.EXE\")) AND NOT ((CommandLine=regex(\":[^ \\\\\\\\]\"))))</match>
+  </rule>
+</group>

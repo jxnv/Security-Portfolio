@@ -1,0 +1,41 @@
+{
+  "title": "Potential Attachment Manager Settings Associations Tamper",
+  "id": "a9b6c011-ab69-4ddb-bc0a-c4f21c80ec47",
+  "status": "test",
+  "description": "Detects tampering with attachment manager settings policies associations to lower the default file type risks (See reference for more information)",
+  "author": "Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2022-08-01",
+  "tags": [
+    "attack.defense-impairment"
+  ],
+  "level": "high",
+  "logsource": {
+    "category": "registry_set",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_main": {
+      "TargetObject|contains": "\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Associations\\"
+    },
+    "selection_value_default_file_type_rsik": {
+      "TargetObject|endswith": "\\DefaultFileTypeRisk",
+      "Details": "DWORD (0x00006152)"
+    },
+    "selection_value_low_risk_filetypes": {
+      "TargetObject|endswith": "\\LowRiskFileTypes",
+      "Details|contains": [
+        ".zip;",
+        ".rar;",
+        ".exe;",
+        ".bat;",
+        ".com;",
+        ".cmd;",
+        ".reg;",
+        ".msi;",
+        ".htm;",
+        ".html;"
+      ]
+    },
+    "condition": "selection_main and 1 of selection_value_*"
+  }
+}

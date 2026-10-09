@@ -1,0 +1,11 @@
+// Title: Startup/Logon Script Added to Group Policy Object
+// ID: 123e4e6d-b123-48f8-b261-7214938acaf0
+// Status: test
+// Level: medium
+// Author: Elastic, Josh Nickels, Marius Rothenbücher
+// Date: 2024-09-06
+// Tags: attack.persistence, attack.privilege-escalation, attack.defense-impairment, attack.t1484.001, attack.t1547
+// Description: Detects the modification of Group Policy Objects (GPO) to add a startup/logon script to users or computer objects.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter (((EventID = 5136 or EventID = 5145)) and ((((AttributeLDAPDisplayName = "gPCMachineExtensionNames" or AttributeLDAPDisplayName = "gPCUserExtensionNames") and AttributeValue contains "42B5FAAE-6536-11D2-AE5A-0000F87571E3") and ((AttributeValue contains "40B6664F-4972-11D1-A7CA-0000F87571E3" or AttributeValue contains "40B66650-4972-11D1-A7CA-0000F87571E3"))) or (ShareName endswith "\\SYSVOL" and (RelativeTargetName endswith "\\scripts.ini" or RelativeTargetName endswith "\\psscripts.ini") and AccessList contains "%%4417")))

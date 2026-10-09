@@ -1,0 +1,12 @@
+// Title: OneNote.EXE Execution of Malicious Embedded Scripts
+// ID: 84b1706c-932a-44c4-ae28-892b28a25b94
+// Status: test
+// Level: high
+// Author: @kostastsale
+// Date: 2023-02-02
+// Tags: attack.stealth, attack.t1218.001
+// Description: Detects the execution of malicious OneNote documents that contain embedded scripts.
+// When a user clicks on a OneNote attachment and then on the malicious link inside the ".one" file, it exports and executes the malicious embedded script from specific directories.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where (ParentImage matches "*\\onenote.exe" and (Image matches "*\\cmd.exe" or Image matches "*\\cscript.exe" or Image matches "*\\mshta.exe" or Image matches "*\\powershell.exe" or Image matches "*\\pwsh.exe" or Image matches "*\\wscript.exe") and (CommandLine matches "*\\exported\\*" or CommandLine matches "*\\onenoteofflinecache_files\\*"))

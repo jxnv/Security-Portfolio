@@ -1,0 +1,11 @@
+// Title: CodeIntegrity - Unmet WHQL Requirements For Loaded Kernel Module
+// ID: 2f8cd7a0-9d5a-4f62-9f8b-2c951aa0dd1f
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-06-06
+// Tags: attack.privilege-escalation
+// Description: Detects loaded kernel modules that did not meet the WHQL signing requirements.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter (((EventID = 3082 or EventID = 3083)) and not (((FileNameBuffer = "system32\\drivers\\vsock.sys" or FileNameBuffer = "System32\\drivers\\vmci.sys"))))

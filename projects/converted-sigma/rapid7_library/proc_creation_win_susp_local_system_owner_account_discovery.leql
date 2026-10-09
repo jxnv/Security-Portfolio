@@ -1,0 +1,11 @@
+// Title: Local Accounts Discovery
+// ID: 502b42de-4306-40b4-9596-6f590c81f073
+// Status: test
+// Level: low
+// Author: Timur Zinniatullin, Daniil Yugoslavskiy, oscd.community
+// Date: 2019-10-21
+// Tags: attack.discovery, attack.t1033, attack.t1087.001
+// Description: Local accounts, System Owner/User discovery using operating systems utilities
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(Image IENDSWITH "\\cmd.exe") AND (where(CommandLine ICONTAINS " /c") AND where(CommandLine ICONTAINS "dir ") AND where(CommandLine ICONTAINS "\\Users\\"))) AND NOT ((where(CommandLine ICONTAINS " rmdir ")))) OR (((where(Image IENDSWITH "\\net.exe") OR where(Image IENDSWITH "\\net1.exe")) AND where(CommandLine ICONTAINS "user")) AND NOT (((where(CommandLine ICONTAINS "/domain") OR where(CommandLine ICONTAINS "/add") OR where(CommandLine ICONTAINS "/delete") OR where(CommandLine ICONTAINS "/active") OR where(CommandLine ICONTAINS "/expires") OR where(CommandLine ICONTAINS "/passwordreq") OR where(CommandLine ICONTAINS "/scriptpath") OR where(CommandLine ICONTAINS "/times") OR where(CommandLine ICONTAINS "/workstations"))))) OR ((where(Image IENDSWITH "\\cmdkey.exe") AND where(CommandLine ICONTAINS " /l")) OR (((where(Image IENDSWITH "\\whoami.exe") OR where(Image IENDSWITH "\\quser.exe") OR where(Image IENDSWITH "\\qwinsta.exe"))) OR ((where(OriginalFileName = "whoami.exe") OR where(OriginalFileName = "quser.exe") OR where(OriginalFileName = "qwinsta.exe")))) OR (where(Image IENDSWITH "\\wmic.exe") AND (where(CommandLine ICONTAINS "useraccount") AND where(CommandLine ICONTAINS "get")))))

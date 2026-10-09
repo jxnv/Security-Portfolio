@@ -1,0 +1,19 @@
+# Title: Suspicious File Download From IP Via Wget.EXE - Paths
+# ID: 40aa399c-7b02-4715-8e5f-73572b493f33
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2024-02-23
+# Tags: attack.execution
+# Description: Detects potentially suspicious file downloads directly from IP addresses and stored in suspicious locations using Wget.exe
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Suspicious File Download From IP Via Wget.EXE - Paths
+def rule(event):
+    # Detection Logic:
+    # (((CommandLine=regex("\\s-O\\s")) OR (CommandLine="*--output-document*")) AND (CommandLine="*http*") AND ((Image="*\\wget.exe") OR (OriginalFileName="wget.exe")) AND (CommandLine=regex("://[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}")) AND (((CommandLine="*:\\PerfLogs\\*" OR CommandLine="*:\\Temp\\*" OR CommandLine="*:\\Users\\Public\\*" OR CommandLine="*:\\Windows\\Help\\*" OR CommandLine="*:\\Windows\\Temp\\*" OR CommandLine="*\\Temporary Internet*")) OR ((CommandLine="*:\\Users\\*" AND CommandLine="*\\Favorites\\*")) OR ((CommandLine="*:\\Users\\*" AND CommandLine="*\\Favourites\\*")) OR ((CommandLine="*:\\Users\\*" AND CommandLine="*\\Contacts\\*")) OR ((CommandLine="*:\\Users\\*" AND CommandLine="*\\Pictures\\*"))))
+    return True
+
+def title(event):
+    return "Suspicious File Download From IP Via Wget.EXE - Paths"
+

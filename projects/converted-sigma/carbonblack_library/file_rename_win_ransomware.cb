@@ -1,0 +1,11 @@
+# Title: Suspicious Appended Extension
+# ID: e3f673b3-65d1-4d80-9146-466f8b63fa99
+# Status: test
+# Level: medium
+# Author: frack113
+# Date: 2022-07-16
+# Tags: attack.impact, attack.t1486
+# Description: Detects file renames where the target filename uses an uncommon double extension. Could indicate potential ransomware activity renaming files and adding a custom extension to the encrypted files, such as ".jpg.crypted", ".docx.locky", etc.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((SourceFilename:*.doc OR SourceFilename:*.docx OR SourceFilename:*.jpeg OR SourceFilename:*.jpg OR SourceFilename:*.lnk OR SourceFilename:*.pdf OR SourceFilename:*.png OR SourceFilename:*.pst OR SourceFilename:*.rtf OR SourceFilename:*.xls OR SourceFilename:*.xlsx) AND (filemod_name:*.doc.* OR filemod_name:*.docx.* OR filemod_name:*.jpeg.* OR filemod_name:*.jpg.* OR filemod_name:*.lnk.* OR filemod_name:*.pdf.* OR filemod_name:*.png.* OR filemod_name:*.pst.* OR filemod_name:*.rtf.* OR filemod_name:*.xls.* OR filemod_name:*.xlsx.*)) AND -(((filemod_name:*.backup OR filemod_name:*.bak OR filemod_name:*.old OR filemod_name:*.orig OR filemod_name:*.temp OR filemod_name:*.tmp))) AND -((filemod_name:*:\\ProgramData\\Anaconda3\\* AND filemod_name:*.c~)))

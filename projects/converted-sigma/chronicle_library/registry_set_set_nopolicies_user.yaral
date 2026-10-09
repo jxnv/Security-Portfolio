@@ -1,0 +1,23 @@
+// Title: Registry Explorer Policy Modification
+// ID: 1c3121ed-041b-4d97-a075-07f54f20fb4a
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-03-18
+// Tags: attack.persistence, attack.defense-impairment, attack.t1112
+// Description: Detects registry modifications that disable internal tools or functions in explorer (malware like Agent Tesla uses this technique)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 1c3121ed_041b_4d97_a075_07f54f20fb4a {
+  meta:
+    title = "Registry Explorer Policy Modification"
+    description = "Detects registry modifications that disable internal tools or functions in explorer (malware like Agent Tesla uses this technique)"
+    author = "frack113"
+    severity = "MEDIUM"
+
+  events:
+    (($e.TargetObject = /.*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\NoLogOff$/ nocase or $e.TargetObject = /.*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\NoDesktop$/ nocase or $e.TargetObject = /.*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\NoRun$/ nocase or $e.TargetObject = /.*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\NoFind$/ nocase or $e.TargetObject = /.*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\NoControlPanel$/ nocase or $e.TargetObject = /.*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\NoFileMenu$/ nocase or $e.TargetObject = /.*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\NoClose$/ nocase or $e.TargetObject = /.*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\NoSetTaskbar$/ nocase or $e.TargetObject = /.*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\NoPropertiesMyDocuments$/ nocase or $e.TargetObject = /.*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\NoTrayContextMenu$/ nocase) and $e.Details = "DWORD (0x00000001)")
+
+  condition:
+    $e
+}

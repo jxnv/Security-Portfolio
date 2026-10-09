@@ -1,0 +1,11 @@
+// Title: Suspicious File Downloaded From File-Sharing Website Via Certutil.EXE
+// ID: 42a5f1e7-9603-4f6d-97ae-3f37d130d794
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-02-15
+// Tags: attack.stealth, attack.t1027, attack.command-and-control, attack.t1105
+// Description: Detects the execution of certutil with certain flags that allow the utility to download files from file-sharing websites.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((CommandLine CONTAINS "urlcache " OR CommandLine CONTAINS "verifyctl " OR CommandLine CONTAINS "URL ")) AND ((CommandLine CONTAINS ".githubusercontent.com" OR CommandLine CONTAINS "0x0.st" OR CommandLine CONTAINS "anonfiles.com" OR CommandLine CONTAINS "bashupload.com" OR CommandLine CONTAINS "cdn.discordapp.com" OR CommandLine CONTAINS "chunk.io" OR CommandLine CONTAINS "ddns.net" OR CommandLine CONTAINS "dl.dropboxusercontent.com" OR CommandLine CONTAINS "ghostbin.co" OR CommandLine CONTAINS "github.com" OR CommandLine CONTAINS "glitch.me" OR CommandLine CONTAINS "gofile.io" OR CommandLine CONTAINS "hastebin.com" OR CommandLine CONTAINS "mediafire.com" OR CommandLine CONTAINS "mega.nz" OR CommandLine CONTAINS "onrender.com" OR CommandLine CONTAINS "pages.dev" OR CommandLine CONTAINS "paste.ee" OR CommandLine CONTAINS "pastebin.com" OR CommandLine CONTAINS "pastebin.pl" OR CommandLine CONTAINS "pastetext.net" OR CommandLine CONTAINS "privatlab.com" OR CommandLine CONTAINS "privatlab.net" OR CommandLine CONTAINS "send.exploit.in" OR CommandLine CONTAINS "sendspace.com" OR CommandLine CONTAINS "storage.googleapis.com" OR CommandLine CONTAINS "storjshare.io" OR CommandLine CONTAINS "supabase.co" OR CommandLine CONTAINS "temp.sh" OR CommandLine CONTAINS "transfer.sh" OR CommandLine CONTAINS "trycloudflare.com" OR CommandLine CONTAINS "ufile.io" OR CommandLine CONTAINS "w3spaces.com" OR CommandLine CONTAINS "workers.dev" OR CommandLine CONTAINS "x0.at")) AND ((Image="*\\certutil.exe") OR (OriginalFileName EQUALS "CertUtil.exe")))

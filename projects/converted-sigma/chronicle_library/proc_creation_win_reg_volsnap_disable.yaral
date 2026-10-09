@@ -1,0 +1,23 @@
+// Title: Disabled Volume Snapshots
+// ID: dee4af55-1f22-4e1d-a9d2-4bdc7ecb472a
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2021-01-28
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects commands that temporarily turn off Volume Snapshots
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule dee4af55_1f22_4e1d_a9d2_4bdc7ecb472a {
+  meta:
+    title = "Disabled Volume Snapshots"
+    description = "Detects commands that temporarily turn off Volume Snapshots"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.command_line = /.*\\Services\\VSS\\Diag.*/ nocase and $e.target.process.command_line = /.*/d Disabled.*/ nocase))
+
+  condition:
+    $e
+}

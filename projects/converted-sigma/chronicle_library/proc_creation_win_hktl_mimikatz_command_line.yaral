@@ -1,0 +1,23 @@
+// Title: HackTool - Mimikatz Execution
+// ID: a642964e-bead-4bed-8910-1bb4d63e3b4d
+// Status: test
+// Level: high
+// Author: Teymur Kheirkhabarov, oscd.community, David ANDRE (additional keywords), Tim Shelton
+// Date: 2019-10-22
+// Tags: attack.credential-access, attack.t1003.001, attack.t1003.002, attack.t1003.004, attack.t1003.005, attack.t1003.006
+// Description: Detection well-known mimikatz command line arguments
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule a642964e_bead_4bed_8910_1bb4d63e3b4d {
+  meta:
+    title = "HackTool - Mimikatz Execution"
+    description = "Detection well-known mimikatz command line arguments"
+    author = "Teymur Kheirkhabarov, oscd.community, David ANDRE (additional keywords), Tim Shelton"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*::aadcookie.*/ nocase or $e.target.process.command_line = /.*::detours.*/ nocase or $e.target.process.command_line = /.*::memssp.*/ nocase or $e.target.process.command_line = /.*::mflt.*/ nocase or $e.target.process.command_line = /.*::ncroutemon.*/ nocase or $e.target.process.command_line = /.*::ngcsign.*/ nocase or $e.target.process.command_line = /.*::printnightmare.*/ nocase or $e.target.process.command_line = /.*::skeleton.*/ nocase or $e.target.process.command_line = /.*::preshutdown.*/ nocase or $e.target.process.command_line = /.*::mstsc.*/ nocase or $e.target.process.command_line = /.*::multirdp.*/ nocase)) or (($e.target.process.command_line = /.*rpc::.*/ nocase or $e.target.process.command_line = /.*token::.*/ nocase or $e.target.process.command_line = /.*crypto::.*/ nocase or $e.target.process.command_line = /.*dpapi::.*/ nocase or $e.target.process.command_line = /.*sekurlsa::.*/ nocase or $e.target.process.command_line = /.*kerberos::.*/ nocase or $e.target.process.command_line = /.*lsadump::.*/ nocase or $e.target.process.command_line = /.*privilege::.*/ nocase or $e.target.process.command_line = /.*process::.*/ nocase or $e.target.process.command_line = /.*vault::.*/ nocase)) or (($e.target.process.command_line = /.*DumpCreds.*/ nocase or $e.target.process.command_line = /.*mimikatz.*/ nocase)))
+
+  condition:
+    $e
+}

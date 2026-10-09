@@ -1,0 +1,23 @@
+// Title: PUA - DIT Snapshot Viewer
+// ID: d3b70aad-097e-409c-9df2-450f80dc476b
+// Status: test
+// Level: high
+// Author: Furkan Caliskan (@caliskanfurkan_)
+// Date: 2020-07-04
+// Tags: attack.credential-access, attack.t1003.003
+// Description: Detects the use of Ditsnap tool, an inspection tool for Active Directory database, ntds.dit.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule d3b70aad_097e_409c_9df2_450f80dc476b {
+  meta:
+    title = "PUA - DIT Snapshot Viewer"
+    description = "Detects the use of Ditsnap tool, an inspection tool for Active Directory database, ntds.dit."
+    author = "Furkan Caliskan (@caliskanfurkan_)"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.file.full_path = /.*\\ditsnap.exe$/ nocase) or ($e.target.process.command_line = /.*ditsnap.exe.*/ nocase))
+
+  condition:
+    $e
+}

@@ -1,0 +1,19 @@
+# Title: Suspicious Invoke-WebRequest Execution
+# ID: 5e3cc4d8-3e68-43db-8656-eaaeefdec9cc
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-08-02
+# Tags: attack.command-and-control, attack.t1105
+# Description: Detects a suspicious call to Invoke-WebRequest cmdlet where the and output is located in a suspicious location
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Suspicious Invoke-WebRequest Execution
+def rule(event):
+    # Detection Logic:
+    # (((CommandLine="*curl *" OR CommandLine="*Invoke-WebRequest*" OR CommandLine="*iwr *" OR CommandLine="*wget *")) AND ((CommandLine="* -ur*" OR CommandLine="* -o*")) AND (((Image="*\\powershell_ise.exe" OR Image="*\\powershell.exe" OR Image="*\\pwsh.exe")) OR ((OriginalFileName="powershell_ise.EXE" OR OriginalFileName="PowerShell.EXE" OR OriginalFileName="pwsh.dll"))) AND ((CommandLine="*\\AppData\\*" OR CommandLine="*\\Desktop\\*" OR CommandLine="*\\Temp\\*" OR CommandLine="*\\Users\\Public\\*" OR CommandLine="*%AppData%*" OR CommandLine="*%Public%*" OR CommandLine="*%Temp%*" OR CommandLine="*%tmp%*" OR CommandLine="*:\\Windows\\*")))
+    return True
+
+def title(event):
+    return "Suspicious Invoke-WebRequest Execution"
+

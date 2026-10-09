@@ -1,0 +1,13 @@
+// Title: Suspicious Modification Of Scheduled Tasks
+// ID: 1c0e41cd-21bb-4433-9acc-4a2cd6367b9b
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-07-28
+// Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.t1053.005
+// Description: Detects when an attacker tries to modify an already existing scheduled tasks to run from a suspicious location
+// Attackers can create a simple looking task in order to avoid detection on creation as it's often the most focused on
+// Instead they modify the task after creation to include their malicious payload
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((src.process.image.path endswithCIS "\\schtasks.exe" AND (src.process.cmdline containsCIS " /Change " AND src.process.cmdline containsCIS " /TN ")) AND ((src.process.cmdline containsCIS "regsvr32" OR src.process.cmdline containsCIS "rundll32" OR src.process.cmdline containsCIS "cmd /c " OR src.process.cmdline containsCIS "cmd /k " OR src.process.cmdline containsCIS "cmd /r " OR src.process.cmdline containsCIS "cmd.exe /c " OR src.process.cmdline containsCIS "cmd.exe /k " OR src.process.cmdline containsCIS "cmd.exe /r " OR src.process.cmdline containsCIS "powershell" OR src.process.cmdline containsCIS "mshta" OR src.process.cmdline containsCIS "wscript" OR src.process.cmdline containsCIS "cscript" OR src.process.cmdline containsCIS "certutil" OR src.process.cmdline containsCIS "bitsadmin" OR src.process.cmdline containsCIS "bash.exe" OR src.process.cmdline containsCIS "bash " OR src.process.cmdline containsCIS "scrcons" OR src.process.cmdline containsCIS "wmic " OR src.process.cmdline containsCIS "wmic.exe" OR src.process.cmdline containsCIS "forfiles" OR src.process.cmdline containsCIS "scriptrunner" OR src.process.cmdline containsCIS "hh.exe" OR src.process.cmdline containsCIS "hh ")) AND ((src.process.cmdline containsCIS "\\AppData\\Local\\Temp" OR src.process.cmdline containsCIS "\\AppData\\Roaming\\" OR src.process.cmdline containsCIS "\\Users\\Public\\" OR src.process.cmdline containsCIS "\\WINDOWS\\Temp\\" OR src.process.cmdline containsCIS "\\Desktop\\" OR src.process.cmdline containsCIS "\\Downloads\\" OR src.process.cmdline containsCIS "\\Temporary Internet" OR src.process.cmdline containsCIS "C:\\ProgramData\\" OR src.process.cmdline containsCIS "C:\\Perflogs\\" OR src.process.cmdline containsCIS "%ProgramData%" OR src.process.cmdline containsCIS "%appdata%" OR src.process.cmdline containsCIS "%comspec%" OR src.process.cmdline containsCIS "%localappdata%")))

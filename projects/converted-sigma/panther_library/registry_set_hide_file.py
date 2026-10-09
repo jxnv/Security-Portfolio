@@ -1,0 +1,20 @@
+# Title: Displaying Hidden Files Feature Disabled
+# ID: 5a5152f1-463f-436b-b2f5-8eceb3964b42
+# Status: test
+# Level: medium
+# Author: frack113
+# Date: 2022-04-02
+# Tags: attack.stealth, attack.t1564.001
+# Description: Detects modifications to the "Hidden" and "ShowSuperHidden" explorer registry values in order to disable showing of hidden files and system files.
+# This technique is abused by several malware families to hide their files from normal users.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Displaying Hidden Files Feature Disabled
+def rule(event):
+    # Detection Logic:
+    # ((TargetObject="*\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\ShowSuperHidden" OR TargetObject="*\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\Hidden") AND Details="DWORD (0x00000000)")
+    return True
+
+def title(event):
+    return "Displaying Hidden Files Feature Disabled"
+

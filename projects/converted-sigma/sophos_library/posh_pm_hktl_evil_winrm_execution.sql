@@ -1,0 +1,11 @@
+-- Title: HackTool - Evil-WinRm Execution - PowerShell Module
+-- ID: 9fe55ea2-4cd6-4491-8a54-dd6871651b51
+-- Status: test
+-- Level: high
+-- Author: Nasreddine Bencherchali (Nextron Systems)
+-- Date: 2024-02-25
+-- Tags: attack.lateral-movement
+-- Description: Detects the execution of Evil-WinRM via PowerShell Module logs by leveraging the hardcoded strings inside the utility.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE (((ContextInfo ILIKE '%:\\Windows\\System32\\wsmprovhost.exe%' OR ContextInfo ILIKE '%:\\Windows\\SysWOW64\\wsmprovhost.exe%')) AND (((Payload ILIKE '%value=\"(get-location).path%' OR Payload ILIKE '%value=\"(get-item*).length%' OR Payload ILIKE '%Invoke-Binary %' OR Payload ILIKE '%Donut-Loader -process_id*-donutfile%' OR Payload ILIKE '%Bypass-4MSI%' OR Payload ILIKE '%IEX ([System.Text.Encoding]::ASCII.GetString([System.Convert]::FromBase64String($a))).replace('???','')%')) OR ((Payload ILIKE '%$servicios = Get-ItemProperty \"registry::HKLM\\System\\CurrentControlSet\\Services\\\"%' AND Payload ILIKE '%Where-Object {$_.imagepath -notmatch \"system\" -and $_.imagepath -ne $null } | Select-Object pschildname,imagepath%')) OR ((Payload ILIKE '%$a +=  \\\"$($_.FullName.Replace('\\\\','/'))/\\\"}else{  $a += \\\"$($_.FullName.Replace('\\\\', '/'))\\\" }%' AND Payload ILIKE '%$a=@();$%'))))

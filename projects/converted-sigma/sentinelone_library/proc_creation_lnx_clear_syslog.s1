@@ -1,0 +1,11 @@
+// Title: Syslog Clearing or Removal Via System Utilities
+// ID: 3fcc9b35-39e4-44c0-a2ad-9e82b6902b31
+// Status: test
+// Level: high
+// Author: Max Altgelt (Nextron Systems), Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research), MSTIC
+// Date: 2021-10-15
+// Tags: attack.defense-impairment, attack.t1685.006
+// Description: Detects specific commands commonly used to remove or empty the syslog. Which is a technique often used by attacker as a method to hide their tracks
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((src.process.cmdline containsCIS "/var/log/syslog") AND ((src.process.image.path endswithCIS "/cp" AND src.process.cmdline containsCIS "/dev/null") OR (src.process.image.path endswithCIS "/ln" AND (src.process.cmdline containsCIS "/dev/null " AND src.process.cmdline containsCIS "/var/log/syslog") AND (src.process.cmdline containsCIS "-sf " OR src.process.cmdline containsCIS "-sfn " OR src.process.cmdline containsCIS "-sfT ")) OR (src.process.image.path endswithCIS "/mv") OR (src.process.image.path endswithCIS "/rm" AND (src.process.cmdline containsCIS " -r " OR src.process.cmdline containsCIS " -f " OR src.process.cmdline containsCIS " -rf " OR src.process.cmdline containsCIS "/var/log/syslog")) OR (src.process.image.path endswithCIS "/shred" AND src.process.cmdline containsCIS "-u ") OR (src.process.image.path endswithCIS "/truncate" AND (src.process.cmdline containsCIS "0 " AND src.process.cmdline containsCIS "/var/log/syslog") AND (src.process.cmdline containsCIS "-s " OR src.process.cmdline containsCIS "-c " OR src.process.cmdline containsCIS "--size")) OR (src.process.image.path endswithCIS "/unlink"))) OR (((src.process.cmdline containsCIS "journalctl --vacuum" OR src.process.cmdline containsCIS "journalctl --rotate")) OR ((src.process.cmdline containsCIS " > /var/log/syslog" OR src.process.cmdline containsCIS " >/var/log/syslog" OR src.process.cmdline containsCIS " >| /var/log/syslog" OR src.process.cmdline containsCIS ": > /var/log/syslog" OR src.process.cmdline containsCIS ":> /var/log/syslog" OR src.process.cmdline containsCIS ":>/var/log/syslog" OR src.process.cmdline containsCIS ">|/var/log/syslog"))))

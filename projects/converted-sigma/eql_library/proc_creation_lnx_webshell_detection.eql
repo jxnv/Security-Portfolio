@@ -1,0 +1,11 @@
+// Title: Linux Webshell Indicators
+// ID: 818f7b24-0fba-4c49-a073-8b755573b9c7
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2021-10-15
+// Tags: attack.persistence, attack.t1505.003
+// Description: Detects suspicious sub processes of web server processes
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where ((((process.parent.executable endswith "/httpd" or process.parent.executable endswith "/lighttpd" or process.parent.executable endswith "/nginx" or process.parent.executable endswith "/apache2" or process.parent.executable endswith "/node" or process.parent.executable endswith "/caddy")) or ((process.parent.command_line like "*_/bin/java*" and process.parent.command_line like "*_tomcat*")) or ((process.parent.command_line like "*_/bin/java*" and process.parent.command_line like "*_websphere*"))) and ((process.executable endswith "/whoami" or process.executable endswith "/ifconfig" or process.executable endswith "/ip" or process.executable endswith "/bin/uname" or process.executable endswith "/bin/cat" or process.executable endswith "/bin/crontab" or process.executable endswith "/hostname" or process.executable endswith "/iptables" or process.executable endswith "/netstat" or process.executable endswith "/pwd" or process.executable endswith "/route")) and not ((process.parent.executable endswith "/node" and process.command_line like "*_ip neigh show*")))

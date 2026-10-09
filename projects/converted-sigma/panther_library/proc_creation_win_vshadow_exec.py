@@ -1,0 +1,21 @@
+# Title: Proxy Execution via Vshadow
+# ID: d7c75059-2901-4578-b209-8837fd31c6a8
+# Status: experimental
+# Level: medium
+# Author: David Faiss
+# Date: 2025-05-26
+# Tags: attack.stealth, attack.t1202
+# Description: Detects the invocation of vshadow.exe with the -exec parameter that executes a specified script or command after the shadow copies are created but before the VShadow tool exits.
+# VShadow is a command-line tool that you can use to create and manage volume shadow copies. While legitimate backup or administrative scripts may use this flag,
+# attackers can leverage this parameter to proxy the execution of malware.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Proxy Execution via Vshadow
+def rule(event):
+    # Detection Logic:
+    # ((CommandLine="*-exec*") AND ((Image="*\\vshadow.exe") OR (OriginalFileName="vshadow.exe")))
+    return True
+
+def title(event):
+    return "Proxy Execution via Vshadow"
+

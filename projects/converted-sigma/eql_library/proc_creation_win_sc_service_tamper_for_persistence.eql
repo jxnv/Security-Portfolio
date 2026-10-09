@@ -1,0 +1,11 @@
+// Title: Potential Persistence Attempt Via Existing Service Tampering
+// ID: 38879043-7e1e-47a9-8d46-6bec88e201df
+// Status: test
+// Level: medium
+// Author: Sreeman
+// Date: 2020-09-29
+// Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.stealth, attack.t1543.003, attack.t1574.011
+// Description: Detects the modification of an existing service in order to execute an arbitrary payload when the service is started or killed as a potential method for persistence.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where ((((process.command_line like "*_sc *" and process.command_line like "*_config *" and process.command_line like "*_binpath=*")) or ((process.command_line like "*_sc *" and process.command_line like "*_failure*" and process.command_line like "*_command=*"))) or (((process.command_line like "*_.sh*" or process.command_line like "*_.exe*" or process.command_line like "*_.dll*" or process.command_line like "*_.bin$*" or process.command_line like "*_.bat*" or process.command_line like "*_.cmd*" or process.command_line like "*_.js*" or process.command_line like "*_.msh$*" or process.command_line like "*_.reg$*" or process.command_line like "*_.scr*" or process.command_line like "*_.ps*" or process.command_line like "*_.vb*" or process.command_line like "*_.jar*" or process.command_line like "*_.pl*")) and (((process.command_line like "*_reg *" and process.command_line like "*_add *" and process.command_line like "*_FailureCommand*")) or ((process.command_line like "*_reg *" and process.command_line like "*_add *" and process.command_line like "*_ImagePath*")))))

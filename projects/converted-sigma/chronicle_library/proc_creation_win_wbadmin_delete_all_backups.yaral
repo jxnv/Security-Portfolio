@@ -1,0 +1,25 @@
+// Title: All Backups Deleted Via Wbadmin.EXE
+// ID: 639c9081-f482-47d3-a0bd-ddee3d4ecd76
+// Status: test
+// Level: high
+// Author: frack113, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2021-12-13
+// Tags: attack.impact, attack.t1490
+// Description: Detects the deletion of all backups or system state backups via "wbadmin.exe".
+// This technique is used by numerous ransomware families and actors.
+// This may only be successful on server platforms that have Windows Backup enabled.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 639c9081_f482_47d3_a0bd_ddee3d4ecd76 {
+  meta:
+    title = "All Backups Deleted Via Wbadmin.EXE"
+    description = "Detects the deletion of all backups or system state backups via "wbadmin.exe". This technique is used by numerous ransomware families and actors. This may only be successful on server platforms that have Windows Backup enabled."
+    author = "frack113, Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*delete.*/ nocase and $e.target.process.command_line = /.*backup.*/ nocase) and $e.target.process.command_line = /.*keepVersions:0.*/ nocase) and (($e.target.process.file.full_path = /.*\\wbadmin.exe$/ nocase) or ($e.target.process.file.name = "WBADMIN.EXE")))
+
+  condition:
+    $e
+}

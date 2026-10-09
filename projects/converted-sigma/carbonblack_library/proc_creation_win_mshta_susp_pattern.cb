@@ -1,0 +1,11 @@
+# Title: Suspicious Mshta.EXE Execution Patterns
+# ID: e32f92d1-523e-49c3-9374-bdb13b46a3ba
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+# Date: 2021-07-17
+# Tags: attack.execution, attack.t1106
+# Description: Detects suspicious mshta process execution patterns
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((((process_name:*\\mshta.exe) OR (OriginalFileName:"MSHTA.EXE")) AND ((parent_name:*\\cmd.exe OR parent_name:*\\cscript.exe OR parent_name:*\\powershell.exe OR parent_name:*\\pwsh.exe OR parent_name:*\\regsvr32.exe OR parent_name:*\\rundll32.exe OR parent_name:*\\wscript.exe) AND (cmdline:*\\AppData\\Local\\* OR cmdline:*C:\\ProgramData\\* OR cmdline:*C:\\Users\\Public\\* OR cmdline:*C:\\Windows\\Temp\\*))) OR (((process_name:*\\mshta.exe) OR (OriginalFileName:"MSHTA.EXE")) AND -((((process_name:C:\\Windows\\System32\\* OR process_name:C:\\Windows\\SysWOW64\\*)) OR ((cmdline:*.htm* OR cmdline:*.hta*)) OR ((cmdline:*mshta.exe OR cmdline:*mshta))))))

@@ -1,0 +1,12 @@
+// Title: AWS Console GetSigninToken Potential Abuse
+// ID: f8103686-e3e8-46f3-be72-65f7fcb4aa53
+// Status: test
+// Level: medium
+// Author: Chester Le Bron (@123Le_Bron)
+// Date: 2024-02-26
+// Tags: attack.lateral-movement, attack.t1021.007, attack.t1550.001
+// Description: Detects potentially suspicious events involving "GetSigninToken".
+// An adversary using the "aws_consoler" tool can leverage this console API to create temporary federated credential that help obfuscate which AWS credential is compromised (the original access key) and enables the adversary to pivot from the AWS CLI to console sessions without the need for MFA using the new access key issued in this request.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((eventSource EQ "signin.amazonaws.com" AND eventName EQ "GetSigninToken") AND NOT ((userAgent CONTAINS "Jersey/${project.version}")))

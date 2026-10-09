@@ -1,0 +1,11 @@
+-- Title: .RDP File Created By Uncommon Application
+-- ID: fccfb43e-09a7-4bd2-8b37-a5a7df33386d
+-- Status: test
+-- Level: high
+-- Author: Nasreddine Bencherchali (Nextron Systems)
+-- Date: 2023-04-18
+-- Tags: attack.stealth
+-- Description: Detects creation of a file with an ".rdp" extension by an application that doesn't commonly create such files.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE (TargetFilename ILIKE '%.rdp' AND (Image ILIKE '%\\brave.exe' OR Image ILIKE '%\\CCleaner Browser\\Application\\CCleanerBrowser.exe' OR Image ILIKE '%\\chromium.exe' OR Image ILIKE '%\\firefox.exe' OR Image ILIKE '%\\Google\\Chrome\\Application\\chrome.exe' OR Image ILIKE '%\\iexplore.exe' OR Image ILIKE '%\\microsoftedge.exe' OR Image ILIKE '%\\msedge.exe' OR Image ILIKE '%\\Opera.exe' OR Image ILIKE '%\\Vivaldi.exe' OR Image ILIKE '%\\Whale.exe' OR Image ILIKE '%\\olk.exe' OR Image ILIKE '%\\Outlook.exe' OR Image ILIKE '%\\RuntimeBroker.exe' OR Image ILIKE '%\\Thunderbird.exe' OR Image ILIKE '%\\Discord.exe' OR Image ILIKE '%\\Keybase.exe' OR Image ILIKE '%\\msteams.exe' OR Image ILIKE '%\\Slack.exe' OR Image ILIKE '%\\teams.exe'))

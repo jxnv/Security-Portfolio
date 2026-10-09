@@ -1,0 +1,43 @@
+{
+  "title": "Modify System Firewall",
+  "id": "323ff3f5-0013-4847-bbd4-250b5edb62cc",
+  "status": "test",
+  "description": "Detects the removal of system firewall rules. Adversaries may only delete or modify a specific system firewall rule to bypass controls limiting network usage or access.\nDetection rules that match only on the disabling of firewalls will miss this.\n",
+  "author": "IAI",
+  "date": "2023-03-06",
+  "tags": [
+    "attack.defense-impairment",
+    "attack.t1686"
+  ],
+  "level": "medium",
+  "logsource": {
+    "product": "linux",
+    "service": "auditd"
+  },
+  "detection": {
+    "selection1": {
+      "type": "EXECVE",
+      "a0": "iptables",
+      "a1|contains": "DROP"
+    },
+    "selection2": {
+      "type": "EXECVE",
+      "a0": "firewall-cmd",
+      "a1|contains": "remove"
+    },
+    "selection3": {
+      "type": "EXECVE",
+      "a0": "ufw",
+      "a1|contains": "delete"
+    },
+    "selection4": {
+      "type": "EXECVE",
+      "a0": "nft",
+      "a1|contains": [
+        "delete",
+        "flush"
+      ]
+    },
+    "condition": "1 of selection*"
+  }
+}

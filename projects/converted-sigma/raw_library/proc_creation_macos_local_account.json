@@ -1,0 +1,78 @@
+{
+  "title": "Local System Accounts Discovery - MacOs",
+  "id": "ddf36b67-e872-4507-ab2e-46bda21b842c",
+  "status": "test",
+  "description": "Detects enumeration of local system accounts on MacOS systems.\nThis can be used by attackers to identify accounts for lateral movement or privilege escalation.\n",
+  "author": "Alejandro Ortuno, oscd.community",
+  "date": "2020-10-08",
+  "tags": [
+    "attack.discovery",
+    "attack.t1087.001"
+  ],
+  "level": "low",
+  "logsource": {
+    "category": "process_creation",
+    "product": "macos"
+  },
+  "detection": {
+    "selection_dscl": {
+      "Image|endswith": "/dscl",
+      "CommandLine|contains|all": [
+        "list",
+        "/users"
+      ]
+    },
+    "selection_dscacheutil": {
+      "Image|endswith": "/dscacheutil",
+      "CommandLine|contains|all": [
+        "-q",
+        "user"
+      ]
+    },
+    "selection_root": {
+      "CommandLine|contains": "'*:0:'"
+    },
+    "selection_passwd_sudo": {
+      "Image|endswith": [
+        "/cat",
+        "/awk",
+        "/grep"
+      ],
+      "CommandLine|contains": [
+        "/etc/passwd",
+        "/etc/sudoers"
+      ]
+    },
+    "selection_id": {
+      "Image|endswith": "/id"
+    },
+    "selection_lsof": {
+      "Image|endswith": "/lsof",
+      "CommandLine|contains": "-u"
+    },
+    "selection_logged_in_users": {
+      "Image|endswith": [
+        "/who",
+        "/w",
+        "/users",
+        "/last"
+      ]
+    },
+    "selection_home_dir_listing": {
+      "Image|endswith": "/ls",
+      "CommandLine|endswith": [
+        "/Users",
+        "/Users'",
+        "/Users\""
+      ]
+    },
+    "selection_loginwindow_prefs": {
+      "Image|endswith": [
+        "/defaults",
+        "/plutil"
+      ],
+      "CommandLine|contains": "com.apple.loginwindow"
+    },
+    "condition": "1 of selection*"
+  }
+}

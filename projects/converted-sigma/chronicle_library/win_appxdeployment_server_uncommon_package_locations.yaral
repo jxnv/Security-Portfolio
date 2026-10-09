@@ -1,0 +1,23 @@
+// Title: AppX Located in Uncommon Directory Added to Deployment Pipeline
+// ID: c977cb50-3dff-4a9f-b873-9290f56132f1
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-01-11
+// Tags: attack.stealth
+// Description: Detects an appx package that was added to the pipeline of the "to be processed" packages that is located in uncommon locations.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule c977cb50_3dff_4a9f_b873_9290f56132f1 {
+  meta:
+    title = "AppX Located in Uncommon Directory Added to Deployment Pipeline"
+    description = "Detects an appx package that was added to the pipeline of the "to be processed" packages that is located in uncommon locations."
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.EventID = 854) and not(((($e.Path = /.*:/Program%20Files.*/ nocase or $e.Path = /.*:/Windows/System32/.*/ nocase or $e.Path = /.*:\\Program Files (x86)\\.*/ nocase or $e.Path = /.*:\\Program Files\\.*/ nocase or $e.Path = /.*:\\Windows\\ImmersiveControlPanel\\.*/ nocase or $e.Path = /.*:\\Windows\\PrintDialog\\.*/ nocase or $e.Path = /.*:\\Windows\\SystemApps\\.*/ nocase or $e.Path = /.*AppData/Local/Temp/WinGet/Microsoft.Winget.Source.*/ nocase or $e.Path = /.*x-windowsupdate://.*/ nocase)) or (($e.Path = /.*https://installer.teams.static.microsoft/.*/ nocase or $e.Path = /.*https://res.cdn.office.net.*/ nocase or $e.Path = /.*https://statics.teams.cdn.live.net/.*/ nocase or $e.Path = /.*https://statics.teams.cdn.office.net/.*/ nocase or $e.Path = /.*microsoft.com.*/ nocase)))) and not((($e.Path = /.*AppData\\Local\\Microsoft\\OneDrive\\.*/ nocase) or (($e.Path = /.*AppData/Local/Temp/WinGet/Microsoft.Winget.Source.*/ nocase or $e.Path = /.*AppData\\Local\\Temp\\WinGet\\Microsoft.Winget.Source.*/ nocase)) or ($e.Path = /.*x-windowsupdate://.*/ nocase))))
+
+  condition:
+    $e
+}

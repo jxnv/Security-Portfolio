@@ -1,0 +1,11 @@
+// Title: Potentially Suspicious DMP/HDMP File Creation
+// ID: aba15bdd-657f-422a-bab3-ac2d2a0d6f1c
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-09-07
+// Tags: attack.stealth
+// Description: Detects the creation of a file with the ".dmp"/".hdmp" extension by a shell or scripting application such as "cmd", "powershell", etc. Often created by software during a crash. Memory dumps can sometimes contain sensitive information such as credentials. It's best to determine the source of the crash.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((src.process.image.path endswithCIS "\\cmd.exe" OR src.process.image.path endswithCIS "\\cscript.exe" OR src.process.image.path endswithCIS "\\mshta.exe" OR src.process.image.path endswithCIS "\\powershell.exe" OR src.process.image.path endswithCIS "\\pwsh.exe" OR src.process.image.path endswithCIS "\\wscript.exe") AND (tgt.file.path endswithCIS ".dmp" OR tgt.file.path endswithCIS ".dump" OR tgt.file.path endswithCIS ".hdmp"))

@@ -1,0 +1,11 @@
+-- Title: Google Cloud Re-identifies Sensitive Information
+-- ID: 234f9f48-904b-4736-a34c-55d23919e4b7
+-- Status: test
+-- Level: medium
+-- Author: Austin Songer @austinsonger
+-- Date: 2021-08-15
+-- Tags: attack.impact, attack.t1565
+-- Description: Identifies when sensitive information is re-identified in google Cloud.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE (gcp.audit.method_name = 'projects.content.reidentify')

@@ -1,0 +1,23 @@
+// Title: File Download Via Nscurl - MacOS
+// ID: 6d8a7cf1-8085-423b-b87d-7e880faabbdf
+// Status: test
+// Level: medium
+// Author: Daniel Cortez
+// Date: 2024-06-04
+// Tags: attack.command-and-control, attack.t1105
+// Description: Detects the execution of the nscurl utility in order to download files.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 6d8a7cf1_8085_423b_b87d_7e880faabbdf {
+  meta:
+    title = "File Download Via Nscurl - MacOS"
+    description = "Detects the execution of the nscurl utility in order to download files."
+    author = "Daniel Cortez"
+    severity = "MEDIUM"
+
+  events:
+    ($e.target.process.file.full_path = /.*/nscurl$/ nocase and ($e.target.process.command_line = /.*--download .*/ nocase or $e.target.process.command_line = /.*--download-directory .*/ nocase or $e.target.process.command_line = /.*--output .*/ nocase or $e.target.process.command_line = /.*-dir .*/ nocase or $e.target.process.command_line = /.*-dl .*/ nocase or $e.target.process.command_line = /.*-ld.*/ nocase or $e.target.process.command_line = /.*-o .*/ nocase))
+
+  condition:
+    $e
+}

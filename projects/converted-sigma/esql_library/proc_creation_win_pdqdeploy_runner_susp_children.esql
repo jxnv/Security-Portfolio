@@ -1,0 +1,11 @@
+// Title: Potentially Suspicious Execution Of PDQDeployRunner
+// ID: 12b8e9f5-96b2-41e1-9a42-8c6779a5c184
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-07-22
+// Tags: attack.execution
+// Description: Detects suspicious execution of "PDQDeployRunner" which is part of the PDQDeploy service stack that is responsible for executing commands and packages on a remote machines
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE ((((process.executable LIKE "%\\bash.exe" OR process.executable LIKE "%\\certutil.exe" OR process.executable LIKE "%\\cmd.exe" OR process.executable LIKE "%\\csc.exe" OR process.executable LIKE "%\\cscript.exe" OR process.executable LIKE "%\\dllhost.exe" OR process.executable LIKE "%\\mshta.exe" OR process.executable LIKE "%\\msiexec.exe" OR process.executable LIKE "%\\regsvr32.exe" OR process.executable LIKE "%\\rundll32.exe" OR process.executable LIKE "%\\scriptrunner.exe" OR process.executable LIKE "%\\wmic.exe" OR process.executable LIKE "%\\wscript.exe" OR process.executable LIKE "%\\wsl.exe")) OR ((process.executable LIKE "%:\\ProgramData\\%" OR process.executable LIKE "%:\\Users\\Public\\%" OR process.executable LIKE "%:\\Windows\\TEMP\\%" OR process.executable LIKE "%\\AppData\\Local\\Temp%")) OR ((process.command_line LIKE "% -decode %" OR process.command_line LIKE "% -enc %" OR process.command_line LIKE "% -encodedcommand %" OR process.command_line LIKE "% -w hidden%" OR process.command_line LIKE "%DownloadString%" OR process.command_line LIKE "%FromBase64String%" OR process.command_line LIKE "%http%" OR process.command_line LIKE "%iex %" OR process.command_line LIKE "%Invoke-%"))) AND (process.parent.executable LIKE "%\\PDQDeployRunner-%"))

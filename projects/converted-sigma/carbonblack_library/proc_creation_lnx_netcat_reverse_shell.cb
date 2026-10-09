@@ -1,0 +1,11 @@
+# Title: Potential Netcat Reverse Shell Execution
+# ID: 7f734ed0-4f47-46c0-837f-6ee62505abd9
+# Status: test
+# Level: high
+# Author: @d4ns4n_, Nasreddine Bencherchali (Nextron Systems)
+# Date: 2023-04-07
+# Tags: attack.execution, attack.t1059
+# Description: Detects execution of netcat with the "-e" or "-c" flags followed by common shells, which are commonly used to spawn reverse shells.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((cmdline:* -c * OR cmdline:* -e *)) AND ((process_name:*/nc.openbsd OR process_name:*/nc.traditional OR process_name:*/nc OR process_name:*/ncat OR process_name:*/netcat.openbsd OR process_name:*/netcat.traditional OR process_name:*/netcat)) AND ((cmdline:* ash* OR cmdline:* bash* OR cmdline:* bsh* OR cmdline:* csh* OR cmdline:* ksh* OR cmdline:* pdksh* OR cmdline:* sh* OR cmdline:* tcsh* OR cmdline:*/bin/ash* OR cmdline:*/bin/bash* OR cmdline:*/bin/bsh* OR cmdline:*/bin/csh* OR cmdline:*/bin/ksh* OR cmdline:*/bin/pdksh* OR cmdline:*/bin/sh* OR cmdline:*/bin/tcsh* OR cmdline:*/bin/zsh* OR cmdline:*$IFSash* OR cmdline:*$IFSbash* OR cmdline:*$IFSbsh* OR cmdline:*$IFScsh* OR cmdline:*$IFSksh* OR cmdline:*$IFSpdksh* OR cmdline:*$IFSsh* OR cmdline:*$IFStcsh* OR cmdline:*$IFSzsh*)))

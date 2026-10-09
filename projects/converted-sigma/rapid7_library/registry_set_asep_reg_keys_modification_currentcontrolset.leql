@@ -1,0 +1,11 @@
+// Title: CurrentControlSet Autorun Keys Modification
+// ID: f674e36a-4b91-431e-8aef-f8a96c2aca35
+// Status: test
+// Level: medium
+// Author: Victor Sergeev, Daniil Yugoslavskiy, Gleb Sukhodolskiy, Timur Zinniatullin, oscd.community, Tim Shelton, frack113 (split)
+// Date: 2019-10-25
+// Tags: attack.privilege-escalation, attack.persistence, attack.t1547.001
+// Description: Detects modification of autostart extensibility point (ASEP) in registry.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(TargetObject ICONTAINS "\\SYSTEM\\CurrentControlSet\\Control")) AND ((where(TargetObject ICONTAINS "\\Terminal Server\\WinStations\\RDP-Tcp\\InitialProgram") OR where(TargetObject ICONTAINS "\\Terminal Server\\Wds\\rdpwd\\StartupPrograms") OR where(TargetObject ICONTAINS "\\SecurityProviders\\SecurityProviders") OR where(TargetObject ICONTAINS "\\SafeBoot\\AlternateShell") OR where(TargetObject ICONTAINS "\\Print\\Providers") OR where(TargetObject ICONTAINS "\\Print\\Monitors") OR where(TargetObject ICONTAINS "\\NetworkProvider\\Order") OR where(TargetObject ICONTAINS "\\Lsa\\Notification Packages") OR where(TargetObject ICONTAINS "\\Lsa\\Authentication Packages") OR where(TargetObject ICONTAINS "\\BootVerificationProgram\\ImagePath")))) AND NOT (((where(Image = "C:\\Windows\\System32\\spoolsv.exe") AND where(TargetObject ICONTAINS "\\Print\\Monitors\\CutePDF Writer Monitor") AND (where(Details = "cpwmon64_v40.dll") OR where(Details = "CutePDF Writer"))) OR (where(Details = "(Empty)")) OR (where(Image = "C:\\Windows\\System32\\spoolsv.exe") AND where(TargetObject ICONTAINS "Print\\Monitors\\Appmon\\Ports\\Microsoft.Office.OneNote_") AND (where(User ICONTAINS "AUTHORI") OR where(User ICONTAINS "AUTORI"))) OR (where(Image = "C:\\Windows\\System32\\poqexec.exe") AND where(TargetObject IENDSWITH "\\NetworkProvider\\Order\\ProviderOrder")) OR (where(Image = "C:\\Windows\\System32\\spoolsv.exe") AND where(TargetObject IENDSWITH "\\Print\\Monitors\\MONVNC\\Driver") AND where(Details = "VNCpm.dll")))))

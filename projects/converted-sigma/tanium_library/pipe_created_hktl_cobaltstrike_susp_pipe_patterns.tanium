@@ -1,0 +1,11 @@
+# Title: CobaltStrike Named Pipe Patterns
+# ID: 85adeb13-4fc9-4e68-8a4a-c7cb2c336eb7
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems), Christian Burkard (Nextron Systems)
+# Date: 2021-07-30
+# Tags: attack.privilege-escalation, attack.stealth, attack.t1055, stp.1k
+# Description: Detects the creation of a named pipe with a pattern found in CobaltStrike malleable C2 profiles
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((PipeName="\\Winsock2\\CatalogChangeListener-*" AND PipeName="*-0,") OR (((PipeName="\\DserNamePipe*" OR PipeName="\\f4c3*" OR PipeName="\\f53f*" OR PipeName="\\fullduplex_*" OR PipeName="\\mojo.5688.8052.183894939787088877*" OR PipeName="\\mojo.5688.8052.35780273329370473*" OR PipeName="\\MsFteWds*" OR PipeName="\\msrpc_*" OR PipeName="\\mypipe-f*" OR PipeName="\\mypipe-h*" OR PipeName="\\ntsvcs*" OR PipeName="\\PGMessagePipe*" OR PipeName="\\rpc_*" OR PipeName="\\scerpc*" OR PipeName="\\SearchTextHarvester*" OR PipeName="\\spoolss*" OR PipeName="\\win_svc*" OR PipeName="\\win\\msrpc_*" OR PipeName="\\windows.update.manager*" OR PipeName="\\wkssvc*")) OR ((PipeName equals "\\demoagent_11" OR PipeName equals "\\demoagent_22")))) AND NOT (((PipeName equals "\\wkssvc" OR PipeName equals "\\spoolss" OR PipeName equals "\\scerpc" OR PipeName equals "\\ntsvcs" OR PipeName equals "\\SearchTextHarvester" OR PipeName equals "\\PGMessagePipe" OR PipeName equals "\\MsFteWds"))) AND NOT (((Image contains ":\\Program Files\\Websense\\" OR Image contains ":\\Program Files (x86)\\Websense\\") AND (PipeName="\\DserNamePipeR*" OR PipeName="\\DserNamePipeW*"))))

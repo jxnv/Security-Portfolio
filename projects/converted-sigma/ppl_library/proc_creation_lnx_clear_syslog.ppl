@@ -1,0 +1,11 @@
+// Title: Syslog Clearing or Removal Via System Utilities
+// ID: 3fcc9b35-39e4-44c0-a2ad-9e82b6902b31
+// Status: test
+// Level: high
+// Author: Max Altgelt (Nextron Systems), Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research), MSTIC
+// Date: 2021-10-15
+// Tags: attack.defense-impairment, attack.t1685.006
+// Description: Detects specific commands commonly used to remove or empty the syslog. Which is a technique often used by attacker as a method to hide their tracks
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where (((process.command_line like "%/var/log/syslog%") AND ((process.executable="*/cp" AND process.command_line like "%/dev/null%") OR (process.executable="*/ln" AND (process.command_line like "%/dev/null %" AND process.command_line like "%/var/log/syslog%") AND (process.command_line like "%-sf %" OR process.command_line like "%-sfn %" OR process.command_line like "%-sfT %")) OR (process.executable="*/mv") OR (process.executable="*/rm" AND (process.command_line like "% -r %" OR process.command_line like "% -f %" OR process.command_line like "% -rf %" OR process.command_line like "%/var/log/syslog%")) OR (process.executable="*/shred" AND process.command_line like "%-u %") OR (process.executable="*/truncate" AND (process.command_line like "%0 %" AND process.command_line like "%/var/log/syslog%") AND (process.command_line like "%-s %" OR process.command_line like "%-c %" OR process.command_line like "%--size%")) OR (process.executable="*/unlink"))) OR (((process.command_line like "%journalctl --vacuum%" OR process.command_line like "%journalctl --rotate%")) OR ((process.command_line like "% > /var/log/syslog%" OR process.command_line like "% >/var/log/syslog%" OR process.command_line like "% >| /var/log/syslog%" OR process.command_line like "%: > /var/log/syslog%" OR process.command_line like "%:> /var/log/syslog%" OR process.command_line like "%:>/var/log/syslog%" OR process.command_line like "%>|/var/log/syslog%"))))

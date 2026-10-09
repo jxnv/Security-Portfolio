@@ -1,0 +1,11 @@
+// Title: File With Suspicious Extension Downloaded Via Bitsadmin
+// ID: 5b80a791-ad9b-4b75-bcc1-ad4e1e89c200
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-06-28
+// Tags: attack.persistence, attack.execution, attack.stealth, attack.t1197, attack.s0190, attack.t1036.003, attack.command-and-control, attack.t1105
+// Description: Detects usage of bitsadmin downloading a file with a suspicious extension
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where (((CommandLine matches "*.7z*" or CommandLine matches "*.asax*" or CommandLine matches "*.ashx*" or CommandLine matches "*.asmx*" or CommandLine matches "*.asp*" or CommandLine matches "*.aspx*" or CommandLine matches "*.bat*" or CommandLine matches "*.cfm*" or CommandLine matches "*.cgi*" or CommandLine matches "*.chm*" or CommandLine matches "*.cmd*" or CommandLine matches "*.dll*" or CommandLine matches "*.gif*" or CommandLine matches "*.jpeg*" or CommandLine matches "*.jpg*" or CommandLine matches "*.jsp*" or CommandLine matches "*.jspx*" or CommandLine matches "*.log*" or CommandLine matches "*.png*" or CommandLine matches "*.ps1*" or CommandLine matches "*.psm1*" or CommandLine matches "*.rar*" or CommandLine matches "*.scf*" or CommandLine matches "*.sct*" or CommandLine matches "*.txt*" or CommandLine matches "*.vbe*" or CommandLine matches "*.vbs*" or CommandLine matches "*.war*" or CommandLine matches "*.wsf*" or CommandLine matches "*.wsh*" or CommandLine matches "*.xll*" or CommandLine matches "*.zip*")) and ((CommandLine matches "* /transfer *" or CommandLine matches "* /create *" or CommandLine matches "* /addfile *")) and ((Image matches "*\\bitsadmin.exe") or (OriginalFileName = "bitsadmin.exe")))

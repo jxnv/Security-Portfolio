@@ -1,0 +1,13 @@
+// Title: Potentially Suspicious Mofcomp Execution
+// ID: 1dd05363-104e-4b4a-b963-196a534b03a1
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-07-12
+// Tags: attack.stealth, attack.t1218
+// Description: Detects execution of the "mofcomp" utility as a child of a suspicious shell or script running utility or by having a suspicious path in the commandline.
+// The "mofcomp" utility parses a file containing MOF statements and adds the classes and class instances defined in the file to the WMI repository.
+// Attackers abuse this utility to install malicious MOF scripts
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where (((((process.parent.executable="*\\cmd.exe" OR process.parent.executable="*\\powershell.exe" OR process.parent.executable="*\\pwsh.exe" OR process.parent.executable="*\\wsl.exe" OR process.parent.executable="*\\wscript.exe" OR process.parent.executable="*\\cscript.exe")) OR ((process.command_line like "%\\AppData\\Local\\Temp%" OR process.command_line like "%\\Contacts\\%" OR process.command_line like "%\\Favorites\\%" OR process.command_line like "%\\Favourites\\%" OR process.command_line like "%\\Music\\%" OR process.command_line like "%\\Pictures\\%" OR process.command_line like "%\\Users\\Public\\%" OR process.command_line like "%\\Videos\\%" OR process.command_line like "%\\WINDOWS\\Temp\\%" OR process.command_line like "%%appdata%%" OR process.command_line like "%%temp%%" OR process.command_line like "%%tmp%%"))) AND ((process.executable="*\\mofcomp.exe") OR (process.pe.original_file_name = "mofcomp.exe"))) AND NOT (((process.parent.command_line="*\\InstallUtil.exe /Uninstall C:\\Windows\\CCM\\Microsoft.ConfigurationManager.SVProvider.dll" AND process.parent.executable="*\\InstallUtil.exe" AND (process.command_line like "%C:\\Windows\\TEMP%" AND process.command_line like "%.tmp%")) OR (process.parent.executable = "C:\\Windows\\System32\\wbem\\WmiPrvSE.exe" AND process.command_line like "%C:\\Windows\\TEMP\\%" AND process.command_line="*.mof"))) AND NOT ((NOT process.parent.command_line=*)))

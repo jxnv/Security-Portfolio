@@ -1,0 +1,14 @@
+// Title: Creation Of Pod In System Namespace
+// ID: a80d927d-ac6e-443f-a867-e8d6e3897318
+// Status: test
+// Level: medium
+// Author: Leo Tsaousis (@laripping)
+// Date: 2024-03-26
+// Tags: attack.stealth, attack.t1036.005
+// Description: Detects deployments of pods within the kube-system namespace, which could be intended to imitate system pods.
+// System pods, created by controllers such as Deployments or DaemonSets have random suffixes in their names.
+// Attackers can use this fact and name their backdoor pods as if they were created by these controllers to avoid detection.
+// Deployment of such a backdoor container e.g. named kube-proxy-bv61v, could be attempted in the kube-system namespace alongside the other administrative containers.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE (verb == "create" AND objectRef.resource == "pods" AND objectRef.namespace == "kube-system")

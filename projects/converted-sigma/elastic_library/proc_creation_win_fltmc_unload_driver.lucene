@@ -1,0 +1,11 @@
+# Title: Filter Driver Unloaded Via Fltmc.EXE
+# ID: 4931188c-178e-4ee7-a348-39e8a7a56821
+# Status: test
+# Level: medium
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2023-02-13
+# Tags: attack.stealth, attack.defense-impairment, attack.t1070, attack.t1685, attack.t1685.001
+# Description: Detect filter driver unloading activity via fltmc.exe
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((process.command_line:*unload*) AND ((process.executable:*\\fltMC.exe) OR (process.pe.original_file_name:"fltMC.exe"))) AND NOT ((((process.parent.executable:*\\AppData\\Local\\Temp\\* OR process.parent.executable:*:\\Windows\\Temp\\*) AND process.parent.executable:*\\endpoint-protection-installer-x64.tmp AND (process.command_line:*unload rtp_filesystem_filter OR process.command_line:*unload rtp_filter)) OR (process.parent.executable:"C:\\Program Files (x86)\\ManageEngine\\uems_agent\\bin\\dcfaservice64.exe" AND process.command_line:*unload DFMFilter))))

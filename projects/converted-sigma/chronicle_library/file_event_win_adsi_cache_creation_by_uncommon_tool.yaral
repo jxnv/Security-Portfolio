@@ -1,0 +1,23 @@
+// Title: ADSI-Cache File Creation By Uncommon Tool
+// ID: 75bf09fa-1dd7-4d18-9af9-dd9e492562eb
+// Status: test
+// Level: medium
+// Author: xknow @xknow_infosec, Tim Shelton
+// Date: 2019-03-24
+// Tags: attack.t1001.003, attack.command-and-control
+// Description: Detects the creation of an "Active Directory Schema Cache File" (.sch) file by an uncommon tool.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 75bf09fa_1dd7_4d18_9af9_dd9e492562eb {
+  meta:
+    title = "ADSI-Cache File Creation By Uncommon Tool"
+    description = "Detects the creation of an "Active Directory Schema Cache File" (.sch) file by an uncommon tool."
+    author = "xknow @xknow_infosec, Tim Shelton"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.file.full_path = /.*\\Local\\Microsoft\\Windows\\SchCache\\.*/ nocase and $e.target.file.full_path = /.*.sch$/ nocase) and not((((($e.target.process.file.full_path = /.*:\\Program Files\\Cylance\\Desktop\\CylanceSvc.exe$/ nocase or $e.target.process.file.full_path = /.*:\\Windows\\CCM\\CcmExec.exe$/ nocase or $e.target.process.file.full_path = /.*:\\windows\\system32\\dllhost.exe$/ nocase or $e.target.process.file.full_path = /.*:\\Windows\\system32\\dsac.exe$/ nocase or $e.target.process.file.full_path = /.*:\\Windows\\system32\\efsui.exe$/ nocase or $e.target.process.file.full_path = /.*:\\windows\\system32\\mmc.exe$/ nocase or $e.target.process.file.full_path = /.*:\\windows\\system32\\svchost.exe$/ nocase or $e.target.process.file.full_path = /.*:\\Windows\\System32\\wbem\\WmiPrvSE.exe$/ nocase or $e.target.process.file.full_path = /.*:\\windows\\system32\\WindowsPowerShell\\v1.0\\powershell.exe$/ nocase)) or (($e.target.process.file.full_path = /.*:\\Windows\\ccmsetup\\autoupgrade\\ccmsetup.*/ nocase or $e.target.process.file.full_path = /.*:\\Program Files\\SentinelOne\\Sentinel Agent.*/ nocase))) or (($e.target.process.file.full_path = /.*:\\Program Files\\.*/ nocase and $e.target.process.file.full_path = /.*\\Microsoft Office.*/ nocase) and $e.target.process.file.full_path = /.*\\OUTLOOK.EXE$/ nocase))) and not((($e.target.process.file.full_path = /.*:\\Program Files\\Citrix\\Receiver StoreFront\\Services\\DefaultDomainServices\\Citrix.DeliveryServices.DomainServices.ServiceHost.exe$/ nocase) or ($e.target.process.file.full_path = /.*\\LANDesk\\LDCLient\\ldapwhoami.exe$/ nocase))))
+
+  condition:
+    $e
+}

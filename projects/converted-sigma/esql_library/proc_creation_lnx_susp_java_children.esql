@@ -1,0 +1,11 @@
+// Title: Suspicious Java Children Processes
+// ID: d292e0af-9a18-420c-9525-ec0ac3936892
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-06-03
+// Tags: attack.execution, attack.t1059
+// Description: Detects java process spawning suspicious children
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE (process.parent.executable LIKE "%/java" AND (process.command_line LIKE "%/bin/sh%" OR process.command_line LIKE "%bash%" OR process.command_line LIKE "%dash%" OR process.command_line LIKE "%ksh%" OR process.command_line LIKE "%zsh%" OR process.command_line LIKE "%csh%" OR process.command_line LIKE "%fish%" OR process.command_line LIKE "%curl%" OR process.command_line LIKE "%wget%" OR process.command_line LIKE "%python%"))

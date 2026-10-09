@@ -1,0 +1,19 @@
+# Title: Root Certificate Installed - PowerShell
+# ID: 42821614-9264-4761-acfc-5772c3286f76
+# Status: test
+# Level: medium
+# Author: oscd.community, @redcanary, Zach Stanford @svch0st
+# Date: 2020-10-10
+# Tags: attack.defense-impairment, attack.t1553.004
+# Description: Adversaries may install a root certificate on a compromised system to avoid warnings when connecting to adversary controlled web servers.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Root Certificate Installed - PowerShell
+def rule(event):
+    # Detection Logic:
+    # (((ScriptBlockText="*Move-Item*" AND ScriptBlockText="*Cert:\\LocalMachine\\Root*")) OR ((ScriptBlockText="*Import-Certificate*" AND ScriptBlockText="*Cert:\\LocalMachine\\Root*")))
+    return True
+
+def title(event):
+    return "Root Certificate Installed - PowerShell"
+

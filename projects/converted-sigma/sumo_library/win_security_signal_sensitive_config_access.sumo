@@ -1,0 +1,14 @@
+// Title: File Access Of Signal Desktop Sensitive Data
+// ID: 5d6c375a-18ae-4952-b4f6-8b803f6c8555
+// Status: experimental
+// Level: medium
+// Author: Andreas Braathen (mnemonic.io)
+// Date: 2025-10-19
+// Tags: attack.credential-access, attack.t1003
+// Description: Detects access to Signal Desktop's sensitive data files: db.sqlite and config.json.
+// The db.sqlite file in Signal Desktop stores all locally saved messages in an encrypted SQLite database, while the config.json contains the decryption key needed to access that data.
+// Since the key is stored in plain text, a threat actor who gains access to both files can decrypt and read sensitive messages without needing the users credentials.
+// Currently the rule only covers the default Signal installation path in AppData\Roaming. Signal Portable installations may use different paths based on user configuration. Additional paths can be added to the selection as needed.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where ((EventID = "4663" and ObjectType = "File" and ObjectName matches "*\\AppData\\Roaming\\Signal\\*" and (ObjectName matches "*\\config.json" or ObjectName matches "*\\db.sqlite")) and !(((ProcessName matches "*\\signal-portable.exe" or ProcessName matches "*\\signal.exe"))))

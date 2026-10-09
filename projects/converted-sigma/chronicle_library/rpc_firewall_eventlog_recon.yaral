@@ -1,0 +1,23 @@
+// Title: Remote Event Log Recon
+// ID: 2053961f-44c7-4a64-b62d-f6e72800af0d
+// Status: test
+// Level: high
+// Author: Sagie Dulce, Dekel Paz
+// Date: 2022-01-01
+// Tags: attack.discovery
+// Description: Detects remote RPC calls to get event log information via EVEN or EVEN6
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 2053961f_44c7_4a64_b62d_f6e72800af0d {
+  meta:
+    title = "Remote Event Log Recon"
+    description = "Detects remote RPC calls to get event log information via EVEN or EVEN6"
+    author = "Sagie Dulce, Dekel Paz"
+    severity = "HIGH"
+
+  events:
+    ($e.EventLog = "RPCFW" and $e.EventID = 3 and ($e.InterfaceUuid = "82273fdc-e32a-18c3-3f78-827929dc23ea" or $e.InterfaceUuid = "f6beaff7-1e19-4fbb-9f8f-b89e2018337c"))
+
+  condition:
+    $e
+}

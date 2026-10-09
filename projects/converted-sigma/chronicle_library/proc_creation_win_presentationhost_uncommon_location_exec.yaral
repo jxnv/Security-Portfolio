@@ -1,0 +1,23 @@
+// Title: XBAP Execution From Uncommon Locations Via PresentationHost.EXE
+// ID: d22e2925-cfd8-463f-96f6-89cec9d9bc5f
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-07-01
+// Tags: attack.execution, attack.stealth, attack.t1218
+// Description: Detects the execution of ".xbap" (Browser Applications) files via PresentationHost.EXE from an uncommon location. These files can be abused to run malicious ".xbap" files any bypass AWL
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule d22e2925_cfd8_463f_96f6_89cec9d9bc5f {
+  meta:
+    title = "XBAP Execution From Uncommon Locations Via PresentationHost.EXE"
+    description = "Detects the execution of ".xbap" (Browser Applications) files via PresentationHost.EXE from an uncommon location. These files can be abused to run malicious ".xbap" files any bypass AWL"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.command_line = /.*.xbap.*/ nocase) and (($e.target.process.file.full_path = /.*\\presentationhost.exe$/ nocase) or ($e.target.process.file.name = "PresentationHost.exe"))) and not((($e.target.process.command_line = /.* C:\\Windows\\.*/ nocase or $e.target.process.command_line = /.* C:\\Program Files.*/ nocase))))
+
+  condition:
+    $e
+}

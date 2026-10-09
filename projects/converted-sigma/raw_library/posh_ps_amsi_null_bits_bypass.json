@@ -1,0 +1,27 @@
+{
+  "title": "Potential AMSI Bypass Script Using NULL Bits",
+  "id": "fa2559c8-1197-471d-9cdd-05a0273d4522",
+  "status": "test",
+  "description": "Detects usage of special strings/null bits in order to potentially bypass AMSI functionalities",
+  "author": "Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2023-01-04",
+  "tags": [
+    "attack.defense-impairment",
+    "attack.t1685"
+  ],
+  "level": "medium",
+  "logsource": {
+    "product": "windows",
+    "category": "ps_script",
+    "definition": "Requirements: Script Block Logging must be enabled"
+  },
+  "detection": {
+    "selection": {
+      "ScriptBlockText|contains": [
+        "if(0){{{0}}}' -f $(0 -as [char]) +",
+        "#<NULL>"
+      ]
+    },
+    "condition": "selection"
+  }
+}

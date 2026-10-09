@@ -1,0 +1,11 @@
+// Title: Suspicious Command Patterns In Scheduled Task Creation
+// ID: f2c64357-b1d2-41b7-849f-34d2682c0fad
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-02-23
+// Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.t1053.005
+// Description: Detects scheduled task creation using "schtasks" that contain potentially suspicious or uncommon commands
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where ((process.executable="*\\schtasks.exe" AND process.command_line like "%/Create %") AND ((((process.command_line like "%/sc minute %" OR process.command_line like "%/ru system %")) AND ((process.command_line like "%cmd /c%" OR process.command_line like "%cmd /k%" OR process.command_line like "%cmd /r%" OR process.command_line like "%cmd.exe /c %" OR process.command_line like "%cmd.exe /k %" OR process.command_line like "%cmd.exe /r %"))) OR ((process.command_line like "% -decode %" OR process.command_line like "% -enc %" OR process.command_line like "% -w hidden %" OR process.command_line like "% bypass %" OR process.command_line like "% IEX%" OR process.command_line like "%.DownloadData%" OR process.command_line like "%.DownloadFile%" OR process.command_line like "%.DownloadString%" OR process.command_line like "%/c start /min %" OR process.command_line like "%FromBase64String%" OR process.command_line like "%mshta http%" OR process.command_line like "%mshta.exe http%")) OR (((process.command_line like "%:\\ProgramData\\%" OR process.command_line like "%:\\Temp\\%" OR process.command_line like "%:\\Tmp\\%" OR process.command_line like "%:\\Users\\Public\\%" OR process.command_line like "%:\\Windows\\Temp\\%" OR process.command_line like "%\\AppData\\%" OR process.command_line like "%%AppData%%" OR process.command_line like "%%Temp%%" OR process.command_line like "%%tmp%%")) AND ((process.command_line like "%cscript%" OR process.command_line like "%curl%" OR process.command_line like "%wscript%")))))

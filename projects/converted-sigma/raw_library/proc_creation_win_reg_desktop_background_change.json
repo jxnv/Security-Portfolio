@@ -1,0 +1,59 @@
+{
+  "title": "Potentially Suspicious Desktop Background Change Using Reg.EXE",
+  "id": "8cbc9475-8d05-4e27-9c32-df960716c701",
+  "status": "test",
+  "description": "Detects the execution of \"reg.exe\" to alter registry keys that would replace the user's desktop background.\nThis is a common technique used by malware to change the desktop background to a ransom note or other image.\n",
+  "author": "Stephen Lincoln @slincoln-aiq (AttackIQ)",
+  "date": "2023-12-21",
+  "tags": [
+    "attack.persistence",
+    "attack.impact",
+    "attack.defense-impairment",
+    "attack.t1112",
+    "attack.t1491.001"
+  ],
+  "level": "medium",
+  "logsource": {
+    "product": "windows",
+    "category": "process_creation"
+  },
+  "detection": {
+    "selection_reg_img": [
+      {
+        "Image|endswith": "\\reg.exe"
+      },
+      {
+        "OriginalFileName": "reg.exe"
+      }
+    ],
+    "selection_reg_flag": {
+      "CommandLine|contains": "add"
+    },
+    "selection_keys": {
+      "CommandLine|contains": [
+        "Control Panel\\Desktop",
+        "CurrentVersion\\Policies\\ActiveDesktop",
+        "CurrentVersion\\Policies\\System"
+      ]
+    },
+    "selection_cli_reg_1": {
+      "CommandLine|contains|all": [
+        "/v NoChangingWallpaper",
+        "/d 1"
+      ]
+    },
+    "selection_cli_reg_2": {
+      "CommandLine|contains|all": [
+        "/v Wallpaper",
+        "/t REG_SZ"
+      ]
+    },
+    "selection_cli_reg_3": {
+      "CommandLine|contains|all": [
+        "/v WallpaperStyle",
+        "/d 2"
+      ]
+    },
+    "condition": "all of selection_reg_* and selection_keys and 1 of selection_cli_reg_*"
+  }
+}

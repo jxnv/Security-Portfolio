@@ -1,0 +1,11 @@
+// Title: System Network Discovery - Linux
+// ID: e7bd1cfa-b446-4c88-8afb-403bcd79e3fa
+// Status: test
+// Level: informational
+// Author: Ömer Günal and remotephone, oscd.community
+// Date: 2020-10-06
+// Tags: attack.discovery, attack.t1016
+// Description: Detects enumeration of local network configuration
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE ((process.command_line LIKE "%/etc/resolv.conf%") OR ((process.executable LIKE "%/firewall-cmd" OR process.executable LIKE "%/ufw" OR process.executable LIKE "%/iptables" OR process.executable LIKE "%/netstat" OR process.executable LIKE "%/ss" OR process.executable LIKE "%/ip" OR process.executable LIKE "%/ifconfig" OR process.executable LIKE "%/systemd-resolve" OR process.executable LIKE "%/route")))

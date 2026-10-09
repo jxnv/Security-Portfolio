@@ -1,0 +1,19 @@
+# Title: AWS IAM S3Browser Templated S3 Bucket Policy Creation
+# ID: db014773-7375-4f4e-b83b-133337c0ffee
+# Status: test
+# Level: high
+# Author: daniel.bohannon@permiso.io (@danielhbohannon)
+# Date: 2023-05-17
+# Tags: attack.execution, attack.stealth, attack.t1059.009, attack.persistence, attack.initial-access, attack.privilege-escalation, attack.t1078.004
+# Description: Detects S3 browser utility creating Inline IAM policy containing default S3 bucket name placeholder value of "<YOUR-BUCKET-NAME>".
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: AWS IAM S3Browser Templated S3 Bucket Policy Creation
+def rule(event):
+    # Detection Logic:
+    # (eventSource="iam.amazonaws.com" AND eventName="PutUserPolicy" AND userAgent="*S3 Browser*" AND (requestParameters="*\"arn:aws:s3:::<YOUR-BUCKET-NAME>/*\"*" AND requestParameters="*\"s3:GetObject\"*" AND requestParameters="*\"Allow\"*"))
+    return True
+
+def title(event):
+    return "AWS IAM S3Browser Templated S3 Bucket Policy Creation"
+

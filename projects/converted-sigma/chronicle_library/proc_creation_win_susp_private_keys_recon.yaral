@@ -1,0 +1,23 @@
+// Title: Private Keys Reconnaissance Via CommandLine Tools
+// ID: 213d6a77-3d55-4ce8-ba74-fcfef741974e
+// Status: test
+// Level: medium
+// Author: frack113, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2021-07-20
+// Tags: attack.credential-access, attack.t1552.004
+// Description: Adversaries may search for private key certificate files on compromised systems for insecurely stored credential
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 213d6a77_3d55_4ce8_ba74_fcfef741974e {
+  meta:
+    title = "Private Keys Reconnaissance Via CommandLine Tools"
+    description = "Adversaries may search for private key certificate files on compromised systems for insecurely stored credential"
+    author = "frack113, Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.command_line = /.*.key.*/ nocase or $e.target.process.command_line = /.*.pgp.*/ nocase or $e.target.process.command_line = /.*.gpg.*/ nocase or $e.target.process.command_line = /.*.ppk.*/ nocase or $e.target.process.command_line = /.*.p12.*/ nocase or $e.target.process.command_line = /.*.pem.*/ nocase or $e.target.process.command_line = /.*.pfx.*/ nocase or $e.target.process.command_line = /.*.cer.*/ nocase or $e.target.process.command_line = /.*.p7b.*/ nocase or $e.target.process.command_line = /.*.asc.*/ nocase)) and ((($e.target.process.command_line = /.*dir .*/ nocase) and (($e.target.process.file.full_path = /.*\\cmd.exe$/ nocase) or ($e.target.process.file.name = "Cmd.Exe"))) or (($e.target.process.command_line = /.*Get-ChildItem .*/ nocase) and ((($e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase)) or (($e.target.process.file.name = "PowerShell.EXE" or $e.target.process.file.name = "pwsh.dll")))) or (($e.target.process.file.full_path = /.*\\findstr.exe$/ nocase) or ($e.target.process.file.name = "FINDSTR.EXE"))))
+
+  condition:
+    $e
+}

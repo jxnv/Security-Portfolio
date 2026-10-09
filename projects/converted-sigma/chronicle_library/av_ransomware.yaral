@@ -1,0 +1,24 @@
+// Title: Antivirus - Ransomware Signature
+// ID: 4c6ca276-d4d0-4a8c-9e4c-d69832f8671f
+// Status: test
+// Level: critical
+// Author: Florian Roth (Nextron Systems), Arnim Rupp
+// Date: 2022-05-12
+// Tags: attack.t1486, attack.impact
+// Description: Detects a highly relevant Antivirus alert that reports ransomware.
+// This event must not be ignored just because the AV has blocked the malware but investigate, how it came there in the first place.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 4c6ca276_d4d0_4a8c_9e4c_d69832f8671f {
+  meta:
+    title = "Antivirus - Ransomware Signature"
+    description = "Detects a highly relevant Antivirus alert that reports ransomware. This event must not be ignored just because the AV has blocked the malware but investigate, how it came there in the first place."
+    author = "Florian Roth (Nextron Systems), Arnim Rupp"
+    severity = "CRITICAL"
+
+  events:
+    (($e.Signature = /.*Babuk.*/ nocase or $e.Signature = /.*Babyk.*/ nocase or $e.Signature = /.*BlackWorm.*/ nocase or $e.Signature = /.*Chaos.*/ nocase or $e.Signature = /.*Cobra.*/ nocase or $e.Signature = /.*ContiCrypt.*/ nocase or $e.Signature = /.*Crypter.*/ nocase or $e.Signature = /.*Cryptes.*/ nocase or $e.Signature = /.*Cryptor.*/ nocase or $e.Signature = /.*CylanCrypt.*/ nocase or $e.Signature = /.*DelShad.*/ nocase or $e.Signature = /.*Destructor.*/ nocase or $e.Signature = /.*Filecoder.*/ nocase or $e.Signature = /.*GandCrab.*/ nocase or $e.Signature = /.*GrandCrab.*/ nocase or $e.Signature = /.*Haperlock.*/ nocase or $e.Signature = /.*Hiddentear.*/ nocase or $e.Signature = /.*HydraCrypt.*/ nocase or $e.Signature = /.*Krypt.*/ nocase or $e.Signature = /.*Lockbit.*/ nocase or $e.Signature = /.*Locker.*/ nocase or $e.Signature = /.*Mallox.*/ nocase or $e.Signature = /.*Medusa.*/ nocase or $e.Signature = /.*Phobos.*/ nocase or $e.Signature = /.*Ransom.*/ nocase or $e.Signature = /.*Rook.*/ nocase or $e.Signature = /.*Ryuk.*/ nocase or $e.Signature = /.*Ryzerlo.*/ nocase or $e.Signature = /.*Stopcrypt.*/ nocase or $e.Signature = /.*Tescrypt.*/ nocase or $e.Signature = /.*TeslaCrypt.*/ nocase or $e.Signature = /.*WannaCry.*/ nocase or $e.Signature = /.*Xorist.*/ nocase))
+
+  condition:
+    $e
+}

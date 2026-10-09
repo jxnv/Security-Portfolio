@@ -1,0 +1,11 @@
+// Title: Suspicious Execution Of Renamed Sysinternals Tools - Registry
+// ID: f50f3c09-557d-492d-81db-9064a8d4e211
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-24
+// Tags: attack.resource-development, attack.t1588.002
+// Description: Detects the creation of the "accepteula" key related to the Sysinternals tools being created from executables with the wrong name (e.g. a renamed Sysinternals tool)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where (((TargetObject matches "*\\Active Directory Explorer*" or TargetObject matches "*\\Handle*" or TargetObject matches "*\\LiveKd*" or TargetObject matches "*\\ProcDump*" or TargetObject matches "*\\Process Explorer*" or TargetObject matches "*\\PsExec*" or TargetObject matches "*\\PsLoggedon*" or TargetObject matches "*\\PsLoglist*" or TargetObject matches "*\\PsPasswd*" or TargetObject matches "*\\PsPing*" or TargetObject matches "*\\PsService*" or TargetObject matches "*\\SDelete*") and TargetObject matches "*\\EulaAccepted") and !(((Image matches "*\\ADExplorer.exe" or Image matches "*\\ADExplorer64.exe" or Image matches "*\\ADExplorer64a.exe" or Image matches "*\\handle.exe" or Image matches "*\\handle64.exe" or Image matches "*\\handle64a.exe" or Image matches "*\\livekd.exe" or Image matches "*\\livekd64.exe" or Image matches "*\\procdump.exe" or Image matches "*\\procdump64.exe" or Image matches "*\\procdump64a.exe" or Image matches "*\\procexp.exe" or Image matches "*\\procexp64.exe" or Image matches "*\\procexp64a.exe" or Image matches "*\\PsExec.exe" or Image matches "*\\PsExec64.exe" or Image matches "*\\PsExec64a.exe" or Image matches "*\\PsLoggedon.exe" or Image matches "*\\PsLoggedon64.exe" or Image matches "*\\psloglist.exe" or Image matches "*\\psloglist64.exe" or Image matches "*\\psloglist64a.exe" or Image matches "*\\pspasswd.exe" or Image matches "*\\pspasswd64.exe" or Image matches "*\\pspasswd64a.exe" or Image matches "*\\PsPing.exe" or Image matches "*\\PsPing64.exe" or Image matches "*\\PsPing64a.exe" or Image matches "*\\PsService.exe" or Image matches "*\\PsService64.exe" or Image matches "*\\PsService64a.exe" or Image matches "*\\sdelete.exe"))))

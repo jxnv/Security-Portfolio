@@ -1,0 +1,23 @@
+// Title: Suspicious PowerShell Download - Powershell Script
+// ID: 403c2cc0-7f6b-4925-9423-bfa573bed7eb
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems)
+// Date: 2017-03-05
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects suspicious PowerShell download command
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 403c2cc0_7f6b_4925_9423_bfa573bed7eb {
+  meta:
+    title = "Suspicious PowerShell Download - Powershell Script"
+    description = "Detects suspicious PowerShell download command"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.ScriptBlockText = /.*System.Net.WebClient.*/ nocase) and (($e.ScriptBlockText = /.*.DownloadFile(.*/ nocase or $e.ScriptBlockText = /.*.DownloadFileAsync(.*/ nocase or $e.ScriptBlockText = /.*.DownloadString(.*/ nocase or $e.ScriptBlockText = /.*.DownloadStringAsync(.*/ nocase)))
+
+  condition:
+    $e
+}

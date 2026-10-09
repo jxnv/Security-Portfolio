@@ -1,0 +1,33 @@
+{
+  "title": "Screen Capture with Xwd",
+  "id": "e2f17c5d-b02a-442b-9052-6eb89c9fec9c",
+  "status": "test",
+  "description": "Detects adversary creating screen capture of a full with xwd. Highly recommended using rule on servers, due high usage of screenshot utilities on user workstations",
+  "author": "Pawel Mazur",
+  "date": "2021-09-13",
+  "tags": [
+    "attack.collection",
+    "attack.t1113"
+  ],
+  "level": "low",
+  "logsource": {
+    "product": "linux",
+    "service": "auditd"
+  },
+  "detection": {
+    "selection": {
+      "type": "EXECVE",
+      "a0": "xwd"
+    },
+    "xwd_root_window": {
+      "a1": "-root",
+      "a2": "-out",
+      "a3|endswith": ".xwd"
+    },
+    "xwd_no_root_window": {
+      "a1": "-out",
+      "a2|endswith": ".xwd"
+    },
+    "condition": "selection and 1 of xwd_*"
+  }
+}

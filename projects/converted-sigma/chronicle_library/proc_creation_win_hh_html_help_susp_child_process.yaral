@@ -1,0 +1,23 @@
+// Title: HTML Help HH.EXE Suspicious Child Process
+// ID: 52cad028-0ff0-4854-8f67-d25dfcbc78b4
+// Status: test
+// Level: high
+// Author: Maxim Pavlunin, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2020-04-01
+// Tags: attack.execution, attack.initial-access, attack.stealth, attack.t1047, attack.t1059.001, attack.t1059.003, attack.t1059.005, attack.t1059.007, attack.t1218, attack.t1218.001, attack.t1218.010, attack.t1218.011, attack.t1566, attack.t1566.001
+// Description: Detects a suspicious child process of a Microsoft HTML Help (HH.exe)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 52cad028_0ff0_4854_8f67_d25dfcbc78b4 {
+  meta:
+    title = "HTML Help HH.EXE Suspicious Child Process"
+    description = "Detects a suspicious child process of a Microsoft HTML Help (HH.exe)"
+    author = "Maxim Pavlunin, Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ($e.principal.process.file.full_path = /.*\\hh.exe$/ nocase and ($e.target.process.file.full_path = /.*\\CertReq.exe$/ nocase or $e.target.process.file.full_path = /.*\\CertUtil.exe$/ nocase or $e.target.process.file.full_path = /.*\\cmd.exe$/ nocase or $e.target.process.file.full_path = /.*\\cscript.exe$/ nocase or $e.target.process.file.full_path = /.*\\installutil.exe$/ nocase or $e.target.process.file.full_path = /.*\\MSbuild.exe$/ nocase or $e.target.process.file.full_path = /.*\\MSHTA.EXE$/ nocase or $e.target.process.file.full_path = /.*\\msiexec.exe$/ nocase or $e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase or $e.target.process.file.full_path = /.*\\regsvr32.exe$/ nocase or $e.target.process.file.full_path = /.*\\rundll32.exe$/ nocase or $e.target.process.file.full_path = /.*\\schtasks.exe$/ nocase or $e.target.process.file.full_path = /.*\\wmic.exe$/ nocase or $e.target.process.file.full_path = /.*\\wscript.exe$/ nocase))
+
+  condition:
+    $e
+}

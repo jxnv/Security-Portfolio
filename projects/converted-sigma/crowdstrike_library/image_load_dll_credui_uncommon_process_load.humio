@@ -1,0 +1,11 @@
+// Title: CredUI.DLL Loaded By Uncommon Process
+// ID: 9ae01559-cf7e-4f8e-8e14-4c290a1b4784
+// Status: test
+// Level: medium
+// Author: Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research)
+// Date: 2020-10-20
+// Tags: attack.credential-access, attack.collection, attack.t1056.002
+// Description: Detects loading of "credui.dll" and related DLLs by an uncommon process. Attackers might leverage this DLL for potential use of "CredUIPromptForCredentials" or "CredUnPackAuthenticationBufferW".
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((ImageLoaded = /.*\\credui.dll/i or ImageLoaded = /.*\\wincredui.dll/i)) or ((OriginalFilename = "credui.dll" or OriginalFilename = "wincredui.dll"))) and not((((ImageFileName = "C:\\Windows\\explorer.exe" or ImageFileName = "C:\\Windows\\ImmersiveControlPanel\\SystemSettings.exe" or ImageFileName = "C:\\Windows\\regedit.exe")) or ((ImageFileName = /C:\\Program Files (x86)\\.*/i or ImageFileName = /C:\\Program Files\\.*/i or ImageFileName = /C:\\Windows\\System32\\.*/i or ImageFileName = /C:\\Windows\\SysWOW64\\.*/i or ImageFileName = /C:\\Windows\\SystemApps\\.*/i)))) and not(((ImageFileName = /C:\\Users\\.*/i and ImageFileName = /*\\AppData\\Local\\Microsoft\\OneDrive\\*/i) or (ImageFileName = /.*\\opera_autoupdate.exe/i) or ((ImageFileName = /.*\\procexp64.exe/i or ImageFileName = /.*\\procexp64a.exe/i or ImageFileName = /.*\\procexp.exe/i)) or (ImageFileName = /C:\\Users\\.*/i and ImageFileName = /*\\AppData\\Local\\Microsoft\\Teams\\*/i and ImageFileName = /.*\\Teams.exe/i))))

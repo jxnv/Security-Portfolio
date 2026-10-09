@@ -1,0 +1,11 @@
+// Title: HackTool - CrackMapExec Execution
+// ID: 42a993dd-bb3e-48c8-b372-4d6684c4106c
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-02-25
+// Tags: attack.execution, attack.persistence, attack.privilege-escalation, attack.credential-access, attack.discovery, attack.t1047, attack.t1053, attack.t1059.003, attack.t1059.001, attack.t1110, attack.t1201
+// Description: This rule detect common flag combinations used by CrackMapExec in order to detect its use even if the binary has been replaced.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(Image IENDSWITH "\\crackmapexec.exe")) OR ((where(CommandLine ICONTAINS " --local-auth") AND where(CommandLine ICONTAINS " -u ") AND where(CommandLine ICONTAINS " -x "))) OR ((where(CommandLine ICONTAINS " --local-auth") AND where(CommandLine ICONTAINS " -u ") AND where(CommandLine ICONTAINS " -p ") AND where(CommandLine ICONTAINS " -H 'NTHASH'"))) OR ((where(CommandLine ICONTAINS " mssql ") AND where(CommandLine ICONTAINS " -u ") AND where(CommandLine ICONTAINS " -p ") AND where(CommandLine ICONTAINS " -M ") AND where(CommandLine ICONTAINS " -d "))) OR ((where(CommandLine ICONTAINS " smb ") AND where(CommandLine ICONTAINS " -u ") AND where(CommandLine ICONTAINS " -H ") AND where(CommandLine ICONTAINS " -M ") AND where(CommandLine ICONTAINS " -o "))) OR ((where(CommandLine ICONTAINS " smb ") AND where(CommandLine ICONTAINS " -u ") AND where(CommandLine ICONTAINS " -p ") AND where(CommandLine ICONTAINS " --local-auth"))) OR (where(CommandLine ICONTAINS " -M pe_inject "))) OR (((where(CommandLine ICONTAINS " --local-auth") AND where(CommandLine ICONTAINS " -u ") AND where(CommandLine ICONTAINS " -p "))) AND ((where(CommandLine ICONTAINS " 10.") AND where(CommandLine ICONTAINS " 192.168.") AND where(CommandLine ICONTAINS "/24 ")))))

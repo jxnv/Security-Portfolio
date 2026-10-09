@@ -1,0 +1,11 @@
+-- Title: Cisco Stage Data
+-- ID: 5e51acb2-bcbe-435b-99c6-0e3cd5e2aa59
+-- Status: test
+-- Level: low
+-- Author: Austin Clark
+-- Date: 2019-08-12
+-- Tags: attack.collection, attack.lateral-movement, attack.command-and-control, attack.exfiltration, attack.t1074, attack.t1105, attack.t1560.001
+-- Description: Various protocols maybe used to put data on the device for exfil or infil
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM file WHERE ("tftp" OR "rcp" OR "puts" OR "copy" OR "configure replace" OR "archive tar")

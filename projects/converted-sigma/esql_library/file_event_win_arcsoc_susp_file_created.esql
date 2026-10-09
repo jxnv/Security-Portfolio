@@ -1,0 +1,13 @@
+// Title: Suspicious File Created by ArcSOC.exe
+// ID: e890acee-d488-420e-8f20-d9b19b3c3d43
+// Status: experimental
+// Level: high
+// Author: Micah Babinski
+// Date: 2025-11-25
+// Tags: attack.command-and-control, attack.persistence, attack.initial-access, attack.execution, attack.stealth, attack.t1127, attack.t1105, attack.t1133
+// Description: Detects instances where the ArcGIS Server process ArcSOC.exe, which hosts REST services running on an ArcGIS
+// server, creates a file with suspicious file type, indicating that it may be an executable, script file,
+// or otherwise unusual.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE (process.executable LIKE "%\\ArcSOC.exe" AND (file.path LIKE "%.ahk" OR file.path LIKE "%.aspx" OR file.path LIKE "%.au3" OR file.path LIKE "%.bat" OR file.path LIKE "%.cmd" OR file.path LIKE "%.dll" OR file.path LIKE "%.exe" OR file.path LIKE "%.hta" OR file.path LIKE "%.js" OR file.path LIKE "%.ps1" OR file.path LIKE "%.py" OR file.path LIKE "%.vbe" OR file.path LIKE "%.vbs" OR file.path LIKE "%.wsf"))

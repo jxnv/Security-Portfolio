@@ -1,0 +1,23 @@
+// Title: Dism Remove Online Package
+// ID: 43e32da2-fdd0-4156-90de-50dfd62636f9
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-01-16
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Deployment Image Servicing and Management tool. DISM is used to enumerate, install, uninstall, configure, and update features and packages in Windows images
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 43e32da2_fdd0_4156_90de_50dfd62636f9 {
+  meta:
+    title = "Dism Remove Online Package"
+    description = "Deployment Image Servicing and Management tool. DISM is used to enumerate, install, uninstall, configure, and update features and packages in Windows images"
+    author = "frack113"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.process.file.full_path = /.*\\Dism.exe$/ nocase and ($e.target.process.command_line = /.*/Online.*/ nocase and $e.target.process.command_line = /.*/Disable-Feature.*/ nocase)) or ($e.target.process.file.full_path = /.*\\DismHost.exe$/ nocase and ($e.principal.process.command_line = /.*/Online.*/ nocase and $e.principal.process.command_line = /.*/Disable-Feature.*/ nocase)))
+
+  condition:
+    $e
+}

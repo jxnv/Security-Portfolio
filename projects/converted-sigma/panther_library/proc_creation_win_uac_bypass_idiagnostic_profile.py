@@ -1,0 +1,19 @@
+# Title: UAC Bypass Using IDiagnostic Profile
+# ID: 4cbef972-f347-4170-b62a-8253f6168e6d
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-07-03
+# Tags: attack.execution, attack.privilege-escalation, attack.t1548.002
+# Description: Detects the "IDiagnosticProfileUAC" UAC bypass technique
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: UAC Bypass Using IDiagnostic Profile
+def rule(event):
+    # Detection Logic:
+    # (ParentImage="*\\DllHost.exe" AND ParentCommandLine="* /Processid:{12C21EA7-2EB8-4B55-9249-AC243DA8C666}*" AND (IntegrityLevel="High" OR IntegrityLevel="System" OR IntegrityLevel="S-1-16-16384" OR IntegrityLevel="S-1-16-12288"))
+    return True
+
+def title(event):
+    return "UAC Bypass Using IDiagnostic Profile"
+

@@ -1,0 +1,11 @@
+-- Title: HackTool - SILENTTRINITY Stager DLL Load
+-- ID: 75c505b1-711d-4f68-a357-8c3fe37dbf2d
+-- Status: test
+-- Level: high
+-- Author: Aleksey Potapov, oscd.community
+-- Date: 2019-10-22
+-- Tags: attack.command-and-control, attack.t1071
+-- Description: Detects SILENTTRINITY stager dll loading activity
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE (Description ILIKE '%st2stager%')

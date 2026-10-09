@@ -1,0 +1,23 @@
+// Title: Inline Python Execution - Spawn Shell Via OS System Library
+// ID: 2d2f44ff-4611-4778-a8fc-323a0e9850cc
+// Status: test
+// Level: high
+// Author: Li Ling, Andy Parkidomo, Robert Rakowski, Blake Hartstein (Bloomberg L.P.)
+// Date: 2024-09-02
+// Tags: attack.execution, attack.t1059
+// Description: Detects execution of inline Python code via the "-c" in order to call the "system" function from the "os" library, and spawn a shell.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 2d2f44ff_4611_4778_a8fc_323a0e9850cc {
+  meta:
+    title = "Inline Python Execution - Spawn Shell Via OS System Library"
+    description = "Detects execution of inline Python code via the "-c" in order to call the "system" function from the "os" library, and spawn a shell."
+    author = "Li Ling, Andy Parkidomo, Robert Rakowski, Blake Hartstein (Bloomberg L.P.)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.* -c .*/ nocase and $e.target.process.command_line = /.*os.system(.*/ nocase) and ($e.target.process.command_line = /.*/bin/bash.*/ nocase or $e.target.process.command_line = /.*/bin/dash.*/ nocase or $e.target.process.command_line = /.*/bin/fish.*/ nocase or $e.target.process.command_line = /.*/bin/sh.*/ nocase or $e.target.process.command_line = /.*/bin/zsh.*/ nocase)) and ((($e.target.process.file.full_path = /.*/python$/ nocase or $e.target.process.file.full_path = /.*/python2$/ nocase or $e.target.process.file.full_path = /.*/python3$/ nocase)) or (($e.target.process.file.full_path = /.*/python2..*/ nocase or $e.target.process.file.full_path = /.*/python3..*/ nocase))))
+
+  condition:
+    $e
+}

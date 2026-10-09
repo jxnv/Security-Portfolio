@@ -1,0 +1,12 @@
+// Title: Cmd.EXE Missing Space Characters Execution Anomaly
+// ID: a16980c2-0c56-4de0-9a79-17971979efdd
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-08-23
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects Windows command lines that miss a space before or after the /c flag when running a command using the cmd.exe.
+// This could be a sign of obfuscation of a fat finger problem (typo by the developer).
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where ((((CommandLine matches "*cmd.exe/c*" or CommandLine matches "*\\cmd/c*" or CommandLine matches "*\"cmd/c*" or CommandLine matches "*cmd.exe/k*" or CommandLine matches "*\\cmd/k*" or CommandLine matches "*\"cmd/k*" or CommandLine matches "*cmd.exe/r*" or CommandLine matches "*\\cmd/r*" or CommandLine matches "*\"cmd/r*")) or ((CommandLine matches "*/cwhoami*" or CommandLine matches "*/cpowershell*" or CommandLine matches "*/cschtasks*" or CommandLine matches "*/cbitsadmin*" or CommandLine matches "*/ccertutil*" or CommandLine matches "*/kwhoami*" or CommandLine matches "*/kpowershell*" or CommandLine matches "*/kschtasks*" or CommandLine matches "*/kbitsadmin*" or CommandLine matches "*/kcertutil*")) or ((CommandLine matches "*cmd.exe /c*" or CommandLine matches "*cmd /c*" or CommandLine matches "*cmd.exe /k*" or CommandLine matches "*cmd /k*" or CommandLine matches "*cmd.exe /r*" or CommandLine matches "*cmd /r*"))) and !((((CommandLine matches "*AppData\\Local\\Programs\\Microsoft VS Code\\resources\\app\\node_modules*") or (CommandLine matches "*cmd.exe/c .") or (CommandLine = "cmd.exe /c") or (CommandLine = "cmd /c")) or ((CommandLine matches "*cmd.exe /c *" or CommandLine matches "*cmd /c *" or CommandLine matches "*cmd.exe /k *" or CommandLine matches "*cmd /k *" or CommandLine matches "*cmd.exe /r *" or CommandLine matches "*cmd /r *")))))

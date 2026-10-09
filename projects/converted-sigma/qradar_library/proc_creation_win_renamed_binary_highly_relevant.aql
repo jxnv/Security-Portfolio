@@ -1,0 +1,11 @@
+-- Title: Potential Defense Evasion Via Rename Of Highly Relevant Binaries
+-- ID: 0ba1da6d-b6ce-4366-828c-18826c9de23e
+-- Status: test
+-- Level: high
+-- Author: Matthew Green - @mgreen27, Florian Roth (Nextron Systems), frack113
+-- Date: 2019-06-15
+-- Tags: attack.stealth, attack.t1036.003, car.2013-05-009
+-- Description: Detects the execution of a renamed binary often used by attackers or malware leveraging new Sysmon OriginalFileName datapoint.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM events WHERE (((Description = 'Execute processes remotely') OR (Product = 'Sysinternals PsExec') OR ((Description ILIKE 'Windows PowerShell%' OR Description ILIKE 'pwsh%')) OR ((OriginalFileName = 'certutil.exe' OR OriginalFileName = 'cmstp.exe' OR OriginalFileName = 'cscript.exe' OR OriginalFileName = 'IE4UINIT.EXE' OR OriginalFileName = 'finger.exe' OR OriginalFileName = 'mshta.exe' OR OriginalFileName = 'msiexec.exe' OR OriginalFileName = 'msxsl.exe' OR OriginalFileName = 'powershell_ise.exe' OR OriginalFileName = 'powershell.exe' OR OriginalFileName = 'psexec.c' OR OriginalFileName = 'psexec.exe' OR OriginalFileName = 'psexesvc.exe' OR OriginalFileName = 'pwsh.dll' OR OriginalFileName = 'reg.exe' OR OriginalFileName = 'regsvr32.exe' OR OriginalFileName = 'rundll32.exe' OR OriginalFileName = 'WerMgr' OR OriginalFileName = 'wmic.exe' OR OriginalFileName = 'wscript.exe'))) AND NOT (((Image ILIKE '%\\certutil.exe' OR Image ILIKE '%\\cmstp.exe' OR Image ILIKE '%\\cscript.exe' OR Image ILIKE '%\\ie4uinit.exe' OR Image ILIKE '%\\finger.exe' OR Image ILIKE '%\\mshta.exe' OR Image ILIKE '%\\msiexec.exe' OR Image ILIKE '%\\msxsl.exe' OR Image ILIKE '%\\powershell_ise.exe' OR Image ILIKE '%\\powershell.exe' OR Image ILIKE '%\\psexec.exe' OR Image ILIKE '%\\psexec64.exe' OR Image ILIKE '%\\psexec64a.exe' OR Image ILIKE '%\\PSEXESVC.exe' OR Image ILIKE '%\\pwsh.exe' OR Image ILIKE '%\\reg.exe' OR Image ILIKE '%\\regsvr32.exe' OR Image ILIKE '%\\rundll32.exe' OR Image ILIKE '%\\wermgr.exe' OR Image ILIKE '%\\wmic.exe' OR Image ILIKE '%\\wscript.exe'))))

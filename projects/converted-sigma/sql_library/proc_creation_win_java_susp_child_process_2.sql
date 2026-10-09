@@ -1,0 +1,11 @@
+-- Title: Shell Process Spawned by Java.EXE
+-- ID: dff1e1cc-d3fd-47c8-bfc2-aeb878a754c0
+-- Status: test
+-- Level: medium
+-- Author: Andreas Hunkeler (@Karneades), Nasreddine Bencherchali
+-- Date: 2021-12-17
+-- Tags: attack.initial-access, attack.persistence, attack.privilege-escalation
+-- Description: Detects shell spawned from Java host process, which could be a sign of exploitation (e.g. log4j exploitation)
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE ((ParentImage ILIKE '%\\java.exe' AND (Image ILIKE '%\\bash.exe' OR Image ILIKE '%\\cmd.exe' OR Image ILIKE '%\\powershell.exe' OR Image ILIKE '%\\pwsh.exe')) AND NOT ((ParentImage ILIKE '%build%' AND CommandLine ILIKE '%build%')))

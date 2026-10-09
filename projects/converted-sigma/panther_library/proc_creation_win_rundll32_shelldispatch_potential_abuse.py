@@ -1,0 +1,19 @@
+# Title: Potential ShellDispatch.DLL Functionality Abuse
+# ID: 82343930-652f-43f5-ab70-2ee9fdd6d5e9
+# Status: test
+# Level: medium
+# Author: X__Junior (Nextron Systems)
+# Date: 2023-06-20
+# Tags: attack.execution, attack.stealth
+# Description: Detects potential "ShellDispatch.dll" functionality abuse to execute arbitrary binaries via "ShellExecute"
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Potential ShellDispatch.DLL Functionality Abuse
+def rule(event):
+    # Detection Logic:
+    # ((CommandLine="*RunDll_ShellExecuteW*") AND ((Image="*\\rundll32.exe") OR (OriginalFileName="RUNDLL32.EXE")))
+    return True
+
+def title(event):
+    return "Potential ShellDispatch.DLL Functionality Abuse"
+

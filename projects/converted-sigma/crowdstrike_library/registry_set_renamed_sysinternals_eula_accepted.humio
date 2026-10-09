@@ -1,0 +1,11 @@
+// Title: Usage of Renamed Sysinternals Tools - RegistrySet
+// ID: 8023f872-3f1d-4301-a384-801889917ab4
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-24
+// Tags: attack.resource-development, attack.t1588.002
+// Description: Detects non-sysinternals tools setting the "accepteula" key which normally is set on sysinternals tool execution
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((TargetObject = /*\\PsExec*/i or TargetObject = /*\\ProcDump*/i or TargetObject = /*\\Handle*/i or TargetObject = /*\\LiveKd*/i or TargetObject = /*\\Process Explorer*/i or TargetObject = /*\\PsLoglist*/i or TargetObject = /*\\PsPasswd*/i or TargetObject = /*\\Active Directory Explorer*/i) and TargetObject = /.*\\EulaAccepted/i) and not(((ImageFileName = /.*\\PsExec.exe/i or ImageFileName = /.*\\PsExec64.exe/i or ImageFileName = /.*\\PsExec64a.exe/i or ImageFileName = /.*\\procdump.exe/i or ImageFileName = /.*\\procdump64.exe/i or ImageFileName = /.*\\procdump64a.exe/i or ImageFileName = /.*\\handle.exe/i or ImageFileName = /.*\\handle64.exe/i or ImageFileName = /.*\\handle64a.exe/i or ImageFileName = /.*\\livekd.exe/i or ImageFileName = /.*\\livekd64.exe/i or ImageFileName = /.*\\procexp.exe/i or ImageFileName = /.*\\procexp64.exe/i or ImageFileName = /.*\\procexp64a.exe/i or ImageFileName = /.*\\psloglist.exe/i or ImageFileName = /.*\\psloglist64.exe/i or ImageFileName = /.*\\psloglist64a.exe/i or ImageFileName = /.*\\pspasswd.exe/i or ImageFileName = /.*\\pspasswd64.exe/i or ImageFileName = /.*\\pspasswd64a.exe/i or ImageFileName = /.*\\ADExplorer.exe/i or ImageFileName = /.*\\ADExplorer64.exe/i or ImageFileName = /.*\\ADExplorer64a.exe/i))) and not((not(ImageFileName = *))))

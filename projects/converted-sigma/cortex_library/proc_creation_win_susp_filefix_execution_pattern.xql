@@ -1,0 +1,14 @@
+// Title: Suspicious FileFix Execution Pattern
+// ID: b5b29e4e-31fa-4fdf-b058-296e7a1aa0c2
+// Status: experimental
+// Level: high
+// Author: 0xFustang, Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-11-24
+// Tags: attack.execution, attack.t1204.004
+// Description: Detects suspicious FileFix execution patterns where users are tricked into running malicious commands through browser file upload dialog manipulation.
+// This attack typically begins when users visit malicious websites impersonating legitimate services or news platforms,
+// which may display fake CAPTCHA challenges or direct instructions to open file explorer and paste clipboard content.
+// The clipboard content usually contains commands that download and execute malware, such as information stealing tools.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter (((actor_process_image_path endswith "\\brave.exe" or actor_process_image_path endswith "\\chrome.exe" or actor_process_image_path endswith "\\firefox.exe" or actor_process_image_path endswith "\\msedge.exe") and action_process_image_command_line contains "#") and (((action_process_image_command_line contains "account" or action_process_image_command_line contains "anti-bot" or action_process_image_command_line contains "botcheck" or action_process_image_command_line contains "captcha" or action_process_image_command_line contains "challenge" or action_process_image_command_line contains "confirmation" or action_process_image_command_line contains "fraud" or action_process_image_command_line contains "human" or action_process_image_command_line contains "identification" or action_process_image_command_line contains "identificator" or action_process_image_command_line contains "identity" or action_process_image_command_line contains "robot" or action_process_image_command_line contains "validation" or action_process_image_command_line contains "verification" or action_process_image_command_line contains "verify")) or ((action_process_image_command_line contains "%comspec%" or action_process_image_command_line contains "bitsadmin" or action_process_image_command_line contains "certutil" or action_process_image_command_line contains "cmd" or action_process_image_command_line contains "cscript" or action_process_image_command_line contains "curl" or action_process_image_command_line contains "finger" or action_process_image_command_line contains "mshta" or action_process_image_command_line contains "powershell" or action_process_image_command_line contains "pwsh" or action_process_image_command_line contains "regsvr32" or action_process_image_command_line contains "rundll32" or action_process_image_command_line contains "schtasks" or action_process_image_command_line contains "wget" or action_process_image_command_line contains "wscript"))))

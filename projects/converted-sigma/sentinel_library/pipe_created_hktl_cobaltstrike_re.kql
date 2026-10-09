@@ -1,0 +1,11 @@
+// Title: CobaltStrike Named Pipe Pattern Regex
+// ID: 0e7163d4-9e19-4fa7-9be6-000c61aad77a
+// Status: test
+// Level: critical
+// Author: Florian Roth (Nextron Systems)
+// Date: 2021-07-30
+// Tags: attack.privilege-escalation, attack.stealth, attack.t1055
+// Description: Detects the creation of a named pipe matching a pattern used by CobaltStrike Malleable C2 profiles
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+DeviceProcessEvents | where ((PipeName matches regex @"\\\\mojo\\.5688\\.8052\\.(?:183894939787088877|35780273329370473)[0-9a-f]{2}") or (PipeName matches regex @"\\\\wkssvc_?[0-9a-f]{2}") or (PipeName matches regex @"\\\\ntsvcs[0-9a-f]{2}") or (PipeName matches regex @"\\\\DserNamePipe[0-9a-f]{2}") or (PipeName matches regex @"\\\\SearchTextHarvester[0-9a-f]{2}") or (PipeName matches regex @"\\\\mypipe-(?:f|h)[0-9a-f]{2}") or (PipeName matches regex @"\\\\windows\\.update\\.manager[0-9a-f]{2,3}") or (PipeName matches regex @"\\\\ntsvcs_[0-9a-f]{2}") or (PipeName matches regex @"\\\\scerpc_?[0-9a-f]{2}") or (PipeName matches regex @"\\\\PGMessagePipe[0-9a-f]{2}") or (PipeName matches regex @"\\\\MsFteWds[0-9a-f]{2}") or (PipeName matches regex @"\\\\f4c3[0-9a-f]{2}") or (PipeName matches regex @"\\\\fullduplex_[0-9a-f]{2}") or (PipeName matches regex @"\\\\msrpc_[0-9a-f]{4}") or (PipeName matches regex @"\\\\win\\\\msrpc_[0-9a-f]{2}") or (PipeName matches regex @"\\\\f53f[0-9a-f]{2}$") or (PipeName matches regex @"\\\\rpc_[0-9a-f]{2}") or (PipeName matches regex @"\\\\spoolss_[0-9a-f]{2}") or (PipeName matches regex @"\\\\Winsock2\\\\CatalogChangeListener-[0-9a-f]{3}-0,"))

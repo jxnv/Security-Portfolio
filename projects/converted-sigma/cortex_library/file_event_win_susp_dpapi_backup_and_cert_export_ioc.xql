@@ -1,0 +1,11 @@
+// Title: DPAPI Backup Keys And Certificate Export Activity IOC
+// ID: 7892ec59-c5bb-496d-8968-e5d210ca3ac4
+// Status: test
+// Level: high
+// Author: Nounou Mbeiri, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2024-06-26
+// Tags: attack.credential-access, attack.t1555, attack.t1552.004
+// Description: Detects file names with specific patterns seen generated and used by tools such as Mimikatz and DSInternals related to exported or stolen DPAPI backup keys and certificates.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter ((action_file_path contains "ntds_capi_" or action_file_path contains "ntds_legacy_" or action_file_path contains "ntds_unknown_") and (action_file_path endswith ".cer" or action_file_path endswith ".key" or action_file_path endswith ".pfx" or action_file_path endswith ".pvk"))

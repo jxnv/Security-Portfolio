@@ -1,0 +1,19 @@
+# Title: New Okta User Created
+# ID: b6c718dd-8f53-4b9f-98d8-93fdca966969
+# Status: test
+# Level: informational
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2023-10-25
+# Tags: attack.credential-access
+# Description: Detects new user account creation
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: New Okta User Created
+def rule(event):
+    # Detection Logic:
+    # (eventType="user.lifecycle.create")
+    return True
+
+def title(event):
+    return "New Okta User Created"
+

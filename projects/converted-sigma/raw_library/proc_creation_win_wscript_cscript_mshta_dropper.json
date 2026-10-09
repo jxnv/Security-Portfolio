@@ -1,0 +1,57 @@
+{
+  "title": "Potential Dropper Script Execution Via WScript/CScript/MSHTA",
+  "id": "cea72823-df4d-4567-950c-0b579eaf0846",
+  "status": "test",
+  "description": "Detects wscript/cscript/mshta executions of scripts located in user directories",
+  "author": "Margaritis Dimitrios (idea), Florian Roth (Nextron Systems), oscd.community, Nasreddine Bencherchali (Nextron Systems), Dave Johnson",
+  "date": "2019-01-16",
+  "tags": [
+    "attack.execution",
+    "attack.t1059.005",
+    "attack.t1059.007"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_exec": {
+      "Image|endswith": [
+        "\\wscript.exe",
+        "\\cscript.exe",
+        "\\mshta.exe"
+      ]
+    },
+    "selection_paths": {
+      "CommandLine|contains": [
+        ":\\Perflogs\\",
+        ":\\Temp\\",
+        ":\\Tmp\\",
+        ":\\Users\\Public\\",
+        ":\\Windows\\Temp\\",
+        "\\AppData\\Local\\Temp\\",
+        "\\AppData\\Roaming\\Temp\\",
+        "\\Start Menu\\Programs\\Startup\\",
+        "\\Temporary Internet",
+        "\\Windows\\Temp",
+        "%LocalAppData%\\Temp\\",
+        "%TEMP%",
+        "%TMP%"
+      ]
+    },
+    "selection_ext": {
+      "CommandLine|contains": [
+        ".hta",
+        ".js",
+        ".jse",
+        ".vba",
+        ".vbe",
+        ".vbs",
+        ".wsf",
+        ".wsh"
+      ]
+    },
+    "condition": "all of selection_*"
+  }
+}

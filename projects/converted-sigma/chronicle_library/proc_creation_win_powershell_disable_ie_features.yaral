@@ -1,0 +1,23 @@
+// Title: Disabled IE Security Features
+// ID: fb50eb7a-5ab1-43ae-bcc9-091818cb8424
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2020-06-19
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects command lines that indicate unwanted modifications to registry keys that disable important Internet Explorer security features
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule fb50eb7a_5ab1_43ae_bcc9_091818cb8424 {
+  meta:
+    title = "Disabled IE Security Features"
+    description = "Detects command lines that indicate unwanted modifications to registry keys that disable important Internet Explorer security features"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.* -name IEHarden .*/ nocase and $e.target.process.command_line = /.* -value 0 .*/ nocase)) or (($e.target.process.command_line = /.* -name DEPOff .*/ nocase and $e.target.process.command_line = /.* -value 1 .*/ nocase)) or (($e.target.process.command_line = /.* -name DisableFirstRunCustomize .*/ nocase and $e.target.process.command_line = /.* -value 2 .*/ nocase)))
+
+  condition:
+    $e
+}

@@ -1,0 +1,23 @@
+// Title: Creation of WerFault.exe/Wer.dll in Unusual Folder
+// ID: 28a452f3-786c-4fd8-b8f2-bddbe9d616d1
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-05-09
+// Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.stealth, attack.t1574.001
+// Description: Detects the creation of a file named "WerFault.exe" or "wer.dll" in an uncommon folder, which could be a sign of WerFault DLL hijacking.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 28a452f3_786c_4fd8_b8f2_bddbe9d616d1 {
+  meta:
+    title = "Creation of WerFault.exe/Wer.dll in Unusual Folder"
+    description = "Detects the creation of a file named "WerFault.exe" or "wer.dll" in an uncommon folder, which could be a sign of WerFault DLL hijacking."
+    author = "frack113"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.file.full_path = /.*\\WerFault.exe$/ nocase or $e.target.file.full_path = /.*\\wer.dll$/ nocase)) and not(((($e.target.file.full_path = /^C:\\Windows\\SoftwareDistribution\\.*/ nocase or $e.target.file.full_path = /^C:\\Windows\\System32\\.*/ nocase or $e.target.file.full_path = /^C:\\Windows\\SysWOW64\\.*/ nocase or $e.target.file.full_path = /^C:\\Windows\\WinSxS\\.*/ nocase or $e.target.file.full_path = /^C:\\Windows\\UUS\\.*/ nocase)) or ($e.target.process.file.full_path = /.*\\wuaucltcore.exe$/ nocase))))
+
+  condition:
+    $e
+}

@@ -1,0 +1,11 @@
+// Title: Potentially Suspicious Cabinet File Expansion
+// ID: 9f107a84-532c-41af-b005-8d12a607639f
+// Status: test
+// Level: medium
+// Author: Bhabesh Raj, X__Junior (Nextron Systems)
+// Date: 2021-07-30
+// Tags: attack.stealth, attack.t1218
+// Description: Detects the expansion or decompression of cabinet files from potentially suspicious or uncommon locations, e.g. seen in Iranian MeteorExpress related attacks
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE ((process.executable LIKE "%\\expand.exe" AND (process.command_line LIKE "%-F:%" OR process.command_line LIKE "%/F:%")) AND (((process.command_line LIKE "%:\\Perflogs\\%" OR process.command_line LIKE "%:\\ProgramData%" OR process.command_line LIKE "%:\\Users\\Public\\%" OR process.command_line LIKE "%:\\Windows\\Temp\\%" OR process.command_line LIKE "%\\Admin$\\%" OR process.command_line LIKE "%\\AppData\\Local\\Temp\\%" OR process.command_line LIKE "%\\AppData\\Roaming\\%" OR process.command_line LIKE "%\\C$\\%" OR process.command_line LIKE "%\\Temporary Internet%")) OR (((process.command_line LIKE "%:\\Users\\%" AND process.command_line LIKE "%\\Favorites\\%")) OR ((process.command_line LIKE "%:\\Users\\%" AND process.command_line LIKE "%\\Favourites\\%")) OR ((process.command_line LIKE "%:\\Users\\%" AND process.command_line LIKE "%\\Contacts\\%")))) AND NOT ((process.parent.executable == "C:\\Program Files (x86)\\Dell\\UpdateService\\ServiceShell.exe" AND process.command_line LIKE "%C:\\ProgramData\\Dell\\UpdateService\\Temp\\%")))

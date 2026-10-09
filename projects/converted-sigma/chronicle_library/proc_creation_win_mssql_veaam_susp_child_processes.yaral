@@ -1,0 +1,23 @@
+// Title: Suspicious Child Process Of Veeam Dabatase
+// ID: d55b793d-f847-4eea-b59a-5ab09908ac90
+// Status: test
+// Level: critical
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-05-04
+// Tags: attack.initial-access, attack.persistence, attack.privilege-escalation
+// Description: Detects suspicious child processes of the Veeam service process. This could indicate potential RCE or SQL Injection.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule d55b793d_f847_4eea_b59a_5ab09908ac90 {
+  meta:
+    title = "Suspicious Child Process Of Veeam Dabatase"
+    description = "Detects suspicious child processes of the Veeam service process. This could indicate potential RCE or SQL Injection."
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "CRITICAL"
+
+  events:
+    (($e.principal.process.file.full_path = /.*\\sqlservr.exe$/ nocase and $e.principal.process.command_line = /.*VEEAMSQL.*/ nocase) and ((($e.target.process.file.full_path = /.*\\cmd.exe$/ nocase or $e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase or $e.target.process.file.full_path = /.*\\wsl.exe$/ nocase or $e.target.process.file.full_path = /.*\\wt.exe$/ nocase) and ($e.target.process.command_line = /.*-ex .*/ nocase or $e.target.process.command_line = /.*bypass.*/ nocase or $e.target.process.command_line = /.*cscript.*/ nocase or $e.target.process.command_line = /.*DownloadString.*/ nocase or $e.target.process.command_line = /.*http://.*/ nocase or $e.target.process.command_line = /.*https://.*/ nocase or $e.target.process.command_line = /.*mshta.*/ nocase or $e.target.process.command_line = /.*regsvr32.*/ nocase or $e.target.process.command_line = /.*rundll32.*/ nocase or $e.target.process.command_line = /.*wscript.*/ nocase or $e.target.process.command_line = /.*copy .*/ nocase)) or (($e.target.process.file.full_path = /.*\\net.exe$/ nocase or $e.target.process.file.full_path = /.*\\net1.exe$/ nocase or $e.target.process.file.full_path = /.*\\netstat.exe$/ nocase or $e.target.process.file.full_path = /.*\\nltest.exe$/ nocase or $e.target.process.file.full_path = /.*\\ping.exe$/ nocase or $e.target.process.file.full_path = /.*\\tasklist.exe$/ nocase or $e.target.process.file.full_path = /.*\\whoami.exe$/ nocase))))
+
+  condition:
+    $e
+}

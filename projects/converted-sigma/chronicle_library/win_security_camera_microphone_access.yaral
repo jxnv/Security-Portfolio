@@ -1,0 +1,23 @@
+// Title: Processes Accessing the Microphone and Webcam
+// ID: 8cd538a4-62d5-4e83-810b-12d41e428d6e
+// Status: test
+// Level: medium
+// Author: Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research)
+// Date: 2020-06-07
+// Tags: attack.collection, attack.t1123
+// Description: Potential adversaries accessing the microphone and webcam in an endpoint.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 8cd538a4_62d5_4e83_810b_12d41e428d6e {
+  meta:
+    title = "Processes Accessing the Microphone and Webcam"
+    description = "Potential adversaries accessing the microphone and webcam in an endpoint."
+    author = "Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.EventID = 4657 or $e.EventID = 4656 or $e.EventID = 4663) and ($e.ObjectName = /.*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\CapabilityAccessManager\\ConsentStore\\microphone\\NonPackaged.*/ nocase or $e.ObjectName = /.*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\CapabilityAccessManager\\ConsentStore\\webcam\\NonPackaged.*/ nocase))
+
+  condition:
+    $e
+}

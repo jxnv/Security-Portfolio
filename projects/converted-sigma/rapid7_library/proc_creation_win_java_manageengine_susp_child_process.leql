@@ -1,0 +1,11 @@
+// Title: Suspicious Child Process Of Manage Engine ServiceDesk
+// ID: cea2b7ea-792b-405f-95a1-b903ea06458f
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2023-01-18
+// Tags: attack.command-and-control, attack.t1102
+// Description: Detects suspicious child processes of the "Manage Engine ServiceDesk Plus" Java web service
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(ParentImage ICONTAINS "\\ManageEngine\\ServiceDesk\\") AND where(ParentImage ICONTAINS "\\java.exe")) AND (where(Image IENDSWITH "\\AppVLP.exe") OR where(Image IENDSWITH "\\bash.exe") OR where(Image IENDSWITH "\\bitsadmin.exe") OR where(Image IENDSWITH "\\calc.exe") OR where(Image IENDSWITH "\\certutil.exe") OR where(Image IENDSWITH "\\cscript.exe") OR where(Image IENDSWITH "\\curl.exe") OR where(Image IENDSWITH "\\forfiles.exe") OR where(Image IENDSWITH "\\mftrace.exe") OR where(Image IENDSWITH "\\mshta.exe") OR where(Image IENDSWITH "\\net.exe") OR where(Image IENDSWITH "\\net1.exe") OR where(Image IENDSWITH "\\notepad.exe") OR where(Image IENDSWITH "\\powershell.exe") OR where(Image IENDSWITH "\\pwsh.exe") OR where(Image IENDSWITH "\\query.exe") OR where(Image IENDSWITH "\\reg.exe") OR where(Image IENDSWITH "\\schtasks.exe") OR where(Image IENDSWITH "\\scrcons.exe") OR where(Image IENDSWITH "\\sh.exe") OR where(Image IENDSWITH "\\systeminfo.exe") OR where(Image IENDSWITH "\\whoami.exe") OR where(Image IENDSWITH "\\wmic.exe") OR where(Image IENDSWITH "\\wscript.exe"))) AND NOT (((where(Image IENDSWITH "\\net.exe") OR where(Image IENDSWITH "\\net1.exe")) AND where(CommandLine ICONTAINS " stop"))))

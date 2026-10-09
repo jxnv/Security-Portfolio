@@ -1,0 +1,23 @@
+// Title: DotNET Assembly DLL Loaded Via Office Application
+// ID: ff0f2b05-09db-4095-b96d-1b75ca24894a
+// Status: test
+// Level: medium
+// Author: Antonlovesdnb
+// Date: 2020-02-19
+// Tags: attack.execution, attack.t1204.002
+// Description: Detects any assembly DLL being loaded by an Office Product
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule ff0f2b05_09db_4095_b96d_1b75ca24894a {
+  meta:
+    title = "DotNET Assembly DLL Loaded Via Office Application"
+    description = "Detects any assembly DLL being loaded by an Office Product"
+    author = "Antonlovesdnb"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.process.file.full_path = /.*\\excel.exe$/ nocase or $e.target.process.file.full_path = /.*\\mspub.exe$/ nocase or $e.target.process.file.full_path = /.*\\onenote.exe$/ nocase or $e.target.process.file.full_path = /.*\\onenoteim.exe$/ nocase or $e.target.process.file.full_path = /.*\\outlook.exe$/ nocase or $e.target.process.file.full_path = /.*\\powerpnt.exe$/ nocase or $e.target.process.file.full_path = /.*\\winword.exe$/ nocase) and $e.ImageLoaded = /^C:\\Windows\\assembly\\.*/ nocase)
+
+  condition:
+    $e
+}

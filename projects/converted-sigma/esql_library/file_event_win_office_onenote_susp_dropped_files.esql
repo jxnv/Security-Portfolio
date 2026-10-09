@@ -1,0 +1,11 @@
+// Title: Suspicious File Created Via OneNote Application
+// ID: fcc6d700-68d9-4241-9a1a-06874d621b06
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-02-09
+// Tags: attack.stealth
+// Description: Detects suspicious files created via the OneNote application. This could indicate a potential malicious ".one"/".onepkg" file was executed as seen being used in malware activity in the wild
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE ((process.executable LIKE "%\\onenote.exe" OR process.executable LIKE "%\\onenotem.exe" OR process.executable LIKE "%\\onenoteim.exe") AND file.path LIKE "%\\AppData\\Local\\Temp\\OneNote\\%" AND (file.path LIKE "%.bat" OR file.path LIKE "%.chm" OR file.path LIKE "%.cmd" OR file.path LIKE "%.dll" OR file.path LIKE "%.exe" OR file.path LIKE "%.hta" OR file.path LIKE "%.htm" OR file.path LIKE "%.html" OR file.path LIKE "%.js" OR file.path LIKE "%.lnk" OR file.path LIKE "%.ps1" OR file.path LIKE "%.vbe" OR file.path LIKE "%.vbs" OR file.path LIKE "%.wsf"))

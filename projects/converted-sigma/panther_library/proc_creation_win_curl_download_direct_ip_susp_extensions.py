@@ -1,0 +1,19 @@
+# Title: Suspicious File Download From IP Via Curl.EXE
+# ID: 5cb299fc-5fb1-4d07-b989-0644c68b6043
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2023-07-27
+# Tags: attack.execution
+# Description: Detects potentially suspicious file downloads directly from IP addresses using curl.exe
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Suspicious File Download From IP Via Curl.EXE
+def rule(event):
+    # Detection Logic:
+    # (((CommandLine="*.bat" OR CommandLine="*.bat\"" OR CommandLine="*.dat" OR CommandLine="*.dat\"" OR CommandLine="*.dll" OR CommandLine="*.dll\"" OR CommandLine="*.exe" OR CommandLine="*.exe\"" OR CommandLine="*.gif" OR CommandLine="*.gif\"" OR CommandLine="*.hta" OR CommandLine="*.hta\"" OR CommandLine="*.jpeg" OR CommandLine="*.jpeg\"" OR CommandLine="*.log" OR CommandLine="*.log\"" OR CommandLine="*.msi" OR CommandLine="*.msi\"" OR CommandLine="*.png" OR CommandLine="*.png\"" OR CommandLine="*.ps1" OR CommandLine="*.ps1\"" OR CommandLine="*.psm1" OR CommandLine="*.psm1\"" OR CommandLine="*.vbe" OR CommandLine="*.vbe\"" OR CommandLine="*.vbs" OR CommandLine="*.vbs\"" OR CommandLine="*.bat'" OR CommandLine="*.dat'" OR CommandLine="*.dll'" OR CommandLine="*.exe'" OR CommandLine="*.gif'" OR CommandLine="*.hta'" OR CommandLine="*.jpeg'" OR CommandLine="*.log'" OR CommandLine="*.msi'" OR CommandLine="*.png'" OR CommandLine="*.ps1'" OR CommandLine="*.psm1'" OR CommandLine="*.vbe'" OR CommandLine="*.vbs'")) AND ((CommandLine="* -O*" OR CommandLine="*--remote-name*" OR CommandLine="*--output*")) AND (CommandLine="*http*") AND ((Image="*\\curl.exe") OR (OriginalFileName="curl.exe")) AND (CommandLine=regex("://[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}")))
+    return True
+
+def title(event):
+    return "Suspicious File Download From IP Via Curl.EXE"
+

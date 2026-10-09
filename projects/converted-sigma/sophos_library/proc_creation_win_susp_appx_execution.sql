@@ -1,0 +1,11 @@
+-- Title: Potentially Suspicious Windows App Activity
+-- ID: f91ed517-a6ba-471d-9910-b3b4a398c0f3
+-- Status: test
+-- Level: medium
+-- Author: Nasreddine Bencherchali (Nextron Systems)
+-- Date: 2023-01-12
+-- Tags: attack.stealth
+-- Description: Detects potentially suspicious child process of applications launched from inside the WindowsApps directory. This could be a sign of a rogue ".appx" package installation/execution
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE ((ParentImage ILIKE '%C:\\Program Files\\WindowsApps\\%') AND (((CommandLine ILIKE '%cmd /c%' OR CommandLine ILIKE '%Invoke-%' OR CommandLine ILIKE '%Base64%')) OR ((Image ILIKE '%\\cmd.exe' OR Image ILIKE '%\\cscript.exe' OR Image ILIKE '%\\mshta.exe' OR Image ILIKE '%\\powershell.exe' OR Image ILIKE '%\\powershell_ise.exe' OR Image ILIKE '%\\pwsh.exe' OR Image ILIKE '%\\regsvr32.exe' OR Image ILIKE '%\\rundll32.exe' OR Image ILIKE '%\\wscript.exe'))) AND NOT (((ParentImage ILIKE 'C:\\Program Files\\WindowsApps\\Microsoft.SysinternalsSuite%' AND Image ILIKE '%\\cmd.exe') OR (ParentImage ILIKE '%:\\Program Files\\WindowsApps\\Microsoft.WindowsTerminal%' AND ParentImage ILIKE '%\\WindowsTerminal.exe' AND (Image ILIKE '%\\powershell.exe' OR Image ILIKE '%\\cmd.exe' OR Image ILIKE '%\\pwsh.exe')))))

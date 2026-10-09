@@ -1,0 +1,23 @@
+// Title: Visual Studio Code Tunnel Remote File Creation
+// ID: 56e05d41-ce99-4ecd-912d-93f019ee0b71
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-10-25
+// Tags: attack.command-and-control
+// Description: Detects the creation of file by the "node.exe" process in the ".vscode-server" directory. Could be a sign of remote file creation via VsCode tunnel feature
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 56e05d41_ce99_4ecd_912d_93f019ee0b71 {
+  meta:
+    title = "Visual Studio Code Tunnel Remote File Creation"
+    description = "Detects the creation of file by the "node.exe" process in the ".vscode-server" directory. Could be a sign of remote file creation via VsCode tunnel feature"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ($e.target.process.file.full_path = /.*\\servers\\Stable-.*/ nocase and $e.target.process.file.full_path = /.*\\server\\node.exe$/ nocase and $e.target.file.full_path = /.*\\.vscode-server\\data\\User\\History\\.*/ nocase)
+
+  condition:
+    $e
+}

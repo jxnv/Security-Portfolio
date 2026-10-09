@@ -1,0 +1,19 @@
+# Title: Potential DLL File Download Via PowerShell Invoke-WebRequest
+# ID: 0f0450f3-8b47-441e-a31b-15a91dc243e2
+# Status: test
+# Level: medium
+# Author: Florian Roth (Nextron Systems), Hieu Tran
+# Date: 2023-03-13
+# Tags: attack.command-and-control, attack.execution, attack.t1059.001, attack.t1105
+# Description: Detects potential DLL files being downloaded using the PowerShell Invoke-WebRequest or Invoke-RestMethod cmdlets.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Potential DLL File Download Via PowerShell Invoke-WebRequest
+def rule(event):
+    # Detection Logic:
+    # ((CommandLine="*Invoke-RestMethod *" OR CommandLine="*Invoke-WebRequest *" OR CommandLine="*IRM *" OR CommandLine="*IWR *") AND (CommandLine="*http*" AND CommandLine="*OutFile*" AND CommandLine="*.dll*"))
+    return True
+
+def title(event):
+    return "Potential DLL File Download Via PowerShell Invoke-WebRequest"
+

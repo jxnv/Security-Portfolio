@@ -1,0 +1,11 @@
+// Title: Uncommon Outbound Kerberos Connection - Security
+// ID: eca91c7c-9214-47b9-b4c5-cb1d7e4f2350
+// Status: test
+// Level: medium
+// Author: Ilyas Ochkov, oscd.community
+// Date: 2019-10-24
+// Tags: attack.lateral-movement, attack.credential-access, attack.t1558.003
+// Description: Detects uncommon outbound network activity via Kerberos default port indicating possible lateral movement or first stage PrivEsc via delegation.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE ((winlog.event_id == 5156 AND DestPort == 88) AND NOT (((Application LIKE "\\device\\harddiskvolume%" OR Application LIKE "C:%") AND Application LIKE "%\\Windows\\System32\\lsass.exe")) AND NOT ((((Application LIKE "\\device\\harddiskvolume%" OR Application LIKE "C:%") AND (Application LIKE "%\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe" OR Application LIKE "%\\Program Files\\Google\\Chrome\\Application\\chrome.exe")) OR ((Application LIKE "\\device\\harddiskvolume%" OR Application LIKE "C:%") AND (Application LIKE "%\\Program Files (x86)\\Mozilla Firefox\\firefox.exe" OR Application LIKE "%\\Program Files\\Mozilla Firefox\\firefox.exe")) OR (Application LIKE "%\\tomcat\\bin\\tomcat8.exe"))))

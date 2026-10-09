@@ -1,0 +1,12 @@
+// Title: Remote Access Tool - MeshAgent Command Execution via MeshCentral
+// ID: 74a2b202-73e0-4693-9a3a-9d36146d0775
+// Status: test
+// Level: medium
+// Author: @Kostastsale
+// Date: 2024-09-22
+// Tags: attack.command-and-control, attack.t1219.002
+// Description: Detects the use of MeshAgent to execute commands on the target host, particularly when threat actors might abuse it to execute commands directly.
+// MeshAgent can execute commands on the target host by leveraging win-console to obscure their activities and win-dispatcher to run malicious code through IPC with child processes.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(ParentImage ENDSWITH "\\meshagent.exe" AND (Image ENDSWITH "\\cmd.exe" OR Image ENDSWITH "\\powershell.exe" OR Image ENDSWITH "\\pwsh.exe"))

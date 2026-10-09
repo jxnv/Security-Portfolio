@@ -1,0 +1,11 @@
+// Title: Linux Crypto Mining Indicators
+// ID: 9069ea3c-b213-4c52-be13-86506a227ab1
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2021-10-26
+// Tags: attack.impact, attack.t1496
+// Description: Detects command line parameters or strings often used by crypto miners
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((CommandLine contains " --cpu-priority=" OR CommandLine contains "--donate-level=0" OR CommandLine contains " -o pool." OR CommandLine contains " --nicehash" OR CommandLine contains " --algo=rx/0 " OR CommandLine contains "stratum+tcp://" OR CommandLine contains "stratum+udp://" OR CommandLine contains "sh -c /sbin/modprobe msr allow_writes=on" OR CommandLine contains "LS1kb25hdGUtbGV2ZWw9" OR CommandLine contains "0tZG9uYXRlLWxldmVsP" OR CommandLine contains "tLWRvbmF0ZS1sZXZlbD" OR CommandLine contains "c3RyYXR1bSt0Y3A6Ly" OR CommandLine contains "N0cmF0dW0rdGNwOi8v" OR CommandLine contains "zdHJhdHVtK3RjcDovL" OR CommandLine contains "c3RyYXR1bSt1ZHA6Ly" OR CommandLine contains "N0cmF0dW0rdWRwOi8v" OR CommandLine contains "zdHJhdHVtK3VkcDovL"))

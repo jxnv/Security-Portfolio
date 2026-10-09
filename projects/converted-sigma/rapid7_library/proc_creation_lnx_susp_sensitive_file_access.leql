@@ -1,0 +1,13 @@
+// Title: Potential Suspicious Change To Sensitive/Critical Files
+// ID: 86157017-c2b1-4d4a-8c33-93b8e67e4af4
+// Status: test
+// Level: medium
+// Author: @d4ns4n_ (Wuerth-Phoenix)
+// Date: 2023-05-30
+// Tags: attack.impact, attack.t1565.001
+// Description: Detects changes of sensitive and critical files. Monitors files that you don't expect to change without planning on Linux system.
+// These files include, but are not limited to, system configuration files, authentication files, and critical application files.
+// Attackers often target these files to maintain persistence, escalate privileges, or disrupt system operations.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((where(Image IENDSWITH "/cat") OR where(Image IENDSWITH "/echo") OR where(Image IENDSWITH "/grep") OR where(Image IENDSWITH "/head") OR where(Image IENDSWITH "/more") OR where(Image IENDSWITH "/tail")) AND where(CommandLine ICONTAINS ">")) OR ((where(Image IENDSWITH "/emacs") OR where(Image IENDSWITH "/nano") OR where(Image IENDSWITH "/sed") OR where(Image IENDSWITH "/vi") OR where(Image IENDSWITH "/vim")))) AND ((where(CommandLine ICONTAINS "/bin/login") OR where(CommandLine ICONTAINS "/bin/passwd") OR where(CommandLine ICONTAINS "/boot/") OR where(CommandLine ICONTAINS "/etc/*.conf") OR where(CommandLine ICONTAINS "/etc/cron.") OR where(CommandLine ICONTAINS "/etc/crontab") OR where(CommandLine ICONTAINS "/etc/hosts") OR where(CommandLine ICONTAINS "/etc/init.d") OR where(CommandLine ICONTAINS "/etc/sudoers") OR where(CommandLine ICONTAINS "/opt/bin/") OR where(CommandLine ICONTAINS "/sbin") OR where(CommandLine ICONTAINS "/usr/bin/") OR where(CommandLine ICONTAINS "/usr/local/bin/"))) AND NOT (1=1))

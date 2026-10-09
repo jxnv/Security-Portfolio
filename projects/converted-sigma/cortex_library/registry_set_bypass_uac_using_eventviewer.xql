@@ -1,0 +1,11 @@
+// Title: Bypass UAC Using Event Viewer
+// ID: 674202d0-b22a-4af4-ae5f-2eda1f3da1af
+// Status: test
+// Level: high
+// Author: frack113
+// Date: 2022-01-05
+// Tags: attack.privilege-escalation, attack.persistence, attack.t1547.010
+// Description: Bypasses User Account Control using Event Viewer and a relevant Windows Registry modification
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter ((TargetObject endswith "_Classes\\mscfile\\shell\\open\\command\\(Default)") and not ((Details startswith "%SystemRoot%\\system32\\mmc.exe \"%1\" %")))

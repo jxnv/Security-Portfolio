@@ -1,0 +1,23 @@
+// Title: Invoke-Obfuscation Via Use Rundll32 - System
+// ID: 641a4bfb-c017-44f7-800c-2aee0184ce9b
+// Status: test
+// Level: high
+// Author: Nikita Nazarov, oscd.community
+// Date: 2020-10-09
+// Tags: attack.stealth, attack.t1027, attack.execution, attack.t1059.001
+// Description: Detects Obfuscated Powershell via use Rundll32 in Scripts
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 641a4bfb_c017_44f7_800c_2aee0184ce9b {
+  meta:
+    title = "Invoke-Obfuscation Via Use Rundll32 - System"
+    description = "Detects Obfuscated Powershell via use Rundll32 in Scripts"
+    author = "Nikita Nazarov, oscd.community"
+    severity = "HIGH"
+
+  events:
+    ($e.Provider_Name = "Service Control Manager" and $e.EventID = 7045 and ($e.ImagePath = /.*&&.*/ nocase and $e.ImagePath = /.*rundll32.*/ nocase and $e.ImagePath = /.*shell32.dll.*/ nocase and $e.ImagePath = /.*shellexec_rundll.*/ nocase) and ($e.ImagePath = /.*value.*/ nocase or $e.ImagePath = /.*invoke.*/ nocase or $e.ImagePath = /.*comspec.*/ nocase or $e.ImagePath = /.*iex.*/ nocase))
+
+  condition:
+    $e
+}

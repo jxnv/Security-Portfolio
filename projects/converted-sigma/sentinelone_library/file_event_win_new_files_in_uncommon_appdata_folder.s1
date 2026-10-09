@@ -1,0 +1,11 @@
+// Title: Suspicious File Creation In Uncommon AppData Folder
+// ID: d7b50671-d1ad-4871-aa60-5aa5b331fe04
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-05
+// Tags: attack.execution, attack.stealth
+// Description: Detects the creation of suspicious files and folders inside the user's AppData folder but not inside any of the common and well known directories (Local, Romaing, LocalLow). This method could be used as a method to bypass detection who exclude the AppData folder in fear of FPs
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((tgt.file.path startswithCIS "C:\\Users\\" AND tgt.file.path containsCIS "\\AppData\\" AND (tgt.file.path endswithCIS ".bat" OR tgt.file.path endswithCIS ".cmd" OR tgt.file.path endswithCIS ".cpl" OR tgt.file.path endswithCIS ".dll" OR tgt.file.path endswithCIS ".exe" OR tgt.file.path endswithCIS ".hta" OR tgt.file.path endswithCIS ".iso" OR tgt.file.path endswithCIS ".lnk" OR tgt.file.path endswithCIS ".msi" OR tgt.file.path endswithCIS ".ps1" OR tgt.file.path endswithCIS ".psm1" OR tgt.file.path endswithCIS ".scr" OR tgt.file.path endswithCIS ".vbe" OR tgt.file.path endswithCIS ".vbs")) AND NOT ((tgt.file.path startswithCIS "C:\\Users\\" AND (tgt.file.path containsCIS "\\AppData\\Local\\" OR tgt.file.path containsCIS "\\AppData\\LocalLow\\" OR tgt.file.path containsCIS "\\AppData\\Roaming\\"))))

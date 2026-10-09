@@ -1,0 +1,11 @@
+// Title: Service DACL Abuse To Hide Services Via Sc.EXE
+// ID: a537cfc3-4297-4789-92b5-345bfd845ad0
+// Status: test
+// Level: high
+// Author: Andreas Hunkeler (@Karneades)
+// Date: 2021-12-20
+// Tags: attack.persistence, attack.privilege-escalation, attack.execution, attack.stealth, attack.t1574.011
+// Description: Detects usage of the "sc.exe" utility adding a new service with special permission seen used by threat actors which makes the service hidden and unremovable.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter (((action_process_image_command_line contains "sdset" and action_process_image_command_line contains "DCLCWPDTSD")) and ((action_process_image_path endswith "\\sc.exe") or (action_process_image_name = "sc.exe")))

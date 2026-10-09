@@ -1,0 +1,19 @@
+# Title: Discovery of a System Time
+# ID: b243b280-65fe-48df-ba07-6ddea7646427
+# Status: test
+# Level: low
+# Author: E.M. Anhaus (originally from Atomic Blue Detections, Endgame), oscd.community
+# Date: 2019-10-24
+# Tags: attack.discovery, attack.t1124
+# Description: Identifies use of various commands to query a systems time. This technique may be used before executing a scheduled task or to discover the time zone of a target system.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Discovery of a System Time
+def rule(event):
+    # Detection Logic:
+    # (((Image="*\\net.exe" OR Image="*\\net1.exe") AND CommandLine="*time*") OR (Image="*\\w32tm.exe" AND CommandLine="*tz*"))
+    return True
+
+def title(event):
+    return "Discovery of a System Time"
+

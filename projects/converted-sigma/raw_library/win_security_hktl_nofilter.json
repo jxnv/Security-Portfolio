@@ -1,0 +1,31 @@
+{
+  "title": "HackTool - NoFilter Execution",
+  "id": "7b14c76a-c602-4ae6-9717-eff868153fc0",
+  "status": "test",
+  "description": "Detects execution of NoFilter, a tool for abusing the Windows Filtering Platform for privilege escalation via hardcoded policy name indicators\n",
+  "author": "Stamatis Chatzimangou (st0pp3r)",
+  "date": "2024-01-05",
+  "tags": [
+    "attack.privilege-escalation",
+    "attack.stealth",
+    "attack.t1134",
+    "attack.t1134.001"
+  ],
+  "level": "high",
+  "logsource": {
+    "product": "windows",
+    "service": "security",
+    "definition": "Requirements: Audit Filtering Platform Policy Change needs to be enabled"
+  },
+  "detection": {
+    "selection_5447": {
+      "EventID": 5447,
+      "FilterName|contains": "RonPolicy"
+    },
+    "selection_5449": {
+      "EventID": 5449,
+      "ProviderContextName|contains": "RonPolicy"
+    },
+    "condition": "1 of selection_*"
+  }
+}

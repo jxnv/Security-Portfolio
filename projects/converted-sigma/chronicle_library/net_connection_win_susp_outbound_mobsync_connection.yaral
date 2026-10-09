@@ -1,0 +1,23 @@
+// Title: Microsoft Sync Center Suspicious Network Connections
+// ID: 9f2cc74d-78af-4eb2-bb64-9cd1d292b87b
+// Status: test
+// Level: medium
+// Author: elhoim
+// Date: 2022-04-28
+// Tags: attack.privilege-escalation, attack.stealth, attack.t1055, attack.t1218, attack.execution
+// Description: Detects suspicious connections from Microsoft Sync Center to non-private IPs.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 9f2cc74d_78af_4eb2_bb64_9cd1d292b87b {
+  meta:
+    title = "Microsoft Sync Center Suspicious Network Connections"
+    description = "Detects suspicious connections from Microsoft Sync Center to non-private IPs."
+    author = "elhoim"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.process.file.full_path = /.*\\mobsync.exe$/ nocase) and not(((net.ip_in_range_cidr($e.target.ip, "127.0.0.0/8") or net.ip_in_range_cidr($e.target.ip, "10.0.0.0/8") or net.ip_in_range_cidr($e.target.ip, "172.16.0.0/12") or net.ip_in_range_cidr($e.target.ip, "192.168.0.0/16") or net.ip_in_range_cidr($e.target.ip, "169.254.0.0/16") or net.ip_in_range_cidr($e.target.ip, "::1/128") or net.ip_in_range_cidr($e.target.ip, "fe80::/10") or net.ip_in_range_cidr($e.target.ip, "fc00::/7")))))
+
+  condition:
+    $e
+}

@@ -1,0 +1,23 @@
+// Title: Disable Security Tools
+// ID: ff39f1a6-84ac-476f-a1af-37fcdf53d7c0
+// Status: test
+// Level: medium
+// Author: Daniil Yugoslavskiy, oscd.community
+// Date: 2020-10-19
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects disabling security tools
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule ff39f1a6_84ac_476f_a1af_37fcdf53d7c0 {
+  meta:
+    title = "Disable Security Tools"
+    description = "Detects disabling security tools"
+    author = "Daniil Yugoslavskiy, oscd.community"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.file.full_path = "/bin/launchctl" and $e.target.process.command_line = /.*unload.*/ nocase) and (($e.target.process.command_line = /.*com.objective-see.lulu.plist.*/ nocase or $e.target.process.command_line = /.*com.objective-see.blockblock.plist.*/ nocase or $e.target.process.command_line = /.*com.google.santad.plist.*/ nocase or $e.target.process.command_line = /.*com.carbonblack.defense.daemon.plist.*/ nocase or $e.target.process.command_line = /.*com.carbonblack.daemon.plist.*/ nocase or $e.target.process.command_line = /.*at.obdev.littlesnitchd.plist.*/ nocase or $e.target.process.command_line = /.*com.tenablesecurity.nessusagent.plist.*/ nocase or $e.target.process.command_line = /.*com.opendns.osx.RoamingClientConfigUpdater.plist.*/ nocase or $e.target.process.command_line = /.*com.crowdstrike.falcond.plist.*/ nocase or $e.target.process.command_line = /.*com.crowdstrike.userdaemon.plist.*/ nocase or $e.target.process.command_line = /.*osquery.*/ nocase or $e.target.process.command_line = /.*filebeat.*/ nocase or $e.target.process.command_line = /.*auditbeat.*/ nocase or $e.target.process.command_line = /.*packetbeat.*/ nocase or $e.target.process.command_line = /.*td-agent.*/ nocase))) or ($e.target.process.file.full_path = "/usr/sbin/spctl" and $e.target.process.command_line = /.*disable.*/ nocase))
+
+  condition:
+    $e
+}

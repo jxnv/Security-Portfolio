@@ -1,0 +1,23 @@
+// Title: Potential RDP Session Hijacking Activity
+// ID: 224f140f-3553-4cd1-af78-13d81bf9f7cc
+// Status: test
+// Level: medium
+// Author: @juju4
+// Date: 2022-12-27
+// Tags: attack.execution
+// Description: Detects potential RDP Session Hijacking activity on Windows systems
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 224f140f_3553_4cd1_af78_13d81bf9f7cc {
+  meta:
+    title = "Potential RDP Session Hijacking Activity"
+    description = "Detects potential RDP Session Hijacking activity on Windows systems"
+    author = "@juju4"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.file.full_path = /.*\\tscon.exe$/ nocase) or ($e.target.process.file.name = "tscon.exe")) and (($e.IntegrityLevel = "System" or $e.IntegrityLevel = "S-1-16-16384")))
+
+  condition:
+    $e
+}

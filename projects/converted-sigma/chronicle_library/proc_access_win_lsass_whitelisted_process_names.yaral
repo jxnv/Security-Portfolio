@@ -1,0 +1,23 @@
+// Title: LSASS Access From Potentially White-Listed Processes
+// ID: 4be8b654-0c01-4c9d-a10c-6b28467fc651
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-02-10
+// Tags: attack.credential-access, attack.t1003.001, attack.s0002
+// Description: Detects a possible process memory dump that uses a white-listed filename like TrolleyExpress.exe as a way to dump the LSASS process memory without Microsoft Defender interference
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 4be8b654_0c01_4c9d_a10c_6b28467fc651 {
+  meta:
+    title = "LSASS Access From Potentially White-Listed Processes"
+    description = "Detects a possible process memory dump that uses a white-listed filename like TrolleyExpress.exe as a way to dump the LSASS process memory without Microsoft Defender interference"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ($e.TargetImage = /.*\\lsass.exe$/ nocase and ($e.SourceImage = /.*\\TrolleyExpress.exe$/ nocase or $e.SourceImage = /.*\\ProcessDump.exe$/ nocase or $e.SourceImage = /.*\\dump64.exe$/ nocase) and ($e.GrantedAccess = /.*10$/ nocase or $e.GrantedAccess = /.*30$/ nocase or $e.GrantedAccess = /.*50$/ nocase or $e.GrantedAccess = /.*70$/ nocase or $e.GrantedAccess = /.*90$/ nocase or $e.GrantedAccess = /.*B0$/ nocase or $e.GrantedAccess = /.*D0$/ nocase or $e.GrantedAccess = /.*F0$/ nocase or $e.GrantedAccess = /.*18$/ nocase or $e.GrantedAccess = /.*38$/ nocase or $e.GrantedAccess = /.*58$/ nocase or $e.GrantedAccess = /.*78$/ nocase or $e.GrantedAccess = /.*98$/ nocase or $e.GrantedAccess = /.*B8$/ nocase or $e.GrantedAccess = /.*D8$/ nocase or $e.GrantedAccess = /.*F8$/ nocase or $e.GrantedAccess = /.*1A$/ nocase or $e.GrantedAccess = /.*3A$/ nocase or $e.GrantedAccess = /.*5A$/ nocase or $e.GrantedAccess = /.*7A$/ nocase or $e.GrantedAccess = /.*9A$/ nocase or $e.GrantedAccess = /.*BA$/ nocase or $e.GrantedAccess = /.*DA$/ nocase or $e.GrantedAccess = /.*FA$/ nocase or $e.GrantedAccess = /.*0x14C2$/ nocase or $e.GrantedAccess = /.*FF$/ nocase))
+
+  condition:
+    $e
+}

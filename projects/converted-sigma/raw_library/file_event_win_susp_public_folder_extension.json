@@ -1,0 +1,33 @@
+{
+  "title": "Suspicious Binaries and Scripts in Public Folder",
+  "id": "b447f7de-1e53-4cbf-bfb4-f1f6d0b04e4e",
+  "status": "experimental",
+  "description": "Detects the creation of a file with a suspicious extension in the public folder, which could indicate potential malicious activity.",
+  "author": "The DFIR Report",
+  "date": "2025-01-23",
+  "tags": [
+    "attack.execution",
+    "attack.t1204"
+  ],
+  "level": "high",
+  "logsource": {
+    "category": "file_event",
+    "product": "windows"
+  },
+  "detection": {
+    "selection": {
+      "TargetFilename|contains": ":\\Users\\Public\\",
+      "TargetFilename|endswith": [
+        ".bat",
+        ".dll",
+        ".exe",
+        ".hta",
+        ".js",
+        ".ps1",
+        ".vbe",
+        ".vbs"
+      ]
+    },
+    "condition": "selection"
+  }
+}

@@ -1,0 +1,11 @@
+# Title: PUA - NSudo Execution
+# ID: 771d1eb5-9587-4568-95fb-9ec44153a012
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali
+# Date: 2022-01-24
+# Tags: attack.execution, attack.t1569.002, attack.s0029
+# Description: Detects the use of NSudo tool for command execution
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog (((process_exec="*-U:S *" OR process_exec="*-U:T *" OR process_exec="*-U:E *" OR process_exec="*-P:E *" OR process_exec="*-M:S *" OR process_exec="*-M:H *" OR process_exec="*-U=S *" OR process_exec="*-U=T *" OR process_exec="*-U=E *" OR process_exec="*-P=E *" OR process_exec="*-M=S *" OR process_exec="*-M=H *" OR process_exec="*-ShowWindowMode:Hide*")) AND (((process_path="*\\NSudo.exe" OR process_path="*\\NSudoLC.exe" OR process_path="*\\NSudoLG.exe")) OR ((process_name="NSudo.exe" OR process_name="NSudoLC.exe" OR process_name="NSudoLG.exe"))))

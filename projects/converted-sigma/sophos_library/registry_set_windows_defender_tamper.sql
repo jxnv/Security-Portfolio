@@ -1,0 +1,11 @@
+-- Title: Disable Windows Defender Functionalities Via Registry Keys
+-- ID: 0eb46774-f1ab-4a74-8238-1155855f2263
+-- Status: test
+-- Level: high
+-- Author: AlertIQ, Ján Trenčanský, frack113, Nasreddine Bencherchali, Swachchhanda Shrawan Poudel
+-- Date: 2022-08-01
+-- Tags: attack.defense-impairment, attack.t1685
+-- Description: Detects when attackers or tools disable Windows Defender functionalities via the Windows registry
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE (((TargetObject ILIKE '%\\SOFTWARE\\Microsoft\\Windows Defender\\%' OR TargetObject ILIKE '%\\SOFTWARE\\Policies\\Microsoft\\Windows Defender Security Center\\%' OR TargetObject ILIKE '%\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\%')) AND (((TargetObject ILIKE '%\\DisallowExploitProtectionOverride' OR TargetObject ILIKE '%\\Features\\TamperProtection' OR TargetObject ILIKE '%\\MpEngine\\MpEnablePus' OR TargetObject ILIKE '%\\PUAProtection' OR TargetObject ILIKE '%\\Signature Update\\ForceUpdateFromMU' OR TargetObject ILIKE '%\\SpyNet\\SpynetReporting' OR TargetObject ILIKE '%\\SpyNet\\SubmitSamplesConsent' OR TargetObject ILIKE '%\\Windows Defender Exploit Guard\\Controlled Folder Access\\EnableControlledFolderAccess') AND Details = 'DWORD (0x00000000)') OR ((TargetObject ILIKE '%\\DisableAntiSpyware' OR TargetObject ILIKE '%\\DisableAntiVirus' OR TargetObject ILIKE '%\\DisableBehaviorMonitoring' OR TargetObject ILIKE '%\\DisableBlockAtFirstSeen' OR TargetObject ILIKE '%\\DisableEnhancedNotifications' OR TargetObject ILIKE '%\\DisableIntrusionPreventionSystem' OR TargetObject ILIKE '%\\DisableIOAVProtection' OR TargetObject ILIKE '%\\DisableOnAccessProtection' OR TargetObject ILIKE '%\\DisableRealtimeMonitoring' OR TargetObject ILIKE '%\\DisableScanOnRealtimeEnable' OR TargetObject ILIKE '%\\DisableScriptScanning') AND Details = 'DWORD (0x00000001)')) AND NOT ((Image ILIKE 'C:\\Program Files\\Symantec\\Symantec Endpoint Protection\\%' AND Image ILIKE '%\\sepWscSvc64.exe')))

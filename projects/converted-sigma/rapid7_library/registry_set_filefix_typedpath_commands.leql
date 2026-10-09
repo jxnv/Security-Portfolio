@@ -1,0 +1,11 @@
+// Title: FileFix - Command Evidence in TypedPaths
+// ID: 4fee3d51-8069-4a4c-a0f7-924fcaff2c70
+// Status: experimental
+// Level: high
+// Author: Alfie Champion (delivr.to), Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-07-05
+// Tags: attack.execution, attack.t1204.004
+// Description: Detects commonly-used chained commands and strings in the most recent 'url' value of the 'TypedPaths' key, which could be indicative of a user being targeted by the FileFix technique.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((where(TargetObject IENDSWITH "\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\TypedPaths\\url1") AND (where(Details ICONTAINS "#") AND where(Details ICONTAINS "http"))) AND (((where(Details ICONTAINS "account") OR where(Details ICONTAINS "anti-bot") OR where(Details ICONTAINS "botcheck") OR where(Details ICONTAINS "captcha") OR where(Details ICONTAINS "challenge") OR where(Details ICONTAINS "confirmation") OR where(Details ICONTAINS "fraud") OR where(Details ICONTAINS "human") OR where(Details ICONTAINS "identification") OR where(Details ICONTAINS "identificator") OR where(Details ICONTAINS "identity") OR where(Details ICONTAINS "robot") OR where(Details ICONTAINS "validation") OR where(Details ICONTAINS "verification") OR where(Details ICONTAINS "verify"))) OR ((where(Details ICONTAINS "%comspec%") OR where(Details ICONTAINS "bitsadmin") OR where(Details ICONTAINS "certutil") OR where(Details ICONTAINS "cmd") OR where(Details ICONTAINS "cscript") OR where(Details ICONTAINS "curl") OR where(Details ICONTAINS "finger") OR where(Details ICONTAINS "mshta") OR where(Details ICONTAINS "powershell") OR where(Details ICONTAINS "pwsh") OR where(Details ICONTAINS "regsvr32") OR where(Details ICONTAINS "rundll32") OR where(Details ICONTAINS "schtasks") OR where(Details ICONTAINS "wget") OR where(Details ICONTAINS "wscript")))))

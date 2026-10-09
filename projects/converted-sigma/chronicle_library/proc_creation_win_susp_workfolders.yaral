@@ -1,0 +1,23 @@
+// Title: Execution via WorkFolders.exe
+// ID: 0bbc6369-43e3-453d-9944-cae58821c173
+// Status: test
+// Level: high
+// Author: Maxime Thiebaut (@0xThiebaut)
+// Date: 2021-10-21
+// Tags: attack.stealth, attack.t1218
+// Description: Detects using WorkFolders.exe to execute an arbitrary control.exe
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 0bbc6369_43e3_453d_9944_cae58821c173 {
+  meta:
+    title = "Execution via WorkFolders.exe"
+    description = "Detects using WorkFolders.exe to execute an arbitrary control.exe"
+    author = "Maxime Thiebaut (@0xThiebaut)"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.file.full_path = /.*\\control.exe$/ nocase and $e.principal.process.file.full_path = /.*\\WorkFolders.exe$/ nocase) and not(($e.target.process.file.full_path = "C:\\Windows\\System32\\control.exe")))
+
+  condition:
+    $e
+}

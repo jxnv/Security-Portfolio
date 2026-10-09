@@ -1,0 +1,23 @@
+// Title: Suspicious File Creation Activity From Fake Recycle.Bin Folder
+// ID: cd8b36ac-8e4a-4c2f-a402-a29b8fbd5bca
+// Status: test
+// Level: high
+// Author: X__Junior (Nextron Systems)
+// Date: 2023-07-12
+// Tags: attack.persistence, attack.stealth
+// Description: Detects file write event from/to a fake recycle bin folder that is often used as a staging directory for malware
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule cd8b36ac_8e4a_4c2f_a402_a29b8fbd5bca {
+  meta:
+    title = "Suspicious File Creation Activity From Fake Recycle.Bin Folder"
+    description = "Detects file write event from/to a fake recycle bin folder that is often used as a staging directory for malware"
+    author = "X__Junior (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.file.full_path = /.*RECYCLERS.BIN\\.*/ nocase or $e.target.process.file.full_path = /.*RECYCLER.BIN\\.*/ nocase)) or (($e.target.file.full_path = /.*RECYCLERS.BIN\\.*/ nocase or $e.target.file.full_path = /.*RECYCLER.BIN\\.*/ nocase)))
+
+  condition:
+    $e
+}

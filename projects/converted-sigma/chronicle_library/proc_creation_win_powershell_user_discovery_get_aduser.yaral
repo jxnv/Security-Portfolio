@@ -1,0 +1,23 @@
+// Title: User Discovery And Export Via Get-ADUser Cmdlet
+// ID: 1114e048-b69c-4f41-bc20-657245ae6e3f
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-09-09
+// Tags: attack.discovery, attack.t1033
+// Description: Detects usage of the Get-ADUser cmdlet to collect user information and output it to a file
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 1114e048_b69c_4f41_bc20_657245ae6e3f {
+  meta:
+    title = "User Discovery And Export Via Get-ADUser Cmdlet"
+    description = "Detects usage of the Get-ADUser cmdlet to collect user information and output it to a file"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.command_line = /.*Get-ADUser .*/ nocase and $e.target.process.command_line = /.* -Filter \\*.*/ nocase) and ($e.target.process.command_line = /.* > .*/ nocase or $e.target.process.command_line = /.* | Select .*/ nocase or $e.target.process.command_line = /.*Out-File.*/ nocase or $e.target.process.command_line = /.*Set-Content.*/ nocase or $e.target.process.command_line = /.*Add-Content.*/ nocase)) and ((($e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase)) or (($e.target.process.file.name = "PowerShell.EXE" or $e.target.process.file.name = "pwsh.dll"))))
+
+  condition:
+    $e
+}

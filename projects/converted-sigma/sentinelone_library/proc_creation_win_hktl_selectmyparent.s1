@@ -1,0 +1,11 @@
+// Title: HackTool - PPID Spoofing SelectMyParent Tool Execution
+// ID: 52ff7941-8211-46f9-84f8-9903efb7077d
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-07-23
+// Tags: attack.privilege-escalation, attack.stealth, attack.t1134.004
+// Description: Detects the use of parent process ID spoofing tools like Didier Stevens tool SelectMyParent
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((src.process.image.path endswithCIS "\\SelectMyParent.exe") OR ((src.process.cmdline containsCIS "PPID-spoof" OR src.process.cmdline containsCIS "ppid_spoof" OR src.process.cmdline containsCIS "spoof-ppid" OR src.process.cmdline containsCIS "spoof_ppid" OR src.process.cmdline containsCIS "ppidspoof" OR src.process.cmdline containsCIS "spoofppid" OR src.process.cmdline containsCIS "spoofedppid" OR src.process.cmdline containsCIS " -spawnto ")) OR ((OriginalFileName containsCIS "PPID-spoof" OR OriginalFileName containsCIS "ppid_spoof" OR OriginalFileName containsCIS "spoof-ppid" OR OriginalFileName containsCIS "spoof_ppid" OR OriginalFileName containsCIS "ppidspoof" OR OriginalFileName containsCIS "spoofppid" OR OriginalFileName containsCIS "spoofedppid")) OR (Description = "SelectMyParent") OR ((Hashes containsCIS "IMPHASH=04D974875BD225F00902B4CAD9AF3FBC" OR Hashes containsCIS "IMPHASH=A782AF154C9E743DDF3F3EB2B8F3D16E" OR Hashes containsCIS "IMPHASH=89059503D7FBF470E68F7E63313DA3AD" OR Hashes containsCIS "IMPHASH=CA28337632625C8281AB8A130B3D6BAD")))

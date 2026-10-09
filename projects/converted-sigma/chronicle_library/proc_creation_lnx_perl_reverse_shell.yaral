@@ -1,0 +1,23 @@
+// Title: Potential Perl Reverse Shell Execution
+// ID: 259df6bc-003f-4306-9f54-4ff1a08fa38e
+// Status: test
+// Level: high
+// Author: @d4ns4n_, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-04-07
+// Tags: attack.execution
+// Description: Detects execution of the perl binary with the "-e" flag and common strings related to potential reverse shell activity
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 259df6bc_003f_4306_9f54_4ff1a08fa38e {
+  meta:
+    title = "Potential Perl Reverse Shell Execution"
+    description = "Detects execution of the perl binary with the "-e" flag and common strings related to potential reverse shell activity"
+    author = "@d4ns4n_, Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (((($e.target.process.command_line = /.*fdopen(.*/ nocase and $e.target.process.command_line = /.*::Socket::INET.*/ nocase)) or (($e.target.process.command_line = /.*Socket.*/ nocase and $e.target.process.command_line = /.*connect.*/ nocase and $e.target.process.command_line = /.*open.*/ nocase and $e.target.process.command_line = /.*exec.*/ nocase))) and ($e.target.process.file.full_path = /.*/perl$/ nocase and $e.target.process.command_line = /.* -e .*/ nocase))
+
+  condition:
+    $e
+}

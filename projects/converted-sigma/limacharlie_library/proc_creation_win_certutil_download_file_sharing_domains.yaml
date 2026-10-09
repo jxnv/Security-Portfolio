@@ -1,0 +1,22 @@
+# Title: Suspicious File Downloaded From File-Sharing Website Via Certutil.EXE
+# ID: 42a5f1e7-9603-4f6d-97ae-3f37d130d794
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2023-02-15
+# Tags: attack.stealth, attack.t1027, attack.command-and-control, attack.t1105
+# Description: Detects the execution of certutil with certain flags that allow the utility to download files from file-sharing websites.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# LimaCharlie Detection & Response Rule
+# Name: Suspicious File Downloaded From File-Sharing Website Via Certutil.EXE
+detect:
+  event: process_creation
+  op: and
+  rules:
+    # Filter logic:
+    # (((CommandLine="*urlcache *" OR CommandLine="*verifyctl *" OR CommandLine="*URL *")) AND ((CommandLine="*.githubusercontent.com*" OR CommandLine="*0x0.st*" OR CommandLine="*anonfiles.com*" OR CommandLine="*bashupload.com*" OR CommandLine="*cdn.discordapp.com*" OR CommandLine="*chunk.io*" OR CommandLine="*ddns.net*" OR CommandLine="*dl.dropboxusercontent.com*" OR CommandLine="*ghostbin.co*" OR CommandLine="*github.com*" OR CommandLine="*glitch.me*" OR CommandLine="*gofile.io*" OR CommandLine="*hastebin.com*" OR CommandLine="*mediafire.com*" OR CommandLine="*mega.nz*" OR CommandLine="*onrender.com*" OR CommandLine="*pages.dev*" OR CommandLine="*paste.ee*" OR CommandLine="*pastebin.com*" OR CommandLine="*pastebin.pl*" OR CommandLine="*pastetext.net*" OR CommandLine="*privatlab.com*" OR CommandLine="*privatlab.net*" OR CommandLine="*send.exploit.in*" OR CommandLine="*sendspace.com*" OR CommandLine="*storage.googleapis.com*" OR CommandLine="*storjshare.io*" OR CommandLine="*supabase.co*" OR CommandLine="*temp.sh*" OR CommandLine="*transfer.sh*" OR CommandLine="*trycloudflare.com*" OR CommandLine="*ufile.io*" OR CommandLine="*w3spaces.com*" OR CommandLine="*workers.dev*" OR CommandLine="*x0.at*")) AND ((Image="*\\certutil.exe") OR (OriginalFileName="CertUtil.exe")))
+respond:
+  - action: report
+    name: Suspicious File Downloaded From File-Sharing Website Via Certutil.EXE
+

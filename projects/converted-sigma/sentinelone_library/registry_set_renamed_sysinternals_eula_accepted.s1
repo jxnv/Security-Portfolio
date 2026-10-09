@@ -1,0 +1,11 @@
+// Title: Usage of Renamed Sysinternals Tools - RegistrySet
+// ID: 8023f872-3f1d-4301-a384-801889917ab4
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-24
+// Tags: attack.resource-development, attack.t1588.002
+// Description: Detects non-sysinternals tools setting the "accepteula" key which normally is set on sysinternals tool execution
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((TargetObject containsCIS "\\PsExec" OR TargetObject containsCIS "\\ProcDump" OR TargetObject containsCIS "\\Handle" OR TargetObject containsCIS "\\LiveKd" OR TargetObject containsCIS "\\Process Explorer" OR TargetObject containsCIS "\\PsLoglist" OR TargetObject containsCIS "\\PsPasswd" OR TargetObject containsCIS "\\Active Directory Explorer") AND TargetObject endswithCIS "\\EulaAccepted") AND NOT (((src.process.image.path endswithCIS "\\PsExec.exe" OR src.process.image.path endswithCIS "\\PsExec64.exe" OR src.process.image.path endswithCIS "\\PsExec64a.exe" OR src.process.image.path endswithCIS "\\procdump.exe" OR src.process.image.path endswithCIS "\\procdump64.exe" OR src.process.image.path endswithCIS "\\procdump64a.exe" OR src.process.image.path endswithCIS "\\handle.exe" OR src.process.image.path endswithCIS "\\handle64.exe" OR src.process.image.path endswithCIS "\\handle64a.exe" OR src.process.image.path endswithCIS "\\livekd.exe" OR src.process.image.path endswithCIS "\\livekd64.exe" OR src.process.image.path endswithCIS "\\procexp.exe" OR src.process.image.path endswithCIS "\\procexp64.exe" OR src.process.image.path endswithCIS "\\procexp64a.exe" OR src.process.image.path endswithCIS "\\psloglist.exe" OR src.process.image.path endswithCIS "\\psloglist64.exe" OR src.process.image.path endswithCIS "\\psloglist64a.exe" OR src.process.image.path endswithCIS "\\pspasswd.exe" OR src.process.image.path endswithCIS "\\pspasswd64.exe" OR src.process.image.path endswithCIS "\\pspasswd64a.exe" OR src.process.image.path endswithCIS "\\ADExplorer.exe" OR src.process.image.path endswithCIS "\\ADExplorer64.exe" OR src.process.image.path endswithCIS "\\ADExplorer64a.exe"))) AND NOT ((src.process.image.path is null)))

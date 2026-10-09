@@ -1,0 +1,23 @@
+// Title: Clear PowerShell History - PowerShell
+// ID: 26b692dc-1722-49b2-b496-a8258aa6371d
+// Status: test
+// Level: medium
+// Author: Ilyas Ochkov, Jonhnathan Ribeiro, Daniil Yugoslavskiy, oscd.community
+// Date: 2022-01-25
+// Tags: attack.stealth, attack.t1070.003
+// Description: Detects keywords that could indicate clearing PowerShell history
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 26b692dc_1722_49b2_b496_a8258aa6371d {
+  meta:
+    title = "Clear PowerShell History - PowerShell"
+    description = "Detects keywords that could indicate clearing PowerShell history"
+    author = "Ilyas Ochkov, Jonhnathan Ribeiro, Daniil Yugoslavskiy, oscd.community"
+    severity = "MEDIUM"
+
+  events:
+    (((($e.ScriptBlockText = /.*Set-PSReadlineOption.*/ nocase and $e.ScriptBlockText = /.*–HistorySaveStyle.*/ nocase and $e.ScriptBlockText = /.*SaveNothing.*/ nocase)) or (($e.ScriptBlockText = /.*Set-PSReadlineOption.*/ nocase and $e.ScriptBlockText = /.*-HistorySaveStyle.*/ nocase and $e.ScriptBlockText = /.*SaveNothing.*/ nocase))) or ((($e.ScriptBlockText = /.*del.*/ nocase or $e.ScriptBlockText = /.*Remove-Item.*/ nocase or $e.ScriptBlockText = /.*rm.*/ nocase)) and ($e.ScriptBlockText = /.*(Get-PSReadlineOption).HistorySavePath.*/ nocase)))
+
+  condition:
+    $e
+}

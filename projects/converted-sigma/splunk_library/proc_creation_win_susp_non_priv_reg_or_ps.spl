@@ -1,0 +1,11 @@
+# Title: Non-privileged Usage of Reg or Powershell
+# ID: 8f02c935-effe-45b3-8fc9-ef8696a9e41d
+# Status: test
+# Level: high
+# Author: Teymur Kheirkhabarov (idea), Ryan Plas (rule), oscd.community
+# Date: 2020-10-05
+# Tags: attack.persistence, attack.defense-impairment, attack.t1112
+# Description: Search for usage of reg or Powershell by non-privileged users to modify service configuration in registry
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog ((((process_exec="*reg *" AND process_exec="*add*")) OR ((process_exec="*powershell*" OR process_exec="*set-itemproperty*" OR process_exec="* sp *" OR process_exec="*new-itemproperty*"))) AND ((IntegrityLevel="Medium" OR IntegrityLevel="S-1-16-8192") AND (process_exec="*ControlSet*" AND process_exec="*Services*") AND (process_exec="*ImagePath*" OR process_exec="*FailureCommand*" OR process_exec="*ServiceDLL*")))

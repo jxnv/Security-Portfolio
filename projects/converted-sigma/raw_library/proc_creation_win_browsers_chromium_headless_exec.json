@@ -1,0 +1,32 @@
+{
+  "title": "Browser Execution In Headless Mode",
+  "id": "ef9dcfed-690c-4c5d-a9d1-482cd422225c",
+  "status": "test",
+  "description": "Detects execution of Chromium based browser in headless mode",
+  "author": "Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2023-09-12",
+  "tags": [
+    "attack.command-and-control",
+    "attack.stealth",
+    "attack.t1105",
+    "attack.t1564.003"
+  ],
+  "level": "low",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection": {
+      "Image|endswith": [
+        "\\brave.exe",
+        "\\chrome.exe",
+        "\\msedge.exe",
+        "\\opera.exe",
+        "\\vivaldi.exe"
+      ],
+      "CommandLine|contains": "--headless"
+    },
+    "condition": "selection"
+  }
+}

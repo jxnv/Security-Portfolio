@@ -1,0 +1,19 @@
+# Title: Communication To Ngrok Tunneling Service - Linux
+# ID: 19bf6fdb-7721-4f3d-867f-53467f6a5db6
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems)
+# Date: 2022-11-03
+# Tags: attack.exfiltration, attack.command-and-control, attack.t1567, attack.t1568.002, attack.t1572, attack.t1090, attack.t1102, attack.s0508
+# Description: Detects an executable accessing an ngrok tunneling endpoint, which could be a sign of forbidden exfiltration of data exfiltration by malicious actors
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Communication To Ngrok Tunneling Service - Linux
+def rule(event):
+    # Detection Logic:
+    # ((DestinationHostname="*tunnel.us.ngrok.com*" OR DestinationHostname="*tunnel.eu.ngrok.com*" OR DestinationHostname="*tunnel.ap.ngrok.com*" OR DestinationHostname="*tunnel.au.ngrok.com*" OR DestinationHostname="*tunnel.sa.ngrok.com*" OR DestinationHostname="*tunnel.jp.ngrok.com*" OR DestinationHostname="*tunnel.in.ngrok.com*"))
+    return True
+
+def title(event):
+    return "Communication To Ngrok Tunneling Service - Linux"
+

@@ -1,0 +1,11 @@
+# Title: Potential PowerShell Obfuscation Via Reversed Commands
+# ID: b6b49cd1-34d6-4ead-b1bf-176e9edba9a4
+# Status: test
+# Level: high
+# Author: Teymur Kheirkhabarov (idea), Vasiliy Burov (rule), oscd.community, Tim Shelton
+# Date: 2020-10-11
+# Tags: attack.stealth, attack.t1027, attack.execution, attack.t1059.001
+# Description: Detects the presence of reversed PowerShell commands in the CommandLine. This is often used as a method of obfuscation by attackers
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((((process.command_line:*hctac* OR process.command_line:*kaerb* OR process.command_line:*dnammoc* OR process.command_line:*ekovn* OR process.command_line:*eliFd* OR process.command_line:*rahc* OR process.command_line:*etirw* OR process.command_line:*golon* OR process.command_line:*tninon* OR process.command_line:*eddih* OR process.command_line:*tpircS* OR process.command_line:*ssecorp* OR process.command_line:*llehsrewop* OR process.command_line:*esnopser* OR process.command_line:*daolnwod* OR process.command_line:*tneilCbeW* OR process.command_line:*tneilc* OR process.command_line:*ptth* OR process.command_line:*elifotevas* OR process.command_line:*46esab* OR process.command_line:*htaPpmeTteG* OR process.command_line:*tcejbO* OR process.command_line:*maerts* OR process.command_line:*hcaerof* OR process.command_line:*retupmoc*)) AND (((process.executable:*\\powershell.exe OR process.executable:*\\pwsh.exe)) OR ((process.pe.original_file_name:"PowerShell.EXE" OR process.pe.original_file_name:"pwsh.dll")))) AND NOT (((process.command_line:* -EncodedCommand * OR process.command_line:* -enc *))))

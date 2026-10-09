@@ -1,0 +1,11 @@
+// Title: Suspicious Process Created Via Wmic.EXE
+// ID: 3c89a1e8-0fba-449e-8f1b-8409d6267ec8
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2020-10-12
+// Tags: attack.execution, attack.t1047
+// Description: Detects WMIC executing "process call create" with suspicious calls to processes such as "rundll32", "regsrv32", etc.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where ((process.command_line like "*_process *" and process.command_line like "*_call *" and process.command_line like "*_create *") and (process.command_line like "*_rundll32*" or process.command_line like "*_bitsadmin*" or process.command_line like "*_regsvr32*" or process.command_line like "*_cmd.exe /c *" or process.command_line like "*_cmd.exe /k *" or process.command_line like "*_cmd.exe /r *" or process.command_line like "*_cmd /c *" or process.command_line like "*_cmd /k *" or process.command_line like "*_cmd /r *" or process.command_line like "*_powershell*" or process.command_line like "*_pwsh*" or process.command_line like "*_certutil*" or process.command_line like "*_cscript*" or process.command_line like "*_wscript*" or process.command_line like "*_mshta*" or process.command_line like "*_\\Users\\Public\\*" or process.command_line like "*_\\Windows\\Temp\\*" or process.command_line like "*_\\AppData\\Local\\*" or process.command_line like "*_%temp%*" or process.command_line like "*_%tmp%*" or process.command_line like "*_%ProgramData%*" or process.command_line like "*_%appdata%*" or process.command_line like "*_%comspec%*" or process.command_line like "*_%localappdata%*"))

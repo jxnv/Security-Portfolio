@@ -1,0 +1,11 @@
+// Title: Schtasks Creation Or Modification With SYSTEM Privileges
+// ID: 89ca78fd-b37c-4310-b3d3-81a023f83936
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-07-28
+// Tags: attack.privilege-escalation, attack.execution, attack.persistence, attack.t1053.005
+// Description: Detects the creation or update of a scheduled task to run with "NT AUTHORITY\SYSTEM" privileges
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((Image ENDSWITH "\\schtasks.exe" AND (CommandLine CONTAINS " /change " OR CommandLine CONTAINS " /create ")) AND (CommandLine CONTAINS "/ru ") AND ((CommandLine CONTAINS "NT AUT" OR CommandLine CONTAINS " SYSTEM "))) AND NOT ((((CommandLine CONTAINS "/Create /F /RU System /SC WEEKLY /TN AviraSystemSpeedupVerify /TR " OR CommandLine CONTAINS ":\\Program Files (x86)\\Avira\\System Speedup\\setup\\avira_speedup_setup.exe" OR CommandLine CONTAINS "/VERIFY /VERYSILENT /NOSTART /NODOTNET /NORESTART\" /RL HIGHEST")) OR ((CommandLine CONTAINS "Subscription Heartbeat" AND CommandLine CONTAINS "\\HeartbeatConfig.xml" AND CommandLine CONTAINS "\\Microsoft Shared\\OFFICE")) OR (Image ENDSWITH "\\schtasks.exe" AND (CommandLine CONTAINS "/TN TVInstallRestore" AND CommandLine CONTAINS "\\TeamViewer_.exe")))))

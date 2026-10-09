@@ -1,0 +1,19 @@
+# Title: Potential Persistence Via PowerShell User Profile Using Add-Content
+# ID: 05b3e303-faf0-4f4a-9b30-46cc13e69152
+# Status: test
+# Level: medium
+# Author: frack113, Nasreddine Bencherchali (Nextron Systems)
+# Date: 2021-08-18
+# Tags: attack.persistence, attack.privilege-escalation, attack.t1546.013
+# Description: Detects calls to "Add-Content" cmdlet in order to modify the content of the user profile and potentially adding suspicious commands for persistence
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Potential Persistence Via PowerShell User Profile Using Add-Content
+def rule(event):
+    # Detection Logic:
+    # ((ScriptBlockText="*Add-Content $profile*") AND ((ScriptBlockText="*-Value \"IEX *" OR ScriptBlockText="*-Value \"Invoke-Expression*" OR ScriptBlockText="*-Value \"Invoke-WebRequest*" OR ScriptBlockText="*-Value \"Start-Process*" OR ScriptBlockText="*-Value 'IEX *" OR ScriptBlockText="*-Value 'Invoke-Expression*" OR ScriptBlockText="*-Value 'Invoke-WebRequest*" OR ScriptBlockText="*-Value 'Start-Process*")))
+    return True
+
+def title(event):
+    return "Potential Persistence Via PowerShell User Profile Using Add-Content"
+

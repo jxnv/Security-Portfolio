@@ -1,0 +1,23 @@
+// Title: Python Initiated Connection
+// ID: bef0bc5a-b9ae-425d-85c6-7b2d705980c6
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2021-12-10
+// Tags: attack.discovery, attack.t1046
+// Description: Detects a Python process initiating a network connection. While this often relates to package installation, it can also indicate a potential malicious script communicating with a C&C server.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule bef0bc5a_b9ae_425d_85c6_7b2d705980c6 {
+  meta:
+    title = "Python Initiated Connection"
+    description = "Detects a Python process initiating a network connection. While this often relates to package installation, it can also indicate a potential malicious script communicating with a C&C server."
+    author = "frack113"
+    severity = "MEDIUM"
+
+  events:
+    (($e.Initiated = "true" and ($e.target.process.file.full_path = /.*\\python.*/ nocase and $e.target.process.file.full_path = /.*.exe.*/ nocase)) and not((($e.target.ip = "127.0.0.1" and $e.principal.ip = "127.0.0.1") or (($e.target.process.command_line = /.*pip.exe.*/ nocase and $e.target.process.command_line = /.*install.*/ nocase)))) and not((($e.principal.process.file.full_path = "C:\\ProgramData\\Anaconda3\\Scripts\\conda.exe" and ($e.target.process.command_line = /.*:\\ProgramData\\Anaconda3\\Scripts\\conda-script.py.*/ nocase and $e.target.process.command_line = /.*update.*/ nocase)) or ($e.principal.process.file.full_path = "C:\\ProgramData\\Anaconda3\\python.exe" and $e.target.process.command_line = /.*C:\\ProgramData\\Anaconda3\\Scripts\\jupyter-notebook-script.py.*/ nocase))))
+
+  condition:
+    $e
+}

@@ -1,0 +1,23 @@
+// Title: Get-ADUser Enumeration Using UserAccountControl Flags
+// ID: 96c982fe-3d08-4df4-bed2-eb14e02f21c8
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-03-17
+// Tags: attack.discovery, attack.t1033
+// Description: Detects AS-REP roasting is an attack that is often-overlooked. It is not very common as you have to explicitly set accounts that do not require pre-authentication.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 96c982fe_3d08_4df4_bed2_eb14e02f21c8 {
+  meta:
+    title = "Get-ADUser Enumeration Using UserAccountControl Flags"
+    description = "Detects AS-REP roasting is an attack that is often-overlooked. It is not very common as you have to explicitly set accounts that do not require pre-authentication."
+    author = "frack113"
+    severity = "MEDIUM"
+
+  events:
+    (($e.ScriptBlockText = /.*Get-ADUser.*/ nocase and $e.ScriptBlockText = /.*-Filter.*/ nocase and $e.ScriptBlockText = /.*useraccountcontrol.*/ nocase and $e.ScriptBlockText = /.*-band.*/ nocase and $e.ScriptBlockText = /.*4194304.*/ nocase))
+
+  condition:
+    $e
+}

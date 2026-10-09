@@ -1,0 +1,11 @@
+# Title: CreateDump Process Dump
+# ID: 515c8be5-e5df-4c5e-8f6d-a4a2f05e4b48
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-01-04
+# Tags: attack.stealth, attack.t1036, attack.t1003.001, attack.credential-access
+# Description: Detects uses of the createdump.exe LOLOBIN utility to dump process memory
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((CommandLine CONTAIN " -u " OR CommandLine CONTAIN " --full " OR CommandLine CONTAIN " -f " OR CommandLine CONTAIN " --name " OR CommandLine CONTAIN ".dmp ")) AND ((Image="*\\createdump.exe") OR (OriginalFileName = "FX_VER_INTERNALNAME_STR")))

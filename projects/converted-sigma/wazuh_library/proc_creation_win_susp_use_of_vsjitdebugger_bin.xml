@@ -1,0 +1,16 @@
+<!--
+  Title: Malicious PE Execution by Microsoft Visual Studio Debugger
+  ID: 15c7904e-6ad1-4a45-9b46-5fb25df37fd2
+  Status: test
+  Level: medium
+  Author: Agro (@agro_sev), Ensar Şamil (@sblmsrsn), oscd.community
+  Date: 2020-10-14
+  Description: There is an option for a MS VS Just-In-Time Debugger "vsjitdebugger.exe" to launch specified executable and attach a debugger. This option may be used adversaries to execute malicious code by signed verified binary. The debugger is installed alongside with Microsoft Visual Studio package.
+-->
+
+<group name="sigma_converted,">
+  <rule id="100001" level="5">
+    <description>Malicious PE Execution by Microsoft Visual Studio Debugger</description>
+    <match>((ParentImage=\"*\\\\vsjitdebugger.exe\") AND NOT (((Image=\"*\\\\vsimmersiveactivatehelper*.exe\") OR (Image=\"*\\\\devenv.exe\")))</match>
+  </rule>
+</group>

@@ -1,0 +1,23 @@
+// Title: HackTool - Certify Execution
+// ID: 762f2482-ff21-4970-8939-0aa317a886bb
+// Status: test
+// Level: high
+// Author: pH-T (Nextron Systems)
+// Date: 2023-04-17
+// Tags: attack.discovery, attack.credential-access, attack.t1649
+// Description: Detects Certify a tool for Active Directory certificate abuse based on PE metadata characteristics and common command line arguments.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 762f2482_ff21_4970_8939_0aa317a886bb {
+  meta:
+    title = "HackTool - Certify Execution"
+    description = "Detects Certify a tool for Active Directory certificate abuse based on PE metadata characteristics and common command line arguments."
+    author = "pH-T (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.file.full_path = /.*\\Certify.exe$/ nocase) or ($e.target.process.file.name = "Certify.exe") or ($e.Description = /.*Certify.*/ nocase)) or ((($e.target.process.command_line = /.*.exe cas .*/ nocase or $e.target.process.command_line = /.*.exe find .*/ nocase or $e.target.process.command_line = /.*.exe pkiobjects .*/ nocase or $e.target.process.command_line = /.*.exe request .*/ nocase or $e.target.process.command_line = /.*.exe download .*/ nocase)) and (($e.target.process.command_line = /.* /vulnerable.*/ nocase or $e.target.process.command_line = /.* /template:.*/ nocase or $e.target.process.command_line = /.* /altname:.*/ nocase or $e.target.process.command_line = /.* /domain:.*/ nocase or $e.target.process.command_line = /.* /path:.*/ nocase or $e.target.process.command_line = /.* /ca:.*/ nocase))))
+
+  condition:
+    $e
+}

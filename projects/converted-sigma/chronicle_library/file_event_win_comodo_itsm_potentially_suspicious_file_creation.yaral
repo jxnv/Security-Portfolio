@@ -1,0 +1,25 @@
+// Title: Potentially Suspicious File Creation by OpenEDR's ITSMService
+// ID: 9e4b7d3a-6f2c-4e9a-8d1b-3c5e7a9f2b4d
+// Status: experimental
+// Level: medium
+// Author: @kostastsale
+// Date: 2026-02-19
+// Tags: attack.command-and-control, attack.t1105, attack.lateral-movement, attack.t1570, attack.t1219
+// Description: Detects the creation of potentially suspicious files by OpenEDR's ITSMService process.
+// The ITSMService is responsible for remote management operations and can create files on the system through the Process Explorer or file management features.
+// While legitimate for IT operations, creation of executable or script files could indicate unauthorized file uploads, data staging, or malicious file deployment.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 9e4b7d3a_6f2c_4e9a_8d1b_3c5e7a9f2b4d {
+  meta:
+    title = "Potentially Suspicious File Creation by OpenEDR's ITSMService"
+    description = "Detects the creation of potentially suspicious files by OpenEDR's ITSMService process. The ITSMService is responsible for remote management operations and can create files on the system through the Process Explorer or file management features. While legitimate for IT operations, creation of executable or script files could indicate unauthorized file uploads, data staging, or malicious file deployment."
+    author = "@kostastsale"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.process.file.full_path = /.*\\COMODO\\Endpoint Manager\\ITSMService.exe$/ nocase) and (($e.target.file.full_path = /.*.7z$/ nocase or $e.target.file.full_path = /.*.bat$/ nocase or $e.target.file.full_path = /.*.cmd$/ nocase or $e.target.file.full_path = /.*.com$/ nocase or $e.target.file.full_path = /.*.dll$/ nocase or $e.target.file.full_path = /.*.exe$/ nocase or $e.target.file.full_path = /.*.hta$/ nocase or $e.target.file.full_path = /.*.js$/ nocase or $e.target.file.full_path = /.*.pif$/ nocase or $e.target.file.full_path = /.*.ps1$/ nocase or $e.target.file.full_path = /.*.rar$/ nocase or $e.target.file.full_path = /.*.scr$/ nocase or $e.target.file.full_path = /.*.vbe$/ nocase or $e.target.file.full_path = /.*.vbs$/ nocase or $e.target.file.full_path = /.*.zip$/ nocase)))
+
+  condition:
+    $e
+}

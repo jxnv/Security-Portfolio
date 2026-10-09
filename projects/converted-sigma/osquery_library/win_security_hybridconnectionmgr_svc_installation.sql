@@ -1,0 +1,11 @@
+-- Title: HybridConnectionManager Service Installation
+-- ID: 0ee4d8a5-4e67-4faf-acfa-62a78457d1f2
+-- Status: test
+-- Level: high
+-- Author: Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research)
+-- Date: 2021-04-12
+-- Tags: attack.persistence, attack.t1554
+-- Description: Rule to detect the Hybrid Connection Manager service installation.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM file WHERE (EventID = '4697' AND ServiceName = 'HybridConnectionManager' AND ServiceFileName LIKE '%HybridConnectionManager%')

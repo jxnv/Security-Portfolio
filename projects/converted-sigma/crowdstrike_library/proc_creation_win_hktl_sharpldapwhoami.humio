@@ -1,0 +1,11 @@
+// Title: HackTool - SharpLdapWhoami Execution
+// ID: d9367cbb-c2e0-47ce-bdc0-128cb6da898d
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-08-29
+// Tags: attack.discovery, attack.t1033, car.2016-03-001
+// Description: Detects SharpLdapWhoami, a whoami alternative that queries the LDAP service on a domain controller
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((CommandLine = /.* /method:ntlm/i or CommandLine = /.* /method:kerb/i or CommandLine = /.* /method:nego/i or CommandLine = /.* /m:nego/i or CommandLine = /.* /m:ntlm/i or CommandLine = /.* /m:kerb/i)) or (ImageFileName = /.*\\SharpLdapWhoami.exe/i) or ((OriginalFilename = /*SharpLdapWhoami*/i) or (Product = "SharpLdapWhoami")))

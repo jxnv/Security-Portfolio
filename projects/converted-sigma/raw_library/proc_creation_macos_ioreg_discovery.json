@@ -1,0 +1,45 @@
+{
+  "title": "System Information Discovery Using Ioreg",
+  "id": "2d5e7a8b-f484-4a24-945d-7f0efd52eab0",
+  "status": "test",
+  "description": "Detects the use of \"ioreg\" which will show I/O Kit registry information.\nThis process is used for system information discovery.\nIt has been observed in-the-wild by calling this process directly or using bash and grep to look for specific strings.\n",
+  "author": "Joseliyo Sanchez, @Joseliyo_Jstnk",
+  "date": "2023-12-20",
+  "tags": [
+    "attack.discovery",
+    "attack.t1082"
+  ],
+  "level": "medium",
+  "logsource": {
+    "product": "macos",
+    "category": "process_creation"
+  },
+  "detection": {
+    "selection_img": [
+      {
+        "Image|endswith": "/ioreg"
+      },
+      {
+        "CommandLine|contains": "ioreg"
+      }
+    ],
+    "selection_cmd1": {
+      "CommandLine|contains": [
+        "-l",
+        "-c"
+      ]
+    },
+    "selection_cmd2": {
+      "CommandLine|contains": [
+        "AppleAHCIDiskDriver",
+        "IOPlatformExpertDevice",
+        "Oracle",
+        "Parallels",
+        "USB Vendor Name",
+        "VirtualBox",
+        "VMware"
+      ]
+    },
+    "condition": "all of selection_*"
+  }
+}

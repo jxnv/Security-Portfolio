@@ -1,0 +1,11 @@
+# Title: Suspicious Scheduled Task Update
+# ID: 614cf376-6651-47c4-9dcc-6b9527f749f4
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-12-05
+# Tags: attack.execution, attack.privilege-escalation, attack.persistence, attack.t1053.005
+# Description: Detects update to a scheduled task event that contain suspicious keywords.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((TaskContentNew="*regsvr32*" OR TaskContentNew="*rundll32*" OR TaskContentNew="*cmd.exe</Command>*" OR TaskContentNew="*cmd</Command>*" OR TaskContentNew="*<Arguments>/c *" OR TaskContentNew="*<Arguments>/k *" OR TaskContentNew="*<Arguments>/r *" OR TaskContentNew="*powershell*" OR TaskContentNew="*pwsh*" OR TaskContentNew="*mshta*" OR TaskContentNew="*wscript*" OR TaskContentNew="*cscript*" OR TaskContentNew="*certutil*" OR TaskContentNew="*bitsadmin*" OR TaskContentNew="*bash.exe*" OR TaskContentNew="*bash *" OR TaskContentNew="*scrcons*" OR TaskContentNew="*wmic *" OR TaskContentNew="*wmic.exe*" OR TaskContentNew="*forfiles*" OR TaskContentNew="*scriptrunner*" OR TaskContentNew="*hh.exe*")) AND (EventID="4702") AND ((TaskContentNew="*\\AppData\\Local\\Temp\\*" OR TaskContentNew="*\\AppData\\Roaming\\*" OR TaskContentNew="*\\Users\\Public\\*" OR TaskContentNew="*\\WINDOWS\\Temp\\*" OR TaskContentNew="*C:\\Temp\\*" OR TaskContentNew="*\\Desktop\\*" OR TaskContentNew="*\\Downloads\\*" OR TaskContentNew="*\\Temporary Internet*" OR TaskContentNew="*C:\\ProgramData\\*" OR TaskContentNew="*C:\\Perflogs\\*")))

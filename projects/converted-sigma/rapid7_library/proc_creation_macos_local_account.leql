@@ -1,0 +1,12 @@
+// Title: Local System Accounts Discovery - MacOs
+// ID: ddf36b67-e872-4507-ab2e-46bda21b842c
+// Status: test
+// Level: low
+// Author: Alejandro Ortuno, oscd.community
+// Date: 2020-10-08
+// Tags: attack.discovery, attack.t1087.001
+// Description: Detects enumeration of local system accounts on MacOS systems.
+// This can be used by attackers to identify accounts for lateral movement or privilege escalation.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((where(Image IENDSWITH "/dscacheutil") AND (where(CommandLine ICONTAINS "-q") AND where(CommandLine ICONTAINS "user"))) OR (where(Image IENDSWITH "/dscl") AND (where(CommandLine ICONTAINS "list") AND where(CommandLine ICONTAINS "/users"))) OR (where(Image IENDSWITH "/ls") AND (where(CommandLine IENDSWITH "/Users") OR where(CommandLine IENDSWITH "/Users'") OR where(CommandLine IENDSWITH "/Users\""))) OR (where(Image IENDSWITH "/id")) OR ((where(Image IENDSWITH "/who") OR where(Image IENDSWITH "/w") OR where(Image IENDSWITH "/users") OR where(Image IENDSWITH "/last"))) OR ((where(Image IENDSWITH "/defaults") OR where(Image IENDSWITH "/plutil")) AND where(CommandLine ICONTAINS "com.apple.loginwindow")) OR (where(Image IENDSWITH "/lsof") AND where(CommandLine ICONTAINS "-u")) OR ((where(Image IENDSWITH "/cat") OR where(Image IENDSWITH "/awk") OR where(Image IENDSWITH "/grep")) AND (where(CommandLine ICONTAINS "/etc/passwd") OR where(CommandLine ICONTAINS "/etc/sudoers"))) OR (where(CommandLine ICONTAINS "'*:0:'")))

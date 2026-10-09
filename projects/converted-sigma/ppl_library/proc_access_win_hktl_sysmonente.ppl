@@ -1,0 +1,11 @@
+// Title: HackTool - SysmonEnte Execution
+// ID: d29ada0f-af45-4f27-8f32-f7b77c3dbc4e
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-09-07
+// Tags: attack.defense-impairment, attack.t1685.001
+// Description: Detects the use of SysmonEnte, a tool to attack the integrity of Sysmon
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where ((((TargetImage like "%:\\Windows\\Sysmon.exe%" OR TargetImage like "%:\\Windows\\Sysmon64.exe%" OR TargetImage like "%:\\Windows\\Sysmon64a.exe%") AND GrantedAccess = "0x1400") AND NOT ((((SourceImage like "%:\\Program Files (x86)\\%" OR SourceImage like "%:\\Program Files\\%" OR SourceImage like "%:\\Windows\\System32\\%" OR SourceImage like "%:\\Windows\\SysWOW64\\%")) OR (SourceImage like "%:\\ProgramData\\Microsoft\\Windows Defender\\Platform\\%" AND SourceImage="*\\MsMpEng.exe")))) OR (CallTrace = "Ente"))

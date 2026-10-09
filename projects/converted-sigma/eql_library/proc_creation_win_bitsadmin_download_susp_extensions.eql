@@ -1,0 +1,11 @@
+// Title: File With Suspicious Extension Downloaded Via Bitsadmin
+// ID: 5b80a791-ad9b-4b75-bcc1-ad4e1e89c200
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-06-28
+// Tags: attack.persistence, attack.execution, attack.stealth, attack.t1197, attack.s0190, attack.t1036.003, attack.command-and-control, attack.t1105
+// Description: Detects usage of bitsadmin downloading a file with a suspicious extension
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where (((process.command_line like "*_.7z*" or process.command_line like "*_.asax*" or process.command_line like "*_.ashx*" or process.command_line like "*_.asmx*" or process.command_line like "*_.asp*" or process.command_line like "*_.aspx*" or process.command_line like "*_.bat*" or process.command_line like "*_.cfm*" or process.command_line like "*_.cgi*" or process.command_line like "*_.chm*" or process.command_line like "*_.cmd*" or process.command_line like "*_.dll*" or process.command_line like "*_.gif*" or process.command_line like "*_.jpeg*" or process.command_line like "*_.jpg*" or process.command_line like "*_.jsp*" or process.command_line like "*_.jspx*" or process.command_line like "*_.log*" or process.command_line like "*_.png*" or process.command_line like "*_.ps1*" or process.command_line like "*_.psm1*" or process.command_line like "*_.rar*" or process.command_line like "*_.scf*" or process.command_line like "*_.sct*" or process.command_line like "*_.txt*" or process.command_line like "*_.vbe*" or process.command_line like "*_.vbs*" or process.command_line like "*_.war*" or process.command_line like "*_.wsf*" or process.command_line like "*_.wsh*" or process.command_line like "*_.xll*" or process.command_line like "*_.zip*")) and ((process.command_line like "*_ /transfer *" or process.command_line like "*_ /create *" or process.command_line like "*_ /addfile *")) and ((process.executable endswith "\\bitsadmin.exe") or (process.pe.original_file_name == "bitsadmin.exe")))

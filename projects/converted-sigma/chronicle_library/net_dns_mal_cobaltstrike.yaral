@@ -1,0 +1,23 @@
+// Title: Cobalt Strike DNS Beaconing
+// ID: 2975af79-28c4-4d2f-a951-9095f229df29
+// Status: test
+// Level: critical
+// Author: Florian Roth (Nextron Systems)
+// Date: 2018-05-10
+// Tags: attack.command-and-control, attack.t1071.004
+// Description: Detects suspicious DNS queries known from Cobalt Strike beacons
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 2975af79_28c4_4d2f_a951_9095f229df29 {
+  meta:
+    title = "Cobalt Strike DNS Beaconing"
+    description = "Detects suspicious DNS queries known from Cobalt Strike beacons"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "CRITICAL"
+
+  events:
+    ((($e.query = /^aaa.stage..*/ nocase or $e.query = /^post.1.*/ nocase)) or ($e.query = /.*.stage.123456..*/ nocase))
+
+  condition:
+    $e
+}

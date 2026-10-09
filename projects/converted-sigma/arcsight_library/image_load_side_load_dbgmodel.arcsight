@@ -1,0 +1,11 @@
+// Title: Potential DLL Sideloading Of DbgModel.DLL
+// ID: fef394cd-f44d-4040-9b18-95d92fe278c0
+// Status: test
+// Level: medium
+// Author: Gary Lobermier
+// Date: 2024-07-11
+// Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.stealth, attack.t1574.001
+// Description: Detects potential DLL sideloading of "DbgModel.dll"
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((ImageLoaded ENDSWITH "\\dbgmodel.dll") AND NOT (((ImageLoaded STARTSWITH "C:\\Windows\\System32\\" OR ImageLoaded STARTSWITH "C:\\Windows\\SysWOW64\\" OR ImageLoaded STARTSWITH "C:\\Windows\\WinSxS\\"))) AND NOT (((ImageLoaded STARTSWITH "C:\\Program Files\\WindowsApps\\Microsoft.WinDbg_") OR ((ImageLoaded STARTSWITH "C:\\Program Files (x86)\\Windows Kits\\" OR ImageLoaded STARTSWITH "C:\\Program Files\\Windows Kits\\")))))

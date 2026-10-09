@@ -1,0 +1,23 @@
+// Title: Renamed PingCastle Binary Execution
+// ID: 2433a154-bb3d-42e4-86c3-a26bdac91c45
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems), X__Junior (Nextron Systems)
+// Date: 2024-01-11
+// Tags: attack.execution, attack.stealth, attack.t1059, attack.t1202
+// Description: Detects the execution of a renamed "PingCastle" binary based on the PE metadata fields.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 2433a154_bb3d_42e4_86c3_a26bdac91c45 {
+  meta:
+    title = "Renamed PingCastle Binary Execution"
+    description = "Detects the execution of a renamed "PingCastle" binary based on the PE metadata fields."
+    author = "Nasreddine Bencherchali (Nextron Systems), X__Junior (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (((($e.target.process.file.name = "PingCastleReporting.exe" or $e.target.process.file.name = "PingCastleCloud.exe" or $e.target.process.file.name = "PingCastle.exe")) or (($e.target.process.command_line = /.*--scanner aclcheck.*/ nocase or $e.target.process.command_line = /.*--scanner antivirus.*/ nocase or $e.target.process.command_line = /.*--scanner computerversion.*/ nocase or $e.target.process.command_line = /.*--scanner foreignusers.*/ nocase or $e.target.process.command_line = /.*--scanner laps_bitlocker.*/ nocase or $e.target.process.command_line = /.*--scanner localadmin.*/ nocase or $e.target.process.command_line = /.*--scanner nullsession.*/ nocase or $e.target.process.command_line = /.*--scanner nullsession-trust.*/ nocase or $e.target.process.command_line = /.*--scanner oxidbindings.*/ nocase or $e.target.process.command_line = /.*--scanner remote.*/ nocase or $e.target.process.command_line = /.*--scanner share.*/ nocase or $e.target.process.command_line = /.*--scanner smb.*/ nocase or $e.target.process.command_line = /.*--scanner smb3querynetwork.*/ nocase or $e.target.process.command_line = /.*--scanner spooler.*/ nocase or $e.target.process.command_line = /.*--scanner startup.*/ nocase or $e.target.process.command_line = /.*--scanner zerologon.*/ nocase)) or ($e.target.process.command_line = /.*--no-enum-limit.*/ nocase) or (($e.target.process.command_line = /.*--healthcheck.*/ nocase and $e.target.process.command_line = /.*--level Full.*/ nocase)) or (($e.target.process.command_line = /.*--healthcheck.*/ nocase and $e.target.process.command_line = /.*--server .*/ nocase))) and not((($e.target.process.file.full_path = /.*\\PingCastleReporting.exe$/ nocase or $e.target.process.file.full_path = /.*\\PingCastleCloud.exe$/ nocase or $e.target.process.file.full_path = /.*\\PingCastle.exe$/ nocase))))
+
+  condition:
+    $e
+}

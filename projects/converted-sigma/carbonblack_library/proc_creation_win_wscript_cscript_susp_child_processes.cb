@@ -1,0 +1,12 @@
+# Title: Cscript/Wscript Potentially Suspicious Child Process
+# ID: b6676963-0353-4f88-90f5-36c20d443c6a
+# Status: test
+# Level: medium
+# Author: Nasreddine Bencherchali (Nextron Systems), Alejandro Houspanossian ('@lekz86')
+# Date: 2023-05-15
+# Tags: attack.execution
+# Description: Detects potentially suspicious child processes of Wscript/Cscript. These include processes such as rundll32 with uncommon exports or PowerShell spawning rundll32 or regsvr32.
+# Malware such as Pikabot and Qakbot were seen using similar techniques as well as many others.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((parent_name:*\\wscript.exe OR parent_name:*\\cscript.exe)) AND ((process_name:*\\rundll32.exe) OR (((process_name:*\\cmd.exe OR process_name:*\\powershell.exe OR process_name:*\\pwsh.exe)) AND (((cmdline:*mshta* AND cmdline:*http*)) OR ((cmdline:*rundll32* OR cmdline:*regsvr32* OR cmdline:*msiexec*))))) AND -((process_name:*\\rundll32.exe AND (cmdline:*UpdatePerUserSystemParameters* OR cmdline:*PrintUIEntry* OR cmdline:*ClearMyTracksByProcess*))))

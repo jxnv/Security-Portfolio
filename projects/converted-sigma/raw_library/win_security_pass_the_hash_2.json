@@ -1,0 +1,36 @@
+{
+  "title": "Pass the Hash Activity 2",
+  "id": "8eef149c-bd26-49f2-9e5a-9b00e3af499b",
+  "status": "stable",
+  "description": "Detects the attack technique pass the hash which is used to move laterally inside the network",
+  "author": "Dave Kennedy, Jeff Warren (method) / David Vassallo (rule)",
+  "date": "2019-06-14",
+  "tags": [
+    "attack.lateral-movement",
+    "attack.t1550.002"
+  ],
+  "level": "medium",
+  "logsource": {
+    "product": "windows",
+    "service": "security",
+    "definition": "The successful use of PtH for lateral movement between workstations would trigger event ID 4624"
+  },
+  "detection": {
+    "selection_logon3": {
+      "EventID": 4624,
+      "SubjectUserSid": "S-1-0-0",
+      "LogonType": 3,
+      "LogonProcessName": "NtLmSsp",
+      "KeyLength": 0
+    },
+    "selection_logon9": {
+      "EventID": 4624,
+      "LogonType": 9,
+      "LogonProcessName": "seclogo"
+    },
+    "filter": {
+      "TargetUserName": "ANONYMOUS LOGON"
+    },
+    "condition": "1 of selection_* and not filter"
+  }
+}

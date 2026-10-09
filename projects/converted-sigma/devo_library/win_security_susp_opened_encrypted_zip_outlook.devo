@@ -1,0 +1,11 @@
+// Title: Password Protected ZIP File Opened (Email Attachment)
+// ID: 571498c8-908e-40b4-910b-d2369159a3da
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-05-09
+// Tags: attack.initial-access, attack.stealth, attack.t1027, attack.t1566.001
+// Description: Detects the extraction of password protected ZIP archives. See the filename variable for more details on which file has been opened.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+from siem.events where (EventID == "5379" AND (contains(TargetName, "Microsoft_Windows_Shell_ZipFolder:filename") AND contains(TargetName, "\\Temporary Internet Files\\Content.Outlook")))

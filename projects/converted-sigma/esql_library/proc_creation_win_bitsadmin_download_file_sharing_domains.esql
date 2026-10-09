@@ -1,0 +1,11 @@
+// Title: Suspicious Download From File-Sharing Website Via Bitsadmin
+// ID: 8518ed3d-f7c9-4601-a26c-f361a4256a0c
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-06-28
+// Tags: attack.persistence, attack.execution, attack.stealth, attack.t1197, attack.s0190, attack.t1036.003, attack.command-and-control, attack.t1105
+// Description: Detects usage of bitsadmin downloading a file from a suspicious domain
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE (((process.command_line LIKE "%.githubusercontent.com%" OR process.command_line LIKE "%0x0.st%" OR process.command_line LIKE "%anonfiles.com%" OR process.command_line LIKE "%bashupload.com%" OR process.command_line LIKE "%cdn.discordapp.com%" OR process.command_line LIKE "%chunk.io%" OR process.command_line LIKE "%ddns.net%" OR process.command_line LIKE "%dl.dropboxusercontent.com%" OR process.command_line LIKE "%ghostbin.co%" OR process.command_line LIKE "%github.com%" OR process.command_line LIKE "%glitch.me%" OR process.command_line LIKE "%gofile.io%" OR process.command_line LIKE "%hastebin.com%" OR process.command_line LIKE "%mediafire.com%" OR process.command_line LIKE "%mega.nz%" OR process.command_line LIKE "%onrender.com%" OR process.command_line LIKE "%pages.dev%" OR process.command_line LIKE "%paste.ee%" OR process.command_line LIKE "%pastebin.com%" OR process.command_line LIKE "%pastebin.pl%" OR process.command_line LIKE "%pastetext.net%" OR process.command_line LIKE "%privatlab.com%" OR process.command_line LIKE "%privatlab.net%" OR process.command_line LIKE "%send.exploit.in%" OR process.command_line LIKE "%sendspace.com%" OR process.command_line LIKE "%storage.googleapis.com%" OR process.command_line LIKE "%storjshare.io%" OR process.command_line LIKE "%supabase.co%" OR process.command_line LIKE "%temp.sh%" OR process.command_line LIKE "%transfer.sh%" OR process.command_line LIKE "%trycloudflare.com%" OR process.command_line LIKE "%ufile.io%" OR process.command_line LIKE "%w3spaces.com%" OR process.command_line LIKE "%workers.dev%" OR process.command_line LIKE "%x0.at%")) AND ((process.command_line LIKE "% /transfer %" OR process.command_line LIKE "% /create %" OR process.command_line LIKE "% /addfile %")) AND ((process.executable LIKE "%\\bitsadmin.exe") OR (process.pe.original_file_name == "bitsadmin.exe")))

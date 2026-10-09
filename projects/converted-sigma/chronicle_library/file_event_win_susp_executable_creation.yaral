@@ -1,0 +1,24 @@
+// Title: Suspicious Executable File Creation
+// ID: 74babdd6-a758-4549-9632-26535279e654
+// Status: test
+// Level: high
+// Author: frack113
+// Date: 2022-09-05
+// Tags: attack.stealth, attack.t1564
+// Description: Detect creation of suspicious executable file names.
+// Some strings look for suspicious file extensions, others look for filenames that exploit unquoted service paths.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 74babdd6_a758_4549_9632_26535279e654 {
+  meta:
+    title = "Suspicious Executable File Creation"
+    description = "Detect creation of suspicious executable file names. Some strings look for suspicious file extensions, others look for filenames that exploit unquoted service paths."
+    author = "frack113"
+    severity = "HIGH"
+
+  events:
+    (($e.target.file.full_path = /.*:\\$Recycle.Bin.exe$/ nocase or $e.target.file.full_path = /.*:\\Documents and Settings.exe$/ nocase or $e.target.file.full_path = /.*:\\MSOCache.exe$/ nocase or $e.target.file.full_path = /.*:\\PerfLogs.exe$/ nocase or $e.target.file.full_path = /.*:\\Recovery.exe$/ nocase or $e.target.file.full_path = /.*.bat.exe$/ nocase or $e.target.file.full_path = /.*.sys.exe$/ nocase))
+
+  condition:
+    $e
+}

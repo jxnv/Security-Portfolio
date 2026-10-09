@@ -1,0 +1,11 @@
+// Title: LOL-Binary Copied From System Directory
+// ID: f5d19838-41b5-476c-98d8-ba8af4929ee2
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-08-29
+// Tags: attack.stealth, attack.t1036.003
+// Description: Detects a suspicious copy operation that tries to copy a known LOLBIN from system (System32, SysWOW64, WinSxS) directories to another on disk in order to bypass detections based on locations.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(Image IENDSWITH "\\cmd.exe") AND where(CommandLine ICONTAINS "copy ")) OR (((where(Image IENDSWITH "\\robocopy.exe") OR where(Image IENDSWITH "\\xcopy.exe"))) OR ((where(OriginalFileName = "robocopy.exe") OR where(OriginalFileName = "XCOPY.EXE")))) OR ((where(Image IENDSWITH "\\powershell.exe") OR where(Image IENDSWITH "\\pwsh.exe")) AND (where(CommandLine ICONTAINS "copy-item") OR where(CommandLine ICONTAINS " copy ") OR where(CommandLine ICONTAINS "cpi ") OR where(CommandLine ICONTAINS " cp ")))) AND (((where(CommandLine ICONTAINS "\\bitsadmin.exe") OR where(CommandLine ICONTAINS "\\calc.exe") OR where(CommandLine ICONTAINS "\\certutil.exe") OR where(CommandLine ICONTAINS "\\cmdl32.exe") OR where(CommandLine ICONTAINS "\\cscript.exe") OR where(CommandLine ICONTAINS "\\mshta.exe") OR where(CommandLine ICONTAINS "\\rundll32.exe") OR where(CommandLine ICONTAINS "\\wscript.exe") OR where(CommandLine ICONTAINS "\\ie4uinit.exe"))) AND ((where(CommandLine ICONTAINS "\\System32") OR where(CommandLine ICONTAINS "\\SysWOW64") OR where(CommandLine ICONTAINS "\\WinSxS")))))

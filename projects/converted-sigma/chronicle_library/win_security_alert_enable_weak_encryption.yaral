@@ -1,0 +1,23 @@
+// Title: Weak Encryption Enabled and Kerberoast
+// ID: f6de9536-0441-4b3f-a646-f4e00f300ffd
+// Status: test
+// Level: high
+// Author: @neu5ron
+// Date: 2017-07-30
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects scenario where weak encryption is enabled for a user profile which could be used for hash/password cracking.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule f6de9536_0441_4b3f_a646_f4e00f300ffd {
+  meta:
+    title = "Weak Encryption Enabled and Kerberoast"
+    description = "Detects scenario where weak encryption is enabled for a user profile which could be used for hash/password cracking."
+    author = "@neu5ron"
+    severity = "HIGH"
+
+  events:
+    (($e.EventID = 4738) and (((($e.NewUacValue = /.*8???$/ nocase or $e.NewUacValue = /.*9???$/ nocase or $e.NewUacValue = /.*A???$/ nocase or $e.NewUacValue = /.*B???$/ nocase or $e.NewUacValue = /.*C???$/ nocase or $e.NewUacValue = /.*D???$/ nocase or $e.NewUacValue = /.*E???$/ nocase or $e.NewUacValue = /.*F???$/ nocase)) and not((($e.OldUacValue = /.*8???$/ nocase or $e.OldUacValue = /.*9???$/ nocase or $e.OldUacValue = /.*A???$/ nocase or $e.OldUacValue = /.*B???$/ nocase or $e.OldUacValue = /.*C???$/ nocase or $e.OldUacValue = /.*D???$/ nocase or $e.OldUacValue = /.*E???$/ nocase or $e.OldUacValue = /.*F???$/ nocase)))) or ((($e.NewUacValue = /.*1????$/ nocase or $e.NewUacValue = /.*3????$/ nocase or $e.NewUacValue = /.*5????$/ nocase or $e.NewUacValue = /.*7????$/ nocase or $e.NewUacValue = /.*9????$/ nocase or $e.NewUacValue = /.*B????$/ nocase or $e.NewUacValue = /.*D????$/ nocase or $e.NewUacValue = /.*F????$/ nocase)) and not((($e.OldUacValue = /.*1????$/ nocase or $e.OldUacValue = /.*3????$/ nocase or $e.OldUacValue = /.*5????$/ nocase or $e.OldUacValue = /.*7????$/ nocase or $e.OldUacValue = /.*9????$/ nocase or $e.OldUacValue = /.*B????$/ nocase or $e.OldUacValue = /.*D????$/ nocase or $e.OldUacValue = /.*F????$/ nocase)))) or ((($e.NewUacValue = /.*8??$/ nocase or $e.NewUacValue = /.*9??$/ nocase or $e.NewUacValue = /.*A??$/ nocase or $e.NewUacValue = /.*B??$/ nocase or $e.NewUacValue = /.*C??$/ nocase or $e.NewUacValue = /.*D??$/ nocase or $e.NewUacValue = /.*E??$/ nocase or $e.NewUacValue = /.*F??$/ nocase)) and not((($e.OldUacValue = /.*8??$/ nocase or $e.OldUacValue = /.*9??$/ nocase or $e.OldUacValue = /.*A??$/ nocase or $e.OldUacValue = /.*B??$/ nocase or $e.OldUacValue = /.*C??$/ nocase or $e.OldUacValue = /.*D??$/ nocase or $e.OldUacValue = /.*E??$/ nocase or $e.OldUacValue = /.*F??$/ nocase))))))
+
+  condition:
+    $e
+}

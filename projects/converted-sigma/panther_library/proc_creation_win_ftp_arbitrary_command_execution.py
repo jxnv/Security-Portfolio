@@ -1,0 +1,19 @@
+# Title: Potential Arbitrary Command Execution Via FTP.EXE
+# ID: 06b401f4-107c-4ff9-947f-9ec1e7649f1e
+# Status: test
+# Level: medium
+# Author: Victor Sergeev, oscd.community
+# Date: 2020-10-09
+# Tags: attack.execution, attack.stealth, attack.t1059, attack.t1202
+# Description: Detects execution of "ftp.exe" script with the "-s" or "/s" flag and any child processes ran by "ftp.exe".
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Potential Arbitrary Command Execution Via FTP.EXE
+def rule(event):
+    # Detection Logic:
+    # ((ParentImage="*\\ftp.exe") OR (((CommandLine="*-s:*" OR CommandLine="*/s:*")) AND ((Image="*\\ftp.exe") OR (OriginalFileName="ftp.exe"))))
+    return True
+
+def title(event):
+    return "Potential Arbitrary Command Execution Via FTP.EXE"
+

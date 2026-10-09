@@ -1,0 +1,11 @@
+# Title: HackTool - winPEAS Execution
+# ID: 98b53e78-ebaf-46f8-be06-421aafd176d9
+# Status: test
+# Level: high
+# Author: Georg Lauenstein (sure[secure])
+# Date: 2022-09-19
+# Tags: attack.privilege-escalation, attack.discovery, attack.t1082, attack.t1087, attack.t1046
+# Description: WinPEAS is a script that search for possible paths to escalate privileges on Windows hosts. The checks are explained on book.hacktricks.xyz
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog ((process_exec="*https://github.com/carlospolop/PEASS-ng/releases/latest/download/*") OR ((process_exec="* applicationsinfo*" OR process_exec="* browserinfo*" OR process_exec="* eventsinfo*" OR process_exec="* fileanalysis*" OR process_exec="* filesinfo*" OR process_exec="* processinfo*" OR process_exec="* servicesinfo*" OR process_exec="* windowscreds*")) OR ((parent_process_exec="* -linpeas") OR (process_exec="* -linpeas")) OR ((process_name="winPEAS.exe") OR ((process_path="*\\winPEASany_ofs.exe" OR process_path="*\\winPEASany.exe" OR process_path="*\\winPEASx64_ofs.exe" OR process_path="*\\winPEASx64.exe" OR process_path="*\\winPEASx86_ofs.exe" OR process_path="*\\winPEASx86.exe"))))

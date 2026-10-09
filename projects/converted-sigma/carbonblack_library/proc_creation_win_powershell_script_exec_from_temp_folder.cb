@@ -1,0 +1,11 @@
+# Title: Potentially Suspicious Powershell Script Execution From Temp Folder
+# ID: a6a39bdb-935c-4f0a-ab77-35f4bbf44d33
+# Status: test
+# Level: medium
+# Author: Florian Roth (Nextron Systems), Max Altgelt (Nextron Systems), Tim Shelton
+# Date: 2021-07-14
+# Tags: attack.execution, attack.t1059.001
+# Description: Detects a potentially suspicious powershell script executions from temporary folder
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((process_name:*\\powershell.exe OR process_name:*\\pwsh.exe) AND (cmdline:*\\Windows\\Temp* OR cmdline:*\\Temporary Internet* OR cmdline:*\\AppData\\Local\\Temp* OR cmdline:*\\AppData\\Roaming\\Temp* OR cmdline:*%TEMP%* OR cmdline:*%TMP%* OR cmdline:*%LocalAppData%\\Temp*)) AND -(((cmdline:*\\Windows\\system32\\config\\systemprofile\\AppData\\Local\\Temp\\Amazon\\EC2-Windows\\*) OR ((parent_name:"C:\\Windows\\System32\\Msiexec.exe" OR parent_name:"C:\\Windows\\SysWOW64\\Msiexec.exe") AND process_name:*\\powershell.exe AND (cmdline:*-NoProfile -ExecutionPolicy Bypass -Command* AND cmdline:*AppData\\Local\\Temp\\* AND cmdline:*Install-Chocolatey.ps1*)) OR ((cmdline:* >* OR cmdline:*Out-File* OR cmdline:*ConvertTo-Json*)) OR (cmdline:*-WindowStyle hidden -Verb runAs*))))

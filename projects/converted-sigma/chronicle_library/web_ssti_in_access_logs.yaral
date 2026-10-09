@@ -1,0 +1,23 @@
+// Title: Server Side Template Injection Strings
+// ID: ada3bc4f-f0fd-42b9-ba91-e105e8af7342
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-06-14
+// Tags: attack.stealth, attack.t1221
+// Description: Detects SSTI attempts sent via GET requests in access logs
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule ada3bc4f_f0fd_42b9_ba91_e105e8af7342 {
+  meta:
+    title = "Server Side Template Injection Strings"
+    description = "Detects SSTI attempts sent via GET requests in access logs"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.cs-method = "GET") and ("={{" or "=%7B%7B" or "=${" or "=$%7B" or "=<%=" or "=%3C%25=" or "=@(" or "freemarker.template.utility.Execute" or ".getClass().forName('javax.script.ScriptEngineManager')" or "T(org.apache.commons.io.IOUtils)") and not(($e.sc-status = 404)))
+
+  condition:
+    $e
+}

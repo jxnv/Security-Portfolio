@@ -1,0 +1,11 @@
+// Title: Potential Direct Syscall of NtOpenProcess
+// ID: 3f3f3506-1895-401b-9cc3-e86b16e630d0
+// Status: test
+// Level: medium
+// Author: Christian Burkard (Nextron Systems), Tim Shelton (FP)
+// Date: 2021-07-28
+// Tags: attack.execution, attack.t1106
+// Description: Detects potential calls to NtOpenProcess directly from NTDLL.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE ((CallTrace LIKE "UNKNOWN%") AND NOT ((((SourceImage LIKE "%:\\Program Files (x86)\\%" OR SourceImage LIKE "%:\\Program Files\\%" OR SourceImage LIKE "%:\\Windows\\System32\\%" OR SourceImage LIKE "%:\\Windows\\SysWOW64\\%" OR SourceImage LIKE "%:\\Windows\\WinSxS\\%") AND (TargetImage LIKE "%:\\Program Files (x86)\\%" OR TargetImage LIKE "%:\\Program Files\\%" OR TargetImage LIKE "%:\\Windows\\System32\\%" OR TargetImage LIKE "%:\\Windows\\SysWOW64\\%" OR TargetImage LIKE "%:\\Windows\\WinSxS\\%")) OR (winlog.provider_name == "Microsoft-Windows-Kernel-Audit-API-Calls") OR (TargetImage LIKE "%vcredist_x64.exe" AND SourceImage LIKE "%vcredist_x64.exe"))) AND NOT (((SourceImage LIKE "%:\\Program Files\\Adobe\\Acrobat DC\\Acrobat\\%" AND SourceImage LIKE "%\\AcroCEF.exe" AND TargetImage LIKE "%:\\Program Files\\Adobe\\Acrobat DC\\Acrobat\\%" AND TargetImage LIKE "%\\AcroCEF.exe") OR (SourceImage LIKE "%AmazonSSMAgentSetup.exe" AND TargetImage LIKE "%AmazonSSMAgentSetup.exe") OR (SourceImage LIKE "%:\\Windows\\Explorer.EXE" AND TargetImage LIKE "%:\\Program Files\\Cylance\\Desktop\\CylanceUI.exe") OR (TargetImage LIKE "%\\AppData\\Local\\Discord\\%" AND TargetImage LIKE "%\\Discord.exe") OR (TargetImage LIKE "%\\Evernote\\Evernote.exe") OR (TargetImage LIKE "%\\AppData\\Local\\Microsoft\\Teams\\current\\Teams.exe" AND SourceImage LIKE "%\\AppData\\Local\\Microsoft\\Teams\\current\\Teams.exe") OR (TargetImage LIKE "%:\\Windows\\system32\\systeminfo.exe" AND SourceImage LIKE "%setup64.exe") OR (SourceImage LIKE "%\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe" AND TargetImage LIKE "%\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe") OR (SourceImage LIKE "%\\AppData\\Local\\yammerdesktop\\app-%" AND SourceImage LIKE "%\\Yammer.exe" AND TargetImage LIKE "%\\AppData\\Local\\yammerdesktop\\app-%" AND TargetImage LIKE "%\\Yammer.exe" AND GrantedAccess == "0x1000"))))

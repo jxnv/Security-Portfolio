@@ -1,0 +1,12 @@
+// Title: Execution of Suspicious File Type Extension
+// ID: c09dad97-1c78-4f71-b127-7edb2b8e491a
+// Status: test
+// Level: medium
+// Author: Max Altgelt (Nextron Systems)
+// Date: 2021-12-09
+// Tags: attack.stealth
+// Description: Detects whether the image specified in a process creation event doesn't refer to an ".exe" (or other known executable extension) file. This can be caused by process ghosting or other unorthodox methods to start a process.
+// This rule might require some initial baselining to align with some third party tooling in the user environment.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where (not (((process.executable endswith ".bin" or process.executable endswith ".cgi" or process.executable endswith ".com" or process.executable endswith ".exe" or process.executable endswith ".scr" or process.executable endswith ".tmp"))) and not (((process.executable like "*_:\\$Extend\\$Deleted\\*") or (process.executable like "*_:\\Windows\\System32\\DriverStore\\FileRepository\\*") or ((process.executable == "-" or process.executable == "")) or ((process.executable == "System" or process.executable == "Registry" or process.executable == "MemCompression" or process.executable == "vmmem")) or (process.executable like "*_:\\Windows\\Installer\\MSI*") or (process.executable like "*_:\\Config.Msi\\*" and (process.executable endswith ".rbf" or process.executable endswith ".rbs")) or (process.executable == null) or ((process.parent.executable like "*_:\\Windows\\Temp\\*") or (process.executable like "*_:\\Windows\\Temp\\*")))) and not (((process.parent.executable like "*_:\\ProgramData\\Avira\\*") or (process.parent.executable == "C:\\Windows\\System32\\services.exe" and process.executable endswith "com.docker.service") or (process.executable like "*_:\\Program Files\\Mozilla Firefox\\*") or (process.executable endswith "\\LZMA_EXE") or ((process.executable endswith ":\\Program Files (x86)\\MyQ\\Server\\pcltool.dll" or process.executable endswith ":\\Program Files\\MyQ\\Server\\pcltool.dll")) or (process.executable like "*_NVIDIA\\NvBackend\\*" and process.executable endswith ".dat") or ((process.executable like "*_:\\Program Files (x86)\\WINPAKPRO\\*" or process.executable like "*_:\\Program Files\\WINPAKPRO\\*") and process.executable endswith ".ngn") or ((process.executable like "*_\\AppData\\Local\\Packages\\*" and process.executable like "*_\\LocalState\\rootfs\\*")))))

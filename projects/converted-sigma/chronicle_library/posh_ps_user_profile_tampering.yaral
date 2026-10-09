@@ -1,0 +1,23 @@
+// Title: Potential Persistence Via PowerShell User Profile Using Add-Content
+// ID: 05b3e303-faf0-4f4a-9b30-46cc13e69152
+// Status: test
+// Level: medium
+// Author: frack113, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2021-08-18
+// Tags: attack.persistence, attack.privilege-escalation, attack.t1546.013
+// Description: Detects calls to "Add-Content" cmdlet in order to modify the content of the user profile and potentially adding suspicious commands for persistence
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 05b3e303_faf0_4f4a_9b30_46cc13e69152 {
+  meta:
+    title = "Potential Persistence Via PowerShell User Profile Using Add-Content"
+    description = "Detects calls to "Add-Content" cmdlet in order to modify the content of the user profile and potentially adding suspicious commands for persistence"
+    author = "frack113, Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.ScriptBlockText = /.*Add-Content $profile.*/ nocase) and (($e.ScriptBlockText = /.*-Value \"IEX .*/ nocase or $e.ScriptBlockText = /.*-Value \"Invoke-Expression.*/ nocase or $e.ScriptBlockText = /.*-Value \"Invoke-WebRequest.*/ nocase or $e.ScriptBlockText = /.*-Value \"Start-Process.*/ nocase or $e.ScriptBlockText = /.*-Value 'IEX .*/ nocase or $e.ScriptBlockText = /.*-Value 'Invoke-Expression.*/ nocase or $e.ScriptBlockText = /.*-Value 'Invoke-WebRequest.*/ nocase or $e.ScriptBlockText = /.*-Value 'Start-Process.*/ nocase)))
+
+  condition:
+    $e
+}

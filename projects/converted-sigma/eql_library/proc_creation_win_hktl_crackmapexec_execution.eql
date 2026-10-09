@@ -1,0 +1,11 @@
+// Title: HackTool - CrackMapExec Execution
+// ID: 42a993dd-bb3e-48c8-b372-4d6684c4106c
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-02-25
+// Tags: attack.execution, attack.persistence, attack.privilege-escalation, attack.credential-access, attack.discovery, attack.t1047, attack.t1053, attack.t1059.003, attack.t1059.001, attack.t1110, attack.t1201
+// Description: This rule detect common flag combinations used by CrackMapExec in order to detect its use even if the binary has been replaced.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where (((process.executable endswith "\\crackmapexec.exe") or ((process.command_line like "*_ --local-auth*" and process.command_line like "*_ -u *" and process.command_line like "*_ -x *")) or ((process.command_line like "*_ --local-auth*" and process.command_line like "*_ -u *" and process.command_line like "*_ -p *" and process.command_line like "*_ -H 'NTHASH'*")) or ((process.command_line like "*_ mssql *" and process.command_line like "*_ -u *" and process.command_line like "*_ -p *" and process.command_line like "*_ -M *" and process.command_line like "*_ -d *")) or ((process.command_line like "*_ smb *" and process.command_line like "*_ -u *" and process.command_line like "*_ -H *" and process.command_line like "*_ -M *" and process.command_line like "*_ -o *")) or ((process.command_line like "*_ smb *" and process.command_line like "*_ -u *" and process.command_line like "*_ -p *" and process.command_line like "*_ --local-auth*")) or (process.command_line like "*_ -M pe_inject *")) or (((process.command_line like "*_ --local-auth*" and process.command_line like "*_ -u *" and process.command_line like "*_ -p *")) and ((process.command_line like "*_ 10.*" and process.command_line like "*_ 192.168.*" and process.command_line like "*_/24 *"))))

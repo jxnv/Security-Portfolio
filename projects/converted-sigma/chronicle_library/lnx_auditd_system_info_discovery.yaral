@@ -1,0 +1,23 @@
+// Title: System Information Discovery - Auditd
+// ID: f34047d9-20d3-4e8b-8672-0a35cc50dc71
+// Status: test
+// Level: low
+// Author: Pawel Mazur
+// Date: 2021-09-03
+// Tags: attack.discovery, attack.t1082
+// Description: Detects System Information Discovery commands
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule f34047d9_20d3_4e8b_8672_0a35cc50dc71 {
+  meta:
+    title = "System Information Discovery - Auditd"
+    description = "Detects System Information Discovery commands"
+    author = "Pawel Mazur"
+    severity = "LOW"
+
+  events:
+    (($e.type = "PATH" and ($e.name = "/etc/lsb-release" or $e.name = "/etc/redhat-release" or $e.name = "/etc/issue")) or ($e.type = "EXECVE" and ($e.a0 = "uname" or $e.a0 = "uptime" or $e.a0 = "lsmod" or $e.a0 = "hostname" or $e.a0 = "env")) or ($e.type = "EXECVE" and $e.a0 = "grep" and ($e.a1 = /.*vbox.*/ nocase or $e.a1 = /.*vm.*/ nocase or $e.a1 = /.*xen.*/ nocase or $e.a1 = /.*virtio.*/ nocase or $e.a1 = /.*hv.*/ nocase)) or ($e.type = "EXECVE" and $e.a0 = "kmod" and $e.a1 = "list"))
+
+  condition:
+    $e
+}

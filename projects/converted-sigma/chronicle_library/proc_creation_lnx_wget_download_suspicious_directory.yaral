@@ -1,0 +1,23 @@
+// Title: Download File To Potentially Suspicious Directory Via Wget
+// ID: cf610c15-ed71-46e1-bdf8-2bd1a99de6c4
+// Status: test
+// Level: medium
+// Author: Joseliyo Sanchez, @Joseliyo_Jstnk
+// Date: 2023-06-02
+// Tags: attack.command-and-control, attack.t1105
+// Description: Detects the use of wget to download content to a suspicious directory
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule cf610c15_ed71_46e1_bdf8_2bd1a99de6c4 {
+  meta:
+    title = "Download File To Potentially Suspicious Directory Via Wget"
+    description = "Detects the use of wget to download content to a suspicious directory"
+    author = "Joseliyo Sanchez, @Joseliyo_Jstnk"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.process.file.full_path = /.*/wget$/ nocase) and (($e.target.process.command_line = /\s-O\s/ nocase) or ($e.target.process.command_line = /.*--output-document.*/ nocase)) and ($e.target.process.command_line = /.*/tmp/.*/ nocase))
+
+  condition:
+    $e
+}

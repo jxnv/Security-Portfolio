@@ -1,0 +1,24 @@
+// Title: Potentially Suspicious Usage Of Qemu
+// ID: 5fc297ae-25b6-488a-8f25-cc12ac29b744
+// Status: test
+// Level: medium
+// Author: Muhammad Faisal (@faisalusuf), Hunter Juhan (@threatHNTR)
+// Date: 2024-06-03
+// Tags: attack.command-and-control, attack.t1090, attack.t1572
+// Description: Detects potentially suspicious execution of the Qemu utility in a Windows environment.
+// Threat actors have leveraged this utility and this technique for achieving network access as reported by Kaspersky.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 5fc297ae_25b6_488a_8f25_cc12ac29b744 {
+  meta:
+    title = "Potentially Suspicious Usage Of Qemu"
+    description = "Detects potentially suspicious execution of the Qemu utility in a Windows environment. Threat actors have leveraged this utility and this technique for achieving network access as reported by Kaspersky."
+    author = "Muhammad Faisal (@faisalusuf), Hunter Juhan (@threatHNTR)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.command_line = /.*-m 1M.*/ nocase or $e.target.process.command_line = /.*-m 2M.*/ nocase or $e.target.process.command_line = /.*-m 3M.*/ nocase) and ($e.target.process.command_line = /.*restrict=off.*/ nocase and $e.target.process.command_line = /.*-netdev .*/ nocase and $e.target.process.command_line = /.*connect=.*/ nocase and $e.target.process.command_line = /.*-nographic.*/ nocase)) and not((($e.target.process.command_line = /.* -cdrom .*/ nocase or $e.target.process.command_line = /.* type=virt .*/ nocase or $e.target.process.command_line = /.* -blockdev .*/ nocase))))
+
+  condition:
+    $e
+}

@@ -1,0 +1,11 @@
+// Title: Webshell Hacking Activity Patterns
+// ID: 4ebc877f-4612-45cb-b3a5-8e3834db36c9
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-03-17
+// Tags: attack.persistence, attack.discovery, attack.t1505.003, attack.t1018, attack.t1033, attack.t1087
+// Description: Detects certain parent child patterns found in cases in which a web shell is used to perform certain credential dumping or exfiltration activities on a compromised system
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((ParentImage="*\\java.exe" OR ParentImage="*\\javaw.exe") AND (ParentImage CONTAINS "-tomcat-" OR ParentImage CONTAINS "\\tomcat")) OR ((ParentImage="*\\java.exe" OR ParentImage="*\\javaw.exe") AND (CommandLine CONTAINS "catalina.jar" OR CommandLine CONTAINS "CATALINA_HOME")) OR ((ParentImage="*\\caddy.exe" OR ParentImage="*\\httpd.exe" OR ParentImage="*\\nginx.exe" OR ParentImage="*\\php-cgi.exe" OR ParentImage="*\\w3wp.exe" OR ParentImage="*\\ws_tomcatservice.exe"))) AND (((CommandLine CONTAINS "rundll32" AND CommandLine CONTAINS "comsvcs")) OR ((CommandLine CONTAINS " -hp" AND CommandLine CONTAINS " a " AND CommandLine CONTAINS " -m")) OR ((CommandLine CONTAINS "net" AND CommandLine CONTAINS " user " AND CommandLine CONTAINS " /add")) OR ((CommandLine CONTAINS "net" AND CommandLine CONTAINS " localgroup " AND CommandLine CONTAINS " administrators " AND CommandLine CONTAINS "/add")) OR ((Image="*\\ntdsutil.exe" OR Image="*\\ldifde.exe" OR Image="*\\adfind.exe" OR Image="*\\procdump.exe" OR Image="*\\Nanodump.exe" OR Image="*\\vssadmin.exe" OR Image="*\\fsutil.exe")) OR ((CommandLine CONTAINS " -decode " OR CommandLine CONTAINS " -NoP " OR CommandLine CONTAINS " -W Hidden " OR CommandLine CONTAINS " /decode " OR CommandLine CONTAINS " /ticket:" OR CommandLine CONTAINS " sekurlsa" OR CommandLine CONTAINS ".dmp full" OR CommandLine CONTAINS ".downloadfile(" OR CommandLine CONTAINS ".downloadstring(" OR CommandLine CONTAINS "FromBase64String" OR CommandLine CONTAINS "process call create" OR CommandLine CONTAINS "reg save " OR CommandLine CONTAINS "whoami /priv"))))

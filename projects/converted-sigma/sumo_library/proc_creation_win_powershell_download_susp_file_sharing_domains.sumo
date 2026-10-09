@@ -1,0 +1,11 @@
+// Title: Potentially Suspicious File Download From File Sharing Domain Via PowerShell.EXE
+// ID: b6e04788-29e1-4557-bb14-77f761848ab8
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2024-02-23
+// Tags: attack.execution
+// Description: Detects potentially suspicious file downloads from file sharing domains using PowerShell.exe
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where (((CommandLine matches "*.DownloadString(*" or CommandLine matches "*.DownloadFile(*" or CommandLine matches "*Invoke-WebRequest *" or CommandLine matches "*iwr *" or CommandLine matches "*wget *")) and (((Image matches "*\\powershell.exe" or Image matches "*\\pwsh.exe")) or ((OriginalFileName = "PowerShell.EXE" or OriginalFileName = "pwsh.dll"))) and ((CommandLine matches "*0x0.st*" or CommandLine matches "*anonfiles.com*" or CommandLine matches "*bashupload.com*" or CommandLine matches "*cdn.discordapp.com*" or CommandLine matches "*chunk.io*" or CommandLine matches "*ddns.net*" or CommandLine matches "*dl.dropboxusercontent.com*" or CommandLine matches "*ghostbin.co*" or CommandLine matches "*glitch.me*" or CommandLine matches "*gofile.io*" or CommandLine matches "*hastebin.com*" or CommandLine matches "*mediafire.com*" or CommandLine matches "*mega.nz*" or CommandLine matches "*onrender.com*" or CommandLine matches "*pages.dev*" or CommandLine matches "*paste.ee*" or CommandLine matches "*pastebin.com*" or CommandLine matches "*pastebin.pl*" or CommandLine matches "*pastetext.net*" or CommandLine matches "*pixeldrain.com*" or CommandLine matches "*privatlab.com*" or CommandLine matches "*privatlab.net*" or CommandLine matches "*send.exploit.in*" or CommandLine matches "*sendspace.com*" or CommandLine matches "*storage.googleapis.com*" or CommandLine matches "*storjshare.io*" or CommandLine matches "*supabase.co*" or CommandLine matches "*temp.sh*" or CommandLine matches "*transfer.sh*" or CommandLine matches "*trycloudflare.com*" or CommandLine matches "*ufile.io*" or CommandLine matches "*w3spaces.com*" or CommandLine matches "*workers.dev*" or CommandLine matches "*x0.at*")))

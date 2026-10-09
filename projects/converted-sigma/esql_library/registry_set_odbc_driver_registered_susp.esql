@@ -1,0 +1,11 @@
+// Title: Potentially Suspicious ODBC Driver Registered
+// ID: e4d22291-f3d5-4b78-9a0c-a1fbaf32a6a4
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-05-23
+// Tags: attack.credential-access, attack.persistence, attack.t1003
+// Description: Detects the registration of a new ODBC driver where the driver is located in a potentially suspicious location
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE (registry.path LIKE "%\\SOFTWARE\\ODBC\\ODBCINST.INI\\%" AND (registry.path LIKE "%\\Driver" OR registry.path LIKE "%\\Setup") AND (registry.data.strings LIKE "%:\\PerfLogs\\%" OR registry.data.strings LIKE "%:\\ProgramData\\%" OR registry.data.strings LIKE "%:\\Temp\\%" OR registry.data.strings LIKE "%:\\Users\\Public\\%" OR registry.data.strings LIKE "%:\\Windows\\Registration\\CRMLog%" OR registry.data.strings LIKE "%:\\Windows\\System32\\com\\dmp\\%" OR registry.data.strings LIKE "%:\\Windows\\System32\\FxsTmp\\%" OR registry.data.strings LIKE "%:\\Windows\\System32\\Microsoft\\Crypto\\RSA\\MachineKeys\\%" OR registry.data.strings LIKE "%:\\Windows\\System32\\spool\\drivers\\color\\%" OR registry.data.strings LIKE "%:\\Windows\\System32\\spool\\PRINTERS\\%" OR registry.data.strings LIKE "%:\\Windows\\System32\\spool\\SERVERS\\%" OR registry.data.strings LIKE "%:\\Windows\\System32\\Tasks_Migrated\\%" OR registry.data.strings LIKE "%:\\Windows\\System32\\Tasks\\Microsoft\\Windows\\SyncCenter\\%" OR registry.data.strings LIKE "%:\\Windows\\SysWOW64\\com\\dmp\\%" OR registry.data.strings LIKE "%:\\Windows\\SysWOW64\\FxsTmp\\%" OR registry.data.strings LIKE "%:\\Windows\\SysWOW64\\Tasks\\Microsoft\\Windows\\PLA\\System\\%" OR registry.data.strings LIKE "%:\\Windows\\SysWOW64\\Tasks\\Microsoft\\Windows\\SyncCenter\\%" OR registry.data.strings LIKE "%:\\Windows\\Tasks\\%" OR registry.data.strings LIKE "%:\\Windows\\Temp\\%" OR registry.data.strings LIKE "%:\\Windows\\Tracing\\%" OR registry.data.strings LIKE "%\\AppData\\Local\\Temp\\%" OR registry.data.strings LIKE "%\\AppData\\Roaming\\%"))

@@ -1,0 +1,19 @@
+# Title: Suspicious CustomShellHost Execution
+# ID: 84b14121-9d14-416e-800b-f3b829c5a14d
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-08-19
+# Tags: attack.stealth, attack.t1216
+# Description: Detects the execution of CustomShellHost.exe where the child isn't located in 'C:\Windows\explorer.exe'. CustomShellHost is a known LOLBin that can be abused by attackers for defense evasion techniques.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Suspicious CustomShellHost Execution
+def rule(event):
+    # Detection Logic:
+    # ((ParentImage="*\\CustomShellHost.exe") AND NOT ((Image="C:\\Windows\\explorer.exe")))
+    return True
+
+def title(event):
+    return "Suspicious CustomShellHost Execution"
+

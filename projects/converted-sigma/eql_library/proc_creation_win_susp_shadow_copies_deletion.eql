@@ -1,0 +1,11 @@
+// Title: Shadow Copies Deletion Using Operating Systems Utilities
+// ID: c947b146-0abc-4c87-9c64-b17e9d7274a2
+// Status: stable
+// Level: high
+// Author: Florian Roth (Nextron Systems), Michael Haag, Teymur Kheirkhabarov, Daniil Yugoslavskiy, oscd.community, Andreas Hunkeler (@Karneades)
+// Date: 2019-10-22
+// Tags: attack.impact, attack.stealth, attack.t1070, attack.t1490
+// Description: Shadow Copies deletion using operating systems utilities
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where ((((process.command_line like "*_shadow*" and process.command_line like "*_delete*")) and (((process.executable endswith "\\powershell.exe" or process.executable endswith "\\pwsh.exe" or process.executable endswith "\\wmic.exe" or process.executable endswith "\\vssadmin.exe" or process.executable endswith "\\diskshadow.exe")) or ((process.pe.original_file_name == "PowerShell.EXE" or process.pe.original_file_name == "pwsh.dll" or process.pe.original_file_name == "wmic.exe" or process.pe.original_file_name == "VSSADMIN.EXE" or process.pe.original_file_name == "diskshadow.exe")))) or (((process.command_line like "*_delete*" and process.command_line like "*_catalog*" and process.command_line like "*_quiet*")) and ((process.executable endswith "\\wbadmin.exe") or (process.pe.original_file_name == "WBADMIN.EXE"))) or (((process.command_line like "*_resize*" and process.command_line like "*_shadowstorage*") and (process.command_line like "*_unbounded*" or process.command_line like "*_/MaxSize=*")) and ((process.executable endswith "\\vssadmin.exe") or (process.pe.original_file_name == "VSSADMIN.EXE"))))

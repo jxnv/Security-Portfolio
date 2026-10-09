@@ -1,0 +1,12 @@
+# Title: Potential WSL Binary Modification from Installed Location
+# ID: 2f400434-01e1-416b-b52c-bb5bfbb9eb78
+# Status: experimental
+# Level: medium
+# Author: Liran Ravich, Swachchhanda Shrawan Poudel (Nextron Systems)
+# Date: 2026-05-05
+# Tags: attack.stealth, attack.t1036.005, attack.t1218
+# Description: Detects the modification of the wsl.exe binary from its installed location.
+# Attackers can replace the legitimate wsl.exe binary with a malicious payload in its place, which is then executed when the user runs WSL, acting as a proxy execution and defense evasion technique.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((file.path:*\\wsl.exe) AND (((file.path:*:\\Program files\\wsl\\* OR file.path:*:\\Program files\\WindowsApps\\MicrosoftCorporationII.WindowsSubsystemForLinux_*)) OR ((file.path:*:\\Users\\* AND file.path:*\\AppData\\Local\\Microsoft\\WindowsApps\\*)))) AND NOT ((((process.executable:"C:\\Windows\\System32\\msiexec.exe" OR process.executable:"C:\\Windows\\SysWOW64\\msiexec.exe")) OR (process.executable:"C:\\Windows\\System32\\svchost.exe" AND file.path:*\\WindowsApps\\*))))

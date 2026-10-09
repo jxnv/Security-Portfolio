@@ -1,0 +1,23 @@
+// Title: VeeamBackup Database Credentials Dump Via Sqlcmd.EXE
+// ID: b57ba453-b384-4ab9-9f40-1038086b4e53
+// Status: test
+// Level: high
+// Author: frack113
+// Date: 2021-12-20
+// Tags: attack.collection, attack.t1005
+// Description: Detects dump of credentials in VeeamBackup dbo
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule b57ba453_b384_4ab9_9f40_1038086b4e53 {
+  meta:
+    title = "VeeamBackup Database Credentials Dump Via Sqlcmd.EXE"
+    description = "Detects dump of credentials in VeeamBackup dbo"
+    author = "frack113"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*SELECT.*/ nocase and $e.target.process.command_line = /.*TOP.*/ nocase and $e.target.process.command_line = /.*[VeeamBackup].[dbo].[Credentials].*/ nocase)) and ($e.target.process.file.full_path = /.*\\sqlcmd.exe$/ nocase))
+
+  condition:
+    $e
+}

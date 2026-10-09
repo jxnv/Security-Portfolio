@@ -1,0 +1,23 @@
+// Title: PowerShell Decompress Commands
+// ID: 1ddc1472-8e52-4f7d-9f11-eab14fc171f5
+// Status: test
+// Level: informational
+// Author: Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research)
+// Date: 2020-05-02
+// Tags: attack.stealth, attack.t1140
+// Description: A General detection for specific decompress commands in PowerShell logs. This could be an adversary decompressing files.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 1ddc1472_8e52_4f7d_9f11_eab14fc171f5 {
+  meta:
+    title = "PowerShell Decompress Commands"
+    description = "A General detection for specific decompress commands in PowerShell logs. This could be an adversary decompressing files."
+    author = "Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research)"
+    severity = "INFORMATIONAL"
+
+  events:
+    ($e.Payload = /.*Expand-Archive.*/ nocase)
+
+  condition:
+    $e
+}

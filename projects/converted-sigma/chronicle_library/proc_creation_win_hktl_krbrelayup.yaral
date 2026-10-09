@@ -1,0 +1,23 @@
+// Title: HackTool - KrbRelayUp Execution
+// ID: 12827a56-61a4-476a-a9cb-f3068f191073
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-04-26
+// Tags: attack.credential-access, attack.t1558.003, attack.lateral-movement, attack.t1550.003
+// Description: Detects KrbRelayUp used to perform a universal no-fix local privilege escalation in Windows domain environments where LDAP signing is not enforced
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 12827a56_61a4_476a_a9cb_f3068f191073 {
+  meta:
+    title = "HackTool - KrbRelayUp Execution"
+    description = "Detects KrbRelayUp used to perform a universal no-fix local privilege escalation in Windows domain environments where LDAP signing is not enforced"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.* relay .*/ nocase and $e.target.process.command_line = /.* -Domain .*/ nocase and $e.target.process.command_line = /.* -ComputerName .*/ nocase)) or (($e.target.process.command_line = /.* krbscm .*/ nocase and $e.target.process.command_line = /.* -sc .*/ nocase)) or (($e.target.process.command_line = /.* spawn .*/ nocase and $e.target.process.command_line = /.* -d .*/ nocase and $e.target.process.command_line = /.* -cn .*/ nocase and $e.target.process.command_line = /.* -cp .*/ nocase)) or (($e.target.process.file.full_path = /.*\\KrbRelayUp.exe$/ nocase) or ($e.target.process.file.name = "KrbRelayUp.exe")))
+
+  condition:
+    $e
+}

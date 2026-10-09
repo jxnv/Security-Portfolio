@@ -1,0 +1,23 @@
+// Title: Potential Active Directory Reconnaissance/Enumeration Via LDAP
+// ID: 31d68132-4038-47c7-8f8e-635a39a7c174
+// Status: test
+// Level: medium
+// Author: Adeem Mawani
+// Date: 2021-06-22
+// Tags: attack.discovery, attack.t1069.002, attack.t1087.002, attack.t1482
+// Description: Detects potential Active Directory enumeration via LDAP
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 31d68132_4038_47c7_8f8e_635a39a7c174 {
+  meta:
+    title = "Potential Active Directory Reconnaissance/Enumeration Via LDAP"
+    description = "Detects potential Active Directory enumeration via LDAP"
+    author = "Adeem Mawani"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.EventID = 30 and ($e.SearchFilter = /.*(groupType:1.2.840.113556.1.4.803:=2147483648).*/ nocase or $e.SearchFilter = /.*(groupType:1.2.840.113556.1.4.803:=2147483656).*/ nocase or $e.SearchFilter = /.*(groupType:1.2.840.113556.1.4.803:=2147483652).*/ nocase or $e.SearchFilter = /.*(groupType:1.2.840.113556.1.4.803:=2147483650).*/ nocase or $e.SearchFilter = /.*(sAMAccountType=805306369).*/ nocase or $e.SearchFilter = /.*(sAMAccountType=805306368).*/ nocase or $e.SearchFilter = /.*(sAMAccountType=536870913).*/ nocase or $e.SearchFilter = /.*(sAMAccountType=536870912).*/ nocase or $e.SearchFilter = /.*(sAMAccountType=268435457).*/ nocase or $e.SearchFilter = /.*(sAMAccountType=268435456).*/ nocase or $e.SearchFilter = /.*(objectCategory=groupPolicyContainer).*/ nocase or $e.SearchFilter = /.*(objectCategory=organizationalUnit).*/ nocase or $e.SearchFilter = /.*(objectCategory=nTDSDSA).*/ nocase or $e.SearchFilter = /.*(objectCategory=server).*/ nocase or $e.SearchFilter = /.*(objectCategory=domain).*/ nocase or $e.SearchFilter = /.*(objectCategory=person).*/ nocase or $e.SearchFilter = /.*(objectCategory=group).*/ nocase or $e.SearchFilter = /.*(objectCategory=user).*/ nocase or $e.SearchFilter = /.*(objectClass=trustedDomain).*/ nocase or $e.SearchFilter = /.*(objectClass=computer).*/ nocase or $e.SearchFilter = /.*(objectClass=server).*/ nocase or $e.SearchFilter = /.*(objectClass=group).*/ nocase or $e.SearchFilter = /.*(objectClass=user).*/ nocase or $e.SearchFilter = /.*(primaryGroupID=521).*/ nocase or $e.SearchFilter = /.*(primaryGroupID=516).*/ nocase or $e.SearchFilter = /.*(primaryGroupID=515).*/ nocase or $e.SearchFilter = /.*(primaryGroupID=512).*/ nocase or $e.SearchFilter = /.*Domain Admins.*/ nocase or $e.SearchFilter = /.*objectGUID=\\*.*/ nocase or $e.SearchFilter = /.*(schemaIDGUID=\\*).*/ nocase or $e.SearchFilter = /.*admincount=1.*/ nocase)) and not(($e.EventID = 30 and ($e.SearchFilter = /.*(domainSid=*).*/ nocase or $e.SearchFilter = /.*(objectSid=*).*/ nocase)))) or ($e.EventID = 30 and ($e.SearchFilter = /.*(userAccountControl:1.2.840.113556.1.4.803:=4194304).*/ nocase or $e.SearchFilter = /.*(userAccountControl:1.2.840.113556.1.4.803:=2097152).*/ nocase or $e.SearchFilter = /.*!(userAccountControl:1.2.840.113556.1.4.803:=1048574).*/ nocase or $e.SearchFilter = /.*(userAccountControl:1.2.840.113556.1.4.803:=524288).*/ nocase or $e.SearchFilter = /.*(userAccountControl:1.2.840.113556.1.4.803:=65536).*/ nocase or $e.SearchFilter = /.*(userAccountControl:1.2.840.113556.1.4.803:=8192).*/ nocase or $e.SearchFilter = /.*(userAccountControl:1.2.840.113556.1.4.803:=544).*/ nocase or $e.SearchFilter = /.*!(UserAccountControl:1.2.840.113556.1.4.803:=2).*/ nocase or $e.SearchFilter = /.*msDS-AllowedToActOnBehalfOfOtherIdentity.*/ nocase or $e.SearchFilter = /.*msDS-AllowedToDelegateTo.*/ nocase or $e.SearchFilter = /.*msDS-GroupManagedServiceAccount.*/ nocase or $e.SearchFilter = /.*(accountExpires=9223372036854775807).*/ nocase or $e.SearchFilter = /.*(accountExpires=0).*/ nocase or $e.SearchFilter = /.*(adminCount=1).*/ nocase or $e.SearchFilter = /.*ms-MCS-AdmPwd.*/ nocase)) or ($e.EventID = 30 and $e.SearchFilter = "(objectclass=\\*)" and ($e.DistinguishedName = /.*CN=Domain Admins.*/ nocase or $e.DistinguishedName = /.*CN=Enterprise Admins.*/ nocase or $e.DistinguishedName = /.*CN=Group Policy Creator Owners.*/ nocase)))
+
+  condition:
+    $e
+}

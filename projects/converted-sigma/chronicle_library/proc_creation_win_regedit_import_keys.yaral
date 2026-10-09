@@ -1,0 +1,23 @@
+// Title: Imports Registry Key From a File
+// ID: 73bba97f-a82d-42ce-b315-9182e76c57b1
+// Status: test
+// Level: medium
+// Author: Oddvar Moe, Sander Wiebing, oscd.community
+// Date: 2020-10-07
+// Tags: attack.persistence, attack.defense-impairment, attack.t1112
+// Description: Detects the import of the specified file to the registry with regedit.exe.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 73bba97f_a82d_42ce_b315_9182e76c57b1 {
+  meta:
+    title = "Imports Registry Key From a File"
+    description = "Detects the import of the specified file to the registry with regedit.exe."
+    author = "Oddvar Moe, Sander Wiebing, oscd.community"
+    severity = "MEDIUM"
+
+  events:
+    (((($e.target.process.command_line = /.* /i .*/ nocase or $e.target.process.command_line = /.* /s .*/ nocase or $e.target.process.command_line = /.*.reg.*/ nocase)) and (($e.target.process.file.full_path = /.*\\regedit.exe$/ nocase) or ($e.target.process.file.name = "REGEDIT.EXE"))) and not(((($e.target.process.command_line = /.* -e .*/ nocase or $e.target.process.command_line = /.* -a .*/ nocase or $e.target.process.command_line = /.* -c .*/ nocase)) and ($e.target.process.command_line = /:[^ \\]/ nocase))))
+
+  condition:
+    $e
+}

@@ -1,0 +1,11 @@
+// Title: Renamed Office Binary Execution
+// ID: 0b0cd537-fc77-4e6e-a973-e53495c1083d
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-12-20
+// Tags: attack.stealth, attack.t1036.003
+// Description: Detects the execution of a renamed office binary
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where ((((process.pe.original_file_name == "Excel.exe" or process.pe.original_file_name == "MSACCESS.EXE" or process.pe.original_file_name == "MSPUB.EXE" or process.pe.original_file_name == "OneNote.exe" or process.pe.original_file_name == "OneNoteM.exe" or process.pe.original_file_name == "OUTLOOK.EXE" or process.pe.original_file_name == "POWERPNT.EXE" or process.pe.original_file_name == "WinWord.exe" or process.pe.original_file_name == "Olk.exe")) or ((Description == "Microsoft Access" or Description == "Microsoft Excel" or Description == "Microsoft OneNote" or Description == "Microsoft Outlook" or Description == "Microsoft PowerPoint" or Description == "Microsoft Publisher" or Description == "Microsoft Word" or Description == "Sent to OneNote Tool"))) and not (((process.executable endswith "\\EXCEL.exe" or process.executable endswith "\\excelcnv.exe" or process.executable endswith "\\MSACCESS.exe" or process.executable endswith "\\MSPUB.EXE" or process.executable endswith "\\ONENOTE.EXE" or process.executable endswith "\\ONENOTEM.EXE" or process.executable endswith "\\OUTLOOK.EXE" or process.executable endswith "\\POWERPNT.EXE" or process.executable endswith "\\WINWORD.exe" or process.executable endswith "\\OLK.EXE"))))

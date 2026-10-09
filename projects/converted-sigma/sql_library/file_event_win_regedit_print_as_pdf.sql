@@ -1,0 +1,12 @@
+-- Title: PDF File Created By RegEdit.EXE
+-- ID: 145095eb-e273-443b-83d0-f9b519b7867b
+-- Status: test
+-- Level: high
+-- Author: Nasreddine Bencherchali (Nextron Systems)
+-- Date: 2024-07-08
+-- Tags: attack.stealth
+-- Description: Detects the creation of a file with the ".pdf" extension by the "RegEdit.exe" process.
+-- This indicates that a user is trying to print/save a registry key as a PDF in order to potentially extract sensitive information and bypass defenses.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE (Image ILIKE '%\\regedit.exe' AND TargetFilename ILIKE '%.pdf')

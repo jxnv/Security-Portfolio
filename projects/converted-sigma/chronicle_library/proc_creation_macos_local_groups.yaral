@@ -1,0 +1,23 @@
+// Title: Local Groups Discovery - MacOs
+// ID: 89bb1f97-c7b9-40e8-b52b-7d6afbd67276
+// Status: test
+// Level: informational
+// Author: Ömer Günal, Alejandro Ortuno, oscd.community
+// Date: 2020-10-11
+// Tags: attack.discovery, attack.t1069.001
+// Description: Detects enumeration of local system groups
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 89bb1f97_c7b9_40e8_b52b_7d6afbd67276 {
+  meta:
+    title = "Local Groups Discovery - MacOs"
+    description = "Detects enumeration of local system groups"
+    author = "Ömer Günal, Alejandro Ortuno, oscd.community"
+    severity = "INFORMATIONAL"
+
+  events:
+    (($e.target.process.file.full_path = /.*/dscacheutil$/ nocase and ($e.target.process.command_line = /.*-q.*/ nocase and $e.target.process.command_line = /.*group.*/ nocase)) or ($e.target.process.file.full_path = /.*/cat$/ nocase and $e.target.process.command_line = /.*/etc/group.*/ nocase) or ($e.target.process.file.full_path = /.*/dscl$/ nocase and ($e.target.process.command_line = /.*-list.*/ nocase and $e.target.process.command_line = /.*/groups.*/ nocase)))
+
+  condition:
+    $e
+}

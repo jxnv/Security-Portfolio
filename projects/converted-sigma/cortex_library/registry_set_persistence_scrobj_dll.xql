@@ -1,0 +1,11 @@
+// Title: Potential Persistence Via Scrobj.dll COM Hijacking
+// ID: fe20dda1-6f37-4379-bbe0-a98d400cae90
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-08-20
+// Tags: attack.privilege-escalation, attack.persistence, attack.t1546.015
+// Description: Detect use of scrobj.dll as this DLL looks for the ScriptletURL key to get the location of the script to execute
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter (TargetObject endswith "InprocServer32\\(Default)" and Details = "C:\\WINDOWS\\system32\\scrobj.dll")

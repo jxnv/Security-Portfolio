@@ -1,0 +1,23 @@
+// Title: Execute Invoke-command on Remote Host
+// ID: 7b836d7f-179c-4ba4-90a7-a7e60afb48e6
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-01-07
+// Tags: attack.lateral-movement, attack.t1021.006
+// Description: Adversaries may use Valid Accounts to interact with remote systems using Windows Remote Management (WinRM). The adversary may then perform actions as the logged-on user.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 7b836d7f_179c_4ba4_90a7_a7e60afb48e6 {
+  meta:
+    title = "Execute Invoke-command on Remote Host"
+    description = "Adversaries may use Valid Accounts to interact with remote systems using Windows Remote Management (WinRM). The adversary may then perform actions as the logged-on user."
+    author = "frack113"
+    severity = "MEDIUM"
+
+  events:
+    (($e.ScriptBlockText = /.*invoke-command .*/ nocase and $e.ScriptBlockText = /.* -ComputerName .*/ nocase))
+
+  condition:
+    $e
+}

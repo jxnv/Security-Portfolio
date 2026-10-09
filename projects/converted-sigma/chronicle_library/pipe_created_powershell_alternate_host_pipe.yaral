@@ -1,0 +1,23 @@
+// Title: Alternate PowerShell Hosts Pipe
+// ID: 58cb02d5-78ce-4692-b3e1-dce850aae41a
+// Status: test
+// Level: medium
+// Author: Roberto Rodriguez @Cyb3rWard0g, Tim Shelton
+// Date: 2019-09-12
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects alternate PowerShell hosts potentially bypassing detections looking for powershell.exe
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 58cb02d5_78ce_4692_b3e1_dce850aae41a {
+  meta:
+    title = "Alternate PowerShell Hosts Pipe"
+    description = "Detects alternate PowerShell hosts potentially bypassing detections looking for powershell.exe"
+    author = "Roberto Rodriguez @Cyb3rWard0g, Tim Shelton"
+    severity = "MEDIUM"
+
+  events:
+    (($e.PipeName = /^\\PSHost.*/ nocase) and not((((($e.target.process.file.full_path = /.*:\\Program Files\\PowerShell\\7-preview\\pwsh.exe.*/ nocase or $e.target.process.file.full_path = /.*:\\Program Files\\PowerShell\\7\\pwsh.exe.*/ nocase or $e.target.process.file.full_path = /.*:\\Windows\\system32\\dsac.exe.*/ nocase or $e.target.process.file.full_path = /.*:\\Windows\\system32\\inetsrv\\w3wp.exe.*/ nocase or $e.target.process.file.full_path = /.*:\\Windows\\System32\\sdiagnhost.exe.*/ nocase or $e.target.process.file.full_path = /.*:\\Windows\\system32\\ServerManager.exe.*/ nocase or $e.target.process.file.full_path = /.*:\\Windows\\system32\\wbem\\wmiprvse.exe.*/ nocase or $e.target.process.file.full_path = /.*:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell_ise.exe.*/ nocase or $e.target.process.file.full_path = /.*:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe.*/ nocase or $e.target.process.file.full_path = /.*:\\Windows\\System32\\wsmprovhost.exe.*/ nocase or $e.target.process.file.full_path = /.*:\\Windows\\SysWOW64\\WindowsPowerShell\\v1.0\\powershell_ise.exe.*/ nocase or $e.target.process.file.full_path = /.*:\\Windows\\SysWOW64\\WindowsPowerShell\\v1.0\\powershell.exe.*/ nocase)) or (($e.target.process.file.full_path = /.*C:\\Program Files\\WindowsApps\\Microsoft.PowerShellPreview.*/ nocase and $e.target.process.file.full_path = /.*\\pwsh.exe.*/ nocase)) or (($e.target.process.file.full_path = /.*\\AppData\\Local\\Microsoft\\WindowsApps\\Microsoft.PowerShellPreview.*/ nocase and $e.target.process.file.full_path = /.*\\pwsh.exe.*/ nocase))) or (not ($e.target.process.file.full_path = /.*/)))) and not((($e.target.process.file.full_path = /^C:\\Program Files\\AzureConnectedMachineAgent\\GCArcService.*/ nocase and $e.target.process.file.full_path = /.*\\GC\\gc_worker.exe$/ nocase) or ($e.target.process.file.full_path = /^C:\\Program Files\\Citrix\\.*/ nocase) or ($e.target.process.file.full_path = /^C:\\Program Files\\Microsoft\\Exchange Server\\.*/ nocase) or (($e.target.process.file.full_path = /^C:\\Program Files (x86)\\.*/ nocase or $e.target.process.file.full_path = /^C:\\Program Files\\.*/ nocase) and $e.target.process.file.full_path = /.*\\Microsoft SQL Server\\.*/ nocase and $e.target.process.file.full_path = /.*\\Tools\\Binn\\SQLPS.exe$/ nocase))))
+
+  condition:
+    $e
+}

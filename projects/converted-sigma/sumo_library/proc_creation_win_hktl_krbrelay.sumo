@@ -1,0 +1,11 @@
+// Title: HackTool - KrbRelay Execution
+// ID: e96253b8-6b3b-4f90-9e59-3b24b99cf9b4
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-04-27
+// Tags: attack.credential-access, attack.t1558.003
+// Description: Detects the use of KrbRelay, a Kerberos relaying tool
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where (((CommandLine matches "* -spn *" and CommandLine matches "* -clsid *" and CommandLine matches "* -rbcd *")) or ((CommandLine matches "*shadowcred*" and CommandLine matches "*clsid*" and CommandLine matches "*spn*")) or ((CommandLine matches "*spn *" and CommandLine matches "*session *" and CommandLine matches "*clsid *")) or ((Image matches "*\\KrbRelay.exe") or (OriginalFileName = "KrbRelay.exe")))

@@ -1,0 +1,23 @@
+// Title: First Time Seen Remote Named Pipe
+// ID: 52d8b0c6-53d6-439a-9e41-52ad442ad9ad
+// Status: test
+// Level: high
+// Author: Samir Bousseaden
+// Date: 2019-04-03
+// Tags: attack.lateral-movement, attack.t1021.002
+// Description: This detection excludes known namped pipes accessible remotely and notify on newly observed ones, may help to detect lateral movement and remote exec using named pipes
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 52d8b0c6_53d6_439a_9e41_52ad442ad9ad {
+  meta:
+    title = "First Time Seen Remote Named Pipe"
+    description = "This detection excludes known namped pipes accessible remotely and notify on newly observed ones, may help to detect lateral movement and remote exec using named pipes"
+    author = "Samir Bousseaden"
+    severity = "HIGH"
+
+  events:
+    (($e.EventID = 5145 and $e.ShareName = "\\\\\\\\\\*\\\\IPC$") and not((($e.RelativeTargetName = "atsvc" or $e.RelativeTargetName = "samr" or $e.RelativeTargetName = "lsarpc" or $e.RelativeTargetName = "lsass" or $e.RelativeTargetName = "winreg" or $e.RelativeTargetName = "netlogon" or $e.RelativeTargetName = "srvsvc" or $e.RelativeTargetName = "protected_storage" or $e.RelativeTargetName = "wkssvc" or $e.RelativeTargetName = "browser" or $e.RelativeTargetName = "netdfs" or $e.RelativeTargetName = "svcctl" or $e.RelativeTargetName = "spoolss" or $e.RelativeTargetName = "ntsvcs" or $e.RelativeTargetName = "LSM_API_service" or $e.RelativeTargetName = "HydraLsPipe" or $e.RelativeTargetName = "TermSrv_API_service" or $e.RelativeTargetName = "MsFteWds" or $e.RelativeTargetName = "sql\\query" or $e.RelativeTargetName = "eventlog"))))
+
+  condition:
+    $e
+}

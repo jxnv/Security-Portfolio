@@ -1,0 +1,23 @@
+// Title: Successful Overpass the Hash Attempt
+// ID: 192a0330-c20b-4356-90b6-7b7049ae0b87
+// Status: test
+// Level: high
+// Author: Roberto Rodriguez (source), Dominik Schaudel (rule)
+// Date: 2018-02-12
+// Tags: attack.lateral-movement, attack.s0002, attack.t1550.002
+// Description: Detects successful logon with logon type 9 (NewCredentials) which matches the Overpass the Hash behavior of e.g Mimikatz's sekurlsa::pth module.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 192a0330_c20b_4356_90b6_7b7049ae0b87 {
+  meta:
+    title = "Successful Overpass the Hash Attempt"
+    description = "Detects successful logon with logon type 9 (NewCredentials) which matches the Overpass the Hash behavior of e.g Mimikatz's sekurlsa::pth module."
+    author = "Roberto Rodriguez (source), Dominik Schaudel (rule)"
+    severity = "HIGH"
+
+  events:
+    ($e.EventID = 4624 and $e.LogonType = 9 and $e.LogonProcessName = "seclogo" and $e.AuthenticationPackageName = "Negotiate")
+
+  condition:
+    $e
+}

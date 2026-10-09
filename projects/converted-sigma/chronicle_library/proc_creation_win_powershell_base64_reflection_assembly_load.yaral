@@ -1,0 +1,23 @@
+// Title: PowerShell Base64 Encoded Reflective Assembly Load
+// ID: 62b7ccc9-23b4-471e-aa15-6da3663c4d59
+// Status: test
+// Level: high
+// Author: Christian Burkard (Nextron Systems), pH-T (Nextron Systems)
+// Date: 2022-03-01
+// Tags: attack.execution, attack.stealth, attack.t1059.001, attack.t1027, attack.t1620
+// Description: Detects base64 encoded .NET reflective loading of Assembly
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 62b7ccc9_23b4_471e_aa15_6da3663c4d59 {
+  meta:
+    title = "PowerShell Base64 Encoded Reflective Assembly Load"
+    description = "Detects base64 encoded .NET reflective loading of Assembly"
+    author = "Christian Burkard (Nextron Systems), pH-T (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.command_line = /.*WwBSAGUAZgBsAGUAYwB0AGkAbwBuAC4AQQBzAHMAZQBtAGIAbAB5AF0AOgA6AEwAbwBhAGQAKA.*/ nocase or $e.target.process.command_line = /.*sAUgBlAGYAbABlAGMAdABpAG8AbgAuAEEAcwBzAGUAbQBiAGwAeQBdADoAOgBMAG8AYQBkACgA.*/ nocase or $e.target.process.command_line = /.*bAFIAZQBmAGwAZQBjAHQAaQBvAG4ALgBBAHMAcwBlAG0AYgBsAHkAXQA6ADoATABvAGEAZAAoA.*/ nocase or $e.target.process.command_line = /.*AFsAcgBlAGYAbABlAGMAdABpAG8AbgAuAGEAcwBzAGUAbQBiAGwAeQBdADoAOgAoACIATABvAGEAZAAiAC.*/ nocase or $e.target.process.command_line = /.*BbAHIAZQBmAGwAZQBjAHQAaQBvAG4ALgBhAHMAcwBlAG0AYgBsAHkAXQA6ADoAKAAiAEwAbwBhAGQAIgAp.*/ nocase or $e.target.process.command_line = /.*AWwByAGUAZgBsAGUAYwB0AGkAbwBuAC4AYQBzAHMAZQBtAGIAbAB5AF0AOgA6ACgAIgBMAG8AYQBkACIAK.*/ nocase or $e.target.process.command_line = /.*WwBSAGUAZgBsAGUAYwB0AGkAbwBuAC4AQQBzAHMAZQBtAGIAbAB5AF0AOgA6ACgAIgBMAG8AYQBkACIAKQ.*/ nocase or $e.target.process.command_line = /.*sAUgBlAGYAbABlAGMAdABpAG8AbgAuAEEAcwBzAGUAbQBiAGwAeQBdADoAOgAoACIATABvAGEAZAAiACkA.*/ nocase or $e.target.process.command_line = /.*bAFIAZQBmAGwAZQBjAHQAaQBvAG4ALgBBAHMAcwBlAG0AYgBsAHkAXQA6ADoAKAAiAEwAbwBhAGQAIgApA.*/ nocase or $e.target.process.command_line = /.*WwByAGUAZgBsAGUAYwB0AGkAbwBuAC4AYQBzAHMAZQBtAGIAbAB5AF0AOgA6AEwAbwBhAGQAKA.*/ nocase or $e.target.process.command_line = /.*sAcgBlAGYAbABlAGMAdABpAG8AbgAuAGEAcwBzAGUAbQBiAGwAeQBdADoAOgBMAG8AYQBkACgA.*/ nocase or $e.target.process.command_line = /.*bAHIAZQBmAGwAZQBjAHQAaQBvAG4ALgBhAHMAcwBlAG0AYgBsAHkAXQA6ADoATABvAGEAZAAoA.*/ nocase))
+
+  condition:
+    $e
+}

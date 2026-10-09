@@ -1,0 +1,16 @@
+// Title: Potential Persistence Via Disk Cleanup Handler - Registry
+// ID: d4f4e0be-cf12-439f-9e25-4e2cdcf7df5a
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-07-21
+// Tags: attack.persistence
+// Description: Detects when an attacker modifies values of the Disk Cleanup Handler in the registry to achieve persistence.
+// The disk cleanup manager is part of the operating system. It displays the dialog box […]
+// The user has the option of enabling or disabling individual handlers by selecting or clearing their check box in the disk cleanup manager's UI.
+// Although Windows comes with a number of disk cleanup handlers, they aren't designed to handle files produced by other applications.
+// Instead, the disk cleanup manager is designed to be flexible and extensible by enabling any developer to implement and register their own disk cleanup handler.
+// Any developer can extend the available disk cleanup services by implementing and registering a disk cleanup handler.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((EventType EQ "CreateKey" AND TargetObject CONTAINS "\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\VolumeCaches\\") AND NOT (((TargetObject ENDSWITH "\\Active Setup Temp Folders" OR TargetObject ENDSWITH "\\BranchCache" OR TargetObject ENDSWITH "\\Content Indexer Cleaner" OR TargetObject ENDSWITH "\\D3D Shader Cache" OR TargetObject ENDSWITH "\\Delivery Optimization Files" OR TargetObject ENDSWITH "\\Device Driver Packages" OR TargetObject ENDSWITH "\\Diagnostic Data Viewer database files" OR TargetObject ENDSWITH "\\Downloaded Program Files" OR TargetObject ENDSWITH "\\DownloadsFolder" OR TargetObject ENDSWITH "\\Feedback Hub Archive log files" OR TargetObject ENDSWITH "\\Internet Cache Files" OR TargetObject ENDSWITH "\\Language Pack" OR TargetObject ENDSWITH "\\Microsoft Office Temp Files" OR TargetObject ENDSWITH "\\Offline Pages Files" OR TargetObject ENDSWITH "\\Old ChkDsk Files" OR TargetObject ENDSWITH "\\Previous Installations" OR TargetObject ENDSWITH "\\Recycle Bin" OR TargetObject ENDSWITH "\\RetailDemo Offline Content" OR TargetObject ENDSWITH "\\Setup Log Files" OR TargetObject ENDSWITH "\\System error memory dump files" OR TargetObject ENDSWITH "\\System error minidump files" OR TargetObject ENDSWITH "\\Temporary Files" OR TargetObject ENDSWITH "\\Temporary Setup Files" OR TargetObject ENDSWITH "\\Temporary Sync Files" OR TargetObject ENDSWITH "\\Thumbnail Cache" OR TargetObject ENDSWITH "\\Update Cleanup" OR TargetObject ENDSWITH "\\Upgrade Discarded Files" OR TargetObject ENDSWITH "\\User file versions" OR TargetObject ENDSWITH "\\Windows Defender" OR TargetObject ENDSWITH "\\Windows Error Reporting Files" OR TargetObject ENDSWITH "\\Windows ESD installation files" OR TargetObject ENDSWITH "\\Windows Upgrade Log Files"))))

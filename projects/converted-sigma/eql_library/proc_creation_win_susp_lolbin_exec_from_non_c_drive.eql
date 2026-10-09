@@ -1,0 +1,11 @@
+// Title: LOLBIN Execution From Abnormal Drive
+// ID: d4ca7c59-e9e4-42d8-bf57-91a776efcb87
+// Status: test
+// Level: medium
+// Author: Christopher Peacock '@securepeacock', SCYTHE '@scythe_io', Angelo Violetti - SEC Consult '@angelo_violetti', Aaron Herman
+// Date: 2022-01-25
+// Tags: attack.stealth
+// Description: Detects LOLBINs executing from an abnormal or uncommon drive such as a mounted ISO.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where ((((process.executable endswith "\\calc.exe" or process.executable endswith "\\certutil.exe" or process.executable endswith "\\cmstp.exe" or process.executable endswith "\\cscript.exe" or process.executable endswith "\\installutil.exe" or process.executable endswith "\\mshta.exe" or process.executable endswith "\\regsvr32.exe" or process.executable endswith "\\rundll32.exe" or process.executable endswith "\\wscript.exe")) or ((process.pe.original_file_name == "CALC.EXE" or process.pe.original_file_name == "CertUtil.exe" or process.pe.original_file_name == "CMSTP.EXE" or process.pe.original_file_name == "cscript.exe" or process.pe.original_file_name == "installutil.exe" or process.pe.original_file_name == "MSHTA.EXE" or process.pe.original_file_name == "REGSVR32.EXE" or process.pe.original_file_name == "RUNDLL32.EXE" or process.pe.original_file_name == "wscript.exe"))) and not (((CurrentDirectory like "*_C:\\*") or (CurrentDirectory == "") or (CurrentDirectory == null))))

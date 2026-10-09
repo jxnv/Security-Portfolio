@@ -1,0 +1,23 @@
+// Title: Linux Recon Indicators
+// ID: 0cf7a157-8879-41a2-8f55-388dd23746b7
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-06-20
+// Tags: attack.reconnaissance, attack.t1592.004, attack.credential-access, attack.t1552.001
+// Description: Detects events with patterns found in commands used for reconnaissance on linux systems
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 0cf7a157_8879_41a2_8f55_388dd23746b7 {
+  meta:
+    title = "Linux Recon Indicators"
+    description = "Detects events with patterns found in commands used for reconnaissance on linux systems"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.command_line = /.* -name .htpasswd.*/ nocase or $e.target.process.command_line = /.* -perm -4000 .*/ nocase))
+
+  condition:
+    $e
+}

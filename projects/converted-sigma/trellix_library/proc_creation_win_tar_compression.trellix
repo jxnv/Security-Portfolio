@@ -1,0 +1,12 @@
+# Title: Compressed File Creation Via Tar.EXE
+# ID: 418a3163-3247-4b7b-9933-dcfcb7c52ea9
+# Status: test
+# Level: low
+# Author: Nasreddine Bencherchali (Nextron Systems), AdmU3
+# Date: 2023-12-19
+# Tags: attack.collection, attack.exfiltration, attack.t1560, attack.t1560.001
+# Description: Detects execution of "tar.exe" in order to create a compressed file.
+# Adversaries may abuse various utilities to compress or encrypt data before exfiltration.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((CommandLine CONTAINS "-c" OR CommandLine CONTAINS "-r" OR CommandLine CONTAINS "-u")) AND ((Image="*\\tar.exe") OR (OriginalFileName == "bsdtar")))

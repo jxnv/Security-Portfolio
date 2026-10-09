@@ -1,0 +1,23 @@
+// Title: Whoami.EXE Execution Anomaly
+// ID: 8de1cbe8-d6f5-496d-8237-5f44a721c7a0
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems)
+// Date: 2021-08-12
+// Tags: attack.discovery, attack.t1033, car.2016-03-001
+// Description: Detects the execution of whoami.exe with suspicious parent processes.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 8de1cbe8_d6f5_496d_8237_5f44a721c7a0 {
+  meta:
+    title = "Whoami.EXE Execution Anomaly"
+    description = "Detects the execution of whoami.exe with suspicious parent processes."
+    author = "Florian Roth (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.file.full_path = /.*\\whoami.exe$/ nocase) or ($e.target.process.file.name = "whoami.exe")) and not(((($e.principal.process.file.full_path = /.*\\cmd.exe$/ nocase or $e.principal.process.file.full_path = /.*\\powershell_ise.exe$/ nocase or $e.principal.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.principal.process.file.full_path = /.*\\pwsh.exe$/ nocase)) or (($e.principal.process.file.full_path = "" or $e.principal.process.file.full_path = "-")) or (not ($e.principal.process.file.full_path = /.*/)))) and not(($e.principal.process.file.full_path = /.*:\\Program Files\\Microsoft Monitoring Agent\\Agent\\MonitoringHost.exe$/ nocase)))
+
+  condition:
+    $e
+}

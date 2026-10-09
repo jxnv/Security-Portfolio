@@ -1,0 +1,19 @@
+# Title: DPAPI Domain Master Key Backup Attempt
+# ID: 39a94fd1-8c9a-4ff6-bf22-c058762f8014
+# Status: test
+# Level: medium
+# Author: Roberto Rodriguez @Cyb3rWard0g
+# Date: 2019-08-10
+# Tags: attack.credential-access, attack.t1003.004
+# Description: Detects anyone attempting a backup for the DPAPI Master Key. This events gets generated at the source and not the Domain Controller.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: DPAPI Domain Master Key Backup Attempt
+def rule(event):
+    # Detection Logic:
+    # (EventID="4692")
+    return True
+
+def title(event):
+    return "DPAPI Domain Master Key Backup Attempt"
+

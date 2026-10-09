@@ -1,0 +1,14 @@
+# Title: New User Account Creation Attempt Via ADSI
+# ID: e50d5d26-0cf6-4045-b82b-13c0a4e316be
+# Status: experimental
+# Level: medium
+# Author: William Gokah (idea), Raylee Hawkins, Swachchhanda Shrawan Poudel (Nextron Systems)
+# Date: 2026-08-13
+# Tags: attack.persistence, attack.t1136.001, attack.t1136.002
+# Description: Detects an attempt to create a new user account via ADSI (Active Directory Service Interfaces)
+# using either the WinNT or LDAP provider. This is an uncommon method to create user accounts
+# and may indicate an attempt to evade detection by avoiding more commonly monitored commands
+# such as "net user", "New-LocalUser" or "New-ADUser".
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((ScriptBlockText CONTAIN "[ADSI]") AND ((ScriptBlockText CONTAIN "WinNT://" OR ScriptBlockText CONTAIN "LDAP://")) AND ((ScriptBlockText CONTAIN ".create(\"user" OR ScriptBlockText CONTAIN ".create('user")))

@@ -1,0 +1,12 @@
+// Title: Cloudflared Tunnels Related DNS Requests
+// ID: a1d9eec5-33b2-4177-8d24-27fe754d0812
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-12-20
+// Tags: attack.command-and-control, attack.t1071.001, attack.t1572
+// Description: Detects DNS requests to Cloudflared tunnels domains.
+// Attackers can abuse that feature to establish a reverse shell or persistence on a machine.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((QueryName="*.v2.argotunnel.com" OR QueryName="*protocol-v2.argotunnel.com" OR QueryName="*trycloudflare.com" OR QueryName="*update.argotunnel.com"))

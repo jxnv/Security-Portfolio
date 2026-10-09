@@ -1,0 +1,23 @@
+// Title: Network Connection Initiated From Process Located In Potentially Suspicious Or Uncommon Location
+// ID: 7b434893-c57d-4f41-908d-6a17bf1ae98f
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2017-03-19
+// Tags: attack.command-and-control, attack.t1105
+// Description: Detects a network connection initiated by programs or processes running from suspicious or uncommon files system locations.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 7b434893_c57d_4f41_908d_6a17bf1ae98f {
+  meta:
+    title = "Network Connection Initiated From Process Located In Potentially Suspicious Or Uncommon Location"
+    description = "Detects a network connection initiated by programs or processes running from suspicious or uncommon files system locations."
+    author = "Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.Initiated = "true" and ($e.target.process.file.full_path = /.*:\\$Recycle.bin.*/ nocase or $e.target.process.file.full_path = /.*:\\Perflogs\\.*/ nocase or $e.target.process.file.full_path = /.*:\\Temp\\.*/ nocase or $e.target.process.file.full_path = /.*:\\Users\\Default\\.*/ nocase or $e.target.process.file.full_path = /.*:\\Users\\Public\\.*/ nocase or $e.target.process.file.full_path = /.*:\\Windows\\Fonts\\.*/ nocase or $e.target.process.file.full_path = /.*:\\Windows\\IME\\.*/ nocase or $e.target.process.file.full_path = /.*:\\Windows\\System32\\Tasks\\.*/ nocase or $e.target.process.file.full_path = /.*:\\Windows\\Tasks\\.*/ nocase or $e.target.process.file.full_path = /.*\\config\\systemprofile\\.*/ nocase or $e.target.process.file.full_path = /.*\\Contacts\\.*/ nocase or $e.target.process.file.full_path = /.*\\Favorites\\.*/ nocase or $e.target.process.file.full_path = /.*\\Favourites\\.*/ nocase or $e.target.process.file.full_path = /.*\\Music\\.*/ nocase or $e.target.process.file.full_path = /.*\\Pictures\\.*/ nocase or $e.target.process.file.full_path = /.*\\Videos\\.*/ nocase or $e.target.process.file.full_path = /.*\\Windows\\addins\\.*/ nocase)) and not((($e.DestinationHostname = /.*.githubusercontent.com$/ nocase or $e.DestinationHostname = /.*0x0.st$/ nocase or $e.DestinationHostname = /.*anonfiles.com$/ nocase or $e.DestinationHostname = /.*bashupload.com$/ nocase or $e.DestinationHostname = /.*cdn.discordapp.com$/ nocase or $e.DestinationHostname = /.*chunk.io$/ nocase or $e.DestinationHostname = /.*ddns.net$/ nocase or $e.DestinationHostname = /.*dl.dropboxusercontent.com$/ nocase or $e.DestinationHostname = /.*ghostbin.co$/ nocase or $e.DestinationHostname = /.*github.com$/ nocase or $e.DestinationHostname = /.*glitch.me$/ nocase or $e.DestinationHostname = /.*gofile.io$/ nocase or $e.DestinationHostname = /.*hastebin.com$/ nocase or $e.DestinationHostname = /.*mediafire.com$/ nocase or $e.DestinationHostname = /.*mega.co.nz$/ nocase or $e.DestinationHostname = /.*mega.nz$/ nocase or $e.DestinationHostname = /.*onrender.com$/ nocase or $e.DestinationHostname = /.*pages.dev$/ nocase or $e.DestinationHostname = /.*paste.ee$/ nocase or $e.DestinationHostname = /.*pastebin.com$/ nocase or $e.DestinationHostname = /.*pastebin.pl$/ nocase or $e.DestinationHostname = /.*pastetext.net$/ nocase or $e.DestinationHostname = /.*portmap.io$/ nocase or $e.DestinationHostname = /.*privatlab.com$/ nocase or $e.DestinationHostname = /.*privatlab.net$/ nocase or $e.DestinationHostname = /.*send.exploit.in$/ nocase or $e.DestinationHostname = /.*sendspace.com$/ nocase or $e.DestinationHostname = /.*storage.googleapis.com$/ nocase or $e.DestinationHostname = /.*storjshare.io$/ nocase or $e.DestinationHostname = /.*supabase.co$/ nocase or $e.DestinationHostname = /.*temp.sh$/ nocase or $e.DestinationHostname = /.*transfer.sh$/ nocase or $e.DestinationHostname = /.*trycloudflare.com$/ nocase or $e.DestinationHostname = /.*ufile.io$/ nocase or $e.DestinationHostname = /.*w3spaces.com$/ nocase or $e.DestinationHostname = /.*workers.dev$/ nocase or $e.DestinationHostname = /.*x0.at$/ nocase))))
+
+  condition:
+    $e
+}

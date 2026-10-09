@@ -1,0 +1,11 @@
+// Title: Linux Keylogging with Pam.d
+// ID: 49aae26c-450e-448b-911d-b3c13d178dfc
+// Status: test
+// Level: high
+// Author: Pawel Mazur
+// Date: 2021-05-24
+// Tags: attack.collection, attack.credential-access, attack.t1003, attack.t1056.001
+// Description: Detect attempt to enable auditing of TTY input
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter ((type = "PATH" and (name = "/etc/pam.d/system-auth" or name = "/etc/pam.d/password-auth")) or ((type = "TTY" or type = "USER_TTY")))

@@ -1,0 +1,11 @@
+// Title: RDP over Reverse SSH Tunnel WFP
+// ID: 5bed80b6-b3e8-428e-a3ae-d3c757589e41
+// Status: test
+// Level: high
+// Author: Samir Bousseaden
+// Date: 2019-02-16
+// Tags: attack.command-and-control, attack.lateral-movement, attack.t1090.001, attack.t1090.002, attack.t1021.001, car.2013-07-002
+// Description: Detects svchost hosting RDP termsvcs communicating with the loopback address
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((where(EventID = "5156")) AND ((where(SourcePort = "3389") AND (where(DestAddress = "127.*") OR where(DestAddress = "::1"))) OR (where(DestPort = "3389") AND (where(SourceAddress = "127.*") OR where(SourceAddress = "::1")))) AND NOT (((where(FilterOrigin = "AppContainer Loopback")) OR ((where(Application IENDSWITH "\\thor.exe") OR where(Application IENDSWITH "\\thor64.exe"))))))

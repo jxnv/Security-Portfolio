@@ -1,0 +1,12 @@
+-- Title: Removal of Potential COM Hijacking Registry Keys
+-- ID: 96f697b0-b499-4e5d-9908-a67bec11cdb6
+-- Status: test
+-- Level: medium
+-- Author: Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research)
+-- Date: 2020-05-02
+-- Tags: attack.persistence, attack.defense-impairment, attack.t1112
+-- Description: Detects any deletion of entries in ".*\shell\open\command" registry keys.
+-- These registry keys might have been used for COM hijacking activities by a threat actor or an attacker and the deletion could indicate steps to remove its tracks.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE ((TargetObject ILIKE '%\\shell\\open\\command') AND NOT (((Image ILIKE '%C:\\Windows\\explorer.exe') OR ((Image ILIKE 'C:\\Program Files\\%' OR Image ILIKE 'C:\\Program Files (x86)\\%')) OR ((Image = 'C:\\Windows\\System32\\msiexec.exe' OR Image = 'C:\\Windows\\SysWOW64\\msiexec.exe')) OR (Image = 'C:\\Windows\\System32\\OpenWith.exe') OR (Image = 'C:\\Windows\\system32\\svchost.exe'))) AND NOT ((((Image = 'C:\\Program Files (x86)\\Avira\\Antivirus\\' OR Image = 'C:\\Program Files\\Avira\\Antivirus\\') AND (TargetObject ILIKE '%\\CLSID\\{305CA226-D286-468e-B848-2B2E8E697B74}\\Shell\\Open\\Command' OR TargetObject ILIKE '%\\AntiVir.Keyfile\\shell\\open\\command')) OR (Image ILIKE '%\\reg.exe' AND TargetObject ILIKE '%\\Discord\\shell\\open\\command') OR (Image ILIKE '%\\Dropbox.exe' AND TargetObject ILIKE '%\\Dropbox.%') OR (Image ILIKE '%C:\\eclipse\\eclipse.exe' AND TargetObject ILIKE '%_Classes\\eclipse+%') OR (Image ILIKE '%\\Microsoft\\EdgeUpdate\\Install%') OR (Image ILIKE '%\\Everything.exe' AND TargetObject ILIKE '%\\Everything.%') OR (((Image ILIKE '%AppData\\Local\\Temp%' AND Image ILIKE '%\\setup.exe%')) OR ((Image ILIKE '%\\Temp\\is-%' AND Image ILIKE '%\\target.tmp%'))) OR (Image ILIKE 'C:\\Program Files (x86)\\Java\\%' AND Image ILIKE '%\\installer.exe' AND TargetObject ILIKE '%\\Classes\\WOW6432Node\\CLSID\\{4299124F-F2C3-41b4-9C73-9236B2AD0E8F}%') OR (Image ILIKE '%\\ninite.exe') OR (Image ILIKE '%peazip%' AND TargetObject ILIKE '%\\PeaZip.%') OR (Image ILIKE '%\\Spotify.exe' AND TargetObject ILIKE '%\\Spotify\\shell\\open\\command') OR ((Image ILIKE '%\\Temp%' AND Image ILIKE '%\\TeamViewer%')) OR (Image ILIKE 'C:\\Windows\\Installer\\MSI%') OR (Image ILIKE '%\\AppData\\Local\\Temp\\Wireshark_uninstaller.exe' AND TargetObject ILIKE '%\\wireshark-capture-file\\%'))))

@@ -1,0 +1,11 @@
+// Title: Potential SMB Relay Attack Tool Execution
+// ID: 5589ab4f-a767-433c-961d-c91f3f704db1
+// Status: test
+// Level: critical
+// Author: Florian Roth (Nextron Systems)
+// Date: 2021-07-24
+// Tags: attack.collection, attack.execution, attack.credential-access, attack.t1557.001
+// Description: Detects different hacktools used for relay attacks on Windows for privilege escalation
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((CommandLine = /*.exe -c \"{*/i and CommandLine = /.*}\" -z/i) or ((ImageFileName = /*PetitPotam*/i or ImageFileName = /*RottenPotato*/i or ImageFileName = /*HotPotato*/i or ImageFileName = /*JuicyPotato*/i or ImageFileName = /*\\just_dce_*/i or ImageFileName = /*Juicy Potato*/i or ImageFileName = /*\\temp\\rot.exe*/i or ImageFileName = /*\\Potato.exe*/i or ImageFileName = /*\\SpoolSample.exe*/i or ImageFileName = /*\\Responder.exe*/i or ImageFileName = /*\\smbrelayx*/i or ImageFileName = /*\\ntlmrelayx*/i or ImageFileName = /*\\LocalPotato*/i)) or ((CommandLine = /*Invoke-Tater*/i or CommandLine = /* smbrelay*/i or CommandLine = /* ntlmrelay*/i or CommandLine = /*cme smb */i or CommandLine = /* /ntlm:NTLMhash */i or CommandLine = /*Invoke-PetitPotam*/i or CommandLine = /*.exe -t * -p */i))) and not(((ImageFileName = /*HotPotatoes6*/i or ImageFileName = /*HotPotatoes7*/i or ImageFileName = /*HotPotatoes */i))))

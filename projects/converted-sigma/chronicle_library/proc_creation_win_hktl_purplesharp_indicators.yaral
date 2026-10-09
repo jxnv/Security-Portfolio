@@ -1,0 +1,23 @@
+// Title: HackTool - PurpleSharp Execution
+// ID: ff23ffbc-3378-435e-992f-0624dcf93ab4
+// Status: test
+// Level: critical
+// Author: Florian Roth (Nextron Systems)
+// Date: 2021-06-18
+// Tags: attack.t1587, attack.resource-development
+// Description: Detects the execution of the PurpleSharp adversary simulation tool
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule ff23ffbc_3378_435e_992f_0624dcf93ab4 {
+  meta:
+    title = "HackTool - PurpleSharp Execution"
+    description = "Detects the execution of the PurpleSharp adversary simulation tool"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "CRITICAL"
+
+  events:
+    ((($e.target.process.command_line = /.*xyz123456.exe.*/ nocase or $e.target.process.command_line = /.*PurpleSharp.*/ nocase)) or (($e.target.process.file.full_path = /.*\\purplesharp.*/ nocase) or ($e.target.process.file.name = "PurpleSharp.exe")))
+
+  condition:
+    $e
+}

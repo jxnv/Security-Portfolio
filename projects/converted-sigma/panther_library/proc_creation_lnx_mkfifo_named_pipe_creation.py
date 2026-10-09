@@ -1,0 +1,19 @@
+# Title: Named Pipe Created Via Mkfifo
+# ID: 9d779ce8-5256-4b13-8b6f-b91c602b43f4
+# Status: test
+# Level: low
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2023-06-16
+# Tags: attack.execution
+# Description: Detects the creation of a new named pipe using the "mkfifo" utility
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Named Pipe Created Via Mkfifo
+def rule(event):
+    # Detection Logic:
+    # (Image="*/mkfifo")
+    return True
+
+def title(event):
+    return "Named Pipe Created Via Mkfifo"
+

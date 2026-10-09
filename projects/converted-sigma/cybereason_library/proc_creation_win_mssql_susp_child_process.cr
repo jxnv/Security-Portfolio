@@ -1,0 +1,11 @@
+// Title: Suspicious Child Process Of SQL Server
+// ID: 869b9ca7-9ea2-4a5a-8325-e80e62f75445
+// Status: test
+// Level: high
+// Author: FPT.EagleEye Team, wagga
+// Date: 2020-12-11
+// Tags: attack.t1505.003, attack.t1190, attack.initial-access, attack.persistence, attack.privilege-escalation
+// Description: Detects suspicious child processes of the SQLServer process. This could indicate potential RCE or SQL Injection.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((ParentImage="*\\sqlservr.exe" AND (Image="*\\bash.exe" OR Image="*\\bitsadmin.exe" OR Image="*\\cmd.exe" OR Image="*\\netstat.exe" OR Image="*\\nltest.exe" OR Image="*\\ping.exe" OR Image="*\\powershell.exe" OR Image="*\\pwsh.exe" OR Image="*\\regsvr32.exe" OR Image="*\\rundll32.exe" OR Image="*\\sh.exe" OR Image="*\\systeminfo.exe" OR Image="*\\tasklist.exe" OR Image="*\\wsl.exe")) AND NOT ((ParentImage="C:\\Program Files\\Microsoft SQL Server\\*" AND ParentImage="*DATEV_DBENGINE\\MSSQL\\Binn\\sqlservr.exe" AND Image == "C:\\Windows\\System32\\cmd.exe" AND CommandLine="\"C:\\Windows\\system32\\cmd.exe\" *")))

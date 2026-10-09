@@ -1,0 +1,13 @@
+# Title: Potential WinAPI Calls Via PowerShell Scripts
+# ID: 03d83090-8cba-44a0-b02f-0b756a050306
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems), Nikita Nazarov, oscd.community
+# Date: 2020-10-06
+# Tags: attack.execution, attack.t1059.001, attack.t1106, attack.stealth, attack.t1620
+# Description: Detects usage of WinAPI functions in PowerShell scripts.
+# It may indicate attempts to perform actions such as process injection, token stealing, or other malicious activities that leverage Windows API calls.
+# These techniques are commonly used to evade traditional file-based detections by loading and executing code directly in memory.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((ScriptBlockText CONTAIN "OpenProcessToken" AND ScriptBlockText CONTAIN "DuplicateTokenEx" AND ScriptBlockText CONTAIN "CloseHandle")) OR ((ScriptBlockText CONTAIN "VirtualAlloc" AND ScriptBlockText CONTAIN "OpenProcess" AND ScriptBlockText CONTAIN "WriteProcessMemory" AND ScriptBlockText CONTAIN "CreateRemoteThread")) OR ((ScriptBlockText CONTAIN "VirtualAlloc" AND ScriptBlockText CONTAIN "GetDelegateForFunctionPointer" AND ScriptBlockText CONTAIN "Marshal.Copy")) OR ((ScriptBlockText CONTAIN "WriteProcessMemory" AND ScriptBlockText CONTAIN "VirtualAlloc" AND ScriptBlockText CONTAIN "ReadProcessMemory" AND ScriptBlockText CONTAIN "VirtualFree")) OR ((ScriptBlockText CONTAIN "OpenProcessToken" AND ScriptBlockText CONTAIN "LookupPrivilegeValue" AND ScriptBlockText CONTAIN "AdjustTokenPrivileges")))

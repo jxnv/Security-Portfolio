@@ -1,0 +1,11 @@
+# Title: IIS Native-Code Module Command Line Installation
+# ID: 9465ddf4-f9e4-4ebd-8d98-702df3a93239
+# Status: test
+# Level: medium
+# Author: Florian Roth (Nextron Systems)
+# Date: 2019-12-11
+# Tags: attack.persistence, attack.t1505.003
+# Description: Detects suspicious IIS native-code module installations via command line
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog ((((process_exec="*install*" AND process_exec="*module*") AND (process_exec="*-name:*" OR process_exec="*/name:*")) AND ((process_path="*\\appcmd.exe") OR (process_name="appcmd.exe"))) AND NOT ((parent_process_path="C:\\Windows\\System32\\inetsrv\\iissetup.exe")))

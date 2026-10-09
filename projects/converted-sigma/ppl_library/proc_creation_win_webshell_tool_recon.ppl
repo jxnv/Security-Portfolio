@@ -1,0 +1,11 @@
+// Title: Webshell Tool Reconnaissance Activity
+// ID: f64e5c19-879c-4bae-b471-6d84c8339677
+// Status: test
+// Level: high
+// Author: Cian Heasley, Florian Roth (Nextron Systems)
+// Date: 2020-07-22
+// Tags: attack.persistence, attack.t1505.003
+// Description: Detects processes spawned from web servers (PHP, Tomcat, IIS, etc.) that perform reconnaissance looking for the existence of popular scripting tools (perl, python, wget) on the system via the help commands
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where ((((process.parent.executable="*\\java.exe" OR process.parent.executable="*\\javaw.exe") AND (process.parent.executable like "%-tomcat-%" OR process.parent.executable like "%\\tomcat%")) OR ((process.parent.executable="*\\java.exe" OR process.parent.executable="*\\javaw.exe") AND (process.command_line like "%CATALINA_HOME%" OR process.command_line like "%catalina.jar%")) OR ((process.parent.executable="*\\caddy.exe" OR process.parent.executable="*\\httpd.exe" OR process.parent.executable="*\\nginx.exe" OR process.parent.executable="*\\php-cgi.exe" OR process.parent.executable="*\\w3wp.exe" OR process.parent.executable="*\\ws_tomcatservice.exe"))) AND ((process.command_line like "%perl --help%" OR process.command_line like "%perl -h%" OR process.command_line like "%python --help%" OR process.command_line like "%python -h%" OR process.command_line like "%python3 --help%" OR process.command_line like "%python3 -h%" OR process.command_line like "%wget --help%")))

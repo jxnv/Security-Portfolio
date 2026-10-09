@@ -1,0 +1,12 @@
+// Title: Security Tools Keyword Lookup Via Findstr.EXE
+// ID: 4fe074b4-b833-4081-8f24-7dcfeca72b42
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems), frack113
+// Date: 2023-10-20
+// Tags: attack.discovery, attack.t1518.001
+// Description: Detects execution of "findstr" to search for common names of security tools. Attackers often pipe the results of recon commands such as "tasklist" or "whoami" to "findstr" in order to filter out the results.
+// This detection focuses on the keywords that the attacker might use as a filter.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((CommandLine = /.* avira/i or CommandLine = /.* avira\"/i or CommandLine = /.* cb/i or CommandLine = /.* cb\"/i or CommandLine = /.* cylance/i or CommandLine = /.* cylance\"/i or CommandLine = /.* defender/i or CommandLine = /.* defender\"/i or CommandLine = /.* kaspersky/i or CommandLine = /.* kaspersky\"/i or CommandLine = /.* kes/i or CommandLine = /.* kes\"/i or CommandLine = /.* mc/i or CommandLine = /.* mc\"/i or CommandLine = /.* sec/i or CommandLine = /.* sec\"/i or CommandLine = /.* sentinel/i or CommandLine = /.* sentinel\"/i or CommandLine = /.* symantec/i or CommandLine = /.* symantec\"/i or CommandLine = /.* virus/i or CommandLine = /.* virus\"/i)) and (((ImageFileName = /.*\\find.exe/i or ImageFileName = /.*\\findstr.exe/i)) or ((OriginalFilename = "FIND.EXE" or OriginalFilename = "FINDSTR.EXE"))))

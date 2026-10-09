@@ -1,0 +1,11 @@
+// Title: Syslog Clearing or Removal Via System Utilities
+// ID: 3fcc9b35-39e4-44c0-a2ad-9e82b6902b31
+// Status: test
+// Level: high
+// Author: Max Altgelt (Nextron Systems), Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research), MSTIC
+// Date: 2021-10-15
+// Tags: attack.defense-impairment, attack.t1685.006
+// Description: Detects specific commands commonly used to remove or empty the syslog. Which is a technique often used by attacker as a method to hide their tracks
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(CommandLine ICONTAINS "/var/log/syslog")) AND ((where(Image IENDSWITH "/cp") AND where(CommandLine ICONTAINS "/dev/null")) OR (where(Image IENDSWITH "/ln") AND (where(CommandLine ICONTAINS "/dev/null ") AND where(CommandLine ICONTAINS "/var/log/syslog")) AND (where(CommandLine ICONTAINS "-sf ") OR where(CommandLine ICONTAINS "-sfn ") OR where(CommandLine ICONTAINS "-sfT "))) OR (where(Image IENDSWITH "/mv")) OR (where(Image IENDSWITH "/rm") AND (where(CommandLine ICONTAINS " -r ") OR where(CommandLine ICONTAINS " -f ") OR where(CommandLine ICONTAINS " -rf ") OR where(CommandLine ICONTAINS "/var/log/syslog"))) OR (where(Image IENDSWITH "/shred") AND where(CommandLine ICONTAINS "-u ")) OR (where(Image IENDSWITH "/truncate") AND (where(CommandLine ICONTAINS "0 ") AND where(CommandLine ICONTAINS "/var/log/syslog")) AND (where(CommandLine ICONTAINS "-s ") OR where(CommandLine ICONTAINS "-c ") OR where(CommandLine ICONTAINS "--size"))) OR (where(Image IENDSWITH "/unlink")))) OR (((where(CommandLine ICONTAINS "journalctl --vacuum") OR where(CommandLine ICONTAINS "journalctl --rotate"))) OR ((where(CommandLine ICONTAINS " > /var/log/syslog") OR where(CommandLine ICONTAINS " >/var/log/syslog") OR where(CommandLine ICONTAINS " >| /var/log/syslog") OR where(CommandLine ICONTAINS ": > /var/log/syslog") OR where(CommandLine ICONTAINS ":> /var/log/syslog") OR where(CommandLine ICONTAINS ":>/var/log/syslog") OR where(CommandLine ICONTAINS ">|/var/log/syslog")))))

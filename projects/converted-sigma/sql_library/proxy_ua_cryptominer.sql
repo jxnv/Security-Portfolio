@@ -1,0 +1,11 @@
+-- Title: Crypto Miner User Agent
+-- ID: fa935401-513b-467b-81f4-f9e77aa0dd78
+-- Status: test
+-- Level: high
+-- Author: Florian Roth (Nextron Systems)
+-- Date: 2019-10-21
+-- Tags: attack.command-and-control, attack.t1071.001
+-- Description: Detects suspicious user agent strings used by crypto miners in proxy logs
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE ((c-useragent ILIKE 'XMRig %' OR c-useragent ILIKE 'ccminer%'))

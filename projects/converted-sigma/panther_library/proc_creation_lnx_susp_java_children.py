@@ -1,0 +1,19 @@
+# Title: Suspicious Java Children Processes
+# ID: d292e0af-9a18-420c-9525-ec0ac3936892
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-06-03
+# Tags: attack.execution, attack.t1059
+# Description: Detects java process spawning suspicious children
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Suspicious Java Children Processes
+def rule(event):
+    # Detection Logic:
+    # (ParentImage="*/java" AND (CommandLine="*/bin/sh*" OR CommandLine="*bash*" OR CommandLine="*dash*" OR CommandLine="*ksh*" OR CommandLine="*zsh*" OR CommandLine="*csh*" OR CommandLine="*fish*" OR CommandLine="*curl*" OR CommandLine="*wget*" OR CommandLine="*python*"))
+    return True
+
+def title(event):
+    return "Suspicious Java Children Processes"
+

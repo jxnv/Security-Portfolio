@@ -1,0 +1,34 @@
+{
+  "title": "Powershell Detect Virtualization Environment",
+  "id": "d93129cd-1ee0-479f-bc03-ca6f129882e3",
+  "status": "test",
+  "description": "Adversaries may employ various system checks to detect and avoid virtualization and analysis environments.\nThis may include changing behaviors based on the results of checks for the presence of artifacts indicative of a virtual machine environment (VME) or sandbox\n",
+  "author": "frack113, Duc.Le-GTSC",
+  "date": "2021-08-03",
+  "tags": [
+    "attack.discovery",
+    "attack.stealth",
+    "attack.t1497.001"
+  ],
+  "level": "medium",
+  "logsource": {
+    "product": "windows",
+    "category": "ps_script",
+    "definition": "Requirements: Script Block Logging must be enabled"
+  },
+  "detection": {
+    "selection_action": {
+      "ScriptBlockText|contains": [
+        "Get-WmiObject",
+        "gwmi"
+      ]
+    },
+    "selection_module": {
+      "ScriptBlockText|contains": [
+        "MSAcpi_ThermalZoneTemperature",
+        "Win32_ComputerSystem"
+      ]
+    },
+    "condition": "all of selection*"
+  }
+}

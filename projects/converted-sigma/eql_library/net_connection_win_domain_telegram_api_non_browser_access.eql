@@ -1,0 +1,11 @@
+// Title: Suspicious Non-Browser Network Communication With Telegram API
+// ID: c3dbbc9f-ef1d-470a-a90a-d343448d5875
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-05-19
+// Tags: attack.command-and-control, attack.exfiltration, attack.t1102, attack.t1567, attack.t1105
+// Description: Detects an a non-browser process interacting with the Telegram API which could indicate use of a covert C2
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+network where ((DestinationHostname like "*_api.telegram.org*") and not (((process.executable endswith "\\brave.exe") or ((process.executable == "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe" or process.executable == "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe")) or ((process.executable startswith "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\") or (process.executable endswith "\\WindowsApps\\MicrosoftEdge.exe") or ((process.executable == "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe" or process.executable == "C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe"))) or ((process.executable startswith "C:\\Program Files (x86)\\Microsoft\\EdgeCore\\" or process.executable startswith "C:\\Program Files\\Microsoft\\EdgeCore\\") and (process.executable endswith "\\msedge.exe" or process.executable endswith "\\msedgewebview2.exe")) or ((process.executable == "C:\\Program Files\\Mozilla Firefox\\firefox.exe" or process.executable == "C:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe")) or ((process.executable == "C:\\Program Files (x86)\\Internet Explorer\\iexplore.exe" or process.executable == "C:\\Program Files\\Internet Explorer\\iexplore.exe")) or (process.executable endswith "\\maxthon.exe") or (process.executable endswith "\\opera.exe") or (process.executable endswith "\\safari.exe") or (process.executable endswith "\\seamonkey.exe") or (process.executable endswith "\\vivaldi.exe") or (process.executable endswith "\\whale.exe"))))

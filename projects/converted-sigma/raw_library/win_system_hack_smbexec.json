@@ -1,0 +1,35 @@
+{
+  "title": "smbexec.py Service Installation",
+  "id": "52a85084-6989-40c3-8f32-091e12e13f09",
+  "status": "test",
+  "description": "Detects the use of smbexec.py tool by detecting a specific service installation",
+  "author": "Omer Faruk Celik",
+  "date": "2018-03-20",
+  "tags": [
+    "attack.lateral-movement",
+    "attack.execution",
+    "attack.t1021.002",
+    "attack.t1569.002"
+  ],
+  "level": "high",
+  "logsource": {
+    "product": "windows",
+    "service": "system"
+  },
+  "detection": {
+    "selection_eid": {
+      "Provider_Name": "Service Control Manager",
+      "EventID": 7045
+    },
+    "selection_service_name": {
+      "ServiceName": "BTOBTO"
+    },
+    "selection_service_image": {
+      "ImagePath|contains": [
+        ".bat & del ",
+        "__output 2^>^&1 >"
+      ]
+    },
+    "condition": "selection_eid and 1 of selection_service_*"
+  }
+}

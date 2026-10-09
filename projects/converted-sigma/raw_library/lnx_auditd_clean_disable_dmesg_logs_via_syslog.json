@@ -1,0 +1,30 @@
+{
+  "title": "Clear or Disable Kernel Ring Buffer Logs via Syslog Syscall",
+  "id": "eca5e022-d368-4043-98e5-9736fb01f72f",
+  "status": "experimental",
+  "description": "Detects the use of the `syslog` syscall with action code 5 (SYSLOG_ACTION_CLEAR),\n(4 is SYSLOG_ACTION_READ_CLEAR and 6 is SYSLOG_ACTION_CONSOLE_OFF) which clears the kernel\nring buffer (dmesg logs). This can be used by attackers to hide traces after exploitation\nor privilege escalation. A common technique is running `dmesg -c`, which triggers this syscall internally.\n",
+  "author": "Milad Cheraghi",
+  "date": "2025-05-27",
+  "tags": [
+    "attack.defense-impairment",
+    "attack.t1685.006"
+  ],
+  "level": "medium",
+  "logsource": {
+    "product": "linux",
+    "service": "auditd",
+    "definition": "Required auditd configuration:\n-a always,exit -F arch=b64 -S syslog -F a0=4 -k clear_dmesg_logs\n-a always,exit -F arch=b64 -S syslog -F a0=5 -k clear_dmesg_logs\n-a always,exit -F arch=b64 -S syslog -F a0=6 -k disable_dmesg_logs\n-a always,exit -F arch=b32 -S syslog -F a0=4 -k clear_dmesg_logs\n-a always,exit -F arch=b32 -S syslog -F a0=5 -k clear_dmesg_logs\n-a always,exit -F arch=b32 -S syslog -F a0=6 -k disable_dmesg_logs\n"
+  },
+  "detection": {
+    "selection": {
+      "type": "SYSCALL",
+      "SYSCALL": "syslog",
+      "a0": [
+        4,
+        5,
+        6
+      ]
+    },
+    "condition": "selection"
+  }
+}

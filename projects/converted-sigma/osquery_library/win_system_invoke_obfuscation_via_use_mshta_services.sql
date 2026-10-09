@@ -1,0 +1,11 @@
+-- Title: Invoke-Obfuscation Via Use MSHTA - System
+-- ID: 7e9c7999-0f9b-4d4a-a6ed-af6d553d4af4
+-- Status: test
+-- Level: high
+-- Author: Nikita Nazarov, oscd.community
+-- Date: 2020-10-09
+-- Tags: attack.stealth, attack.t1027, attack.execution, attack.t1059.001
+-- Description: Detects Obfuscated Powershell via use MSHTA in Scripts
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM file WHERE (Provider_Name = 'Service Control Manager' AND EventID = '7045' AND (ImagePath LIKE '%mshta%' AND ImagePath LIKE '%vbscript:createobject%'))

@@ -1,0 +1,19 @@
+# Title: Suspicious Mount-DiskImage
+# ID: 29e1c216-6408-489d-8a06-ee9d151ef819
+# Status: test
+# Level: low
+# Author: frack113
+# Date: 2022-02-01
+# Tags: attack.defense-impairment, attack.t1553.005
+# Description: Adversaries may abuse container files such as disk image (.iso, .vhd) file formats to deliver malicious payloads that may not be tagged with MOTW.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Suspicious Mount-DiskImage
+def rule(event):
+    # Detection Logic:
+    # ((ScriptBlockText="*Mount-DiskImage *" AND ScriptBlockText="*-ImagePath *"))
+    return True
+
+def title(event):
+    return "Suspicious Mount-DiskImage"
+

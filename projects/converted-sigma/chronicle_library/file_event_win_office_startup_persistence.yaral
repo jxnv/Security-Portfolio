@@ -1,0 +1,23 @@
+// Title: Potential Persistence Via Microsoft Office Startup Folder
+// ID: 0e20c89d-2264-44ae-8238-aeeaba609ece
+// Status: test
+// Level: high
+// Author: Max Altgelt (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-06-02
+// Tags: attack.persistence, attack.t1137
+// Description: Detects creation of Microsoft Office files inside of one of the default startup folders in order to achieve persistence.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 0e20c89d_2264_44ae_8238_aeeaba609ece {
+  meta:
+    title = "Potential Persistence Via Microsoft Office Startup Folder"
+    description = "Detects creation of Microsoft Office files inside of one of the default startup folders in order to achieve persistence."
+    author = "Max Altgelt (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((((($e.target.file.full_path = /.*.doc$/ nocase or $e.target.file.full_path = /.*.docm$/ nocase or $e.target.file.full_path = /.*.docx$/ nocase or $e.target.file.full_path = /.*.dot$/ nocase or $e.target.file.full_path = /.*.dotm$/ nocase or $e.target.file.full_path = /.*.rtf$/ nocase)) and (($e.target.file.full_path = /.*\\Microsoft\\Word\\STARTUP.*/ nocase) or (($e.target.file.full_path = /.*\\Office.*/ nocase and $e.target.file.full_path = /.*\\Program Files.*/ nocase and $e.target.file.full_path = /.*\\STARTUP.*/ nocase)))) or ((($e.target.file.full_path = /.*.xls$/ nocase or $e.target.file.full_path = /.*.xlsm$/ nocase or $e.target.file.full_path = /.*.xlsx$/ nocase or $e.target.file.full_path = /.*.xlt$/ nocase or $e.target.file.full_path = /.*.xltm$/ nocase)) and (($e.target.file.full_path = /.*\\Microsoft\\Excel\\XLSTART.*/ nocase) or (($e.target.file.full_path = /.*\\Office.*/ nocase and $e.target.file.full_path = /.*\\Program Files.*/ nocase and $e.target.file.full_path = /.*\\XLSTART.*/ nocase))))) and not((($e.target.process.file.full_path = /.*\\WINWORD.exe$/ nocase or $e.target.process.file.full_path = /.*\\EXCEL.exe$/ nocase))))
+
+  condition:
+    $e
+}

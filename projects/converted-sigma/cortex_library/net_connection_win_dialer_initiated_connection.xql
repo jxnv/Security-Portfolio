@@ -1,0 +1,13 @@
+// Title: Outbound Network Connection Initiated By Microsoft Dialer
+// ID: 37e4024a-6c80-4d8f-b95d-2e7e94f3a8d1
+// Status: test
+// Level: high
+// Author: CertainlyP
+// Date: 2024-04-26
+// Tags: attack.execution, attack.command-and-control, attack.t1071.001
+// Description: Detects outbound network connection initiated by Microsoft Dialer.
+// The Microsoft Dialer, also known as Phone Dialer, is a built-in utility application included in various versions of the Microsoft Windows operating system. Its primary function is to provide users with a graphical interface for managing phone calls via a modem or a phone line connected to the computer.
+// This is an outdated process in the current conext of it's usage and is a common target for info stealers for process injection, and is used to make C2 connections, common example is "Rhadamanthys"
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter ((action_process_image_path endswith ":\\Windows\\System32\\dialer.exe" and Initiated = "true") and not (((incidr(action_remote_ip, "127.0.0.0/8") or incidr(action_remote_ip, "10.0.0.0/8") or incidr(action_remote_ip, "172.16.0.0/12") or incidr(action_remote_ip, "192.168.0.0/16") or incidr(action_remote_ip, "169.254.0.0/16") or incidr(action_remote_ip, "::1/128") or incidr(action_remote_ip, "fe80::/10") or incidr(action_remote_ip, "fc00::/7")))))

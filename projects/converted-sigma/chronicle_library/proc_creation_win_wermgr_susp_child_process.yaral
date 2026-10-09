@@ -1,0 +1,23 @@
+// Title: Suspicious Child Process Of Wermgr.EXE
+// ID: 396f6630-f3ac-44e3-bfc8-1b161bc00c4e
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-10-14
+// Tags: attack.privilege-escalation, attack.stealth, attack.t1055, attack.t1036
+// Description: Detects suspicious Windows Error Reporting manager (wermgr.exe) child process
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 396f6630_f3ac_44e3_bfc8_1b161bc00c4e {
+  meta:
+    title = "Suspicious Child Process Of Wermgr.EXE"
+    description = "Detects suspicious Windows Error Reporting manager (wermgr.exe) child process"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.principal.process.file.full_path = /.*\\wermgr.exe$/ nocase and ($e.target.process.file.full_path = /.*\\cmd.exe$/ nocase or $e.target.process.file.full_path = /.*\\cscript.exe$/ nocase or $e.target.process.file.full_path = /.*\\ipconfig.exe$/ nocase or $e.target.process.file.full_path = /.*\\mshta.exe$/ nocase or $e.target.process.file.full_path = /.*\\net.exe$/ nocase or $e.target.process.file.full_path = /.*\\net1.exe$/ nocase or $e.target.process.file.full_path = /.*\\netstat.exe$/ nocase or $e.target.process.file.full_path = /.*\\nslookup.exe$/ nocase or $e.target.process.file.full_path = /.*\\powershell_ise.exe$/ nocase or $e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase or $e.target.process.file.full_path = /.*\\regsvr32.exe$/ nocase or $e.target.process.file.full_path = /.*\\rundll32.exe$/ nocase or $e.target.process.file.full_path = /.*\\systeminfo.exe$/ nocase or $e.target.process.file.full_path = /.*\\whoami.exe$/ nocase or $e.target.process.file.full_path = /.*\\wscript.exe$/ nocase)) and not(($e.target.process.file.full_path = /.*\\rundll32.exe$/ nocase and ($e.target.process.command_line = /.*C:\\Windows\\system32\\WerConCpl.dll.*/ nocase and $e.target.process.command_line = /.*LaunchErcApp .*/ nocase) and ($e.target.process.command_line = /.*-queuereporting.*/ nocase or $e.target.process.command_line = /.*-responsepester.*/ nocase))))
+
+  condition:
+    $e
+}

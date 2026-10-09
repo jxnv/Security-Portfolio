@@ -1,0 +1,13 @@
+// Title: AD Groups Or Users Enumeration Using PowerShell - PoshModule
+// ID: 815bfc17-7fc6-4908-a55e-2f37b98cedb4
+// Status: test
+// Level: low
+// Author: frack113
+// Date: 2021-12-15
+// Tags: attack.discovery, attack.t1069.001
+// Description: Adversaries may attempt to find domain-level groups and permission settings.
+// The knowledge of domain-level permission groups can help adversaries determine which groups exist and which users belong to a particular group.
+// Adversaries may use this information to determine which users have elevated permissions, such as domain administrators.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where (((Payload like "%get-ADPrincipalGroupMembership%") OR (ContextInfo like "%get-ADPrincipalGroupMembership%")) OR (((Payload like "%get-aduser%" AND Payload like "%-f %" AND Payload like "%-pr %" AND Payload like "%DoesNotRequirePreAuth%")) OR ((ContextInfo like "%get-aduser%" AND ContextInfo like "%-f %" AND ContextInfo like "%-pr %" AND ContextInfo like "%DoesNotRequirePreAuth%"))))

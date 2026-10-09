@@ -1,0 +1,11 @@
+# Title: HackTool - Jlaive In-Memory Assembly Execution
+# ID: 0a99eb3e-1617-41bd-b095-13dc767f3def
+# Status: test
+# Level: medium
+# Author: Jose Luis Sanchez Martinez (@Joseliyo_Jstnk)
+# Date: 2022-05-24
+# Tags: attack.execution, attack.t1059.003
+# Description: Detects the use of Jlaive to execute assemblies in a copied PowerShell
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog ((parent_process_path="*\\cmd.exe" AND parent_process_exec="*.bat") AND ((process_path="*\\xcopy.exe" AND (process_exec="*powershell.exe*" AND process_exec="*.bat.exe*")) OR (process_path="*\\xcopy.exe" AND (process_exec="*pwsh.exe*" AND process_exec="*.bat.exe*")) OR (process_path="*\\attrib.exe" AND (process_exec="*+s*" AND process_exec="*+h*" AND process_exec="*.bat.exe*"))))

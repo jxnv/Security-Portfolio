@@ -1,0 +1,11 @@
+// Title: Mstsc.EXE Execution From Uncommon Parent
+// ID: ff3b6b39-e765-42f9-bb2c-ea6761e0e0f6
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-04-18
+// Tags: attack.lateral-movement
+// Description: Detects potential RDP connection via Mstsc using a local ".rdp" file located in suspicious locations.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where (((process.executable endswith "\\mstsc.exe") or (process.pe.original_file_name == "mstsc.exe")) and ((process.parent.executable endswith "\\brave.exe" or process.parent.executable endswith "\\CCleanerBrowser.exe" or process.parent.executable endswith "\\chrome.exe" or process.parent.executable endswith "\\chromium.exe" or process.parent.executable endswith "\\firefox.exe" or process.parent.executable endswith "\\iexplore.exe" or process.parent.executable endswith "\\microsoftedge.exe" or process.parent.executable endswith "\\msedge.exe" or process.parent.executable endswith "\\opera.exe" or process.parent.executable endswith "\\vivaldi.exe" or process.parent.executable endswith "\\whale.exe" or process.parent.executable endswith "\\outlook.exe")))

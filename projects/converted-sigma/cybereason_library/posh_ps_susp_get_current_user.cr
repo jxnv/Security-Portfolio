@@ -1,0 +1,11 @@
+// Title: Suspicious PowerShell Get Current User
+// ID: 4096a49c-7de4-4da0-a230-c66ccd56ea5a
+// Status: test
+// Level: low
+// Author: frack113
+// Date: 2022-04-04
+// Tags: attack.discovery, attack.t1033
+// Description: Detects the use of PowerShell to identify the current logged user.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((ScriptBlockText contains "[System.Environment]::UserName" OR ScriptBlockText contains "$env:UserName" OR ScriptBlockText contains "[System.Security.Principal.WindowsIdentity]::GetCurrent()"))

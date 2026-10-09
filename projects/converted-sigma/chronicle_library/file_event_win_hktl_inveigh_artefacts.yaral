@@ -1,0 +1,23 @@
+// Title: HackTool - Inveigh Execution Artefacts
+// ID: bb09dd3e-2b78-4819-8e35-a7c1b874e449
+// Status: test
+// Level: critical
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-10-24
+// Tags: attack.command-and-control, attack.t1219.002
+// Description: Detects the presence and execution of Inveigh via dropped artefacts
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule bb09dd3e_2b78_4819_8e35_a7c1b874e449 {
+  meta:
+    title = "HackTool - Inveigh Execution Artefacts"
+    description = "Detects the presence and execution of Inveigh via dropped artefacts"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "CRITICAL"
+
+  events:
+    (($e.target.file.full_path = /.*\\Inveigh-Log.txt$/ nocase or $e.target.file.full_path = /.*\\Inveigh-Cleartext.txt$/ nocase or $e.target.file.full_path = /.*\\Inveigh-NTLMv1Users.txt$/ nocase or $e.target.file.full_path = /.*\\Inveigh-NTLMv2Users.txt$/ nocase or $e.target.file.full_path = /.*\\Inveigh-NTLMv1.txt$/ nocase or $e.target.file.full_path = /.*\\Inveigh-NTLMv2.txt$/ nocase or $e.target.file.full_path = /.*\\Inveigh-FormInput.txt$/ nocase or $e.target.file.full_path = /.*\\Inveigh.dll$/ nocase or $e.target.file.full_path = /.*\\Inveigh.exe$/ nocase or $e.target.file.full_path = /.*\\Inveigh.ps1$/ nocase or $e.target.file.full_path = /.*\\Inveigh-Relay.ps1$/ nocase))
+
+  condition:
+    $e
+}

@@ -1,0 +1,23 @@
+// Title: Uncommon New Firewall Rule Added In Windows Firewall Exception List
+// ID: cde0a575-7d3d-4a49-9817-b8004a7bf105
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-02-19
+// Tags: attack.defense-impairment, attack.t1686.003
+// Description: Detects when a rule has been added to the Windows Firewall exception list
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule cde0a575_7d3d_4a49_9817_b8004a7bf105 {
+  meta:
+    title = "Uncommon New Firewall Rule Added In Windows Firewall Exception List"
+    description = "Detects when a rule has been added to the Windows Firewall exception list"
+    author = "frack113"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.EventID = 2004 or $e.EventID = 2071 or $e.EventID = 2097)) and not((($e.Action = 2) or (($e.ApplicationPath = /.*C:\\PerfLogs\\.*/ nocase or $e.ApplicationPath = /.*C:\\Temp\\.*/ nocase or $e.ApplicationPath = /.*C:\\Tmp\\.*/ nocase or $e.ApplicationPath = /.*C:\\Users\\Public\\.*/ nocase or $e.ApplicationPath = /.*C:\\Windows\\Tasks\\.*/ nocase or $e.ApplicationPath = /.*C:\\Windows\\Temp\\.*/ nocase or $e.ApplicationPath = /.*\\AppData\\Local\\Temp\\.*/ nocase)) or ($e.ApplicationPath = /^C:\\Windows\\ehome\\.*/ nocase and $e.ModifyingApplication = "C:\\Windows\\System32\\oobe\\Setup.exe") or (($e.ApplicationPath = /^C:\\Program Files (x86)\\.*/ nocase or $e.ApplicationPath = /^C:\\Program Files\\.*/ nocase or $e.ApplicationPath = /^C:\\Windows\\System32\\.*/ nocase or $e.ApplicationPath = /^C:\\Windows\\SysWOW64\\.*/ nocase or $e.ApplicationPath = /^C:\\Windows\\WinSxS\\.*/ nocase)) or (not ($e.ApplicationPath = /.*/)) or ($e.ApplicationPath = "SYSTEM" and ($e.ModifyingApplication = "C:\\Windows\\System32\\dllhost.exe" or $e.ModifyingApplication = "C:\\Windows\\System32\\oobe\\Setup.exe" or $e.ModifyingApplication = "C:\\Windows\\System32\\svchost.exe")) or ($e.ModifyingApplication = /^C:\\Windows\\WinSxS\\.*/ nocase and $e.ModifyingApplication = /.*\\TiWorker.exe$/ nocase))) and not((((($e.ModifyingApplication = /^C:\\ProgramData\\Microsoft\\Windows Defender\\Platform\\.*/ nocase or $e.ModifyingApplication = /^C:\\Program Files\\Windows Defender\\.*/ nocase) and $e.ModifyingApplication = /.*\\MsMpEng.exe$/ nocase) or (($e.ApplicationPath = /^C:\\ProgramData\\Microsoft\\Windows Defender\\Platform\\.*/ nocase or $e.ApplicationPath = /^C:\\Program Files\\Windows Defender\\.*/ nocase) and $e.ApplicationPath = /.*\\MsMpEng.exe$/ nocase)) or (($e.ModifyingApplication = "C:\\Windows\\System32\\svchost.exe" or $e.ModifyingApplication = "C:\\Windows\\System32\\dllhost.exe") and $e.ApplicationPath = "") or ($e.ApplicationPath = /^C:\\Windows\\SystemApps\\.*/ nocase and $e.ModifyingApplication = "C:\\Windows\\System32\\svchost.exe"))))
+
+  condition:
+    $e
+}

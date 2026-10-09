@@ -1,0 +1,11 @@
+-- Title: Outbound Network Connection Initiated By Script Interpreter
+-- ID: 992a6cae-db6a-43c8-9cec-76d7195c96fc
+-- Status: test
+-- Level: high
+-- Author: frack113, Florian Roth (Nextron Systems)
+-- Date: 2022-08-28
+-- Tags: attack.command-and-control, attack.t1105
+-- Description: Detects a script interpreter wscript/cscript opening a network connection to a non-local network. Adversaries may use script to download malicious payloads.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM events WHERE ((Initiated = 'true' AND (Image ILIKE '%\\wscript.exe' OR Image ILIKE '%\\cscript.exe')) AND NOT ((((INCIDR('127.0.0.0/8', DestinationIp) OR INCIDR('10.0.0.0/8', DestinationIp) OR INCIDR('172.16.0.0/12', DestinationIp) OR INCIDR('192.168.0.0/16', DestinationIp) OR INCIDR('169.254.0.0/16', DestinationIp) OR INCIDR('::1/128', DestinationIp) OR INCIDR('fe80::/10', DestinationIp) OR INCIDR('fc00::/7', DestinationIp))) OR (INCIDR('20.0.0.0/11', DestinationIp)))))

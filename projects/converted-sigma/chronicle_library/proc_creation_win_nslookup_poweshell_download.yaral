@@ -1,0 +1,23 @@
+// Title: Nslookup PowerShell Download Cradle - ProcessCreation
+// ID: 1b3b01c7-84e9-4072-86e5-fc285a41ff23
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-09-05
+// Tags: attack.stealth
+// Description: Detects suspicious powershell download cradle using nslookup. This cradle uses nslookup to extract payloads from DNS records
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 1b3b01c7_84e9_4072_86e5_fc285a41ff23 {
+  meta:
+    title = "Nslookup PowerShell Download Cradle - ProcessCreation"
+    description = "Detects suspicious powershell download cradle using nslookup. This cradle uses nslookup to extract payloads from DNS records"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.principal.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.principal.process.file.full_path = /.*\\pwsh.exe$/ nocase) and ($e.target.process.command_line = /.* -q=txt .*/ nocase or $e.target.process.command_line = /.* -querytype=txt .*/ nocase)) and (($e.target.process.file.full_path = /.*\\nslookup.exe.*/ nocase) or ($e.target.process.file.name = "\\nslookup.exe")))
+
+  condition:
+    $e
+}

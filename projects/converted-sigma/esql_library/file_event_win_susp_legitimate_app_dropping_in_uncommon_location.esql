@@ -1,0 +1,12 @@
+// Title: Legitimate Application Writing Files In Uncommon Location
+// ID: 1cf465a1-2609-4c15-9b66-c32dbe4bfd67
+// Status: experimental
+// Level: high
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-12-10
+// Tags: attack.stealth, attack.t1218, attack.command-and-control, attack.t1105
+// Description: Detects legitimate applications writing any type of file to uncommon or suspicious locations that are not typical for application data storage or execution.
+// Adversaries may leverage legitimate applications (Living off the Land Binaries - LOLBins) to drop or download malicious files to uncommon locations on the system to evade detection by security solutions.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE (((process.executable LIKE "%\\eqnedt32.exe" OR process.executable LIKE "%\\wordpad.exe" OR process.executable LIKE "%\\wordview.exe" OR process.executable LIKE "%\\cmdl32.exe" OR process.executable LIKE "%\\certutil.exe" OR process.executable LIKE "%\\certoc.exe" OR process.executable LIKE "%\\CertReq.exe" OR process.executable LIKE "%\\bitsadmin.exe" OR process.executable LIKE "%\\Desktopimgdownldr.exe" OR process.executable LIKE "%\\esentutl.exe" OR process.executable LIKE "%\\expand.exe" OR process.executable LIKE "%\\extrac32.exe" OR process.executable LIKE "%\\replace.exe" OR process.executable LIKE "%\\mshta.exe" OR process.executable LIKE "%\\ftp.exe" OR process.executable LIKE "%\\Ldifde.exe" OR process.executable LIKE "%\\RdrCEF.exe" OR process.executable LIKE "%\\hh.exe" OR process.executable LIKE "%\\finger.exe" OR process.executable LIKE "%\\findstr.exe")) AND ((file.path LIKE "%:\\Perflogs%" OR file.path LIKE "%:\\ProgramData\\%" OR file.path LIKE "%:\\Temp\\%" OR file.path LIKE "%:\\Users\\Public\\%" OR file.path LIKE "%:\\Windows\\%" OR file.path LIKE "%\\$Recycle.Bin\\%" OR file.path LIKE "%\\AppData\\Local\\%" OR file.path LIKE "%\\AppData\\Roaming\\%" OR file.path LIKE "%\\Contacts\\%" OR file.path LIKE "%\\Desktop\\%" OR file.path LIKE "%\\Favorites\\%" OR file.path LIKE "%\\Favourites\\%" OR file.path LIKE "%\\inetpub\\wwwroot\\%" OR file.path LIKE "%\\Music\\%" OR file.path LIKE "%\\Pictures\\%" OR file.path LIKE "%\\Start Menu\\Programs\\Startup\\%" OR file.path LIKE "%\\Users\\Default\\%" OR file.path LIKE "%\\Videos\\%")))

@@ -1,0 +1,23 @@
+// Title: Tamper Windows Defender - ScriptBlockLogging
+// ID: 14c71865-6cd3-44ae-adaa-1db923fae5f2
+// Status: test
+// Level: high
+// Author: frack113, elhoim, Tim Shelton (fps, alias support), Swachchhanda Shrawan Poudel, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-01-16
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects PowerShell scripts attempting to disable scheduled scanning and other parts of Windows Defender ATP or set default actions to allow.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 14c71865_6cd3_44ae_adaa_1db923fae5f2 {
+  meta:
+    title = "Tamper Windows Defender - ScriptBlockLogging"
+    description = "Detects PowerShell scripts attempting to disable scheduled scanning and other parts of Windows Defender ATP or set default actions to allow."
+    author = "frack113, elhoim, Tim Shelton (fps, alias support), Swachchhanda Shrawan Poudel, Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (((($e.ScriptBlockText = /.*-dbaf $true.*/ nocase or $e.ScriptBlockText = /.*-dbaf 1.*/ nocase or $e.ScriptBlockText = /.*-dbm $true.*/ nocase or $e.ScriptBlockText = /.*-dbm 1.*/ nocase or $e.ScriptBlockText = /.*-dips $true.*/ nocase or $e.ScriptBlockText = /.*-dips 1.*/ nocase or $e.ScriptBlockText = /.*-DisableArchiveScanning $true.*/ nocase or $e.ScriptBlockText = /.*-DisableArchiveScanning 1.*/ nocase or $e.ScriptBlockText = /.*-DisableBehaviorMonitoring $true.*/ nocase or $e.ScriptBlockText = /.*-DisableBehaviorMonitoring 1.*/ nocase or $e.ScriptBlockText = /.*-DisableBlockAtFirstSeen $true.*/ nocase or $e.ScriptBlockText = /.*-DisableBlockAtFirstSeen 1.*/ nocase or $e.ScriptBlockText = /.*-DisableCatchupFullScan $true.*/ nocase or $e.ScriptBlockText = /.*-DisableCatchupFullScan 1.*/ nocase or $e.ScriptBlockText = /.*-DisableCatchupQuickScan $true.*/ nocase or $e.ScriptBlockText = /.*-DisableCatchupQuickScan 1.*/ nocase or $e.ScriptBlockText = /.*-DisableIntrusionPreventionSystem $true.*/ nocase or $e.ScriptBlockText = /.*-DisableIntrusionPreventionSystem 1.*/ nocase or $e.ScriptBlockText = /.*-DisableIOAVProtection $true.*/ nocase or $e.ScriptBlockText = /.*-DisableIOAVProtection 1.*/ nocase or $e.ScriptBlockText = /.*-DisableRealtimeMonitoring $true.*/ nocase or $e.ScriptBlockText = /.*-DisableRealtimeMonitoring 1.*/ nocase or $e.ScriptBlockText = /.*-DisableRemovableDriveScanning $true.*/ nocase or $e.ScriptBlockText = /.*-DisableRemovableDriveScanning 1.*/ nocase or $e.ScriptBlockText = /.*-DisableScanningMappedNetworkDrivesForFullScan $true.*/ nocase or $e.ScriptBlockText = /.*-DisableScanningMappedNetworkDrivesForFullScan 1.*/ nocase or $e.ScriptBlockText = /.*-DisableScanningNetworkFiles $true.*/ nocase or $e.ScriptBlockText = /.*-DisableScanningNetworkFiles 1.*/ nocase or $e.ScriptBlockText = /.*-DisableScriptScanning $true.*/ nocase or $e.ScriptBlockText = /.*-DisableScriptScanning 1.*/ nocase or $e.ScriptBlockText = /.*-MAPSReporting $false.*/ nocase or $e.ScriptBlockText = /.*-MAPSReporting 0.*/ nocase or $e.ScriptBlockText = /.*-drdsc $true.*/ nocase or $e.ScriptBlockText = /.*-drdsc 1.*/ nocase or $e.ScriptBlockText = /.*-drtm $true.*/ nocase or $e.ScriptBlockText = /.*-drtm 1.*/ nocase or $e.ScriptBlockText = /.*-dscrptsc $true.*/ nocase or $e.ScriptBlockText = /.*-dscrptsc 1.*/ nocase or $e.ScriptBlockText = /.*-dsmndf $true.*/ nocase or $e.ScriptBlockText = /.*-dsmndf 1.*/ nocase or $e.ScriptBlockText = /.*-dsnf $true.*/ nocase or $e.ScriptBlockText = /.*-dsnf 1.*/ nocase or $e.ScriptBlockText = /.*-dss $true.*/ nocase or $e.ScriptBlockText = /.*-dss 1.*/ nocase)) and ($e.ScriptBlockText = /.*Set-MpPreference.*/ nocase)) or (($e.ScriptBlockText = /.*Set-MpPreference.*/ nocase) and (($e.ScriptBlockText = /.*HighThreatDefaultAction Allow.*/ nocase or $e.ScriptBlockText = /.*htdefac Allow.*/ nocase or $e.ScriptBlockText = /.*LowThreatDefaultAction Allow.*/ nocase or $e.ScriptBlockText = /.*ltdefac Allow.*/ nocase or $e.ScriptBlockText = /.*ModerateThreatDefaultAction Allow.*/ nocase or $e.ScriptBlockText = /.*mtdefac Allow.*/ nocase or $e.ScriptBlockText = /.*SevereThreatDefaultAction Allow.*/ nocase or $e.ScriptBlockText = /.*stdefac Allow.*/ nocase))))
+
+  condition:
+    $e
+}

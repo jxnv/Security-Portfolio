@@ -1,0 +1,11 @@
+// Title: Potentially Suspicious Child Process Of VsCode
+// ID: 5a3164f2-b373-4152-93cf-090b13c12d27
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-01-26
+// Tags: attack.execution, attack.stealth, attack.t1218, attack.t1202
+// Description: Detects uncommon or suspicious child processes spawning from a VsCode "code.exe" process. This could indicate an attempt of persistence via VsCode tasks or terminal profiles.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((ParentImage ENDSWITH "\\code.exe") AND (((Image ENDSWITH "\\powershell.exe" OR Image ENDSWITH "\\pwsh.exe" OR Image ENDSWITH "\\cmd.exe") AND (CommandLine CONTAINS "Invoke-Expressions" OR CommandLine CONTAINS "IEX" OR CommandLine CONTAINS "Invoke-Command" OR CommandLine CONTAINS "ICM" OR CommandLine CONTAINS "DownloadString" OR CommandLine CONTAINS "rundll32" OR CommandLine CONTAINS "regsvr32" OR CommandLine CONTAINS "wscript" OR CommandLine CONTAINS "cscript")) OR ((Image ENDSWITH "\\calc.exe" OR Image ENDSWITH "\\regsvr32.exe" OR Image ENDSWITH "\\rundll32.exe" OR Image ENDSWITH "\\cscript.exe" OR Image ENDSWITH "\\wscript.exe")) OR ((Image CONTAINS ":\\Users\\Public\\" OR Image CONTAINS ":\\Windows\\Temp\\" OR Image CONTAINS ":\\Temp\\"))))

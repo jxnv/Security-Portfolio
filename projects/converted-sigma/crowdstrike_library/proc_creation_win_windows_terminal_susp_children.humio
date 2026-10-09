@@ -1,0 +1,11 @@
+// Title: Suspicious WindowsTerminal Child Processes
+// ID: 8de89e52-f6e1-4b5b-afd1-41ecfa300d48
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-07-25
+// Tags: attack.execution, attack.persistence
+// Description: Detects suspicious children spawned via the Windows Terminal application which could be a sign of persistence via WindowsTerminal (see references section)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((ParentBaseFileName = /.*\\WindowsTerminal.exe/i or ParentBaseFileName = /.*\\wt.exe/i)) and (((ImageFileName = /.*\\rundll32.exe/i or ImageFileName = /.*\\regsvr32.exe/i or ImageFileName = /.*\\certutil.exe/i or ImageFileName = /.*\\cscript.exe/i or ImageFileName = /.*\\wscript.exe/i or ImageFileName = /.*\\csc.exe/i)) or ((ImageFileName = /*C:\\Users\\Public\\*/i or ImageFileName = /*\\Downloads\\*/i or ImageFileName = /*\\Desktop\\*/i or ImageFileName = /*\\AppData\\Local\\Temp\\*/i or ImageFileName = /*\\Windows\\TEMP\\*/i)) or ((CommandLine = /* iex */i or CommandLine = /* icm*/i or CommandLine = /*Invoke-*/i or CommandLine = /*Import-Module */i or CommandLine = /*ipmo */i or CommandLine = /*DownloadString(*/i or CommandLine = /* /c */i or CommandLine = /* /k */i or CommandLine = /* /r */i)))) and not((((CommandLine = /*Import-Module*/i and CommandLine = /*Microsoft.VisualStudio.DevShell.dll*/i and CommandLine = /*Enter-VsDevShell*/i)) or ((CommandLine = /*\\AppData\\Local\\Packages\\Microsoft.WindowsTerminal_*/i and CommandLine = /*\\LocalState\\settings.json*/i)) or ((CommandLine = /*C:\\Program Files\\Microsoft Visual Studio\\*/i and CommandLine = /*\\Common7\\Tools\\VsDevCmd.bat*/i)))))

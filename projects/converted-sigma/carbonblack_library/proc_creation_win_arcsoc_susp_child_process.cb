@@ -1,0 +1,14 @@
+# Title: Suspicious ArcSOC.exe Child Process
+# ID: 8e95e73e-ba02-4a87-b4d7-0929b8053038
+# Status: experimental
+# Level: high
+# Author: Micah Babinski
+# Date: 2025-11-25
+# Tags: attack.execution, attack.t1059, attack.t1203
+# Description: Detects script interpreters, command-line tools, and similar suspicious child processes of ArcSOC.exe.
+# ArcSOC.exe is the process name which hosts ArcGIS Server REST services. If an attacker compromises an ArcGIS
+# Server system and uploads a malicious Server Object Extension (SOE), they can send crafted requests to the corresponding
+# service endpoint and remotely execute code from the ArcSOC.exe process.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((parent_name:*\\ArcSOC.exe AND (process_name:*\\cmd.exe OR process_name:*\\cscript.exe OR process_name:*\\mshta.exe OR process_name:*\\powershell.exe OR process_name:*\\pwsh.exe OR process_name:*\\regsvr32.exe OR process_name:*\\rundll32.exe OR process_name:*\\wmic.exe OR process_name:*\\wscript.exe)) AND -((process_name:*\\cmd.exe AND cmdline:"cmd.exe /c \"ver\"")))

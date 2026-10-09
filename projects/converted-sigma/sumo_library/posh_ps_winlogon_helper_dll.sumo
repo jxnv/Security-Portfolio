@@ -1,0 +1,14 @@
+// Title: Winlogon Helper DLL
+// ID: 851c506b-6b7c-4ce2-8802-c703009d03c0
+// Status: test
+// Level: medium
+// Author: Timur Zinniatullin, oscd.community
+// Date: 2019-10-21
+// Tags: attack.privilege-escalation, attack.persistence, attack.t1547.004
+// Description: Winlogon.exe is a Windows component responsible for actions at logon/logoff as well as the secure attention sequence (SAS) triggered by Ctrl-Alt-Delete.
+// Registry entries in HKLM\Software[Wow6432Node]Microsoft\Windows NT\CurrentVersion\Winlogon\ and HKCU\Software\Microsoft\Windows NT\CurrentVersion\Winlogon\ are
+// used to manage additional helper programs and functionalities that support Winlogon. Malicious modifications to these Registry keys may cause Winlogon to
+// load and execute malicious DLLs and/or executables.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where ((ScriptBlockText matches "*CurrentVersion\\Winlogon*") and ((ScriptBlockText matches "*Set-ItemProperty*" or ScriptBlockText matches "*New-Item*")))

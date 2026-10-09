@@ -1,0 +1,23 @@
+// Title: Remote PowerShell Session (PS Classic)
+// ID: 60167e5c-84b2-4c95-a7ac-86281f27c445
+// Status: test
+// Level: low
+// Author: Roberto Rodriguez @Cyb3rWard0g
+// Date: 2019-08-10
+// Tags: attack.execution, attack.t1059.001, attack.lateral-movement, attack.t1021.006
+// Description: Detects remote PowerShell sessions
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 60167e5c_84b2_4c95_a7ac_86281f27c445 {
+  meta:
+    title = "Remote PowerShell Session (PS Classic)"
+    description = "Detects remote PowerShell sessions"
+    author = "Roberto Rodriguez @Cyb3rWard0g"
+    severity = "LOW"
+
+  events:
+    (($e.Data = /.*HostName=ServerRemoteHost.*/ nocase and $e.Data = /.*wsmprovhost.exe.*/ nocase))
+
+  condition:
+    $e
+}

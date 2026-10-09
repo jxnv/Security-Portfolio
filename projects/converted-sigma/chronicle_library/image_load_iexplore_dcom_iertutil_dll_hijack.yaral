@@ -1,0 +1,23 @@
+// Title: Potential DCOM InternetExplorer.Application DLL Hijack - Image Load
+// ID: f354eba5-623b-450f-b073-0b5b2773b6aa
+// Status: test
+// Level: critical
+// Author: Roberto Rodriguez @Cyb3rWard0g, Open Threat Research (OTR), wagga
+// Date: 2020-10-12
+// Tags: attack.lateral-movement, attack.t1021.002, attack.t1021.003
+// Description: Detects potential DLL hijack of "iertutil.dll" found in the DCOM InternetExplorer.Application Class
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule f354eba5_623b_450f_b073_0b5b2773b6aa {
+  meta:
+    title = "Potential DCOM InternetExplorer.Application DLL Hijack - Image Load"
+    description = "Detects potential DLL hijack of "iertutil.dll" found in the DCOM InternetExplorer.Application Class"
+    author = "Roberto Rodriguez @Cyb3rWard0g, Open Threat Research (OTR), wagga"
+    severity = "CRITICAL"
+
+  events:
+    ($e.target.process.file.full_path = /.*\\Internet Explorer\\iexplore.exe$/ nocase and $e.ImageLoaded = /.*\\Internet Explorer\\iertutil.dll$/ nocase)
+
+  condition:
+    $e
+}

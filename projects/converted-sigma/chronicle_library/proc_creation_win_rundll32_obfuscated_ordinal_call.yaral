@@ -1,0 +1,23 @@
+// Title: Potential Obfuscated Ordinal Call Via Rundll32
+// ID: 43fa5350-db63-4b8f-9a01-789a427074e1
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems), Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2023-05-17
+// Tags: attack.stealth, attack.t1027.010
+// Description: Detects execution of "rundll32" with potential obfuscated ordinal calls
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 43fa5350_db63_4b8f_9a01_789a427074e1 {
+  meta:
+    title = "Potential Obfuscated Ordinal Call Via Rundll32"
+    description = "Detects execution of "rundll32" with potential obfuscated ordinal calls"
+    author = "Nasreddine Bencherchali (Nextron Systems), Swachchhanda Shrawan Poudel (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.command_line = /.*#+.*/ nocase or $e.target.process.command_line = /.*#-.*/ nocase or $e.target.process.command_line = /.*#0.*/ nocase or $e.target.process.command_line = /.*#655.*/ nocase or $e.target.process.command_line = /.*#656.*/ nocase)) and (($e.target.process.file.full_path = /.*\\rundll32.exe$/ nocase) or ($e.target.process.file.name = "RUNDLL32.EXE") or ($e.target.process.command_line = /.*rundll32.*/ nocase)))
+
+  condition:
+    $e
+}

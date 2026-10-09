@@ -1,0 +1,12 @@
+// Title: Unsigned DLL Loaded by Windows Utility
+// ID: b5de0c9a-6f19-43e0-af4e-55ad01f550af
+// Status: test
+// Level: medium
+// Author: Swachchhanda Shrawan Poudel
+// Date: 2024-02-28
+// Tags: attack.stealth, attack.t1218.011, attack.t1218.010
+// Description: Detects windows utilities loading an unsigned or untrusted DLL.
+// Adversaries often abuse those programs to proxy execution of malicious code.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((src.process.image.path endswithCIS "\\InstallUtil.exe" OR src.process.image.path endswithCIS "\\RegAsm.exe" OR src.process.image.path endswithCIS "\\RegSvcs.exe" OR src.process.image.path endswithCIS "\\regsvr32.exe" OR src.process.image.path endswithCIS "\\rundll32.exe")) AND NOT ((((src.process.image.path startswithCIS "C:\\Windows\\SysWOW64\\" OR src.process.image.path startswithCIS "C:\\Windows\\System32\\" OR src.process.image.path startswithCIS "C:\\Windows\\Microsoft.NET\\Framework64") AND src.process.image.path endswithCIS "\\RegAsm.exe" AND ImageLoaded endswithCIS ".dll" AND ImageLoaded startswithCIS "C:\\Windows\\assembly\\NativeImages") OR ((SignatureStatus = "errorChaining" OR SignatureStatus = "errorCode_endpoint" OR SignatureStatus = "errorExpired" OR SignatureStatus = "trusted" OR SignatureStatus = "Valid")) OR ((SignatureStatus = "" OR SignatureStatus = "-")) OR (SignatureStatus is null) OR (Signed = "true") OR ((Signed = "" OR Signed = "-")) OR (Signed is null) OR ((src.process.image.path = "C:\\Windows\\SysWOW64\\rundll32.exe" OR src.process.image.path = "C:\\Windows\\System32\\rundll32.exe") AND ImageLoaded startswithCIS "C:\\Windows\\Installer\\" AND (ImageLoaded endswithCIS ".tmp-\\Microsoft.Deployment.WindowsInstaller.dll" OR ImageLoaded endswithCIS ".tmp-\\Avira.OE.Setup.CustomActions.dll")))) AND NOT (((src.process.image.path = "C:\\Windows\\SysWOW64\\regsvr32.exe" OR src.process.image.path = "C:\\Windows\\System32\\regsvr32.exe") AND (ImageLoaded startswithCIS "C:\\Program Files (x86)\\K-Lite Codec Pack\\" OR ImageLoaded startswithCIS "C:\\Program Files\\K-Lite Codec Pack\\"))))

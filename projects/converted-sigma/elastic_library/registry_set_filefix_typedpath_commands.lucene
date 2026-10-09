@@ -1,0 +1,11 @@
+# Title: FileFix - Command Evidence in TypedPaths
+# ID: 4fee3d51-8069-4a4c-a0f7-924fcaff2c70
+# Status: experimental
+# Level: high
+# Author: Alfie Champion (delivr.to), Swachchhanda Shrawan Poudel (Nextron Systems)
+# Date: 2025-07-05
+# Tags: attack.execution, attack.t1204.004
+# Description: Detects commonly-used chained commands and strings in the most recent 'url' value of the 'TypedPaths' key, which could be indicative of a user being targeted by the FileFix technique.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((registry.path:*\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\TypedPaths\\url1 AND (registry.data.strings:*#* AND registry.data.strings:*http*)) AND (((registry.data.strings:*account* OR registry.data.strings:*anti-bot* OR registry.data.strings:*botcheck* OR registry.data.strings:*captcha* OR registry.data.strings:*challenge* OR registry.data.strings:*confirmation* OR registry.data.strings:*fraud* OR registry.data.strings:*human* OR registry.data.strings:*identification* OR registry.data.strings:*identificator* OR registry.data.strings:*identity* OR registry.data.strings:*robot* OR registry.data.strings:*validation* OR registry.data.strings:*verification* OR registry.data.strings:*verify*)) OR ((registry.data.strings:*%comspec%* OR registry.data.strings:*bitsadmin* OR registry.data.strings:*certutil* OR registry.data.strings:*cmd* OR registry.data.strings:*cscript* OR registry.data.strings:*curl* OR registry.data.strings:*finger* OR registry.data.strings:*mshta* OR registry.data.strings:*powershell* OR registry.data.strings:*pwsh* OR registry.data.strings:*regsvr32* OR registry.data.strings:*rundll32* OR registry.data.strings:*schtasks* OR registry.data.strings:*wget* OR registry.data.strings:*wscript*))))

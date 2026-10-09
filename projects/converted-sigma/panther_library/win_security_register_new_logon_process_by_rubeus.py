@@ -1,0 +1,19 @@
+# Title: Register new Logon Process by Rubeus
+# ID: 12e6d621-194f-4f59-90cc-1959e21e69f7
+# Status: test
+# Level: high
+# Author: Roberto Rodriguez (source), Ilyas Ochkov (rule), oscd.community
+# Date: 2019-10-24
+# Tags: attack.lateral-movement, attack.privilege-escalation, attack.credential-access, attack.t1558.003
+# Description: Detects potential use of Rubeus via registered new trusted logon process
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Register new Logon Process by Rubeus
+def rule(event):
+    # Detection Logic:
+    # (EventID="4611" AND LogonProcessName="User32LogonProcesss")
+    return True
+
+def title(event):
+    return "Register new Logon Process by Rubeus"
+

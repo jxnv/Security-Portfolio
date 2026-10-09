@@ -1,0 +1,34 @@
+{
+  "title": "Suspicious Control Panel DLL Load",
+  "id": "d7eb979b-c2b5-4a6f-a3a7-c87ce6763819",
+  "status": "test",
+  "description": "Detects suspicious Rundll32 execution from control.exe as used by Equation Group and Exploit Kits",
+  "author": "Florian Roth (Nextron Systems)",
+  "date": "2017-04-15",
+  "tags": [
+    "attack.stealth",
+    "attack.t1218.011"
+  ],
+  "level": "high",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_parent": {
+      "ParentImage|endswith": "\\System32\\control.exe"
+    },
+    "selection_img": [
+      {
+        "Image|endswith": "\\rundll32.exe"
+      },
+      {
+        "OriginalFileName": "RUNDLL32.EXE"
+      }
+    ],
+    "filter": {
+      "CommandLine|contains": "Shell32.dll"
+    },
+    "condition": "all of selection_* and not filter"
+  }
+}

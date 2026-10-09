@@ -1,0 +1,23 @@
+// Title: Microsoft 365 - Unusual Volume of File Deletion
+// ID: 78a34b67-3c39-4886-8fb4-61c46dc18ecd
+// Status: test
+// Level: medium
+// Author: austinsonger
+// Date: 2021-08-19
+// Tags: attack.impact, attack.t1485
+// Description: Detects when a Microsoft Cloud App Security reported a user has deleted a unusual a large volume of files.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 78a34b67_3c39_4886_8fb4_61c46dc18ecd {
+  meta:
+    title = "Microsoft 365 - Unusual Volume of File Deletion"
+    description = "Detects when a Microsoft Cloud App Security reported a user has deleted a unusual a large volume of files."
+    author = "austinsonger"
+    severity = "MEDIUM"
+
+  events:
+    ($e.eventSource = "SecurityComplianceCenter" and $e.eventName = "Unusual volume of file deletion" and $e.status = "success")
+
+  condition:
+    $e
+}

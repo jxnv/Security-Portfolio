@@ -1,0 +1,11 @@
+// Title: Process Execution From A Potentially Suspicious Folder
+// ID: 3dfd06d2-eaf4-4532-9555-68aca59f57c4
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Tim Shelton
+// Date: 2019-01-16
+// Tags: attack.stealth, attack.t1036
+// Description: Detects a potentially suspicious execution from an uncommon folder.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where (((Image matches "*:\\Perflogs\\*" or Image matches "*:\\Users\\All Users\\*" or Image matches "*:\\Users\\Default\\*" or Image matches "*:\\Users\\NetworkService\\*" or Image matches "*:\\Windows\\addins\\*" or Image matches "*:\\Windows\\debug\\*" or Image matches "*:\\Windows\\Fonts\\*" or Image matches "*:\\Windows\\Help\\*" or Image matches "*:\\Windows\\IME\\*" or Image matches "*:\\Windows\\Media\\*" or Image matches "*:\\Windows\\repair\\*" or Image matches "*:\\Windows\\security\\*" or Image matches "*:\\Windows\\System32\\Tasks\\*" or Image matches "*:\\Windows\\Tasks\\*" or Image matches "*$Recycle.bin*" or Image matches "*\\config\\systemprofile\\*" or Image matches "*\\Intel\\Logs\\*" or Image matches "*\\RSA\\MachineKeys\\*")) and !(((Image matches "C:\\Windows\\SysWOW64\\config\\systemprofile\\Citrix\\UpdaterBinaries\\*" and Image matches "*\\CitrixReceiverUpdater.exe") or (Image matches "C:\\Users\\Public\\IBM\\ClientSolutions\\Start_Programs\\*"))))

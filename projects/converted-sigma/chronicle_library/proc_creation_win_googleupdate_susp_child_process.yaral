@@ -1,0 +1,23 @@
+// Title: Potentially Suspicious GoogleUpdate Child Process
+// ID: 84b1ecf9-6eff-4004-bafb-bae5c0e251b2
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-05-15
+// Tags: attack.stealth
+// Description: Detects potentially suspicious child processes of "GoogleUpdate.exe"
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 84b1ecf9_6eff_4004_bafb_bae5c0e251b2 {
+  meta:
+    title = "Potentially Suspicious GoogleUpdate Child Process"
+    description = "Detects potentially suspicious child processes of "GoogleUpdate.exe""
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.principal.process.file.full_path = /.*\\GoogleUpdate.exe$/ nocase) and not(((not ($e.target.process.file.full_path = /.*/)) or (($e.target.process.file.full_path = /.*\\Google.*/ nocase) or (($e.target.process.file.full_path = /.*\\setup.exe$/ nocase or $e.target.process.file.full_path = /.*chrome_updater.exe$/ nocase or $e.target.process.file.full_path = /.*chrome_installer.exe$/ nocase))))))
+
+  condition:
+    $e
+}

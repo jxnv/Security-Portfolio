@@ -1,0 +1,12 @@
+// Title: Access To Crypto Currency Wallets By Uncommon Applications
+// ID: f41b0311-44f9-44f0-816d-dd45e39d4bc8
+// Status: test
+// Level: medium
+// Author: X__Junior (Nextron Systems)
+// Date: 2024-07-29
+// Tags: attack.t1003, attack.credential-access
+// Description: Detects file access requests to crypto currency files by uncommon processes.
+// Could indicate potential attempt of crypto currency wallet stealing.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((FileName contains "\\AppData\\Roaming\\Ethereum\\keystore\\" OR FileName contains "\\AppData\\Roaming\\EthereumClassic\\keystore\\" OR FileName contains "\\AppData\\Roaming\\monero\\wallets\\")) OR ((FileName="*\\AppData\\Roaming\\Bitcoin\\wallet.dat" OR FileName="*\\AppData\\Roaming\\BitcoinABC\\wallet.dat" OR FileName="*\\AppData\\Roaming\\BitcoinSV\\wallet.dat" OR FileName="*\\AppData\\Roaming\\DashCore\\wallet.dat" OR FileName="*\\AppData\\Roaming\\DogeCoin\\wallet.dat" OR FileName="*\\AppData\\Roaming\\Litecoin\\wallet.dat" OR FileName="*\\AppData\\Roaming\\Ripple\\wallet.dat" OR FileName="*\\AppData\\Roaming\\Zcash\\wallet.dat"))) AND NOT ((((Image="C:\\Program Files (x86)\\*" OR Image="C:\\Program Files\\*" OR Image="C:\\Windows\\system32\\*" OR Image="C:\\Windows\\SysWOW64\\*")) OR (Image == "System"))) AND NOT ((Image="C:\\ProgramData\\Microsoft\\Windows Defender\\*" AND (Image="*\\MpCopyAccelerator.exe" OR Image="*\\MsMpEng.exe"))))

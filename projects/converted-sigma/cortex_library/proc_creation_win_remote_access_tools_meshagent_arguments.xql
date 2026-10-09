@@ -1,0 +1,13 @@
+// Title: Remote Access Tool - Potential MeshAgent Execution - Windows
+// ID: 2fbbe9ff-0afc-470b-bdc0-592198339968
+// Status: experimental
+// Level: medium
+// Author: Norbert Jaśniewicz (AlphaSOC)
+// Date: 2025-05-19
+// Tags: attack.command-and-control, attack.t1219.002
+// Description: Detects potential execution of MeshAgent which is a tool used for remote access.
+// Historical data shows that threat actors rename MeshAgent binary to evade detection.
+// Matching command lines with the '--meshServiceName' argument can indicate that the MeshAgent is being used for remote access.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter (action_process_image_command_line contains "--meshServiceName")

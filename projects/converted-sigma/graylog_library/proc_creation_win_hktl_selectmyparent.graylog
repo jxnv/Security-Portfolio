@@ -1,0 +1,11 @@
+# Title: HackTool - PPID Spoofing SelectMyParent Tool Execution
+# ID: 52ff7941-8211-46f9-84f8-9903efb7077d
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems)
+# Date: 2022-07-23
+# Tags: attack.privilege-escalation, attack.stealth, attack.t1134.004
+# Description: Detects the use of parent process ID spoofing tools like Didier Stevens tool SelectMyParent
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((Image:*\\SelectMyParent.exe) OR ((CommandLine:*PPID-spoof* OR CommandLine:*ppid_spoof* OR CommandLine:*spoof-ppid* OR CommandLine:*spoof_ppid* OR CommandLine:*ppidspoof* OR CommandLine:*spoofppid* OR CommandLine:*spoofedppid* OR CommandLine:* -spawnto *)) OR ((OriginalFileName:*PPID-spoof* OR OriginalFileName:*ppid_spoof* OR OriginalFileName:*spoof-ppid* OR OriginalFileName:*spoof_ppid* OR OriginalFileName:*ppidspoof* OR OriginalFileName:*spoofppid* OR OriginalFileName:*spoofedppid*)) OR (Description:"SelectMyParent") OR ((Hashes:*IMPHASH=04D974875BD225F00902B4CAD9AF3FBC* OR Hashes:*IMPHASH=A782AF154C9E743DDF3F3EB2B8F3D16E* OR Hashes:*IMPHASH=89059503D7FBF470E68F7E63313DA3AD* OR Hashes:*IMPHASH=CA28337632625C8281AB8A130B3D6BAD*)))

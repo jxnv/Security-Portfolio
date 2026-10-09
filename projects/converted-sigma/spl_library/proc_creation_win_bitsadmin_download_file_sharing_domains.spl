@@ -1,0 +1,11 @@
+# Title: Suspicious Download From File-Sharing Website Via Bitsadmin
+# ID: 8518ed3d-f7c9-4601-a26c-f361a4256a0c
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems)
+# Date: 2022-06-28
+# Tags: attack.persistence, attack.execution, attack.stealth, attack.t1197, attack.s0190, attack.t1036.003, attack.command-and-control, attack.t1105
+# Description: Detects usage of bitsadmin downloading a file from a suspicious domain
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog (((process_exec="*.githubusercontent.com*" OR process_exec="*0x0.st*" OR process_exec="*anonfiles.com*" OR process_exec="*bashupload.com*" OR process_exec="*cdn.discordapp.com*" OR process_exec="*chunk.io*" OR process_exec="*ddns.net*" OR process_exec="*dl.dropboxusercontent.com*" OR process_exec="*ghostbin.co*" OR process_exec="*github.com*" OR process_exec="*glitch.me*" OR process_exec="*gofile.io*" OR process_exec="*hastebin.com*" OR process_exec="*mediafire.com*" OR process_exec="*mega.nz*" OR process_exec="*onrender.com*" OR process_exec="*pages.dev*" OR process_exec="*paste.ee*" OR process_exec="*pastebin.com*" OR process_exec="*pastebin.pl*" OR process_exec="*pastetext.net*" OR process_exec="*privatlab.com*" OR process_exec="*privatlab.net*" OR process_exec="*send.exploit.in*" OR process_exec="*sendspace.com*" OR process_exec="*storage.googleapis.com*" OR process_exec="*storjshare.io*" OR process_exec="*supabase.co*" OR process_exec="*temp.sh*" OR process_exec="*transfer.sh*" OR process_exec="*trycloudflare.com*" OR process_exec="*ufile.io*" OR process_exec="*w3spaces.com*" OR process_exec="*workers.dev*" OR process_exec="*x0.at*")) AND ((process_exec="* /transfer *" OR process_exec="* /create *" OR process_exec="* /addfile *")) AND ((process_path="*\\bitsadmin.exe") OR (process_name="bitsadmin.exe")))

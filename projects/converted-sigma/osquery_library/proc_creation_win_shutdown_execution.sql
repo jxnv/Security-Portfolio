@@ -1,0 +1,11 @@
+-- Title: Suspicious Execution of Shutdown
+-- ID: 34ebb878-1b15-4895-b352-ca2eeb99b274
+-- Status: test
+-- Level: medium
+-- Author: frack113
+-- Date: 2022-01-01
+-- Tags: attack.impact, attack.t1529
+-- Description: Use of the commandline to shutdown or reboot windows
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM processes WHERE (Image="*\\shutdown.exe" AND (CommandLine LIKE '%/r %' OR CommandLine LIKE '%/s %'))

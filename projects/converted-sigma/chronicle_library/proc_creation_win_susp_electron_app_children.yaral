@@ -1,0 +1,23 @@
+// Title: Suspicious Electron Application Child Processes
+// ID: f26eb764-fd89-464b-85e2-dc4a8e6e77b8
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-10-21
+// Tags: attack.execution
+// Description: Detects suspicious child processes of electron apps (teams, discord, slack, etc.). This could be a potential sign of ".asar" file tampering (See reference section for more information) or binary execution proxy through specific CLI arguments (see related rule)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule f26eb764_fd89_464b_85e2_dc4a8e6e77b8 {
+  meta:
+    title = "Suspicious Electron Application Child Processes"
+    description = "Detects suspicious child processes of electron apps (teams, discord, slack, etc.). This could be a potential sign of ".asar" file tampering (See reference section for more information) or binary execution proxy through specific CLI arguments (see related rule)"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.principal.process.file.full_path = /.*\\chrome.exe$/ nocase or $e.principal.process.file.full_path = /.*\\discord.exe$/ nocase or $e.principal.process.file.full_path = /.*\\GitHubDesktop.exe$/ nocase or $e.principal.process.file.full_path = /.*\\keybase.exe$/ nocase or $e.principal.process.file.full_path = /.*\\msedge.exe$/ nocase or $e.principal.process.file.full_path = /.*\\msedgewebview2.exe$/ nocase or $e.principal.process.file.full_path = /.*\\msteams.exe$/ nocase or $e.principal.process.file.full_path = /.*\\slack.exe$/ nocase or $e.principal.process.file.full_path = /.*\\teams.exe$/ nocase)) and ((($e.target.process.file.full_path = /.*\\cmd.exe$/ nocase or $e.target.process.file.full_path = /.*\\cscript.exe$/ nocase or $e.target.process.file.full_path = /.*\\mshta.exe$/ nocase or $e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase or $e.target.process.file.full_path = /.*\\regsvr32.exe$/ nocase or $e.target.process.file.full_path = /.*\\whoami.exe$/ nocase or $e.target.process.file.full_path = /.*\\wscript.exe$/ nocase)) or (($e.target.process.file.full_path = /.*:\\ProgramData\\.*/ nocase or $e.target.process.file.full_path = /.*:\\Temp\\.*/ nocase or $e.target.process.file.full_path = /.*\\AppData\\Local\\Temp\\.*/ nocase or $e.target.process.file.full_path = /.*\\Users\\Public\\.*/ nocase or $e.target.process.file.full_path = /.*\\Windows\\Temp\\.*/ nocase))) and not(($e.principal.process.file.full_path = /.*\\Discord.exe$/ nocase and $e.target.process.file.full_path = /.*\\cmd.exe$/ nocase and $e.target.process.command_line = /.*\\NVSMI\\nvidia-smi.exe.*/ nocase)))
+
+  condition:
+    $e
+}

@@ -1,0 +1,12 @@
+# Title: Suspicious Service Installed
+# ID: f2485272-a156-4773-82d7-1d178bc4905b
+# Status: test
+# Level: medium
+# Author: xknow (@xknow_infosec), xorxes (@xor_xes)
+# Date: 2019-04-08
+# Tags: attack.defense-impairment, attack.t1685
+# Description: Detects installation of NalDrv or PROCEXP152 services via registry-keys to non-system32 folders.
+# Both services are used in the tool Ghost-In-The-Logs (https://github.com/bats3c/Ghost-In-The-Logs), which uses KDU (https://github.com/hfiref0x/KDU)
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((registry.path:"HKLM\\System\\CurrentControlSet\\Services\\NalDrv\\ImagePath" OR registry.path:"HKLM\\System\\CurrentControlSet\\Services\\PROCEXP152\\ImagePath")) AND NOT (((process.executable:*\\procexp64.exe OR process.executable:*\\procexp64a.exe OR process.executable:*\\procexp.exe OR process.executable:*\\procmon64.exe OR process.executable:*\\procmon64a.exe OR process.executable:*\\procmon.exe OR process.executable:*\\handle.exe OR process.executable:*\\handle64.exe OR process.executable:*\\handle64a.exe) AND registry.data.strings:*\\WINDOWS\\system32\\Drivers\\PROCEXP152.SYS*)))

@@ -1,0 +1,23 @@
+// Title: CreateDump Process Dump
+// ID: 515c8be5-e5df-4c5e-8f6d-a4a2f05e4b48
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-01-04
+// Tags: attack.stealth, attack.t1036, attack.t1003.001, attack.credential-access
+// Description: Detects uses of the createdump.exe LOLOBIN utility to dump process memory
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 515c8be5_e5df_4c5e_8f6d_a4a2f05e4b48 {
+  meta:
+    title = "CreateDump Process Dump"
+    description = "Detects uses of the createdump.exe LOLOBIN utility to dump process memory"
+    author = "Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.* -u .*/ nocase or $e.target.process.command_line = /.* --full .*/ nocase or $e.target.process.command_line = /.* -f .*/ nocase or $e.target.process.command_line = /.* --name .*/ nocase or $e.target.process.command_line = /.*.dmp .*/ nocase)) and (($e.target.process.file.full_path = /.*\\createdump.exe$/ nocase) or ($e.target.process.file.name = "FX_VER_INTERNALNAME_STR")))
+
+  condition:
+    $e
+}

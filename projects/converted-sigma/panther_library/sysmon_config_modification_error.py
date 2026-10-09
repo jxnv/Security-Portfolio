@@ -1,0 +1,19 @@
+# Title: Sysmon Configuration Error
+# ID: 815cd91b-7dbc-4247-841a-d7dd1392b0a8
+# Status: test
+# Level: high
+# Author: frack113
+# Date: 2021-06-04
+# Tags: attack.stealth, attack.t1564
+# Description: Detects when an adversary is trying to hide it's action from Sysmon logging based on error messages
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Sysmon Configuration Error
+def rule(event):
+    # Detection Logic:
+    # (((Description="*Failed to open service configuration with error*" OR Description="*Failed to connect to the driver to update configuration*")) AND NOT ((((Description="*Failed to open service configuration with error 19*" OR Description="*Failed to open service configuration with error 93*")) OR ((Description="*Failed to open service configuration with error*" AND Description="*Last error: The media is write protected.*")) OR ((Description="*Failed to open service configuration with error*" AND Description="*Last error: Média protégé en écriture.*")))))
+    return True
+
+def title(event):
+    return "Sysmon Configuration Error"
+

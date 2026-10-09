@@ -1,0 +1,19 @@
+# Title: Potential Winnti Dropper Activity
+# ID: 130c9e58-28ac-4f83-8574-0a4cc913b97e
+# Status: test
+# Level: high
+# Author: Alexander Rausch
+# Date: 2020-06-24
+# Tags: attack.stealth, attack.t1027
+# Description: Detects files dropped by Winnti as described in RedMimicry Winnti playbook
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Potential Winnti Dropper Activity
+def rule(event):
+    # Detection Logic:
+    # ((TargetFilename="*\\gthread-3.6.dll" OR TargetFilename="*\\sigcmm-2.4.dll" OR TargetFilename="*\\Windows\\Temp\\tmp.bat"))
+    return True
+
+def title(event):
+    return "Potential Winnti Dropper Activity"
+

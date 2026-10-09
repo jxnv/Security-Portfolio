@@ -1,0 +1,22 @@
+# Title: Remote Thread Creation By Uncommon Source Image
+# ID: 66d31e5f-52d6-40a4-9615-002d3789a119
+# Status: test
+# Level: medium
+# Author: Perez Diego (@darkquassar), oscd.community
+# Date: 2019-10-27
+# Tags: attack.privilege-escalation, attack.stealth, attack.t1055
+# Description: Detects uncommon processes creating remote threads.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# LimaCharlie Detection & Response Rule
+# Name: Remote Thread Creation By Uncommon Source Image
+detect:
+  event: create_remote_thread
+  op: and
+  rules:
+    # Filter logic:
+    # (((SourceImage="*\\explorer.exe" OR SourceImage="*\\iexplore.exe" OR SourceImage="*\\msiexec.exe" OR SourceImage="*\\powerpnt.exe" OR SourceImage="*\\schtasks.exe" OR SourceImage="*\\winlogon.exe")) AND NOT (((TargetImage="") OR (SourceImage="C:\\Windows\\explorer.exe" AND (TargetImage="C:\\Program Files (x86)\\*" OR TargetImage="C:\\Program Files\\*" OR TargetImage="C:\\Windows\\System32\\*" OR TargetImage="C:\\Windows\\SysWOW64\\*")) OR (SourceImage="C:\\Program Files\\Internet Explorer\\iexplore.exe" AND (TargetImage="C:\\Program Files (x86)\\Internet Explorer\\iexplore.exe" OR TargetImage="C:\\Windows\\System32\\rundll32.exe")) OR (SourceImage="*\\msiexec.exe" AND (TargetImage="*\\AppData\\Local\\*" OR TargetImage="*C:\\Program Files (x86)\\*" OR TargetImage="*C:\\Program Files\\*" OR TargetImage="*C:\\Windows\\Microsoft.NET\\Framework64\\*")) OR (SourceImage="*\\msiexec.exe" AND (TargetImage="C:\\Windows\\System32\\msiexec.exe" OR TargetImage="C:\\Windows\\SysWOW64\\msiexec.exe")) OR (NOT TargetImage=*) OR (SourceImage="*\\POWERPNT.EXE" AND (TargetImage="*C:\\Program Files\\Microsoft Office\\*" OR TargetImage="*C:\\Program Files (x86)\\Microsoft Office\\*")) OR ((SourceImage="C:\\Windows\\System32\\schtasks.exe" OR SourceImage="C:\\Windows\\SysWOW64\\schtasks.exe") AND TargetImage="C:\\Windows\\System32\\conhost.exe") OR (TargetImage="System") OR (SourceImage="C:\\Windows\\System32\\winlogon.exe" AND (TargetImage="C:\\Windows\\System32\\services.exe" OR TargetImage="C:\\Windows\\System32\\wininit.exe" OR TargetImage="C:\\Windows\\System32\\csrss.exe" OR TargetImage="C:\\Windows\\System32\\LogonUI.exe" OR TargetImage="C:\\Windows\\System32\\wlrmdr.exe" OR TargetImage="C:\\Windows\\System32\\AtBroker.exe" OR TargetImage="C:\\Windows\\System32\\dwm.exe" OR TargetImage="C:\\Windows\\System32\\fontdrvhost.exe" OR TargetImage="C:\\Windows\\System32\\userinit.exe")) OR (SourceImage="C:\\Windows\\System32\\winlogon.exe" AND TargetParentProcessId="4"))) AND NOT (((SourceImage="C:\\Windows\\explorer.exe" AND TargetImage="*\\aurora-dashboard.exe") OR (SourceImage="C:\\Program Files\\internet explorer\\iexplore.exe" AND (SourceCommandLine="*https://*" AND SourceCommandLine="*.checkpoint.com/documents/*" AND SourceCommandLine="*SmartConsole_OLH/*" AND SourceCommandLine="*default.htm#cshid=*")) OR (SourceImage="C:\\Program Files\\internet explorer\\iexplore.exe" AND (SourceParentImage="C:\\Program Files\\*" OR SourceParentImage="C:\\Program Files (x86)\\*") AND (SourceParentImage="*\\CheckPoint\\SmartConsole\\*" AND SourceParentImage="*\\SmartConsole.exe*")) OR (SourceImage="C:\\Windows\\explorer.exe" AND TargetImage="*\\OfficeSetup.exe") OR (SourceImage="C:\\Windows\\explorer.exe" AND TargetImage="*\\AppData\\Local\\Microsoft\\OneDrive\\OneDrive.exe") OR (SourceImage="*\\Microsoft Office\\*" AND SourceImage="*\\POWERPNT.EXE" AND TargetImage="C:\\Windows\\System32\\csrss.exe"))))
+respond:
+  - action: report
+    name: Remote Thread Creation By Uncommon Source Image
+

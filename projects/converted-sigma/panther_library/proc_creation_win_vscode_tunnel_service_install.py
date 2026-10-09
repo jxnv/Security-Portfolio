@@ -1,0 +1,19 @@
+# Title: Visual Studio Code Tunnel Service Installation
+# ID: 30bf1789-379d-4fdc-900f-55cd0a90a801
+# Status: test
+# Level: medium
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2023-10-25
+# Tags: attack.command-and-control, attack.t1071.001
+# Description: Detects the installation of VsCode tunnel (code-tunnel) as a service.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Visual Studio Code Tunnel Service Installation
+def rule(event):
+    # Detection Logic:
+    # ((CommandLine="*tunnel *" AND CommandLine="*service*" AND CommandLine="*internal-run*" AND CommandLine="*tunnel-service.log*"))
+    return True
+
+def title(event):
+    return "Visual Studio Code Tunnel Service Installation"
+

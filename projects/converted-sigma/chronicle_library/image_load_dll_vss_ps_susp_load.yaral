@@ -1,0 +1,25 @@
+// Title: Suspicious Volume Shadow Copy VSS_PS.dll Load
+// ID: 333cdbe8-27bb-4246-bf82-b41a0dca4b70
+// Status: test
+// Level: high
+// Author: Markus Neis, @markus_neis
+// Date: 2021-07-07
+// Tags: attack.impact, attack.t1490
+// Description: Detects the image load of vss_ps.dll by uncommon executables. This DLL is used by the Volume Shadow Copy Service (VSS) to manage shadow copies of files and volumes.
+// It is often abused by attackers to delete or manipulate shadow copies, which can hinder forensic investigations and data recovery efforts.
+// The fact that it is loaded by processes that are not typically associated with VSS operations can indicate suspicious activity.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 333cdbe8_27bb_4246_bf82_b41a0dca4b70 {
+  meta:
+    title = "Suspicious Volume Shadow Copy VSS_PS.dll Load"
+    description = "Detects the image load of vss_ps.dll by uncommon executables. This DLL is used by the Volume Shadow Copy Service (VSS) to manage shadow copies of files and volumes. It is often abused by attackers to delete or manipulate shadow copies, which can hinder forensic investigations and data recovery efforts. The fact that it is loaded by processes that are not typically associated with VSS operations can indicate suspicious activity."
+    author = "Markus Neis, @markus_neis"
+    severity = "HIGH"
+
+  events:
+    (($e.ImageLoaded = /.*\\vss_ps.dll$/ nocase) and not(((not ($e.target.process.file.full_path = /.*/)) or ($e.target.process.file.full_path = /^C:\\Windows\\.*/ nocase and ($e.target.process.file.full_path = /.*\\clussvc.exe$/ nocase or $e.target.process.file.full_path = /.*\\dismhost.exe$/ nocase or $e.target.process.file.full_path = /.*\\dllhost.exe$/ nocase or $e.target.process.file.full_path = /.*\\inetsrv\\appcmd.exe$/ nocase or $e.target.process.file.full_path = /.*\\inetsrv\\iissetup.exe$/ nocase or $e.target.process.file.full_path = /.*\\msiexec.exe$/ nocase or $e.target.process.file.full_path = /.*\\rundll32.exe$/ nocase or $e.target.process.file.full_path = /.*\\searchindexer.exe$/ nocase or $e.target.process.file.full_path = /.*\\srtasks.exe$/ nocase or $e.target.process.file.full_path = /.*\\svchost.exe$/ nocase or $e.target.process.file.full_path = /.*\\System32\\SystemPropertiesAdvanced.exe$/ nocase or $e.target.process.file.full_path = /.*\\taskhostw.exe$/ nocase or $e.target.process.file.full_path = /.*\\thor.exe$/ nocase or $e.target.process.file.full_path = /.*\\thor64.exe$/ nocase or $e.target.process.file.full_path = /.*\\tiworker.exe$/ nocase or $e.target.process.file.full_path = /.*\\vssvc.exe$/ nocase or $e.target.process.file.full_path = /.*\\vssadmin.exe$/ nocase or $e.target.process.file.full_path = /.*\\WmiPrvSE.exe$/ nocase or $e.target.process.file.full_path = /.*\\wsmprovhost.exe$/ nocase)) or ($e.target.process.command_line = /^C:\\$WinREAgent\\Scratch\\.*/ nocase and $e.target.process.command_line = /.*\\dismhost.exe {.*/ nocase))) and not((($e.target.process.file.full_path = /^C:\\Program Files\\.*/ nocase or $e.target.process.file.full_path = /^C:\\Program Files (x86)\\.*/ nocase))))
+
+  condition:
+    $e
+}

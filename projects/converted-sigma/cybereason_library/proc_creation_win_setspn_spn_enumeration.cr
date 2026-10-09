@@ -1,0 +1,11 @@
+// Title: Potential SPN Enumeration Via Setspn.EXE
+// ID: 1eeed653-dbc8-4187-ad0c-eeebb20e6599
+// Status: test
+// Level: medium
+// Author: Markus Neis, keepwatch
+// Date: 2018-11-14
+// Tags: attack.credential-access, attack.t1558.003
+// Description: Detects service principal name (SPN) enumeration used for Kerberoasting
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((CommandLine contains " -q " OR CommandLine contains " /q ")) AND ((Image="*\\setspn.exe") OR (OriginalFileName == "setspn.exe") OR ((Description contains "Query or reset the computer" AND Description contains "SPN attribute"))))

@@ -1,0 +1,43 @@
+{
+  "title": "Suspicious Space Characters in TypedPaths Registry Path - FileFix",
+  "id": "8f2a5c3d-9e4b-4a7c-8d1f-2e5a6b9c3d7e",
+  "status": "experimental",
+  "description": "Detects the occurrence of numerous space characters in TypedPaths registry paths, which may indicate execution via phishing lures using file-fix techniques to hide malicious commands.\n",
+  "author": "Swachchhanda Shrawan Poudel (Nextron Systems)",
+  "date": "2025-11-04",
+  "tags": [
+    "attack.execution",
+    "attack.stealth",
+    "attack.t1204.004",
+    "attack.t1027.010"
+  ],
+  "level": "high",
+  "logsource": {
+    "category": "registry_set",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_key": {
+      "TargetObject|endswith": "\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\TypedPaths\\url1",
+      "Details|contains": "#"
+    },
+    "selection_space_variation": {
+      "Details|contains": [
+        "\u2000\u2000\u2000\u2000\u2000\u2000\u2000\u2000\u2000\u2000\u2000\u2000",
+        "\u2001\u2001\u2001\u2001\u2001\u2001\u2001\u2001\u2001\u2001\u2001\u2001",
+        "\u2002\u2002\u2002\u2002\u2002\u2002\u2002\u2002\u2002\u2002\u2002\u2002",
+        "\u2003\u2003\u2003\u2003\u2003\u2003\u2003\u2003\u2003\u2003\u2003\u2003",
+        "\u2004\u2004\u2004\u2004\u2004\u2004\u2004\u2004\u2004\u2004\u2004\u2004",
+        "\u2005\u2005\u2005\u2005\u2005\u2005\u2005\u2005\u2005\u2005\u2005\u2005",
+        "\u2006\u2006\u2006\u2006\u2006\u2006\u2006\u2006\u2006\u2006\u2006\u2006",
+        "\u2007\u2007\u2007\u2007\u2007\u2007\u2007\u2007\u2007\u2007\u2007\u2007",
+        "\u2008\u2008\u2008\u2008\u2008\u2008\u2008\u2008\u2008\u2008\u2008\u2008",
+        "\u2009\u2009\u2009\u2009\u2009\u2009\u2009\u2009\u2009\u2009\u2009\u2009",
+        "\u200a\u200a\u200a\u200a\u200a\u200a\u200a\u200a\u200a\u200a\u200a\u200a",
+        "\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0",
+        "            "
+      ]
+    },
+    "condition": "all of selection_*"
+  }
+}

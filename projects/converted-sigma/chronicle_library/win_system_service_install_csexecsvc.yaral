@@ -1,0 +1,23 @@
+// Title: CSExec Service Installation
+// ID: a27e5fa9-c35e-4e3d-b7e0-1ce2af66ad12
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-08-07
+// Tags: attack.execution, attack.t1569.002
+// Description: Detects CSExec service installation and execution events
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule a27e5fa9_c35e_4e3d_b7e0_1ce2af66ad12 {
+  meta:
+    title = "CSExec Service Installation"
+    description = "Detects CSExec service installation and execution events"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.Provider_Name = "Service Control Manager" and $e.EventID = 7045) and (($e.ServiceName = "csexecsvc") or ($e.ImagePath = /.*\\csexecsvc.exe$/ nocase)))
+
+  condition:
+    $e
+}

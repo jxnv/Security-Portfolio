@@ -1,0 +1,19 @@
+# Title: Disabled Volume Snapshots
+# ID: dee4af55-1f22-4e1d-a9d2-4bdc7ecb472a
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems)
+# Date: 2021-01-28
+# Tags: attack.defense-impairment, attack.t1685
+# Description: Detects commands that temporarily turn off Volume Snapshots
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Disabled Volume Snapshots
+def rule(event):
+    # Detection Logic:
+    # ((CommandLine="*\\Services\\VSS\\Diag*" AND CommandLine="*/d Disabled*"))
+    return True
+
+def title(event):
+    return "Disabled Volume Snapshots"
+

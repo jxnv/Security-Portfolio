@@ -1,0 +1,19 @@
+# Title: OpenCanary - RDP New Connection Attempt
+# ID: 598290cf-5932-45cd-9123-be1e05ab4f2e
+# Status: experimental
+# Level: high
+# Author: Marco Pedrinazzi (@pedrinazziM)
+# Date: 2026-01-06
+# Tags: attack.initial-access, attack.lateral-movement, attack.persistence, attack.t1133, attack.t1021.001
+# Description: Detects instances where an RDP service on an OpenCanary node has had a connection attempt.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: OpenCanary - RDP New Connection Attempt
+def rule(event):
+    # Detection Logic:
+    # (logtype="14001")
+    return True
+
+def title(event):
+    return "OpenCanary - RDP New Connection Attempt"
+

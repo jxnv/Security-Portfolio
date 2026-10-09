@@ -1,0 +1,11 @@
+# Title: Regsvr32 Execution From Highly Suspicious Location
+# ID: 327ff235-94eb-4f06-b9de-aaee571324be
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2023-05-26
+# Tags: attack.stealth, attack.t1218.010
+# Description: Detects execution of regsvr32 where the DLL is located in a highly suspicious locations
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((process.executable:*\\regsvr32.exe) OR (process.pe.original_file_name:"REGSVR32.EXE")) AND (((process.command_line:*:\\PerfLogs\\* OR process.command_line:*:\\Temp\\* OR process.command_line:*\\Windows\\Registration\\CRMLog* OR process.command_line:*\\Windows\\System32\\com\\dmp\\* OR process.command_line:*\\Windows\\System32\\FxsTmp\\* OR process.command_line:*\\Windows\\System32\\Microsoft\\Crypto\\RSA\\MachineKeys\\* OR process.command_line:*\\Windows\\System32\\spool\\drivers\\color\\* OR process.command_line:*\\Windows\\System32\\spool\\PRINTERS\\* OR process.command_line:*\\Windows\\System32\\spool\\SERVERS\\* OR process.command_line:*\\Windows\\System32\\Tasks_Migrated\\* OR process.command_line:*\\Windows\\System32\\Tasks\\Microsoft\\Windows\\SyncCenter\\* OR process.command_line:*\\Windows\\SysWOW64\\com\\dmp\\* OR process.command_line:*\\Windows\\SysWOW64\\FxsTmp\\* OR process.command_line:*\\Windows\\SysWOW64\\Tasks\\Microsoft\\Windows\\PLA\\System\\* OR process.command_line:*\\Windows\\SysWOW64\\Tasks\\Microsoft\\Windows\\SyncCenter\\* OR process.command_line:*\\Windows\\Tasks\\* OR process.command_line:*\\Windows\\Tracing\\*)) OR (((process.command_line:* \"C:\\* OR process.command_line:* C:\\* OR process.command_line:* 'C:\\* OR process.command_line:*D:\\*)) AND NOT (((process.command_line:*C:\\Program Files (x86)\\* OR process.command_line:*C:\\Program Files\\* OR process.command_line:*C:\\ProgramData\\* OR process.command_line:*C:\\Users\\* OR process.command_line:* C:\\Windows\\* OR process.command_line:* \"C:\\Windows\\* OR process.command_line:* 'C:\\Windows\\*))))) AND NOT (((process.command_line:"") OR (NOT _exists_:process.command_line))))

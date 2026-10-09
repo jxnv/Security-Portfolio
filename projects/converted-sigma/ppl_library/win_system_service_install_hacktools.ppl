@@ -1,0 +1,11 @@
+// Title: HackTool Service Registration or Execution
+// ID: d26ce60c-2151-403c-9a42-49420d87b5e4
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-03-21
+// Tags: attack.execution, attack.t1569.002, attack.s0029
+// Description: Detects installation or execution of services
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where ((winlog.provider_name = "Service Control Manager" AND (winlog.event_id = "7045" OR winlog.event_id = "7036")) AND ((ImagePath like "%bypass%") OR ((ServiceName like "%cachedump%" OR ServiceName like "%DumpSvc%" OR ServiceName like "%gsecdump%" OR ServiceName like "%pwdump%" OR ServiceName like "%UACBypassedService%" OR ServiceName like "%WCE SERVICE%" OR ServiceName like "%WCESERVICE%" OR ServiceName like "%winexesvc%"))))

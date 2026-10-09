@@ -1,0 +1,11 @@
+// Title: Potential PowerShell Downgrade Attack
+// ID: b3512211-c67e-4707-bedc-66efc7848863
+// Status: test
+// Level: medium
+// Author: Harish Segar (rule)
+// Date: 2020-03-20
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects PowerShell downgrade attack by comparing the host versions with the actually used engine version 2.0
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(where(Image IENDSWITH "\\powershell.exe") AND (where(CommandLine ICONTAINS " -version 2 ") OR where(CommandLine ICONTAINS " -versio 2 ") OR where(CommandLine ICONTAINS " -versi 2 ") OR where(CommandLine ICONTAINS " -vers 2 ") OR where(CommandLine ICONTAINS " -ver 2 ") OR where(CommandLine ICONTAINS " -ve 2 ") OR where(CommandLine ICONTAINS " -v 2 ")))

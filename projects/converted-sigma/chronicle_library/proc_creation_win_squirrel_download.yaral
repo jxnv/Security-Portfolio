@@ -1,0 +1,23 @@
+// Title: Arbitrary File Download Via Squirrel.EXE
+// ID: 1e75c1cc-c5d4-42aa-ac3d-91b0b68b3b4c
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems), Karneades / Markus Neis, Jonhnathan Ribeiro, oscd.community
+// Date: 2022-06-09
+// Tags: attack.execution, attack.stealth, attack.t1218
+// Description: Detects the usage of the "Squirrel.exe" to download arbitrary files. This binary is part of multiple Electron based software installations (Slack, Teams, Discord, etc.)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 1e75c1cc_c5d4_42aa_ac3d_91b0b68b3b4c {
+  meta:
+    title = "Arbitrary File Download Via Squirrel.EXE"
+    description = "Detects the usage of the "Squirrel.exe" to download arbitrary files. This binary is part of multiple Electron based software installations (Slack, Teams, Discord, etc.)"
+    author = "Nasreddine Bencherchali (Nextron Systems), Karneades / Markus Neis, Jonhnathan Ribeiro, oscd.community"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.command_line = /.* --download .*/ nocase or $e.target.process.command_line = /.* --update .*/ nocase or $e.target.process.command_line = /.* --updateRollback=.*/ nocase)) and ($e.target.process.command_line = /.*http.*/ nocase) and (($e.target.process.file.full_path = /.*\\squirrel.exe$/ nocase or $e.target.process.file.full_path = /.*\\update.exe$/ nocase)))
+
+  condition:
+    $e
+}

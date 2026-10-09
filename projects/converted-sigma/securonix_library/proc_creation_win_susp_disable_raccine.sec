@@ -1,0 +1,11 @@
+// Title: Raccine Uninstall
+// ID: a31eeaed-3fd5-478e-a8ba-e62c6b3f9ecc
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2021-01-21
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects commands that indicate a Raccine removal from an end system. Raccine is a free ransomware protection tool.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((CommandLine CONTAINS "taskkill " AND CommandLine CONTAINS "RaccineSettings.exe")) OR ((CommandLine CONTAINS "reg.exe" AND CommandLine CONTAINS "delete" AND CommandLine CONTAINS "Raccine Tray")) OR ((CommandLine CONTAINS "schtasks" AND CommandLine CONTAINS "/DELETE" AND CommandLine CONTAINS "Raccine Rules Updater")))

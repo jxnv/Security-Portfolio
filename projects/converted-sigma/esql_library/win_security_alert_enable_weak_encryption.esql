@@ -1,0 +1,11 @@
+// Title: Weak Encryption Enabled and Kerberoast
+// ID: f6de9536-0441-4b3f-a646-f4e00f300ffd
+// Status: test
+// Level: high
+// Author: @neu5ron
+// Date: 2017-07-30
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects scenario where weak encryption is enabled for a user profile which could be used for hash/password cracking.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE ((winlog.event_id == 4738) AND ((((NewUacValue LIKE "%8???" OR NewUacValue LIKE "%9???" OR NewUacValue LIKE "%A???" OR NewUacValue LIKE "%B???" OR NewUacValue LIKE "%C???" OR NewUacValue LIKE "%D???" OR NewUacValue LIKE "%E???" OR NewUacValue LIKE "%F???")) AND NOT (((OldUacValue LIKE "%8???" OR OldUacValue LIKE "%9???" OR OldUacValue LIKE "%A???" OR OldUacValue LIKE "%B???" OR OldUacValue LIKE "%C???" OR OldUacValue LIKE "%D???" OR OldUacValue LIKE "%E???" OR OldUacValue LIKE "%F???")))) OR (((NewUacValue LIKE "%1????" OR NewUacValue LIKE "%3????" OR NewUacValue LIKE "%5????" OR NewUacValue LIKE "%7????" OR NewUacValue LIKE "%9????" OR NewUacValue LIKE "%B????" OR NewUacValue LIKE "%D????" OR NewUacValue LIKE "%F????")) AND NOT (((OldUacValue LIKE "%1????" OR OldUacValue LIKE "%3????" OR OldUacValue LIKE "%5????" OR OldUacValue LIKE "%7????" OR OldUacValue LIKE "%9????" OR OldUacValue LIKE "%B????" OR OldUacValue LIKE "%D????" OR OldUacValue LIKE "%F????")))) OR (((NewUacValue LIKE "%8??" OR NewUacValue LIKE "%9??" OR NewUacValue LIKE "%A??" OR NewUacValue LIKE "%B??" OR NewUacValue LIKE "%C??" OR NewUacValue LIKE "%D??" OR NewUacValue LIKE "%E??" OR NewUacValue LIKE "%F??")) AND NOT (((OldUacValue LIKE "%8??" OR OldUacValue LIKE "%9??" OR OldUacValue LIKE "%A??" OR OldUacValue LIKE "%B??" OR OldUacValue LIKE "%C??" OR OldUacValue LIKE "%D??" OR OldUacValue LIKE "%E??" OR OldUacValue LIKE "%F??"))))))

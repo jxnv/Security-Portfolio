@@ -1,0 +1,19 @@
+# Title: Browser Started with Remote Debugging
+# ID: b3d34dc5-2efd-4ae3-845f-8ec14921f449
+# Status: test
+# Level: medium
+# Author: pH-T (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-07-27
+# Tags: attack.credential-access, attack.collection, attack.t1185
+# Description: Detects browsers starting with the remote debugging flags. Which is a technique often used to perform browser injection attacks
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Browser Started with Remote Debugging
+def rule(event):
+    # Detection Logic:
+    # ((CommandLine="* --remote-debugging-*") OR (Image="*\\firefox.exe" AND CommandLine="* -start-debugger-server*"))
+    return True
+
+def title(event):
+    return "Browser Started with Remote Debugging"
+

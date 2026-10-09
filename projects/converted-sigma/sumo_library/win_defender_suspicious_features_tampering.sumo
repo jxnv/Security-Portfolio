@@ -1,0 +1,11 @@
+// Title: Windows Defender Configuration Changes
+// ID: 801bd44f-ceed-4eb6-887c-11544633c0aa
+// Status: stable
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-12-06
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects suspicious changes to the Windows Defender configuration
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where (EventID = "5007" and (NewValue matches "*\\Windows Defender\\DisableAntiSpyware *" or NewValue matches "*\\Windows Defender\\Scan\\DisableRemovableDriveScanning *" or NewValue matches "*\\Windows Defender\\Scan\\DisableScanningMappedNetworkDrivesForFullScan *" or NewValue matches "*\\Windows Defender\\SpyNet\\DisableBlockAtFirstSeen *" or NewValue matches "*\\Real-Time Protection\\SpyNetReporting *"))

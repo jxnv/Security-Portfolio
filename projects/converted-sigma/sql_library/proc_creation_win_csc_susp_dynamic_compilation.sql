@@ -1,0 +1,11 @@
+-- Title: Dynamic .NET Compilation Via Csc.EXE
+-- ID: dcaa3f04-70c3-427a-80b4-b870d73c94c4
+-- Status: test
+-- Level: medium
+-- Author: Florian Roth (Nextron Systems), X__Junior (Nextron Systems)
+-- Date: 2019-08-24
+-- Tags: attack.stealth, attack.t1027.004
+-- Description: Detects execution of "csc.exe" to compile .NET code. Attackers often leverage this to compile code on the fly and use it in other stages.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE ((Image ILIKE '%\\csc.exe') AND (((CommandLine ILIKE '%:\\Perflogs\\%' OR CommandLine ILIKE '%:\\Users\\Public\\%' OR CommandLine ILIKE '%\\AppData\\Local\\Temp\\%' OR CommandLine ILIKE '%\\Temporary Internet%' OR CommandLine ILIKE '%\\Windows\\Temp\\%')) OR (((CommandLine ILIKE '%:\\Users\\%' AND CommandLine ILIKE '%\\Favorites\\%')) OR ((CommandLine ILIKE '%:\\Users\\%' AND CommandLine ILIKE '%\\Favourites\\%')) OR ((CommandLine ILIKE '%:\\Users\\%' AND CommandLine ILIKE '%\\Contacts\\%')) OR ((CommandLine ILIKE '%:\\Users\\%' AND CommandLine ILIKE '%\\Pictures\\%'))) OR (REGEXP_LIKE(CommandLine, '(?:[Pp]rogram[Dd]ata|%(?:[Ll]ocal)?[Aa]pp[Dd]ata%|\\[Aa]pp[Dd]ata\\(?:[Ll]ocal(?:[Ll]ow)?|[Rr]oaming))\\[^\\]{1,256}$'))) AND NOT ((((ParentImage ILIKE 'C:\\Program Files (x86)\\%' OR ParentImage ILIKE 'C:\\Program Files\\%')) OR (ParentImage = 'C:\\Windows\\System32\\sdiagnhost.exe') OR (ParentImage = 'C:\\Windows\\System32\\inetsrv\\w3wp.exe'))) AND NOT ((((ParentCommandLine ILIKE '%JwB7ACIAZgBhAGkAbABlAGQAIgA6AHQAcgB1AGUALAAiAG0AcwBnACIAOgAiAEEAbgBzAGkAYgBsAGUAIAByAGUAcQB1AGkAcgBlAHMAIABQAG8AdwBlAHIAUwBoAGUAbABsACAAdgAzAC4AMAAgAG8AcgAgAG4AZQB3AGUAcgAiAH0AJw%' OR ParentCommandLine ILIKE '%cAewAiAGYAYQBpAGwAZQBkACIAOgB0AHIAdQBlACwAIgBtAHMAZwAiADoAIgBBAG4AcwBpAGIAbABlACAAcgBlAHEAdQBpAHIAZQBzACAAUABvAHcAZQByAFMAaABlAGwAbAAgAHYAMwAuADAAIABvAHIAIABuAGUAdwBlAHIAIgB9ACcA%' OR ParentCommandLine ILIKE '%nAHsAIgBmAGEAaQBsAGUAZAAiADoAdAByAHUAZQAsACIAbQBzAGcAIgA6ACIAQQBuAHMAaQBiAGwAZQAgAHIAZQBxAHUAaQByAGUAcwAgAFAAbwB3AGUAcgBTAGgAZQBsAGwAIAB2ADMALgAwACAAbwByACAAbgBlAHcAZQByACIAfQAnA%')) OR ((ParentImage = 'C:\\ProgramData\\chocolatey\\choco.exe' OR ParentImage = 'C:\\ProgramData\\chocolatey\\tools\\shimgen.exe')) OR (ParentCommandLine ILIKE '%\\ProgramData\\Microsoft\\Windows Defender Advanced Threat Protection%'))))

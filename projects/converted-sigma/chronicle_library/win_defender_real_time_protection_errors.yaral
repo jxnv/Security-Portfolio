@@ -1,0 +1,23 @@
+// Title: Windows Defender Real-Time Protection Failure/Restart
+// ID: dd80db93-6ec2-4f4c-a017-ad40da6ffe81
+// Status: stable
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems), Christopher Peacock '@securepeacock' (Update)
+// Date: 2023-03-28
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects issues with Windows Defender Real-Time Protection features
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule dd80db93_6ec2_4f4c_a017_ad40da6ffe81 {
+  meta:
+    title = "Windows Defender Real-Time Protection Failure/Restart"
+    description = "Detects issues with Windows Defender Real-Time Protection features"
+    author = "Nasreddine Bencherchali (Nextron Systems), Christopher Peacock '@securepeacock' (Update)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.EventID = 3002 or $e.EventID = 3007)) and not(($e.Feature_Name = "%%886" and ($e.Reason = "%%892" or $e.Reason = "%%858"))))
+
+  condition:
+    $e
+}

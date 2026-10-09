@@ -1,0 +1,13 @@
+// Title: XSL Script Execution Via WMIC.EXE
+// ID: 05c36dd6-79d6-4a9a-97da-3db20298ab2d
+// Status: test
+// Level: medium
+// Author: Timur Zinniatullin, oscd.community, Swachchhanda Shrawan Poudel
+// Date: 2019-10-21
+// Tags: attack.stealth, attack.t1047, attack.t1220, attack.execution, attack.t1059.005, attack.t1059.007
+// Description: Detects the execution of WMIC with the "format" flag to potentially load local XSL files.
+// Adversaries abuse this functionality to execute arbitrary files while potentially bypassing application whitelisting defenses.
+// Extensible Stylesheet Language (XSL) files are commonly used to describe the processing and rendering of data within XML files.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where ((((process.command_line like "%-format:%" OR process.command_line like "%/format:%")) AND ((process.executable="*\\wmic.exe") OR (process.pe.original_file_name = "wmic.exe") OR ((Hashes like "%IMPHASH=1B1A3F43BF37B5BFE60751F2EE2F326E%" OR Hashes like "%IMPHASH=37777A96245A3C74EB217308F3546F4C%" OR Hashes like "%IMPHASH=9D87C9D67CE724033C0B40CC4CA1B206%" OR Hashes like "%IMPHASH=B12619881D79C3ACADF45E752A58554A%" OR Hashes like "%IMPHASH=16A48C3CABF98A9DC1BF02C07FE1EA00%")))) AND NOT ((((process.command_line like "%Format:List%" OR process.command_line like "%Format:htable%" OR process.command_line like "%Format:hform%" OR process.command_line like "%Format:table%" OR process.command_line like "%Format:mof%" OR process.command_line like "%Format:value%" OR process.command_line like "%Format:rawxml%" OR process.command_line like "%Format:xml%" OR process.command_line like "%Format:csv%")) OR ((process.command_line like "%://%" OR process.command_line like "%\\\\\\\\%")))))

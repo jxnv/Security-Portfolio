@@ -1,0 +1,11 @@
+// Title: Suspicious Appended Extension
+// ID: e3f673b3-65d1-4d80-9146-466f8b63fa99
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-07-16
+// Tags: attack.impact, attack.t1486
+// Description: Detects file renames where the target filename uses an uncommon double extension. Could indicate potential ransomware activity renaming files and adding a custom extension to the encrypted files, such as ".jpg.crypted", ".docx.locky", etc.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+file where (((SourceFilename endswith ".doc" or SourceFilename endswith ".docx" or SourceFilename endswith ".jpeg" or SourceFilename endswith ".jpg" or SourceFilename endswith ".lnk" or SourceFilename endswith ".pdf" or SourceFilename endswith ".png" or SourceFilename endswith ".pst" or SourceFilename endswith ".rtf" or SourceFilename endswith ".xls" or SourceFilename endswith ".xlsx") and (file.path like "*_.doc.*" or file.path like "*_.docx.*" or file.path like "*_.jpeg.*" or file.path like "*_.jpg.*" or file.path like "*_.lnk.*" or file.path like "*_.pdf.*" or file.path like "*_.png.*" or file.path like "*_.pst.*" or file.path like "*_.rtf.*" or file.path like "*_.xls.*" or file.path like "*_.xlsx.*")) and not (((file.path endswith ".backup" or file.path endswith ".bak" or file.path endswith ".old" or file.path endswith ".orig" or file.path endswith ".temp" or file.path endswith ".tmp"))) and not ((file.path like "*_:\\ProgramData\\Anaconda3\\*" and file.path endswith ".c~")))

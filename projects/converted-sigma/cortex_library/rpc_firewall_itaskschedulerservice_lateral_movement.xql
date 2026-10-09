@@ -1,0 +1,11 @@
+// Title: Remote Schedule Task Lateral Movement via ITaskSchedulerService
+// ID: ace3ff54-e7fd-46bd-8ea0-74b49a0aca1d
+// Status: test
+// Level: high
+// Author: Sagie Dulce, Dekel Paz
+// Date: 2022-01-01
+// Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.lateral-movement, attack.t1053, attack.t1053.002
+// Description: Detects remote RPC calls to create or execute a scheduled task
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter (EventLog = "RPCFW" and EventID = 3 and InterfaceUuid = "86d35949-83c9-4044-b424-db363231fd0c" and (OpNum = 1 or OpNum = 3 or OpNum = 4 or OpNum = 10 or OpNum = 11 or OpNum = 12 or OpNum = 13 or OpNum = 14 or OpNum = 15))

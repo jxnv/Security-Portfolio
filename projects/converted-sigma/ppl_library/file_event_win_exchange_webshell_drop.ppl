@@ -1,0 +1,11 @@
+// Title: Suspicious ASPX File Drop by Exchange
+// ID: bd1212e5-78da-431e-95fa-c58e3237a8e6
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), MSTI (query, idea)
+// Date: 2022-10-01
+// Tags: attack.persistence, attack.t1505.003
+// Description: Detects suspicious file type dropped by an Exchange component in IIS into a suspicious folder
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where ((process.executable="*\\w3wp.exe" AND process.command_line like "%MSExchange%" AND (file.path like "%FrontEnd\\HttpProxy\\%" OR file.path like "%\\inetpub\\wwwroot\\aspnet_client\\%")) AND ((file.path="*.aspx" OR file.path="*.asp" OR file.path="*.ashx")))

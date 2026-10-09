@@ -1,0 +1,11 @@
+-- Title: Active Directory User Backdoors
+-- ID: 300bac00-e041-4ee2-9c36-e262656a6ecc
+-- Status: test
+-- Level: high
+-- Author: @neu5ron
+-- Date: 2017-04-13
+-- Tags: attack.privilege-escalation, attack.t1098, attack.persistence
+-- Description: Detects scenarios where one can control another users or computers account without having to use their credentials.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE (((EventID = 4738) AND NOT ((((AllowedToDelegateTo = '' OR AllowedToDelegateTo = '-')) OR (AllowedToDelegateTo IS NULL)))) OR ((EventID = 5136 AND AttributeLDAPDisplayName = 'msDS-AllowedToDelegateTo') OR (EventID = 5136 AND ObjectClass = 'user' AND AttributeLDAPDisplayName = 'servicePrincipalName') OR (EventID = 5136 AND AttributeLDAPDisplayName = 'msDS-AllowedToActOnBehalfOfOtherIdentity')))

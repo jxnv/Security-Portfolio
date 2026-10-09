@@ -1,0 +1,25 @@
+// Title: Potentially Suspicious Mofcomp Execution
+// ID: 1dd05363-104e-4b4a-b963-196a534b03a1
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-07-12
+// Tags: attack.stealth, attack.t1218
+// Description: Detects execution of the "mofcomp" utility as a child of a suspicious shell or script running utility or by having a suspicious path in the commandline.
+// The "mofcomp" utility parses a file containing MOF statements and adds the classes and class instances defined in the file to the WMI repository.
+// Attackers abuse this utility to install malicious MOF scripts
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 1dd05363_104e_4b4a_b963_196a534b03a1 {
+  meta:
+    title = "Potentially Suspicious Mofcomp Execution"
+    description = "Detects execution of the "mofcomp" utility as a child of a suspicious shell or script running utility or by having a suspicious path in the commandline. The "mofcomp" utility parses a file containing MOF statements and adds the classes and class instances defined in the file to the WMI repository. Attackers abuse this utility to install malicious MOF scripts"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((((($e.principal.process.file.full_path = /.*\\cmd.exe$/ nocase or $e.principal.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.principal.process.file.full_path = /.*\\pwsh.exe$/ nocase or $e.principal.process.file.full_path = /.*\\wsl.exe$/ nocase or $e.principal.process.file.full_path = /.*\\wscript.exe$/ nocase or $e.principal.process.file.full_path = /.*\\cscript.exe$/ nocase)) or (($e.target.process.command_line = /.*\\AppData\\Local\\Temp.*/ nocase or $e.target.process.command_line = /.*\\Contacts\\.*/ nocase or $e.target.process.command_line = /.*\\Favorites\\.*/ nocase or $e.target.process.command_line = /.*\\Favourites\\.*/ nocase or $e.target.process.command_line = /.*\\Music\\.*/ nocase or $e.target.process.command_line = /.*\\Pictures\\.*/ nocase or $e.target.process.command_line = /.*\\Users\\Public\\.*/ nocase or $e.target.process.command_line = /.*\\Videos\\.*/ nocase or $e.target.process.command_line = /.*\\WINDOWS\\Temp\\.*/ nocase or $e.target.process.command_line = /.*%appdata%.*/ nocase or $e.target.process.command_line = /.*%temp%.*/ nocase or $e.target.process.command_line = /.*%tmp%.*/ nocase))) and (($e.target.process.file.full_path = /.*\\mofcomp.exe$/ nocase) or ($e.target.process.file.name = "mofcomp.exe"))) and not((($e.principal.process.command_line = /.*\\InstallUtil.exe /Uninstall C:\\Windows\\CCM\\Microsoft.ConfigurationManager.SVProvider.dll$/ nocase and $e.principal.process.file.full_path = /.*\\InstallUtil.exe$/ nocase and ($e.target.process.command_line = /.*C:\\Windows\\TEMP.*/ nocase and $e.target.process.command_line = /.*.tmp.*/ nocase)) or ($e.principal.process.file.full_path = "C:\\Windows\\System32\\wbem\\WmiPrvSE.exe" and $e.target.process.command_line = /.*C:\\Windows\\TEMP\\.*/ nocase and $e.target.process.command_line = /.*.mof$/ nocase))) and not((not ($e.principal.process.command_line = /.*/))))
+
+  condition:
+    $e
+}

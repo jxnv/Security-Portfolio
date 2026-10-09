@@ -1,0 +1,12 @@
+-- Title: Suspicious Filename with Embedded Base64 Commands
+-- ID: 179b3686-6271-4d87-807d-17d843a8af73
+-- Status: experimental
+-- Level: high
+-- Author: @kostastsale
+-- Date: 2025-11-22
+-- Tags: attack.execution, attack.stealth, attack.t1059.004, attack.t1027
+-- Description: Detects files with specially crafted filenames that embed Base64-encoded bash payloads designed to execute when processed by shell scripts.
+-- These filenames exploit shell interpretation quirks to trigger hidden commands, a technique observed in VShell malware campaigns.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE ((TargetFilename ILIKE '%{echo%' OR TargetFilename ILIKE '%{base64,-d}%'))

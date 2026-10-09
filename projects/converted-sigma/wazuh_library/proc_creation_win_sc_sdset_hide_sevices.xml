@@ -1,0 +1,16 @@
+<!--
+  Title: Service DACL Abuse To Hide Services Via Sc.EXE
+  ID: a537cfc3-4297-4789-92b5-345bfd845ad0
+  Status: test
+  Level: high
+  Author: Andreas Hunkeler (@Karneades)
+  Date: 2021-12-20
+  Description: Detects usage of the "sc.exe" utility adding a new service with special permission seen used by threat actors which makes the service hidden and unremovable.
+-->
+
+<group name="sigma_converted,">
+  <rule id="100001" level="10">
+    <description>Service DACL Abuse To Hide Services Via Sc.EXE</description>
+    <match>(((CommandLine=\"*sdset*\" AND CommandLine=\"*DCLCWPDTSD*\")) AND ((Image=\"*\\\\sc.exe\") OR (OriginalFileName=\"sc.exe\")))</match>
+  </rule>
+</group>

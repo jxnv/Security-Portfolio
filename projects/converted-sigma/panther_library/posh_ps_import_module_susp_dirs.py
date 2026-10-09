@@ -1,0 +1,19 @@
+# Title: Import PowerShell Modules From Suspicious Directories
+# ID: 21f9162c-5f5d-4b01-89a8-b705bd7d10ab
+# Status: test
+# Level: medium
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-07-07
+# Tags: attack.execution, attack.t1059.001
+# Description: Detects powershell scripts that import modules from suspicious directories
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Import PowerShell Modules From Suspicious Directories
+def rule(event):
+    # Detection Logic:
+    # ((ScriptBlockText="*Import-Module \"$Env:Temp\\*" OR ScriptBlockText="*Import-Module '$Env:Temp\\*" OR ScriptBlockText="*Import-Module $Env:Temp\\*" OR ScriptBlockText="*Import-Module \"$Env:Appdata\\*" OR ScriptBlockText="*Import-Module '$Env:Appdata\\*" OR ScriptBlockText="*Import-Module $Env:Appdata\\*" OR ScriptBlockText="*Import-Module C:\\Users\\Public\\*" OR ScriptBlockText="*ipmo \"$Env:Temp\\*" OR ScriptBlockText="*ipmo '$Env:Temp\\*" OR ScriptBlockText="*ipmo $Env:Temp\\*" OR ScriptBlockText="*ipmo \"$Env:Appdata\\*" OR ScriptBlockText="*ipmo '$Env:Appdata\\*" OR ScriptBlockText="*ipmo $Env:Appdata\\*" OR ScriptBlockText="*ipmo C:\\Users\\Public\\*"))
+    return True
+
+def title(event):
+    return "Import PowerShell Modules From Suspicious Directories"
+

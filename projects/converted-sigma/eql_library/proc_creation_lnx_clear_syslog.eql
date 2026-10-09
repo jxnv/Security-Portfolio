@@ -1,0 +1,11 @@
+// Title: Syslog Clearing or Removal Via System Utilities
+// ID: 3fcc9b35-39e4-44c0-a2ad-9e82b6902b31
+// Status: test
+// Level: high
+// Author: Max Altgelt (Nextron Systems), Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research), MSTIC
+// Date: 2021-10-15
+// Tags: attack.defense-impairment, attack.t1685.006
+// Description: Detects specific commands commonly used to remove or empty the syslog. Which is a technique often used by attacker as a method to hide their tracks
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where (((process.command_line like "*_/var/log/syslog*") and ((process.executable endswith "/cp" and process.command_line like "*_/dev/null*") or (process.executable endswith "/ln" and (process.command_line like "*_/dev/null *" and process.command_line like "*_/var/log/syslog*") and (process.command_line like "*_-sf *" or process.command_line like "*_-sfn *" or process.command_line like "*_-sfT *")) or (process.executable endswith "/mv") or (process.executable endswith "/rm" and (process.command_line like "*_ -r *" or process.command_line like "*_ -f *" or process.command_line like "*_ -rf *" or process.command_line like "*_/var/log/syslog*")) or (process.executable endswith "/shred" and process.command_line like "*_-u *") or (process.executable endswith "/truncate" and (process.command_line like "*_0 *" and process.command_line like "*_/var/log/syslog*") and (process.command_line like "*_-s *" or process.command_line like "*_-c *" or process.command_line like "*_--size*")) or (process.executable endswith "/unlink"))) or (((process.command_line like "*_journalctl --vacuum*" or process.command_line like "*_journalctl --rotate*")) or ((process.command_line like "*_ > /var/log/syslog*" or process.command_line like "*_ >/var/log/syslog*" or process.command_line like "*_ >| /var/log/syslog*" or process.command_line like "*_: > /var/log/syslog*" or process.command_line like "*_:> /var/log/syslog*" or process.command_line like "*_:>/var/log/syslog*" or process.command_line like "*_>|/var/log/syslog*"))))

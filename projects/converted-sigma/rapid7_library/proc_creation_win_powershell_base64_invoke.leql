@@ -1,0 +1,11 @@
+// Title: PowerShell Base64 Encoded Invoke Keyword
+// ID: 6385697e-9f1b-40bd-8817-f4a91f40508e
+// Status: test
+// Level: high
+// Author: pH-T (Nextron Systems), Harjot Singh, @cyb3rjy0t
+// Date: 2022-05-20
+// Tags: attack.execution, attack.stealth, attack.t1059.001, attack.t1027
+// Description: Detects UTF-8 and UTF-16 Base64 encoded powershell 'Invoke-' calls
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((where(CommandLine ICONTAINS " -e")) AND ((where(CommandLine ICONTAINS "SQBuAHYAbwBrAGUALQ") OR where(CommandLine ICONTAINS "kAbgB2AG8AawBlAC0A") OR where(CommandLine ICONTAINS "JAG4AdgBvAGsAZQAtA") OR where(CommandLine ICONTAINS "SW52b2tlL") OR where(CommandLine ICONTAINS "ludm9rZS") OR where(CommandLine ICONTAINS "JbnZva2Ut"))) AND (((where(Image IENDSWITH "\\powershell.exe") OR where(Image IENDSWITH "\\pwsh.exe"))) OR ((where(OriginalFileName = "PowerShell.EXE") OR where(OriginalFileName = "pwsh.dll")))))

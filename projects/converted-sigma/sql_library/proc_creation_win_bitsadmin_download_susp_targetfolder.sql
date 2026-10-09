@@ -1,0 +1,11 @@
+-- Title: File Download Via Bitsadmin To A Suspicious Target Folder
+-- ID: 2ddef153-167b-4e89-86b6-757a9e65dcac
+-- Status: test
+-- Level: high
+-- Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+-- Date: 2022-06-28
+-- Tags: attack.persistence, attack.execution, attack.stealth, attack.t1197, attack.s0190, attack.t1036.003, attack.command-and-control, attack.t1105
+-- Description: Detects usage of bitsadmin downloading a file to a suspicious target folder
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE (((CommandLine ILIKE '% /transfer %' OR CommandLine ILIKE '% /create %' OR CommandLine ILIKE '% /addfile %')) AND ((CommandLine ILIKE '%:\\Perflogs%' OR CommandLine ILIKE '%:\\ProgramData\\%' OR CommandLine ILIKE '%:\\Temp\\%' OR CommandLine ILIKE '%:\\Users\\Public\\%' OR CommandLine ILIKE '%:\\Windows\\%' OR CommandLine ILIKE '%\\$Recycle.Bin\\%' OR CommandLine ILIKE '%\\AppData\\Local\\%' OR CommandLine ILIKE '%\\AppData\\Roaming\\%' OR CommandLine ILIKE '%\\Contacts\\%' OR CommandLine ILIKE '%\\Desktop\\%' OR CommandLine ILIKE '%\\Favorites\\%' OR CommandLine ILIKE '%\\Favourites\\%' OR CommandLine ILIKE '%\\inetpub\\wwwroot\\%' OR CommandLine ILIKE '%\\Music\\%' OR CommandLine ILIKE '%\\Pictures\\%' OR CommandLine ILIKE '%\\Start Menu\\Programs\\Startup\\%' OR CommandLine ILIKE '%\\Users\\Default\\%' OR CommandLine ILIKE '%\\Videos\\%' OR CommandLine ILIKE '%%ProgramData%%' OR CommandLine ILIKE '%%public%%' OR CommandLine ILIKE '%%temp%%' OR CommandLine ILIKE '%%tmp%%')) AND ((Image ILIKE '%\\bitsadmin.exe') OR (OriginalFileName = 'bitsadmin.exe')))

@@ -1,0 +1,23 @@
+// Title: PSEXEC Remote Execution File Artefact
+// ID: 304afd73-55a5-4bb9-8c21-0b1fc84ea9e4
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-01-21
+// Tags: attack.lateral-movement, attack.privilege-escalation, attack.execution, attack.persistence, attack.t1136.002, attack.t1543.003, attack.t1570, attack.s0029
+// Description: Detects creation of the PSEXEC key file. Which is created anytime a PsExec command is executed. It gets written to the file system and will be recorded in the USN Journal on the target system
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 304afd73_55a5_4bb9_8c21_0b1fc84ea9e4 {
+  meta:
+    title = "PSEXEC Remote Execution File Artefact"
+    description = "Detects creation of the PSEXEC key file. Which is created anytime a PsExec command is executed. It gets written to the file system and will be recorded in the USN Journal on the target system"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ($e.target.file.full_path = /^C:\\Windows\\PSEXEC-.*/ nocase and $e.target.file.full_path = /.*.key$/ nocase)
+
+  condition:
+    $e
+}

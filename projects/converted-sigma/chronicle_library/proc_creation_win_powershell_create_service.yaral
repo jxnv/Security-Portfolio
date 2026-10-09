@@ -1,0 +1,23 @@
+// Title: New Service Creation Using PowerShell
+// ID: c02e96b7-c63a-4c47-bd83-4a9f74afcfb2
+// Status: test
+// Level: low
+// Author: Timur Zinniatullin, Daniil Yugoslavskiy, oscd.community
+// Date: 2023-02-20
+// Tags: attack.persistence, attack.privilege-escalation, attack.t1543.003
+// Description: Detects the creation of a new service using powershell.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule c02e96b7_c63a_4c47_bd83_4a9f74afcfb2 {
+  meta:
+    title = "New Service Creation Using PowerShell"
+    description = "Detects the creation of a new service using powershell."
+    author = "Timur Zinniatullin, Daniil Yugoslavskiy, oscd.community"
+    severity = "LOW"
+
+  events:
+    (($e.target.process.command_line = /.*New-Service.*/ nocase and $e.target.process.command_line = /.*-BinaryPathName.*/ nocase))
+
+  condition:
+    $e
+}

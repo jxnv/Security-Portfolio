@@ -1,0 +1,23 @@
+// Title: Triple Cross eBPF Rootkit Install Commands
+// ID: 22236d75-d5a0-4287-bf06-c93b1770860f
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-07-05
+// Tags: attack.stealth, attack.t1014
+// Description: Detects default install commands of the Triple Cross eBPF rootkit based on the "deployer.sh" script
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 22236d75_d5a0_4287_bf06_c93b1770860f {
+  meta:
+    title = "Triple Cross eBPF Rootkit Install Commands"
+    description = "Detects default install commands of the Triple Cross eBPF rootkit based on the "deployer.sh" script"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ($e.target.process.file.full_path = /.*/sudo$/ nocase and ($e.target.process.command_line = /.* tc .*/ nocase and $e.target.process.command_line = /.* enp0s3 .*/ nocase) and ($e.target.process.command_line = /.* qdisc .*/ nocase or $e.target.process.command_line = /.* filter .*/ nocase))
+
+  condition:
+    $e
+}

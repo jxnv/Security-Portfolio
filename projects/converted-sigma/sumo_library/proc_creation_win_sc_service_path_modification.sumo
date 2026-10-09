@@ -1,0 +1,11 @@
+// Title: Suspicious Service Path Modification
+// ID: 138d3531-8793-4f50-a2cd-f291b2863d78
+// Status: test
+// Level: high
+// Author: Victor Sergeev, oscd.community, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2019-10-21
+// Tags: attack.persistence, attack.privilege-escalation, attack.t1543.003
+// Description: Detects service path modification via the "sc" binary to a suspicious command or path
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where (Image matches "*\\sc.exe" and (CommandLine matches "*config*" and CommandLine matches "*binPath*") and (CommandLine matches "*powershell*" or CommandLine matches "*cmd *" or CommandLine matches "*mshta*" or CommandLine matches "*wscript*" or CommandLine matches "*cscript*" or CommandLine matches "*rundll32*" or CommandLine matches "*svchost*" or CommandLine matches "*dllhost*" or CommandLine matches "*cmd.exe /c*" or CommandLine matches "*cmd.exe /k*" or CommandLine matches "*cmd.exe /r*" or CommandLine matches "*cmd /c*" or CommandLine matches "*cmd /k*" or CommandLine matches "*cmd /r*" or CommandLine matches "*C:\\Users\\Public*" or CommandLine matches "*\\Downloads\\*" or CommandLine matches "*\\Desktop\\*" or CommandLine matches "*\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\*" or CommandLine matches "*C:\\Windows\\TEMP\\*" or CommandLine matches "*\\AppData\\Local\\Temp*"))

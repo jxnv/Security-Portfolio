@@ -1,0 +1,11 @@
+// Title: Uncommon Microsoft Office Trusted Location Added
+// ID: f742bde7-9528-42e5-bd82-84f51a8387d2
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-06-21
+// Tags: attack.persistence, attack.defense-impairment, attack.t1112
+// Description: Detects changes to registry keys related to "Trusted Location" of Microsoft Office where the path is set to something uncommon. Attackers might add additional trusted locations to avoid macro security restrictions.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((TargetObject CONTAINS "Security\\Trusted Locations\\Location" AND TargetObject ENDSWITH "\\Path") AND NOT ((((Image CONTAINS ":\\Program Files\\Microsoft Office\\" OR Image CONTAINS ":\\Program Files (x86)\\Microsoft Office\\")) OR (Image CONTAINS ":\\Program Files\\Common Files\\Microsoft Shared\\ClickToRun\\" AND Image ENDSWITH "\\OfficeClickToRun.exe"))) AND NOT (((Details CONTAINS "%APPDATA%\\Microsoft\\Templates" OR Details CONTAINS "%%APPDATA%%\\Microsoft\\Templates" OR Details CONTAINS "%APPDATA%\\Microsoft\\Word\\Startup" OR Details CONTAINS "%%APPDATA%%\\Microsoft\\Word\\Startup" OR Details CONTAINS ":\\Program Files (x86)\\Microsoft Office\\root\\Templates\\" OR Details CONTAINS ":\\Program Files\\Microsoft Office (x86)\\Templates" OR Details CONTAINS ":\\Program Files\\Microsoft Office\\root\\Templates\\" OR Details CONTAINS ":\\Program Files\\Microsoft Office\\Templates\\"))))

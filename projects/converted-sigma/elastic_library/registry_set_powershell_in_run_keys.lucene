@@ -1,0 +1,11 @@
+# Title: Suspicious PowerShell In Registry Run Keys
+# ID: 8d85cf08-bf97-4260-ba49-986a2a65129c
+# Status: test
+# Level: medium
+# Author: frack113, Florian Roth (Nextron Systems)
+# Date: 2022-03-17
+# Tags: attack.privilege-escalation, attack.persistence, attack.t1547.001
+# Description: Detects potential PowerShell commands or code within registry run keys
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((registry.path:*\\Software\\Microsoft\\Windows\\CurrentVersion\\Run* OR registry.path:*\\Software\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Run* OR registry.path:*\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run*) AND (registry.data.strings:*powershell* OR registry.data.strings:*pwsh * OR registry.data.strings:*FromBase64String* OR registry.data.strings:*.DownloadFile(* OR registry.data.strings:*.DownloadString(* OR registry.data.strings:* -w hidden * OR registry.data.strings:* -w 1 * OR registry.data.strings:*-windowstyle hidden* OR registry.data.strings:*-window hidden* OR registry.data.strings:* -nop * OR registry.data.strings:* -encodedcommand * OR registry.data.strings:*-ExecutionPolicy Bypass* OR registry.data.strings:*Invoke-Expression* OR registry.data.strings:*IEX (* OR registry.data.strings:*Invoke-Command* OR registry.data.strings:*ICM -* OR registry.data.strings:*Invoke-WebRequest* OR registry.data.strings:*IWR * OR registry.data.strings:*Invoke-RestMethod* OR registry.data.strings:*IRM * OR registry.data.strings:* -noni * OR registry.data.strings:* -noninteractive *))

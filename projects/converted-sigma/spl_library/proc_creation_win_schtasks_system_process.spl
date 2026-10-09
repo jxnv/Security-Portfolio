@@ -1,0 +1,11 @@
+# Title: Scheduled Task Creation Masquerading as System Processes
+# ID: 9f8573c9-22b4-40e3-89c1-72bc2b8d49ab
+# Status: experimental
+# Level: high
+# Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+# Date: 2025-02-05
+# Tags: attack.privilege-escalation, attack.execution, attack.persistence, attack.stealth, attack.t1053.005, attack.t1036.004, attack.t1036.005
+# Description: Detects the creation of scheduled tasks that involve system processes, which may indicate malicious actors masquerading as or abusing these processes to execute payloads or maintain persistence.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog ((process_exec="* /create *" AND (process_exec="* audiodg*" OR process_exec="* conhost*" OR process_exec="* dwm.exe*" OR process_exec="* explorer*" OR process_exec="* lsass*" OR process_exec="* lsm*" OR process_exec="* mmc*" OR process_exec="* msiexec*" OR process_exec="* regsvr32*" OR process_exec="* rundll32*" OR process_exec="* services*" OR process_exec="* spoolsv*" OR process_exec="* svchost*" OR process_exec="* taskeng*" OR process_exec="* taskhost*" OR process_exec="* wininit*" OR process_exec="* winlogon*")) AND ((process_path="*\\schtasks.exe") OR (process_name="schtasks.exe")))

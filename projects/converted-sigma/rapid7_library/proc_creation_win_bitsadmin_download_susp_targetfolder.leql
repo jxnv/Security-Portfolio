@@ -1,0 +1,11 @@
+// Title: File Download Via Bitsadmin To A Suspicious Target Folder
+// ID: 2ddef153-167b-4e89-86b6-757a9e65dcac
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-06-28
+// Tags: attack.persistence, attack.execution, attack.stealth, attack.t1197, attack.s0190, attack.t1036.003, attack.command-and-control, attack.t1105
+// Description: Detects usage of bitsadmin downloading a file to a suspicious target folder
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(CommandLine ICONTAINS " /transfer ") OR where(CommandLine ICONTAINS " /create ") OR where(CommandLine ICONTAINS " /addfile "))) AND ((where(CommandLine ICONTAINS ":\\Perflogs") OR where(CommandLine ICONTAINS ":\\ProgramData\\") OR where(CommandLine ICONTAINS ":\\Temp\\") OR where(CommandLine ICONTAINS ":\\Users\\Public\\") OR where(CommandLine ICONTAINS ":\\Windows\\") OR where(CommandLine ICONTAINS "\\$Recycle.Bin\\") OR where(CommandLine ICONTAINS "\\AppData\\Local\\") OR where(CommandLine ICONTAINS "\\AppData\\Roaming\\") OR where(CommandLine ICONTAINS "\\Contacts\\") OR where(CommandLine ICONTAINS "\\Desktop\\") OR where(CommandLine ICONTAINS "\\Favorites\\") OR where(CommandLine ICONTAINS "\\Favourites\\") OR where(CommandLine ICONTAINS "\\inetpub\\wwwroot\\") OR where(CommandLine ICONTAINS "\\Music\\") OR where(CommandLine ICONTAINS "\\Pictures\\") OR where(CommandLine ICONTAINS "\\Start Menu\\Programs\\Startup\\") OR where(CommandLine ICONTAINS "\\Users\\Default\\") OR where(CommandLine ICONTAINS "\\Videos\\") OR where(CommandLine ICONTAINS "%ProgramData%") OR where(CommandLine ICONTAINS "%public%") OR where(CommandLine ICONTAINS "%temp%") OR where(CommandLine ICONTAINS "%tmp%"))) AND ((where(Image IENDSWITH "\\bitsadmin.exe")) OR (where(OriginalFileName = "bitsadmin.exe"))))

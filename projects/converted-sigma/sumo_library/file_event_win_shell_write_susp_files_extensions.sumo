@@ -1,0 +1,11 @@
+// Title: Windows Binaries Write Suspicious Extensions
+// ID: b8fd0e93-ff58-4cbd-8f48-1c114e342e62
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-12
+// Tags: attack.stealth, attack.t1036
+// Description: Detects Windows executables that write files with suspicious extensions
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where ((((Image matches "*\\csrss.exe" or Image matches "*\\lsass.exe" or Image matches "*\\RuntimeBroker.exe" or Image matches "*\\sihost.exe" or Image matches "*\\smss.exe" or Image matches "*\\wininit.exe" or Image matches "*\\winlogon.exe") and (TargetFilename matches "*.bat" or TargetFilename matches "*.dll" or TargetFilename matches "*.exe" or TargetFilename matches "*.hta" or TargetFilename matches "*.iso" or TargetFilename matches "*.ps1" or TargetFilename matches "*.txt" or TargetFilename matches "*.vbe" or TargetFilename matches "*.vbs")) or ((Image matches "*\\dllhost.exe" or Image matches "*\\rundll32.exe" or Image matches "*\\svchost.exe") and (TargetFilename matches "*.bat" or TargetFilename matches "*.hta" or TargetFilename matches "*.iso" or TargetFilename matches "*.ps1" or TargetFilename matches "*.vbe" or TargetFilename matches "*.vbs"))) and !(((Image = "C:\\Windows\\System32\\dllhost.exe" and (TargetFilename matches "*:\\Users\\*" and TargetFilename matches "*\\AppData\\Local\\Temp\\__PSScriptPolicyTest_*") and TargetFilename matches "*.ps1") or (Image = "C:\\Windows\\system32\\svchost.exe" and (TargetFilename matches "*C:\\Program Files\\WindowsApps\\Clipchamp*" and TargetFilename matches "*.ps1*")) or ((Image = "C:\\Windows\\system32\\svchost.exe" or Image = "C:\\Windows\\SysWOW64\\svchost.exe") and (TargetFilename matches "C:\\Program Files\\WindowsApps\\Microsoft.PowerShellPreview*" or TargetFilename matches "C:\\Program Files (x86)\\WindowsApps\\Microsoft.PowerShellPreview*") and TargetFilename matches "*.ps1") or (Image = "C:\\Windows\\system32\\svchost.exe" and (TargetFilename matches "*C:\\Windows\\System32\\GroupPolicy\\DataStore\\*" and TargetFilename matches "*\\sysvol\\*" and TargetFilename matches "*\\Policies\\*" and TargetFilename matches "*\\Machine\\Scripts\\Startup\\*") and (TargetFilename matches "*.ps1" or TargetFilename matches "*.bat")))))

@@ -1,0 +1,11 @@
+// Title: Uncommon Service Installation Image Path
+// ID: 26481afe-db26-4228-b264-25a29fe6efc7
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-03-18
+// Tags: attack.persistence, attack.privilege-escalation, car.2013-09-005, attack.t1543.003
+// Description: Detects uncommon service installation commands by looking at suspicious or uncommon image path values containing references to encoded powershell commands, temporary paths, etc.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((where(Provider_Name = "Service Control Manager") AND where(EventID = "7045")) AND (((where(ImagePath ICONTAINS "\\\\\\\\.\\\\pipe") OR where(ImagePath ICONTAINS "\\Users\\Public\\") OR where(ImagePath ICONTAINS "\\Windows\\Temp\\"))) OR ((where(ImagePath ICONTAINS " -e")) AND ((where(ImagePath ICONTAINS " aQBlAHgA") OR where(ImagePath ICONTAINS " aWV4I") OR where(ImagePath ICONTAINS " IAB") OR where(ImagePath ICONTAINS " JAB") OR where(ImagePath ICONTAINS " PAA") OR where(ImagePath ICONTAINS " SQBFAFgA") OR where(ImagePath ICONTAINS " SUVYI"))))) AND NOT ((where(ImagePath ISTARTSWITH "C:\\ProgramData\\Microsoft\\Windows Defender\\Definition Updates\\"))) AND NOT ((where(ImagePath ISTARTSWITH "C:\\WINDOWS\\TEMP\\thor10-remote\\thor64.exe"))))

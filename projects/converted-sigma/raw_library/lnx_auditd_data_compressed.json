@@ -1,0 +1,35 @@
+{
+  "title": "Data Compressed",
+  "id": "a3b5e3e9-1b49-4119-8b8e-0344a01f21ee",
+  "status": "test",
+  "description": "An adversary may compress data (e.g., sensitive documents) that is collected prior to exfiltration in order to make it portable and minimize the amount of data sent over the network.",
+  "author": "Timur Zinniatullin, oscd.community",
+  "date": "2019-10-21",
+  "tags": [
+    "attack.exfiltration",
+    "attack.collection",
+    "attack.t1560.001"
+  ],
+  "level": "low",
+  "logsource": {
+    "product": "linux",
+    "service": "auditd"
+  },
+  "detection": {
+    "selection1": {
+      "type": "execve",
+      "a0": "zip"
+    },
+    "selection2": {
+      "type": "execve",
+      "a0": "gzip",
+      "a1": "-k"
+    },
+    "selection3": {
+      "type": "execve",
+      "a0": "tar",
+      "a1|contains": "-c"
+    },
+    "condition": "1 of selection*"
+  }
+}

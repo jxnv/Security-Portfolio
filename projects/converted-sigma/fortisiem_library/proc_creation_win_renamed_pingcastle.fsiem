@@ -1,0 +1,11 @@
+# Title: Renamed PingCastle Binary Execution
+# ID: 2433a154-bb3d-42e4-86c3-a26bdac91c45
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems), X__Junior (Nextron Systems)
+# Date: 2024-01-11
+# Tags: attack.execution, attack.stealth, attack.t1059, attack.t1202
+# Description: Detects the execution of a renamed "PingCastle" binary based on the PE metadata fields.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((((OriginalFileName = "PingCastleReporting.exe" OR OriginalFileName = "PingCastleCloud.exe" OR OriginalFileName = "PingCastle.exe")) OR ((CommandLine CONTAIN "--scanner aclcheck" OR CommandLine CONTAIN "--scanner antivirus" OR CommandLine CONTAIN "--scanner computerversion" OR CommandLine CONTAIN "--scanner foreignusers" OR CommandLine CONTAIN "--scanner laps_bitlocker" OR CommandLine CONTAIN "--scanner localadmin" OR CommandLine CONTAIN "--scanner nullsession" OR CommandLine CONTAIN "--scanner nullsession-trust" OR CommandLine CONTAIN "--scanner oxidbindings" OR CommandLine CONTAIN "--scanner remote" OR CommandLine CONTAIN "--scanner share" OR CommandLine CONTAIN "--scanner smb" OR CommandLine CONTAIN "--scanner smb3querynetwork" OR CommandLine CONTAIN "--scanner spooler" OR CommandLine CONTAIN "--scanner startup" OR CommandLine CONTAIN "--scanner zerologon")) OR (CommandLine CONTAIN "--no-enum-limit") OR ((CommandLine CONTAIN "--healthcheck" AND CommandLine CONTAIN "--level Full")) OR ((CommandLine CONTAIN "--healthcheck" AND CommandLine CONTAIN "--server "))) AND NOT (((Image="*\\PingCastleReporting.exe" OR Image="*\\PingCastleCloud.exe" OR Image="*\\PingCastle.exe"))))

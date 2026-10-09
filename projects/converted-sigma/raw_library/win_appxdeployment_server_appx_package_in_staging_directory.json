@@ -1,0 +1,42 @@
+{
+  "title": "AppX Located in Known Staging Directory Added to Deployment Pipeline",
+  "id": "5cdeaf3d-1489-477c-95ab-c318559fc051",
+  "status": "test",
+  "description": "Detects an appx package that was added to the pipeline of the \"to be processed\" packages that is located in a known folder often used as a staging directory.\n",
+  "author": "Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2023-01-11",
+  "tags": [
+    "attack.stealth"
+  ],
+  "level": "high",
+  "logsource": {
+    "product": "windows",
+    "service": "appxdeployment-server"
+  },
+  "detection": {
+    "selection_eid": {
+      "EventID": 854
+    },
+    "selection_paths_forward": {
+      "Path|contains": [
+        ":/Perflogs/",
+        ":/Users/Public/",
+        ":/Windows/Temp/",
+        "/AppdData/Local/Temp/",
+        "/Desktop/",
+        "/Downloads/"
+      ]
+    },
+    "selection_paths_back": {
+      "Path|contains": [
+        ":\\PerfLogs\\",
+        ":\\Users\\Public\\",
+        ":\\Windows\\Temp\\",
+        "\\AppdData\\Local\\Temp\\",
+        "\\Desktop\\",
+        "\\Downloads\\"
+      ]
+    },
+    "condition": "selection_eid and 1 of selection_paths_*"
+  }
+}

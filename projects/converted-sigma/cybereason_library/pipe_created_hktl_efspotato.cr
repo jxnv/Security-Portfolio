@@ -1,0 +1,11 @@
+// Title: HackTool - EfsPotato Named Pipe Creation
+// ID: 637f689e-b4a5-4a86-be0e-0100a0a33ba2
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2021-08-23
+// Tags: attack.privilege-escalation, attack.stealth, attack.t1055
+// Description: Detects the pattern of a pipe name as used by the hack tool EfsPotato
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((PipeName contains "\\pipe\\" OR PipeName contains "\\pipe\\srvsvc")) AND NOT (((PipeName contains "\\CtxShare") OR (PipeName="\\pipe\\*"))))

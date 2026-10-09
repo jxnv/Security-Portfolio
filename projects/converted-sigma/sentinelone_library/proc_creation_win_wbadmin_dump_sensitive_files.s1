@@ -1,0 +1,12 @@
+// Title: Sensitive File Dump Via Wbadmin.EXE
+// ID: 8b93a509-1cb8-42e1-97aa-ee24224cdc15
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems), frack113
+// Date: 2024-05-10
+// Tags: attack.credential-access, attack.t1003.003
+// Description: Detects the dump of highly sensitive files such as "NTDS.DIT" and "SECURITY" hive.
+// Attackers can leverage the "wbadmin" utility in order to dump sensitive files that might contain credential or sensitive information.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((src.process.cmdline containsCIS "start" OR src.process.cmdline containsCIS "backup")) AND ((src.process.image.path endswithCIS "\\wbadmin.exe") OR (OriginalFileName = "WBADMIN.EXE")) AND ((src.process.cmdline containsCIS "\\config\\SAM" OR src.process.cmdline containsCIS "\\config\\SECURITY" OR src.process.cmdline containsCIS "\\config\\SYSTEM" OR src.process.cmdline containsCIS "\\Windows\\NTDS\\NTDS.dit")))

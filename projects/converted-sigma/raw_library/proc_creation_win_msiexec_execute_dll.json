@@ -1,0 +1,32 @@
+{
+  "title": "Suspicious Msiexec Execute Arbitrary DLL",
+  "id": "6f4191bb-912b-48a8-9ce7-682769541e6d",
+  "status": "test",
+  "description": "Adversaries may abuse msiexec.exe to proxy execution of malicious payloads.\nMsiexec.exe is the command-line utility for the Windows Installer and is thus commonly associated with executing installation packages (.msi)\n",
+  "author": "frack113",
+  "date": "2022-01-16",
+  "tags": [
+    "attack.stealth",
+    "attack.t1218.007"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection": {
+      "Image|endswith": "\\msiexec.exe",
+      "CommandLine|contains|windash": " /Y"
+    },
+    "filter_main_legit_path": {
+      "CommandLine|contains": [
+        "\\MsiExec.exe\" /Y \"C:\\Program Files\\",
+        "\\MsiExec.exe\" /Y \"C:\\Program Files (x86)\\",
+        "\\MsiExec.exe\" /Y \"C:\\Windows\\System32\\",
+        "\\MsiExec.exe\" /Y \"C:\\Windows\\SysWOW64\\"
+      ]
+    },
+    "condition": "selection and not 1 of filter_main_*"
+  }
+}

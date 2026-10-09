@@ -1,0 +1,11 @@
+// Title: VMToolsd Suspicious Child Process
+// ID: 5687f942-867b-4578-ade7-1e341c46e99a
+// Status: test
+// Level: high
+// Author: bohops, Bhabesh Raj
+// Date: 2021-10-08
+// Tags: attack.execution, attack.persistence, attack.t1059
+// Description: Detects suspicious child process creations of VMware Tools process which may indicate persistence setup
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((((where(Image IENDSWITH "\\cmd.exe") OR where(Image IENDSWITH "\\cscript.exe") OR where(Image IENDSWITH "\\mshta.exe") OR where(Image IENDSWITH "\\powershell.exe") OR where(Image IENDSWITH "\\pwsh.exe") OR where(Image IENDSWITH "\\regsvr32.exe") OR where(Image IENDSWITH "\\rundll32.exe") OR where(Image IENDSWITH "\\wscript.exe"))) OR ((where(OriginalFileName = "Cmd.Exe") OR where(OriginalFileName = "cscript.exe") OR where(OriginalFileName = "MSHTA.EXE") OR where(OriginalFileName = "PowerShell.EXE") OR where(OriginalFileName = "pwsh.dll") OR where(OriginalFileName = "REGSVR32.EXE") OR where(OriginalFileName = "RUNDLL32.EXE") OR where(OriginalFileName = "wscript.exe")))) AND (where(ParentImage IENDSWITH "\\vmtoolsd.exe"))) AND NOT (((where(Image IENDSWITH "\\cmd.exe") AND where(CommandLine = "")) OR (where(Image IENDSWITH "\\cmd.exe") AND NOT CommandLine=*) OR (where(Image IENDSWITH "\\cmd.exe") AND (where(CommandLine ICONTAINS "\\VMware\\VMware Tools\\poweron-vm-default.bat") OR where(CommandLine ICONTAINS "\\VMware\\VMware Tools\\poweroff-vm-default.bat") OR where(CommandLine ICONTAINS "\\VMware\\VMware Tools\\resume-vm-default.bat") OR where(CommandLine ICONTAINS "\\VMware\\VMware Tools\\suspend-vm-default.bat"))))))

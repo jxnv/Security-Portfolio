@@ -1,0 +1,16 @@
+// Title: Potential Persistence Via Disk Cleanup Handler - Registry
+// ID: d4f4e0be-cf12-439f-9e25-4e2cdcf7df5a
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-07-21
+// Tags: attack.persistence
+// Description: Detects when an attacker modifies values of the Disk Cleanup Handler in the registry to achieve persistence.
+// The disk cleanup manager is part of the operating system. It displays the dialog box […]
+// The user has the option of enabling or disabling individual handlers by selecting or clearing their check box in the disk cleanup manager's UI.
+// Although Windows comes with a number of disk cleanup handlers, they aren't designed to handle files produced by other applications.
+// Instead, the disk cleanup manager is designed to be flexible and extensible by enabling any developer to implement and register their own disk cleanup handler.
+// Any developer can extend the available disk cleanup services by implementing and registering a disk cleanup handler.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where ((EventType = "CreateKey" and TargetObject matches "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\VolumeCaches\\*") and !(((TargetObject matches "*\\Active Setup Temp Folders" or TargetObject matches "*\\BranchCache" or TargetObject matches "*\\Content Indexer Cleaner" or TargetObject matches "*\\D3D Shader Cache" or TargetObject matches "*\\Delivery Optimization Files" or TargetObject matches "*\\Device Driver Packages" or TargetObject matches "*\\Diagnostic Data Viewer database files" or TargetObject matches "*\\Downloaded Program Files" or TargetObject matches "*\\DownloadsFolder" or TargetObject matches "*\\Feedback Hub Archive log files" or TargetObject matches "*\\Internet Cache Files" or TargetObject matches "*\\Language Pack" or TargetObject matches "*\\Microsoft Office Temp Files" or TargetObject matches "*\\Offline Pages Files" or TargetObject matches "*\\Old ChkDsk Files" or TargetObject matches "*\\Previous Installations" or TargetObject matches "*\\Recycle Bin" or TargetObject matches "*\\RetailDemo Offline Content" or TargetObject matches "*\\Setup Log Files" or TargetObject matches "*\\System error memory dump files" or TargetObject matches "*\\System error minidump files" or TargetObject matches "*\\Temporary Files" or TargetObject matches "*\\Temporary Setup Files" or TargetObject matches "*\\Temporary Sync Files" or TargetObject matches "*\\Thumbnail Cache" or TargetObject matches "*\\Update Cleanup" or TargetObject matches "*\\Upgrade Discarded Files" or TargetObject matches "*\\User file versions" or TargetObject matches "*\\Windows Defender" or TargetObject matches "*\\Windows Error Reporting Files" or TargetObject matches "*\\Windows ESD installation files" or TargetObject matches "*\\Windows Upgrade Log Files"))))

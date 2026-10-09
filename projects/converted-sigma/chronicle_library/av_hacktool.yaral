@@ -1,0 +1,24 @@
+// Title: Antivirus - Hacktool Signature
+// ID: fa0c05b6-8ad3-468d-8231-c1cbccb64fba
+// Status: stable
+// Level: high
+// Author: Florian Roth (Nextron Systems), Arnim Rupp
+// Date: 2021-08-16
+// Tags: attack.execution, attack.t1204
+// Description: Detects a highly relevant Antivirus alert that reports a hack tool or other attack tool.
+// This event must not be ignored just because the AV has blocked the malware but investigate, how it came there in the first place.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule fa0c05b6_8ad3_468d_8231_c1cbccb64fba {
+  meta:
+    title = "Antivirus - Hacktool Signature"
+    description = "Detects a highly relevant Antivirus alert that reports a hack tool or other attack tool. This event must not be ignored just because the AV has blocked the malware but investigate, how it came there in the first place."
+    author = "Florian Roth (Nextron Systems), Arnim Rupp"
+    severity = "HIGH"
+
+  events:
+    ((($e.Signature = /^ATK/.*/ nocase or $e.Signature = /^Exploit.Script.CVE.*/ nocase or $e.Signature = /^HKTL.*/ nocase or $e.Signature = /^HTOOL.*/ nocase or $e.Signature = /^PWS..*/ nocase or $e.Signature = /^PWSX.*/ nocase or $e.Signature = /^SecurityTool.*/ nocase)) or (($e.Signature = /.*Adfind.*/ nocase or $e.Signature = /.*BloodH.*/ nocase or $e.Signature = /.*BloodyAD.*/ nocase or $e.Signature = /.*Brutel.*/ nocase or $e.Signature = /.*BruteR.*/ nocase or $e.Signature = /.*Cobalt.*/ nocase or $e.Signature = /.*COBEACON.*/ nocase or $e.Signature = /.*Cometer.*/ nocase or $e.Signature = /.*DumpCreds.*/ nocase or $e.Signature = /.*EDRfreeze.*/ nocase or $e.Signature = /.*FastReverseProxy.*/ nocase or $e.Signature = /.*Hacktool.*/ nocase or $e.Signature = /.*Havoc.*/ nocase or $e.Signature = /.*Impacket.*/ nocase or $e.Signature = /.*Keylogger.*/ nocase or $e.Signature = /.*Koadic.*/ nocase or $e.Signature = /.*Mimikatz.*/ nocase or $e.Signature = /.*Nighthawk.*/ nocase or $e.Signature = /.*PentestPowerShell.*/ nocase or $e.Signature = /.*Potato.*/ nocase or $e.Signature = /.*PowerSploit.*/ nocase or $e.Signature = /.*PowerSSH.*/ nocase or $e.Signature = /.*PshlSpy.*/ nocase or $e.Signature = /.*PSWTool.*/ nocase or $e.Signature = /.*PWCrack.*/ nocase or $e.Signature = /.*PWDump.*/ nocase or $e.Signature = /.*Responder.*/ nocase or $e.Signature = /.*Rozena.*/ nocase or $e.Signature = /.*Rusthound.*/ nocase or $e.Signature = /.*Sbelt.*/ nocase or $e.Signature = /.*Seatbelt.*/ nocase or $e.Signature = /.*SecurityTool.*/ nocase or $e.Signature = /.*SharpDump.*/ nocase or $e.Signature = /.*SharpHound.*/ nocase or $e.Signature = /.*Shellcode.*/ nocase or $e.Signature = /.*Sliver.*/ nocase or $e.Signature = /.*Snaffler.*/ nocase or $e.Signature = /.*SOAPHound.*/ nocase or $e.Signature = /.*Splinter.*/ nocase or $e.Signature = /.*Stowaway.*/ nocase or $e.Signature = /.*Swrort.*/ nocase or $e.Signature = /.*Trojan.Hound.*/ nocase or $e.Signature = /.*TurtleLoader.*/ nocase or $e.Signature = /.*Undefend.*/ nocase or $e.Signature = /.*Undfnd.*/ nocase)))
+
+  condition:
+    $e
+}

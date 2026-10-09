@@ -1,0 +1,19 @@
+# Title: Potential Defense Evasion Via Binary Rename
+# ID: 36480ae1-a1cb-4eaa-a0d6-29801d7e9142
+# Status: test
+# Level: medium
+# Author: Matthew Green @mgreen27, Ecco, James Pemberton @4A616D6573, oscd.community, Andreas Hunkeler (@Karneades)
+# Date: 2019-06-15
+# Tags: attack.stealth, attack.t1036.003
+# Description: Detects the execution of a renamed binary often used by attackers or malware leveraging new Sysmon OriginalFileName datapoint.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Potential Defense Evasion Via Binary Rename
+def rule(event):
+    # Detection Logic:
+    # (((OriginalFileName="Cmd.Exe" OR OriginalFileName="CONHOST.EXE" OR OriginalFileName="7z.exe" OR OriginalFileName="7za.exe" OR OriginalFileName="7zr.exe" OR OriginalFileName="WinRAR.exe" OR OriginalFileName="wevtutil.exe" OR OriginalFileName="net.exe" OR OriginalFileName="net1.exe" OR OriginalFileName="netsh.exe" OR OriginalFileName="InstallUtil.exe")) AND NOT (((Image="*\\cmd.exe" OR Image="*\\conhost.exe" OR Image="*\\7z.exe" OR Image="*\\7za.exe" OR Image="*\\7zr.exe" OR Image="*\\WinRAR.exe" OR Image="*\\wevtutil.exe" OR Image="*\\net.exe" OR Image="*\\net1.exe" OR Image="*\\netsh.exe" OR Image="*\\InstallUtil.exe"))))
+    return True
+
+def title(event):
+    return "Potential Defense Evasion Via Binary Rename"
+

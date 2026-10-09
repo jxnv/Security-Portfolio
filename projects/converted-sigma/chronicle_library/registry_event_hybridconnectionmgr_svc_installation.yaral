@@ -1,0 +1,23 @@
+// Title: HybridConnectionManager Service Installation - Registry
+// ID: ac8866c7-ce44-46fd-8c17-b24acff96ca8
+// Status: test
+// Level: high
+// Author: Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research)
+// Date: 2021-04-12
+// Tags: attack.resource-development, attack.t1608
+// Description: Detects the installation of the Azure Hybrid Connection Manager service to allow remote code execution from Azure function.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule ac8866c7_ce44_46fd_8c17_b24acff96ca8 {
+  meta:
+    title = "HybridConnectionManager Service Installation - Registry"
+    description = "Detects the installation of the Azure Hybrid Connection Manager service to allow remote code execution from Azure function."
+    author = "Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research)"
+    severity = "HIGH"
+
+  events:
+    (($e.TargetObject = /.*\\Services\\HybridConnectionManager.*/ nocase) or ($e.EventType = "SetValue" and $e.Details = /.*Microsoft.HybridConnectionManager.Listener.exe.*/ nocase))
+
+  condition:
+    $e
+}

@@ -1,0 +1,23 @@
+// Title: Disable System Firewall
+// ID: 53059bc0-1472-438b-956a-7508a94a91f0
+// Status: test
+// Level: high
+// Author: Pawel Mazur
+// Date: 2022-01-22
+// Tags: attack.defense-impairment, attack.t1686
+// Description: Detects disabling of system firewalls which could be used by adversaries to bypass controls that limit usage of the network.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 53059bc0_1472_438b_956a_7508a94a91f0 {
+  meta:
+    title = "Disable System Firewall"
+    description = "Detects disabling of system firewalls which could be used by adversaries to bypass controls that limit usage of the network."
+    author = "Pawel Mazur"
+    severity = "HIGH"
+
+  events:
+    ($e.type = "SERVICE_STOP" and ($e.unit = "firewalld" or $e.unit = "iptables" or $e.unit = "ufw"))
+
+  condition:
+    $e
+}

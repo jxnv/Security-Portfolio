@@ -1,0 +1,11 @@
+# Title: Potential Arbitrary File Download Using Office Application
+# ID: 4ae3e30b-b03f-43aa-87e3-b622f4048eed
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems), Beyu Denis, oscd.community
+# Date: 2022-05-17
+# Tags: attack.stealth, attack.t1202
+# Description: Detects potential arbitrary file download using a Microsoft Office application
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((process.command_line:*http://* OR process.command_line:*https://*)) AND (((process.executable:*\\EXCEL.EXE OR process.executable:*\\MSOXMLED.EXE OR process.executable:*\\POWERPNT.EXE OR process.executable:*\\WINWORD.exe)) OR ((process.pe.original_file_name:"Excel.exe" OR process.pe.original_file_name:"msoxmled.exe" OR process.pe.original_file_name:"POWERPNT.EXE" OR process.pe.original_file_name:"WinWord.exe"))))

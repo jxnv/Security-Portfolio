@@ -1,0 +1,22 @@
+// Title: Host Without Firewall
+// ID: 6b2066c8-3dc7-4db7-9db0-6cc1d7b0dde9
+// Status: experimental
+// Level: low
+// Author: Alexandr Yampolskyi, SOC Prime
+// Date: 2019-03-19
+// Description: Host Without Firewall. Alert means not complied. Sigma for Qualys vulnerability scanner. Scan type - Vulnerability Management.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 6b2066c8_3dc7_4db7_9db0_6cc1d7b0dde9 {
+  meta:
+    title = "Host Without Firewall"
+    description = "Host Without Firewall. Alert means not complied. Sigma for Qualys vulnerability scanner. Scan type - Vulnerability Management."
+    author = "Alexandr Yampolskyi, SOC Prime"
+    severity = "LOW"
+
+  events:
+    ($e.event.category = "Security Policy" and $e.host.scan.vuln_name = /.*Firewall Product Not Detected.*/ nocase)
+
+  condition:
+    $e
+}

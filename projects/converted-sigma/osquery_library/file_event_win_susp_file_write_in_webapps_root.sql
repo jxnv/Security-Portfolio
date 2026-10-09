@@ -1,0 +1,12 @@
+-- Title: Suspicious File Write to Webapps Root Directory
+-- ID: 89c42960-f244-4dad-9151-ae9b1a3287a2
+-- Status: experimental
+-- Level: medium
+-- Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+-- Date: 2025-10-20
+-- Tags: attack.persistence, attack.t1505.003, attack.initial-access, attack.t1190
+-- Description: Detects suspicious file writes to the root directory of web applications, particularly Apache web servers or Tomcat servers.
+-- This may indicate an attempt to deploy malicious files such as web shells or other unauthorized scripts.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM file WHERE ((TargetFilename LIKE '%\\webapps\\ROOT\\%') AND ((TargetFilename LIKE '%\\apache%' OR TargetFilename LIKE '%\\tomcat%')) AND (TargetFilename="*.jsp") AND ((Image="*\\dotnet.exe" OR Image="*\\w3wp.exe" OR Image="*\\java.exe")))

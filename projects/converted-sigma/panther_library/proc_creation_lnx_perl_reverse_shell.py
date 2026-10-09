@@ -1,0 +1,19 @@
+# Title: Potential Perl Reverse Shell Execution
+# ID: 259df6bc-003f-4306-9f54-4ff1a08fa38e
+# Status: test
+# Level: high
+# Author: @d4ns4n_, Nasreddine Bencherchali (Nextron Systems)
+# Date: 2023-04-07
+# Tags: attack.execution
+# Description: Detects execution of the perl binary with the "-e" flag and common strings related to potential reverse shell activity
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Potential Perl Reverse Shell Execution
+def rule(event):
+    # Detection Logic:
+    # ((((CommandLine="*fdopen(*" AND CommandLine="*::Socket::INET*")) OR ((CommandLine="*Socket*" AND CommandLine="*connect*" AND CommandLine="*open*" AND CommandLine="*exec*"))) AND (Image="*/perl" AND CommandLine="* -e *"))
+    return True
+
+def title(event):
+    return "Potential Perl Reverse Shell Execution"
+

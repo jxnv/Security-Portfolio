@@ -1,0 +1,32 @@
+{
+  "title": "Cisco Dot1x Disabled",
+  "id": "ef0ff092-a24a-4fbc-beea-06c08d53e085",
+  "status": "experimental",
+  "description": "Detects the manual disablement of IEEE 802.1X (dot1x) on a Cisco network device interface.\nDisabling dot1x bypasses Network Access Control (NAC) mechanisms, potentially allowing unauthorized devices to gain access to the internal network.\nThis activity is a common technique used by attackers or malicious insiders to establish persistence or perform lateral movement via rogue devices.\n",
+  "author": "Luc G\u00e9naux",
+  "date": "2026-04-28",
+  "tags": [
+    "attack.persistence",
+    "attack.credential-access",
+    "attack.defense-impairment",
+    "attack.t1685",
+    "attack.t1556.004"
+  ],
+  "level": "medium",
+  "logsource": {
+    "product": "cisco",
+    "service": "aaa"
+  },
+  "detection": {
+    "keywords": [
+      "access-session port-control force-authorized",
+      "authentication port-control force-authorized",
+      "dot1x port-control force-authorized",
+      "no access-session port-control",
+      "no authentication port-control",
+      "no dot1x port-control",
+      "no dot1x system-auth-control"
+    ],
+    "condition": "keywords"
+  }
+}

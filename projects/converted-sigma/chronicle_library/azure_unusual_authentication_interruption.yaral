@@ -1,0 +1,23 @@
+// Title: Azure Unusual Authentication Interruption
+// ID: 8366030e-7216-476b-9927-271d79f13cf3
+// Status: test
+// Level: medium
+// Author: Austin Songer @austinsonger
+// Date: 2021-11-26
+// Tags: attack.privilege-escalation, attack.persistence, attack.initial-access, attack.stealth, attack.t1078
+// Description: Detects when there is a interruption in the authentication process.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 8366030e_7216_476b_9927_271d79f13cf3 {
+  meta:
+    title = "Azure Unusual Authentication Interruption"
+    description = "Detects when there is a interruption in the authentication process."
+    author = "Austin Songer @austinsonger"
+    severity = "MEDIUM"
+
+  events:
+    (($e.ResultType = 50097 and $e.ResultDescription = "Device authentication is required") or ($e.ResultType = 50155 and $e.ResultDescription = "DeviceAuthenticationFailed") or ($e.ResultType = 50158 and $e.ResultDescription = "ExternalSecurityChallenge - External security challenge was not satisfied"))
+
+  condition:
+    $e
+}

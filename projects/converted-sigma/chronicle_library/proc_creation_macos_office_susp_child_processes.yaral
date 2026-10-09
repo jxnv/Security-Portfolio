@@ -1,0 +1,23 @@
+// Title: Suspicious Microsoft Office Child Process - MacOS
+// ID: 69483748-1525-4a6c-95ca-90dc8d431b68
+// Status: test
+// Level: high
+// Author: Sohan G (D4rkCiph3r)
+// Date: 2023-01-31
+// Tags: attack.execution, attack.persistence, attack.t1059.002, attack.t1137.002, attack.t1204.002
+// Description: Detects suspicious child processes spawning from microsoft office suite applications such as word or excel. This could indicates malicious macro execution
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 69483748_1525_4a6c_95ca_90dc8d431b68 {
+  meta:
+    title = "Suspicious Microsoft Office Child Process - MacOS"
+    description = "Detects suspicious child processes spawning from microsoft office suite applications such as word or excel. This could indicates malicious macro execution"
+    author = "Sohan G (D4rkCiph3r)"
+    severity = "HIGH"
+
+  events:
+    (($e.principal.process.file.full_path = /.*Microsoft Word.*/ nocase or $e.principal.process.file.full_path = /.*Microsoft Excel.*/ nocase or $e.principal.process.file.full_path = /.*Microsoft PowerPoint.*/ nocase or $e.principal.process.file.full_path = /.*Microsoft OneNote.*/ nocase) and ($e.target.process.file.full_path = /.*/bash$/ nocase or $e.target.process.file.full_path = /.*/curl$/ nocase or $e.target.process.file.full_path = /.*/dash$/ nocase or $e.target.process.file.full_path = /.*/fish$/ nocase or $e.target.process.file.full_path = /.*/osacompile$/ nocase or $e.target.process.file.full_path = /.*/osascript$/ nocase or $e.target.process.file.full_path = /.*/sh$/ nocase or $e.target.process.file.full_path = /.*/zsh$/ nocase or $e.target.process.file.full_path = /.*/python$/ nocase or $e.target.process.file.full_path = /.*/python3$/ nocase or $e.target.process.file.full_path = /.*/wget$/ nocase))
+
+  condition:
+    $e
+}

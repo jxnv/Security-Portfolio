@@ -1,0 +1,13 @@
+// Title: Windows AMSI Related Registry Tampering Via CommandLine
+// ID: 7dbbcac2-57a0-45ac-b306-ff30a8bd2981
+// Status: experimental
+// Level: high
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-12-25
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects tampering of AMSI (Anti-Malware Scan Interface) related registry values via command line tools such as reg.exe or PowerShell.
+// AMSI provides a generic interface for applications and services to integrate with antimalware products.
+// Adversaries may disable AMSI to evade detection of malicious scripts and code execution.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+DeviceProcessEvents | where (((ProcessCommandLine contains "\\Software\\Microsoft\\Windows Script\\Settings" and ProcessCommandLine contains "AmsiEnable")) and ((((ProcessCommandLine contains "Set-ItemProperty" or ProcessCommandLine contains "New-ItemProperty" or ProcessCommandLine contains "sp ")) and (((FolderPath endswith "\\powershell.exe" or FolderPath endswith "\\pwsh.exe")) or ((ProcessVersionInfoOriginalFileName == "PowerShell.EXE" or ProcessVersionInfoOriginalFileName == "pwsh.dll")))) or ((ProcessCommandLine contains "add") and ((FolderPath endswith "\\reg.exe") or (ProcessVersionInfoOriginalFileName == "reg.exe")))))

@@ -1,0 +1,25 @@
+// Title: Potential Persistence Via New AMSI Providers - Registry
+// ID: 33efc23c-6ea2-4503-8cfe-bdf82ce8f705
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-07-21
+// Tags: attack.persistence
+// Description: Detects when an attacker adds a new AMSI provider via the Windows Registry to bypass AMSI (Antimalware Scan Interface) protections.
+// Attackers may add custom AMSI providers to persist on the system and evade detection by security software that relies on AMSI for scanning scripts and other content.
+// This technique is often used in conjunction with fileless malware and script-based attacks to maintain persistence while avoiding detection.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 33efc23c_6ea2_4503_8cfe_bdf82ce8f705 {
+  meta:
+    title = "Potential Persistence Via New AMSI Providers - Registry"
+    description = "Detects when an attacker adds a new AMSI provider via the Windows Registry to bypass AMSI (Antimalware Scan Interface) protections. Attackers may add custom AMSI providers to persist on the system and evade detection by security software that relies on AMSI for scanning scripts and other content. This technique is often used in conjunction with fileless malware and script-based attacks to maintain persistence while avoiding detection."
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.TargetObject = /.*\\SOFTWARE\\Microsoft\\AMSI\\Providers\\.*/ nocase or $e.TargetObject = /.*\\SOFTWARE\\WOW6432Node\\Microsoft\\AMSI\\Providers\\.*/ nocase)) and not(((($e.target.process.file.full_path = "C:\\Program Files\\Avast Software\\Avast\\RegSvr.exe" or $e.target.process.file.full_path = "C:\\Program Files\\Avast Software\\Avast\\x86\\RegSvr.exe") and $e.TargetObject = /.*\\{FB904E4E-D2C7-4C8D-8492-B620BB9896B1}.*/ nocase) or (($e.target.process.file.full_path = "C:\\Program Files\\AVG\\Antivirus\\RegSvr.exe" or $e.target.process.file.full_path = "C:\\Program Files\\AVG\\Antivirus\\x86\\RegSvr.exe") and $e.TargetObject = /.*\\{FB904E4E-D2C7-4C8D-8492-B620BB9896B1}.*/ nocase) or ($e.target.process.file.full_path = "C:\\Program Files\\Avira\\Endpoint Protection SDK\\endpointprotection.exe" and $e.TargetObject = /.*\\{00000001-3DCC-4B48-A82E-E2071FE58E05}.*/ nocase))))
+
+  condition:
+    $e
+}

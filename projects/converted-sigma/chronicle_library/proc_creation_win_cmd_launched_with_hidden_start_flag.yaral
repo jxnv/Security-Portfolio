@@ -1,0 +1,25 @@
+// Title: Cmd Launched with Hidden Start Flags to Suspicious Targets
+// ID: 5a6b7c8d-9e0f-1a2b-3c4d-5e6f7a8b9c0d
+// Status: experimental
+// Level: medium
+// Author: Vladan Sekulic, Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2026-01-24
+// Tags: attack.stealth, attack.t1564.003
+// Description: Detects cmd.exe executing commands with the "start" utility using "/b" (no window) or "/min" (minimized) flags.
+// To reduce false positives from standard background tasks, detection is restricted to scenarios where the target is a known script extension or located in suspicious temporary/public directories.
+// This technique was observed in Chaos, DarkSide, and Emotet malware campaigns.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 5a6b7c8d_9e0f_1a2b_3c4d_5e6f7a8b9c0d {
+  meta:
+    title = "Cmd Launched with Hidden Start Flags to Suspicious Targets"
+    description = "Detects cmd.exe executing commands with the "start" utility using "/b" (no window) or "/min" (minimized) flags. To reduce false positives from standard background tasks, detection is restricted to scenarios where the target is a known script extension or located in suspicious temporary/public directories. This technique was observed in Chaos, DarkSide, and Emotet malware campaigns."
+    author = "Vladan Sekulic, Swachchhanda Shrawan Poudel (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (((($e.target.process.command_line = /.*start .*/ nocase or $e.target.process.command_line = /.*start/b.*/ nocase or $e.target.process.command_line = /.*start/min.*/ nocase)) and (($e.target.process.command_line = /.*/b .*/ nocase or $e.target.process.command_line = /.*-b .*/ nocase or $e.target.process.command_line = /.*/b\".*/ nocase or $e.target.process.command_line = /.*-b\".*/ nocase or $e.target.process.command_line = /.*/min .*/ nocase or $e.target.process.command_line = /.*-min .*/ nocase or $e.target.process.command_line = /.*/min\".*/ nocase or $e.target.process.command_line = /.*-min\".*/ nocase)) and (($e.target.process.file.full_path = /.*\\cmd.exe$/ nocase) or ($e.target.process.file.name = "Cmd.Exe"))) and ((($e.target.process.command_line = /.*.bat.*/ nocase or $e.target.process.command_line = /.*.cmd.*/ nocase or $e.target.process.command_line = /.*.cpl.*/ nocase or $e.target.process.command_line = /.*.hta.*/ nocase or $e.target.process.command_line = /.*.js.*/ nocase or $e.target.process.command_line = /.*.ps1.*/ nocase or $e.target.process.command_line = /.*.scr.*/ nocase or $e.target.process.command_line = /.*.vbe.*/ nocase or $e.target.process.command_line = /.*.vbs.*/ nocase)) or (($e.target.process.command_line = /.* -nop .*/ nocase or $e.target.process.command_line = /.* -sta .*/ nocase or $e.target.process.command_line = /.*.downloadfile(.*/ nocase or $e.target.process.command_line = /.*.downloadstring(.*/ nocase or $e.target.process.command_line = /.*-noni .*/ nocase or $e.target.process.command_line = /.*-w hidden .*/ nocase)) or (($e.target.process.command_line = /.*:\\Perflogs\\.*/ nocase or $e.target.process.command_line = /.*:\\Temp\\.*/ nocase or $e.target.process.command_line = /.*:\\Users\\Default\\.*/ nocase or $e.target.process.command_line = /.*:\\Windows\\Temp\\.*/ nocase or $e.target.process.command_line = /.*\\AppData\\Roaming\\.*/ nocase or $e.target.process.command_line = /.*\\Contacts\\.*/ nocase or $e.target.process.command_line = /.*\\Documents\\.*/ nocase or $e.target.process.command_line = /.*\\Downloads\\.*/ nocase or $e.target.process.command_line = /.*\\Favorites\\.*/ nocase or $e.target.process.command_line = /.*\\Favourites\\.*/ nocase or $e.target.process.command_line = /.*\\inetpub\\.*/ nocase or $e.target.process.command_line = /.*\\Music\\.*/ nocase or $e.target.process.command_line = /.*\\Photos\\.*/ nocase or $e.target.process.command_line = /.*\\Temporary Internet\\.*/ nocase or $e.target.process.command_line = /.*\\Users\\Public\\.*/ nocase or $e.target.process.command_line = /.*\\Videos\\.*/ nocase))))
+
+  condition:
+    $e
+}

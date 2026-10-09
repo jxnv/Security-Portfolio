@@ -1,0 +1,11 @@
+// Title: NTLM Logon
+// ID: 98c3bcf1-56f2-49dc-9d8d-c66cf190238b
+// Status: test
+// Level: low
+// Author: Florian Roth (Nextron Systems)
+// Date: 2018-06-08
+// Tags: attack.lateral-movement, attack.t1550.002
+// Description: Detects logons using NTLM, which could be caused by a legacy source or attackers
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter (EventID = 8002)

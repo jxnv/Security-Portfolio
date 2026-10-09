@@ -1,0 +1,11 @@
+// Title: Deployment AppX Package Was Blocked By AppLocker
+// ID: 6ae53108-c3a0-4bee-8f45-c7591a2c337f
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2023-01-11
+// Tags: attack.stealth
+// Description: Detects an appx package deployment that was blocked by AppLocker policy.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(EventID == "412")

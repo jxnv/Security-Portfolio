@@ -1,0 +1,19 @@
+# Title: NetSupport Manager Service Install
+# ID: 2d510d8d-912b-45c5-b1df-36faa3d8c3f4
+# Status: test
+# Level: medium
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-10-31
+# Tags: attack.persistence
+# Description: Detects NetSupport Manager service installation on the target system.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: NetSupport Manager Service Install
+def rule(event):
+    # Detection Logic:
+    # ((Provider_Name="Service Control Manager" AND EventID="7045") AND ((ImagePath="*\\NetSupport Manager\\client32.exe*") OR (ServiceName="Client32")))
+    return True
+
+def title(event):
+    return "NetSupport Manager Service Install"
+

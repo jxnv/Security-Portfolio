@@ -1,0 +1,13 @@
+// Title: Hypervisor-protected Code Integrity (HVCI) Related Registry Tampering Via CommandLine
+// ID: 6225c53a-a96e-4235-b28f-8d7997cd96eb
+// Status: experimental
+// Level: high
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2026-01-26
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects the tampering of Hypervisor-protected Code Integrity (HVCI) related registry values via command line tool reg.exe.
+// HVCI uses virtualization-based security to protect code integrity by ensuring that only trusted code can run in kernel mode.
+// Adversaries may tamper with HVCI to load malicious or unsigned drivers, which can be used to escalate privileges, maintain persistence, or evade security mechanisms.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where (((CommandLine matches "*add *" or CommandLine matches "*New-ItemProperty *" or CommandLine matches "*Set-ItemProperty *" or CommandLine matches "*si *")) and (CommandLine matches "*\\DeviceGuard*") and ((CommandLine matches "*EnableVirtualizationBasedSecurity*" or CommandLine matches "*HypervisorEnforcedCodeIntegrity*")) and (((Image matches "*\\powershell.exe" or Image matches "*\\pwsh.exe" or Image matches "*\\reg.exe")) or ((OriginalFileName = "PowerShell.EXE" or OriginalFileName = "pwsh.dll" or OriginalFileName = "reg.exe"))))

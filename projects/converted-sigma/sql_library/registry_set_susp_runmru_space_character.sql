@@ -1,0 +1,11 @@
+-- Title: Suspicious Space Characters in RunMRU Registry Path - ClickFix
+-- ID: 7a1b4c5e-8f3d-4b9a-7c2e-1f4a5b8c6d9e
+-- Status: experimental
+-- Level: high
+-- Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+-- Date: 2025-11-04
+-- Tags: attack.execution, attack.stealth, attack.t1204.004, attack.t1027.010
+-- Description: Detects the occurrence of numerous space characters in RunMRU registry paths, which may indicate execution via phishing lures using clickfix techniques to hide malicious commands in the Windows Run dialog box from naked eyes.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE ((TargetObject ILIKE '%\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\RunMRU\\%' AND Details ILIKE '%#%') AND ((Details ILIKE '%            %' OR Details ILIKE '%            %' OR Details ILIKE '%            %' OR Details ILIKE '%            %' OR Details ILIKE '%            %' OR Details ILIKE '%            %' OR Details ILIKE '%            %' OR Details ILIKE '%            %' OR Details ILIKE '%            %' OR Details ILIKE '%            %' OR Details ILIKE '%            %' OR Details ILIKE '%            %' OR Details ILIKE '%            %')))

@@ -1,0 +1,23 @@
+// Title: Lolbin Unregmp2.exe Use As Proxy
+// ID: 727454c0-d851-48b0-8b89-385611ab0704
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-12-29
+// Tags: attack.stealth, attack.t1218
+// Description: Detect usage of the "unregmp2.exe" binary as a proxy to launch a custom version of "wmpnscfg.exe"
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 727454c0_d851_48b0_8b89_385611ab0704 {
+  meta:
+    title = "Lolbin Unregmp2.exe Use As Proxy"
+    description = "Detect usage of the "unregmp2.exe" binary as a proxy to launch a custom version of "wmpnscfg.exe""
+    author = "frack113"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.process.command_line = /.* /HideWMP.*/ nocase) and (($e.target.process.file.full_path = /.*\\unregmp2.exe$/ nocase) or ($e.target.process.file.name = "unregmp2.exe")))
+
+  condition:
+    $e
+}

@@ -1,0 +1,23 @@
+// Title: Suspicious SYSVOL Domain Group Policy Access
+// ID: 05f3c945-dcc8-4393-9f3d-af65077a8f86
+// Status: test
+// Level: medium
+// Author: Markus Neis, Jonhnathan Ribeiro, oscd.community
+// Date: 2018-04-09
+// Tags: attack.credential-access, attack.t1552.006
+// Description: Detects Access to Domain Group Policies stored in SYSVOL
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 05f3c945_dcc8_4393_9f3d_af65077a8f86 {
+  meta:
+    title = "Suspicious SYSVOL Domain Group Policy Access"
+    description = "Detects Access to Domain Group Policies stored in SYSVOL"
+    author = "Markus Neis, Jonhnathan Ribeiro, oscd.community"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.process.command_line = /.*\\SYSVOL\\.*/ nocase and $e.target.process.command_line = /.*\\policies\\.*/ nocase))
+
+  condition:
+    $e
+}

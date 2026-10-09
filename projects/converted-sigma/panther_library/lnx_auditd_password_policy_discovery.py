@@ -1,0 +1,19 @@
+# Title: Password Policy Discovery - Linux
+# ID: ca94a6db-8106-4737-9ed2-3e3bb826af0a
+# Status: stable
+# Level: low
+# Author: Ömer Günal, oscd.community, Pawel Mazur
+# Date: 2020-10-08
+# Tags: attack.discovery, attack.t1201
+# Description: Detects password policy discovery commands
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Password Policy Discovery - Linux
+def rule(event):
+    # Detection Logic:
+    # ((type="EXECVE" AND a0="chage" AND (a1="--list" OR a1="-l")) OR (type="PATH" AND (name="/etc/login.defs" OR name="/etc/pam.d/auth" OR name="/etc/pam.d/common-account" OR name="/etc/pam.d/common-auth" OR name="/etc/pam.d/common-password" OR name="/etc/pam.d/system-auth" OR name="/etc/security/pwquality.conf")) OR (type="EXECVE" AND a0="passwd" AND (a1="-S" OR a1="--status")))
+    return True
+
+def title(event):
+    return "Password Policy Discovery - Linux"
+

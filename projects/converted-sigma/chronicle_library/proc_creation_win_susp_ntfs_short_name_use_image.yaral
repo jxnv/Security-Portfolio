@@ -1,0 +1,23 @@
+// Title: Use NTFS Short Name in Image
+// ID: 3ef5605c-9eb9-47b0-9a71-b727e6aa5c3b
+// Status: test
+// Level: medium
+// Author: frack113, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-06
+// Tags: attack.stealth, attack.t1564.004
+// Description: Detect use of the Windows 8.3 short name. Which could be used as a method to avoid Image based detection
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 3ef5605c_9eb9_47b0_9a71_b727e6aa5c3b {
+  meta:
+    title = "Use NTFS Short Name in Image"
+    description = "Detect use of the Windows 8.3 short name. Which could be used as a method to avoid Image based detection"
+    author = "frack113, Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.file.full_path = /.*~1.bat.*/ nocase or $e.target.process.file.full_path = /.*~1.dll.*/ nocase or $e.target.process.file.full_path = /.*~1.exe.*/ nocase or $e.target.process.file.full_path = /.*~1.hta.*/ nocase or $e.target.process.file.full_path = /.*~1.js.*/ nocase or $e.target.process.file.full_path = /.*~1.msi.*/ nocase or $e.target.process.file.full_path = /.*~1.ps1.*/ nocase or $e.target.process.file.full_path = /.*~1.tmp.*/ nocase or $e.target.process.file.full_path = /.*~1.vbe.*/ nocase or $e.target.process.file.full_path = /.*~1.vbs.*/ nocase or $e.target.process.file.full_path = /.*~2.bat.*/ nocase or $e.target.process.file.full_path = /.*~2.dll.*/ nocase or $e.target.process.file.full_path = /.*~2.exe.*/ nocase or $e.target.process.file.full_path = /.*~2.hta.*/ nocase or $e.target.process.file.full_path = /.*~2.js.*/ nocase or $e.target.process.file.full_path = /.*~2.msi.*/ nocase or $e.target.process.file.full_path = /.*~2.ps1.*/ nocase or $e.target.process.file.full_path = /.*~2.tmp.*/ nocase or $e.target.process.file.full_path = /.*~2.vbe.*/ nocase or $e.target.process.file.full_path = /.*~2.vbs.*/ nocase)) and not(($e.principal.process.file.full_path = "C:\\Windows\\explorer.exe")) and not((($e.principal.process.file.full_path = /.*\\thor\\thor64.exe$/ nocase) or ($e.target.process.file.full_path = /.*\\VCREDI~1.EXE$/ nocase) or ($e.principal.process.file.full_path = /.*\\WebEx\\WebexHost.exe$/ nocase) or ($e.target.process.file.full_path = "C:\\PROGRA~1\\WinZip\\WZPREL~1.EXE"))))
+
+  condition:
+    $e
+}

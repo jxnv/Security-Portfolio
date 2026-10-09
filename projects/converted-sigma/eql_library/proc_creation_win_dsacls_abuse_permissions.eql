@@ -1,0 +1,11 @@
+// Title: Potentially Over Permissive Permissions Granted Using Dsacls.EXE
+// ID: 01c42d3c-242d-4655-85b2-34f1739632f7
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-06-20
+// Tags: attack.stealth, attack.t1218
+// Description: Detects usage of Dsacls to grant over permissive permissions
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where ((process.command_line like "*_ /G *") and ((process.executable endswith "\\dsacls.exe") or (process.pe.original_file_name == "DSACLS.EXE")) and ((process.command_line like "*_GR*" or process.command_line like "*_GE*" or process.command_line like "*_GW*" or process.command_line like "*_GA*" or process.command_line like "*_WP*" or process.command_line like "*_WD*")))

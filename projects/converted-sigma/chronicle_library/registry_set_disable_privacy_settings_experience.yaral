@@ -1,0 +1,23 @@
+// Title: Disable Privacy Settings Experience in Registry
+// ID: 0372e1f9-0fd2-40f7-be1b-a7b2b848fa7b
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-10-02
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects registry modifications that disable Privacy Settings Experience
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 0372e1f9_0fd2_40f7_be1b_a7b2b848fa7b {
+  meta:
+    title = "Disable Privacy Settings Experience in Registry"
+    description = "Detects registry modifications that disable Privacy Settings Experience"
+    author = "frack113"
+    severity = "MEDIUM"
+
+  events:
+    ($e.TargetObject = /.*\\SOFTWARE\\Policies\\Microsoft\\Windows\\OOBE\\DisablePrivacyExperience$/ nocase and $e.Details = "DWORD (0x00000000)")
+
+  condition:
+    $e
+}

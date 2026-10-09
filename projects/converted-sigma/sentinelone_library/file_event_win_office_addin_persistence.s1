@@ -1,0 +1,11 @@
+// Title: Potential Persistence Via Microsoft Office Add-In
+// ID: 8e1cb247-6cf6-42fa-b440-3f27d57e9936
+// Status: test
+// Level: high
+// Author: NVISO
+// Date: 2020-05-11
+// Tags: attack.persistence, attack.t1137.006
+// Description: Detects potential persistence activity via startup add-ins that load when Microsoft Office starts (.wll/.xll are simply .dll fit for Word or Excel).
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((tgt.file.path containsCIS "\\Microsoft\\Addins\\" AND (tgt.file.path endswithCIS ".xlam" OR tgt.file.path endswithCIS ".xla" OR tgt.file.path endswithCIS ".ppam")) OR (tgt.file.path containsCIS "\\Microsoft\\Word\\Startup\\" AND tgt.file.path endswithCIS ".wll") OR (tgt.file.path containsCIS "Microsoft\\Excel\\XLSTART\\" AND tgt.file.path endswithCIS ".xlam") OR (tgt.file.path containsCIS "\\Microsoft\\Excel\\Startup\\" AND tgt.file.path endswithCIS ".xll"))

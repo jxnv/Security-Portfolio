@@ -1,0 +1,23 @@
+// Title: Reg Add Suspicious Paths
+// ID: b7e2a8d4-74bb-4b78-adc9-3f92af2d4829
+// Status: test
+// Level: high
+// Author: frack113, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-19
+// Tags: attack.persistence, attack.defense-impairment, attack.t1112, attack.t1685
+// Description: Detects when an adversary uses the reg.exe utility to add or modify new keys or subkeys
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule b7e2a8d4_74bb_4b78_adc9_3f92af2d4829 {
+  meta:
+    title = "Reg Add Suspicious Paths"
+    description = "Detects when an adversary uses the reg.exe utility to add or modify new keys or subkeys"
+    author = "frack113, Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*\\AppDataLow\\Software\\Microsoft\\.*/ nocase or $e.target.process.command_line = /.*\\Policies\\Microsoft\\Windows\\OOBE.*/ nocase or $e.target.process.command_line = /.*\\Policies\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon.*/ nocase or $e.target.process.command_line = /.*\\SOFTWARE\\Microsoft\\Windows NT\\Currentversion\\Winlogon.*/ nocase or $e.target.process.command_line = /.*\\CurrentControlSet\\Control\\SecurityProviders\\WDigest.*/ nocase or $e.target.process.command_line = /.*\\Microsoft\\Windows Defender\\.*/ nocase)) and (($e.target.process.file.full_path = /.*\\reg.exe$/ nocase) or ($e.target.process.file.name = "reg.exe")))
+
+  condition:
+    $e
+}

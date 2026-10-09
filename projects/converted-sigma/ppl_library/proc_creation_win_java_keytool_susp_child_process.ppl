@@ -1,0 +1,11 @@
+// Title: Suspicious Shells Spawn by Java Utility Keytool
+// ID: 90fb5e62-ca1f-4e22-b42e-cc521874c938
+// Status: test
+// Level: high
+// Author: Andreas Hunkeler (@Karneades)
+// Date: 2021-12-22
+// Tags: attack.initial-access, attack.persistence, attack.privilege-escalation
+// Description: Detects suspicious shell spawn from Java utility keytool process (e.g. adselfservice plus exploitation)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where (process.parent.executable="*\\keytool.exe" AND (process.executable="*\\cmd.exe" OR process.executable="*\\sh.exe" OR process.executable="*\\bash.exe" OR process.executable="*\\powershell.exe" OR process.executable="*\\pwsh.exe" OR process.executable="*\\schtasks.exe" OR process.executable="*\\certutil.exe" OR process.executable="*\\whoami.exe" OR process.executable="*\\bitsadmin.exe" OR process.executable="*\\wscript.exe" OR process.executable="*\\cscript.exe" OR process.executable="*\\scrcons.exe" OR process.executable="*\\regsvr32.exe" OR process.executable="*\\hh.exe" OR process.executable="*\\wmic.exe" OR process.executable="*\\mshta.exe" OR process.executable="*\\rundll32.exe" OR process.executable="*\\forfiles.exe" OR process.executable="*\\scriptrunner.exe" OR process.executable="*\\mftrace.exe" OR process.executable="*\\AppVLP.exe" OR process.executable="*\\systeminfo.exe" OR process.executable="*\\reg.exe" OR process.executable="*\\query.exe"))

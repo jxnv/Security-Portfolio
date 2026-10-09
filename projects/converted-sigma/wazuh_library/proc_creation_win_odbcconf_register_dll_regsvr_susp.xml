@@ -1,0 +1,16 @@
+<!--
+  Title: Potentially Suspicious DLL Registered Via Odbcconf.EXE
+  ID: ba4cfc11-d0fa-4d94-bf20-7c332c412e76
+  Status: test
+  Level: high
+  Author: Nasreddine Bencherchali (Nextron Systems)
+  Date: 2023-05-22
+  Description: Detects execution of "odbcconf" with the "REGSVR" action where the DLL in question doesn't contain a ".dll" extension. Which is often used as a method to evade defenses.
+-->
+
+<group name="sigma_converted,">
+  <rule id="100001" level="10">
+    <description>Potentially Suspicious DLL Registered Via Odbcconf.EXE</description>
+    <match>(((CommandLine=\"*REGSVR *\") AND ((Image=\"*\\\\odbcconf.exe\") OR (OriginalFileName=\"odbcconf.exe\"))) AND NOT ((CommandLine=</match>
+  </rule>
+</group>

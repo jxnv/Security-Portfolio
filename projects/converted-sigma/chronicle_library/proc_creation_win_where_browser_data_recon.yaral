@@ -1,0 +1,25 @@
+// Title: Suspicious Where Execution
+// ID: 725a9768-0f5e-4cb3-aec2-bc5719c6831a
+// Status: test
+// Level: low
+// Author: frack113, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2021-12-13
+// Tags: attack.discovery, attack.t1217
+// Description: Adversaries may enumerate browser bookmarks to learn more about compromised hosts.
+// Browser bookmarks may reveal personal information about users (ex: banking sites, interests, social media, etc.) as well as details about
+// internal network resources such as servers, tools/dashboards, or other related infrastructure.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 725a9768_0f5e_4cb3_aec2_bc5719c6831a {
+  meta:
+    title = "Suspicious Where Execution"
+    description = "Adversaries may enumerate browser bookmarks to learn more about compromised hosts. Browser bookmarks may reveal personal information about users (ex: banking sites, interests, social media, etc.) as well as details about internal network resources such as servers, tools/dashboards, or other related infrastructure."
+    author = "frack113, Nasreddine Bencherchali (Nextron Systems)"
+    severity = "LOW"
+
+  events:
+    ((($e.target.process.file.full_path = /.*\\where.exe$/ nocase) or ($e.target.process.file.name = "where.exe")) and (($e.target.process.command_line = /.*places.sqlite.*/ nocase or $e.target.process.command_line = /.*cookies.sqlite.*/ nocase or $e.target.process.command_line = /.*formhistory.sqlite.*/ nocase or $e.target.process.command_line = /.*logins.json.*/ nocase or $e.target.process.command_line = /.*key4.db.*/ nocase or $e.target.process.command_line = /.*key3.db.*/ nocase or $e.target.process.command_line = /.*sessionstore.jsonlz4.*/ nocase or $e.target.process.command_line = /.*History.*/ nocase or $e.target.process.command_line = /.*Bookmarks.*/ nocase or $e.target.process.command_line = /.*Cookies.*/ nocase or $e.target.process.command_line = /.*Login Data.*/ nocase)))
+
+  condition:
+    $e
+}

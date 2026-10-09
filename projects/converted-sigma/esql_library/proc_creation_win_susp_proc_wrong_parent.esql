@@ -1,0 +1,11 @@
+// Title: Windows Processes Suspicious Parent Directory
+// ID: 96036718-71cc-4027-a538-d1587e0006a7
+// Status: test
+// Level: low
+// Author: vburov
+// Date: 2019-02-23
+// Tags: attack.stealth, attack.t1036.003, attack.t1036.005
+// Description: Detect suspicious parent processes of well-known Windows processes
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE (((process.executable LIKE "%\\svchost.exe" OR process.executable LIKE "%\\taskhost.exe" OR process.executable LIKE "%\\lsm.exe" OR process.executable LIKE "%\\lsass.exe" OR process.executable LIKE "%\\services.exe" OR process.executable LIKE "%\\lsaiso.exe" OR process.executable LIKE "%\\csrss.exe" OR process.executable LIKE "%\\wininit.exe" OR process.executable LIKE "%\\winlogon.exe")) AND NOT ((((process.parent.executable LIKE "%\\Windows Defender\\%" OR process.parent.executable LIKE "%\\Microsoft Security Client\\%") AND process.parent.executable LIKE "%\\MsMpEng.exe") OR ((process.parent.executable IS NULL) OR ((process.parent.executable == "" OR process.parent.executable == "-"))) OR (((process.parent.executable LIKE "%\\SavService.exe" OR process.parent.executable LIKE "%\\ngen.exe")) OR ((process.parent.executable LIKE "%\\System32\\%" OR process.parent.executable LIKE "%\\SysWOW64\\%"))))))

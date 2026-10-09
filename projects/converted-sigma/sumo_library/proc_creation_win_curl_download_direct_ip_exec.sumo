@@ -1,0 +1,11 @@
+// Title: File Download From IP URL Via Curl.EXE
+// ID: 9cc85849-3b02-4cb5-b371-3a1ff54f2218
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-10-18
+// Tags: attack.execution
+// Description: Detects file downloads directly from IP address URL using curl.exe
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where ((((CommandLine matches "* -O*" or CommandLine matches "*--remote-name*" or CommandLine matches "*--output*")) and (CommandLine matches "*http*") and ((Image matches "*\\curl.exe") or (OriginalFileName = "curl.exe")) and (CommandLine matches /://[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/)) and !(((CommandLine matches "*.bat" or CommandLine matches "*.bat\"" or CommandLine matches "*.dat" or CommandLine matches "*.dat\"" or CommandLine matches "*.dll" or CommandLine matches "*.dll\"" or CommandLine matches "*.exe" or CommandLine matches "*.exe\"" or CommandLine matches "*.gif" or CommandLine matches "*.gif\"" or CommandLine matches "*.hta" or CommandLine matches "*.hta\"" or CommandLine matches "*.jpeg" or CommandLine matches "*.jpeg\"" or CommandLine matches "*.log" or CommandLine matches "*.log\"" or CommandLine matches "*.msi" or CommandLine matches "*.msi\"" or CommandLine matches "*.png" or CommandLine matches "*.png\"" or CommandLine matches "*.ps1" or CommandLine matches "*.ps1\"" or CommandLine matches "*.psm1" or CommandLine matches "*.psm1\"" or CommandLine matches "*.vbe" or CommandLine matches "*.vbe\"" or CommandLine matches "*.vbs" or CommandLine matches "*.vbs\"" or CommandLine matches "*.bat'" or CommandLine matches "*.dat'" or CommandLine matches "*.dll'" or CommandLine matches "*.exe'" or CommandLine matches "*.gif'" or CommandLine matches "*.hta'" or CommandLine matches "*.jpeg'" or CommandLine matches "*.log'" or CommandLine matches "*.msi'" or CommandLine matches "*.png'" or CommandLine matches "*.ps1'" or CommandLine matches "*.psm1'" or CommandLine matches "*.vbe'" or CommandLine matches "*.vbs'"))))

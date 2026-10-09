@@ -1,0 +1,23 @@
+// Title: Potential Powershell ReverseShell Connection
+// ID: edc2f8ae-2412-4dfd-b9d5-0c57727e70be
+// Status: stable
+// Level: high
+// Author: FPT.EagleEye, wagga, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2021-03-03
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects usage of the "TcpClient" class. Which can be abused to establish remote connections and reverse-shells. As seen used by the Nishang "Invoke-PowerShellTcpOneLine" reverse shell and other.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule edc2f8ae_2412_4dfd_b9d5_0c57727e70be {
+  meta:
+    title = "Potential Powershell ReverseShell Connection"
+    description = "Detects usage of the "TcpClient" class. Which can be abused to establish remote connections and reverse-shells. As seen used by the Nishang "Invoke-PowerShellTcpOneLine" reverse shell and other."
+    author = "FPT.EagleEye, wagga, Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.* Net.Sockets.TCPClient.*/ nocase and $e.target.process.command_line = /.*.GetStream(.*/ nocase and $e.target.process.command_line = /.*.Write(.*/ nocase)) and ((($e.target.process.file.name = "PowerShell.EXE" or $e.target.process.file.name = "pwsh.dll")) or (($e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase))))
+
+  condition:
+    $e
+}

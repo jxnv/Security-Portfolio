@@ -1,0 +1,11 @@
+// Title: Suspicious Spool Service Child Process
+// ID: dcdbc940-0bff-46b2-95f3-2d73f848e33b
+// Status: test
+// Level: high
+// Author: Justin C. (@endisphotic), @dreadphones (detection), Thomas Patzke (Sigma rule)
+// Date: 2021-07-11
+// Tags: attack.execution, attack.t1203, attack.privilege-escalation, attack.t1068
+// Description: Detects suspicious print spool service (spoolsv.exe) child processes.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE ((process.parent.executable LIKE "%\\spoolsv.exe" AND (IntegrityLevel == "System" OR IntegrityLevel == "S-1-16-16384")) AND (((process.executable LIKE "%\\gpupdate.exe" OR process.executable LIKE "%\\whoami.exe" OR process.executable LIKE "%\\nltest.exe" OR process.executable LIKE "%\\taskkill.exe" OR process.executable LIKE "%\\wmic.exe" OR process.executable LIKE "%\\taskmgr.exe" OR process.executable LIKE "%\\sc.exe" OR process.executable LIKE "%\\findstr.exe" OR process.executable LIKE "%\\curl.exe" OR process.executable LIKE "%\\wget.exe" OR process.executable LIKE "%\\certutil.exe" OR process.executable LIKE "%\\bitsadmin.exe" OR process.executable LIKE "%\\accesschk.exe" OR process.executable LIKE "%\\wevtutil.exe" OR process.executable LIKE "%\\bcdedit.exe" OR process.executable LIKE "%\\fsutil.exe" OR process.executable LIKE "%\\cipher.exe" OR process.executable LIKE "%\\schtasks.exe" OR process.executable LIKE "%\\write.exe" OR process.executable LIKE "%\\wuauclt.exe" OR process.executable LIKE "%\\systeminfo.exe" OR process.executable LIKE "%\\reg.exe" OR process.executable LIKE "%\\query.exe")) OR (((process.executable LIKE "%\\net.exe" OR process.executable LIKE "%\\net1.exe")) AND NOT ((process.command_line LIKE "%start%"))) OR ((process.executable LIKE "%\\cmd.exe") AND NOT (((process.command_line LIKE "%.spl%" OR process.command_line LIKE "%route add%" OR process.command_line LIKE "%program files%")))) OR ((process.executable LIKE "%\\netsh.exe") AND NOT (((process.command_line LIKE "%add portopening%" OR process.command_line LIKE "%rule name%")))) OR (((process.executable LIKE "%\\powershell.exe" OR process.executable LIKE "%\\pwsh.exe")) AND NOT ((process.command_line LIKE "%.spl%"))) OR ((process.command_line LIKE "%rundll32.exe") AND ((process.executable LIKE "%\\rundll32.exe") OR (process.pe.original_file_name == "RUNDLL32.EXE")))))

@@ -1,0 +1,11 @@
+// Title: Suspicious Curl.EXE Download
+// ID: e218595b-bbe7-4ee5-8a96-f32a24ad3468
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2020-07-03
+// Tags: attack.command-and-control, attack.t1105
+// Description: Detects a suspicious curl process start on Windows and outputs the requested document to a local file
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where (((process.executable endswith "\\curl.exe") or (Product == "The curl executable")) and (((process.command_line endswith ".dll" or process.command_line endswith ".gif" or process.command_line endswith ".jpeg" or process.command_line endswith ".jpg" or process.command_line endswith ".png" or process.command_line endswith ".temp" or process.command_line endswith ".tmp" or process.command_line endswith ".txt" or process.command_line endswith ".vbe" or process.command_line endswith ".vbs")) or ((process.command_line like "*_%AppData%*" or process.command_line like "*_%Public%*" or process.command_line like "*_%Temp%*" or process.command_line like "*_%tmp%*" or process.command_line like "*_\\AppData\\*" or process.command_line like "*_\\Desktop\\*" or process.command_line like "*_\\Temp\\*" or process.command_line like "*_\\Users\\Public\\*" or process.command_line like "*_C:\\PerfLogs\\*" or process.command_line like "*_C:\\ProgramData\\*" or process.command_line like "*_C:\\Windows\\Temp\\*"))) and not ((process.parent.executable == "C:\\Program Files\\Git\\usr\\bin\\sh.exe" and process.executable == "C:\\Program Files\\Git\\mingw64\\bin\\curl.exe" and (process.command_line like "*_--silent --show-error --output *" and process.command_line like "*_gfw-httpget-*" and process.command_line like "*_AppData*"))))

@@ -1,0 +1,11 @@
+// Title: A New Trust Was Created To A Domain
+// ID: 0255a820-e564-4e40-af2b-6ac61160335c
+// Status: stable
+// Level: medium
+// Author: Thomas Patzke
+// Date: 2019-12-03
+// Tags: attack.privilege-escalation, attack.persistence, attack.t1098
+// Description: Addition of domains is seldom and should be verified for legitimacy.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter (EventID = 4706)

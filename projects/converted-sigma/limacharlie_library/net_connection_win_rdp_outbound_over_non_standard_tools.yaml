@@ -1,0 +1,23 @@
+# Title: Outbound RDP Connections Over Non-Standard Tools
+# ID: ed74fe75-7594-4b4b-ae38-e38e3fd2eb23
+# Status: test
+# Level: high
+# Author: Markus Neis
+# Date: 2019-05-15
+# Tags: attack.lateral-movement, attack.t1021.001, car.2013-07-002
+# Description: Detects Non-Standard tools initiating a connection over port 3389 indicating possible lateral movement.
+# An initial baseline is required before using this utility to exclude third party RDP tooling that you might use.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# LimaCharlie Detection & Response Rule
+# Name: Outbound RDP Connections Over Non-Standard Tools
+detect:
+  event: network_connection
+  op: and
+  rules:
+    # Filter logic:
+    # ((DestinationPort="3389" AND Initiated="true") AND NOT (((Image="C:\\Windows\\System32\\mstsc.exe" OR Image="C:\\Windows\\SysWOW64\\mstsc.exe"))) AND NOT ((((Image="*\\Avast Software\\Avast\\AvastSvc.exe" OR Image="*\\Avast\\AvastSvc.exe")) OR (Image="C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe") OR (Image="C:\\Windows\\System32\\dns.exe" AND SourcePort="53" AND Protocol="udp") OR (Image="") OR (Image="C:\\Program Files\\Mozilla Firefox\\firefox.exe") OR (NOT Image=*) OR (Image="*\\Ranger\\SentinelRanger.exe") OR (Image="C:\\Program Files\\SplunkUniversalForwarder\\bin\\*") OR (Image="*\\RDCMan.exe") OR ((Image="*\\FSAssessment.exe" OR Image="*\\FSDiscovery.exe" OR Image="*\\MobaRTE.exe" OR Image="*\\mRemote.exe" OR Image="*\\mRemoteNG.exe" OR Image="*\\Passwordstate.exe" OR Image="*\\RemoteDesktopManager.exe" OR Image="*\\RemoteDesktopManager64.exe" OR Image="*\\RemoteDesktopManagerFree.exe" OR Image="*\\RSSensor.exe" OR Image="*\\RTS2App.exe" OR Image="*\\RTSApp.exe" OR Image="*\\spiceworks-finder.exe" OR Image="*\\Terminals.exe" OR Image="*\\ws_TunnelService.exe")) OR ((Image="*\\thor.exe" OR Image="*\\thor64.exe")) OR ((Image="C:\\Program Files\\TSplus\\Java\\bin\\HTML5service.exe" OR Image="C:\\Program Files (x86)\\TSplus\\Java\\bin\\HTML5service.exe")) OR (Image="<unknown process>"))))
+respond:
+  - action: report
+    name: Outbound RDP Connections Over Non-Standard Tools
+

@@ -1,0 +1,23 @@
+// Title: Sign-in Failure Due to Conditional Access Requirements Not Met
+// ID: b4a6d707-9430-4f5f-af68-0337f52d5c42
+// Status: test
+// Level: high
+// Author: Yochana Henderson, '@Yochana-H'
+// Date: 2022-06-01
+// Tags: attack.privilege-escalation, attack.persistence, attack.initial-access, attack.credential-access, attack.stealth, attack.t1110, attack.t1078.004
+// Description: Define a baseline threshold for failed sign-ins due to Conditional Access failures
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule b4a6d707_9430_4f5f_af68_0337f52d5c42 {
+  meta:
+    title = "Sign-in Failure Due to Conditional Access Requirements Not Met"
+    description = "Define a baseline threshold for failed sign-ins due to Conditional Access failures"
+    author = "Yochana Henderson, '@Yochana-H'"
+    severity = "HIGH"
+
+  events:
+    ($e.ResultType = 53003 and $e.Resultdescription = "Blocked by Conditional Access")
+
+  condition:
+    $e
+}

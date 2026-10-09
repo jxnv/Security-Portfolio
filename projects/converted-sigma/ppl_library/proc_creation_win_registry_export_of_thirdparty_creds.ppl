@@ -1,0 +1,12 @@
+// Title: Registry Export of Third-Party Credentials
+// ID: cc1abf27-78a3-4ac5-a51c-f3070b1d8e40
+// Status: experimental
+// Level: high
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-05-22
+// Tags: attack.credential-access, attack.t1552.002
+// Description: Detects the use of reg.exe to export registry paths associated with third-party credentials.
+// Credential stealers have been known to use this technique to extract sensitive information from the registry.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where (((process.command_line like "%\\Software\\Aerofox\\Foxmail\\V3.1%" OR process.command_line like "%\\Software\\Aerofox\\FoxmailPreview%" OR process.command_line like "%\\Software\\DownloadManager\\Passwords%" OR process.command_line like "%\\Software\\FTPWare\\COREFTP\\Sites%" OR process.command_line like "%\\Software\\IncrediMail\\Identities%" OR process.command_line like "%\\Software\\Martin Prikryl\\WinSCP 2\\Sessions%" OR process.command_line like "%\\Software\\Mobatek\\MobaXterm%" OR process.command_line like "%\\Software\\OpenSSH\\Agent\\Keys%" OR process.command_line like "%\\Software\\OpenVPN-GUI\\configs%" OR process.command_line like "%\\Software\\ORL\\WinVNC3\\Password%" OR process.command_line like "%\\Software\\Qualcomm\\Eudora\\CommandLine%" OR process.command_line like "%\\Software\\RealVNC\\WinVNC4%" OR process.command_line like "%\\Software\\RimArts\\B2\\Settings%" OR process.command_line like "%\\Software\\SimonTatham\\PuTTY\\Sessions%" OR process.command_line like "%\\Software\\SimonTatham\\PuTTY\\SshHostKeys%" OR process.command_line like "%\\Software\\Sota\\FFFTP%" OR process.command_line like "%\\Software\\TightVNC\\Server%" OR process.command_line like "%\\Software\\WOW6432Node\\Radmin\\v3.0\\Server\\Parameters\\Radmin%")) AND ((process.command_line like "%save%" OR process.command_line like "%export%")) AND ((process.executable="*\\reg.exe") OR (process.pe.original_file_name = "reg.exe")))

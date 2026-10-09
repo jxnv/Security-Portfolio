@@ -1,0 +1,11 @@
+// Title: SQL Injection Strings In URI
+// ID: 5513deaf-f49a-46c2-a6c8-3f111b5cb453
+// Status: test
+// Level: high
+// Author: Saw Win Naung, Nasreddine Bencherchali (Nextron Systems), Thurein Oo (Yoma Bank)
+// Date: 2020-02-22
+// Tags: attack.initial-access, attack.t1190
+// Description: Detects potential SQL injection attempts via GET requests in access logs.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+SecurityEvent | where ((cs-method == "GET") and (* has "@@version" or * has "%271%27%3D%271" or * has "=select " or * has "=select(" or * has "=select%20" or * has "concat_ws(" or * has "CONCAT(0x" or * has "from mysql.innodb_table_stats" or * has "from%20mysql.innodb_table_stats" or * has "group_concat(" or * has "information_schema.tables" or * has "json_arrayagg(" or * has "or 1=1#" or * has "or%201=1#" or * has "order by " or * has "order%20by%20" or * has "select * " or * has "select database()" or * has "select version()" or * has "select%20*%20" or * has "select%20database()" or * has "select%20version()" or * has "select%28sleep%2810%29" or * has "SELECTCHAR(" or * has "table_schema" or * has "UNION ALL SELECT" or * has "UNION SELECT" or * has "UNION%20ALL%20SELECT" or * has "UNION%20SELECT" or * has "'1'='1") and not((sc-status == 404)))

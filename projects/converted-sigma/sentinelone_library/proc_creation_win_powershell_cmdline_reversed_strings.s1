@@ -1,0 +1,11 @@
+// Title: Potential PowerShell Obfuscation Via Reversed Commands
+// ID: b6b49cd1-34d6-4ead-b1bf-176e9edba9a4
+// Status: test
+// Level: high
+// Author: Teymur Kheirkhabarov (idea), Vasiliy Burov (rule), oscd.community, Tim Shelton
+// Date: 2020-10-11
+// Tags: attack.stealth, attack.t1027, attack.execution, attack.t1059.001
+// Description: Detects the presence of reversed PowerShell commands in the CommandLine. This is often used as a method of obfuscation by attackers
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((src.process.cmdline containsCIS "hctac" OR src.process.cmdline containsCIS "kaerb" OR src.process.cmdline containsCIS "dnammoc" OR src.process.cmdline containsCIS "ekovn" OR src.process.cmdline containsCIS "eliFd" OR src.process.cmdline containsCIS "rahc" OR src.process.cmdline containsCIS "etirw" OR src.process.cmdline containsCIS "golon" OR src.process.cmdline containsCIS "tninon" OR src.process.cmdline containsCIS "eddih" OR src.process.cmdline containsCIS "tpircS" OR src.process.cmdline containsCIS "ssecorp" OR src.process.cmdline containsCIS "llehsrewop" OR src.process.cmdline containsCIS "esnopser" OR src.process.cmdline containsCIS "daolnwod" OR src.process.cmdline containsCIS "tneilCbeW" OR src.process.cmdline containsCIS "tneilc" OR src.process.cmdline containsCIS "ptth" OR src.process.cmdline containsCIS "elifotevas" OR src.process.cmdline containsCIS "46esab" OR src.process.cmdline containsCIS "htaPpmeTteG" OR src.process.cmdline containsCIS "tcejbO" OR src.process.cmdline containsCIS "maerts" OR src.process.cmdline containsCIS "hcaerof" OR src.process.cmdline containsCIS "retupmoc")) AND (((src.process.image.path endswithCIS "\\powershell.exe" OR src.process.image.path endswithCIS "\\pwsh.exe")) OR ((OriginalFileName = "PowerShell.EXE" OR OriginalFileName = "pwsh.dll")))) AND NOT (((src.process.cmdline containsCIS " -EncodedCommand " OR src.process.cmdline containsCIS " -enc "))))

@@ -1,0 +1,11 @@
+// Title: File Download Via Bitsadmin To A Suspicious Target Folder
+// ID: 2ddef153-167b-4e89-86b6-757a9e65dcac
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-06-28
+// Tags: attack.persistence, attack.execution, attack.stealth, attack.t1197, attack.s0190, attack.t1036.003, attack.command-and-control, attack.t1105
+// Description: Detects usage of bitsadmin downloading a file to a suspicious target folder
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((CommandLine = /* /transfer */i or CommandLine = /* /create */i or CommandLine = /* /addfile */i)) and ((CommandLine = /*:\\Perflogs*/i or CommandLine = /*:\\ProgramData\\*/i or CommandLine = /*:\\Temp\\*/i or CommandLine = /*:\\Users\\Public\\*/i or CommandLine = /*:\\Windows\\*/i or CommandLine = /*\\$Recycle.Bin\\*/i or CommandLine = /*\\AppData\\Local\\*/i or CommandLine = /*\\AppData\\Roaming\\*/i or CommandLine = /*\\Contacts\\*/i or CommandLine = /*\\Desktop\\*/i or CommandLine = /*\\Favorites\\*/i or CommandLine = /*\\Favourites\\*/i or CommandLine = /*\\inetpub\\wwwroot\\*/i or CommandLine = /*\\Music\\*/i or CommandLine = /*\\Pictures\\*/i or CommandLine = /*\\Start Menu\\Programs\\Startup\\*/i or CommandLine = /*\\Users\\Default\\*/i or CommandLine = /*\\Videos\\*/i or CommandLine = /*%ProgramData%*/i or CommandLine = /*%public%*/i or CommandLine = /*%temp%*/i or CommandLine = /*%tmp%*/i)) and ((ImageFileName = /.*\\bitsadmin.exe/i) or (OriginalFilename = "bitsadmin.exe")))

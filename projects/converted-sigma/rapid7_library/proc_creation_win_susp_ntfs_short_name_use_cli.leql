@@ -1,0 +1,11 @@
+// Title: Use NTFS Short Name in Command Line
+// ID: dd6b39d9-d9be-4a3b-8fe0-fe3c6a5c1795
+// Status: test
+// Level: medium
+// Author: frack113, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-05
+// Tags: attack.stealth, attack.t1564.004
+// Description: Detect use of the Windows 8.3 short name. Which could be used as a method to avoid command-line detection
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(CommandLine ICONTAINS "~1.exe") OR where(CommandLine ICONTAINS "~1.bat") OR where(CommandLine ICONTAINS "~1.msi") OR where(CommandLine ICONTAINS "~1.vbe") OR where(CommandLine ICONTAINS "~1.vbs") OR where(CommandLine ICONTAINS "~1.dll") OR where(CommandLine ICONTAINS "~1.ps1") OR where(CommandLine ICONTAINS "~1.js") OR where(CommandLine ICONTAINS "~1.hta") OR where(CommandLine ICONTAINS "~2.exe") OR where(CommandLine ICONTAINS "~2.bat") OR where(CommandLine ICONTAINS "~2.msi") OR where(CommandLine ICONTAINS "~2.vbe") OR where(CommandLine ICONTAINS "~2.vbs") OR where(CommandLine ICONTAINS "~2.dll") OR where(CommandLine ICONTAINS "~2.ps1") OR where(CommandLine ICONTAINS "~2.js") OR where(CommandLine ICONTAINS "~2.hta"))) AND NOT ((((where(ParentImage IENDSWITH "\\WebEx\\WebexHost.exe") OR where(ParentImage IENDSWITH "\\thor\\thor64.exe"))) OR (where(CommandLine ICONTAINS "C:\\xampp\\vcredist\\VCREDI~1.EXE")))))

@@ -1,0 +1,12 @@
+// Title: Suspicious ShellExec_RunDLL Call Via Ordinal
+// ID: 8823e85d-31d8-473e-b7f4-92da070f0fc6
+// Status: test
+// Level: high
+// Author: Swachchhanda Shrawan Poudel
+// Date: 2024-12-01
+// Tags: attack.stealth, attack.t1218.011
+// Description: Detects suspicious call to the "ShellExec_RunDLL" exported function of SHELL32.DLL through the ordinal number to launch other commands.
+// Adversary might only use the ordinal number in order to bypass existing detection that alert on usage of ShellExec_RunDLL on CommandLine.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((ParentCommandLine CONTAINS "SHELL32.DLL") AND ((ParentCommandLine CONTAINS "#568" OR ParentCommandLine CONTAINS "#570" OR ParentCommandLine CONTAINS "#572" OR ParentCommandLine CONTAINS "#576"))) AND (((Image ENDSWITH "\\bash.exe" OR Image ENDSWITH "\\bitsadmin.exe" OR Image ENDSWITH "\\cmd.exe" OR Image ENDSWITH "\\cscript.exe" OR Image ENDSWITH "\\curl.exe" OR Image ENDSWITH "\\mshta.exe" OR Image ENDSWITH "\\msiexec.exe" OR Image ENDSWITH "\\msxsl.exe" OR Image ENDSWITH "\\odbcconf.exe" OR Image ENDSWITH "\\powershell.exe" OR Image ENDSWITH "\\pwsh.exe" OR Image ENDSWITH "\\regsvr32.exe" OR Image ENDSWITH "\\schtasks.exe" OR Image ENDSWITH "\\wmic.exe" OR Image ENDSWITH "\\wscript.exe")) OR (((ParentCommandLine CONTAINS "comspec" OR ParentCommandLine CONTAINS "iex" OR ParentCommandLine CONTAINS "Invoke-" OR ParentCommandLine CONTAINS "msiexec" OR ParentCommandLine CONTAINS "odbcconf" OR ParentCommandLine CONTAINS "regsvr32")) OR ((ParentCommandLine CONTAINS "\\Desktop\\" OR ParentCommandLine CONTAINS "\\ProgramData\\" OR ParentCommandLine CONTAINS "\\Temp\\" OR ParentCommandLine CONTAINS "\\Users\\Public\\")))))

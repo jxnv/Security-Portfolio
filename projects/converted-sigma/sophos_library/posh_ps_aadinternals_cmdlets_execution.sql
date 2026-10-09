@@ -1,0 +1,11 @@
+-- Title: AADInternals PowerShell Cmdlets Execution - PsScript
+-- ID: 91e69562-2426-42ce-a647-711b8152ced6
+-- Status: test
+-- Level: high
+-- Author: Austin Songer (@austinsonger), Nasreddine Bencherchali (Nextron Systems), Swachchhanda Shrawan Poudel (Nextron Systems)
+-- Date: 2022-12-23
+-- Tags: attack.execution, attack.reconnaissance, attack.discovery, attack.credential-access, attack.impact
+-- Description: Detects ADDInternals Cmdlet execution. A tool for administering Azure AD and Office 365. Which can be abused by threat actors to attack Azure AD or Office 365.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE ((ScriptBlockText ILIKE '%Add-AADInt%' OR ScriptBlockText ILIKE '%ConvertTo-AADInt%' OR ScriptBlockText ILIKE '%Disable-AADInt%' OR ScriptBlockText ILIKE '%Enable-AADInt%' OR ScriptBlockText ILIKE '%Export-AADInt%' OR ScriptBlockText ILIKE '%Find-AADInt%' OR ScriptBlockText ILIKE '%Get-AADInt%' OR ScriptBlockText ILIKE '%Grant-AADInt%' OR ScriptBlockText ILIKE '%Initialize-AADInt%' OR ScriptBlockText ILIKE '%Install-AADInt%' OR ScriptBlockText ILIKE '%Invoke-AADInt%' OR ScriptBlockText ILIKE '%Join-AADInt%' OR ScriptBlockText ILIKE '%New-AADInt%' OR ScriptBlockText ILIKE '%Open-AADInt%' OR ScriptBlockText ILIKE '%Read-AADInt%' OR ScriptBlockText ILIKE '%Register-AADInt%' OR ScriptBlockText ILIKE '%Remove-AADInt%' OR ScriptBlockText ILIKE '%Reset-AADInt%' OR ScriptBlockText ILIKE '%Resolve-AADInt%' OR ScriptBlockText ILIKE '%Restore-AADInt%' OR ScriptBlockText ILIKE '%Save-AADInt%' OR ScriptBlockText ILIKE '%Search-AADInt%' OR ScriptBlockText ILIKE '%Send-AADInt%' OR ScriptBlockText ILIKE '%Set-AADInt%' OR ScriptBlockText ILIKE '%Start-AADInt%' OR ScriptBlockText ILIKE '%Unprotect-AADInt%' OR ScriptBlockText ILIKE '%Update-AADInt%'))

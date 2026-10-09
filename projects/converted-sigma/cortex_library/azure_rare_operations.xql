@@ -1,0 +1,11 @@
+// Title: Rare Subscription-level Operations In Azure
+// ID: c1182e02-49a3-481c-b3de-0fadc4091488
+// Status: test
+// Level: medium
+// Author: sawwinnnaung
+// Date: 2020-05-07
+// Tags: attack.t1003, attack.credential-access
+// Description: Identifies IPs from which users grant access to other users on azure resources and alerts when a previously unseen source IP address is used.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter ("Microsoft.DocumentDB/databaseAccounts/listKeys/action" or "Microsoft.Maps/accounts/listKeys/action" or "Microsoft.Media/mediaservices/listKeys/action" or "Microsoft.CognitiveServices/accounts/listKeys/action" or "Microsoft.Storage/storageAccounts/listKeys/action" or "Microsoft.Compute/snapshots/write" or "Microsoft.Network/networkSecurityGroups/write")

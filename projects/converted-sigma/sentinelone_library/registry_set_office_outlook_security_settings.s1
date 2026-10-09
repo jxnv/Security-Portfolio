@@ -1,0 +1,11 @@
+// Title: Outlook Security Settings Updated - Registry
+// ID: c3cefdf4-6703-4e1c-bad8-bf422fc5015a
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2021-12-28
+// Tags: attack.persistence, attack.t1137
+// Description: Detects changes to the registry values related to outlook security settings
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((TargetObject containsCIS "\\SOFTWARE\\Microsoft\\Office\\" AND TargetObject containsCIS "\\Outlook\\Security\\")) AND NOT (((src.process.image.path startswithCIS "C:\\Program Files\\Microsoft Office\\" OR src.process.image.path startswithCIS "C:\\Program Files (x86)\\Microsoft Office\\") AND src.process.image.path endswithCIS "\\OUTLOOK.EXE")))

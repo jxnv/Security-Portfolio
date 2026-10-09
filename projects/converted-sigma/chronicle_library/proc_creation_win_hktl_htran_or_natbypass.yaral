@@ -1,0 +1,23 @@
+// Title: HackTool - Htran/NATBypass Execution
+// ID: f5e3b62f-e577-4e59-931e-0a15b2b94e1e
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-12-27
+// Tags: attack.command-and-control, attack.t1090, attack.s0040
+// Description: Detects executable names or flags used by Htran or Htran-like tools (e.g. NATBypass)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule f5e3b62f_e577_4e59_931e_0a15b2b94e1e {
+  meta:
+    title = "HackTool - Htran/NATBypass Execution"
+    description = "Detects executable names or flags used by Htran or Htran-like tools (e.g. NATBypass)"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*.exe -tran .*/ nocase or $e.target.process.command_line = /.*.exe -slave .*/ nocase)) or (($e.target.process.file.full_path = /.*\\htran.exe$/ nocase or $e.target.process.file.full_path = /.*\\lcx.exe$/ nocase)))
+
+  condition:
+    $e
+}

@@ -1,0 +1,23 @@
+// Title: Kavremover Dropped Binary LOLBIN Usage
+// ID: d047726b-c71c-4048-a99b-2e2f50dc107d
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-11-01
+// Tags: attack.execution, attack.stealth, attack.t1127
+// Description: Detects the execution of a signed binary dropped by Kaspersky Lab Products Remover (kavremover) which can be abused as a LOLBIN to execute arbitrary commands and binaries.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule d047726b_c71c_4048_a99b_2e2f50dc107d {
+  meta:
+    title = "Kavremover Dropped Binary LOLBIN Usage"
+    description = "Detects the execution of a signed binary dropped by Kaspersky Lab Products Remover (kavremover) which can be abused as a LOLBIN to execute arbitrary commands and binaries."
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.command_line = /.* run run-cmd .*/ nocase) and not((($e.principal.process.file.full_path = /.*\\cleanapi.exe$/ nocase or $e.principal.process.file.full_path = /.*\\kavremover.exe$/ nocase))))
+
+  condition:
+    $e
+}

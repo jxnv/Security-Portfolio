@@ -1,0 +1,23 @@
+// Title: Potential Persistence Via Notepad++ Plugins
+// ID: 54127bd4-f541-4ac3-afdb-ea073f63f692
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-06-10
+// Tags: attack.persistence
+// Description: Detects creation of new ".dll" files inside the plugins directory of a notepad++ installation by a process other than "gup.exe". Which could indicates possible persistence
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 54127bd4_f541_4ac3_afdb_ea073f63f692 {
+  meta:
+    title = "Potential Persistence Via Notepad++ Plugins"
+    description = "Detects creation of new ".dll" files inside the plugins directory of a notepad++ installation by a process other than "gup.exe". Which could indicates possible persistence"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.file.full_path = /.*\\Notepad++\\plugins\\.*/ nocase and $e.target.file.full_path = /.*.dll$/ nocase) and not((($e.target.process.file.full_path = /.*\\Notepad++\\updater\\gup.exe$/ nocase) or ($e.target.process.file.full_path = /^C:\\Users\\.*/ nocase and $e.target.process.file.full_path = /.*\\AppData\\Local\\Temp\\.*/ nocase and ($e.target.process.file.full_path = /.*\\target.exe$/ nocase or $e.target.process.file.full_path = /.*Installer.x64.exe$/ nocase)) or ($e.target.process.file.full_path = /.*\\npp..*/ nocase and $e.target.process.file.full_path = /.*.exe$/ nocase and ($e.target.file.full_path = "C:\\Program Files\\Notepad++\\plugins\\NppExport\\NppExport.dll" or $e.target.file.full_path = "C:\\Program Files\\Notepad++\\plugins\\mimeTools\\mimeTools.dll" or $e.target.file.full_path = "C:\\Program Files\\Notepad++\\plugins\\NppConverter\\NppConverter.dll" or $e.target.file.full_path = "C:\\Program Files\\Notepad++\\plugins\\Config\\nppPluginList.dll")))))
+
+  condition:
+    $e
+}

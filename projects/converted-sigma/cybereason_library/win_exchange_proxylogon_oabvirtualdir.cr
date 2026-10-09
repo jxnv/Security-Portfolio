@@ -1,0 +1,11 @@
+// Title: ProxyLogon MSExchange OabVirtualDirectory
+// ID: 550d3350-bb8a-4ff3-9533-2ba533f4a1c0
+// Status: test
+// Level: critical
+// Author: Florian Roth (Nextron Systems)
+// Date: 2021-08-09
+// Tags: attack.t1587.001, attack.resource-development
+// Description: Detects specific patterns found after a successful ProxyLogon exploitation in relation to a Commandlet invocation of Set-OabVirtualDirectory
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((( == "OabVirtualDirectory" AND  == " -ExternalUrl ")) AND ("eval(request" OR "http://f/<script" OR "\"unsafe\"};" OR "function Page_Load()"))

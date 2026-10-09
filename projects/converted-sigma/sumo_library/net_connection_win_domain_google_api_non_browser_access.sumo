@@ -1,0 +1,11 @@
+// Title: Suspicious Non-Browser Network Communication With Google API
+// ID: 7e9cf7b6-e827-11ed-a05b-0242ac120003
+// Status: experimental
+// Level: medium
+// Author: Gavin Knapp
+// Date: 2023-05-01
+// Tags: attack.command-and-control, attack.t1102
+// Description: Detects a non-browser process interacting with the Google API which could indicate the use of a covert C2 such as Google Sheet C2 (GC2-sheet)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where (((DestinationHostname matches "*drive.googleapis.com*" or DestinationHostname matches "*oauth2.googleapis.com*" or DestinationHostname matches "*sheets.googleapis.com*" or DestinationHostname matches "*www.googleapis.com*")) and !(((Image = "") or (isNull(Image)))) and !(((Image matches "*\\brave.exe") or ((Image matches "*:\\Program Files\\Google\\Chrome\\Application\\chrome.exe" or Image matches "*:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe")) or ((Image matches "*:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\*") or ((Image matches "*:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe" or Image matches "*:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe" or Image matches "*\\WindowsApps\\MicrosoftEdge.exe"))) or ((Image matches "*:\\Program Files (x86)\\Microsoft\\EdgeCore\\*" or Image matches "*:\\Program Files\\Microsoft\\EdgeCore\\*") and (Image matches "*\\msedge.exe" or Image matches "*\\msedgewebview2.exe")) or ((Image matches "*:\\Program Files\\Mozilla Firefox\\firefox.exe" or Image matches "*:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe")) or (Image matches "*:\\Program Files\\Google\\Drive File Stream\\*" and Image matches "*\\GoogleDriveFS.exe") or (Image matches "*\\GoogleUpdate.exe") or ((Image matches "*:\\Program Files (x86)\\Internet Explorer\\iexplore.exe" or Image matches "*:\\Program Files\\Internet Explorer\\iexplore.exe")) or (Image matches "*\\maxthon.exe") or (Image matches "*\\opera.exe") or (Image matches "*\\outlook.exe") or (Image matches "*\\safari.exe") or (Image matches "*\\seamonkey.exe") or (Image matches "*\\vivaldi.exe") or (Image matches "*\\whale.exe"))))

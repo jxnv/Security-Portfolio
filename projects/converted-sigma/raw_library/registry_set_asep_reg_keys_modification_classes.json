@@ -1,0 +1,60 @@
+{
+  "title": "Classes Autorun Keys Modification",
+  "id": "9df5f547-c86a-433e-b533-f2794357e242",
+  "status": "test",
+  "description": "Detects modification of Windows Registry Classes keys used for persistence.\nAdversaries modify these autostart extensibility points (ASEP) to execute malicious code when file types are opened or actions are performed.\nVarious legitimate software also uses these keys. Currently, this rule only filters out known legitimate software paths,\nthus it is recommended to review and tune filters for your environment to reduce false positives before deploying to production.\n",
+  "author": "Victor Sergeev, Daniil Yugoslavskiy, Gleb Sukhodolskiy, Timur Zinniatullin, oscd.community, Tim Shelton, frack113 (split)",
+  "date": "2019-10-25",
+  "tags": [
+    "attack.privilege-escalation",
+    "attack.persistence",
+    "attack.t1547.001"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "registry_set",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_classes_base": {
+      "TargetObject|contains": "\\Software\\Classes"
+    },
+    "selection_classes_target": {
+      "TargetObject|contains": [
+        "\\Folder\\ShellEx\\ExtShellFolderViews",
+        "\\Folder\\ShellEx\\DragDropHandlers",
+        "\\Folder\\Shellex\\ColumnHandlers",
+        "\\Filter",
+        "\\Exefile\\Shell\\Open\\Command\\(Default)",
+        "\\Directory\\Shellex\\DragDropHandlers",
+        "\\Directory\\Shellex\\CopyHookHandlers",
+        "\\CLSID\\{AC757296-3522-4E11-9862-C17BE5A1767E}\\Instance",
+        "\\CLSID\\{ABE3B9A4-257D-4B97-BD1A-294AF496222E}\\Instance",
+        "\\CLSID\\{7ED96837-96F0-4812-B211-F13C24117ED3}\\Instance",
+        "\\CLSID\\{083863F1-70DE-11d0-BD40-00A0C911CE86}\\Instance",
+        "\\Classes\\AllFileSystemObjects\\ShellEx\\DragDropHandlers",
+        "\\.exe",
+        "\\.cmd",
+        "\\ShellEx\\PropertySheetHandlers",
+        "\\ShellEx\\ContextMenuHandlers"
+      ]
+    },
+    "filter_main_drivers": {
+      "Image": "C:\\Windows\\System32\\drvinst.exe"
+    },
+    "filter_main_empty": {
+      "Details": "(Empty)"
+    },
+    "filter_main_null": {
+      "Details": null
+    },
+    "filter_main_svchost": {
+      "Image": "C:\\Windows\\System32\\svchost.exe",
+      "TargetObject|contains": "\\lnkfile\\shellex\\ContextMenuHandlers\\"
+    },
+    "filter_optional_msoffice": {
+      "Details": "{807583E5-5146-11D5-A672-00B0D022E945}"
+    },
+    "condition": "all of selection_* and not 1 of filter_main_* and not 1 of filter_optional_*"
+  }
+}

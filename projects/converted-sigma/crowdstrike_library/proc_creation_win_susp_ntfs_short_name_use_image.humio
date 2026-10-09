@@ -1,0 +1,11 @@
+// Title: Use NTFS Short Name in Image
+// ID: 3ef5605c-9eb9-47b0-9a71-b727e6aa5c3b
+// Status: test
+// Level: medium
+// Author: frack113, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-06
+// Tags: attack.stealth, attack.t1564.004
+// Description: Detect use of the Windows 8.3 short name. Which could be used as a method to avoid Image based detection
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((ImageFileName = /*~1.bat*/i or ImageFileName = /*~1.dll*/i or ImageFileName = /*~1.exe*/i or ImageFileName = /*~1.hta*/i or ImageFileName = /*~1.js*/i or ImageFileName = /*~1.msi*/i or ImageFileName = /*~1.ps1*/i or ImageFileName = /*~1.tmp*/i or ImageFileName = /*~1.vbe*/i or ImageFileName = /*~1.vbs*/i or ImageFileName = /*~2.bat*/i or ImageFileName = /*~2.dll*/i or ImageFileName = /*~2.exe*/i or ImageFileName = /*~2.hta*/i or ImageFileName = /*~2.js*/i or ImageFileName = /*~2.msi*/i or ImageFileName = /*~2.ps1*/i or ImageFileName = /*~2.tmp*/i or ImageFileName = /*~2.vbe*/i or ImageFileName = /*~2.vbs*/i)) and not((ParentBaseFileName = "C:\\Windows\\explorer.exe")) and not(((ParentBaseFileName = /.*\\thor\\thor64.exe/i) or (ImageFileName = /.*\\VCREDI~1.EXE/i) or (ParentBaseFileName = /.*\\WebEx\\WebexHost.exe/i) or (ImageFileName = "C:\\PROGRA~1\\WinZip\\WZPREL~1.EXE"))))

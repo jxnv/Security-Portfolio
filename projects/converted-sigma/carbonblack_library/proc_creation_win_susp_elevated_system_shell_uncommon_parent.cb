@@ -1,0 +1,11 @@
+# Title: Elevated System Shell Spawned From Uncommon Parent Location
+# ID: 178e615d-e666-498b-9630-9ed363038101
+# Status: test
+# Level: medium
+# Author: frack113, Tim Shelton (update fp)
+# Date: 2022-12-05
+# Tags: attack.privilege-escalation, attack.execution, attack.t1059
+# Description: Detects when a shell program such as the Windows command prompt or PowerShell is launched with system privileges from a uncommon parent location.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((((process_name:*\\powershell.exe OR process_name:*\\powershell_ise.exe OR process_name:*\\pwsh.exe OR process_name:*\\cmd.exe)) OR ((OriginalFileName:"PowerShell.EXE" OR OriginalFileName:"powershell_ise.EXE" OR OriginalFileName:"pwsh.dll" OR OriginalFileName:"Cmd.Exe"))) AND ((username:*AUTHORI* OR username:*AUTORI*) AND LogonId:"0x3e7")) AND -((((parent_name:*:\\Program Files (x86)\\* OR parent_name:*:\\Program Files\\* OR parent_name:*:\\ProgramData\\* OR parent_name:*:\\Windows\\System32\\* OR parent_name:*:\\Windows\\SysWOW64\\* OR parent_name:*:\\Windows\\Temp\\* OR parent_name:*:\\Windows\\WinSxS\\*)) OR ((parent_name:"" OR parent_name:"-")) OR (-parent_name:*))) AND -(((cmdline:*:\\WINDOWS\\system32\\cmd.exe /c \"* AND CurrentDirectory:*:\\WINDOWS\\Temp\\asgard2-agent\\*) OR (parent_name:*:\\IBM\\SpectrumProtect\\webserver\\scripts\\* AND cmdline:*:\\IBM\\SpectrumProtect\\webserver\\scripts\\*) OR (parent_name:*:\\ManageEngine\\ADManager Plus\\pgsql\\bin\\postgres.exe AND process_name:*\\cmd.exe))))

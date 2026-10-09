@@ -1,0 +1,19 @@
+# Title: UAC Bypass via Sdclt
+# ID: 5b872a46-3b90-45c1-8419-f675db8053aa
+# Status: test
+# Level: high
+# Author: Omer Yampel, Christian Burkard (Nextron Systems)
+# Date: 2017-03-17
+# Tags: attack.privilege-escalation, attack.t1548.002, car.2019-04-001
+# Description: Detects the pattern of UAC Bypass using registry key manipulation of sdclt.exe (e.g. UACMe 53)
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: UAC Bypass via Sdclt
+def rule(event):
+    # Detection Logic:
+    # ((TargetObject="*Software\\Classes\\exefile\\shell\\runas\\command\\isolatedCommand") OR (TargetObject="*Software\\Classes\\Folder\\shell\\open\\command\\SymbolicLinkValue" AND Details=regex("-1[0-9]{3}\\\\Software\\\\Classes\\\\")))
+    return True
+
+def title(event):
+    return "UAC Bypass via Sdclt"
+

@@ -1,0 +1,11 @@
+-- Title: Equation Group Indicators
+-- ID: 41e5c73d-9983-4b69-bd03-e13b67e9623c
+-- Status: test
+-- Level: high
+-- Author: Florian Roth (Nextron Systems)
+-- Date: 2017-04-09
+-- Tags: attack.execution, attack.g0020, attack.t1059.004
+-- Description: Detects suspicious shell commands used in various Equation Group scripts and tools
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM events WHERE (TEXT SEARCH 'chown root*chmod 4777 ' OR TEXT SEARCH 'cp /bin/sh .;chown' OR TEXT SEARCH 'chmod 4777 /tmp/.scsi/dev/bin/gsh' OR TEXT SEARCH 'chown root:root /tmp/.scsi/dev/bin/' OR TEXT SEARCH 'chown root:root x;' OR TEXT SEARCH '/bin/telnet locip locport < /dev/console | /bin/sh' OR TEXT SEARCH '/tmp/ratload' OR TEXT SEARCH 'ewok -t ' OR TEXT SEARCH 'xspy -display ' OR TEXT SEARCH 'cat > /dev/tcp/127.0.0.1/80 <<END' OR TEXT SEARCH 'rm -f /current/tmp/ftshell.latest' OR TEXT SEARCH 'ghost_* -v ' OR TEXT SEARCH ' --wipe > /dev/null' OR TEXT SEARCH 'ping -c 2 *; grep * /proc/net/arp >/tmp/gx' OR TEXT SEARCH 'iptables * OUTPUT -p tcp -d 127.0.0.1 --tcp-flags RST RST -j DROP;' OR TEXT SEARCH '> /var/log/audit/audit.log; rm -f .' OR TEXT SEARCH 'cp /var/log/audit/audit.log .tmp' OR TEXT SEARCH 'sh >/dev/tcp/* <&1 2>&1' OR TEXT SEARCH 'ncat -vv -l -p * <' OR TEXT SEARCH 'nc -vv -l -p * <' OR TEXT SEARCH '< /dev/console | uudecode && uncompress' OR TEXT SEARCH 'sendmail -osendmail;chmod +x sendmail' OR TEXT SEARCH '/usr/bin/wget -O /tmp/a http* && chmod 755 /tmp/cron' OR TEXT SEARCH 'chmod 666 /var/run/utmp~' OR TEXT SEARCH 'chmod 700 nscd crond' OR TEXT SEARCH 'cp /etc/shadow /tmp/.' OR TEXT SEARCH '</dev/console |uudecode > /dev/null 2>&1 && uncompress' OR TEXT SEARCH 'chmod 700 jp&&netstat -an|grep' OR TEXT SEARCH 'uudecode > /dev/null 2>&1 && uncompress -f * && chmod 755' OR TEXT SEARCH 'chmod 700 crond' OR TEXT SEARCH 'wget http*; chmod +x /tmp/sendmail' OR TEXT SEARCH 'chmod 700 fp sendmail pt' OR TEXT SEARCH 'chmod 755 /usr/vmsys/bin/pipe' OR TEXT SEARCH 'chmod -R 755 /usr/vmsys' OR TEXT SEARCH 'chmod 755 $opbin/*tunnel' OR TEXT SEARCH 'chmod 700 sendmail' OR TEXT SEARCH 'chmod 0700 sendmail' OR TEXT SEARCH '/usr/bin/wget http*sendmail;chmod +x sendmail;' OR TEXT SEARCH '&& telnet * 2>&1 </dev/console')

@@ -1,0 +1,23 @@
+// Title: Microsoft Malware Protection Engine Crash - WER
+// ID: 6c82cf5c-090d-4d57-9188-533577631108
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2017-05-09
+// Tags: attack.stealth, attack.defense-impairment, attack.t1211, attack.t1685
+// Description: This rule detects a suspicious crash of the Microsoft Malware Protection Engine
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 6c82cf5c_090d_4d57_9188_533577631108 {
+  meta:
+    title = "Microsoft Malware Protection Engine Crash - WER"
+    description = "This rule detects a suspicious crash of the Microsoft Malware Protection Engine"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ($e.Provider_Name = "Windows Error Reporting" and $e.EventID = 1001 and ($e.Data = /.*MsMpEng.exe.*/ nocase and $e.Data = /.*mpengine.dll.*/ nocase))
+
+  condition:
+    $e
+}

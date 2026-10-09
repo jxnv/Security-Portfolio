@@ -1,0 +1,11 @@
+// Title: Windows Shell/Scripting Processes Spawning Suspicious Programs
+// ID: 3a6586ad-127a-4d3b-a677-1e6eacdf8fde
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Tim Shelton
+// Date: 2018-04-06
+// Tags: attack.execution, attack.stealth, attack.t1059.005, attack.t1059.001, attack.t1218
+// Description: Detects suspicious child processes of a Windows shell and scripting processes such as wscript, rundll32, powershell, mshta...etc.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((ParentBaseFileName = /.*\\mshta.exe/i or ParentBaseFileName = /.*\\powershell.exe/i or ParentBaseFileName = /.*\\pwsh.exe/i or ParentBaseFileName = /.*\\rundll32.exe/i or ParentBaseFileName = /.*\\cscript.exe/i or ParentBaseFileName = /.*\\wscript.exe/i or ParentBaseFileName = /.*\\wmiprvse.exe/i or ParentBaseFileName = /.*\\regsvr32.exe/i) and (ImageFileName = /.*\\schtasks.exe/i or ImageFileName = /.*\\nslookup.exe/i or ImageFileName = /.*\\certutil.exe/i or ImageFileName = /.*\\bitsadmin.exe/i or ImageFileName = /.*\\mshta.exe/i)) and not((((ParentCommandLine = /*\\Program Files\\Amazon\\WorkSpacesConfig\\Scripts\\setup-scheduledtask.ps1*/i or ParentCommandLine = /*\\Program Files\\Amazon\\WorkSpacesConfig\\Scripts\\set-selfhealing.ps1*/i or ParentCommandLine = /*\\Program Files\\Amazon\\WorkSpacesConfig\\Scripts\\check-workspacehealth.ps1*/i or ParentCommandLine = /*\\nessus_*/i)) or (CurrentDirectory = /*\\ccmcache\\*/i) or (CommandLine = /*\\nessus_*/i) or (ParentBaseFileName = /.*\\mshta.exe/i and ImageFileName = /.*\\mshta.exe/i and (ParentCommandLine = /*C:\\MEM_Configmgr_*/i and ParentCommandLine = /*\\splash.hta*/i and ParentCommandLine = /*{1E460BD7-F1C3-4B2E-88BF-4E770A288AF5}*/i) and (CommandLine = /*C:\\MEM_Configmgr_*/i and CommandLine = /*\\SMSSETUP\\BIN\\*/i and CommandLine = /*\\autorun.hta*/i and CommandLine = /*{1E460BD7-F1C3-4B2E-88BF-4E770A288AF5}*/i)))))

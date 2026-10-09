@@ -1,0 +1,19 @@
+# Title: Guest User Invited By Non Approved Inviters
+# ID: 0b4b72e3-4c53-4d5b-b198-2c58cfef39a9
+# Status: test
+# Level: medium
+# Author: Mark Morowczynski '@markmorow', Yochana Henderson, '@Yochana-H'
+# Date: 2022-08-10
+# Tags: attack.privilege-escalation, attack.initial-access, attack.persistence, attack.stealth, attack.t1078.004
+# Description: Detects when a user that doesn't have permissions to invite a guest user attempts to invite one.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Guest User Invited By Non Approved Inviters
+def rule(event):
+    # Detection Logic:
+    # (properties.message="Invite external user" AND Status="failure")
+    return True
+
+def title(event):
+    return "Guest User Invited By Non Approved Inviters"
+

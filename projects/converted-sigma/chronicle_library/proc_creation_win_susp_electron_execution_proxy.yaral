@@ -1,0 +1,23 @@
+// Title: Potentially Suspicious Electron Application CommandLine
+// ID: 378a05d8-963c-46c9-bcce-13c7657eac99
+// Status: test
+// Level: medium
+// Author: frack113, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-09-05
+// Tags: attack.execution
+// Description: Detects potentially suspicious CommandLine of electron apps (teams, discord, slack, etc.). This could be a sign of abuse to proxy execution through a signed binary.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 378a05d8_963c_46c9_bcce_13c7657eac99 {
+  meta:
+    title = "Potentially Suspicious Electron Application CommandLine"
+    description = "Detects potentially suspicious CommandLine of electron apps (teams, discord, slack, etc.). This could be a sign of abuse to proxy execution through a signed binary."
+    author = "frack113, Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.command_line = /.*--browser-subprocess-path.*/ nocase or $e.target.process.command_line = /.*--gpu-launcher.*/ nocase or $e.target.process.command_line = /.*--renderer-cmd-prefix.*/ nocase or $e.target.process.command_line = /.*--utility-cmd-prefix.*/ nocase)) and ((($e.target.process.file.full_path = /.*\\chrome.exe$/ nocase or $e.target.process.file.full_path = /.*\\code.exe$/ nocase or $e.target.process.file.full_path = /.*\\discord.exe$/ nocase or $e.target.process.file.full_path = /.*\\GitHubDesktop.exe$/ nocase or $e.target.process.file.full_path = /.*\\keybase.exe$/ nocase or $e.target.process.file.full_path = /.*\\msedge_proxy.exe$/ nocase or $e.target.process.file.full_path = /.*\\msedge.exe$/ nocase or $e.target.process.file.full_path = /.*\\msedgewebview2.exe$/ nocase or $e.target.process.file.full_path = /.*\\msteams.exe$/ nocase or $e.target.process.file.full_path = /.*\\slack.exe$/ nocase or $e.target.process.file.full_path = /.*\\Teams.exe$/ nocase)) or (($e.target.process.file.name = "chrome.exe" or $e.target.process.file.name = "code.exe" or $e.target.process.file.name = "discord.exe" or $e.target.process.file.name = "GitHubDesktop.exe" or $e.target.process.file.name = "keybase.exe" or $e.target.process.file.name = "msedge_proxy.exe" or $e.target.process.file.name = "msedge.exe" or $e.target.process.file.name = "msedgewebview2.exe" or $e.target.process.file.name = "msteams.exe" or $e.target.process.file.name = "slack.exe" or $e.target.process.file.name = "Teams.exe"))))
+
+  condition:
+    $e
+}

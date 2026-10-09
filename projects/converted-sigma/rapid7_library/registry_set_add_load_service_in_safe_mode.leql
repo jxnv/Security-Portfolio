@@ -1,0 +1,11 @@
+// Title: Registry Persistence via Service in Safe Mode
+// ID: 1547e27c-3974-43e2-a7d7-7f484fb928ec
+// Status: test
+// Level: high
+// Author: frack113
+// Date: 2022-04-04
+// Tags: attack.stealth, attack.t1564.001
+// Description: Detects the modification of the registry to allow a driver or service to persist in Safe Mode.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(TargetObject ICONTAINS "\\Control\\SafeBoot\\Minimal\\") OR where(TargetObject ICONTAINS "\\Control\\SafeBoot\\Network\\")) AND where(TargetObject IENDSWITH "\\(Default)") AND where(Details = "Service")) AND NOT (((where(Image = "C:\\Hexnode\\Hexnode Agent\\Current\\HexnodeAgent.exe") AND (where(TargetObject IENDSWITH "\\Control\\SafeBoot\\Minimal\\Hexnode Updater\\(Default)") OR where(TargetObject IENDSWITH "\\Control\\SafeBoot\\Network\\Hexnode Updater\\(Default)") OR where(TargetObject IENDSWITH "\\Control\\SafeBoot\\Minimal\\Hexnode Agent\\(Default)") OR where(TargetObject IENDSWITH "\\Control\\SafeBoot\\Network\\Hexnode Agent\\(Default)")) AND where(Details = "Service")) OR (where(Image IENDSWITH "\\MBAMInstallerService.exe") AND where(TargetObject IENDSWITH "\\MBAMService\\(Default)") AND where(Details = "Service")) OR (where(Image = "C:\\WINDOWS\\system32\\msiexec.exe") AND (where(TargetObject IENDSWITH "\\Control\\SafeBoot\\Minimal\\SAVService\\(Default)") OR where(TargetObject IENDSWITH "\\Control\\SafeBoot\\Network\\SAVService\\(Default)"))))))

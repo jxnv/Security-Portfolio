@@ -1,0 +1,23 @@
+// Title: Suspicious User-Agents Related To Recon Tools
+// ID: 19aa4f58-94ca-45ff-bc34-92e533c0994a
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems), Tim Shelton
+// Date: 2022-07-19
+// Tags: attack.initial-access, attack.t1190
+// Description: Detects known suspicious (default) user-agents related to scanning/recon tools
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 19aa4f58_94ca_45ff_bc34_92e533c0994a {
+  meta:
+    title = "Suspicious User-Agents Related To Recon Tools"
+    description = "Detects known suspicious (default) user-agents related to scanning/recon tools"
+    author = "Nasreddine Bencherchali (Nextron Systems), Tim Shelton"
+    severity = "MEDIUM"
+
+  events:
+    (($e.cs-user-agent = /.*commix/.*/ nocase or $e.cs-user-agent = /.*feroxbuster/.*/ nocase or $e.cs-user-agent = /.*Fuzz Faster U Fool.*/ nocase or $e.cs-user-agent = /.*GIS - AppSec Team - Project Vision.*/ nocase or $e.cs-user-agent = /.*gobuster/.*/ nocase or $e.cs-user-agent = /.*Nikto/.*/ nocase or $e.cs-user-agent = /.*Nmap Scripting Engine.*/ nocase or $e.cs-user-agent = /.*Recon-ng/v.*/ nocase or $e.cs-user-agent = /.*sqlmap/.*/ nocase or $e.cs-user-agent = /.*WhatWeb/.*/ nocase or $e.cs-user-agent = /.*Wfuzz/.*/ nocase or $e.cs-user-agent = /.*WPScan v.*/ nocase or $e.cs-user-agent = /.*zgrab/.*/ nocase))
+
+  condition:
+    $e
+}

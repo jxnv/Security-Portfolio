@@ -1,0 +1,19 @@
+# Title: IE Change Domain Zone
+# ID: 45e112d0-7759-4c2a-aa36-9f8fb79d3393
+# Status: test
+# Level: medium
+# Author: frack113
+# Date: 2022-01-22
+# Tags: attack.persistence, attack.t1137
+# Description: Hides the file extension through modification of the registry
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: IE Change Domain Zone
+def rule(event):
+    # Detection Logic:
+    # ((TargetObject="*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\ZoneMap\\Domains\\*") AND NOT (((Details="DWORD (0x00000000)" OR Details="DWORD (0x00000001)" OR Details="(Empty)"))))
+    return True
+
+def title(event):
+    return "IE Change Domain Zone"
+

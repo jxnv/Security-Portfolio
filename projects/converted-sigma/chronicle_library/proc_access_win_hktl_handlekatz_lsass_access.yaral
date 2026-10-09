@@ -1,0 +1,23 @@
+// Title: HackTool - HandleKatz Duplicating LSASS Handle
+// ID: b1bd3a59-c1fd-4860-9f40-4dd161a7d1f5
+// Status: test
+// Level: high
+// Author: Bhabesh Raj (rule), @thefLinkk
+// Date: 2022-06-27
+// Tags: attack.execution, attack.t1106, attack.t1003.001, attack.credential-access
+// Description: Detects HandleKatz opening LSASS to duplicate its handle to later dump the memory without opening any new handles
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule b1bd3a59_c1fd_4860_9f40_4dd161a7d1f5 {
+  meta:
+    title = "HackTool - HandleKatz Duplicating LSASS Handle"
+    description = "Detects HandleKatz opening LSASS to duplicate its handle to later dump the memory without opening any new handles"
+    author = "Bhabesh Raj (rule), @thefLinkk"
+    severity = "HIGH"
+
+  events:
+    ($e.TargetImage = /.*\\lsass.exe$/ nocase and $e.GrantedAccess = "0x1440" and $e.CallTrace = /^C:\\Windows\\System32\\ntdll.dll+.*/ nocase and $e.CallTrace = /.*|UNKNOWN(.*/ nocase and $e.CallTrace = /.*)$/ nocase)
+
+  condition:
+    $e
+}

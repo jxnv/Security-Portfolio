@@ -1,0 +1,23 @@
+// Title: System Scripts Autorun Keys Modification
+// ID: e7a2fd40-3ae1-4a85-bf80-15cf624fb1b1
+// Status: test
+// Level: medium
+// Author: Victor Sergeev, Daniil Yugoslavskiy, Gleb Sukhodolskiy, Timur Zinniatullin, oscd.community, Tim Shelton, frack113 (split)
+// Date: 2019-10-25
+// Tags: attack.privilege-escalation, attack.persistence, attack.t1547.001
+// Description: Detects modification of autostart extensibility point (ASEP) in registry.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule e7a2fd40_3ae1_4a85_bf80_15cf624fb1b1 {
+  meta:
+    title = "System Scripts Autorun Keys Modification"
+    description = "Detects modification of autostart extensibility point (ASEP) in registry."
+    author = "Victor Sergeev, Daniil Yugoslavskiy, Gleb Sukhodolskiy, Timur Zinniatullin, oscd.community, Tim Shelton, frack113 (split)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.TargetObject = /.*\\Software\\Policies\\Microsoft\\Windows\\System\\Scripts.*/ nocase) and (($e.TargetObject = /.*\\Startup.*/ nocase or $e.TargetObject = /.*\\Shutdown.*/ nocase or $e.TargetObject = /.*\\Logon.*/ nocase or $e.TargetObject = /.*\\Logoff.*/ nocase)) and not(($e.Details = "(Empty)")))
+
+  condition:
+    $e
+}

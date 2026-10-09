@@ -1,0 +1,23 @@
+// Title: Dynamic .NET Compilation Via Csc.EXE
+// ID: dcaa3f04-70c3-427a-80b4-b870d73c94c4
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems), X__Junior (Nextron Systems)
+// Date: 2019-08-24
+// Tags: attack.stealth, attack.t1027.004
+// Description: Detects execution of "csc.exe" to compile .NET code. Attackers often leverage this to compile code on the fly and use it in other stages.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule dcaa3f04_70c3_427a_80b4_b870d73c94c4 {
+  meta:
+    title = "Dynamic .NET Compilation Via Csc.EXE"
+    description = "Detects execution of "csc.exe" to compile .NET code. Attackers often leverage this to compile code on the fly and use it in other stages."
+    author = "Florian Roth (Nextron Systems), X__Junior (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.process.file.full_path = /.*\\csc.exe$/ nocase) and ((($e.target.process.command_line = /.*:\\Perflogs\\.*/ nocase or $e.target.process.command_line = /.*:\\Users\\Public\\.*/ nocase or $e.target.process.command_line = /.*\\AppData\\Local\\Temp\\.*/ nocase or $e.target.process.command_line = /.*\\Temporary Internet.*/ nocase or $e.target.process.command_line = /.*\\Windows\\Temp\\.*/ nocase)) or ((($e.target.process.command_line = /.*:\\Users\\.*/ nocase and $e.target.process.command_line = /.*\\Favorites\\.*/ nocase)) or (($e.target.process.command_line = /.*:\\Users\\.*/ nocase and $e.target.process.command_line = /.*\\Favourites\\.*/ nocase)) or (($e.target.process.command_line = /.*:\\Users\\.*/ nocase and $e.target.process.command_line = /.*\\Contacts\\.*/ nocase)) or (($e.target.process.command_line = /.*:\\Users\\.*/ nocase and $e.target.process.command_line = /.*\\Pictures\\.*/ nocase))) or ($e.target.process.command_line = /(?:[Pp]rogram[Dd]ata|%(?:[Ll]ocal)?[Aa]pp[Dd]ata%|\\[Aa]pp[Dd]ata\\(?:[Ll]ocal(?:[Ll]ow)?|[Rr]oaming))\\[^\\]{1,256}$/ nocase)) and not(((($e.principal.process.file.full_path = /^C:\\Program Files (x86)\\.*/ nocase or $e.principal.process.file.full_path = /^C:\\Program Files\\.*/ nocase)) or ($e.principal.process.file.full_path = "C:\\Windows\\System32\\sdiagnhost.exe") or ($e.principal.process.file.full_path = "C:\\Windows\\System32\\inetsrv\\w3wp.exe"))) and not(((($e.principal.process.command_line = /.*JwB7ACIAZgBhAGkAbABlAGQAIgA6AHQAcgB1AGUALAAiAG0AcwBnACIAOgAiAEEAbgBzAGkAYgBsAGUAIAByAGUAcQB1AGkAcgBlAHMAIABQAG8AdwBlAHIAUwBoAGUAbABsACAAdgAzAC4AMAAgAG8AcgAgAG4AZQB3AGUAcgAiAH0AJw.*/ nocase or $e.principal.process.command_line = /.*cAewAiAGYAYQBpAGwAZQBkACIAOgB0AHIAdQBlACwAIgBtAHMAZwAiADoAIgBBAG4AcwBpAGIAbABlACAAcgBlAHEAdQBpAHIAZQBzACAAUABvAHcAZQByAFMAaABlAGwAbAAgAHYAMwAuADAAIABvAHIAIABuAGUAdwBlAHIAIgB9ACcA.*/ nocase or $e.principal.process.command_line = /.*nAHsAIgBmAGEAaQBsAGUAZAAiADoAdAByAHUAZQAsACIAbQBzAGcAIgA6ACIAQQBuAHMAaQBiAGwAZQAgAHIAZQBxAHUAaQByAGUAcwAgAFAAbwB3AGUAcgBTAGgAZQBsAGwAIAB2ADMALgAwACAAbwByACAAbgBlAHcAZQByACIAfQAnA.*/ nocase)) or (($e.principal.process.file.full_path = "C:\\ProgramData\\chocolatey\\choco.exe" or $e.principal.process.file.full_path = "C:\\ProgramData\\chocolatey\\tools\\shimgen.exe")) or ($e.principal.process.command_line = /.*\\ProgramData\\Microsoft\\Windows Defender Advanced Threat Protection.*/ nocase))))
+
+  condition:
+    $e
+}

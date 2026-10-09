@@ -1,0 +1,11 @@
+// Title: Potential Binary Or Script Dropper Via PowerShell
+// ID: 7047d730-036f-4f40-b9d8-1c63e36d5e62
+// Status: test
+// Level: medium
+// Author: frack113, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-03-17
+// Tags: attack.persistence
+// Description: Detects PowerShell creating a binary executable or a script file.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((ImageFileName = /.*\\powershell.exe/i or ImageFileName = /.*\\powershell_ise.exe/i or ImageFileName = /.*\\pwsh.exe/i) and (TargetFileName = /.*.bat/i or TargetFileName = /.*.chm/i or TargetFileName = /.*.cmd/i or TargetFileName = /.*.com/i or TargetFileName = /.*.dll/i or TargetFileName = /.*.exe/i or TargetFileName = /.*.hta/i or TargetFileName = /.*.jar/i or TargetFileName = /.*.js/i or TargetFileName = /.*.ocx/i or TargetFileName = /.*.scr/i or TargetFileName = /.*.sys/i or TargetFileName = /.*.vbe/i or TargetFileName = /.*.vbs/i or TargetFileName = /.*.wsf/i)) and not(((TargetFileName = /C:\\Program Files\\PackageManagement\\ProviderAssemblies\\nuget\\.*/i and TargetFileName = /.*\\Microsoft.PackageManagement.NuGetProvider.dll/i) or ((TargetFileName = /C:\\Windows\\Temp\\.*/i or TargetFileName = /C:\\Windows\\SystemTemp\\.*/i) and (TargetFileName = /.*.dll/i or TargetFileName = /.*.exe/i)) or (TargetFileName = /C:\\Users\\.*/i and TargetFileName = /*\\WindowsPowerShell\\Modules\\*/i and TargetFileName = /.*.dll/i) or (TargetFileName = /C:\\Users\\.*/i and TargetFileName = /*\\AppData\\Local\\Temp\\*/i and (TargetFileName = /.*.dll/i or TargetFileName = /.*.exe/i)))))

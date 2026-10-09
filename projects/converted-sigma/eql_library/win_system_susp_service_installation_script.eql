@@ -1,0 +1,11 @@
+// Title: Suspicious Service Installation Script
+// ID: 70f00d10-60b2-4f34-b9a0-dc3df3fe762a
+// Status: test
+// Level: high
+// Author: pH-T (Nextron Systems)
+// Date: 2022-03-18
+// Tags: attack.persistence, attack.privilege-escalation, car.2013-09-005, attack.t1543.003
+// Description: Detects suspicious service installation scripts
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+any where (((ImagePath like "*_cscript*" or ImagePath like "*_mshta*" or ImagePath like "*_powershell*" or ImagePath like "*_pwsh*" or ImagePath like "*_regsvr32*" or ImagePath like "*_rundll32*" or ImagePath like "*_wscript*")) and ((ImagePath like "*_ -c *" or ImagePath like "*_ -r *" or ImagePath like "*_ -k *")) and (winlog.provider_name == "Service Control Manager" and winlog.event_id == 7045))

@@ -1,0 +1,11 @@
+// Title: WScript or CScript Dropper - File
+// ID: 002bdb95-0cf1-46a6-9e08-d38c128a6127
+// Status: test
+// Level: high
+// Author: Tim Shelton
+// Date: 2022-01-10
+// Tags: attack.execution, attack.t1059.005, attack.t1059.007
+// Description: Detects a file ending in jse, vbe, js, vba, vbs, wsf, wsh written by cscript.exe or wscript.exe
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+file where ((process.executable endswith "\\wscript.exe" or process.executable endswith "\\cscript.exe") and (file.path like "*_:\\Perflogs\\*" or file.path like "*_:\\ProgramData\\*" or file.path like "*_:\\Temp\\*" or file.path like "*_:\\Tmp\\*" or file.path like "*_:\\Users\\*" or file.path like "*_:\\Windows\\Temp\\*" or file.path like "*_\\AppData\\Local\\Temp*" or file.path like "*_\\AppData\\Roaming\\Temp*" or file.path like "*_\\Start Menu\\Programs\\Startup\\*" or file.path like "*_\\Temporary Internet*") and (file.path endswith ".js" or file.path endswith ".jse" or file.path endswith ".vba" or file.path endswith ".vbe" or file.path endswith ".vbs" or file.path endswith ".wsf" or file.path endswith ".wsh"))

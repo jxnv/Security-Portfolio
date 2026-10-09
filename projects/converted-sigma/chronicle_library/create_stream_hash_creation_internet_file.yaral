@@ -1,0 +1,23 @@
+// Title: Creation Of a Suspicious ADS File Outside a Browser Download
+// ID: 573df571-a223-43bc-846e-3f98da481eca
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-10-22
+// Tags: attack.stealth
+// Description: Detects the creation of a suspicious ADS (Alternate Data Stream) file by software other than browsers
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 573df571_a223_43bc_846e_3f98da481eca {
+  meta:
+    title = "Creation Of a Suspicious ADS File Outside a Browser Download"
+    description = "Detects the creation of a suspicious ADS (Alternate Data Stream) file by software other than browsers"
+    author = "frack113"
+    severity = "MEDIUM"
+
+  events:
+    (($e.Contents = /^[ZoneTransfer]  ZoneId=3.*/ nocase and $e.target.file.full_path = /.*:Zone.Identifier$/ nocase and ($e.target.file.full_path = /.*.exe.*/ nocase or $e.target.file.full_path = /.*.scr.*/ nocase or $e.target.file.full_path = /.*.bat.*/ nocase or $e.target.file.full_path = /.*.cmd.*/ nocase or $e.target.file.full_path = /.*.docx.*/ nocase or $e.target.file.full_path = /.*.hta.*/ nocase or $e.target.file.full_path = /.*.jse.*/ nocase or $e.target.file.full_path = /.*.lnk.*/ nocase or $e.target.file.full_path = /.*.pptx.*/ nocase or $e.target.file.full_path = /.*.ps.*/ nocase or $e.target.file.full_path = /.*.reg.*/ nocase or $e.target.file.full_path = /.*.sct.*/ nocase or $e.target.file.full_path = /.*.vb.*/ nocase or $e.target.file.full_path = /.*.wsc.*/ nocase or $e.target.file.full_path = /.*.wsf.*/ nocase or $e.target.file.full_path = /.*.xlsx.*/ nocase)) and not((($e.target.process.file.full_path = /.*\\brave.exe$/ nocase) or (($e.target.process.file.full_path = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe" or $e.target.process.file.full_path = "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe")) or (($e.target.process.file.full_path = /^C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\.*/ nocase) or ($e.target.process.file.full_path = /.*\\WindowsApps\\MicrosoftEdge.exe$/ nocase) or (($e.target.process.file.full_path = "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe" or $e.target.process.file.full_path = "C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe"))) or (($e.target.process.file.full_path = /^C:\\Program Files (x86)\\Microsoft\\EdgeCore\\.*/ nocase or $e.target.process.file.full_path = /^C:\\Program Files\\Microsoft\\EdgeCore\\.*/ nocase) and ($e.target.process.file.full_path = /.*\\msedge.exe$/ nocase or $e.target.process.file.full_path = /.*\\msedgewebview2.exe$/ nocase)) or (($e.target.process.file.full_path = "C:\\Program Files\\Mozilla Firefox\\firefox.exe" or $e.target.process.file.full_path = "C:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe")) or (($e.target.process.file.full_path = "C:\\Program Files (x86)\\Internet Explorer\\iexplore.exe" or $e.target.process.file.full_path = "C:\\Program Files\\Internet Explorer\\iexplore.exe")) or ($e.target.process.file.full_path = /.*\\maxthon.exe$/ nocase) or ($e.target.process.file.full_path = /.*\\opera.exe$/ nocase) or ($e.target.process.file.full_path = /.*\\safari.exe$/ nocase) or ($e.target.process.file.full_path = /.*\\seamonkey.exe$/ nocase) or ($e.target.process.file.full_path = /^C:\\Program Files\\WindowsApps\\Microsoft.ScreenSketch_.*/ nocase and $e.target.process.file.full_path = /.*\\SnippingTool\\SnippingTool.exe$/ nocase and $e.target.file.full_path = /^C:\\Users\\.*/ nocase and ($e.target.file.full_path = /.*\\AppData\\Local\\Packages\\Microsoft.ScreenSketch_.*/ nocase and $e.target.file.full_path = /.*\\TempState\\Screenshot .*/ nocase) and $e.target.file.full_path = /.*.png:Zone.Identifier$/ nocase) or ($e.target.process.file.full_path = /.*\\vivaldi.exe$/ nocase) or ($e.target.process.file.full_path = /.*\\whale.exe$/ nocase))))
+
+  condition:
+    $e
+}

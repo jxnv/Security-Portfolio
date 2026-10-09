@@ -1,0 +1,11 @@
+// Title: CobaltStrike Named Pipe
+// ID: d5601f8c-b26f-4ab0-9035-69e11a8d4ad2
+// Status: test
+// Level: critical
+// Author: Florian Roth (Nextron Systems), Wojciech Lesicki
+// Date: 2021-05-25
+// Tags: attack.privilege-escalation, attack.stealth, attack.t1055
+// Description: Detects the creation of a named pipe as used by CobaltStrike
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(PipeName ICONTAINS "\\MSSE-") AND where(PipeName ICONTAINS "-server"))) OR (where(PipeName ISTARTSWITH "\\interprocess_")) OR (where(PipeName ISTARTSWITH "\\lsarpc_")) OR (where(PipeName ISTARTSWITH "\\mojo_")) OR (where(PipeName ISTARTSWITH "\\msagent_")) OR (where(PipeName ISTARTSWITH "\\netlogon_")) OR (where(PipeName ISTARTSWITH "\\postex_")) OR (where(PipeName ISTARTSWITH "\\samr_")) OR (where(PipeName ISTARTSWITH "\\srvsvc_")) OR (where(PipeName ISTARTSWITH "\\status_")) OR (where(PipeName ISTARTSWITH "\\wkssvc_")))

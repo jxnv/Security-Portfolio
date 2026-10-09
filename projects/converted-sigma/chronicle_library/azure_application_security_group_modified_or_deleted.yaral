@@ -1,0 +1,23 @@
+// Title: Azure Application Security Group Modified or Deleted
+// ID: 835747f1-9329-40b5-9cc3-97d465754ce6
+// Status: test
+// Level: medium
+// Author: Austin Songer
+// Date: 2021-08-16
+// Tags: attack.impact
+// Description: Identifies when a application security group is modified or deleted.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 835747f1_9329_40b5_9cc3_97d465754ce6 {
+  meta:
+    title = "Azure Application Security Group Modified or Deleted"
+    description = "Identifies when a application security group is modified or deleted."
+    author = "Austin Songer"
+    severity = "MEDIUM"
+
+  events:
+    (($e.operationName = "MICROSOFT.NETWORK/APPLICATIONSECURITYGROUPS/WRITE" or $e.operationName = "MICROSOFT.NETWORK/APPLICATIONSECURITYGROUPS/DELETE"))
+
+  condition:
+    $e
+}

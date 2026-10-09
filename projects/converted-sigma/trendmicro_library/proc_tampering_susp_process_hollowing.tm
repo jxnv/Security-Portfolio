@@ -1,0 +1,11 @@
+// Title: Potential Process Hollowing Activity
+// ID: c4b890e5-8d8c-4496-8c66-c805753817cd
+// Status: test
+// Level: medium
+// Author: Christopher Peacock '@securepeacock', SCYTHE '@scythe_io', Sittikorn S
+// Date: 2022-01-25
+// Tags: attack.privilege-escalation, attack.stealth, attack.t1055.012
+// Description: Detects when a memory process image does not match the disk image, indicative of process hollowing.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((Type: "Image is replaced") AND NOT (((Image: "*:\\Program Files (x86)*" OR Image: "*:\\Program Files\\*" OR Image: "*:\\Windows\\System32\\wbem\\WMIADAP.exe*" OR Image: "*:\\Windows\\SysWOW64\\wbem\\WMIADAP.exe*"))) AND NOT (((Image="*\\WindowsApps\\MicrosoftEdge.exe") OR (Image: "*\\AppData\\Local\\Programs\\Opera\\*" AND Image="*\\opera.exe"))))

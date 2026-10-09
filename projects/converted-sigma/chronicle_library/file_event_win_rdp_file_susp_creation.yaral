@@ -1,0 +1,23 @@
+// Title: .RDP File Created By Uncommon Application
+// ID: fccfb43e-09a7-4bd2-8b37-a5a7df33386d
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-04-18
+// Tags: attack.stealth
+// Description: Detects creation of a file with an ".rdp" extension by an application that doesn't commonly create such files.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule fccfb43e_09a7_4bd2_8b37_a5a7df33386d {
+  meta:
+    title = ".RDP File Created By Uncommon Application"
+    description = "Detects creation of a file with an ".rdp" extension by an application that doesn't commonly create such files."
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ($e.target.file.full_path = /.*.rdp$/ nocase and ($e.target.process.file.full_path = /.*\\brave.exe$/ nocase or $e.target.process.file.full_path = /.*\\CCleaner Browser\\Application\\CCleanerBrowser.exe$/ nocase or $e.target.process.file.full_path = /.*\\chromium.exe$/ nocase or $e.target.process.file.full_path = /.*\\firefox.exe$/ nocase or $e.target.process.file.full_path = /.*\\Google\\Chrome\\Application\\chrome.exe$/ nocase or $e.target.process.file.full_path = /.*\\iexplore.exe$/ nocase or $e.target.process.file.full_path = /.*\\microsoftedge.exe$/ nocase or $e.target.process.file.full_path = /.*\\msedge.exe$/ nocase or $e.target.process.file.full_path = /.*\\Opera.exe$/ nocase or $e.target.process.file.full_path = /.*\\Vivaldi.exe$/ nocase or $e.target.process.file.full_path = /.*\\Whale.exe$/ nocase or $e.target.process.file.full_path = /.*\\olk.exe$/ nocase or $e.target.process.file.full_path = /.*\\Outlook.exe$/ nocase or $e.target.process.file.full_path = /.*\\RuntimeBroker.exe$/ nocase or $e.target.process.file.full_path = /.*\\Thunderbird.exe$/ nocase or $e.target.process.file.full_path = /.*\\Discord.exe$/ nocase or $e.target.process.file.full_path = /.*\\Keybase.exe$/ nocase or $e.target.process.file.full_path = /.*\\msteams.exe$/ nocase or $e.target.process.file.full_path = /.*\\Slack.exe$/ nocase or $e.target.process.file.full_path = /.*\\teams.exe$/ nocase))
+
+  condition:
+    $e
+}

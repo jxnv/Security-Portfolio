@@ -1,0 +1,11 @@
+// Title: Chopper Webshell Process Pattern
+// ID: fa3c117a-bc0d-416e-a31b-0c0e80653efb
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), MSTI (query)
+// Date: 2022-10-01
+// Tags: attack.persistence, attack.discovery, attack.t1505.003, attack.t1018, attack.t1033, attack.t1087
+// Description: Detects patterns found in process executions cause by China Chopper like tiny (ASPX) webshells
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(CommandLine ICONTAINS "&ipconfig&echo") OR where(CommandLine ICONTAINS "&quser&echo") OR where(CommandLine ICONTAINS "&whoami&echo") OR where(CommandLine ICONTAINS "&c:&echo") OR where(CommandLine ICONTAINS "&cd&echo") OR where(CommandLine ICONTAINS "&dir&echo") OR where(CommandLine ICONTAINS "&echo [E]") OR where(CommandLine ICONTAINS "&echo [S]"))) AND ((where(Image IENDSWITH "\\w3wp.exe")) OR (where(ParentImage IENDSWITH "\\w3wp.exe"))))

@@ -1,0 +1,48 @@
+{
+  "title": "CobaltStrike Service Installations - System",
+  "id": "5a105d34-05fc-401e-8553-272b45c1522d",
+  "status": "test",
+  "description": "Detects known malicious service installs that appear in cases in which a Cobalt Strike beacon elevates privileges or lateral movement",
+  "author": "Florian Roth (Nextron Systems), Wojciech Lesicki",
+  "date": "2021-05-26",
+  "tags": [
+    "attack.persistence",
+    "attack.execution",
+    "attack.privilege-escalation",
+    "attack.lateral-movement",
+    "attack.t1021.002",
+    "attack.t1543.003",
+    "attack.t1569.002"
+  ],
+  "level": "critical",
+  "logsource": {
+    "product": "windows",
+    "service": "system"
+  },
+  "detection": {
+    "selection_id": {
+      "Provider_Name": "Service Control Manager",
+      "EventID": 7045
+    },
+    "selection1": {
+      "ImagePath|contains|all": [
+        "ADMIN$",
+        ".exe"
+      ]
+    },
+    "selection2": {
+      "ImagePath|contains|all": [
+        "%COMSPEC%",
+        "start",
+        "powershell"
+      ]
+    },
+    "selection3": {
+      "ImagePath|contains": "powershell -nop -w hidden -encodedcommand"
+    },
+    "selection4": {
+      "ImagePath|base64offset|contains": "IEX (New-Object Net.Webclient).DownloadString('http://127.0.0.1:"
+    },
+    "condition": "selection_id and (selection1 or selection2 or selection3 or selection4)"
+  }
+}

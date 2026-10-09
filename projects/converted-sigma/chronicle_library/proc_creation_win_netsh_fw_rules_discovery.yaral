@@ -1,0 +1,23 @@
+// Title: Firewall Configuration Discovery Via Netsh.EXE
+// ID: 0e4164da-94bc-450d-a7be-a4b176179f1f
+// Status: test
+// Level: low
+// Author: frack113, Christopher Peacock '@securepeacock', SCYTHE '@scythe_io'
+// Date: 2021-12-07
+// Tags: attack.discovery, attack.t1016
+// Description: Adversaries may look for details about the network configuration and settings of systems they access or through information discovery of remote systems
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 0e4164da_94bc_450d_a7be_a4b176179f1f {
+  meta:
+    title = "Firewall Configuration Discovery Via Netsh.EXE"
+    description = "Adversaries may look for details about the network configuration and settings of systems they access or through information discovery of remote systems"
+    author = "frack113, Christopher Peacock '@securepeacock', SCYTHE '@scythe_io'"
+    severity = "LOW"
+
+  events:
+    ((($e.target.process.command_line = /.*netsh.*/ nocase and $e.target.process.command_line = /.*show .*/ nocase and $e.target.process.command_line = /.*firewall .*/ nocase) and ($e.target.process.command_line = /.*config .*/ nocase or $e.target.process.command_line = /.*state .*/ nocase or $e.target.process.command_line = /.*rule .*/ nocase or $e.target.process.command_line = /.*name=all.*/ nocase)) and (($e.target.process.file.full_path = /.*\\netsh.exe$/ nocase) or ($e.target.process.file.name = "netsh.exe")))
+
+  condition:
+    $e
+}

@@ -1,0 +1,19 @@
+# Title: Logged-On User Password Change Via Ksetup.EXE
+# ID: c9783e20-4793-4164-ba96-d9ee483992c4
+# Status: test
+# Level: medium
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2023-04-06
+# Tags: attack.execution
+# Description: Detects password change for the logged-on user's via "ksetup.exe"
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Logged-On User Password Change Via Ksetup.EXE
+def rule(event):
+    # Detection Logic:
+    # ((CommandLine="* /ChangePassword *") AND ((Image="*\\ksetup.exe") OR (OriginalFileName="ksetup.exe")))
+    return True
+
+def title(event):
+    return "Logged-On User Password Change Via Ksetup.EXE"
+

@@ -1,0 +1,33 @@
+{
+  "title": "Compressed File Extraction Via Tar.EXE",
+  "id": "bf361876-6620-407a-812f-bfe11e51e924",
+  "status": "test",
+  "description": "Detects execution of \"tar.exe\" in order to extract compressed file.\nAdversaries may abuse various utilities in order to decompress data to avoid detection.\n",
+  "author": "AdmU3",
+  "date": "2023-12-19",
+  "tags": [
+    "attack.collection",
+    "attack.exfiltration",
+    "attack.t1560",
+    "attack.t1560.001"
+  ],
+  "level": "low",
+  "logsource": {
+    "product": "windows",
+    "category": "process_creation"
+  },
+  "detection": {
+    "selection_img": [
+      {
+        "Image|endswith": "\\tar.exe"
+      },
+      {
+        "OriginalFileName": "bsdtar"
+      }
+    ],
+    "selection_extract": {
+      "CommandLine|contains": "-x"
+    },
+    "condition": "all of selection_*"
+  }
+}

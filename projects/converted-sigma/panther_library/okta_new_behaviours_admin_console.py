@@ -1,0 +1,19 @@
+# Title: Okta New Admin Console Behaviours
+# ID: a0b38b70-3cb5-484b-a4eb-c4d8e7bcc0a9
+# Status: test
+# Level: high
+# Author: kelnage
+# Date: 2023-09-07
+# Tags: attack.privilege-escalation, attack.persistence, attack.initial-access, attack.stealth, attack.t1078.004
+# Description: Detects when Okta identifies new activity in the Admin Console.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Okta New Admin Console Behaviours
+def rule(event):
+    # Detection Logic:
+    # ((eventType="policy.evaluate_sign_on" AND target.displayName="Okta Admin Console") AND ((debugContext.debugData.behaviors="*POSITIVE*") OR (debugContext.debugData.logOnlySecurityData="*POSITIVE*")))
+    return True
+
+def title(event):
+    return "Okta New Admin Console Behaviours"
+

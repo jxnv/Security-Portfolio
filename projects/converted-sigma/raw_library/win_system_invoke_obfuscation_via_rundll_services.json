@@ -1,0 +1,32 @@
+{
+  "title": "Invoke-Obfuscation RUNDLL LAUNCHER - System",
+  "id": "11b52f18-aaec-4d60-9143-5dd8cc4706b9",
+  "status": "test",
+  "description": "Detects Obfuscated Powershell via RUNDLL LAUNCHER",
+  "author": "Timur Zinniatullin, oscd.community",
+  "date": "2020-10-18",
+  "tags": [
+    "attack.stealth",
+    "attack.t1027",
+    "attack.execution",
+    "attack.t1059.001"
+  ],
+  "level": "medium",
+  "logsource": {
+    "product": "windows",
+    "service": "system"
+  },
+  "detection": {
+    "selection": {
+      "Provider_Name": "Service Control Manager",
+      "EventID": 7045,
+      "ImagePath|contains|all": [
+        "rundll32.exe",
+        "shell32.dll",
+        "shellexec_rundll",
+        "powershell"
+      ]
+    },
+    "condition": "selection"
+  }
+}

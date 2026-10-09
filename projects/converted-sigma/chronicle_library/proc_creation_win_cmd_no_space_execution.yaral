@@ -1,0 +1,24 @@
+// Title: Cmd.EXE Missing Space Characters Execution Anomaly
+// ID: a16980c2-0c56-4de0-9a79-17971979efdd
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-08-23
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects Windows command lines that miss a space before or after the /c flag when running a command using the cmd.exe.
+// This could be a sign of obfuscation of a fat finger problem (typo by the developer).
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule a16980c2_0c56_4de0_9a79_17971979efdd {
+  meta:
+    title = "Cmd.EXE Missing Space Characters Execution Anomaly"
+    description = "Detects Windows command lines that miss a space before or after the /c flag when running a command using the cmd.exe. This could be a sign of obfuscation of a fat finger problem (typo by the developer)."
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (((($e.target.process.command_line = /.*cmd.exe/c.*/ nocase or $e.target.process.command_line = /.*\\cmd/c.*/ nocase or $e.target.process.command_line = /.*\"cmd/c.*/ nocase or $e.target.process.command_line = /.*cmd.exe/k.*/ nocase or $e.target.process.command_line = /.*\\cmd/k.*/ nocase or $e.target.process.command_line = /.*\"cmd/k.*/ nocase or $e.target.process.command_line = /.*cmd.exe/r.*/ nocase or $e.target.process.command_line = /.*\\cmd/r.*/ nocase or $e.target.process.command_line = /.*\"cmd/r.*/ nocase)) or (($e.target.process.command_line = /.*/cwhoami.*/ nocase or $e.target.process.command_line = /.*/cpowershell.*/ nocase or $e.target.process.command_line = /.*/cschtasks.*/ nocase or $e.target.process.command_line = /.*/cbitsadmin.*/ nocase or $e.target.process.command_line = /.*/ccertutil.*/ nocase or $e.target.process.command_line = /.*/kwhoami.*/ nocase or $e.target.process.command_line = /.*/kpowershell.*/ nocase or $e.target.process.command_line = /.*/kschtasks.*/ nocase or $e.target.process.command_line = /.*/kbitsadmin.*/ nocase or $e.target.process.command_line = /.*/kcertutil.*/ nocase)) or (($e.target.process.command_line = /.*cmd.exe /c.*/ nocase or $e.target.process.command_line = /.*cmd /c.*/ nocase or $e.target.process.command_line = /.*cmd.exe /k.*/ nocase or $e.target.process.command_line = /.*cmd /k.*/ nocase or $e.target.process.command_line = /.*cmd.exe /r.*/ nocase or $e.target.process.command_line = /.*cmd /r.*/ nocase))) and not(((($e.target.process.command_line = /.*AppData\\Local\\Programs\\Microsoft VS Code\\resources\\app\\node_modules.*/ nocase) or ($e.target.process.command_line = /.*cmd.exe/c .$/ nocase) or ($e.target.process.command_line = "cmd.exe /c") or ($e.target.process.command_line = "cmd /c")) or (($e.target.process.command_line = /.*cmd.exe /c .*/ nocase or $e.target.process.command_line = /.*cmd /c .*/ nocase or $e.target.process.command_line = /.*cmd.exe /k .*/ nocase or $e.target.process.command_line = /.*cmd /k .*/ nocase or $e.target.process.command_line = /.*cmd.exe /r .*/ nocase or $e.target.process.command_line = /.*cmd /r .*/ nocase)))))
+
+  condition:
+    $e
+}

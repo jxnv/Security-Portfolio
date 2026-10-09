@@ -1,0 +1,19 @@
+# Title: HackTool - HandleKatz Duplicating LSASS Handle
+# ID: b1bd3a59-c1fd-4860-9f40-4dd161a7d1f5
+# Status: test
+# Level: high
+# Author: Bhabesh Raj (rule), @thefLinkk
+# Date: 2022-06-27
+# Tags: attack.execution, attack.t1106, attack.t1003.001, attack.credential-access
+# Description: Detects HandleKatz opening LSASS to duplicate its handle to later dump the memory without opening any new handles
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: HackTool - HandleKatz Duplicating LSASS Handle
+def rule(event):
+    # Detection Logic:
+    # (TargetImage="*\\lsass.exe" AND GrantedAccess="0x1440" AND CallTrace="C:\\Windows\\System32\\ntdll.dll+*" AND CallTrace="*|UNKNOWN(*" AND CallTrace="*)")
+    return True
+
+def title(event):
+    return "HackTool - HandleKatz Duplicating LSASS Handle"
+

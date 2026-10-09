@@ -1,0 +1,11 @@
+-- Title: Suspicious External WebDAV Execution
+-- ID: 1ae64f96-72b6-48b3-ad3d-e71dff6c6398
+-- Status: test
+-- Level: high
+-- Author: Ahmed Farouk
+-- Date: 2024-05-10
+-- Tags: attack.initial-access, attack.resource-development, attack.t1584, attack.t1566
+-- Description: Detects executables launched from external WebDAV shares using the WebDAV Explorer integration, commonly seen in initial access campaigns.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE ((((c-uri ILIKE '%.7z' OR c-uri ILIKE '%.bat' OR c-uri ILIKE '%.dat' OR c-uri ILIKE '%.cmd' OR c-uri ILIKE '%.exe' OR c-uri ILIKE '%.js' OR c-uri ILIKE '%.lnk' OR c-uri ILIKE '%.ps1' OR c-uri ILIKE '%.rar' OR c-uri ILIKE '%.url' OR c-uri ILIKE '%.vbe' OR c-uri ILIKE '%.vbs' OR c-uri ILIKE '%.zip')) AND (c-useragent ILIKE 'Microsoft-WebDAV-MiniRedir/%' AND cs-method = 'GET')) AND NOT (((cidrmatch("127.0.0.0/8", dst_ip) OR cidrmatch("10.0.0.0/8", dst_ip) OR cidrmatch("172.16.0.0/12", dst_ip) OR cidrmatch("192.168.0.0/16", dst_ip) OR cidrmatch("169.254.0.0/16", dst_ip) OR cidrmatch("::1/128", dst_ip) OR cidrmatch("fe80::/10", dst_ip) OR cidrmatch("fc00::/7", dst_ip)))))

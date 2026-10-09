@@ -1,0 +1,23 @@
+// Title: Sysmon Application Crashed
+// ID: 4d7f1827-1637-4def-8d8a-fd254f9454df
+// Status: test
+// Level: high
+// Author: Tim Shelton
+// Date: 2022-04-26
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects application popup reporting a failure of the Sysmon service
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 4d7f1827_1637_4def_8d8a_fd254f9454df {
+  meta:
+    title = "Sysmon Application Crashed"
+    description = "Detects application popup reporting a failure of the Sysmon service"
+    author = "Tim Shelton"
+    severity = "HIGH"
+
+  events:
+    ($e.Provider_Name = "Application Popup" and $e.EventID = 26 and ($e.Caption = "sysmon64.exe - Application Error" or $e.Caption = "sysmon.exe - Application Error"))
+
+  condition:
+    $e
+}

@@ -1,0 +1,23 @@
+// Title: Unsigned Binary Loaded From Suspicious Location
+// ID: 8289bf8c-4aca-4f5a-9db3-dc3d7afe5c10
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-03
+// Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.stealth, attack.t1574.001
+// Description: Detects Code Integrity (CI) engine blocking processes from loading unsigned DLLs residing in suspicious locations
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 8289bf8c_4aca_4f5a_9db3_dc3d7afe5c10 {
+  meta:
+    title = "Unsigned Binary Loaded From Suspicious Location"
+    description = "Detects Code Integrity (CI) engine blocking processes from loading unsigned DLLs residing in suspicious locations"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.EventID = 11 or $e.EventID = 12) and ($e.ImageName = /.*\\Users\\Public\\.*/ nocase or $e.ImageName = /.*\\PerfLogs\\.*/ nocase or $e.ImageName = /.*\\Desktop\\.*/ nocase or $e.ImageName = /.*\\Downloads\\.*/ nocase or $e.ImageName = /.*\\AppData\\Local\\Temp\\.*/ nocase or $e.ImageName = /.*C:\\Windows\\TEMP\\.*/ nocase))
+
+  condition:
+    $e
+}

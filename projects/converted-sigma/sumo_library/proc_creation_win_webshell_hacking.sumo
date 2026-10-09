@@ -1,0 +1,11 @@
+// Title: Webshell Hacking Activity Patterns
+// ID: 4ebc877f-4612-45cb-b3a5-8e3834db36c9
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-03-17
+// Tags: attack.persistence, attack.discovery, attack.t1505.003, attack.t1018, attack.t1033, attack.t1087
+// Description: Detects certain parent child patterns found in cases in which a web shell is used to perform certain credential dumping or exfiltration activities on a compromised system
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where ((((ParentImage matches "*\\java.exe" or ParentImage matches "*\\javaw.exe") and (ParentImage matches "*-tomcat-*" or ParentImage matches "*\\tomcat*")) or ((ParentImage matches "*\\java.exe" or ParentImage matches "*\\javaw.exe") and (CommandLine matches "*catalina.jar*" or CommandLine matches "*CATALINA_HOME*")) or ((ParentImage matches "*\\caddy.exe" or ParentImage matches "*\\httpd.exe" or ParentImage matches "*\\nginx.exe" or ParentImage matches "*\\php-cgi.exe" or ParentImage matches "*\\w3wp.exe" or ParentImage matches "*\\ws_tomcatservice.exe"))) and (((CommandLine matches "*rundll32*" and CommandLine matches "*comsvcs*")) or ((CommandLine matches "* -hp*" and CommandLine matches "* a *" and CommandLine matches "* -m*")) or ((CommandLine matches "*net*" and CommandLine matches "* user *" and CommandLine matches "* /add*")) or ((CommandLine matches "*net*" and CommandLine matches "* localgroup *" and CommandLine matches "* administrators *" and CommandLine matches "*/add*")) or ((Image matches "*\\ntdsutil.exe" or Image matches "*\\ldifde.exe" or Image matches "*\\adfind.exe" or Image matches "*\\procdump.exe" or Image matches "*\\Nanodump.exe" or Image matches "*\\vssadmin.exe" or Image matches "*\\fsutil.exe")) or ((CommandLine matches "* -decode *" or CommandLine matches "* -NoP *" or CommandLine matches "* -W Hidden *" or CommandLine matches "* /decode *" or CommandLine matches "* /ticket:*" or CommandLine matches "* sekurlsa*" or CommandLine matches "*.dmp full*" or CommandLine matches "*.downloadfile(*" or CommandLine matches "*.downloadstring(*" or CommandLine matches "*FromBase64String*" or CommandLine matches "*process call create*" or CommandLine matches "*reg save *" or CommandLine matches "*whoami /priv*"))))

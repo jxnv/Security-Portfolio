@@ -1,0 +1,37 @@
+{
+  "title": "New User Account Creation Attempt Via ADSI",
+  "id": "e50d5d26-0cf6-4045-b82b-13c0a4e316be",
+  "status": "experimental",
+  "description": "Detects an attempt to create a new user account via ADSI (Active Directory Service Interfaces)\nusing either the WinNT or LDAP provider. This is an uncommon method to create user accounts\nand may indicate an attempt to evade detection by avoiding more commonly monitored commands\nsuch as \"net user\", \"New-LocalUser\" or \"New-ADUser\".\n",
+  "author": "William Gokah (idea), Raylee Hawkins, Swachchhanda Shrawan Poudel (Nextron Systems)",
+  "date": "2026-08-13",
+  "tags": [
+    "attack.persistence",
+    "attack.t1136.001",
+    "attack.t1136.002"
+  ],
+  "level": "medium",
+  "logsource": {
+    "product": "windows",
+    "category": "ps_script",
+    "definition": "Requirements: Script Block Logging must be enabled"
+  },
+  "detection": {
+    "selection_adsi": {
+      "ScriptBlockText|contains": "[ADSI]"
+    },
+    "selection_create_user": {
+      "ScriptBlockText|contains": [
+        ".create(\"user",
+        ".create('user"
+      ]
+    },
+    "selection_adsi_provider": {
+      "ScriptBlockText|contains": [
+        "WinNT://",
+        "LDAP://"
+      ]
+    },
+    "condition": "all of selection_*"
+  }
+}

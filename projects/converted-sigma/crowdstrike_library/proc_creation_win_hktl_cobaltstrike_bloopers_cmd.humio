@@ -1,0 +1,11 @@
+// Title: Operator Bloopers Cobalt Strike Commands
+// ID: 647c7b9e-d784-4fda-b9a0-45c565a7b729
+// Status: test
+// Level: high
+// Author: _pete_0, TheDFIRReport
+// Date: 2022-05-06
+// Tags: attack.execution, attack.t1059.003, stp.1u
+// Description: Detects use of Cobalt Strike commands accidentally entered in the CMD shell
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((CommandLine = /cmd .*/i or CommandLine = /cmd.exe.*/i or CommandLine = /c:\\windows\\system32\\cmd.exe.*/i) and (CommandLine = /*psinject*/i or CommandLine = /*spawnas*/i or CommandLine = /*make_token*/i or CommandLine = /*remote-exec*/i or CommandLine = /*rev2self*/i or CommandLine = /*dcsync*/i or CommandLine = /*logonpasswords*/i or CommandLine = /*execute-assembly*/i or CommandLine = /*getsystem*/i)) and ((OriginalFilename = "Cmd.Exe") or (ImageFileName = /.*\\cmd.exe/i)))

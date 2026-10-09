@@ -1,0 +1,23 @@
+// Title: PsExec Service Execution
+// ID: fdfcbd78-48f1-4a4b-90ac-d82241e368c5
+// Status: test
+// Level: medium
+// Author: Thomas Patzke, Romaissa Adjailia, Florian Roth (Nextron Systems)
+// Date: 2017-06-12
+// Tags: attack.execution
+// Description: Detects launch of the PSEXESVC service, which means that this system was the target of a psexec remote execution
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule fdfcbd78_48f1_4a4b_90ac_d82241e368c5 {
+  meta:
+    title = "PsExec Service Execution"
+    description = "Detects launch of the PSEXESVC service, which means that this system was the target of a psexec remote execution"
+    author = "Thomas Patzke, Romaissa Adjailia, Florian Roth (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.process.file.full_path = "C:\\Windows\\PSEXESVC.exe") or ($e.target.process.file.name = "psexesvc.exe"))
+
+  condition:
+    $e
+}

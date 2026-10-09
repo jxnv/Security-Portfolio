@@ -1,0 +1,11 @@
+-- Title: Possible PetitPotam Coerce Authentication Attempt
+-- ID: 1ce8c8a3-2723-48ed-8246-906ac91061a6
+-- Status: test
+-- Level: high
+-- Author: Mauricio Velazco, Michael Haag
+-- Date: 2021-09-02
+-- Tags: attack.credential-access, attack.t1187
+-- Description: Detect PetitPotam coerced authentication activity.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE (EventID = 5145 AND ShareName ILIKE '\\\\\\\\%' AND ShareName ILIKE '%\\IPC$' AND RelativeTargetName = 'lsarpc' AND SubjectUserName = 'ANONYMOUS LOGON')

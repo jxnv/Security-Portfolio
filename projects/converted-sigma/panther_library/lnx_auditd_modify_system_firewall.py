@@ -1,0 +1,20 @@
+# Title: Modify System Firewall
+# ID: 323ff3f5-0013-4847-bbd4-250b5edb62cc
+# Status: test
+# Level: medium
+# Author: IAI
+# Date: 2023-03-06
+# Tags: attack.defense-impairment, attack.t1686
+# Description: Detects the removal of system firewall rules. Adversaries may only delete or modify a specific system firewall rule to bypass controls limiting network usage or access.
+# Detection rules that match only on the disabling of firewalls will miss this.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Modify System Firewall
+def rule(event):
+    # Detection Logic:
+    # ((type="EXECVE" AND a0="iptables" AND a1="*DROP*") OR (type="EXECVE" AND a0="firewall-cmd" AND a1="*remove*") OR (type="EXECVE" AND a0="ufw" AND a1="*delete*") OR (type="EXECVE" AND a0="nft" AND (a1="*delete*" OR a1="*flush*")))
+    return True
+
+def title(event):
+    return "Modify System Firewall"
+

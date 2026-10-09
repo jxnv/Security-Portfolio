@@ -1,0 +1,11 @@
+-- Title: Communication To Ngrok Tunneling Service - Linux
+-- ID: 19bf6fdb-7721-4f3d-867f-53467f6a5db6
+-- Status: test
+-- Level: high
+-- Author: Florian Roth (Nextron Systems)
+-- Date: 2022-11-03
+-- Tags: attack.exfiltration, attack.command-and-control, attack.t1567, attack.t1568.002, attack.t1572, attack.t1090, attack.t1102, attack.s0508
+-- Description: Detects an executable accessing an ngrok tunneling endpoint, which could be a sign of forbidden exfiltration of data exfiltration by malicious actors
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE ((DestinationHostname ILIKE '%tunnel.us.ngrok.com%' OR DestinationHostname ILIKE '%tunnel.eu.ngrok.com%' OR DestinationHostname ILIKE '%tunnel.ap.ngrok.com%' OR DestinationHostname ILIKE '%tunnel.au.ngrok.com%' OR DestinationHostname ILIKE '%tunnel.sa.ngrok.com%' OR DestinationHostname ILIKE '%tunnel.jp.ngrok.com%' OR DestinationHostname ILIKE '%tunnel.in.ngrok.com%'))

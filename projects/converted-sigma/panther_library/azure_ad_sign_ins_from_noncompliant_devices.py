@@ -1,0 +1,19 @@
+# Title: Sign-ins from Non-Compliant Devices
+# ID: 4f77e1d7-3982-4ee0-8489-abf2d6b75284
+# Status: test
+# Level: high
+# Author: Michael Epping, '@mepples21'
+# Date: 2022-06-28
+# Tags: attack.privilege-escalation, attack.persistence, attack.initial-access, attack.stealth, attack.t1078.004
+# Description: Monitor and alert for sign-ins where the device was non-compliant.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Sign-ins from Non-Compliant Devices
+def rule(event):
+    # Detection Logic:
+    # (DeviceDetail.isCompliant="false")
+    return True
+
+def title(event):
+    return "Sign-ins from Non-Compliant Devices"
+

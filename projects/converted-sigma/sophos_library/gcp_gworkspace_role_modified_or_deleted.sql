@@ -1,0 +1,11 @@
+-- Title: Google Workspace Role Modified or Deleted
+-- ID: 6aef64e3-60c6-4782-8db3-8448759c714e
+-- Status: test
+-- Level: medium
+-- Author: Austin Songer
+-- Date: 2021-08-24
+-- Tags: attack.impact
+-- Description: Detects when an a role is modified or deleted in Google Workspace.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE (eventService = 'admin.googleapis.com' AND (eventName = 'DELETE_ROLE' OR eventName = 'RENAME_ROLE' OR eventName = 'UPDATE_ROLE'))

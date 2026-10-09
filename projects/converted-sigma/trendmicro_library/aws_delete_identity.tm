@@ -1,0 +1,11 @@
+// Title: SES Identity Has Been Deleted
+// ID: 20f754db-d025-4a8f-9d74-e0037e999a9a
+// Status: test
+// Level: medium
+// Author: Janantha Marasinghe
+// Date: 2022-12-13
+// Tags: attack.stealth, attack.t1070
+// Description: Detects an instance of an SES identity being deleted via the "DeleteIdentity" event. This may be an indicator of an adversary removing the account that carried out suspicious or malicious activities
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(eventSource: "ses.amazonaws.com" AND eventName: "DeleteIdentity")

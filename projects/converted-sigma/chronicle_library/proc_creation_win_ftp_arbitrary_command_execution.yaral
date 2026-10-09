@@ -1,0 +1,23 @@
+// Title: Potential Arbitrary Command Execution Via FTP.EXE
+// ID: 06b401f4-107c-4ff9-947f-9ec1e7649f1e
+// Status: test
+// Level: medium
+// Author: Victor Sergeev, oscd.community
+// Date: 2020-10-09
+// Tags: attack.execution, attack.stealth, attack.t1059, attack.t1202
+// Description: Detects execution of "ftp.exe" script with the "-s" or "/s" flag and any child processes ran by "ftp.exe".
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 06b401f4_107c_4ff9_947f_9ec1e7649f1e {
+  meta:
+    title = "Potential Arbitrary Command Execution Via FTP.EXE"
+    description = "Detects execution of "ftp.exe" script with the "-s" or "/s" flag and any child processes ran by "ftp.exe"."
+    author = "Victor Sergeev, oscd.community"
+    severity = "MEDIUM"
+
+  events:
+    (($e.principal.process.file.full_path = /.*\\ftp.exe$/ nocase) or ((($e.target.process.command_line = /.*-s:.*/ nocase or $e.target.process.command_line = /.*/s:.*/ nocase)) and (($e.target.process.file.full_path = /.*\\ftp.exe$/ nocase) or ($e.target.process.file.name = "ftp.exe"))))
+
+  condition:
+    $e
+}

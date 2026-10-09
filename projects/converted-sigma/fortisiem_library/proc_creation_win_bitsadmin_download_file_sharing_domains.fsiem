@@ -1,0 +1,11 @@
+# Title: Suspicious Download From File-Sharing Website Via Bitsadmin
+# ID: 8518ed3d-f7c9-4601-a26c-f361a4256a0c
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems)
+# Date: 2022-06-28
+# Tags: attack.persistence, attack.execution, attack.stealth, attack.t1197, attack.s0190, attack.t1036.003, attack.command-and-control, attack.t1105
+# Description: Detects usage of bitsadmin downloading a file from a suspicious domain
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((CommandLine CONTAIN ".githubusercontent.com" OR CommandLine CONTAIN "0x0.st" OR CommandLine CONTAIN "anonfiles.com" OR CommandLine CONTAIN "bashupload.com" OR CommandLine CONTAIN "cdn.discordapp.com" OR CommandLine CONTAIN "chunk.io" OR CommandLine CONTAIN "ddns.net" OR CommandLine CONTAIN "dl.dropboxusercontent.com" OR CommandLine CONTAIN "ghostbin.co" OR CommandLine CONTAIN "github.com" OR CommandLine CONTAIN "glitch.me" OR CommandLine CONTAIN "gofile.io" OR CommandLine CONTAIN "hastebin.com" OR CommandLine CONTAIN "mediafire.com" OR CommandLine CONTAIN "mega.nz" OR CommandLine CONTAIN "onrender.com" OR CommandLine CONTAIN "pages.dev" OR CommandLine CONTAIN "paste.ee" OR CommandLine CONTAIN "pastebin.com" OR CommandLine CONTAIN "pastebin.pl" OR CommandLine CONTAIN "pastetext.net" OR CommandLine CONTAIN "privatlab.com" OR CommandLine CONTAIN "privatlab.net" OR CommandLine CONTAIN "send.exploit.in" OR CommandLine CONTAIN "sendspace.com" OR CommandLine CONTAIN "storage.googleapis.com" OR CommandLine CONTAIN "storjshare.io" OR CommandLine CONTAIN "supabase.co" OR CommandLine CONTAIN "temp.sh" OR CommandLine CONTAIN "transfer.sh" OR CommandLine CONTAIN "trycloudflare.com" OR CommandLine CONTAIN "ufile.io" OR CommandLine CONTAIN "w3spaces.com" OR CommandLine CONTAIN "workers.dev" OR CommandLine CONTAIN "x0.at")) AND ((CommandLine CONTAIN " /transfer " OR CommandLine CONTAIN " /create " OR CommandLine CONTAIN " /addfile ")) AND ((Image="*\\bitsadmin.exe") OR (OriginalFileName = "bitsadmin.exe")))

@@ -1,0 +1,23 @@
+// Title: Bash Interactive Shell
+// ID: 6104e693-a7d6-4891-86cb-49a258523559
+// Status: test
+// Level: low
+// Author: @d4ns4n_
+// Date: 2023-04-07
+// Tags: attack.execution
+// Description: Detects execution of the bash shell with the interactive flag "-i".
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 6104e693_a7d6_4891_86cb_49a258523559 {
+  meta:
+    title = "Bash Interactive Shell"
+    description = "Detects execution of the bash shell with the interactive flag "-i"."
+    author = "@d4ns4n_"
+    severity = "LOW"
+
+  events:
+    ($e.target.process.file.full_path = /.*/bash$/ nocase and $e.target.process.command_line = /.* -i .*/ nocase)
+
+  condition:
+    $e
+}

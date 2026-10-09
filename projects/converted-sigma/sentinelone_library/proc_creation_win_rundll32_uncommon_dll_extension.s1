@@ -1,0 +1,11 @@
+// Title: Rundll32 Execution With Uncommon DLL Extension
+// ID: c3a99af4-35a9-4668-879e-c09aeb4f2bdf
+// Status: test
+// Level: medium
+// Author: Tim Shelton, Florian Roth (Nextron Systems), Yassine Oukessou
+// Date: 2022-01-13
+// Tags: attack.stealth, attack.t1218.011
+// Description: Detects the execution of rundll32 with a command line that doesn't contain a common extension
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((src.process.image.path endswithCIS "\\rundll32.exe") OR (OriginalFileName = "RUNDLL32.EXE")) AND NOT (((src.process.cmdline = "") OR (((src.process.cmdline containsCIS ".cpl " OR src.process.cmdline containsCIS ".cpl," OR src.process.cmdline containsCIS ".cpl\"" OR src.process.cmdline containsCIS ".cpl'" OR src.process.cmdline containsCIS ".dll " OR src.process.cmdline containsCIS ".dll," OR src.process.cmdline containsCIS ".dll\"" OR src.process.cmdline containsCIS ".dll'" OR src.process.cmdline containsCIS ".inf " OR src.process.cmdline containsCIS ".inf," OR src.process.cmdline containsCIS ".inf\"" OR src.process.cmdline containsCIS ".inf'")) OR ((src.process.cmdline endswithCIS ".cpl" OR src.process.cmdline endswithCIS ".dll" OR src.process.cmdline endswithCIS ".inf"))) OR (src.process.cmdline containsCIS " -localserver ") OR (src.process.cmdline is null) OR (src.process.parent.image.path endswithCIS "\\msiexec.exe" AND (src.process.cmdline containsCIS ":\\Windows\\Installer\\" AND src.process.cmdline containsCIS ".tmp" AND src.process.cmdline containsCIS "zzzzInvokeManagedCustomActionOutOfProc")))) AND NOT (((src.process.parent.cmdline containsCIS ":\\Users\\" AND src.process.parent.cmdline containsCIS "\\AppData\\Local\\Microsoft\\EdgeUpdate\\Install\\{" AND src.process.parent.cmdline containsCIS "\\EDGEMITMP_" AND src.process.parent.cmdline containsCIS ".tmp\\setup.exe" AND src.process.parent.cmdline containsCIS "--install-archive=" AND src.process.parent.cmdline containsCIS "--previous-version=" AND src.process.parent.cmdline containsCIS "--msedgewebview --verbose-logging --do-not-launch-msedge --user-level"))))

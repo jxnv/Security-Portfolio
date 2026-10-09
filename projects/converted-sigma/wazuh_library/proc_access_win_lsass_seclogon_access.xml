@@ -1,0 +1,16 @@
+<!--
+  Title: Suspicious LSASS Access Via MalSecLogon
+  ID: 472159c5-31b9-4f56-b794-b766faa8b0a7
+  Status: test
+  Level: high
+  Author: Samir Bousseaden (original elastic rule), Nasreddine Bencherchali (Nextron Systems)
+  Date: 2022-06-29
+  Description: Detects suspicious access to LSASS handle via a call trace to "seclogon.dll" with a suspicious access right.
+-->
+
+<group name="sigma_converted,">
+  <rule id="100001" level="10">
+    <description>Suspicious LSASS Access Via MalSecLogon</description>
+    <match>(TargetImage=\"*\\\\lsass.exe\" AND SourceImage=\"*\\\\svchost.exe\" AND GrantedAccess=\"0x14c0\" AND CallTrace=\"*seclogon.dll*\")</match>
+  </rule>
+</group>

@@ -1,0 +1,11 @@
+// Title: PUA - Wsudo Suspicious Execution
+// ID: bdeeabc9-ff2a-4a51-be59-bb253aac7891
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-12-02
+// Tags: attack.execution, attack.privilege-escalation, attack.t1059
+// Description: Detects usage of wsudo (Windows Sudo Utility). Which is a tool that let the user execute programs with different permissions (System, Trusted Installer, Administrator...etc)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(CommandLine ICONTAINS "-u System") OR where(CommandLine ICONTAINS "-uSystem") OR where(CommandLine ICONTAINS "-u TrustedInstaller") OR where(CommandLine ICONTAINS "-uTrustedInstaller") OR where(CommandLine ICONTAINS " --ti "))) OR ((where(Image IENDSWITH "\\wsudo.exe")) OR (where(OriginalFileName = "wsudo.exe")) OR (where(Description = "Windows sudo utility")) OR (where(ParentImage IENDSWITH "\\wsudo-bridge.exe"))))

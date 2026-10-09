@@ -1,0 +1,12 @@
+# Title: Cmd.EXE Missing Space Characters Execution Anomaly
+# ID: a16980c2-0c56-4de0-9a79-17971979efdd
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems)
+# Date: 2022-08-23
+# Tags: attack.execution, attack.t1059.001
+# Description: Detects Windows command lines that miss a space before or after the /c flag when running a command using the cmd.exe.
+# This could be a sign of obfuscation of a fat finger problem (typo by the developer).
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog ((((process_exec="*cmd.exe/c*" OR process_exec="*\\cmd/c*" OR process_exec="*\"cmd/c*" OR process_exec="*cmd.exe/k*" OR process_exec="*\\cmd/k*" OR process_exec="*\"cmd/k*" OR process_exec="*cmd.exe/r*" OR process_exec="*\\cmd/r*" OR process_exec="*\"cmd/r*")) OR ((process_exec="*/cwhoami*" OR process_exec="*/cpowershell*" OR process_exec="*/cschtasks*" OR process_exec="*/cbitsadmin*" OR process_exec="*/ccertutil*" OR process_exec="*/kwhoami*" OR process_exec="*/kpowershell*" OR process_exec="*/kschtasks*" OR process_exec="*/kbitsadmin*" OR process_exec="*/kcertutil*")) OR ((process_exec="*cmd.exe /c*" OR process_exec="*cmd /c*" OR process_exec="*cmd.exe /k*" OR process_exec="*cmd /k*" OR process_exec="*cmd.exe /r*" OR process_exec="*cmd /r*"))) AND NOT ((((process_exec="*AppData\\Local\\Programs\\Microsoft VS Code\\resources\\app\\node_modules*") OR (process_exec="*cmd.exe/c .") OR (process_exec="cmd.exe /c") OR (process_exec="cmd /c")) OR ((process_exec="*cmd.exe /c *" OR process_exec="*cmd /c *" OR process_exec="*cmd.exe /k *" OR process_exec="*cmd /k *" OR process_exec="*cmd.exe /r *" OR process_exec="*cmd /r *")))))

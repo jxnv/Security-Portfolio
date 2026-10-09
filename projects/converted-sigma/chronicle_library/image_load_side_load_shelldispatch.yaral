@@ -1,0 +1,23 @@
+// Title: Potential ShellDispatch.DLL Sideloading
+// ID: 844f8eb2-610b-42c8-89a4-47596e089663
+// Status: test
+// Level: medium
+// Author: X__Junior (Nextron Systems)
+// Date: 2023-06-20
+// Tags: attack.persistence, attack.privilege-escalation, attack.execution, attack.stealth, attack.t1574.001
+// Description: Detects potential DLL sideloading of "ShellDispatch.dll"
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 844f8eb2_610b_42c8_89a4_47596e089663 {
+  meta:
+    title = "Potential ShellDispatch.DLL Sideloading"
+    description = "Detects potential DLL sideloading of "ShellDispatch.dll""
+    author = "X__Junior (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.ImageLoaded = /.*\\ShellDispatch.dll$/ nocase) and not(((($e.ImageLoaded = /.*:\\Users\\.*/ nocase and $e.ImageLoaded = /.*\\AppData\\Local\\Temp\\.*/ nocase)) or ($e.ImageLoaded = /.*:\\Windows\\Temp\\.*/ nocase))))
+
+  condition:
+    $e
+}

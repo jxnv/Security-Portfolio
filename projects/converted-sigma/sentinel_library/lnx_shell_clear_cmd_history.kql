@@ -1,0 +1,12 @@
+// Title: Linux Command History Tampering
+// ID: fdc88d25-96fb-4b7c-9633-c0e417fdbd4e
+// Status: test
+// Level: high
+// Author: Patrick Bareiss
+// Date: 2019-03-24
+// Tags: attack.stealth, attack.t1070.003
+// Description: Detects commands that try to clear or tamper with the Linux command history.
+// This technique is used by threat actors in order to evade defenses and execute commands without them being recorded in files such as "bash_history" or "zsh_history".
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+SecurityEvent | where (* has "cat /dev/null >*sh_history" or * has "cat /dev/zero >*sh_history" or * has "chattr +i*sh_history" or * has "echo \"\" >*sh_history" or * has "empty_bash_history" or * has "export HISTFILESIZE=0" or * has "history -c" or * has "history -w" or * has "ln -sf /dev/null *sh_history" or * has "ln -sf /dev/zero *sh_history" or * has "rm *sh_history" or * has "shopt -ou history" or * has "shopt -uo history" or * has "shred *sh_history" or * has "truncate -s0 *sh_history")

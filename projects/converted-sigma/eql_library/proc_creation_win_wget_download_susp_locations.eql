@@ -1,0 +1,11 @@
+// Title: Suspicious File Download From IP Via Wget.EXE - Paths
+// ID: 40aa399c-7b02-4715-8e5f-73572b493f33
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2024-02-23
+// Tags: attack.execution
+// Description: Detects potentially suspicious file downloads directly from IP addresses and stored in suspicious locations using Wget.exe
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where (((process.command_line regex "\\s-O\\s") or (process.command_line like "*_--output-document*")) and (process.command_line like "*_http*") and ((process.executable endswith "\\wget.exe") or (process.pe.original_file_name == "wget.exe")) and (process.command_line regex "://[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}") and (((process.command_line like "*_:\\PerfLogs\\*" or process.command_line like "*_:\\Temp\\*" or process.command_line like "*_:\\Users\\Public\\*" or process.command_line like "*_:\\Windows\\Help\\*" or process.command_line like "*_:\\Windows\\Temp\\*" or process.command_line like "*_\\Temporary Internet*")) or ((process.command_line like "*_:\\Users\\*" and process.command_line like "*_\\Favorites\\*")) or ((process.command_line like "*_:\\Users\\*" and process.command_line like "*_\\Favourites\\*")) or ((process.command_line like "*_:\\Users\\*" and process.command_line like "*_\\Contacts\\*")) or ((process.command_line like "*_:\\Users\\*" and process.command_line like "*_\\Pictures\\*"))))

@@ -1,0 +1,11 @@
+// Title: Suspicious Appended Extension
+// ID: e3f673b3-65d1-4d80-9146-466f8b63fa99
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-07-16
+// Tags: attack.impact, attack.t1486
+// Description: Detects file renames where the target filename uses an uncommon double extension. Could indicate potential ransomware activity renaming files and adding a custom extension to the encrypted files, such as ".jpg.crypted", ".docx.locky", etc.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((SourceFilename endswithCIS ".doc" OR SourceFilename endswithCIS ".docx" OR SourceFilename endswithCIS ".jpeg" OR SourceFilename endswithCIS ".jpg" OR SourceFilename endswithCIS ".lnk" OR SourceFilename endswithCIS ".pdf" OR SourceFilename endswithCIS ".png" OR SourceFilename endswithCIS ".pst" OR SourceFilename endswithCIS ".rtf" OR SourceFilename endswithCIS ".xls" OR SourceFilename endswithCIS ".xlsx") AND (tgt.file.path containsCIS ".doc." OR tgt.file.path containsCIS ".docx." OR tgt.file.path containsCIS ".jpeg." OR tgt.file.path containsCIS ".jpg." OR tgt.file.path containsCIS ".lnk." OR tgt.file.path containsCIS ".pdf." OR tgt.file.path containsCIS ".png." OR tgt.file.path containsCIS ".pst." OR tgt.file.path containsCIS ".rtf." OR tgt.file.path containsCIS ".xls." OR tgt.file.path containsCIS ".xlsx.")) AND NOT (((tgt.file.path endswithCIS ".backup" OR tgt.file.path endswithCIS ".bak" OR tgt.file.path endswithCIS ".old" OR tgt.file.path endswithCIS ".orig" OR tgt.file.path endswithCIS ".temp" OR tgt.file.path endswithCIS ".tmp"))) AND NOT ((tgt.file.path containsCIS ":\\ProgramData\\Anaconda3\\" AND tgt.file.path endswithCIS ".c~")))

@@ -1,0 +1,23 @@
+// Title: Potential DLL Sideloading Of MpSvc.DLL
+// ID: 5ba243e5-8165-4cf7-8c69-e1d3669654c1
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems), Wietze Beukema
+// Date: 2024-07-11
+// Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.stealth, attack.t1574.001
+// Description: Detects potential DLL sideloading of "MpSvc.dll".
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 5ba243e5_8165_4cf7_8c69_e1d3669654c1 {
+  meta:
+    title = "Potential DLL Sideloading Of MpSvc.DLL"
+    description = "Detects potential DLL sideloading of "MpSvc.dll"."
+    author = "Nasreddine Bencherchali (Nextron Systems), Wietze Beukema"
+    severity = "MEDIUM"
+
+  events:
+    (($e.ImageLoaded = /.*\\MpSvc.dll$/ nocase) and not((($e.ImageLoaded = /^C:\\Program Files\\Windows Defender\\.*/ nocase or $e.ImageLoaded = /^C:\\ProgramData\\Microsoft\\Windows Defender\\Platform\\.*/ nocase or $e.ImageLoaded = /^C:\\Windows\\WinSxS\\.*/ nocase))))
+
+  condition:
+    $e
+}

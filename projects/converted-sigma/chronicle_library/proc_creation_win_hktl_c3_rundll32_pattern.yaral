@@ -1,0 +1,23 @@
+// Title: HackTool - F-Secure C3 Load by Rundll32
+// ID: b18c9d4c-fac9-4708-bd06-dd5bfacf200f
+// Status: test
+// Level: critical
+// Author: Alfie Champion (ajpc500)
+// Date: 2021-06-02
+// Tags: attack.stealth, attack.t1218.011
+// Description: F-Secure C3 produces DLLs with a default exported StartNodeRelay function.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule b18c9d4c_fac9_4708_bd06_dd5bfacf200f {
+  meta:
+    title = "HackTool - F-Secure C3 Load by Rundll32"
+    description = "F-Secure C3 produces DLLs with a default exported StartNodeRelay function."
+    author = "Alfie Champion (ajpc500)"
+    severity = "CRITICAL"
+
+  events:
+    (($e.target.process.command_line = /.*rundll32.exe.*/ nocase and $e.target.process.command_line = /.*.dll.*/ nocase and $e.target.process.command_line = /.*StartNodeRelay.*/ nocase))
+
+  condition:
+    $e
+}

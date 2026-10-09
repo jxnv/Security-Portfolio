@@ -1,0 +1,12 @@
+-- Title: Suspicious ShellExec_RunDLL Call Via Ordinal
+-- ID: 8823e85d-31d8-473e-b7f4-92da070f0fc6
+-- Status: test
+-- Level: high
+-- Author: Swachchhanda Shrawan Poudel
+-- Date: 2024-12-01
+-- Tags: attack.stealth, attack.t1218.011
+-- Description: Detects suspicious call to the "ShellExec_RunDLL" exported function of SHELL32.DLL through the ordinal number to launch other commands.
+-- Adversary might only use the ordinal number in order to bypass existing detection that alert on usage of ShellExec_RunDLL on CommandLine.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE (((ParentCommandLine ILIKE '%SHELL32.DLL%') AND ((ParentCommandLine ILIKE '%#568%' OR ParentCommandLine ILIKE '%#570%' OR ParentCommandLine ILIKE '%#572%' OR ParentCommandLine ILIKE '%#576%'))) AND (((Image ILIKE '%\\bash.exe' OR Image ILIKE '%\\bitsadmin.exe' OR Image ILIKE '%\\cmd.exe' OR Image ILIKE '%\\cscript.exe' OR Image ILIKE '%\\curl.exe' OR Image ILIKE '%\\mshta.exe' OR Image ILIKE '%\\msiexec.exe' OR Image ILIKE '%\\msxsl.exe' OR Image ILIKE '%\\odbcconf.exe' OR Image ILIKE '%\\powershell.exe' OR Image ILIKE '%\\pwsh.exe' OR Image ILIKE '%\\regsvr32.exe' OR Image ILIKE '%\\schtasks.exe' OR Image ILIKE '%\\wmic.exe' OR Image ILIKE '%\\wscript.exe')) OR (((ParentCommandLine ILIKE '%comspec%' OR ParentCommandLine ILIKE '%iex%' OR ParentCommandLine ILIKE '%Invoke-%' OR ParentCommandLine ILIKE '%msiexec%' OR ParentCommandLine ILIKE '%odbcconf%' OR ParentCommandLine ILIKE '%regsvr32%')) OR ((ParentCommandLine ILIKE '%\\Desktop\\%' OR ParentCommandLine ILIKE '%\\ProgramData\\%' OR ParentCommandLine ILIKE '%\\Temp\\%' OR ParentCommandLine ILIKE '%\\Users\\Public\\%')))))

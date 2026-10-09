@@ -1,0 +1,11 @@
+// Title: Sdiagnhost Calling Suspicious Child Process
+// ID: f3d39c45-de1a-4486-a687-ab126124f744
+// Status: test
+// Level: high
+// Author: Nextron Systems, @Kostastsale
+// Date: 2022-06-01
+// Tags: attack.stealth, attack.t1036, attack.t1218
+// Description: Detects sdiagnhost.exe calling a suspicious child process (e.g. used in exploits for Follina / CVE-2022-30190)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where ((process.parent.executable="*\\sdiagnhost.exe" AND (process.executable="*\\powershell.exe" OR process.executable="*\\pwsh.exe" OR process.executable="*\\cmd.exe" OR process.executable="*\\mshta.exe" OR process.executable="*\\cscript.exe" OR process.executable="*\\wscript.exe" OR process.executable="*\\taskkill.exe" OR process.executable="*\\regsvr32.exe" OR process.executable="*\\rundll32.exe" OR process.executable="*\\calc.exe")) AND NOT (((process.executable="*\\cmd.exe" AND process.command_line like "%bits%") OR (process.executable="*\\powershell.exe" AND (process.command_line="*-noprofile -" OR process.command_line="*-noprofile")))))

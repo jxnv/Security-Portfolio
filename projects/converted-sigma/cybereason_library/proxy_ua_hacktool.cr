@@ -1,0 +1,11 @@
+// Title: Hack Tool User Agent
+// ID: c42a3073-30fb-48ae-8c99-c23ada84b103
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2017-07-08
+// Tags: attack.initial-access, attack.t1190, attack.credential-access, attack.t1110
+// Description: Detects suspicious user agent strings user by hack tools in proxy logs
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((c-useragent contains "(hydra)" OR c-useragent contains " arachni/" OR c-useragent contains " BFAC " OR c-useragent contains " brutus " OR c-useragent contains " cgichk " OR c-useragent contains "core-project/1.0" OR c-useragent contains " crimscanner/" OR c-useragent contains "datacha0s" OR c-useragent contains "dirbuster" OR c-useragent contains "domino hunter" OR c-useragent contains "dotdotpwn" OR c-useragent contains "FHScan Core" OR c-useragent contains "floodgate" OR c-useragent contains "get-minimal" OR c-useragent contains "gootkit auto-rooter scanner" OR c-useragent contains "grendel-scan" OR c-useragent contains " inspath " OR c-useragent contains "internet ninja" OR c-useragent contains "jaascois" OR c-useragent contains " zmeu " OR c-useragent contains "masscan" OR c-useragent contains " metis " OR c-useragent contains "morfeus fucking scanner" OR c-useragent contains "n-stealth" OR c-useragent contains "nsauditor" OR c-useragent contains "pmafind" OR c-useragent contains "security scan" OR c-useragent contains "springenwerk" OR c-useragent contains "teh forest lobster" OR c-useragent contains "toata dragostea" OR c-useragent contains " vega/" OR c-useragent contains "voideye" OR c-useragent contains "webshag" OR c-useragent contains "webvulnscan" OR c-useragent contains " whcc/" OR c-useragent contains " Havij" OR c-useragent contains "absinthe" OR c-useragent contains "bsqlbf" OR c-useragent contains "mysqloit" OR c-useragent contains "pangolin" OR c-useragent contains "sql power injector" OR c-useragent contains "sqlmap" OR c-useragent contains "sqlninja" OR c-useragent contains "uil2pn" OR c-useragent contains "ruler" OR c-useragent contains "Mozilla/5.0 (Windows; U; Windows NT 5.1; pt-PT; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 (.NET CLR 3.5.30729)"))

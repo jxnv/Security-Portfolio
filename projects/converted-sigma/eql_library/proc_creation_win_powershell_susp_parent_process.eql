@@ -1,0 +1,11 @@
+// Title: Suspicious PowerShell Parent Process
+// ID: 754ed792-634f-40ae-b3bc-e0448d33f695
+// Status: test
+// Level: high
+// Author: Teymur Kheirkhabarov, Harish Segar
+// Date: 2020-03-20
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects a suspicious or uncommon parent processes of PowerShell
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where (((process.parent.executable like "*_tomcat*") or ((process.parent.executable endswith "\\amigo.exe" or process.parent.executable endswith "\\browser.exe" or process.parent.executable endswith "\\chrome.exe" or process.parent.executable endswith "\\firefox.exe" or process.parent.executable endswith "\\httpd.exe" or process.parent.executable endswith "\\iexplore.exe" or process.parent.executable endswith "\\jbosssvc.exe" or process.parent.executable endswith "\\microsoftedge.exe" or process.parent.executable endswith "\\microsoftedgecp.exe" or process.parent.executable endswith "\\MicrosoftEdgeSH.exe" or process.parent.executable endswith "\\mshta.exe" or process.parent.executable endswith "\\nginx.exe" or process.parent.executable endswith "\\outlook.exe" or process.parent.executable endswith "\\php-cgi.exe" or process.parent.executable endswith "\\regsvr32.exe" or process.parent.executable endswith "\\rundll32.exe" or process.parent.executable endswith "\\safari.exe" or process.parent.executable endswith "\\services.exe" or process.parent.executable endswith "\\sqlagent.exe" or process.parent.executable endswith "\\sqlserver.exe" or process.parent.executable endswith "\\sqlservr.exe" or process.parent.executable endswith "\\vivaldi.exe" or process.parent.executable endswith "\\w3wp.exe"))) and (((process.executable endswith "\\powershell.exe" or process.executable endswith "\\pwsh.exe")) or ((process.command_line like "*_/c powershell*" or process.command_line like "*_/c pwsh*")) or (Description == "Windows PowerShell") or (Product == "PowerShell Core 6") or ((process.pe.original_file_name == "PowerShell.EXE" or process.pe.original_file_name == "pwsh.dll"))))

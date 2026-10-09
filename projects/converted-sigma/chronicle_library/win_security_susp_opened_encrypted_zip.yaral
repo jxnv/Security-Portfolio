@@ -1,0 +1,23 @@
+// Title: Password Protected ZIP File Opened
+// ID: 00ba9da1-b510-4f6b-b258-8d338836180f
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-05-09
+// Tags: attack.stealth, attack.t1027
+// Description: Detects the extraction of password protected ZIP archives. See the filename variable for more details on which file has been opened.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 00ba9da1_b510_4f6b_b258_8d338836180f {
+  meta:
+    title = "Password Protected ZIP File Opened"
+    description = "Detects the extraction of password protected ZIP archives. See the filename variable for more details on which file has been opened."
+    author = "Florian Roth (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.EventID = 5379 and $e.TargetName = /.*Microsoft_Windows_Shell_ZipFolder:filename.*/ nocase) and not(($e.TargetName = /.*\\Temporary Internet Files\\Content.Outlook.*/ nocase)))
+
+  condition:
+    $e
+}

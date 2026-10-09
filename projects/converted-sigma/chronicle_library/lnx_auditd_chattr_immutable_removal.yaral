@@ -1,0 +1,23 @@
+// Title: Remove Immutable File Attribute - Auditd
+// ID: a5b977d6-8a81-4475-91b9-49dbfcd941f7
+// Status: test
+// Level: medium
+// Author: Jakob Weinzettl, oscd.community
+// Date: 2019-09-23
+// Tags: attack.defense-impairment, attack.t1222.002
+// Description: Detects removing immutable file attribute.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule a5b977d6_8a81_4475_91b9_49dbfcd941f7 {
+  meta:
+    title = "Remove Immutable File Attribute - Auditd"
+    description = "Detects removing immutable file attribute."
+    author = "Jakob Weinzettl, oscd.community"
+    severity = "MEDIUM"
+
+  events:
+    ($e.type = "EXECVE" and $e.a0 = /.*chattr.*/ nocase and $e.a1 = /.*-i.*/ nocase)
+
+  condition:
+    $e
+}

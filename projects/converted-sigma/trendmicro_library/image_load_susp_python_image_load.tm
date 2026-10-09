@@ -1,0 +1,13 @@
+// Title: Python Image Load By Non-Python Process
+// ID: cbb56d62-4060-40f7-9466-d8aaf3123f83
+// Status: test
+// Level: low
+// Author: Patrick St. John, OTR (Open Threat Research)
+// Date: 2020-05-03
+// Tags: attack.stealth, attack.t1027.002
+// Description: Detects the image load of "Python Core" by a non-Python process. This might be indicative of a execution of executable that has been bundled from Python code.
+// Various tools like Py2Exe, PyInstaller, and cx_Freeze are used to bundle Python code into standalone executables.
+// Threat actors often use these tools to bundle malicious Python scripts into executables, sometimes to obfuscate the code or to bypass security measures.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((Description: "Python Core") AND NOT (((Image: "*Python*") OR ((Image="C:\\Program Files\\*" OR Image="C:\\Program Files (x86)\\*" OR Image="C:\\ProgramData\\Anaconda3\\*")))) AND NOT ((NOT Image=*)))

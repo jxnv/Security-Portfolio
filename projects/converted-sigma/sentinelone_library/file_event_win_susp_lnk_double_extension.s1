@@ -1,0 +1,11 @@
+// Title: Suspicious LNK Double Extension File Created
+// ID: 3215aa19-f060-4332-86d5-5602511f3ca8
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems), frack113
+// Date: 2022-11-07
+// Tags: attack.stealth, attack.t1036.007
+// Description: Detects the creation of files with an "LNK" as a second extension. This is sometimes used by malware as a method to abuse the fact that Windows hides the "LNK" extension by default.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((tgt.file.path endswithCIS ".lnk" AND (tgt.file.path containsCIS ".doc." OR tgt.file.path containsCIS ".docx." OR tgt.file.path containsCIS ".jpg." OR tgt.file.path containsCIS ".pdf." OR tgt.file.path containsCIS ".ppt." OR tgt.file.path containsCIS ".pptx." OR tgt.file.path containsCIS ".xls." OR tgt.file.path containsCIS ".xlsx.")) AND NOT ((tgt.file.path containsCIS "\\AppData\\Roaming\\Microsoft\\Windows\\Recent\\")) AND NOT (((src.process.image.path endswithCIS "\\excel.exe" AND tgt.file.path containsCIS "\\AppData\\Roaming\\Microsoft\\Excel") OR (src.process.image.path endswithCIS "\\powerpnt.exe" AND tgt.file.path containsCIS "\\AppData\\Roaming\\Microsoft\\PowerPoint") OR ((src.process.image.path endswithCIS "\\excel.exe" OR src.process.image.path endswithCIS "\\powerpnt.exe" OR src.process.image.path endswithCIS "\\winword.exe") AND tgt.file.path containsCIS "\\AppData\\Roaming\\Microsoft\\Office\\Recent\\") OR (src.process.image.path endswithCIS "\\winword.exe" AND tgt.file.path containsCIS "\\AppData\\Roaming\\Microsoft\\Word"))))

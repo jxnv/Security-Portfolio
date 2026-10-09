@@ -1,0 +1,24 @@
+// Title: ServiceDll Hijack
+// ID: 612e47e9-8a59-43a6-b404-f48683f45bd6
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-02-04
+// Tags: attack.persistence, attack.privilege-escalation, attack.t1543.003
+// Description: Detects changes to the "ServiceDLL" value related to a service in the registry.
+// This is often used as a method of persistence.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 612e47e9_8a59_43a6_b404_f48683f45bd6 {
+  meta:
+    title = "ServiceDll Hijack"
+    description = "Detects changes to the "ServiceDLL" value related to a service in the registry. This is often used as a method of persistence."
+    author = "frack113"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.TargetObject = /.*\\System\\.*/ nocase and $e.TargetObject = /.*ControlSet.*/ nocase and $e.TargetObject = /.*\\Services\\.*/ nocase) and $e.TargetObject = /.*\\Parameters\\ServiceDll$/ nocase) and not((($e.target.process.file.full_path = "C:\\Windows\\system32\\lsass.exe" and $e.TargetObject = /.*\\Services\\NTDS\\Parameters\\ServiceDll$/ nocase and $e.Details = "%%systemroot%%\\system32\\ntdsa.dll") or ($e.target.process.file.full_path = "C:\\Windows\\System32\\poqexec.exe") or ($e.Details = "C:\\Windows\\system32\\spool\\drivers\\x64\\3\\PrintConfig.dll") or ($e.target.process.file.full_path = /.*\\regsvr32.exe$/ nocase and $e.TargetObject = /.*\\Services\\PrintNotify\\Parameters\\ServiceDll$/ nocase and $e.Details = /^C:\\WINDOWS\\System32\\DriverStore\\FileRepository\\.*/ nocase and $e.Details = /.*\\arm64\\PrintConfig.dll$/ nocase))) and not(($e.target.process.file.full_path = /.*\\regsvr32.exe$/ nocase and $e.Details = "C:\\Windows\\System32\\STAgent.dll")))
+
+  condition:
+    $e
+}

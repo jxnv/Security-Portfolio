@@ -1,0 +1,11 @@
+// Title: Disable Windows Defender AV Security Monitoring
+// ID: a7ee1722-c3c5-aeff-3212-c777e4733217
+// Status: test
+// Level: high
+// Author: ok @securonix invrep-de, oscd.community, frack113
+// Date: 2020-10-12
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects attackers attempting to disable Windows Defender using Powershell
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE (((((process.executable LIKE "%\\powershell.exe" OR process.executable LIKE "%\\pwsh.exe")) OR ((process.pe.original_file_name == "PowerShell.EXE" OR process.pe.original_file_name == "pwsh.dll"))) AND ((process.command_line LIKE "%-DisableBehaviorMonitoring $true%" OR process.command_line LIKE "%-DisableRuntimeMonitoring $true%"))) OR (((process.executable LIKE "%\\sc.exe") OR (process.pe.original_file_name == "sc.exe")) AND (((process.command_line LIKE "%delete%" AND process.command_line LIKE "%WinDefend%")) OR ((process.command_line LIKE "%config%" AND process.command_line LIKE "%WinDefend%" AND process.command_line LIKE "%start=disabled%")) OR ((process.command_line LIKE "%stop%" AND process.command_line LIKE "%WinDefend%")))))

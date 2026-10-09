@@ -1,0 +1,11 @@
+// Title: Potential Persistence Via Microsoft Office Startup Folder
+// ID: 0e20c89d-2264-44ae-8238-aeeaba609ece
+// Status: test
+// Level: high
+// Author: Max Altgelt (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-06-02
+// Tags: attack.persistence, attack.t1137
+// Description: Detects creation of Microsoft Office files inside of one of the default startup folders in order to achieve persistence.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((((where(TargetFilename IENDSWITH ".doc") OR where(TargetFilename IENDSWITH ".docm") OR where(TargetFilename IENDSWITH ".docx") OR where(TargetFilename IENDSWITH ".dot") OR where(TargetFilename IENDSWITH ".dotm") OR where(TargetFilename IENDSWITH ".rtf"))) AND ((where(TargetFilename ICONTAINS "\\Microsoft\\Word\\STARTUP")) OR ((where(TargetFilename ICONTAINS "\\Office") AND where(TargetFilename ICONTAINS "\\Program Files") AND where(TargetFilename ICONTAINS "\\STARTUP"))))) OR (((where(TargetFilename IENDSWITH ".xls") OR where(TargetFilename IENDSWITH ".xlsm") OR where(TargetFilename IENDSWITH ".xlsx") OR where(TargetFilename IENDSWITH ".xlt") OR where(TargetFilename IENDSWITH ".xltm"))) AND ((where(TargetFilename ICONTAINS "\\Microsoft\\Excel\\XLSTART")) OR ((where(TargetFilename ICONTAINS "\\Office") AND where(TargetFilename ICONTAINS "\\Program Files") AND where(TargetFilename ICONTAINS "\\XLSTART")))))) AND NOT (((where(Image IENDSWITH "\\WINWORD.exe") OR where(Image IENDSWITH "\\EXCEL.exe")))))

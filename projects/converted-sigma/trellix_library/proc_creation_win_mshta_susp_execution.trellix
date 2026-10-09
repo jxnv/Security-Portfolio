@@ -1,0 +1,14 @@
+# Title: MSHTA Execution with Suspicious File Extensions
+# ID: cc7abbd0-762b-41e3-8a26-57ad50d2eea3
+# Status: test
+# Level: high
+# Author: Diego Perez (@darkquassar), Markus Neis, Swisscom (Improve Rule), Swachchhanda Shrawan Poudel (Nextron Systems)
+# Date: 2019-02-22
+# Tags: attack.stealth, attack.t1140, attack.t1218.005, attack.execution, attack.t1059.007, cve.2020-1599
+# Description: Detects execution of mshta.exe with file types that looks like they do not typically represent HTA (HTML Application) content,
+# such as .png, .jpg, .zip, .pdf, and others, which are often polyglots. MSHTA is a legitimate Windows utility for executing HTML Applications
+# containing VBScript or JScript. Threat actors often abuse this lolbin utility to download and
+# execute malicious scripts disguised as benign files or hosted under misleading extensions to evade detection.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((CommandLine CONTAINS ".7z" OR CommandLine CONTAINS ".avi" OR CommandLine CONTAINS ".bat" OR CommandLine CONTAINS ".bmp" OR CommandLine CONTAINS ".conf" OR CommandLine CONTAINS ".csv" OR CommandLine CONTAINS ".dll" OR CommandLine CONTAINS ".doc" OR CommandLine CONTAINS ".gif" OR CommandLine CONTAINS ".gz" OR CommandLine CONTAINS ".ini" OR CommandLine CONTAINS ".jpe" OR CommandLine CONTAINS ".jpg" OR CommandLine CONTAINS ".json" OR CommandLine CONTAINS ".lnk" OR CommandLine CONTAINS ".log" OR CommandLine CONTAINS ".mkv" OR CommandLine CONTAINS ".mp3" OR CommandLine CONTAINS ".mp4" OR CommandLine CONTAINS ".pdf" OR CommandLine CONTAINS ".png" OR CommandLine CONTAINS ".ppt" OR CommandLine CONTAINS ".rar" OR CommandLine CONTAINS ".rtf" OR CommandLine CONTAINS ".svg" OR CommandLine CONTAINS ".tar" OR CommandLine CONTAINS ".tmp" OR CommandLine CONTAINS ".txt" OR CommandLine CONTAINS ".xls" OR CommandLine CONTAINS ".xml" OR CommandLine CONTAINS ".yaml" OR CommandLine CONTAINS ".yml" OR CommandLine CONTAINS ".zip" OR CommandLine CONTAINS "vbscript")) AND ((Image="*\\mshta.exe") OR (OriginalFileName == "mshta.exe")))

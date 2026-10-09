@@ -1,0 +1,23 @@
+// Title: Execute Files with Msdeploy.exe
+// ID: 646bc99f-6682-4b47-a73a-17b1b64c9d34
+// Status: test
+// Level: medium
+// Author: Beyu Denis, oscd.community
+// Date: 2020-10-18
+// Tags: attack.stealth, attack.t1218
+// Description: Detects file execution using the msdeploy.exe lolbin
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 646bc99f_6682_4b47_a73a_17b1b64c9d34 {
+  meta:
+    title = "Execute Files with Msdeploy.exe"
+    description = "Detects file execution using the msdeploy.exe lolbin"
+    author = "Beyu Denis, oscd.community"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.process.command_line = /.*verb:sync.*/ nocase and $e.target.process.command_line = /.*-source:RunCommand.*/ nocase and $e.target.process.command_line = /.*-dest:runCommand.*/ nocase) and $e.target.process.file.full_path = /.*\\msdeploy.exe$/ nocase)
+
+  condition:
+    $e
+}

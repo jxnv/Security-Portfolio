@@ -1,0 +1,11 @@
+-- Title: Remote AppX Package Downloaded from File Sharing or CDN Domain
+-- ID: 8b48ad89-10d8-4382-a546-50588c410f0d
+-- Status: test
+-- Level: high
+-- Author: Nasreddine Bencherchali (Nextron Systems)
+-- Date: 2023-01-11
+-- Tags: attack.stealth
+-- Description: Detects an appx package that was added to the pipeline of the "to be processed" packages which was downloaded from a file sharing or CDN domain.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE (EventID = 854 AND (Path ILIKE '%.githubusercontent.com%' OR Path ILIKE '%0x0.st%' OR Path ILIKE '%anonfiles.com%' OR Path ILIKE '%bashupload.com%' OR Path ILIKE '%cdn.discordapp.com%' OR Path ILIKE '%chunk.io%' OR Path ILIKE '%ddns.net%' OR Path ILIKE '%dl.dropboxusercontent.com%' OR Path ILIKE '%ghostbin.co%' OR Path ILIKE '%github.com%' OR Path ILIKE '%glitch.me%' OR Path ILIKE '%gofile.io%' OR Path ILIKE '%hastebin.com%' OR Path ILIKE '%mediafire.com%' OR Path ILIKE '%mega.nz%' OR Path ILIKE '%onrender.com%' OR Path ILIKE '%pages.dev%' OR Path ILIKE '%paste.ee%' OR Path ILIKE '%pastebin.com%' OR Path ILIKE '%pastebin.pl%' OR Path ILIKE '%pastetext.net%' OR Path ILIKE '%privatlab.com%' OR Path ILIKE '%privatlab.net%' OR Path ILIKE '%send.exploit.in%' OR Path ILIKE '%sendspace.com%' OR Path ILIKE '%storage.googleapis.com%' OR Path ILIKE '%storjshare.io%' OR Path ILIKE '%supabase.co%' OR Path ILIKE '%temp.sh%' OR Path ILIKE '%transfer.sh%' OR Path ILIKE '%trycloudflare.com%' OR Path ILIKE '%ufile.io%' OR Path ILIKE '%w3spaces.com%' OR Path ILIKE '%workers.dev%' OR Path ILIKE '%x0.at%'))

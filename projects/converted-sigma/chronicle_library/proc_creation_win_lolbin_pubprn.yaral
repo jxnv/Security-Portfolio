@@ -1,0 +1,23 @@
+// Title: Pubprn.vbs Proxy Execution
+// ID: 1fb76ab8-fa60-4b01-bddd-71e89bf555da
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-05-28
+// Tags: attack.stealth, attack.t1216.001
+// Description: Detects the use of the 'Pubprn.vbs' Microsoft signed script to execute commands.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 1fb76ab8_fa60_4b01_bddd_71e89bf555da {
+  meta:
+    title = "Pubprn.vbs Proxy Execution"
+    description = "Detects the use of the 'Pubprn.vbs' Microsoft signed script to execute commands."
+    author = "frack113"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.process.command_line = /.*\\pubprn.vbs.*/ nocase and $e.target.process.command_line = /.*script:.*/ nocase))
+
+  condition:
+    $e
+}

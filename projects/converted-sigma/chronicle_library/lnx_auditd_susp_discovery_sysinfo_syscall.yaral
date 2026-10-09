@@ -1,0 +1,24 @@
+// Title: System Info Discovery via Sysinfo Syscall
+// ID: b207d563-a1d9-4275-b349-77d1eb55aa6d
+// Status: experimental
+// Level: low
+// Author: Milad Cheraghi
+// Date: 2025-05-30
+// Tags: attack.discovery, attack.t1057, attack.t1082
+// Description: Detects use of the sysinfo system call in Linux, which provides a snapshot of key system statistics such as uptime, load averages, memory usage, and the number of running processes.
+// Malware or reconnaissance tools might leverage sysinfo to fingerprint the system - gathering data to determine if it's a viable target.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule b207d563_a1d9_4275_b349_77d1eb55aa6d {
+  meta:
+    title = "System Info Discovery via Sysinfo Syscall"
+    description = "Detects use of the sysinfo system call in Linux, which provides a snapshot of key system statistics such as uptime, load averages, memory usage, and the number of running processes. Malware or reconnaissance tools might leverage sysinfo to fingerprint the system - gathering data to determine if it's a viable target."
+    author = "Milad Cheraghi"
+    severity = "LOW"
+
+  events:
+    (($e.type = "SYSCALL" and $e.SYSCALL = "sysinfo") and not(($e.exe = /.*/bin/splunkd$/ nocase)))
+
+  condition:
+    $e
+}

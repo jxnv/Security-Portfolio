@@ -1,0 +1,11 @@
+// Title: Suspicious Rundll32 Execution With Image Extension
+// ID: 4aa6040b-3f28-44e3-a769-9208e5feb5ec
+// Status: test
+// Level: high
+// Author: Hieu Tran
+// Date: 2023-03-13
+// Tags: attack.stealth, attack.t1218.011
+// Description: Detects the execution of Rundll32.exe with DLL files masquerading as image files
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where (((process.command_line like "%.bmp%" OR process.command_line like "%.cr2%" OR process.command_line like "%.eps%" OR process.command_line like "%.gif%" OR process.command_line like "%.ico%" OR process.command_line like "%.jpeg%" OR process.command_line like "%.jpg%" OR process.command_line like "%.nef%" OR process.command_line like "%.orf%" OR process.command_line like "%.png%" OR process.command_line like "%.raw%" OR process.command_line like "%.sr2%" OR process.command_line like "%.tif%" OR process.command_line like "%.tiff%")) AND ((process.executable="*\\rundll32.exe") OR (process.pe.original_file_name = "RUNDLL32.exe")))

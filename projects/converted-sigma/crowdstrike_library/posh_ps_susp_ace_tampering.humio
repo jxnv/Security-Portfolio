@@ -1,0 +1,11 @@
+// Title: Potential Persistence Via Security Descriptors - ScriptBlock
+// ID: 2f77047c-e6e9-4c11-b088-a3de399524cd
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-01-05
+// Tags: attack.persistence, attack.privilege-escalation, attack.defense-impairment
+// Description: Detects usage of certain functions and keywords that are used to manipulate security descriptors in order to potentially set a backdoor. As seen used in the DAMP project.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((ScriptBlockText = /*win32_Trustee*/i and ScriptBlockText = /*win32_Ace*/i and ScriptBlockText = /*.AccessMask*/i and ScriptBlockText = /*.AceType*/i and ScriptBlockText = /*.SetSecurityDescriptor*/i) and (ScriptBlockText = /*\\Lsa\\JD*/i or ScriptBlockText = /*\\Lsa\\Skew1*/i or ScriptBlockText = /*\\Lsa\\Data*/i or ScriptBlockText = /*\\Lsa\\GBG*/i))

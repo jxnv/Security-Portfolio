@@ -1,0 +1,11 @@
+// Title: Suspicious New Service Creation
+// ID: 17a1be64-8d88-40bf-b5ff-a4f7a50ebcc8
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-07-14
+// Tags: attack.persistence, attack.privilege-escalation, attack.t1543.003
+// Description: Detects creation of a new service via "sc" command or the powershell "new-service" cmdlet with suspicious binary paths
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where ((((process.command_line like "*_New-Service*" and process.command_line like "*_-BinaryPathName*")) or (process.executable endswith "\\sc.exe" and (process.command_line like "*_create*" and process.command_line like "*_binPath=*"))) and ((process.command_line like "*_powershell*" or process.command_line like "*_mshta*" or process.command_line like "*_wscript*" or process.command_line like "*_cscript*" or process.command_line like "*_svchost*" or process.command_line like "*_dllhost*" or process.command_line like "*_cmd *" or process.command_line like "*_cmd.exe /c*" or process.command_line like "*_cmd.exe /k*" or process.command_line like "*_cmd.exe /r*" or process.command_line like "*_rundll32*" or process.command_line like "*_C:\\Users\\Public*" or process.command_line like "*_\\Downloads\\*" or process.command_line like "*_\\Desktop\\*" or process.command_line like "*_\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\*" or process.command_line like "*_C:\\Windows\\TEMP\\*" or process.command_line like "*_\\AppData\\Local\\Temp*")))

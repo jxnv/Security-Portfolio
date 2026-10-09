@@ -1,0 +1,11 @@
+// Title: Suspicious SSL Connection
+// ID: 195626f3-5f1b-4403-93b7-e6cfd4d6a078
+// Status: test
+// Level: low
+// Author: frack113
+// Date: 2022-01-23
+// Tags: attack.command-and-control, attack.t1573
+// Description: Adversaries may employ a known encryption algorithm to conceal command and control traffic rather than relying on any inherent protections provided by a communication protocol.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((ScriptBlockText: "*System.Net.Security.SslStream*" AND ScriptBlockText: "*Net.Security.RemoteCertificateValidationCallback*" AND ScriptBlockText: "*.AuthenticateAsClient*"))

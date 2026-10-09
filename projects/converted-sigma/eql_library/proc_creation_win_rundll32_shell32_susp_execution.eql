@@ -1,0 +1,11 @@
+// Title: Shell32 DLL Execution in Suspicious Directory
+// ID: 32b96012-7892-429e-b26c-ac2bf46066ff
+// Status: test
+// Level: high
+// Author: Christian Burkard (Nextron Systems)
+// Date: 2021-11-24
+// Tags: attack.execution, attack.stealth, attack.t1218.011
+// Description: Detects shell32.dll executing a DLL in a suspicious directory
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where (((process.command_line like "*_shell32.dll*" and process.command_line like "*_Control_RunDLL*") and (process.command_line like "*_%AppData%*" or process.command_line like "*_%LocalAppData%*" or process.command_line like "*_%Temp%*" or process.command_line like "*_%tmp%*" or process.command_line like "*_\\AppData\\*" or process.command_line like "*_\\Temp\\*" or process.command_line like "*_\\Users\\Public\\*")) and ((process.executable endswith "\\rundll32.exe") or (process.pe.original_file_name == "RUNDLL32.EXE")))

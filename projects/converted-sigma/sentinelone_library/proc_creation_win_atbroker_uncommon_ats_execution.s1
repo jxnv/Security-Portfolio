@@ -1,0 +1,11 @@
+// Title: Uncommon  Assistive Technology Applications Execution Via AtBroker.EXE
+// ID: f24bcaea-0cd1-11eb-adc1-0242ac120002
+// Status: test
+// Level: medium
+// Author: Mateusz Wydra, oscd.community
+// Date: 2020-10-12
+// Tags: attack.stealth, attack.t1218
+// Description: Detects the start of a non built-in assistive technology applications via "Atbroker.EXE".
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((src.process.cmdline containsCIS "start") AND ((src.process.image.path endswithCIS "\\AtBroker.exe") OR (OriginalFileName = "AtBroker.exe"))) AND NOT (((src.process.cmdline containsCIS "animations" OR src.process.cmdline containsCIS "audiodescription" OR src.process.cmdline containsCIS "caretbrowsing" OR src.process.cmdline containsCIS "caretwidth" OR src.process.cmdline containsCIS "colorfiltering" OR src.process.cmdline containsCIS "cursorindicator" OR src.process.cmdline containsCIS "cursorscheme" OR src.process.cmdline containsCIS "filterkeys" OR src.process.cmdline containsCIS "focusborderheight" OR src.process.cmdline containsCIS "focusborderwidth" OR src.process.cmdline containsCIS "highcontrast" OR src.process.cmdline containsCIS "keyboardcues" OR src.process.cmdline containsCIS "keyboardpref" OR src.process.cmdline containsCIS "livecaptions" OR src.process.cmdline containsCIS "magnifierpane" OR src.process.cmdline containsCIS "messageduration" OR src.process.cmdline containsCIS "minimumhitradius" OR src.process.cmdline containsCIS "mousekeys" OR src.process.cmdline containsCIS "Narrator" OR src.process.cmdline containsCIS "osk" OR src.process.cmdline containsCIS "overlappedcontent" OR src.process.cmdline containsCIS "showsounds" OR src.process.cmdline containsCIS "soundsentry" OR src.process.cmdline containsCIS "speechreco" OR src.process.cmdline containsCIS "stickykeys" OR src.process.cmdline containsCIS "togglekeys" OR src.process.cmdline containsCIS "voiceaccess" OR src.process.cmdline containsCIS "windowarranging" OR src.process.cmdline containsCIS "windowtracking" OR src.process.cmdline containsCIS "windowtrackingtimeout" OR src.process.cmdline containsCIS "windowtrackingzorder"))) AND NOT ((src.process.cmdline containsCIS "Oracle_JavaAccessBridge")))

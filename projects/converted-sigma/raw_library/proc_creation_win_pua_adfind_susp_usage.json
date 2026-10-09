@@ -1,0 +1,47 @@
+{
+  "title": "PUA - AdFind Suspicious Execution",
+  "id": "9a132afa-654e-11eb-ae93-0242ac130002",
+  "status": "test",
+  "description": "Detects AdFind execution with common flags seen used during attacks",
+  "author": "Janantha Marasinghe (https://github.com/blueteam0ps), FPT.EagleEye Team, omkar72, oscd.community",
+  "date": "2021-02-02",
+  "tags": [
+    "attack.discovery",
+    "attack.t1018",
+    "attack.t1087.002",
+    "attack.t1482",
+    "attack.t1069.002",
+    "stp.1u"
+  ],
+  "level": "high",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection": {
+      "CommandLine|contains": [
+        "domainlist",
+        "trustdmp",
+        "dcmodes",
+        "adinfo",
+        "-sc dclist",
+        "computer_pwdnotreqd",
+        "objectcategory=",
+        "-subnets -f",
+        "name=\"Domain Admins\"",
+        "-sc u:",
+        "domainncs",
+        "dompol",
+        " oudmp ",
+        "subnetdmp",
+        "gpodmp",
+        "fspdmp",
+        "users_noexpire",
+        "computers_active",
+        "computers_pwdnotreqd"
+      ]
+    },
+    "condition": "selection"
+  }
+}

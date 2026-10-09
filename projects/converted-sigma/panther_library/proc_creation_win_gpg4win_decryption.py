@@ -1,0 +1,19 @@
+# Title: File Decryption Using Gpg4win
+# ID: 037dcd71-33a8-4392-bb01-293c94663e5a
+# Status: test
+# Level: medium
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2023-08-09
+# Tags: attack.execution
+# Description: Detects usage of Gpg4win to decrypt files
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: File Decryption Using Gpg4win
+def rule(event):
+    # Detection Logic:
+    # (((CommandLine="* -d *" AND CommandLine="*passphrase*")) AND (((Image="*\\gpg.exe" OR Image="*\\gpg2.exe")) OR (Description="GnuPG’s OpenPGP tool")))
+    return True
+
+def title(event):
+    return "File Decryption Using Gpg4win"
+

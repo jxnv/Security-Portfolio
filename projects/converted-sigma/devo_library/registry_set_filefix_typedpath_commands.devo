@@ -1,0 +1,11 @@
+// Title: FileFix - Command Evidence in TypedPaths
+// ID: 4fee3d51-8069-4a4c-a0f7-924fcaff2c70
+// Status: experimental
+// Level: high
+// Author: Alfie Champion (delivr.to), Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-07-05
+// Tags: attack.execution, attack.t1204.004
+// Description: Detects commonly-used chained commands and strings in the most recent 'url' value of the 'TypedPaths' key, which could be indicative of a user being targeted by the FileFix technique.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+from siem.events where ((TargetObject="*\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\TypedPaths\\url1" AND (contains(Details, "#") AND contains(Details, "http"))) AND (((contains(Details, "account") OR contains(Details, "anti-bot") OR contains(Details, "botcheck") OR contains(Details, "captcha") OR contains(Details, "challenge") OR contains(Details, "confirmation") OR contains(Details, "fraud") OR contains(Details, "human") OR contains(Details, "identification") OR contains(Details, "identificator") OR contains(Details, "identity") OR contains(Details, "robot") OR contains(Details, "validation") OR contains(Details, "verification") OR contains(Details, "verify"))) OR ((contains(Details, "%comspec%") OR contains(Details, "bitsadmin") OR contains(Details, "certutil") OR contains(Details, "cmd") OR contains(Details, "cscript") OR contains(Details, "curl") OR contains(Details, "finger") OR contains(Details, "mshta") OR contains(Details, "powershell") OR contains(Details, "pwsh") OR contains(Details, "regsvr32") OR contains(Details, "rundll32") OR contains(Details, "schtasks") OR contains(Details, "wget") OR contains(Details, "wscript")))))

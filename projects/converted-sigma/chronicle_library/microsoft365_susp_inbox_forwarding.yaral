@@ -1,0 +1,23 @@
+// Title: Suspicious Inbox Forwarding
+// ID: 6c220477-0b5b-4b25-bb90-66183b4089e8
+// Status: test
+// Level: low
+// Author: Austin Songer @austinsonger
+// Date: 2021-08-22
+// Tags: attack.exfiltration, attack.t1020
+// Description: Detects when a Microsoft Cloud App Security reported suspicious email forwarding rules, for example, if a user created an inbox rule that forwards a copy of all emails to an external address.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 6c220477_0b5b_4b25_bb90_66183b4089e8 {
+  meta:
+    title = "Suspicious Inbox Forwarding"
+    description = "Detects when a Microsoft Cloud App Security reported suspicious email forwarding rules, for example, if a user created an inbox rule that forwards a copy of all emails to an external address."
+    author = "Austin Songer @austinsonger"
+    severity = "LOW"
+
+  events:
+    ($e.eventSource = "SecurityComplianceCenter" and $e.eventName = "Suspicious inbox forwarding" and $e.status = "success")
+
+  condition:
+    $e
+}

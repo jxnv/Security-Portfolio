@@ -1,0 +1,20 @@
+# Title: Potential WSL InstallLocation Registry Key Modification
+# ID: 83475063-b1c8-4774-9568-69bbda71a539
+# Status: experimental
+# Level: medium
+# Author: Liran Ravich, Swachchhanda Shrawan Poudel (Nextron Systems)
+# Date: 2026-05-05
+# Tags: attack.stealth, attack.defense-impairment, attack.persistence, attack.t1112, attack.t1218
+# Description: Detects modifications to the Windows Subsystem for Linux (WSL) InstallLocation registry key.
+# Attackers can modify this registry key to redirect the execution flow of legitimate WSL processes (wsl.exe or bash.exe) to a malicious payload, acting as a proxy execution and defense evasion technique.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Potential WSL InstallLocation Registry Key Modification
+def rule(event):
+    # Detection Logic:
+    # ((TargetObject="*\\Lxss\\MSI\\InstallLocation*") AND NOT (((((Details="C:\\Program Files\\WSL" OR Details="%ProgramFiles%\\WSL")) OR ((Details="*:\\Program Files\\WindowsApps\\MicrosoftCorporationII.WindowsSubsystemForLinux_*" OR Details="*\\AppData\\Local\\Microsoft\\WindowsApps*" OR Details="*%ProgramFiles%\\WindowsApps\\MicrosoftCorporationII.WindowsSubsystemForLinux_*"))) OR ((Image="C:\\Windows\\System32\\msiexec.exe" OR Image="C:\\Windows\\SysWOW64\\msiexec.exe")))))
+    return True
+
+def title(event):
+    return "Potential WSL InstallLocation Registry Key Modification"
+

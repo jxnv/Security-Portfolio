@@ -1,0 +1,11 @@
+// Title: RegAsm.EXE Initiating Network Connection To Public IP
+// ID: 0531e43a-d77d-47c2-b89f-5fe50321c805
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2024-04-25
+// Tags: attack.stealth, attack.t1218.009
+// Description: Detects "RegAsm.exe" initiating a network connection to public IP adresses
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+network where ((Initiated == "true" and process.executable endswith "\\regasm.exe") and not (((cidrmatch("127.0.0.0/8", destination.ip) or cidrmatch("10.0.0.0/8", destination.ip) or cidrmatch("172.16.0.0/12", destination.ip) or cidrmatch("192.168.0.0/16", destination.ip) or cidrmatch("169.254.0.0/16", destination.ip) or cidrmatch("::1/128", destination.ip) or cidrmatch("fe80::/10", destination.ip) or cidrmatch("fc00::/7", destination.ip)))))

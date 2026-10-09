@@ -1,0 +1,23 @@
+// Title: Shell Invocation Via Ssh - Linux
+// ID: 8737b7f6-8df3-4bb7-b1da-06019b99b687
+// Status: test
+// Level: high
+// Author: Li Ling, Andy Parkidomo, Robert Rakowski, Blake Hartstein (Bloomberg L.P.)
+// Date: 2024-08-29
+// Tags: attack.execution, attack.t1059
+// Description: Detects the use of the "ssh" utility to execute a shell. Such behavior may be associated with privilege escalation, unauthorized command execution, or to break out from restricted environments.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 8737b7f6_8df3_4bb7_b1da_06019b99b687 {
+  meta:
+    title = "Shell Invocation Via Ssh - Linux"
+    description = "Detects the use of the "ssh" utility to execute a shell. Such behavior may be associated with privilege escalation, unauthorized command execution, or to break out from restricted environments."
+    author = "Li Ling, Andy Parkidomo, Robert Rakowski, Blake Hartstein (Bloomberg L.P.)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*/bin/bash.*/ nocase or $e.target.process.command_line = /.*/bin/dash.*/ nocase or $e.target.process.command_line = /.*/bin/fish.*/ nocase or $e.target.process.command_line = /.*/bin/sh.*/ nocase or $e.target.process.command_line = /.*/bin/zsh.*/ nocase or $e.target.process.command_line = /.*sh 0<&2 1>&2.*/ nocase or $e.target.process.command_line = /.*sh 1>&2 0<&2.*/ nocase)) and ($e.target.process.file.full_path = /.*/ssh$/ nocase and ($e.target.process.command_line = /.*ProxyCommand=;.*/ nocase or $e.target.process.command_line = /.*permitlocalcommand=yes.*/ nocase or $e.target.process.command_line = /.*localhost.*/ nocase)))
+
+  condition:
+    $e
+}

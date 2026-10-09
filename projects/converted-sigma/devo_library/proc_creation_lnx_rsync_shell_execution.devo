@@ -1,0 +1,11 @@
+// Title: Shell Execution via Rsync - Linux
+// ID: e2326866-609f-4015-aea9-7ec634e8aa04
+// Status: experimental
+// Level: high
+// Author: Li Ling, Andy Parkidomo, Robert Rakowski, Blake Hartstein (Bloomberg L.P.), Florian Roth
+// Date: 2024-09-02
+// Tags: attack.execution, attack.t1059
+// Description: Detects the use of the "rsync" utility to execute a shell. Such behavior may be associated with privilege escalation, unauthorized command execution, or to break out from restricted environments.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+from siem.events where (((contains(CommandLine, "/ash ") OR contains(CommandLine, "/bash ") OR contains(CommandLine, "/dash ") OR contains(CommandLine, "/csh ") OR contains(CommandLine, "/sh ") OR contains(CommandLine, "/zsh ") OR contains(CommandLine, "/tcsh ") OR contains(CommandLine, "/ksh ") OR contains(CommandLine, "'ash ") OR contains(CommandLine, "'bash ") OR contains(CommandLine, "'dash ") OR contains(CommandLine, "'csh ") OR contains(CommandLine, "'sh ") OR contains(CommandLine, "'zsh ") OR contains(CommandLine, "'tcsh ") OR contains(CommandLine, "'ksh "))) AND ((Image="*/rsync" OR Image="*/rsyncd") AND contains(CommandLine, " -e ")))

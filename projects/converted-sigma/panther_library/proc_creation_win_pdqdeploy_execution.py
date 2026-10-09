@@ -1,0 +1,19 @@
+# Title: PDQ Deploy Remote Adminstartion Tool Execution
+# ID: d679950c-abb7-43a6-80fb-2a480c4fc450
+# Status: test
+# Level: medium
+# Author: frack113
+# Date: 2022-10-01
+# Tags: attack.execution, attack.lateral-movement, attack.t1072
+# Description: Detect use of PDQ Deploy remote admin tool
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: PDQ Deploy Remote Adminstartion Tool Execution
+def rule(event):
+    # Detection Logic:
+    # ((Description="PDQ Deploy Console") OR (Product="PDQ Deploy") OR (Company="PDQ.com") OR (OriginalFileName="PDQDeployConsole.exe"))
+    return True
+
+def title(event):
+    return "PDQ Deploy Remote Adminstartion Tool Execution"
+

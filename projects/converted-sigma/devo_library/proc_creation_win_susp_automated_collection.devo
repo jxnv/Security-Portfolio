@@ -1,0 +1,11 @@
+// Title: Automated Collection Command Prompt
+// ID: f576a613-2392-4067-9d1a-9345fb58d8d1
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2021-07-28
+// Tags: attack.collection, attack.t1119, attack.credential-access, attack.t1552.001
+// Description: Once established within a system or network, an adversary may use automated techniques for collecting internal data.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+from siem.events where (((contains(CommandLine, ".doc") OR contains(CommandLine, ".docx") OR contains(CommandLine, ".xls") OR contains(CommandLine, ".xlsx") OR contains(CommandLine, ".ppt") OR contains(CommandLine, ".pptx") OR contains(CommandLine, ".rtf") OR contains(CommandLine, ".pdf") OR contains(CommandLine, ".txt"))) AND (((contains(CommandLine, "dir ") AND contains(CommandLine, " /b ") AND contains(CommandLine, " /s "))) OR (OriginalFileName == "FINDSTR.EXE" AND (contains(CommandLine, " /e ") OR contains(CommandLine, " /si ")))))

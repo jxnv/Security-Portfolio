@@ -1,0 +1,11 @@
+// Title: Potential Binary Or Script Dropper Via PowerShell
+// ID: 7047d730-036f-4f40-b9d8-1c63e36d5e62
+// Status: test
+// Level: medium
+// Author: frack113, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-03-17
+// Tags: attack.persistence
+// Description: Detects PowerShell creating a binary executable or a script file.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((Image ENDSWITH "\\powershell.exe" OR Image ENDSWITH "\\powershell_ise.exe" OR Image ENDSWITH "\\pwsh.exe") AND (TargetFilename ENDSWITH ".bat" OR TargetFilename ENDSWITH ".chm" OR TargetFilename ENDSWITH ".cmd" OR TargetFilename ENDSWITH ".com" OR TargetFilename ENDSWITH ".dll" OR TargetFilename ENDSWITH ".exe" OR TargetFilename ENDSWITH ".hta" OR TargetFilename ENDSWITH ".jar" OR TargetFilename ENDSWITH ".js" OR TargetFilename ENDSWITH ".ocx" OR TargetFilename ENDSWITH ".scr" OR TargetFilename ENDSWITH ".sys" OR TargetFilename ENDSWITH ".vbe" OR TargetFilename ENDSWITH ".vbs" OR TargetFilename ENDSWITH ".wsf")) AND NOT (((TargetFilename STARTSWITH "C:\\Program Files\\PackageManagement\\ProviderAssemblies\\nuget\\" AND TargetFilename ENDSWITH "\\Microsoft.PackageManagement.NuGetProvider.dll") OR ((TargetFilename STARTSWITH "C:\\Windows\\Temp\\" OR TargetFilename STARTSWITH "C:\\Windows\\SystemTemp\\") AND (TargetFilename ENDSWITH ".dll" OR TargetFilename ENDSWITH ".exe")) OR (TargetFilename STARTSWITH "C:\\Users\\" AND TargetFilename CONTAINS "\\WindowsPowerShell\\Modules\\" AND TargetFilename ENDSWITH ".dll") OR (TargetFilename STARTSWITH "C:\\Users\\" AND TargetFilename CONTAINS "\\AppData\\Local\\Temp\\" AND (TargetFilename ENDSWITH ".dll" OR TargetFilename ENDSWITH ".exe")))))

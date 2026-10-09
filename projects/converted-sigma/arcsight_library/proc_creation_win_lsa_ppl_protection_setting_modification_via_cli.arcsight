@@ -1,0 +1,12 @@
+// Title: LSA PPL Protection Setting Modification via CommandLine
+// ID: 8c0eca51-0f88-4db2-9183-fdfb10c703f9
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems), Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2022-03-22
+// Tags: attack.defense-impairment, attack.t1689
+// Description: Detects modification of LSA PPL protection settings via CommandLine.
+// It may indicate an attempt to disable protection and enable credential dumping tools to access LSASS process memory.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((CommandLine CONTAINS "ControlSet" AND CommandLine CONTAINS "\\Control\\Lsa") AND (CommandLine CONTAINS "Set-ItemProperty" OR CommandLine CONTAINS "New-ItemProperty" OR CommandLine CONTAINS " add ")) AND (((Image ENDSWITH "\\reg.exe" OR Image ENDSWITH "\\powershell.exe" OR Image ENDSWITH "\\pwsh.exe")) OR ((OriginalFileName EQ "reg.exe" OR OriginalFileName EQ "powershell.exe" OR OriginalFileName EQ "pwsh.dll"))) AND ((CommandLine CONTAINS "IsPplAutoEnabled" OR CommandLine CONTAINS "RunAsPPL" OR CommandLine CONTAINS "RunAsPPLBoot")))

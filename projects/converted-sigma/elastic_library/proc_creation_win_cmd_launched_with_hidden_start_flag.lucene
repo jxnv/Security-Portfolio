@@ -1,0 +1,13 @@
+# Title: Cmd Launched with Hidden Start Flags to Suspicious Targets
+# ID: 5a6b7c8d-9e0f-1a2b-3c4d-5e6f7a8b9c0d
+# Status: experimental
+# Level: medium
+# Author: Vladan Sekulic, Swachchhanda Shrawan Poudel (Nextron Systems)
+# Date: 2026-01-24
+# Tags: attack.stealth, attack.t1564.003
+# Description: Detects cmd.exe executing commands with the "start" utility using "/b" (no window) or "/min" (minimized) flags.
+# To reduce false positives from standard background tasks, detection is restricted to scenarios where the target is a known script extension or located in suspicious temporary/public directories.
+# This technique was observed in Chaos, DarkSide, and Emotet malware campaigns.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((((process.command_line:*start * OR process.command_line:*start/b* OR process.command_line:*start/min*)) AND ((process.command_line:*/b * OR process.command_line:*-b * OR process.command_line:*/b\"* OR process.command_line:*-b\"* OR process.command_line:*/min * OR process.command_line:*-min * OR process.command_line:*/min\"* OR process.command_line:*-min\"*)) AND ((process.executable:*\\cmd.exe) OR (process.pe.original_file_name:"Cmd.Exe"))) AND (((process.command_line:*.bat* OR process.command_line:*.cmd* OR process.command_line:*.cpl* OR process.command_line:*.hta* OR process.command_line:*.js* OR process.command_line:*.ps1* OR process.command_line:*.scr* OR process.command_line:*.vbe* OR process.command_line:*.vbs*)) OR ((process.command_line:* -nop * OR process.command_line:* -sta * OR process.command_line:*.downloadfile(* OR process.command_line:*.downloadstring(* OR process.command_line:*-noni * OR process.command_line:*-w hidden *)) OR ((process.command_line:*:\\Perflogs\\* OR process.command_line:*:\\Temp\\* OR process.command_line:*:\\Users\\Default\\* OR process.command_line:*:\\Windows\\Temp\\* OR process.command_line:*\\AppData\\Roaming\\* OR process.command_line:*\\Contacts\\* OR process.command_line:*\\Documents\\* OR process.command_line:*\\Downloads\\* OR process.command_line:*\\Favorites\\* OR process.command_line:*\\Favourites\\* OR process.command_line:*\\inetpub\\* OR process.command_line:*\\Music\\* OR process.command_line:*\\Photos\\* OR process.command_line:*\\Temporary Internet\\* OR process.command_line:*\\Users\\Public\\* OR process.command_line:*\\Videos\\*))))

@@ -1,0 +1,11 @@
+// Title: Suspicious Extrac32 Execution
+// ID: aa8e035d-7be4-48d3-a944-102aec04400d
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2021-11-26
+// Tags: attack.command-and-control, attack.t1105
+// Description: Download or Copy file with Extrac32
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE ((process.command_line LIKE "%.cab%") AND ((process.command_line LIKE "%extrac32.exe%") OR (process.executable LIKE "%\\extrac32.exe") OR (process.pe.original_file_name == "extrac32.exe")) AND ((process.command_line LIKE "%/C%" OR process.command_line LIKE "%/Y%" OR process.command_line LIKE "% \\\\\\\\%")))

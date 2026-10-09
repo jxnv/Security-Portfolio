@@ -1,0 +1,23 @@
+// Title: Windows AppX Deployment Full Trust Package Installation
+// ID: e54279c7-4910-4e2c-902c-c56a25b549f6
+// Status: experimental
+// Level: medium
+// Author: Michael Haag, Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-11-03
+// Tags: attack.execution, attack.defense-impairment, attack.t1204.002, attack.t1553.005
+// Description: Detects the installation of MSIX/AppX packages with full trust privileges which run with elevated privileges outside normal AppX container restrictions
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule e54279c7_4910_4e2c_902c_c56a25b549f6 {
+  meta:
+    title = "Windows AppX Deployment Full Trust Package Installation"
+    description = "Detects the installation of MSIX/AppX packages with full trust privileges which run with elevated privileges outside normal AppX container restrictions"
+    author = "Michael Haag, Swachchhanda Shrawan Poudel (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.EventID = 400 and $e.HasFullTrust = True) and not(((($e.CallingProcess = /^sysprep.exe.*/ nocase or $e.CallingProcess = /^svchost.exe,AppReadiness.*/ nocase)) or (($e.PackageSourceUri = /^file:///C:/Program%20Files/.*/ nocase or $e.PackageSourceUri = /^file:///C:/Program%20Files%20(x86)/.*/ nocase)) or (($e.PackageSourceUri = /^https://go.microsoft.com/fwlink/?linkid.*/ nocase) or (($e.PackageSourceUri = /.*.cdn.microsoft.com.*/ nocase or $e.PackageSourceUri = /.*.cdn.office.net/.*/ nocase))))) and not((($e.PackageFullName = /^MicrosoftWindows.Client..*/ nocase) or ($e.PackageSourceUri = /^x-windowsupdate://.*/ nocase))))
+
+  condition:
+    $e
+}

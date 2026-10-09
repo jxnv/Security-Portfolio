@@ -1,0 +1,23 @@
+// Title: HackTool - CoercedPotato Execution
+// ID: e8d34729-86a4-4140-adfd-0a29c2106307
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2023-10-11
+// Tags: attack.privilege-escalation, attack.stealth, attack.t1055
+// Description: Detects the use of CoercedPotato, a tool for privilege escalation
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule e8d34729_86a4_4140_adfd_0a29c2106307 {
+  meta:
+    title = "HackTool - CoercedPotato Execution"
+    description = "Detects the use of CoercedPotato, a tool for privilege escalation"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.file.full_path = /.*\\CoercedPotato.exe$/ nocase) or (($e.Hashes = /.*IMPHASH=A75D7669DB6B2E107A44C4057FF7F7D6.*/ nocase or $e.Hashes = /.*IMPHASH=F91624350E2C678C5DCBE5E1F24E22C9.*/ nocase or $e.Hashes = /.*IMPHASH=14C81850A079A87E83D50CA41C709A15.*/ nocase)) or ($e.target.process.command_line = /.* --exploitId .*/ nocase))
+
+  condition:
+    $e
+}

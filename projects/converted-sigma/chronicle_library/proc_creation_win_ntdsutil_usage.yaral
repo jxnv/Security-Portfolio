@@ -1,0 +1,23 @@
+// Title: Invocation of Active Directory Diagnostic Tool (ntdsutil.exe)
+// ID: 2afafd61-6aae-4df4-baed-139fa1f4c345
+// Status: test
+// Level: medium
+// Author: Thomas Patzke
+// Date: 2019-01-16
+// Tags: attack.credential-access, attack.t1003.003
+// Description: Detects execution of ntdsutil.exe, which can be used for various attacks against the NTDS database (NTDS.DIT)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 2afafd61_6aae_4df4_baed_139fa1f4c345 {
+  meta:
+    title = "Invocation of Active Directory Diagnostic Tool (ntdsutil.exe)"
+    description = "Detects execution of ntdsutil.exe, which can be used for various attacks against the NTDS database (NTDS.DIT)"
+    author = "Thomas Patzke"
+    severity = "MEDIUM"
+
+  events:
+    ($e.target.process.file.full_path = /.*\\ntdsutil.exe$/ nocase)
+
+  condition:
+    $e
+}

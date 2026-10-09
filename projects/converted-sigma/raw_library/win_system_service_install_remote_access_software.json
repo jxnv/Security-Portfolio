@@ -1,0 +1,53 @@
+{
+  "title": "Remote Access Tool Services Have Been Installed - System",
+  "id": "1a31b18a-f00c-4061-9900-f735b96c99fc",
+  "status": "test",
+  "description": "Detects service installation of different remote access tools software. These software are often abused by threat actors to perform",
+  "author": "Connor Martin, Nasreddine Bencherchali",
+  "date": "2022-12-23",
+  "tags": [
+    "attack.privilege-escalation",
+    "attack.persistence",
+    "attack.execution",
+    "attack.t1543.003",
+    "attack.t1569.002"
+  ],
+  "level": "medium",
+  "logsource": {
+    "product": "windows",
+    "service": "system"
+  },
+  "detection": {
+    "selection": {
+      "Provider_Name": "Service Control Manager",
+      "EventID": [
+        7045,
+        7036
+      ],
+      "ServiceName|contains": [
+        "AmmyyAdmin",
+        "Atera",
+        "BASupportExpressSrvcUpdater",
+        "BASupportExpressStandaloneService",
+        "chromoting",
+        "GoToAssist",
+        "GoToMyPC",
+        "jumpcloud",
+        "LMIGuardianSvc",
+        "LogMeIn",
+        "monblanking",
+        "Parsec",
+        "RManService",
+        "RPCPerformanceService",
+        "RPCService",
+        "SplashtopRemoteService",
+        "SSUService",
+        "TeamViewer",
+        "TightVNC",
+        "vncserver",
+        "Zoho"
+      ]
+    },
+    "condition": "selection"
+  }
+}

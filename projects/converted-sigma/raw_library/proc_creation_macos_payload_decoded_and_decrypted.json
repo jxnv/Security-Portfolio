@@ -1,0 +1,34 @@
+{
+  "title": "Payload Decoded and Decrypted via Built-in Utilities",
+  "id": "234dc5df-40b5-49d1-bf53-0d44ce778eca",
+  "status": "test",
+  "description": "Detects when a built-in utility is used to decode and decrypt a payload after a macOS disk image (DMG) is executed. Malware authors may attempt to evade detection and trick users into executing malicious code by encoding and encrypting their payload and placing it in a disk image file. This behavior is consistent with adware or malware families such as Bundlore and Shlayer.",
+  "author": "Tim Rauch (rule), Elastic (idea)",
+  "date": "2022-10-17",
+  "tags": [
+    "attack.stealth",
+    "attack.t1059",
+    "attack.t1204",
+    "attack.execution",
+    "attack.t1140",
+    "attack.s0482",
+    "attack.s0402"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "process_creation",
+    "product": "macos"
+  },
+  "detection": {
+    "selection": {
+      "Image|endswith": "/openssl",
+      "CommandLine|contains|all": [
+        "/Volumes/",
+        "enc",
+        "-base64",
+        " -d "
+      ]
+    },
+    "condition": "selection"
+  }
+}

@@ -1,0 +1,12 @@
+// Title: Unsigned DLL Loaded by Windows Utility
+// ID: b5de0c9a-6f19-43e0-af4e-55ad01f550af
+// Status: test
+// Level: medium
+// Author: Swachchhanda Shrawan Poudel
+// Date: 2024-02-28
+// Tags: attack.stealth, attack.t1218.011, attack.t1218.010
+// Description: Detects windows utilities loading an unsigned or untrusted DLL.
+// Adversaries often abuse those programs to proxy execution of malicious code.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(Image IENDSWITH "\\InstallUtil.exe") OR where(Image IENDSWITH "\\RegAsm.exe") OR where(Image IENDSWITH "\\RegSvcs.exe") OR where(Image IENDSWITH "\\regsvr32.exe") OR where(Image IENDSWITH "\\rundll32.exe"))) AND NOT ((((where(Image ISTARTSWITH "C:\\Windows\\SysWOW64\\") OR where(Image ISTARTSWITH "C:\\Windows\\System32\\") OR where(Image ISTARTSWITH "C:\\Windows\\Microsoft.NET\\Framework64")) AND where(Image IENDSWITH "\\RegAsm.exe") AND where(ImageLoaded IENDSWITH ".dll") AND where(ImageLoaded ISTARTSWITH "C:\\Windows\\assembly\\NativeImages")) OR ((where(SignatureStatus = "errorChaining") OR where(SignatureStatus = "errorCode_endpoint") OR where(SignatureStatus = "errorExpired") OR where(SignatureStatus = "trusted") OR where(SignatureStatus = "Valid"))) OR ((where(SignatureStatus = "") OR where(SignatureStatus = "-"))) OR (NOT SignatureStatus=*) OR (where(Signed = "true")) OR ((where(Signed = "") OR where(Signed = "-"))) OR (NOT Signed=*) OR ((where(Image = "C:\\Windows\\SysWOW64\\rundll32.exe") OR where(Image = "C:\\Windows\\System32\\rundll32.exe")) AND where(ImageLoaded ISTARTSWITH "C:\\Windows\\Installer\\") AND (where(ImageLoaded IENDSWITH ".tmp-\\Microsoft.Deployment.WindowsInstaller.dll") OR where(ImageLoaded IENDSWITH ".tmp-\\Avira.OE.Setup.CustomActions.dll"))))) AND NOT (((where(Image = "C:\\Windows\\SysWOW64\\regsvr32.exe") OR where(Image = "C:\\Windows\\System32\\regsvr32.exe")) AND (where(ImageLoaded ISTARTSWITH "C:\\Program Files (x86)\\K-Lite Codec Pack\\") OR where(ImageLoaded ISTARTSWITH "C:\\Program Files\\K-Lite Codec Pack\\")))))

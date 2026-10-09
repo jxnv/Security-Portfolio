@@ -1,0 +1,23 @@
+// Title: Service StartupType Change Via Sc.EXE
+// ID: 85c312b7-f44d-4a51-a024-d671c40b49fc
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-01
+// Tags: attack.execution, attack.defense-impairment, attack.t1685
+// Description: Detect the use of "sc.exe" to change the startup type of a service to "disabled" or "demand"
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 85c312b7_f44d_4a51_a024_d671c40b49fc {
+  meta:
+    title = "Service StartupType Change Via Sc.EXE"
+    description = "Detect the use of "sc.exe" to change the startup type of a service to "disabled" or "demand""
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.command_line = /.* config .*/ nocase and $e.target.process.command_line = /.*start.*/ nocase) and ($e.target.process.command_line = /.*disabled.*/ nocase or $e.target.process.command_line = /.*demand.*/ nocase)) and (($e.target.process.file.full_path = /.*\\sc.exe$/ nocase) or ($e.target.process.file.name = "sc.exe")))
+
+  condition:
+    $e
+}

@@ -1,0 +1,12 @@
+// Title: PUA - Ngrok Execution
+// ID: ee37eb7c-a4e7-4cd5-8fa4-efa27f1c3f31
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2021-05-14
+// Tags: attack.command-and-control, attack.t1572
+// Description: Detects the use of Ngrok, a utility used for port forwarding and tunneling, often used by threat actors to make local protected services publicly available.
+// Involved domains are bin.equinox.io for download and *.ngrok.io for connections.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(CommandLine ICONTAINS " tcp 139") OR where(CommandLine ICONTAINS " tcp 445") OR where(CommandLine ICONTAINS " tcp 3389") OR where(CommandLine ICONTAINS " tcp 5985") OR where(CommandLine ICONTAINS " tcp 5986"))) OR ((where(CommandLine ICONTAINS " start ") AND where(CommandLine ICONTAINS "--all") AND where(CommandLine ICONTAINS "--config") AND where(CommandLine ICONTAINS ".yml"))) OR (where(Image IENDSWITH "ngrok.exe") AND (where(CommandLine ICONTAINS " tcp ") OR where(CommandLine ICONTAINS " http ") OR where(CommandLine ICONTAINS " authtoken "))) OR ((where(CommandLine ICONTAINS ".exe authtoken ") OR where(CommandLine ICONTAINS ".exe start --all"))))

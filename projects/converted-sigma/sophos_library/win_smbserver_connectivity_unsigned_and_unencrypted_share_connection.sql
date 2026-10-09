@@ -1,0 +1,12 @@
+-- Title: Unsigned or Unencrypted SMB Connection to Share Established
+-- ID: 8d91f6e4-9f3b-4c21-ae41-2c5b7d9f7a12
+-- Status: experimental
+-- Level: medium
+-- Author: Mohamed Abdelghani
+-- Date: 2025-10-19
+-- Tags: attack.lateral-movement, attack.t1021.002
+-- Description: Detects SMB server connections to shares without signing or encryption enabled.
+-- This could indicate potential lateral movement activity using unsecured SMB shares.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE (((EventID = 4000 AND (ShareName ILIKE '%IPC$%' OR ShareName ILIKE '%ADMIN$%' OR ShareName ILIKE '%C$%')) AND ((SigningUsed = 'false') OR (EncyptionUsed = 'false'))) AND NOT ((((cidrmatch("127.0.0.0/8", ClientAddress) OR cidrmatch("169.254.0.0/16", ClientAddress) OR cidrmatch("::1/128", ClientAddress) OR cidrmatch("fe80::/10", ClientAddress) OR cidrmatch("fc00::/7", ClientAddress))) OR ((ClientAddress ILIKE '%00000000000000000000000000000001%' OR ClientAddress ILIKE '%FE80000000000000%' OR ClientAddress ILIKE '%FC00000000000000%' OR ClientAddress ILIKE '%0200????7F%' OR ClientAddress ILIKE '%0200????A9FE%')))))

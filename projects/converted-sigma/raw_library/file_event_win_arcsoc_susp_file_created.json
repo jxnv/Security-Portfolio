@@ -1,0 +1,45 @@
+{
+  "title": "Suspicious File Created by ArcSOC.exe",
+  "id": "e890acee-d488-420e-8f20-d9b19b3c3d43",
+  "status": "experimental",
+  "description": "Detects instances where the ArcGIS Server process ArcSOC.exe, which hosts REST services running on an ArcGIS\nserver, creates a file with suspicious file type, indicating that it may be an executable, script file,\nor otherwise unusual.\n",
+  "author": "Micah Babinski",
+  "date": "2025-11-25",
+  "tags": [
+    "attack.command-and-control",
+    "attack.persistence",
+    "attack.initial-access",
+    "attack.execution",
+    "attack.stealth",
+    "attack.t1127",
+    "attack.t1105",
+    "attack.t1133"
+  ],
+  "level": "high",
+  "logsource": {
+    "category": "file_event",
+    "product": "windows"
+  },
+  "detection": {
+    "selection": {
+      "Image|endswith": "\\ArcSOC.exe",
+      "TargetFilename|endswith": [
+        ".ahk",
+        ".aspx",
+        ".au3",
+        ".bat",
+        ".cmd",
+        ".dll",
+        ".exe",
+        ".hta",
+        ".js",
+        ".ps1",
+        ".py",
+        ".vbe",
+        ".vbs",
+        ".wsf"
+      ]
+    },
+    "condition": "selection"
+  }
+}

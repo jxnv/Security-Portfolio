@@ -1,0 +1,11 @@
+-- Title: System Network Connections Discovery Via Net.EXE
+-- ID: 1c67a717-32ba-409b-a45d-0fb704a73a81
+-- Status: test
+-- Level: low
+-- Author: frack113
+-- Date: 2021-12-10
+-- Tags: attack.discovery, attack.t1049
+-- Description: Adversaries may attempt to get a listing of network connections to or from the compromised system they are currently accessing or from remote systems by querying for information over the network.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE ((((CommandLine ILIKE '% use' OR CommandLine ILIKE '% sessions')) OR ((CommandLine ILIKE '% use %' OR CommandLine ILIKE '% sessions %'))) AND (((Image ILIKE '%\\net.exe' OR Image ILIKE '%\\net1.exe')) OR ((OriginalFileName = 'net.exe' OR OriginalFileName = 'net1.exe'))))

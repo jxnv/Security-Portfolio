@@ -1,0 +1,23 @@
+// Title: File Download And Execution Via IEExec.EXE
+// ID: 9801abb8-e297-4dbf-9fbd-57dde0e830ad
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-05-16
+// Tags: attack.command-and-control, attack.t1105
+// Description: Detects execution of the IEExec utility to download and execute files
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 9801abb8_e297_4dbf_9fbd_57dde0e830ad {
+  meta:
+    title = "File Download And Execution Via IEExec.EXE"
+    description = "Detects execution of the IEExec utility to download and execute files"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*http://.*/ nocase or $e.target.process.command_line = /.*https://.*/ nocase)) and (($e.target.process.file.full_path = /.*\\IEExec.exe$/ nocase) or ($e.target.process.file.name = "IEExec.exe")))
+
+  condition:
+    $e
+}

@@ -1,0 +1,19 @@
+# Title: A Member Was Added to a Security-Enabled Global Group
+# ID: c43c26be-2e87-46c7-8661-284588c5a53e
+# Status: stable
+# Level: low
+# Author: Alexandr Yampolskyi, SOC Prime
+# Date: 2023-04-26
+# Tags: attack.privilege-escalation, attack.persistence, attack.t1098
+# Description: Detects activity when a member is added to a security-enabled global group
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: A Member Was Added to a Security-Enabled Global Group
+def rule(event):
+    # Detection Logic:
+    # ((EventID="4728" OR EventID="632"))
+    return True
+
+def title(event):
+    return "A Member Was Added to a Security-Enabled Global Group"
+

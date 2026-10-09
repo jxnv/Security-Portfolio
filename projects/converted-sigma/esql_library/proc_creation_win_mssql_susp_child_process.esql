@@ -1,0 +1,11 @@
+// Title: Suspicious Child Process Of SQL Server
+// ID: 869b9ca7-9ea2-4a5a-8325-e80e62f75445
+// Status: test
+// Level: high
+// Author: FPT.EagleEye Team, wagga
+// Date: 2020-12-11
+// Tags: attack.t1505.003, attack.t1190, attack.initial-access, attack.persistence, attack.privilege-escalation
+// Description: Detects suspicious child processes of the SQLServer process. This could indicate potential RCE or SQL Injection.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE ((process.parent.executable LIKE "%\\sqlservr.exe" AND (process.executable LIKE "%\\bash.exe" OR process.executable LIKE "%\\bitsadmin.exe" OR process.executable LIKE "%\\cmd.exe" OR process.executable LIKE "%\\netstat.exe" OR process.executable LIKE "%\\nltest.exe" OR process.executable LIKE "%\\ping.exe" OR process.executable LIKE "%\\powershell.exe" OR process.executable LIKE "%\\pwsh.exe" OR process.executable LIKE "%\\regsvr32.exe" OR process.executable LIKE "%\\rundll32.exe" OR process.executable LIKE "%\\sh.exe" OR process.executable LIKE "%\\systeminfo.exe" OR process.executable LIKE "%\\tasklist.exe" OR process.executable LIKE "%\\wsl.exe")) AND NOT ((process.parent.executable LIKE "C:\\Program Files\\Microsoft SQL Server\\%" AND process.parent.executable LIKE "%DATEV_DBENGINE\\MSSQL\\Binn\\sqlservr.exe" AND process.executable == "C:\\Windows\\System32\\cmd.exe" AND process.command_line LIKE "\"C:\\Windows\\system32\\cmd.exe\" %")))

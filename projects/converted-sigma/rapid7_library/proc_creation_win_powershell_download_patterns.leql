@@ -1,0 +1,11 @@
+// Title: PowerShell Download Pattern
+// ID: 3b6ab547-8ec2-4991-b9d2-2b06702a48d7
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems), oscd.community, Jonhnathan Ribeiro
+// Date: 2019-01-16
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects a Powershell process that contains download commands in its command line string
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(CommandLine ICONTAINS "new-object") AND where(CommandLine ICONTAINS "net.webclient).") AND where(CommandLine ICONTAINS "download")) AND (where(CommandLine ICONTAINS "string(") OR where(CommandLine ICONTAINS "file("))) AND (((where(Image IENDSWITH "\\powershell_ise.exe") OR where(Image IENDSWITH "\\powershell.exe") OR where(Image IENDSWITH "\\pwsh.exe"))) OR ((where(OriginalFileName = "PowerShell_ISE.EXE") OR where(OriginalFileName = "PowerShell.EXE") OR where(OriginalFileName = "pwsh.dll")))))

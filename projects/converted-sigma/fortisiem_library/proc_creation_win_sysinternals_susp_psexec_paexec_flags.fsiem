@@ -1,0 +1,11 @@
+# Title: Potential Privilege Escalation To LOCAL SYSTEM
+# ID: 207b0396-3689-42d9-8399-4222658efc99
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+# Date: 2021-05-22
+# Tags: attack.resource-development, attack.t1587.001
+# Description: Detects unknown program using commandline flags usually used by tools such as PsExec and PAExec to start programs with SYSTEM Privileges
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((CommandLine CONTAIN " -s cmd" OR CommandLine CONTAIN " -s -i cmd" OR CommandLine CONTAIN " -i -s cmd" OR CommandLine CONTAIN " -s pwsh" OR CommandLine CONTAIN " -s -i pwsh" OR CommandLine CONTAIN " -i -s pwsh" OR CommandLine CONTAIN " -s powershell" OR CommandLine CONTAIN " -s -i powershell" OR CommandLine CONTAIN " -i -s powershell")) AND NOT (((CommandLine CONTAIN "paexec" OR CommandLine CONTAIN "PsExec" OR CommandLine CONTAIN "accepteula"))))

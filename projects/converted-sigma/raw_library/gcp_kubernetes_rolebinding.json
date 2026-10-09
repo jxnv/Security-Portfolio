@@ -1,0 +1,31 @@
+{
+  "title": "Google Cloud Kubernetes RoleBinding",
+  "id": "0322d9f2-289a-47c2-b5e1-b63c90901a3e",
+  "status": "test",
+  "description": "Detects the creation or patching of potential malicious RoleBinding. This includes RoleBindings and ClusterRoleBinding.",
+  "author": "Austin Songer @austinsonger",
+  "date": "2021-08-09",
+  "tags": [
+    "attack.credential-access"
+  ],
+  "level": "medium",
+  "logsource": {
+    "product": "gcp",
+    "service": "gcp.audit"
+  },
+  "detection": {
+    "selection": {
+      "gcp.audit.method_name": [
+        "io.k8s.authorization.rbac.v*.clusterrolebindings.create",
+        "io.k8s.authorization.rbac.v*.rolebindings.create",
+        "io.k8s.authorization.rbac.v*.clusterrolebindings.patch",
+        "io.k8s.authorization.rbac.v*.rolebindings.patch",
+        "io.k8s.authorization.rbac.v*.clusterrolebindings.update",
+        "io.k8s.authorization.rbac.v*.rolebindings.update",
+        "io.k8s.authorization.rbac.v*.clusterrolebindings.delete",
+        "io.k8s.authorization.rbac.v*.rolebindings.delete"
+      ]
+    },
+    "condition": "selection"
+  }
+}

@@ -1,0 +1,11 @@
+// Title: Registry Hide Function from User
+// ID: 5a93eb65-dffa-4543-b761-94aa60098fb6
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-03-18
+// Tags: attack.persistence, attack.defense-impairment, attack.t1112
+// Description: Detects registry modifications that hide internal tools or functions from the user (malware like Agent Tesla, Hermetic Wiper uses this technique)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((TargetObject="*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\ShowInfoTip" OR TargetObject="*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\ShowCompColor") AND Details EQUALS "DWORD (0x00000000)") OR ((TargetObject="*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\HideClock" OR TargetObject="*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\HideSCAHealth" OR TargetObject="*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\HideSCANetwork" OR TargetObject="*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\HideSCAPower" OR TargetObject="*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\HideSCAVolume") AND Details EQUALS "DWORD (0x00000001)"))

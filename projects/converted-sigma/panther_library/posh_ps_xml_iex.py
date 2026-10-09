@@ -1,0 +1,21 @@
+# Title: Powershell XML Execute Command
+# ID: 6c6c6282-7671-4fe9-a0ce-a2dcebdc342b
+# Status: test
+# Level: medium
+# Author: frack113
+# Date: 2022-01-19
+# Tags: attack.execution, attack.t1059.001
+# Description: Adversaries may abuse PowerShell commands and scripts for execution.
+# PowerShell is a powerful interactive command-line interface and scripting environment included in the Windows operating system. (Citation: TechNet PowerShell)
+# Adversaries can use PowerShell to perform a number of actions, including discovery of information and execution of code
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Powershell XML Execute Command
+def rule(event):
+    # Detection Logic:
+    # (((ScriptBlockText="*IEX *" OR ScriptBlockText="*Invoke-Expression *" OR ScriptBlockText="*Invoke-Command *" OR ScriptBlockText="*ICM -*")) AND ((ScriptBlockText="*New-Object*" AND ScriptBlockText="*System.Xml.XmlDocument*" AND ScriptBlockText="*.Load*")))
+    return True
+
+def title(event):
+    return "Powershell XML Execute Command"
+

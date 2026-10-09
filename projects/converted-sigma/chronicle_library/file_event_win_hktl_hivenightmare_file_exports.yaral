@@ -1,0 +1,23 @@
+// Title: HackTool - Typical HiveNightmare SAM File Export
+// ID: 6ea858a8-ba71-4a12-b2cc-5d83312404c7
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2021-07-23
+// Tags: attack.credential-access, attack.t1552.001, cve.2021-36934
+// Description: Detects files written by the different tools that exploit HiveNightmare
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 6ea858a8_ba71_4a12_b2cc_5d83312404c7 {
+  meta:
+    title = "HackTool - Typical HiveNightmare SAM File Export"
+    description = "Detects files written by the different tools that exploit HiveNightmare"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.file.full_path = /.*\\hive_sam_.*/ nocase or $e.target.file.full_path = /.*\\SAM-2021-.*/ nocase or $e.target.file.full_path = /.*\\SAM-2022-.*/ nocase or $e.target.file.full_path = /.*\\SAM-2023-.*/ nocase or $e.target.file.full_path = /.*\\SAM-haxx.*/ nocase or $e.target.file.full_path = /.*\\Sam.save.*/ nocase)) or ($e.target.file.full_path = "C:\\windows\\temp\\sam"))
+
+  condition:
+    $e
+}

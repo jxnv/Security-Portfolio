@@ -1,0 +1,12 @@
+// Title: Activity from Suspicious IP Addresses
+// ID: a3501e8e-af9e-43c6-8cd6-9360bdaae498
+// Status: test
+// Level: medium
+// Author: Austin Songer @austinsonger
+// Date: 2021-08-23
+// Tags: attack.command-and-control, attack.t1573
+// Description: Detects when a Microsoft Cloud App Security reported users were active from an IP address identified as risky by Microsoft Threat Intelligence.
+// These IP addresses are involved in malicious activities, such as Botnet C&C, and may indicate compromised account.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter (eventSource = "SecurityComplianceCenter" and eventName = "Activity from suspicious IP addresses" and status = "success")

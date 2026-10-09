@@ -1,0 +1,23 @@
+// Title: File And SubFolder Enumeration Via Dir Command
+// ID: 7c9340a9-e2ee-4e43-94c5-c54ebbea1006
+// Status: test
+// Level: low
+// Author: frack113
+// Date: 2021-12-13
+// Tags: attack.discovery, attack.t1217
+// Description: Detects usage of the "dir" command part of Windows CMD with the "/S" command line flag in order to enumerate files in a specified directory and all subdirectories.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 7c9340a9_e2ee_4e43_94c5_c54ebbea1006 {
+  meta:
+    title = "File And SubFolder Enumeration Via Dir Command"
+    description = "Detects usage of the "dir" command part of Windows CMD with the "/S" command line flag in order to enumerate files in a specified directory and all subdirectories."
+    author = "frack113"
+    severity = "LOW"
+
+  events:
+    (((($e.target.process.command_line = /.*-s.*/ nocase or $e.target.process.command_line = /.*/s.*/ nocase) and $e.target.process.command_line = /.*dir .*/ nocase) and (($e.target.process.file.full_path = /.*\\cmd.exe$/ nocase) or ($e.target.process.file.name = "Cmd.Exe"))) and not(($e.target.process.command_line = /.*rmdir.*/ nocase)))
+
+  condition:
+    $e
+}

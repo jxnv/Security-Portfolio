@@ -1,0 +1,11 @@
+// Title: Security Service Disabled Via Reg.EXE
+// ID: 5e95028c-5229-4214-afae-d653d573d0ec
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), John Lambert (idea), elhoim
+// Date: 2021-07-14
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects execution of "reg.exe" to disable security services such as Windows Defender.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where (((process.command_line like "%d 4%" AND process.command_line like "%v Start%") AND (process.command_line like "%\\AppIDSvc%" OR process.command_line like "%\\MsMpSvc%" OR process.command_line like "%\\NisSrv%" OR process.command_line like "%\\SecurityHealthService%" OR process.command_line like "%\\Sense%" OR process.command_line like "%\\UsoSvc%" OR process.command_line like "%\\WdBoot%" OR process.command_line like "%\\WdFilter%" OR process.command_line like "%\\WdNisDrv%" OR process.command_line like "%\\WdNisSvc%" OR process.command_line like "%\\WinDefend%" OR process.command_line like "%\\wscsvc%" OR process.command_line like "%\\wuauserv%")) AND ((process.command_line like "%reg%" AND process.command_line like "%add%")))

@@ -1,0 +1,23 @@
+// Title: HackTool - Credential Dumping Tools Named Pipe Created
+// ID: 961d0ba2-3eea-4303-a930-2cf78bbfcc5e
+// Status: test
+// Level: critical
+// Author: Teymur Kheirkhabarov, oscd.community
+// Date: 2019-11-01
+// Tags: attack.credential-access, attack.t1003.001, attack.t1003.002, attack.t1003.004, attack.t1003.005
+// Description: Detects well-known credential dumping tools execution via specific named pipe creation
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 961d0ba2_3eea_4303_a930_2cf78bbfcc5e {
+  meta:
+    title = "HackTool - Credential Dumping Tools Named Pipe Created"
+    description = "Detects well-known credential dumping tools execution via specific named pipe creation"
+    author = "Teymur Kheirkhabarov, oscd.community"
+    severity = "CRITICAL"
+
+  events:
+    (($e.PipeName = /.*\\cachedump.*/ nocase or $e.PipeName = /.*\\lsadump.*/ nocase or $e.PipeName = /.*\\wceservicepipe.*/ nocase))
+
+  condition:
+    $e
+}

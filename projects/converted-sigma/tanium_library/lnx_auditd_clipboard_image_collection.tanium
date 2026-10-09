@@ -1,0 +1,13 @@
+# Title: Clipboard Collection of Image Data with Xclip Tool
+# ID: f200dc3f-b219-425d-a17e-c38467364816
+# Status: test
+# Level: low
+# Author: Pawel Mazur
+# Date: 2021-10-01
+# Tags: attack.collection, attack.t1115
+# Description: Detects attempts to collect image data stored in the clipboard from users with the usage of xclip tool.
+# Xclip has to be installed.
+# Highly recommended using rule on servers, due to high usage of clipboard utilities on user workstations.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(type equals "EXECVE" AND a0 equals "xclip" AND (a1 equals "-selection" OR a1 equals "-sel") AND (a2 equals "clipboard" OR a2 equals "clip") AND a3 equals "-t" AND a4="image/*" AND a5 equals "-o")

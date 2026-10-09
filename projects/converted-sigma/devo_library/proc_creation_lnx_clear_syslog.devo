@@ -1,0 +1,11 @@
+// Title: Syslog Clearing or Removal Via System Utilities
+// ID: 3fcc9b35-39e4-44c0-a2ad-9e82b6902b31
+// Status: test
+// Level: high
+// Author: Max Altgelt (Nextron Systems), Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research), MSTIC
+// Date: 2021-10-15
+// Tags: attack.defense-impairment, attack.t1685.006
+// Description: Detects specific commands commonly used to remove or empty the syslog. Which is a technique often used by attacker as a method to hide their tracks
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+from siem.events where (((contains(CommandLine, "/var/log/syslog")) AND ((Image="*/cp" AND contains(CommandLine, "/dev/null")) OR (Image="*/ln" AND (contains(CommandLine, "/dev/null ") AND contains(CommandLine, "/var/log/syslog")) AND (contains(CommandLine, "-sf ") OR contains(CommandLine, "-sfn ") OR contains(CommandLine, "-sfT "))) OR (Image="*/mv") OR (Image="*/rm" AND (contains(CommandLine, " -r ") OR contains(CommandLine, " -f ") OR contains(CommandLine, " -rf ") OR contains(CommandLine, "/var/log/syslog"))) OR (Image="*/shred" AND contains(CommandLine, "-u ")) OR (Image="*/truncate" AND (contains(CommandLine, "0 ") AND contains(CommandLine, "/var/log/syslog")) AND (contains(CommandLine, "-s ") OR contains(CommandLine, "-c ") OR contains(CommandLine, "--size"))) OR (Image="*/unlink"))) OR (((contains(CommandLine, "journalctl --vacuum") OR contains(CommandLine, "journalctl --rotate"))) OR ((contains(CommandLine, " > /var/log/syslog") OR contains(CommandLine, " >/var/log/syslog") OR contains(CommandLine, " >| /var/log/syslog") OR contains(CommandLine, ": > /var/log/syslog") OR contains(CommandLine, ":> /var/log/syslog") OR contains(CommandLine, ":>/var/log/syslog") OR contains(CommandLine, ">|/var/log/syslog")))))

@@ -1,0 +1,11 @@
+# Title: Disable Important Scheduled Task
+# ID: 9ac94dc8-9042-493c-ba45-3b5e7c86b980
+# Status: test
+# Level: high
+# Author: frack113, Nasreddine Bencherchali (Nextron Systems), X__Junior
+# Date: 2021-12-26
+# Tags: attack.impact, attack.t1489
+# Description: Detects when adversaries stop services or processes by disabling their respective scheduled tasks in order to conduct data destructive activities
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog (((process_exec="*/disable*" OR process_exec="*-disable*")) AND ((process_exec="*\\Windows\\BitLocker*" OR process_exec="*\\Windows\\ExploitGuard*" OR process_exec="*\\Windows\\ExploitGuard\\ExploitGuard MDM policy Refresh*" OR process_exec="*\\Windows\\SystemRestore\\SR*" OR process_exec="*\\Windows\\UpdateOrchestrator\\*" OR process_exec="*\\Windows\\Windows Defender\\*" OR process_exec="*\\Windows\\WindowsBackup\\*" OR process_exec="*\\Windows\\WindowsUpdate\\*")) AND ((process_path="*\\schtasks.exe") OR (process_name="schtasks.exe")))

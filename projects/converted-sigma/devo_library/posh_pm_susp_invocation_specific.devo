@@ -1,0 +1,11 @@
+// Title: Suspicious PowerShell Invocations - Specific - PowerShell Module
+// ID: 8ff28fdd-e2fa-4dfa-aeda-ef3d61c62090
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Jonhnathan Ribeiro
+// Date: 2017-03-05
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects suspicious PowerShell invocation command parameters
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+from siem.events where ((((contains(ContextInfo, "-nop") AND contains(ContextInfo, " -w ") AND contains(ContextInfo, "hidden") AND contains(ContextInfo, " -c ") AND contains(ContextInfo, "[Convert]::FromBase64String"))) OR ((contains(ContextInfo, " -w ") AND contains(ContextInfo, "hidden") AND contains(ContextInfo, "-ep") AND contains(ContextInfo, "bypass") AND contains(ContextInfo, "-Enc"))) OR ((contains(ContextInfo, " -w ") AND contains(ContextInfo, "hidden") AND contains(ContextInfo, "-noni") AND contains(ContextInfo, "-nop") AND contains(ContextInfo, " -c ") AND contains(ContextInfo, "iex") AND contains(ContextInfo, "New-Object"))) OR ((contains(ContextInfo, "iex") AND contains(ContextInfo, "New-Object") AND contains(ContextInfo, "Net.WebClient") AND contains(ContextInfo, ".Download"))) OR ((contains(ContextInfo, "powershell") AND contains(ContextInfo, "reg") AND contains(ContextInfo, "add")) AND (contains(ContextInfo, "\\software\\microsoft\\windows\\currentversion\\run") OR contains(ContextInfo, "\\software\\wow6432node\\microsoft\\windows\\currentversion\\run") OR contains(ContextInfo, "\\software\\microsoft\\windows\\currentversion\\policies\\explorer\\run"))) OR ((contains(ContextInfo, "bypass") AND contains(ContextInfo, "-noprofile") AND contains(ContextInfo, "-windowstyle") AND contains(ContextInfo, "hidden") AND contains(ContextInfo, "new-object") AND contains(ContextInfo, "system.net.webclient") AND contains(ContextInfo, ".download")))) AND NOT (((contains(ContextInfo, "(New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1") OR contains(ContextInfo, "Write-ChocolateyWarning")))))

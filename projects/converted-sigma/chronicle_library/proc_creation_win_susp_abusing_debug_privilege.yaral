@@ -1,0 +1,23 @@
+// Title: Abused Debug Privilege by Arbitrary Parent Processes
+// ID: d522eca2-2973-4391-a3e0-ef0374321dae
+// Status: test
+// Level: high
+// Author: Semanur Guneysu @semanurtg, oscd.community
+// Date: 2020-10-28
+// Tags: attack.privilege-escalation, attack.t1548
+// Description: Detection of unusual child processes by different system processes
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule d522eca2_2973_4391_a3e0_ef0374321dae {
+  meta:
+    title = "Abused Debug Privilege by Arbitrary Parent Processes"
+    description = "Detection of unusual child processes by different system processes"
+    author = "Semanur Guneysu @semanurtg, oscd.community"
+    severity = "HIGH"
+
+  events:
+    ((((($e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase or $e.target.process.file.full_path = /.*\\cmd.exe$/ nocase)) or (($e.target.process.file.name = "PowerShell.EXE" or $e.target.process.file.name = "pwsh.dll" or $e.target.process.file.name = "Cmd.Exe"))) and (($e.principal.process.file.full_path = /.*\\winlogon.exe$/ nocase or $e.principal.process.file.full_path = /.*\\services.exe$/ nocase or $e.principal.process.file.full_path = /.*\\lsass.exe$/ nocase or $e.principal.process.file.full_path = /.*\\csrss.exe$/ nocase or $e.principal.process.file.full_path = /.*\\smss.exe$/ nocase or $e.principal.process.file.full_path = /.*\\wininit.exe$/ nocase or $e.principal.process.file.full_path = /.*\\spoolsv.exe$/ nocase or $e.principal.process.file.full_path = /.*\\searchindexer.exe$/ nocase) and ($e.target.user.userid = /.*AUTHORI.*/ nocase or $e.target.user.userid = /.*AUTORI.*/ nocase))) and not((($e.target.process.command_line = /.* route .*/ nocase and $e.target.process.command_line = /.* ADD .*/ nocase))))
+
+  condition:
+    $e
+}

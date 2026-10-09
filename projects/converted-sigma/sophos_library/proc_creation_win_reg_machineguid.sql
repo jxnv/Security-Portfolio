@@ -1,0 +1,11 @@
+-- Title: Suspicious Query of MachineGUID
+-- ID: f5240972-3938-4e56-8e4b-e33893176c1f
+-- Status: test
+-- Level: low
+-- Author: frack113
+-- Date: 2022-01-01
+-- Tags: attack.discovery, attack.t1082
+-- Description: Use of reg to get MachineGuid information
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE (Image ILIKE '%\\reg.exe' AND (CommandLine ILIKE '%SOFTWARE\\Microsoft\\Cryptography%' AND CommandLine ILIKE '%/v %' AND CommandLine ILIKE '%MachineGuid%'))

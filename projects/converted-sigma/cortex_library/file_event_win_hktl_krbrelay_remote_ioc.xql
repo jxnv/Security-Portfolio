@@ -1,0 +1,11 @@
+// Title: HackTool - RemoteKrbRelay SMB Relay Secrets Dump Module Indicators
+// ID: 3ab79e90-9fab-4cdf-a7b2-6522bc742adb
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2024-06-27
+// Tags: attack.command-and-control, attack.t1219.002
+// Description: Detects the creation of file with specific names used by RemoteKrbRelay SMB Relay attack module.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter ((action_file_path endswith ":\\windows\\temp\\sam.tmp" or action_file_path endswith ":\\windows\\temp\\sec.tmp" or action_file_path endswith ":\\windows\\temp\\sys.tmp"))

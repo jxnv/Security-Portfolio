@@ -1,0 +1,11 @@
+# Title: PUA - Seatbelt Execution
+# ID: 38646daa-e78f-4ace-9de0-55547b2d30da
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-10-18
+# Tags: attack.discovery, attack.t1526, attack.t1087, attack.t1083
+# Description: Detects the execution of the PUA/Recon tool Seatbelt via PE information of command line parameters
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((Image="*\\Seatbelt.exe") OR (OriginalFileName="Seatbelt.exe") OR (Description="Seatbelt") OR ((CommandLine="* DpapiMasterKeys*" OR CommandLine="* InterestingProcesses*" OR CommandLine="* InterestingFiles*" OR CommandLine="* CertificateThumbprints*" OR CommandLine="* ChromiumBookmarks*" OR CommandLine="* ChromiumHistory*" OR CommandLine="* ChromiumPresence*" OR CommandLine="* CloudCredentials*" OR CommandLine="* CredEnum*" OR CommandLine="* CredGuard*" OR CommandLine="* FirefoxHistory*" OR CommandLine="* ProcessCreationEvents*"))) OR (((CommandLine="* -group=misc*" OR CommandLine="* -group=remote*" OR CommandLine="* -group=chromium*" OR CommandLine="* -group=slack*" OR CommandLine="* -group=system*" OR CommandLine="* -group=user*" OR CommandLine="* -group=all*")) AND (CommandLine="* -outputfile=*")))

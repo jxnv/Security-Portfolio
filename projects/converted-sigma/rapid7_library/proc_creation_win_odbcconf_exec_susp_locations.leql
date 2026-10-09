@@ -1,0 +1,11 @@
+// Title: Odbcconf.EXE Suspicious DLL Location
+// ID: 6b65c28e-11f3-46cb-902a-68f2cafaf474
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-05-22
+// Tags: attack.stealth, attack.t1218.008
+// Description: Detects execution of "odbcconf" where the path of the DLL being registered is located in a potentially suspicious location.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(CommandLine ICONTAINS ":\\PerfLogs\\") OR where(CommandLine ICONTAINS ":\\ProgramData\\") OR where(CommandLine ICONTAINS ":\\Temp\\") OR where(CommandLine ICONTAINS ":\\Users\\Public\\") OR where(CommandLine ICONTAINS ":\\Windows\\Registration\\CRMLog") OR where(CommandLine ICONTAINS ":\\Windows\\System32\\com\\dmp\\") OR where(CommandLine ICONTAINS ":\\Windows\\System32\\FxsTmp\\") OR where(CommandLine ICONTAINS ":\\Windows\\System32\\Microsoft\\Crypto\\RSA\\MachineKeys\\") OR where(CommandLine ICONTAINS ":\\Windows\\System32\\spool\\drivers\\color\\") OR where(CommandLine ICONTAINS ":\\Windows\\System32\\spool\\PRINTERS\\") OR where(CommandLine ICONTAINS ":\\Windows\\System32\\spool\\SERVERS\\") OR where(CommandLine ICONTAINS ":\\Windows\\System32\\Tasks_Migrated\\") OR where(CommandLine ICONTAINS ":\\Windows\\System32\\Tasks\\Microsoft\\Windows\\SyncCenter\\") OR where(CommandLine ICONTAINS ":\\Windows\\SysWOW64\\com\\dmp\\") OR where(CommandLine ICONTAINS ":\\Windows\\SysWOW64\\FxsTmp\\") OR where(CommandLine ICONTAINS ":\\Windows\\SysWOW64\\Tasks\\Microsoft\\Windows\\PLA\\System\\") OR where(CommandLine ICONTAINS ":\\Windows\\SysWOW64\\Tasks\\Microsoft\\Windows\\SyncCenter\\") OR where(CommandLine ICONTAINS ":\\Windows\\Tasks\\") OR where(CommandLine ICONTAINS ":\\Windows\\Temp\\") OR where(CommandLine ICONTAINS ":\\Windows\\Tracing\\") OR where(CommandLine ICONTAINS "\\AppData\\Local\\Temp\\") OR where(CommandLine ICONTAINS "\\AppData\\Roaming\\"))) AND ((where(Image IENDSWITH "\\odbcconf.exe")) OR (where(OriginalFileName = "odbcconf.exe"))))

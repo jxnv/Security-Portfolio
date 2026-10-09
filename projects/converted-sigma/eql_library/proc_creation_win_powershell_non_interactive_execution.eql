@@ -1,0 +1,11 @@
+// Title: Non Interactive PowerShell Process Spawned
+// ID: f4bbd493-b796-416e-bbf2-121235348529
+// Status: test
+// Level: low
+// Author: Roberto Rodriguez @Cyb3rWard0g (rule), oscd.community (improvements)
+// Date: 2019-09-12
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects non-interactive PowerShell activity by looking at the "powershell" process with a non-user GUI process such as "explorer.exe" as a parent.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where ((((process.executable endswith "\\powershell.exe" or process.executable endswith "\\pwsh.exe")) or ((process.pe.original_file_name == "PowerShell.EXE" or process.pe.original_file_name == "pwsh.dll"))) and not ((((process.parent.executable endswith ":\\Windows\\explorer.exe" or process.parent.executable endswith ":\\Windows\\System32\\CompatTelRunner.exe" or process.parent.executable endswith ":\\Windows\\SysWOW64\\explorer.exe")) or (process.parent.executable == ":\\$WINDOWS.~BT\\Sources\\SetupHost.exe"))) and not (((process.parent.executable endswith ":\\Program Files\\Windows Defender Advanced Threat Protection\\SenseIR.exe") or (process.parent.executable like "*_:\\Program Files\\WindowsApps\\Microsoft.WindowsTerminal_*" and process.parent.executable endswith "\\WindowsTerminal.exe") or (process.parent.executable endswith "\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe" and process.parent.command_line like "*_ --ms-enable-electron-run-as-node *"))))

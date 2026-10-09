@@ -1,0 +1,11 @@
+# Title: PUA - Netcat Suspicious Execution
+# ID: e31033fc-33f0-4020-9a16-faf9b31cbf08
+# Status: test
+# Level: high
+# Author: frack113, Florian Roth (Nextron Systems)
+# Date: 2021-07-21
+# Tags: attack.command-and-control, attack.t1095
+# Description: Detects execution of Netcat. Adversaries may use a non-application layer protocol for communication between host and C2 server or among infected hosts within a network
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((CommandLine:* -lvp * OR CommandLine:* -lvnp* OR CommandLine:* -l -v -p * OR CommandLine:* -lv -p * OR CommandLine:* -l --proxy-type http * OR CommandLine:* -vnl --exec * OR CommandLine:* -vnl -e * OR CommandLine:* --lua-exec * OR CommandLine:* --sh-exec *)) OR ((Image:*\\nc.exe OR Image:*\\ncat.exe OR Image:*\\netcat.exe)))

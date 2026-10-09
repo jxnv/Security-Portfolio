@@ -1,0 +1,11 @@
+// Title: Potential Persistence Via Event Viewer Events.asp
+// ID: a1e11042-a74a-46e6-b07c-c4ce8ecc239b
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-02-17
+// Tags: attack.persistence, attack.defense-impairment, attack.t1112
+// Description: Detects potential registry persistence technique using the Event Viewer "Events.asp" technique
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+registry where (((registry.path like "*_\\Microsoft\\Windows NT\\CurrentVersion\\Event Viewer\\MicrosoftRedirectionProgram*" or registry.path like "*_\\Microsoft\\Windows NT\\CurrentVersion\\Event Viewer\\MicrosoftRedirectionURL*")) and not (((registry.data.strings == "(Empty)") or (process.executable endswith "C:\\WINDOWS\\system32\\svchost.exe" and registry.path endswith "\\Microsoft\\Windows NT\\CurrentVersion\\Event Viewer\\MicrosoftRedirectionProgram" and registry.data.strings == "%%SystemRoot%%\\PCHealth\\HelpCtr\\Binaries\\HelpCtr.exe") or (process.executable endswith "C:\\WINDOWS\\system32\\svchost.exe" and registry.path endswith "\\Microsoft\\Windows NT\\CurrentVersion\\Event Viewer\\MicrosoftRedirectionProgramCommandLineParameters" and registry.data.strings == "-url hcp://services/centers/support?topic=%%s") or (registry.data.strings == "http://go.microsoft.com/fwlink/events.asp"))))

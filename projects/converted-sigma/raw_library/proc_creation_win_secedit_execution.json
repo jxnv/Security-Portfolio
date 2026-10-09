@@ -1,0 +1,60 @@
+{
+  "title": "Potential Suspicious Activity Using SeCEdit",
+  "id": "c2c76b77-32be-4d1f-82c9-7e544bdfe0eb",
+  "status": "test",
+  "description": "Detects potential suspicious behaviour using secedit.exe. Such as exporting or modifying the security policy",
+  "author": "Janantha Marasinghe",
+  "date": "2022-11-18",
+  "tags": [
+    "attack.collection",
+    "attack.discovery",
+    "attack.persistence",
+    "attack.credential-access",
+    "attack.privilege-escalation",
+    "attack.execution",
+    "attack.stealth",
+    "attack.defense-impairment",
+    "attack.t1685.001",
+    "attack.t1547.001",
+    "attack.t1505.005",
+    "attack.t1556.002",
+    "attack.t1685",
+    "attack.t1574.007",
+    "attack.t1564.002",
+    "attack.t1546.008",
+    "attack.t1546.007",
+    "attack.t1547.014",
+    "attack.t1547.010",
+    "attack.t1547.002",
+    "attack.t1557",
+    "attack.t1082"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_img": [
+      {
+        "Image|endswith": "\\secedit.exe"
+      },
+      {
+        "OriginalFileName": "SeCEdit"
+      }
+    ],
+    "selection_flags_discovery": {
+      "CommandLine|contains|all": [
+        "/export",
+        "/cfg"
+      ]
+    },
+    "selection_flags_configure": {
+      "CommandLine|contains|all": [
+        "/configure",
+        "/db"
+      ]
+    },
+    "condition": "selection_img and (1 of selection_flags_*)"
+  }
+}

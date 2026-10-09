@@ -1,0 +1,23 @@
+// Title: Suspicious MacOS Firmware Activity
+// ID: 7ed2c9f7-c59d-4c82-a7e2-f859aa676099
+// Status: test
+// Level: medium
+// Author: Austin Songer @austinsonger
+// Date: 2021-09-30
+// Tags: attack.impact
+// Description: Detects when a user manipulates with Firmward Password on MacOS. NOTE - this command has been disabled on silicon-based apple computers.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 7ed2c9f7_c59d_4c82_a7e2_f859aa676099 {
+  meta:
+    title = "Suspicious MacOS Firmware Activity"
+    description = "Detects when a user manipulates with Firmward Password on MacOS. NOTE - this command has been disabled on silicon-based apple computers."
+    author = "Austin Songer @austinsonger"
+    severity = "MEDIUM"
+
+  events:
+    ($e.target.process.file.full_path = "/usr/sbin/firmwarepasswd" and ($e.target.process.command_line = /.*setpasswd.*/ nocase or $e.target.process.command_line = /.*full.*/ nocase or $e.target.process.command_line = /.*delete.*/ nocase or $e.target.process.command_line = /.*check.*/ nocase))
+
+  condition:
+    $e
+}

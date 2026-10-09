@@ -1,0 +1,11 @@
+// Title: Elevated System Shell Spawned From Uncommon Parent Location
+// ID: 178e615d-e666-498b-9630-9ed363038101
+// Status: test
+// Level: medium
+// Author: frack113, Tim Shelton (update fp)
+// Date: 2022-12-05
+// Tags: attack.privilege-escalation, attack.execution, attack.t1059
+// Description: Detects when a shell program such as the Windows command prompt or PowerShell is launched with system privileges from a uncommon parent location.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE (((((process.executable LIKE "%\\powershell.exe" OR process.executable LIKE "%\\powershell_ise.exe" OR process.executable LIKE "%\\pwsh.exe" OR process.executable LIKE "%\\cmd.exe")) OR ((process.pe.original_file_name == "PowerShell.EXE" OR process.pe.original_file_name == "powershell_ise.EXE" OR process.pe.original_file_name == "pwsh.dll" OR process.pe.original_file_name == "Cmd.Exe"))) AND ((user.name LIKE "%AUTHORI%" OR user.name LIKE "%AUTORI%") AND LogonId == "0x3e7")) AND NOT ((((process.parent.executable LIKE "%:\\Program Files (x86)\\%" OR process.parent.executable LIKE "%:\\Program Files\\%" OR process.parent.executable LIKE "%:\\ProgramData\\%" OR process.parent.executable LIKE "%:\\Windows\\System32\\%" OR process.parent.executable LIKE "%:\\Windows\\SysWOW64\\%" OR process.parent.executable LIKE "%:\\Windows\\Temp\\%" OR process.parent.executable LIKE "%:\\Windows\\WinSxS\\%")) OR ((process.parent.executable == "" OR process.parent.executable == "-")) OR (process.parent.executable IS NULL))) AND NOT (((process.command_line LIKE "%:\\WINDOWS\\system32\\cmd.exe /c \"%" AND CurrentDirectory LIKE "%:\\WINDOWS\\Temp\\asgard2-agent\\%") OR (process.parent.executable LIKE "%:\\IBM\\SpectrumProtect\\webserver\\scripts\\%" AND process.command_line LIKE "%:\\IBM\\SpectrumProtect\\webserver\\scripts\\%") OR (process.parent.executable LIKE "%:\\ManageEngine\\ADManager Plus\\pgsql\\bin\\postgres.exe" AND process.executable LIKE "%\\cmd.exe"))))

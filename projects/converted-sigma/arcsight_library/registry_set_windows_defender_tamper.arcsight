@@ -1,0 +1,11 @@
+// Title: Disable Windows Defender Functionalities Via Registry Keys
+// ID: 0eb46774-f1ab-4a74-8238-1155855f2263
+// Status: test
+// Level: high
+// Author: AlertIQ, Ján Trenčanský, frack113, Nasreddine Bencherchali, Swachchhanda Shrawan Poudel
+// Date: 2022-08-01
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects when attackers or tools disable Windows Defender functionalities via the Windows registry
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((TargetObject CONTAINS "\\SOFTWARE\\Microsoft\\Windows Defender\\" OR TargetObject CONTAINS "\\SOFTWARE\\Policies\\Microsoft\\Windows Defender Security Center\\" OR TargetObject CONTAINS "\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\")) AND (((TargetObject ENDSWITH "\\DisallowExploitProtectionOverride" OR TargetObject ENDSWITH "\\Features\\TamperProtection" OR TargetObject ENDSWITH "\\MpEngine\\MpEnablePus" OR TargetObject ENDSWITH "\\PUAProtection" OR TargetObject ENDSWITH "\\Signature Update\\ForceUpdateFromMU" OR TargetObject ENDSWITH "\\SpyNet\\SpynetReporting" OR TargetObject ENDSWITH "\\SpyNet\\SubmitSamplesConsent" OR TargetObject ENDSWITH "\\Windows Defender Exploit Guard\\Controlled Folder Access\\EnableControlledFolderAccess") AND Details EQ "DWORD (0x00000000)") OR ((TargetObject ENDSWITH "\\DisableAntiSpyware" OR TargetObject ENDSWITH "\\DisableAntiVirus" OR TargetObject ENDSWITH "\\DisableBehaviorMonitoring" OR TargetObject ENDSWITH "\\DisableBlockAtFirstSeen" OR TargetObject ENDSWITH "\\DisableEnhancedNotifications" OR TargetObject ENDSWITH "\\DisableIntrusionPreventionSystem" OR TargetObject ENDSWITH "\\DisableIOAVProtection" OR TargetObject ENDSWITH "\\DisableOnAccessProtection" OR TargetObject ENDSWITH "\\DisableRealtimeMonitoring" OR TargetObject ENDSWITH "\\DisableScanOnRealtimeEnable" OR TargetObject ENDSWITH "\\DisableScriptScanning") AND Details EQ "DWORD (0x00000001)")) AND NOT ((Image STARTSWITH "C:\\Program Files\\Symantec\\Symantec Endpoint Protection\\" AND Image ENDSWITH "\\sepWscSvc64.exe")))

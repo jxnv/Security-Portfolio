@@ -1,0 +1,23 @@
+// Title: UAC Bypass Using .NET Code Profiler on MMC
+// ID: 93a19907-d4f9-4deb-9f91-aac4692776a6
+// Status: test
+// Level: high
+// Author: Christian Burkard (Nextron Systems)
+// Date: 2021-08-30
+// Tags: attack.privilege-escalation, attack.t1548.002
+// Description: Detects the pattern of UAC Bypass using .NET Code Profiler and mmc.exe DLL hijacking (UACMe 39)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 93a19907_d4f9_4deb_9f91_aac4692776a6 {
+  meta:
+    title = "UAC Bypass Using .NET Code Profiler on MMC"
+    description = "Detects the pattern of UAC Bypass using .NET Code Profiler and mmc.exe DLL hijacking (UACMe 39)"
+    author = "Christian Burkard (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ($e.target.file.full_path = /^C:\\Users\\.*/ nocase and $e.target.file.full_path = /.*\\AppData\\Local\\Temp\\pe386.dll$/ nocase)
+
+  condition:
+    $e
+}

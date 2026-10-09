@@ -1,0 +1,24 @@
+// Title: New PDQDeploy Service - Client Side
+// ID: b98a10af-1e1e-44a7-bab2-4cc026917648
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-07-22
+// Tags: attack.persistence, attack.privilege-escalation, attack.t1543.003
+// Description: Detects PDQDeploy service installation on the target system.
+// When a package is deployed via PDQDeploy it installs a remote service on the target machine with the name "PDQDeployRunner-X" where "X" is an integer starting from 1
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule b98a10af_1e1e_44a7_bab2_4cc026917648 {
+  meta:
+    title = "New PDQDeploy Service - Client Side"
+    description = "Detects PDQDeploy service installation on the target system. When a package is deployed via PDQDeploy it installs a remote service on the target machine with the name "PDQDeployRunner-X" where "X" is an integer starting from 1"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.Provider_Name = "Service Control Manager" and $e.EventID = 7045) and (($e.ImagePath = /.*PDQDeployRunner-.*/ nocase) or ($e.ServiceName = /^PDQDeployRunner-.*/ nocase)))
+
+  condition:
+    $e
+}

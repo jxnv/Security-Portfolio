@@ -1,0 +1,11 @@
+// Title: Publicly Accessible RDP Service
+// ID: 1fc0809e-06bf-4de3-ad52-25e5263b7623
+// Status: test
+// Level: high
+// Author: Josh Brower @DefensiveDepth
+// Date: 2020-08-22
+// Tags: attack.lateral-movement, attack.t1021.001
+// Description: Detects connections from routable IPs to an RDP listener. Which is indicative of a publicly-accessible RDP service.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where !(((cidrMatch(id.orig_h, "::1/128") or cidrMatch(id.orig_h, "10.0.0.0/8") or cidrMatch(id.orig_h, "127.0.0.0/8") or cidrMatch(id.orig_h, "172.16.0.0/12") or cidrMatch(id.orig_h, "192.168.0.0/16") or cidrMatch(id.orig_h, "169.254.0.0/16") or cidrMatch(id.orig_h, "2620:83:8000::/48") or cidrMatch(id.orig_h, "fc00::/7") or cidrMatch(id.orig_h, "fe80::/10"))))

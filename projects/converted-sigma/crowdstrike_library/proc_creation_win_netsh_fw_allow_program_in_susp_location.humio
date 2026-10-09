@@ -1,0 +1,11 @@
+// Title: Suspicious Program Location Whitelisted In Firewall Via Netsh.EXE
+// ID: a35f5a72-f347-4e36-8895-9869b0d5fc6d
+// Status: test
+// Level: high
+// Author: Sander Wiebing, Jonhnathan Ribeiro, Daniil Yugoslavskiy, oscd.community
+// Date: 2020-05-25
+// Tags: attack.defense-impairment, attack.t1686.003
+// Description: Detects Netsh command execution that whitelists a program located in a suspicious location in the Windows Firewall
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((CommandLine = /*firewall*/i and CommandLine = /*add*/i and CommandLine = /*allowedprogram*/i)) or ((CommandLine = /*advfirewall*/i and CommandLine = /*firewall*/i and CommandLine = /*add*/i and CommandLine = /*rule*/i and CommandLine = /*action=allow*/i and CommandLine = /*program=*/i))) and ((ImageFileName = /.*\\netsh.exe/i) or (OriginalFilename = "netsh.exe")) and ((CommandLine = /*:\\$Recycle.bin\\*/i or CommandLine = /*:\\RECYCLER.BIN\\*/i or CommandLine = /*:\\RECYCLERS.BIN\\*/i or CommandLine = /*:\\SystemVolumeInformation\\*/i or CommandLine = /*:\\Temp\\*/i or CommandLine = /*:\\Users\\Default\\*/i or CommandLine = /*:\\Users\\Desktop\\*/i or CommandLine = /*:\\Users\\Public\\*/i or CommandLine = /*:\\Windows\\addins\\*/i or CommandLine = /*:\\Windows\\cursors\\*/i or CommandLine = /*:\\Windows\\debug\\*/i or CommandLine = /*:\\Windows\\drivers\\*/i or CommandLine = /*:\\Windows\\fonts\\*/i or CommandLine = /*:\\Windows\\help\\*/i or CommandLine = /*:\\Windows\\system32\\tasks\\*/i or CommandLine = /*:\\Windows\\Tasks\\*/i or CommandLine = /*:\\Windows\\Temp\\*/i or CommandLine = /*\\Downloads\\*/i or CommandLine = /*\\Local Settings\\Temporary Internet Files\\*/i or CommandLine = /*\\Temporary Internet Files\\Content.Outlook\\*/i or CommandLine = /*%Public%\\*/i or CommandLine = /*%TEMP%*/i or CommandLine = /*%TMP%*/i)))

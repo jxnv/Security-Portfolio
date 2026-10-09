@@ -1,0 +1,11 @@
+// Title: Suspicious Child Process Of Veeam Dabatase
+// ID: d55b793d-f847-4eea-b59a-5ab09908ac90
+// Status: test
+// Level: critical
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-05-04
+// Tags: attack.initial-access, attack.persistence, attack.privilege-escalation
+// Description: Detects suspicious child processes of the Veeam service process. This could indicate potential RCE or SQL Injection.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((where(ParentImage IENDSWITH "\\sqlservr.exe") AND where(ParentCommandLine ICONTAINS "VEEAMSQL")) AND (((where(Image IENDSWITH "\\cmd.exe") OR where(Image IENDSWITH "\\powershell.exe") OR where(Image IENDSWITH "\\pwsh.exe") OR where(Image IENDSWITH "\\wsl.exe") OR where(Image IENDSWITH "\\wt.exe")) AND (where(CommandLine ICONTAINS "-ex ") OR where(CommandLine ICONTAINS "bypass") OR where(CommandLine ICONTAINS "cscript") OR where(CommandLine ICONTAINS "DownloadString") OR where(CommandLine ICONTAINS "http://") OR where(CommandLine ICONTAINS "https://") OR where(CommandLine ICONTAINS "mshta") OR where(CommandLine ICONTAINS "regsvr32") OR where(CommandLine ICONTAINS "rundll32") OR where(CommandLine ICONTAINS "wscript") OR where(CommandLine ICONTAINS "copy "))) OR ((where(Image IENDSWITH "\\net.exe") OR where(Image IENDSWITH "\\net1.exe") OR where(Image IENDSWITH "\\netstat.exe") OR where(Image IENDSWITH "\\nltest.exe") OR where(Image IENDSWITH "\\ping.exe") OR where(Image IENDSWITH "\\tasklist.exe") OR where(Image IENDSWITH "\\whoami.exe")))))

@@ -1,0 +1,13 @@
+# Title: Suspicious Modification Of Scheduled Tasks
+# ID: 1c0e41cd-21bb-4433-9acc-4a2cd6367b9b
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-07-28
+# Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.t1053.005
+# Description: Detects when an attacker tries to modify an already existing scheduled tasks to run from a suspicious location
+# Attackers can create a simple looking task in order to avoid detection on creation as it's often the most focused on
+# Instead they modify the task after creation to include their malicious payload
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((process_name:*\\schtasks.exe AND (cmdline:* /Change * AND cmdline:* /TN *)) AND ((cmdline:*regsvr32* OR cmdline:*rundll32* OR cmdline:*cmd /c * OR cmdline:*cmd /k * OR cmdline:*cmd /r * OR cmdline:*cmd.exe /c * OR cmdline:*cmd.exe /k * OR cmdline:*cmd.exe /r * OR cmdline:*powershell* OR cmdline:*mshta* OR cmdline:*wscript* OR cmdline:*cscript* OR cmdline:*certutil* OR cmdline:*bitsadmin* OR cmdline:*bash.exe* OR cmdline:*bash * OR cmdline:*scrcons* OR cmdline:*wmic * OR cmdline:*wmic.exe* OR cmdline:*forfiles* OR cmdline:*scriptrunner* OR cmdline:*hh.exe* OR cmdline:*hh *)) AND ((cmdline:*\\AppData\\Local\\Temp* OR cmdline:*\\AppData\\Roaming\\* OR cmdline:*\\Users\\Public\\* OR cmdline:*\\WINDOWS\\Temp\\* OR cmdline:*\\Desktop\\* OR cmdline:*\\Downloads\\* OR cmdline:*\\Temporary Internet* OR cmdline:*C:\\ProgramData\\* OR cmdline:*C:\\Perflogs\\* OR cmdline:*%ProgramData%* OR cmdline:*%appdata%* OR cmdline:*%comspec%* OR cmdline:*%localappdata%*)))

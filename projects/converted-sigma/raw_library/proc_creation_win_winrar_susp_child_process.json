@@ -1,0 +1,49 @@
+{
+  "title": "Potentially Suspicious Child Process Of WinRAR.EXE",
+  "id": "146aace8-9bd6-42ba-be7a-0070d8027b76",
+  "status": "test",
+  "description": "Detects potentially suspicious child processes of WinRAR.exe.",
+  "author": "Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2023-08-31",
+  "tags": [
+    "attack.execution",
+    "attack.t1203"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_parent": {
+      "ParentImage|endswith": "\\WinRAR.exe"
+    },
+    "selection_binaries": [
+      {
+        "Image|endswith": [
+          "\\cmd.exe",
+          "\\cscript.exe",
+          "\\mshta.exe",
+          "\\powershell.exe",
+          "\\pwsh.exe",
+          "\\regsvr32.exe",
+          "\\rundll32.exe",
+          "\\wscript.exe"
+        ]
+      },
+      {
+        "OriginalFileName": [
+          "Cmd.Exe",
+          "cscript.exe",
+          "mshta.exe",
+          "PowerShell.EXE",
+          "pwsh.dll",
+          "regsvr32.exe",
+          "RUNDLL32.EXE",
+          "wscript.exe"
+        ]
+      }
+    ],
+    "condition": "all of selection_*"
+  }
+}

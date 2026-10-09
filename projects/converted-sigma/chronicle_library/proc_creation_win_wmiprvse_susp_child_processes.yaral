@@ -1,0 +1,23 @@
+// Title: Suspicious WmiPrvSE Child Process
+// ID: 8a582fe2-0882-4b89-a82a-da6b2dc32937
+// Status: test
+// Level: high
+// Author: Vadim Khrykov (ThreatIntel), Cyb3rEng, Florian Roth (Nextron Systems)
+// Date: 2021-08-23
+// Tags: attack.execution, attack.stealth, attack.t1047, attack.t1204.002, attack.t1218.010
+// Description: Detects suspicious and uncommon child processes of WmiPrvSE
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 8a582fe2_0882_4b89_a82a_da6b2dc32937 {
+  meta:
+    title = "Suspicious WmiPrvSE Child Process"
+    description = "Detects suspicious and uncommon child processes of WmiPrvSE"
+    author = "Vadim Khrykov (ThreatIntel), Cyb3rEng, Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.principal.process.file.full_path = /.*\\wbem\\WmiPrvSE.exe$/ nocase) and ((($e.target.process.file.full_path = /.*\\certutil.exe$/ nocase or $e.target.process.file.full_path = /.*\\cscript.exe$/ nocase or $e.target.process.file.full_path = /.*\\mshta.exe$/ nocase or $e.target.process.file.full_path = /.*\\msiexec.exe$/ nocase or $e.target.process.file.full_path = /.*\\regsvr32.exe$/ nocase or $e.target.process.file.full_path = /.*\\rundll32.exe$/ nocase or $e.target.process.file.full_path = /.*\\verclsid.exe$/ nocase or $e.target.process.file.full_path = /.*\\wscript.exe$/ nocase)) or ($e.target.process.file.full_path = /.*\\cmd.exe$/ nocase and ($e.target.process.command_line = /.*cscript.*/ nocase or $e.target.process.command_line = /.*mshta.*/ nocase or $e.target.process.command_line = /.*powershell.*/ nocase or $e.target.process.command_line = /.*pwsh.*/ nocase or $e.target.process.command_line = /.*regsvr32.*/ nocase or $e.target.process.command_line = /.*rundll32.*/ nocase or $e.target.process.command_line = /.*wscript.*/ nocase))) and not((($e.target.process.file.full_path = /.*\\msiexec.exe$/ nocase and $e.target.process.command_line = /.*/i .*/ nocase) or ($e.target.process.file.full_path = /.*\\WerFault.exe$/ nocase) or ($e.target.process.file.full_path = /.*\\WmiPrvSE.exe$/ nocase))))
+
+  condition:
+    $e
+}

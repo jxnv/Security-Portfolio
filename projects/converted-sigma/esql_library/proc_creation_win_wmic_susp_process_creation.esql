@@ -1,0 +1,11 @@
+// Title: Suspicious Process Created Via Wmic.EXE
+// ID: 3c89a1e8-0fba-449e-8f1b-8409d6267ec8
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2020-10-12
+// Tags: attack.execution, attack.t1047
+// Description: Detects WMIC executing "process call create" with suspicious calls to processes such as "rundll32", "regsrv32", etc.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE ((process.command_line LIKE "%process %" AND process.command_line LIKE "%call %" AND process.command_line LIKE "%create %") AND (process.command_line LIKE "%rundll32%" OR process.command_line LIKE "%bitsadmin%" OR process.command_line LIKE "%regsvr32%" OR process.command_line LIKE "%cmd.exe /c %" OR process.command_line LIKE "%cmd.exe /k %" OR process.command_line LIKE "%cmd.exe /r %" OR process.command_line LIKE "%cmd /c %" OR process.command_line LIKE "%cmd /k %" OR process.command_line LIKE "%cmd /r %" OR process.command_line LIKE "%powershell%" OR process.command_line LIKE "%pwsh%" OR process.command_line LIKE "%certutil%" OR process.command_line LIKE "%cscript%" OR process.command_line LIKE "%wscript%" OR process.command_line LIKE "%mshta%" OR process.command_line LIKE "%\\Users\\Public\\%" OR process.command_line LIKE "%\\Windows\\Temp\\%" OR process.command_line LIKE "%\\AppData\\Local\\%" OR process.command_line LIKE "%%temp%%" OR process.command_line LIKE "%%tmp%%" OR process.command_line LIKE "%%ProgramData%%" OR process.command_line LIKE "%%appdata%%" OR process.command_line LIKE "%%comspec%%" OR process.command_line LIKE "%%localappdata%%"))

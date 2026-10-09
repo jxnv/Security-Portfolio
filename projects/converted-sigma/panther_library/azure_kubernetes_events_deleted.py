@@ -1,0 +1,19 @@
+# Title: Azure Kubernetes Events Deleted
+# ID: 225d8b09-e714-479c-a0e4-55e6f29adf35
+# Status: test
+# Level: medium
+# Author: Austin Songer @austinsonger
+# Date: 2021-07-24
+# Tags: attack.defense-impairment, attack.t1685
+# Description: Detects when Events are deleted in Azure Kubernetes. An adversary may delete events in Azure Kubernetes in an attempt to evade detection.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Azure Kubernetes Events Deleted
+def rule(event):
+    # Detection Logic:
+    # (operationName="MICROSOFT.KUBERNETES/CONNECTEDCLUSTERS/EVENTS.K8S.IO/EVENTS/DELETE")
+    return True
+
+def title(event):
+    return "Azure Kubernetes Events Deleted"
+

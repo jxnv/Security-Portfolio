@@ -1,0 +1,11 @@
+-- Title: Wmiexec Default Output File
+-- ID: 8d5aca11-22b3-4f22-b7ba-90e60533e1fb
+-- Status: test
+-- Level: critical
+-- Author: Nasreddine Bencherchali (Nextron Systems)
+-- Date: 2022-06-02
+-- Tags: attack.lateral-movement, attack.execution, attack.t1047
+-- Description: Detects the creation of the default output filename used by the wmiexec tool
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE ((REGEXP_LIKE(TargetFilename, '\\Windows\\__1\d{9}\.\d{1,7}$')) OR (REGEXP_LIKE(TargetFilename, 'C:\\__1\d{9}\.\d{1,7}$')) OR (REGEXP_LIKE(TargetFilename, 'D:\\__1\d{9}\.\d{1,7}$')))

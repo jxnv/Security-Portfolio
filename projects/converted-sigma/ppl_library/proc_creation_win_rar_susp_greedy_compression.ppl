@@ -1,0 +1,11 @@
+// Title: Suspicious Greedy Compression Using Rar.EXE
+// ID: afe52666-401e-4a02-b4ff-5d128990b8cb
+// Status: test
+// Level: high
+// Author: X__Junior (Nextron Systems), Florian Roth (Nextron Systems)
+// Date: 2022-12-15
+// Tags: attack.execution, attack.t1059
+// Description: Detects RAR usage that creates an archive from a suspicious folder, either a system folder or one of the folders often used by attackers for staging purposes
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where ((((process.executable="*\\rar.exe") OR (Description = "Command line RAR")) OR ((process.command_line like "%.exe a %" OR process.command_line like "% a -m%"))) AND (((process.command_line like "% -hp%" AND process.command_line like "% -r %")) AND ((process.command_line like "% ?:\\\\\\*.%" OR process.command_line like "% ?:\\\\\\\\\\*.%" OR process.command_line like "% ?:\\$Recycle.bin\\%" OR process.command_line like "% ?:\\PerfLogs\\%" OR process.command_line like "% ?:\\Temp%" OR process.command_line like "% ?:\\Users\\Public\\%" OR process.command_line like "% ?:\\Windows\\%" OR process.command_line like "% %public%%"))))

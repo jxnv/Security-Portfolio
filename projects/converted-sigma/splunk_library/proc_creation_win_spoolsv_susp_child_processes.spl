@@ -1,0 +1,11 @@
+# Title: Suspicious Spool Service Child Process
+# ID: dcdbc940-0bff-46b2-95f3-2d73f848e33b
+# Status: test
+# Level: high
+# Author: Justin C. (@endisphotic), @dreadphones (detection), Thomas Patzke (Sigma rule)
+# Date: 2021-07-11
+# Tags: attack.execution, attack.t1203, attack.privilege-escalation, attack.t1068
+# Description: Detects suspicious print spool service (spoolsv.exe) child processes.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog ((parent_process_path="*\\spoolsv.exe" AND (IntegrityLevel="System" OR IntegrityLevel="S-1-16-16384")) AND (((process_path="*\\gpupdate.exe" OR process_path="*\\whoami.exe" OR process_path="*\\nltest.exe" OR process_path="*\\taskkill.exe" OR process_path="*\\wmic.exe" OR process_path="*\\taskmgr.exe" OR process_path="*\\sc.exe" OR process_path="*\\findstr.exe" OR process_path="*\\curl.exe" OR process_path="*\\wget.exe" OR process_path="*\\certutil.exe" OR process_path="*\\bitsadmin.exe" OR process_path="*\\accesschk.exe" OR process_path="*\\wevtutil.exe" OR process_path="*\\bcdedit.exe" OR process_path="*\\fsutil.exe" OR process_path="*\\cipher.exe" OR process_path="*\\schtasks.exe" OR process_path="*\\write.exe" OR process_path="*\\wuauclt.exe" OR process_path="*\\systeminfo.exe" OR process_path="*\\reg.exe" OR process_path="*\\query.exe")) OR (((process_path="*\\net.exe" OR process_path="*\\net1.exe")) AND NOT ((process_exec="*start*"))) OR ((process_path="*\\cmd.exe") AND NOT (((process_exec="*.spl*" OR process_exec="*route add*" OR process_exec="*program files*")))) OR ((process_path="*\\netsh.exe") AND NOT (((process_exec="*add portopening*" OR process_exec="*rule name*")))) OR (((process_path="*\\powershell.exe" OR process_path="*\\pwsh.exe")) AND NOT ((process_exec="*.spl*"))) OR ((process_exec="*rundll32.exe") AND ((process_path="*\\rundll32.exe") OR (process_name="RUNDLL32.EXE")))))

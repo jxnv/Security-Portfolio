@@ -1,0 +1,23 @@
+// Title: Potential Antivirus Software DLL Sideloading
+// ID: 552b6b65-df37-4d3e-a258-f2fc4771ae54
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems), Wietze Beukema (project and research)
+// Date: 2022-08-17
+// Tags: attack.persistence, attack.privilege-escalation, attack.execution, attack.stealth, attack.t1574.001
+// Description: Detects potential DLL sideloading of DLLs that are part of antivirus software suchas McAfee, Symantec...etc
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 552b6b65_df37_4d3e_a258_f2fc4771ae54 {
+  meta:
+    title = "Potential Antivirus Software DLL Sideloading"
+    description = "Detects potential DLL sideloading of DLLs that are part of antivirus software suchas McAfee, Symantec...etc"
+    author = "Nasreddine Bencherchali (Nextron Systems), Wietze Beukema (project and research)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.ImageLoaded = /.*\\log.dll$/ nocase) and not(((($e.ImageLoaded = "C:\\Program Files\\AVAST Software\\Avast\\log.dll" or $e.ImageLoaded = "C:\\Program Files (x86)\\AVAST Software\\Avast\\log.dll")) or (($e.ImageLoaded = "C:\\Program Files\\AVG\\Antivirus\\log.dll" or $e.ImageLoaded = "C:\\Program Files (x86)\\AVG\\Antivirus\\log.dll")) or (($e.ImageLoaded = /^C:\\Program Files\\Bitdefender Antivirus Free\\.*/ nocase or $e.ImageLoaded = /^C:\\Program Files (x86)\\Bitdefender Antivirus Free\\.*/ nocase)) or ($e.ImageLoaded = /^C:\\Program Files\\Canon\\MyPrinter\\.*/ nocase) or ($e.target.process.file.full_path = "C:\\Program Files\\Dell\\SARemediation\\audit\\TelemetryUtility.exe" and ($e.ImageLoaded = "C:\\Program Files\\Dell\\SARemediation\\plugin\\log.dll" or $e.ImageLoaded = "C:\\Program Files\\Dell\\SARemediation\\audit\\log.dll"))))) or (($e.ImageLoaded = /.*\\qrt.dll$/ nocase) and not((($e.ImageLoaded = /^C:\\Program Files\\F-Secure\\Anti-Virus\\.*/ nocase or $e.ImageLoaded = /^C:\\Program Files (x86)\\F-Secure\\Anti-Virus\\.*/ nocase)))) or ((($e.ImageLoaded = /.*\\ashldres.dll$/ nocase or $e.ImageLoaded = /.*\\lockdown.dll$/ nocase or $e.ImageLoaded = /.*\\vsodscpl.dll$/ nocase)) and not((($e.ImageLoaded = /^C:\\Program Files\\McAfee\\.*/ nocase or $e.ImageLoaded = /^C:\\Program Files (x86)\\McAfee\\.*/ nocase)))) or (($e.ImageLoaded = /.*\\vftrace.dll$/ nocase) and not((($e.ImageLoaded = /^C:\\Program Files\\CyberArk\\Endpoint Privilege Manager\\Agent\\x32\\.*/ nocase or $e.ImageLoaded = /^C:\\Program Files (x86)\\CyberArk\\Endpoint Privilege Manager\\Agent\\x32\\.*/ nocase)))) or (($e.ImageLoaded = /.*\\wsc.dll$/ nocase) and not(((($e.ImageLoaded = /^C:\\program Files\\AVAST Software\\Avast\\.*/ nocase or $e.ImageLoaded = /^C:\\program Files (x86)\\AVAST Software\\Avast\\.*/ nocase)) or (($e.ImageLoaded = /^C:\\Program Files\\AVG\\Antivirus\\.*/ nocase or $e.ImageLoaded = /^C:\\Program Files (x86)\\AVG\\Antivirus\\.*/ nocase))))) or (($e.ImageLoaded = /.*\\tmdbglog.dll$/ nocase) and not((($e.ImageLoaded = /^C:\\program Files\\Trend Micro\\Titanium\\.*/ nocase or $e.ImageLoaded = /^C:\\program Files (x86)\\Trend Micro\\Titanium\\.*/ nocase)))) or (($e.ImageLoaded = /.*\\DLPPREM32.dll$/ nocase) and not((($e.ImageLoaded = /^C:\\program Files\\ESET.*/ nocase or $e.ImageLoaded = /^C:\\program Files (x86)\\ESET.*/ nocase)))))
+
+  condition:
+    $e
+}

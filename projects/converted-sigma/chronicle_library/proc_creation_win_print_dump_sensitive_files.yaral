@@ -1,0 +1,23 @@
+// Title: Sensitive File Dump Via Print.EXE
+// ID: 2fcda7e2-8c57-4904-86ac-37fc3157e09d
+// Status: test
+// Level: high
+// Author: Ayush Anand (Securityinbits)
+// Date: 2026-04-28
+// Tags: attack.credential-access, attack.stealth, attack.t1003.003, attack.t1003.002, attack.t1218
+// Description: Detects the abuse of the Print.exe utility for credential harvesting which involves using Print.Exe to copy sensitive files such as ntds.dit, SAM, SECURITY, or SYSTEM from the Windows directory in order to extract credentials, locally or remotely.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 2fcda7e2_8c57_4904_86ac_37fc3157e09d {
+  meta:
+    title = "Sensitive File Dump Via Print.EXE"
+    description = "Detects the abuse of the Print.exe utility for credential harvesting which involves using Print.Exe to copy sensitive files such as ntds.dit, SAM, SECURITY, or SYSTEM from the Windows directory in order to extract credentials, locally or remotely."
+    author = "Ayush Anand (Securityinbits)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*/D.*/ nocase or $e.target.process.command_line = /.*-D.*/ nocase) and ($e.target.process.command_line = /.*\\config\\SAM.*/ nocase or $e.target.process.command_line = /.*\\config\\SECURITY.*/ nocase or $e.target.process.command_line = /.*\\config\\SYSTEM.*/ nocase or $e.target.process.command_line = /.*\\windows\\ntds\\ntds.dit.*/ nocase)) and (($e.target.process.file.full_path = /.*\\print.exe$/ nocase) or ($e.target.process.file.name = "Print.EXE")))
+
+  condition:
+    $e
+}

@@ -1,0 +1,11 @@
+// Title: Important Windows Service Terminated With Error
+// ID: d6b5520d-3934-48b4-928c-2aa3f92d6963
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-04-14
+// Tags: attack.stealth
+// Description: Detects important or interesting Windows services that got terminated for whatever reason
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((Provider_Name = "Service Control Manager" and EventID = 7023) and (((param1 = /* Antivirus*/i or param1 = /* Firewall*/i or param1 = /*Application Guard*/i or param1 = /*BitLocker Drive Encryption Service*/i or param1 = /*Encrypting File System*/i or param1 = /*Microsoft Defender*/i or param1 = /*Threat Protection*/i or param1 = /*Windows Event Log*/i)) or ((Binary = /*770069006e0064006500660065006e006400*/i or Binary = /*4500760065006e0074004c006f006700*/i or Binary = /*6d0070007300730076006300*/i or Binary = /*530065006e0073006500*/i or Binary = /*450046005300*/i or Binary = /*420044004500530056004300*/i))))

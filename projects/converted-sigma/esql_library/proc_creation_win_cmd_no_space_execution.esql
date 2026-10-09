@@ -1,0 +1,12 @@
+// Title: Cmd.EXE Missing Space Characters Execution Anomaly
+// ID: a16980c2-0c56-4de0-9a79-17971979efdd
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-08-23
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects Windows command lines that miss a space before or after the /c flag when running a command using the cmd.exe.
+// This could be a sign of obfuscation of a fat finger problem (typo by the developer).
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE ((((process.command_line LIKE "%cmd.exe/c%" OR process.command_line LIKE "%\\cmd/c%" OR process.command_line LIKE "%\"cmd/c%" OR process.command_line LIKE "%cmd.exe/k%" OR process.command_line LIKE "%\\cmd/k%" OR process.command_line LIKE "%\"cmd/k%" OR process.command_line LIKE "%cmd.exe/r%" OR process.command_line LIKE "%\\cmd/r%" OR process.command_line LIKE "%\"cmd/r%")) OR ((process.command_line LIKE "%/cwhoami%" OR process.command_line LIKE "%/cpowershell%" OR process.command_line LIKE "%/cschtasks%" OR process.command_line LIKE "%/cbitsadmin%" OR process.command_line LIKE "%/ccertutil%" OR process.command_line LIKE "%/kwhoami%" OR process.command_line LIKE "%/kpowershell%" OR process.command_line LIKE "%/kschtasks%" OR process.command_line LIKE "%/kbitsadmin%" OR process.command_line LIKE "%/kcertutil%")) OR ((process.command_line LIKE "%cmd.exe /c%" OR process.command_line LIKE "%cmd /c%" OR process.command_line LIKE "%cmd.exe /k%" OR process.command_line LIKE "%cmd /k%" OR process.command_line LIKE "%cmd.exe /r%" OR process.command_line LIKE "%cmd /r%"))) AND NOT ((((process.command_line LIKE "%AppData\\Local\\Programs\\Microsoft VS Code\\resources\\app\\node_modules%") OR (process.command_line LIKE "%cmd.exe/c .") OR (process.command_line == "cmd.exe /c") OR (process.command_line == "cmd /c")) OR ((process.command_line LIKE "%cmd.exe /c %" OR process.command_line LIKE "%cmd /c %" OR process.command_line LIKE "%cmd.exe /k %" OR process.command_line LIKE "%cmd /k %" OR process.command_line LIKE "%cmd.exe /r %" OR process.command_line LIKE "%cmd /r %")))))

@@ -1,0 +1,23 @@
+// Title: Use Of The SFTP.EXE Binary As A LOLBIN
+// ID: a85ffc3a-e8fd-4040-93bf-78aff284d801
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-11-10
+// Tags: attack.execution, attack.stealth, attack.t1218
+// Description: Detects the usage of the "sftp.exe" binary as a LOLBIN by abusing the "-D" flag
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule a85ffc3a_e8fd_4040_93bf_78aff284d801 {
+  meta:
+    title = "Use Of The SFTP.EXE Binary As A LOLBIN"
+    description = "Detects the usage of the "sftp.exe" binary as a LOLBIN by abusing the "-D" flag"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ($e.target.process.file.full_path = /.*\\sftp.exe$/ nocase and ($e.target.process.command_line = /.* -D ...*/ nocase or $e.target.process.command_line = /.* -D C:\\.*/ nocase))
+
+  condition:
+    $e
+}

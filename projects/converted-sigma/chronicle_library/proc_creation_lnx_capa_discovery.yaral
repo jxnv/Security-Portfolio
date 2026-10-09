@@ -1,0 +1,23 @@
+// Title: Capabilities Discovery - Linux
+// ID: d8d97d51-122d-4cdd-9e2f-01b4b4933530
+// Status: test
+// Level: low
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-12-28
+// Tags: attack.discovery, attack.t1083
+// Description: Detects usage of "getcap" binary. This is often used during recon activity to determine potential binaries that can be abused as GTFOBins or other.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule d8d97d51_122d_4cdd_9e2f_01b4b4933530 {
+  meta:
+    title = "Capabilities Discovery - Linux"
+    description = "Detects usage of "getcap" binary. This is often used during recon activity to determine potential binaries that can be abused as GTFOBins or other."
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "LOW"
+
+  events:
+    ($e.target.process.file.full_path = /.*/getcap$/ nocase and $e.target.process.command_line = /.* -r .*/ nocase)
+
+  condition:
+    $e
+}

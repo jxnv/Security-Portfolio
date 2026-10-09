@@ -1,0 +1,11 @@
+# Title: Process Memory Dump via RdrLeakDiag.EXE
+# ID: edadb1e5-5919-4e4c-8462-a9e643b02c4b
+# Status: test
+# Level: high
+# Author: Cedric MAURUGEON, Florian Roth (Nextron Systems), Swachchhanda Shrawan Poudel, Nasreddine Bencherchali (Nextron Systems)
+# Date: 2021-09-24
+# Tags: attack.credential-access, attack.t1003.001
+# Description: Detects the use of the Microsoft Windows Resource Leak Diagnostic tool "rdrleakdiag.exe" to dump process memory
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog (((process_exec="*/memdmp*" OR process_exec="*-memdmp*" OR process_exec="*fullmemdmp*")) AND ((process_exec="* /o *" OR process_exec="* /p *")) AND ((process_path="*\\rdrleakdiag.exe") OR (process_name="RdrLeakDiag.exe")))

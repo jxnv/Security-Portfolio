@@ -1,0 +1,11 @@
+// Title: Suspicious File Downloaded From File-Sharing Website Via Certutil.EXE
+// ID: 42a5f1e7-9603-4f6d-97ae-3f37d130d794
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-02-15
+// Tags: attack.stealth, attack.t1027, attack.command-and-control, attack.t1105
+// Description: Detects the execution of certutil with certain flags that allow the utility to download files from file-sharing websites.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where (((process.command_line like "%urlcache %" OR process.command_line like "%verifyctl %" OR process.command_line like "%URL %")) AND ((process.command_line like "%.githubusercontent.com%" OR process.command_line like "%0x0.st%" OR process.command_line like "%anonfiles.com%" OR process.command_line like "%bashupload.com%" OR process.command_line like "%cdn.discordapp.com%" OR process.command_line like "%chunk.io%" OR process.command_line like "%ddns.net%" OR process.command_line like "%dl.dropboxusercontent.com%" OR process.command_line like "%ghostbin.co%" OR process.command_line like "%github.com%" OR process.command_line like "%glitch.me%" OR process.command_line like "%gofile.io%" OR process.command_line like "%hastebin.com%" OR process.command_line like "%mediafire.com%" OR process.command_line like "%mega.nz%" OR process.command_line like "%onrender.com%" OR process.command_line like "%pages.dev%" OR process.command_line like "%paste.ee%" OR process.command_line like "%pastebin.com%" OR process.command_line like "%pastebin.pl%" OR process.command_line like "%pastetext.net%" OR process.command_line like "%privatlab.com%" OR process.command_line like "%privatlab.net%" OR process.command_line like "%send.exploit.in%" OR process.command_line like "%sendspace.com%" OR process.command_line like "%storage.googleapis.com%" OR process.command_line like "%storjshare.io%" OR process.command_line like "%supabase.co%" OR process.command_line like "%temp.sh%" OR process.command_line like "%transfer.sh%" OR process.command_line like "%trycloudflare.com%" OR process.command_line like "%ufile.io%" OR process.command_line like "%w3spaces.com%" OR process.command_line like "%workers.dev%" OR process.command_line like "%x0.at%")) AND ((process.executable="*\\certutil.exe") OR (process.pe.original_file_name = "CertUtil.exe")))

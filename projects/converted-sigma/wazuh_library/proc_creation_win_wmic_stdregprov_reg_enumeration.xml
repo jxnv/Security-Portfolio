@@ -1,0 +1,16 @@
+<!--
+  Title: Registry Enumeration via WMI Stdregprov
+  ID: a0e417e2-2fa1-40da-b6d2-e094cd5e1191
+  Status: experimental
+  Level: medium
+  Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+  Date: 2025-07-30
+  Description: Detects the usage of wmic.exe to enumerate or read Windows registry via the WMI StdRegProv class read methods (EnumKey, EnumValues, GetStringValue, etc.). While registry reads are common, attackers may use this technique to perform reconnaissance and discover sensitive configuration values, credentials, or installed software. The use of WMI as an alternative to standard tools like reg.exe can indicate an attempt to evade detection focused on traditional registry query commands.
+-->
+
+<group name="sigma_converted,">
+  <rule id="100001" level="5">
+    <description>Registry Enumeration via WMI Stdregprov</description>
+    <match>(((CommandLine=\"*stdregprov*\" AND CommandLine=\"*call*\") AND (CommandLine=\"*CheckAccess*\" OR CommandLine=\"*EnumKey*\" OR C</match>
+  </rule>
+</group>

@@ -1,0 +1,11 @@
+// Title: Potentially Suspicious ODBC Driver Registered
+// ID: e4d22291-f3d5-4b78-9a0c-a1fbaf32a6a4
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-05-23
+// Tags: attack.credential-access, attack.persistence, attack.t1003
+// Description: Detects the registration of a new ODBC driver where the driver is located in a potentially suspicious location
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+registry where (registry.path like "*_\\SOFTWARE\\ODBC\\ODBCINST.INI\\*" and (registry.path endswith "\\Driver" or registry.path endswith "\\Setup") and (registry.data.strings like "*_:\\PerfLogs\\*" or registry.data.strings like "*_:\\ProgramData\\*" or registry.data.strings like "*_:\\Temp\\*" or registry.data.strings like "*_:\\Users\\Public\\*" or registry.data.strings like "*_:\\Windows\\Registration\\CRMLog*" or registry.data.strings like "*_:\\Windows\\System32\\com\\dmp\\*" or registry.data.strings like "*_:\\Windows\\System32\\FxsTmp\\*" or registry.data.strings like "*_:\\Windows\\System32\\Microsoft\\Crypto\\RSA\\MachineKeys\\*" or registry.data.strings like "*_:\\Windows\\System32\\spool\\drivers\\color\\*" or registry.data.strings like "*_:\\Windows\\System32\\spool\\PRINTERS\\*" or registry.data.strings like "*_:\\Windows\\System32\\spool\\SERVERS\\*" or registry.data.strings like "*_:\\Windows\\System32\\Tasks_Migrated\\*" or registry.data.strings like "*_:\\Windows\\System32\\Tasks\\Microsoft\\Windows\\SyncCenter\\*" or registry.data.strings like "*_:\\Windows\\SysWOW64\\com\\dmp\\*" or registry.data.strings like "*_:\\Windows\\SysWOW64\\FxsTmp\\*" or registry.data.strings like "*_:\\Windows\\SysWOW64\\Tasks\\Microsoft\\Windows\\PLA\\System\\*" or registry.data.strings like "*_:\\Windows\\SysWOW64\\Tasks\\Microsoft\\Windows\\SyncCenter\\*" or registry.data.strings like "*_:\\Windows\\Tasks\\*" or registry.data.strings like "*_:\\Windows\\Temp\\*" or registry.data.strings like "*_:\\Windows\\Tracing\\*" or registry.data.strings like "*_\\AppData\\Local\\Temp\\*" or registry.data.strings like "*_\\AppData\\Roaming\\*"))

@@ -1,0 +1,11 @@
+// Title: File Download Via Bitsadmin To A Suspicious Target Folder
+// ID: 2ddef153-167b-4e89-86b6-757a9e65dcac
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-06-28
+// Tags: attack.persistence, attack.execution, attack.stealth, attack.t1197, attack.s0190, attack.t1036.003, attack.command-and-control, attack.t1105
+// Description: Detects usage of bitsadmin downloading a file to a suspicious target folder
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+from siem.events where (((contains(CommandLine, " /transfer ") OR contains(CommandLine, " /create ") OR contains(CommandLine, " /addfile "))) AND ((contains(CommandLine, ":\\Perflogs") OR contains(CommandLine, ":\\ProgramData\\") OR contains(CommandLine, ":\\Temp\\") OR contains(CommandLine, ":\\Users\\Public\\") OR contains(CommandLine, ":\\Windows\\") OR contains(CommandLine, "\\$Recycle.Bin\\") OR contains(CommandLine, "\\AppData\\Local\\") OR contains(CommandLine, "\\AppData\\Roaming\\") OR contains(CommandLine, "\\Contacts\\") OR contains(CommandLine, "\\Desktop\\") OR contains(CommandLine, "\\Favorites\\") OR contains(CommandLine, "\\Favourites\\") OR contains(CommandLine, "\\inetpub\\wwwroot\\") OR contains(CommandLine, "\\Music\\") OR contains(CommandLine, "\\Pictures\\") OR contains(CommandLine, "\\Start Menu\\Programs\\Startup\\") OR contains(CommandLine, "\\Users\\Default\\") OR contains(CommandLine, "\\Videos\\") OR contains(CommandLine, "%ProgramData%") OR contains(CommandLine, "%public%") OR contains(CommandLine, "%temp%") OR contains(CommandLine, "%tmp%"))) AND ((Image="*\\bitsadmin.exe") OR (OriginalFileName == "bitsadmin.exe")))

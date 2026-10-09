@@ -1,0 +1,44 @@
+{
+  "title": "PowerShell Download and Execution Cradles",
+  "id": "85b0b087-eddf-4a2b-b033-d771fa2b9775",
+  "status": "test",
+  "description": "Detects PowerShell download and execution cradles.",
+  "author": "Florian Roth (Nextron Systems)",
+  "date": "2022-03-24",
+  "tags": [
+    "attack.execution",
+    "attack.t1059"
+  ],
+  "level": "high",
+  "logsource": {
+    "product": "windows",
+    "category": "process_creation"
+  },
+  "detection": {
+    "selection_download": {
+      "CommandLine|contains": [
+        ".DownloadString(",
+        ".DownloadFile(",
+        "Invoke-WebRequest ",
+        "iwr ",
+        "Invoke-RestMethod ",
+        "irm "
+      ]
+    },
+    "selection_iex": {
+      "CommandLine|contains": [
+        ";iex $",
+        "| IEX",
+        "|IEX ",
+        "I`E`X",
+        "I`EX",
+        "IE`X",
+        "iex ",
+        "IEX (",
+        "IEX(",
+        "Invoke-Expression"
+      ]
+    },
+    "condition": "all of selection_*"
+  }
+}

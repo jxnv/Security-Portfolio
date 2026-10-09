@@ -1,0 +1,23 @@
+// Title: Named Pipe Created Via Mkfifo
+// ID: 9d779ce8-5256-4b13-8b6f-b91c602b43f4
+// Status: test
+// Level: low
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-06-16
+// Tags: attack.execution
+// Description: Detects the creation of a new named pipe using the "mkfifo" utility
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 9d779ce8_5256_4b13_8b6f_b91c602b43f4 {
+  meta:
+    title = "Named Pipe Created Via Mkfifo"
+    description = "Detects the creation of a new named pipe using the "mkfifo" utility"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "LOW"
+
+  events:
+    ($e.target.process.file.full_path = /.*/mkfifo$/ nocase)
+
+  condition:
+    $e
+}

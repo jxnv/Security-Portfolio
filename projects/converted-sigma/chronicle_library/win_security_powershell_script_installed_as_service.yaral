@@ -1,0 +1,23 @@
+// Title: PowerShell Scripts Installed as Services - Security
+// ID: 2a926e6a-4b81-4011-8a96-e36cc8c04302
+// Status: test
+// Level: high
+// Author: oscd.community, Natalia Shornikova
+// Date: 2020-10-06
+// Tags: attack.execution, attack.t1569.002
+// Description: Detects powershell script installed as a Service
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 2a926e6a_4b81_4011_8a96_e36cc8c04302 {
+  meta:
+    title = "PowerShell Scripts Installed as Services - Security"
+    description = "Detects powershell script installed as a Service"
+    author = "oscd.community, Natalia Shornikova"
+    severity = "HIGH"
+
+  events:
+    ($e.EventID = 4697 and ($e.ServiceFileName = /.*powershell.*/ nocase or $e.ServiceFileName = /.*pwsh.*/ nocase))
+
+  condition:
+    $e
+}

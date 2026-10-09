@@ -1,0 +1,11 @@
+// Title: Suspicious PowerShell IEX Execution Patterns
+// ID: 09576804-7a05-458e-a817-eb718ca91f54
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-03-24
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects suspicious ways to run Invoke-Execution using IEX alias
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where ((((process.executable endswith "\\powershell.exe" or process.executable endswith "\\pwsh.exe") and (process.command_line like "*_ | iex;*" or process.command_line like "*_ | iex *" or process.command_line like "*_ | iex}*" or process.command_line like "*_ | IEX ;*" or process.command_line like "*_ | IEX -Error*" or process.command_line like "*_ | IEX (new*" or process.command_line like "*_);IEX *")) and ((process.command_line like "*_::FromBase64String*" or process.command_line like "*_.GetString([System.Convert]::*"))) or ((process.command_line like "*_)|iex;$*" or process.command_line like "*_);iex($*" or process.command_line like "*_);iex $*" or process.command_line like "*_ | IEX | *" or process.command_line like "*_ | iex\\\"*")))

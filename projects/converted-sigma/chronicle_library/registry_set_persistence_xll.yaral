@@ -1,0 +1,23 @@
+// Title: Potential Persistence Via Excel Add-in - Registry
+// ID: 961e33d1-4f86-4fcf-80ab-930a708b2f82
+// Status: test
+// Level: high
+// Author: frack113
+// Date: 2023-01-15
+// Tags: attack.persistence, attack.t1137.006
+// Description: Detect potential persistence via the creation of an excel add-in (XLL) file to make it run automatically when Excel is started.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 961e33d1_4f86_4fcf_80ab_930a708b2f82 {
+  meta:
+    title = "Potential Persistence Via Excel Add-in - Registry"
+    description = "Detect potential persistence via the creation of an excel add-in (XLL) file to make it run automatically when Excel is started."
+    author = "frack113"
+    severity = "HIGH"
+
+  events:
+    ($e.TargetObject = /.*Software\\Microsoft\\Office\\.*/ nocase and $e.TargetObject = /.*\\Excel\\Options$/ nocase and $e.Details = /^/R .*/ nocase and $e.Details = /.*.xll$/ nocase)
+
+  condition:
+    $e
+}

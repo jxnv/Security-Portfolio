@@ -1,0 +1,11 @@
+// Title: Compress Data and Lock With Password for Exfiltration With WINZIP
+// ID: e2e80da2-8c66-4e00-ae3c-2eebd29f6b6d
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2021-07-27
+// Tags: attack.collection, attack.t1560.001
+// Description: An adversary may compress or encrypt data that is collected prior to exfiltration using 3rd party utilities
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter (((action_process_image_command_line contains " -min " or action_process_image_command_line contains " -a ")) and (action_process_image_command_line contains "-s\"") and ((action_process_image_command_line contains "winzip.exe" or action_process_image_command_line contains "winzip64.exe")))

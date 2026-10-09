@@ -1,0 +1,16 @@
+<!--
+  Title: Suspicious Volume Shadow Copy VSS_PS.dll Load
+  ID: 333cdbe8-27bb-4246-bf82-b41a0dca4b70
+  Status: test
+  Level: high
+  Author: Markus Neis, @markus_neis
+  Date: 2021-07-07
+  Description: Detects the image load of vss_ps.dll by uncommon executables. This DLL is used by the Volume Shadow Copy Service (VSS) to manage shadow copies of files and volumes. It is often abused by attackers to delete or manipulate shadow copies, which can hinder forensic investigations and data recovery efforts. The fact that it is loaded by processes that are not typically associated with VSS operations can indicate suspicious activity.
+-->
+
+<group name="sigma_converted,">
+  <rule id="100001" level="10">
+    <description>Suspicious Volume Shadow Copy VSS_PS.dll Load</description>
+    <match>((ImageLoaded=\"*\\\\vss_ps.dll\") AND NOT (((NOT Image=*) OR (Image=\"C:\\\\Windows\\\\*\" AND (Image=\"*\\\\clussvc.exe\" OR Image=\"</match>
+  </rule>
+</group>

@@ -1,0 +1,19 @@
+# Title: Potential Access Token Abuse
+# ID: 02f7c9c1-1ae8-4c6a-8add-04693807f92f
+# Status: test
+# Level: medium
+# Author: Michaela Adams, Zach Mathis
+# Date: 2022-11-06
+# Tags: attack.privilege-escalation, attack.stealth, attack.t1134.001, stp.4u
+# Description: Detects potential token impersonation and theft. Example, when using "DuplicateToken(Ex)" and "ImpersonateLoggedOnUser" with the "LOGON32_LOGON_NEW_CREDENTIALS flag".
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Potential Access Token Abuse
+def rule(event):
+    # Detection Logic:
+    # (EventID="4624" AND LogonType="9" AND LogonProcessName="Advapi" AND AuthenticationPackageName="Negotiate" AND ImpersonationLevel="%%1833")
+    return True
+
+def title(event):
+    return "Potential Access Token Abuse"
+

@@ -1,0 +1,23 @@
+// Title: HackTool - Impacket Tools Execution
+// ID: 4627c6ae-6899-46e2-aa0c-6ebcb1becd19
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2021-07-24
+// Tags: attack.collection, attack.execution, attack.credential-access, attack.t1557.001
+// Description: Detects the execution of different compiled Windows binaries of the impacket toolset (based on names or part of their names - could lead to false positives)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 4627c6ae_6899_46e2_aa0c_6ebcb1becd19 {
+  meta:
+    title = "HackTool - Impacket Tools Execution"
+    description = "Detects the execution of different compiled Windows binaries of the impacket toolset (based on names or part of their names - could lead to false positives)"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.file.full_path = /.*\\goldenPac.*/ nocase or $e.target.process.file.full_path = /.*\\karmaSMB.*/ nocase or $e.target.process.file.full_path = /.*\\kintercept.*/ nocase or $e.target.process.file.full_path = /.*\\ntlmrelayx.*/ nocase or $e.target.process.file.full_path = /.*\\rpcdump.*/ nocase or $e.target.process.file.full_path = /.*\\samrdump.*/ nocase or $e.target.process.file.full_path = /.*\\secretsdump.*/ nocase or $e.target.process.file.full_path = /.*\\smbexec.*/ nocase or $e.target.process.file.full_path = /.*\\smbrelayx.*/ nocase or $e.target.process.file.full_path = /.*\\wmiexec.*/ nocase or $e.target.process.file.full_path = /.*\\wmipersist.*/ nocase)) or (($e.target.process.file.full_path = /.*\\atexec_windows.exe$/ nocase or $e.target.process.file.full_path = /.*\\dcomexec_windows.exe$/ nocase or $e.target.process.file.full_path = /.*\\dpapi_windows.exe$/ nocase or $e.target.process.file.full_path = /.*\\findDelegation_windows.exe$/ nocase or $e.target.process.file.full_path = /.*\\GetADUsers_windows.exe$/ nocase or $e.target.process.file.full_path = /.*\\GetNPUsers_windows.exe$/ nocase or $e.target.process.file.full_path = /.*\\getPac_windows.exe$/ nocase or $e.target.process.file.full_path = /.*\\getST_windows.exe$/ nocase or $e.target.process.file.full_path = /.*\\getTGT_windows.exe$/ nocase or $e.target.process.file.full_path = /.*\\GetUserSPNs_windows.exe$/ nocase or $e.target.process.file.full_path = /.*\\ifmap_windows.exe$/ nocase or $e.target.process.file.full_path = /.*\\mimikatz_windows.exe$/ nocase or $e.target.process.file.full_path = /.*\\netview_windows.exe$/ nocase or $e.target.process.file.full_path = /.*\\nmapAnswerMachine_windows.exe$/ nocase or $e.target.process.file.full_path = /.*\\opdump_windows.exe$/ nocase or $e.target.process.file.full_path = /.*\\psexec_windows.exe$/ nocase or $e.target.process.file.full_path = /.*\\rdp_check_windows.exe$/ nocase or $e.target.process.file.full_path = /.*\\sambaPipe_windows.exe$/ nocase or $e.target.process.file.full_path = /.*\\smbclient_windows.exe$/ nocase or $e.target.process.file.full_path = /.*\\smbserver_windows.exe$/ nocase or $e.target.process.file.full_path = /.*\\sniff_windows.exe$/ nocase or $e.target.process.file.full_path = /.*\\sniffer_windows.exe$/ nocase or $e.target.process.file.full_path = /.*\\split_windows.exe$/ nocase or $e.target.process.file.full_path = /.*\\ticketer_windows.exe$/ nocase)))
+
+  condition:
+    $e
+}

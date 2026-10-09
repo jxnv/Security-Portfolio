@@ -1,0 +1,11 @@
+# Title: Shadow Copies Deletion Using Operating Systems Utilities
+# ID: c947b146-0abc-4c87-9c64-b17e9d7274a2
+# Status: stable
+# Level: high
+# Author: Florian Roth (Nextron Systems), Michael Haag, Teymur Kheirkhabarov, Daniil Yugoslavskiy, oscd.community, Andreas Hunkeler (@Karneades)
+# Date: 2019-10-22
+# Tags: attack.impact, attack.stealth, attack.t1070, attack.t1490
+# Description: Shadow Copies deletion using operating systems utilities
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog ((((process_exec="*shadow*" AND process_exec="*delete*")) AND (((process_path="*\\powershell.exe" OR process_path="*\\pwsh.exe" OR process_path="*\\wmic.exe" OR process_path="*\\vssadmin.exe" OR process_path="*\\diskshadow.exe")) OR ((process_name="PowerShell.EXE" OR process_name="pwsh.dll" OR process_name="wmic.exe" OR process_name="VSSADMIN.EXE" OR process_name="diskshadow.exe")))) OR (((process_exec="*delete*" AND process_exec="*catalog*" AND process_exec="*quiet*")) AND ((process_path="*\\wbadmin.exe") OR (process_name="WBADMIN.EXE"))) OR (((process_exec="*resize*" AND process_exec="*shadowstorage*") AND (process_exec="*unbounded*" OR process_exec="*/MaxSize=*")) AND ((process_path="*\\vssadmin.exe") OR (process_name="VSSADMIN.EXE"))))

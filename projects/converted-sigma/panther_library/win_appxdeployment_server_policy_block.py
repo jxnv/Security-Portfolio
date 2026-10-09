@@ -1,0 +1,24 @@
+# Title: Deployment Of The AppX Package Was Blocked By The Policy
+# ID: e021bbb5-407f-41f5-9dc9-1864c45a7a51
+# Status: test
+# Level: medium
+# Author: frack113
+# Date: 2023-01-11
+# Tags: attack.defense-impairment
+# Description: Detects an appx package deployment that was blocked by the local computer policy.
+# The following events indicate that an AppX package deployment was blocked by a policy:
+# - Event ID 441: The package deployment operation is blocked by the "Allow deployment operations in special profiles" policy
+# - Event ID 442: Deployments to non-system volumes are blocked by the "Disable deployment of Windows Store apps to non-system volumes" policy."
+# - Event ID 453: Package blocked by a platform policy.
+# - Event ID 454: Package blocked by a platform policy.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Deployment Of The AppX Package Was Blocked By The Policy
+def rule(event):
+    # Detection Logic:
+    # ((EventID="441" OR EventID="442" OR EventID="453" OR EventID="454"))
+    return True
+
+def title(event):
+    return "Deployment Of The AppX Package Was Blocked By The Policy"
+

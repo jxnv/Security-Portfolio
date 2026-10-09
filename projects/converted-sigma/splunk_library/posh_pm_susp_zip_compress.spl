@@ -1,0 +1,12 @@
+# Title: Zip A Folder With PowerShell For Staging In Temp  - PowerShell Module
+# ID: daf7eb81-35fd-410d-9d7a-657837e602bb
+# Status: test
+# Level: medium
+# Author: Nasreddine Bencherchali (Nextron Systems), frack113
+# Date: 2021-07-20
+# Tags: attack.collection, attack.t1074.001
+# Description: Detects PowerShell scripts that make use of the "Compress-Archive" Cmdlet in order to compress folders and files where the output is stored in a potentially suspicious location that is used often by malware for exfiltration.
+# An adversary might compress data (e.g., sensitive documents) that is collected prior to exfiltration in order to make it portable and minimize the amount of data sent over the network.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog ((ContextInfo="*Compress-Archive -Path*-DestinationPath $env:TEMP*" AND ContextInfo="*Compress-Archive -Path*-DestinationPath*\\AppData\\Local\\Temp\\*" AND ContextInfo="*Compress-Archive -Path*-DestinationPath*:\\Windows\\Temp\\*"))

@@ -1,0 +1,11 @@
+// Title: Suspicious PowerShell Parent Process
+// ID: 754ed792-634f-40ae-b3bc-e0448d33f695
+// Status: test
+// Level: high
+// Author: Teymur Kheirkhabarov, Harish Segar
+// Date: 2020-03-20
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects a suspicious or uncommon parent processes of PowerShell
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((src.process.parent.image.path containsCIS "tomcat") OR ((src.process.parent.image.path endswithCIS "\\amigo.exe" OR src.process.parent.image.path endswithCIS "\\browser.exe" OR src.process.parent.image.path endswithCIS "\\chrome.exe" OR src.process.parent.image.path endswithCIS "\\firefox.exe" OR src.process.parent.image.path endswithCIS "\\httpd.exe" OR src.process.parent.image.path endswithCIS "\\iexplore.exe" OR src.process.parent.image.path endswithCIS "\\jbosssvc.exe" OR src.process.parent.image.path endswithCIS "\\microsoftedge.exe" OR src.process.parent.image.path endswithCIS "\\microsoftedgecp.exe" OR src.process.parent.image.path endswithCIS "\\MicrosoftEdgeSH.exe" OR src.process.parent.image.path endswithCIS "\\mshta.exe" OR src.process.parent.image.path endswithCIS "\\nginx.exe" OR src.process.parent.image.path endswithCIS "\\outlook.exe" OR src.process.parent.image.path endswithCIS "\\php-cgi.exe" OR src.process.parent.image.path endswithCIS "\\regsvr32.exe" OR src.process.parent.image.path endswithCIS "\\rundll32.exe" OR src.process.parent.image.path endswithCIS "\\safari.exe" OR src.process.parent.image.path endswithCIS "\\services.exe" OR src.process.parent.image.path endswithCIS "\\sqlagent.exe" OR src.process.parent.image.path endswithCIS "\\sqlserver.exe" OR src.process.parent.image.path endswithCIS "\\sqlservr.exe" OR src.process.parent.image.path endswithCIS "\\vivaldi.exe" OR src.process.parent.image.path endswithCIS "\\w3wp.exe"))) AND (((src.process.image.path endswithCIS "\\powershell.exe" OR src.process.image.path endswithCIS "\\pwsh.exe")) OR ((src.process.cmdline containsCIS "/c powershell" OR src.process.cmdline containsCIS "/c pwsh")) OR (Description = "Windows PowerShell") OR (Product = "PowerShell Core 6") OR ((OriginalFileName = "PowerShell.EXE" OR OriginalFileName = "pwsh.dll"))))

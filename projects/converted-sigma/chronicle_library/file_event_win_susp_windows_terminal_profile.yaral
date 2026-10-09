@@ -1,0 +1,23 @@
+// Title: Windows Terminal Profile Settings Modification By Uncommon Process
+// ID: 9b64de98-9db3-4033-bd7a-f51430105f00
+// Status: test
+// Level: medium
+// Author: frack113, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-07-22
+// Tags: attack.privilege-escalation, attack.persistence, attack.t1547.015
+// Description: Detects the creation or modification of the Windows Terminal Profile settings file "settings.json" by an uncommon process.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 9b64de98_9db3_4033_bd7a_f51430105f00 {
+  meta:
+    title = "Windows Terminal Profile Settings Modification By Uncommon Process"
+    description = "Detects the creation or modification of the Windows Terminal Profile settings file "settings.json" by an uncommon process."
+    author = "frack113, Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.process.file.full_path = /.*\\cmd.exe$/ nocase or $e.target.process.file.full_path = /.*\\cscript.exe$/ nocase or $e.target.process.file.full_path = /.*\\mshta.exe$/ nocase or $e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase or $e.target.process.file.full_path = /.*\\wscript.exe$/ nocase) and $e.target.file.full_path = /.*\\AppData\\Local\\Packages\\Microsoft.WindowsTerminal_8wekyb3d8bbwe\\LocalState\\settings.json$/ nocase)
+
+  condition:
+    $e
+}

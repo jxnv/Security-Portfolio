@@ -1,0 +1,11 @@
+// Title: Service Startup Type Change Via Wmic.EXE
+// ID: c0514f28-fdae-42df-b886-06e2b2bc5b37
+// Status: experimental
+// Level: medium
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2026-04-27
+// Tags: attack.execution, attack.defense-impairment, attack.t1047, attack.t1685
+// Description: Detects changes to service startup type to 'disabled' or 'manual' using the WMIC command-line utility.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((CommandLine: "* service *" AND CommandLine: "*ChangeStartMode*") AND (CommandLine: "*Manual*" OR CommandLine: "*Disabled*")) AND ((Image="*\\WMIC.exe") OR (OriginalFileName: "wmic.exe")))

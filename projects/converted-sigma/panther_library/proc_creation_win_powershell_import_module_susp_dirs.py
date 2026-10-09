@@ -1,0 +1,19 @@
+# Title: Import PowerShell Modules From Suspicious Directories - ProcCreation
+# ID: c31364f7-8be6-4b77-8483-dd2b5a7b69a3
+# Status: test
+# Level: medium
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2023-01-10
+# Tags: attack.execution, attack.t1059.001
+# Description: Detects powershell scripts that import modules from suspicious directories
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Import PowerShell Modules From Suspicious Directories - ProcCreation
+def rule(event):
+    # Detection Logic:
+    # ((CommandLine="*Import-Module \"$Env:Temp\\*" OR CommandLine="*Import-Module '$Env:Temp\\*" OR CommandLine="*Import-Module $Env:Temp\\*" OR CommandLine="*Import-Module \"$Env:Appdata\\*" OR CommandLine="*Import-Module '$Env:Appdata\\*" OR CommandLine="*Import-Module $Env:Appdata\\*" OR CommandLine="*Import-Module C:\\Users\\Public\\*" OR CommandLine="*ipmo \"$Env:Temp\\*" OR CommandLine="*ipmo '$Env:Temp\\*" OR CommandLine="*ipmo $Env:Temp\\*" OR CommandLine="*ipmo \"$Env:Appdata\\*" OR CommandLine="*ipmo '$Env:Appdata\\*" OR CommandLine="*ipmo $Env:Appdata\\*" OR CommandLine="*ipmo C:\\Users\\Public\\*"))
+    return True
+
+def title(event):
+    return "Import PowerShell Modules From Suspicious Directories - ProcCreation"
+

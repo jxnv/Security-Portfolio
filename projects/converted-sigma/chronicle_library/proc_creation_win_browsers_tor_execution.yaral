@@ -1,0 +1,23 @@
+// Title: Tor Client/Browser Execution
+// ID: 62f7c9bf-9135-49b2-8aeb-1e54a6ecc13c
+// Status: test
+// Level: high
+// Author: frack113
+// Date: 2022-02-20
+// Tags: attack.command-and-control, attack.t1090.003
+// Description: Detects the use of Tor or Tor-Browser to connect to onion routing networks
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 62f7c9bf_9135_49b2_8aeb_1e54a6ecc13c {
+  meta:
+    title = "Tor Client/Browser Execution"
+    description = "Detects the use of Tor or Tor-Browser to connect to onion routing networks"
+    author = "frack113"
+    severity = "HIGH"
+
+  events:
+    (($e.Description = "Tor Browser") or ($e.Product = "Tor Browser") or (($e.target.process.file.full_path = /.*\\tor.exe$/ nocase or $e.target.process.file.full_path = /.*\\Tor Browser\\Browser\\firefox.exe$/ nocase)))
+
+  condition:
+    $e
+}

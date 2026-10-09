@@ -1,0 +1,14 @@
+// Title: Classes Autorun Keys Modification
+// ID: 9df5f547-c86a-433e-b533-f2794357e242
+// Status: test
+// Level: medium
+// Author: Victor Sergeev, Daniil Yugoslavskiy, Gleb Sukhodolskiy, Timur Zinniatullin, oscd.community, Tim Shelton, frack113 (split)
+// Date: 2019-10-25
+// Tags: attack.privilege-escalation, attack.persistence, attack.t1547.001
+// Description: Detects modification of Windows Registry Classes keys used for persistence.
+// Adversaries modify these autostart extensibility points (ASEP) to execute malicious code when file types are opened or actions are performed.
+// Various legitimate software also uses these keys. Currently, this rule only filters out known legitimate software paths,
+// thus it is recommended to review and tune filters for your environment to reduce false positives before deploying to production.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+registry where (((registry.path like "*_\\Software\\Classes*") and ((registry.path like "*_\\Folder\\ShellEx\\ExtShellFolderViews*" or registry.path like "*_\\Folder\\ShellEx\\DragDropHandlers*" or registry.path like "*_\\Folder\\Shellex\\ColumnHandlers*" or registry.path like "*_\\Filter*" or registry.path like "*_\\Exefile\\Shell\\Open\\Command\\(Default)*" or registry.path like "*_\\Directory\\Shellex\\DragDropHandlers*" or registry.path like "*_\\Directory\\Shellex\\CopyHookHandlers*" or registry.path like "*_\\CLSID\\{AC757296-3522-4E11-9862-C17BE5A1767E}\\Instance*" or registry.path like "*_\\CLSID\\{ABE3B9A4-257D-4B97-BD1A-294AF496222E}\\Instance*" or registry.path like "*_\\CLSID\\{7ED96837-96F0-4812-B211-F13C24117ED3}\\Instance*" or registry.path like "*_\\CLSID\\{083863F1-70DE-11d0-BD40-00A0C911CE86}\\Instance*" or registry.path like "*_\\Classes\\AllFileSystemObjects\\ShellEx\\DragDropHandlers*" or registry.path like "*_\\.exe*" or registry.path like "*_\\.cmd*" or registry.path like "*_\\ShellEx\\PropertySheetHandlers*" or registry.path like "*_\\ShellEx\\ContextMenuHandlers*"))) and not (((process.executable == "C:\\Windows\\System32\\drvinst.exe") or (registry.data.strings == "(Empty)") or (registry.data.strings == null) or (process.executable == "C:\\Windows\\System32\\svchost.exe" and registry.path like "*_\\lnkfile\\shellex\\ContextMenuHandlers\\*"))) and not ((registry.data.strings == "{807583E5-5146-11D5-A672-00B0D022E945}")))

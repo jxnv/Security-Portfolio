@@ -1,0 +1,23 @@
+// Title: BITS Transfer Job With Uncommon Or Suspicious Remote TLD
+// ID: 6d44fb93-e7d2-475c-9d3d-54c9c1e33427
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-06-10
+// Tags: attack.persistence, attack.execution, attack.stealth, attack.t1197
+// Description: Detects a suspicious download using the BITS client from a FQDN that is unusual. Adversaries may abuse BITS jobs to persistently execute or clean up after malicious payloads.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 6d44fb93_e7d2_475c_9d3d_54c9c1e33427 {
+  meta:
+    title = "BITS Transfer Job With Uncommon Or Suspicious Remote TLD"
+    description = "Detects a suspicious download using the BITS client from a FQDN that is unusual. Adversaries may abuse BITS jobs to persistently execute or clean up after malicious payloads."
+    author = "Florian Roth (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.EventID = 16403) and not((($e.RemoteName = /.*.azureedge.net/.*/ nocase or $e.RemoteName = /.*.com/.*/ nocase or $e.RemoteName = /.*.sfx.ms/.*/ nocase or $e.RemoteName = /.*download.mozilla.org/.*/ nocase or $e.RemoteName = /.*cdn.onenote.net/.*/ nocase or $e.RemoteName = /.*cdn.office.net/.*/ nocase or $e.RemoteName = /.*tscdn.m365.static.microsoft/.*/ nocase))))
+
+  condition:
+    $e
+}

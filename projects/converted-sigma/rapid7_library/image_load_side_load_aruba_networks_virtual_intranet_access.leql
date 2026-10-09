@@ -1,0 +1,11 @@
+// Title: Aruba Network Service Potential DLL Sideloading
+// ID: 90ae0469-0cee-4509-b67f-e5efcef040f7
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-01-22
+// Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.stealth, attack.t1574.001
+// Description: Detects potential DLL sideloading activity via the Aruba Networks Virtual Intranet Access "arubanetsvc.exe" process using DLL Search Order Hijacking
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((where(Image IENDSWITH "\\arubanetsvc.exe") AND (where(ImageLoaded IENDSWITH "\\wtsapi32.dll") OR where(ImageLoaded IENDSWITH "\\msvcr100.dll") OR where(ImageLoaded IENDSWITH "\\msvcp100.dll") OR where(ImageLoaded IENDSWITH "\\dbghelp.dll") OR where(ImageLoaded IENDSWITH "\\dbgcore.dll") OR where(ImageLoaded IENDSWITH "\\wininet.dll") OR where(ImageLoaded IENDSWITH "\\iphlpapi.dll") OR where(ImageLoaded IENDSWITH "\\version.dll") OR where(ImageLoaded IENDSWITH "\\cryptsp.dll") OR where(ImageLoaded IENDSWITH "\\cryptbase.dll") OR where(ImageLoaded IENDSWITH "\\wldp.dll") OR where(ImageLoaded IENDSWITH "\\profapi.dll") OR where(ImageLoaded IENDSWITH "\\sspicli.dll") OR where(ImageLoaded IENDSWITH "\\winsta.dll") OR where(ImageLoaded IENDSWITH "\\dpapi.dll"))) AND NOT (((where(ImageLoaded ISTARTSWITH "C:\\Windows\\System32\\") OR where(ImageLoaded ISTARTSWITH "C:\\Windows\\SysWOW64\\") OR where(ImageLoaded ISTARTSWITH "C:\\Windows\\WinSxS\\")))))

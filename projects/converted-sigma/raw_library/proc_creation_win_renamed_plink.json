@@ -1,0 +1,35 @@
+{
+  "title": "Renamed Plink Execution",
+  "id": "1c12727d-02bf-45ff-a9f3-d49806a3cf43",
+  "status": "test",
+  "description": "Detects the execution of a renamed version of the Plink binary",
+  "author": "Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2022-06-06",
+  "tags": [
+    "attack.stealth",
+    "attack.t1036"
+  ],
+  "level": "high",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection": [
+      {
+        "OriginalFileName": "Plink"
+      },
+      {
+        "CommandLine|contains|all": [
+          " -l forward",
+          " -P ",
+          " -R "
+        ]
+      }
+    ],
+    "filter": {
+      "Image|endswith": "\\plink.exe"
+    },
+    "condition": "selection and not filter"
+  }
+}

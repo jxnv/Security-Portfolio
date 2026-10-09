@@ -1,0 +1,11 @@
+// Title: Potential Persistence Via Notepad++ Plugins
+// ID: 54127bd4-f541-4ac3-afdb-ea073f63f692
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-06-10
+// Tags: attack.persistence
+// Description: Detects creation of new ".dll" files inside the plugins directory of a notepad++ installation by a process other than "gup.exe". Which could indicates possible persistence
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+DeviceProcessEvents | where ((FileName contains "\\Notepad++\\plugins\\" and FileName endswith ".dll") and not(((FolderPath endswith "\\Notepad++\\updater\\gup.exe") or (FolderPath startswith "C:\\Users\\" and FolderPath contains "\\AppData\\Local\\Temp\\" and (FolderPath endswith "\\target.exe" or FolderPath endswith "Installer.x64.exe")) or (FolderPath contains "\\npp." and FolderPath endswith ".exe" and (FileName == "C:\\Program Files\\Notepad++\\plugins\\NppExport\\NppExport.dll" or FileName == "C:\\Program Files\\Notepad++\\plugins\\mimeTools\\mimeTools.dll" or FileName == "C:\\Program Files\\Notepad++\\plugins\\NppConverter\\NppConverter.dll" or FileName == "C:\\Program Files\\Notepad++\\plugins\\Config\\nppPluginList.dll")))))

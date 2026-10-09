@@ -1,0 +1,23 @@
+// Title: PDQ Deploy Remote Adminstartion Tool Execution
+// ID: d679950c-abb7-43a6-80fb-2a480c4fc450
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-10-01
+// Tags: attack.execution, attack.lateral-movement, attack.t1072
+// Description: Detect use of PDQ Deploy remote admin tool
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule d679950c_abb7_43a6_80fb_2a480c4fc450 {
+  meta:
+    title = "PDQ Deploy Remote Adminstartion Tool Execution"
+    description = "Detect use of PDQ Deploy remote admin tool"
+    author = "frack113"
+    severity = "MEDIUM"
+
+  events:
+    (($e.Description = "PDQ Deploy Console") or ($e.Product = "PDQ Deploy") or ($e.Company = "PDQ.com") or ($e.target.process.file.name = "PDQDeployConsole.exe"))
+
+  condition:
+    $e
+}

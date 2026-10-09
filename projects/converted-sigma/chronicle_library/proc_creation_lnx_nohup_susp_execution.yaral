@@ -1,0 +1,23 @@
+// Title: Suspicious Nohup Execution
+// ID: 457df417-8b9d-4912-85f3-9dbda39c3645
+// Status: test
+// Level: high
+// Author: Joseliyo Sanchez, @Joseliyo_Jstnk
+// Date: 2023-06-02
+// Tags: attack.execution
+// Description: Detects execution of binaries located in potentially suspicious locations via "nohup"
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 457df417_8b9d_4912_85f3_9dbda39c3645 {
+  meta:
+    title = "Suspicious Nohup Execution"
+    description = "Detects execution of binaries located in potentially suspicious locations via "nohup""
+    author = "Joseliyo Sanchez, @Joseliyo_Jstnk"
+    severity = "HIGH"
+
+  events:
+    ($e.target.process.file.full_path = /.*/nohup$/ nocase and $e.target.process.command_line = /.*/tmp/.*/ nocase)
+
+  condition:
+    $e
+}

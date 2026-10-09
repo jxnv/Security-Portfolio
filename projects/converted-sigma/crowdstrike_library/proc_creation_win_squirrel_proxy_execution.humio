@@ -1,0 +1,11 @@
+// Title: Process Proxy Execution Via Squirrel.EXE
+// ID: 45239e6a-b035-4aaf-b339-8ad379fcb67e
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems), Karneades / Markus Neis, Jonhnathan Ribeiro, oscd.community
+// Date: 2022-06-09
+// Tags: attack.execution, attack.stealth, attack.t1218
+// Description: Detects the usage of the "Squirrel.exe" binary to execute arbitrary processes. This binary is part of multiple Electron based software installations (Slack, Teams, Discord, etc.)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((CommandLine = /*--processStart*/i or CommandLine = /*--processStartAndWait*/i or CommandLine = /*--createShortcut*/i)) and ((ImageFileName = /.*\\squirrel.exe/i or ImageFileName = /.*\\update.exe/i))) and not((((CommandLine = /*:\\Users\\*/i and CommandLine = /*\\AppData\\Local\\Discord\\Update.exe*/i and CommandLine = /*Discord.exe*/i) and (CommandLine = /*--createShortcut*/i or CommandLine = /*--processStart*/i)) or ((CommandLine = /*:\\Users\\*/i and CommandLine = /*\\AppData\\Local\\GitHubDesktop\\Update.exe*/i and CommandLine = /*GitHubDesktop.exe*/i) and (CommandLine = /*--createShortcut*/i or CommandLine = /*--processStartAndWait*/i)) or ((CommandLine = /*:\\Users\\*/i and CommandLine = /*\\AppData\\Local\\Microsoft\\Teams\\Update.exe*/i and CommandLine = /*Teams.exe*/i) and (CommandLine = /*--processStart*/i or CommandLine = /*--createShortcut*/i)) or ((CommandLine = /*:\\Users\\*/i and CommandLine = /*\\AppData\\Local\\yammerdesktop\\Update.exe*/i and CommandLine = /*Yammer.exe*/i) and (CommandLine = /*--processStart*/i or CommandLine = /*--createShortcut*/i)))))

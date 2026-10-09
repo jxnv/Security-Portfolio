@@ -1,0 +1,23 @@
+// Title: Potential DLL Sideloading Of DBGCORE.DLL
+// ID: 9ca2bf31-0570-44d8-a543-534c47c33ed7
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems), Wietze Beukema (project and research)
+// Date: 2022-10-25
+// Tags: attack.persistence, attack.privilege-escalation, attack.execution, attack.stealth, attack.t1574.001
+// Description: Detects DLL sideloading of "dbgcore.dll"
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 9ca2bf31_0570_44d8_a543_534c47c33ed7 {
+  meta:
+    title = "Potential DLL Sideloading Of DBGCORE.DLL"
+    description = "Detects DLL sideloading of "dbgcore.dll""
+    author = "Nasreddine Bencherchali (Nextron Systems), Wietze Beukema (project and research)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.ImageLoaded = /.*\\dbgcore.dll$/ nocase) and not((($e.ImageLoaded = /^C:\\Program Files (x86)\\.*/ nocase or $e.ImageLoaded = /^C:\\Program Files\\.*/ nocase or $e.ImageLoaded = /^C:\\Windows\\SoftwareDistribution\\.*/ nocase or $e.ImageLoaded = /^C:\\Windows\\System32\\.*/ nocase or $e.ImageLoaded = /^C:\\Windows\\SystemTemp\\.*/ nocase or $e.ImageLoaded = /^C:\\Windows\\SysWOW64\\.*/ nocase or $e.ImageLoaded = /^C:\\Windows\\WinSxS\\.*/ nocase))) and not((($e.ImageLoaded = /.*opera\\Opera Installer Temp\\opera_package.*/ nocase and $e.ImageLoaded = /.*\\assistant\\dbgcore.dll$/ nocase) or ($e.ImageLoaded = /.*\\Steam\\bin\\cef\\cef.win7x64\\dbgcore.dll$/ nocase))))
+
+  condition:
+    $e
+}

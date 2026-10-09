@@ -1,0 +1,14 @@
+// Title: PowerShell MSI Install via WindowsInstaller COM From Remote Location
+// ID: 222720a7-047f-4054-baa5-bab9be757db0
+// Status: experimental
+// Level: medium
+// Author: Meroujan Antonyan (vx3r)
+// Date: 2025-06-05
+// Tags: attack.execution, attack.stealth, attack.t1059.001, attack.t1218, attack.command-and-control, attack.t1105
+// Description: Detects the execution of PowerShell commands that attempt to install MSI packages via the
+// Windows Installer COM object (`WindowsInstaller.Installer`) hosted remotely.
+// This could be indication of malicious software deployment or lateral movement attempts using Windows Installer functionality.
+// And the usage of WindowsInstaller COM object rather than msiexec could be an attempt to bypass the detection.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((CommandLine = /*-ComObject*/i and CommandLine = /*InstallProduct(*/i)) and (((ImageFileName = /.*\\powershell_ise.exe/i or ImageFileName = /.*\\powershell.exe/i or ImageFileName = /.*\\pwsh.exe/i)) or ((OriginalFilename = "PowerShell_ISE.EXE" or OriginalFilename = "PowerShell.EXE" or OriginalFilename = "pwsh.dll"))) and ((CommandLine = /*http*/i or CommandLine = /*\\\\\\\\*/i))) and not(((CommandLine = /*://127.0.0.1*/i or CommandLine = /*://localhost*/i))))

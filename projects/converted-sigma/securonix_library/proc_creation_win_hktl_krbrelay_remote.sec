@@ -1,0 +1,11 @@
+// Title: HackTool - RemoteKrbRelay Execution
+// ID: a7664b14-75fb-4a50-a223-cb9bc0afbacf
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2024-06-27
+// Tags: attack.credential-access, attack.t1558.003
+// Description: Detects the use of RemoteKrbRelay, a Kerberos relaying tool via CommandLine flags and PE metadata.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((Image="*\\RemoteKrbRelay.exe") OR (OriginalFileName EQUALS "RemoteKrbRelay.exe")) OR ((CommandLine CONTAINS " -clsid " AND CommandLine CONTAINS " -target " AND CommandLine CONTAINS " -victim ")) OR ((CommandLine CONTAINS "-rbcd ") AND ((CommandLine CONTAINS "-cn " OR CommandLine CONTAINS "--computername "))) OR (CommandLine CONTAINS "-chp " AND (CommandLine CONTAINS "-chpPass " AND CommandLine CONTAINS "-chpUser ")) OR ((CommandLine CONTAINS "-addgroupmember " AND CommandLine CONTAINS "-group " AND CommandLine CONTAINS "-groupuser ")) OR ((CommandLine CONTAINS "-smb " AND CommandLine CONTAINS "--smbkeyword ") AND (CommandLine CONTAINS "interactive" OR CommandLine CONTAINS "secrets" OR CommandLine CONTAINS "service-add")))

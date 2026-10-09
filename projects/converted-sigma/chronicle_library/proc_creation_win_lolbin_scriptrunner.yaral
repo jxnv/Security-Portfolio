@@ -1,0 +1,23 @@
+// Title: Use of Scriptrunner.exe
+// ID: 64760eef-87f7-4ed3-93fd-655668ea9420
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-07-01
+// Tags: attack.execution, attack.stealth, attack.t1218
+// Description: The "ScriptRunner.exe" binary can be abused to proxy execution through it and bypass possible whitelisting
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 64760eef_87f7_4ed3_93fd_655668ea9420 {
+  meta:
+    title = "Use of Scriptrunner.exe"
+    description = "The "ScriptRunner.exe" binary can be abused to proxy execution through it and bypass possible whitelisting"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.process.command_line = /.* -appvscript .*/ nocase) and (($e.target.process.file.full_path = /.*\\ScriptRunner.exe$/ nocase) or ($e.target.process.file.name = "ScriptRunner.exe")))
+
+  condition:
+    $e
+}

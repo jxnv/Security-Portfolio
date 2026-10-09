@@ -1,0 +1,11 @@
+-- Title: Potential In-Memory Download And Compile Of Payloads
+-- ID: 13db8d2e-7723-4c2c-93c1-a4d36994f7ef
+-- Status: test
+-- Level: medium
+-- Author: Sohan G (D4rkCiph3r), Red Canary (idea)
+-- Date: 2023-08-22
+-- Tags: attack.command-and-control, attack.execution, attack.t1059.007, attack.t1105
+-- Description: Detects potential in-memory downloading and compiling of applets using curl and osacompile as seen used by XCSSET malware
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE ((CommandLine ILIKE '%osacompile%' AND CommandLine ILIKE '%curl%'))

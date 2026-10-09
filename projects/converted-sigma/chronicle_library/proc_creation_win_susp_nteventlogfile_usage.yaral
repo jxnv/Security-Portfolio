@@ -1,0 +1,23 @@
+// Title: Potentially Suspicious Call To Win32_NTEventlogFile Class
+// ID: caf201a9-c2ce-4a26-9c3a-2b9525413711
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-07-13
+// Tags: attack.defense-impairment
+// Description: Detects usage of the WMI class "Win32_NTEventlogFile" in a potentially suspicious way (delete, backup, change permissions, etc.) from a PowerShell script
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule caf201a9_c2ce_4a26_9c3a_2b9525413711 {
+  meta:
+    title = "Potentially Suspicious Call To Win32_NTEventlogFile Class"
+    description = "Detects usage of the WMI class "Win32_NTEventlogFile" in a potentially suspicious way (delete, backup, change permissions, etc.) from a PowerShell script"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.command_line = /.*Win32_NTEventlogFile.*/ nocase) and (($e.target.process.command_line = /.*.BackupEventlog(.*/ nocase or $e.target.process.command_line = /.*.ChangeSecurityPermissions(.*/ nocase or $e.target.process.command_line = /.*.ChangeSecurityPermissionsEx(.*/ nocase or $e.target.process.command_line = /.*.ClearEventLog(.*/ nocase or $e.target.process.command_line = /.*.Delete(.*/ nocase or $e.target.process.command_line = /.*.DeleteEx(.*/ nocase or $e.target.process.command_line = /.*.Rename(.*/ nocase or $e.target.process.command_line = /.*.TakeOwnerShip(.*/ nocase or $e.target.process.command_line = /.*.TakeOwnerShipEx(.*/ nocase)))
+
+  condition:
+    $e
+}

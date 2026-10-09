@@ -1,0 +1,23 @@
+// Title: Network Connection Initiated By Regsvr32.EXE
+// ID: c7e91a02-d771-4a6d-a700-42587e0b1095
+// Status: test
+// Level: medium
+// Author: Dmitriy Lifanov, oscd.community
+// Date: 2019-10-25
+// Tags: attack.execution, attack.stealth, attack.t1559.001, attack.t1218.010
+// Description: Detects a network connection initiated by "Regsvr32.exe"
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule c7e91a02_d771_4a6d_a700_42587e0b1095 {
+  meta:
+    title = "Network Connection Initiated By Regsvr32.EXE"
+    description = "Detects a network connection initiated by "Regsvr32.exe""
+    author = "Dmitriy Lifanov, oscd.community"
+    severity = "MEDIUM"
+
+  events:
+    ($e.Initiated = "true" and $e.target.process.file.full_path = /.*\\regsvr32.exe$/ nocase)
+
+  condition:
+    $e
+}

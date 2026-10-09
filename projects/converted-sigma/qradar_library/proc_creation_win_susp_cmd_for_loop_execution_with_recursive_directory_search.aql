@@ -1,0 +1,13 @@
+-- Title: Suspicious Usage of For Loop with Recursive Directory Search in CMD
+-- ID: 2782fbd8-b662-4eb5-9962-5bfbfb671e7b
+-- Status: experimental
+-- Level: medium
+-- Author: Joseliyo Sanchez, @Joseliyo_Jstnk
+-- Date: 2025-11-12
+-- Tags: attack.execution, attack.stealth, attack.t1059.003, attack.t1027.010
+-- Description: Detects suspicious usage of the cmd.exe 'for /f' loop combined with the 'tokens=' parameter and a recursive directory listing.
+-- This pattern may indicate an attempt to discover and execute system binaries dynamically, for example powershell, a technique sometimes used by attackers to evade detection.
+-- This behavior has been observed in various malicious lnk files.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM events WHERE (((CommandLine ILIKE '%for /f%' AND CommandLine ILIKE '%tokens=%' AND CommandLine ILIKE '%in (%' AND CommandLine ILIKE '%dir%')) OR ((ParentCommandLine ILIKE '%for /f%' AND ParentCommandLine ILIKE '%tokens=%' AND ParentCommandLine ILIKE '%in (%' AND ParentCommandLine ILIKE '%dir%')))

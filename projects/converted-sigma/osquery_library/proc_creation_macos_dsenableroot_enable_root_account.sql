@@ -1,0 +1,11 @@
+-- Title: Root Account Enable Via Dsenableroot
+-- ID: 821bcf4d-46c7-4b87-bc57-9509d3ba7c11
+-- Status: test
+-- Level: medium
+-- Author: Sohan G (D4rkCiph3r)
+-- Date: 2023-08-22
+-- Tags: attack.privilege-escalation, attack.stealth, attack.t1078, attack.t1078.001, attack.t1078.003, attack.initial-access, attack.persistence
+-- Description: Detects attempts to enable the root account via "dsenableroot"
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM processes WHERE ((Image="*/dsenableroot") AND NOT ((CommandLine LIKE '% -d %')))

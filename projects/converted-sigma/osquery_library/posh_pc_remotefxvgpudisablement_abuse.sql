@@ -1,0 +1,11 @@
+-- Title: Potential RemoteFXvGPUDisablement.EXE Abuse
+-- ID: f65e22f9-819e-4f96-9c7b-498364ae7a25
+-- Status: test
+-- Level: high
+-- Author: frack113, Nasreddine Bencherchali (Nextron Systems)
+-- Date: 2021-07-13
+-- Tags: attack.stealth, attack.t1218
+-- Description: Detects PowerShell module creation where the module Contents are set to "function Get-VMRemoteFXPhysicalVideoAdapter". This could be a sign of potential abuse of  the "RemoteFXvGPUDisablement.exe" binary which is known to be vulnerable to module load-order hijacking.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM file WHERE (Data LIKE '%ModuleContents=function Get-VMRemoteFXPhysicalVideoAdapter {%')

@@ -1,0 +1,23 @@
+// Title: Potential Defense Evasion Via Rename Of Highly Relevant Binaries
+// ID: 0ba1da6d-b6ce-4366-828c-18826c9de23e
+// Status: test
+// Level: high
+// Author: Matthew Green - @mgreen27, Florian Roth (Nextron Systems), frack113
+// Date: 2019-06-15
+// Tags: attack.stealth, attack.t1036.003, car.2013-05-009
+// Description: Detects the execution of a renamed binary often used by attackers or malware leveraging new Sysmon OriginalFileName datapoint.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 0ba1da6d_b6ce_4366_828c_18826c9de23e {
+  meta:
+    title = "Potential Defense Evasion Via Rename Of Highly Relevant Binaries"
+    description = "Detects the execution of a renamed binary often used by attackers or malware leveraging new Sysmon OriginalFileName datapoint."
+    author = "Matthew Green - @mgreen27, Florian Roth (Nextron Systems), frack113"
+    severity = "HIGH"
+
+  events:
+    ((($e.Description = "Execute processes remotely") or ($e.Product = "Sysinternals PsExec") or (($e.Description = /^Windows PowerShell.*/ nocase or $e.Description = /^pwsh.*/ nocase)) or (($e.target.process.file.name = "certutil.exe" or $e.target.process.file.name = "cmstp.exe" or $e.target.process.file.name = "cscript.exe" or $e.target.process.file.name = "IE4UINIT.EXE" or $e.target.process.file.name = "finger.exe" or $e.target.process.file.name = "mshta.exe" or $e.target.process.file.name = "msiexec.exe" or $e.target.process.file.name = "msxsl.exe" or $e.target.process.file.name = "powershell_ise.exe" or $e.target.process.file.name = "powershell.exe" or $e.target.process.file.name = "psexec.c" or $e.target.process.file.name = "psexec.exe" or $e.target.process.file.name = "psexesvc.exe" or $e.target.process.file.name = "pwsh.dll" or $e.target.process.file.name = "reg.exe" or $e.target.process.file.name = "regsvr32.exe" or $e.target.process.file.name = "rundll32.exe" or $e.target.process.file.name = "WerMgr" or $e.target.process.file.name = "wmic.exe" or $e.target.process.file.name = "wscript.exe"))) and not((($e.target.process.file.full_path = /.*\\certutil.exe$/ nocase or $e.target.process.file.full_path = /.*\\cmstp.exe$/ nocase or $e.target.process.file.full_path = /.*\\cscript.exe$/ nocase or $e.target.process.file.full_path = /.*\\ie4uinit.exe$/ nocase or $e.target.process.file.full_path = /.*\\finger.exe$/ nocase or $e.target.process.file.full_path = /.*\\mshta.exe$/ nocase or $e.target.process.file.full_path = /.*\\msiexec.exe$/ nocase or $e.target.process.file.full_path = /.*\\msxsl.exe$/ nocase or $e.target.process.file.full_path = /.*\\powershell_ise.exe$/ nocase or $e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\psexec.exe$/ nocase or $e.target.process.file.full_path = /.*\\psexec64.exe$/ nocase or $e.target.process.file.full_path = /.*\\psexec64a.exe$/ nocase or $e.target.process.file.full_path = /.*\\PSEXESVC.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase or $e.target.process.file.full_path = /.*\\reg.exe$/ nocase or $e.target.process.file.full_path = /.*\\regsvr32.exe$/ nocase or $e.target.process.file.full_path = /.*\\rundll32.exe$/ nocase or $e.target.process.file.full_path = /.*\\wermgr.exe$/ nocase or $e.target.process.file.full_path = /.*\\wmic.exe$/ nocase or $e.target.process.file.full_path = /.*\\wscript.exe$/ nocase))))
+
+  condition:
+    $e
+}

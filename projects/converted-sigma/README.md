@@ -1,0 +1,1 @@
+sigma-library converted into various languages for all SIEM platforms, EDR solutions, and other technologies

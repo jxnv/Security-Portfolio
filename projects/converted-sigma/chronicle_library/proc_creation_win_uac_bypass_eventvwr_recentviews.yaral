@@ -1,0 +1,23 @@
+// Title: UAC Bypass Using Event Viewer RecentViews
+// ID: 30fc8de7-d833-40c4-96b6-28319fbc4f6c
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-11-22
+// Tags: attack.privilege-escalation, attack.stealth
+// Description: Detects the pattern of UAC Bypass using Event Viewer RecentViews
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 30fc8de7_d833_40c4_96b6_28319fbc4f6c {
+  meta:
+    title = "UAC Bypass Using Event Viewer RecentViews"
+    description = "Detects the pattern of UAC Bypass using Event Viewer RecentViews"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*\\Event Viewer\\RecentViews.*/ nocase or $e.target.process.command_line = /.*\\EventV~1\\RecentViews.*/ nocase)) and ($e.target.process.command_line = /.*>.*/ nocase))
+
+  condition:
+    $e
+}

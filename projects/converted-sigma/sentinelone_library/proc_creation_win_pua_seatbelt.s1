@@ -1,0 +1,11 @@
+// Title: PUA - Seatbelt Execution
+// ID: 38646daa-e78f-4ace-9de0-55547b2d30da
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-10-18
+// Tags: attack.discovery, attack.t1526, attack.t1087, attack.t1083
+// Description: Detects the execution of the PUA/Recon tool Seatbelt via PE information of command line parameters
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((src.process.image.path endswithCIS "\\Seatbelt.exe") OR (OriginalFileName = "Seatbelt.exe") OR (Description = "Seatbelt") OR ((src.process.cmdline containsCIS " DpapiMasterKeys" OR src.process.cmdline containsCIS " InterestingProcesses" OR src.process.cmdline containsCIS " InterestingFiles" OR src.process.cmdline containsCIS " CertificateThumbprints" OR src.process.cmdline containsCIS " ChromiumBookmarks" OR src.process.cmdline containsCIS " ChromiumHistory" OR src.process.cmdline containsCIS " ChromiumPresence" OR src.process.cmdline containsCIS " CloudCredentials" OR src.process.cmdline containsCIS " CredEnum" OR src.process.cmdline containsCIS " CredGuard" OR src.process.cmdline containsCIS " FirefoxHistory" OR src.process.cmdline containsCIS " ProcessCreationEvents"))) OR (((src.process.cmdline containsCIS " -group=misc" OR src.process.cmdline containsCIS " -group=remote" OR src.process.cmdline containsCIS " -group=chromium" OR src.process.cmdline containsCIS " -group=slack" OR src.process.cmdline containsCIS " -group=system" OR src.process.cmdline containsCIS " -group=user" OR src.process.cmdline containsCIS " -group=all")) AND (src.process.cmdline containsCIS " -outputfile=")))

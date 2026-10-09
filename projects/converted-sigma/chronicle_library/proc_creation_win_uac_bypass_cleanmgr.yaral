@@ -1,0 +1,23 @@
+// Title: UAC Bypass Using Disk Cleanup
+// ID: b697e69c-746f-4a86-9f59-7bfff8eab881
+// Status: test
+// Level: high
+// Author: Christian Burkard (Nextron Systems)
+// Date: 2021-08-30
+// Tags: attack.privilege-escalation, attack.t1548.002
+// Description: Detects the pattern of UAC Bypass using scheduled tasks and variable expansion of cleanmgr.exe (UACMe 34)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule b697e69c_746f_4a86_9f59_7bfff8eab881 {
+  meta:
+    title = "UAC Bypass Using Disk Cleanup"
+    description = "Detects the pattern of UAC Bypass using scheduled tasks and variable expansion of cleanmgr.exe (UACMe 34)"
+    author = "Christian Burkard (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ($e.target.process.command_line = /.*\"\\system32\\cleanmgr.exe /autoclean /d C:$/ nocase and $e.principal.process.command_line = "C:\\Windows\\system32\\svchost.exe -k netsvcs -p -s Schedule" and ($e.IntegrityLevel = "High" or $e.IntegrityLevel = "System" or $e.IntegrityLevel = "S-1-16-16384" or $e.IntegrityLevel = "S-1-16-12288"))
+
+  condition:
+    $e
+}

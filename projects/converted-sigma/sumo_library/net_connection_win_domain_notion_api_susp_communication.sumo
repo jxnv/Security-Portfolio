@@ -1,0 +1,11 @@
+// Title: Potentially Suspicious Network Connection To Notion API
+// ID: 7e9cf7b6-e827-11ed-a05b-15959c120003
+// Status: test
+// Level: low
+// Author: Gavin Knapp
+// Date: 2023-05-03
+// Tags: attack.command-and-control, attack.t1102
+// Description: Detects a non-browser process communicating with the Notion API. This could indicate potential use of a covert C2 channel such as "OffensiveNotion C2"
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where ((DestinationHostname matches "*api.notion.com*") and !(((Image matches "*\\brave.exe") or ((Image = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe" or Image = "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe")) or ((Image matches "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\*") or (Image matches "*\\WindowsApps\\MicrosoftEdge.exe") or ((Image = "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe" or Image = "C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe"))) or ((Image matches "C:\\Program Files (x86)\\Microsoft\\EdgeCore\\*" or Image matches "C:\\Program Files\\Microsoft\\EdgeCore\\*") and (Image matches "*\\msedge.exe" or Image matches "*\\msedgewebview2.exe")) or ((Image = "C:\\Program Files\\Mozilla Firefox\\firefox.exe" or Image = "C:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe")) or ((Image = "C:\\Program Files (x86)\\Internet Explorer\\iexplore.exe" or Image = "C:\\Program Files\\Internet Explorer\\iexplore.exe")) or (Image matches "*\\maxthon.exe") or (Image matches "*\\AppData\\Local\\Programs\\Notion\\Notion.exe") or (Image matches "*\\opera.exe") or (Image matches "*\\safari.exe") or (Image matches "*\\seamonkey.exe") or (Image matches "*\\vivaldi.exe") or (Image matches "*\\whale.exe"))))

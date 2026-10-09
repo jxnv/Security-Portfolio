@@ -1,0 +1,11 @@
+// Title: Suspicious Encoded PowerShell Command Line
+// ID: ca2092a1-c273-4878-9b4b-0d60115bf5ea
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Markus Neis, Jonhnathan Ribeiro, Daniil Yugoslavskiy, Anton Kutepov, oscd.community
+// Date: 2018-09-03
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects suspicious powershell process starts with base64 encoded commands (e.g. Emotet)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((src.process.image.path endswithCIS "\\powershell.exe" OR src.process.image.path endswithCIS "\\pwsh.exe")) OR ((OriginalFileName = "PowerShell.EXE" OR OriginalFileName = "pwsh.dll"))) AND ((((src.process.cmdline containsCIS " JAB" OR src.process.cmdline containsCIS " SUVYI" OR src.process.cmdline containsCIS " SQBFAFgA" OR src.process.cmdline containsCIS " aQBlAHgA" OR src.process.cmdline containsCIS " aWV4I" OR src.process.cmdline containsCIS " IAA" OR src.process.cmdline containsCIS " IAB" OR src.process.cmdline containsCIS " UwB" OR src.process.cmdline containsCIS " cwB")) AND (src.process.cmdline containsCIS " -e")) OR ((src.process.cmdline containsCIS ".exe -ENCOD " OR src.process.cmdline containsCIS " BA^J e-"))) AND NOT ((src.process.cmdline containsCIS " -ExecutionPolicy remotesigned ")))

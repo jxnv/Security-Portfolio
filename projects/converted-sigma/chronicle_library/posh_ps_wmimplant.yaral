@@ -1,0 +1,23 @@
+// Title: WMImplant Hack Tool
+// ID: 8028c2c3-e25a-46e3-827f-bbb5abf181d7
+// Status: test
+// Level: high
+// Author: NVISO
+// Date: 2020-03-26
+// Tags: attack.execution, attack.t1047, attack.t1059.001
+// Description: Detects parameters used by WMImplant
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 8028c2c3_e25a_46e3_827f_bbb5abf181d7 {
+  meta:
+    title = "WMImplant Hack Tool"
+    description = "Detects parameters used by WMImplant"
+    author = "NVISO"
+    severity = "HIGH"
+
+  events:
+    (($e.ScriptBlockText = /.*WMImplant.*/ nocase or $e.ScriptBlockText = /.* change_user .*/ nocase or $e.ScriptBlockText = /.* gen_cli .*/ nocase or $e.ScriptBlockText = /.* command_exec .*/ nocase or $e.ScriptBlockText = /.* disable_wdigest .*/ nocase or $e.ScriptBlockText = /.* disable_winrm .*/ nocase or $e.ScriptBlockText = /.* enable_wdigest .*/ nocase or $e.ScriptBlockText = /.* enable_winrm .*/ nocase or $e.ScriptBlockText = /.* registry_mod .*/ nocase or $e.ScriptBlockText = /.* remote_posh .*/ nocase or $e.ScriptBlockText = /.* sched_job .*/ nocase or $e.ScriptBlockText = /.* service_mod .*/ nocase or $e.ScriptBlockText = /.* process_kill .*/ nocase or $e.ScriptBlockText = /.* active_users .*/ nocase or $e.ScriptBlockText = /.* basic_info .*/ nocase or $e.ScriptBlockText = /.* power_off .*/ nocase or $e.ScriptBlockText = /.* vacant_system .*/ nocase or $e.ScriptBlockText = /.* logon_events .*/ nocase))
+
+  condition:
+    $e
+}

@@ -1,0 +1,19 @@
+# Title: MSSQL Destructive Query
+# ID: 00321fee-ca72-4cce-b011-5415af3b9960
+# Status: experimental
+# Level: medium
+# Author: Daniel Degasperi '@d4ns4n_'
+# Date: 2025-06-04
+# Tags: attack.exfiltration, attack.impact, attack.t1485
+# Description: Detects the invocation of MS SQL transactions that are destructive towards table or database data, such as "DROP TABLE" or "DROP DATABASE".
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: MSSQL Destructive Query
+def rule(event):
+    # Detection Logic:
+    # (Provider_Name="MSSQLSERVER$AUDIT" AND EventID="33205" AND (Data="*statement:TRUNCATE TABLE*" OR Data="*statement:DROP TABLE*" OR Data="*statement:DROP DATABASE*"))
+    return True
+
+def title(event):
+    return "MSSQL Destructive Query"
+

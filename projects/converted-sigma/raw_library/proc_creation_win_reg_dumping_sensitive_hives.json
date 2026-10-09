@@ -1,0 +1,61 @@
+{
+  "title": "Dumping of Sensitive Hives Via Reg.EXE",
+  "id": "fd877b94-9bb5-4191-bb25-d79cbd93c167",
+  "status": "test",
+  "description": "Detects the usage of \"reg.exe\" in order to dump sensitive registry hives. This includes SAM, SYSTEM and SECURITY hives.",
+  "author": "Teymur Kheirkhabarov, Endgame, JHasenbusch, Daniil Yugoslavskiy, oscd.community, frack113",
+  "date": "2019-10-22",
+  "tags": [
+    "attack.credential-access",
+    "attack.t1003.002",
+    "attack.t1003.004",
+    "attack.t1003.005",
+    "car.2013-07-001"
+  ],
+  "level": "high",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_img": [
+      {
+        "Image|endswith": "\\reg.exe"
+      },
+      {
+        "OriginalFileName": "reg.exe"
+      }
+    ],
+    "selection_cli_flag": {
+      "CommandLine|contains": [
+        " save ",
+        " export ",
+        " \u02e2ave ",
+        " e\u02e3port "
+      ]
+    },
+    "selection_cli_hklm": {
+      "CommandLine|contains": [
+        "hklm",
+        "hk\u02eam",
+        "hkey_local_machine",
+        "hkey_\u02eaocal_machine",
+        "hkey_loca\u02ea_machine",
+        "hkey_\u02eaoca\u02ea_machine"
+      ]
+    },
+    "selection_cli_hive": {
+      "CommandLine|contains": [
+        "\\system",
+        "\\sam",
+        "\\security",
+        "\\\u02e2ystem",
+        "\\sy\u02e2tem",
+        "\\\u02e2y\u02e2tem",
+        "\\\u02e2am",
+        "\\\u02e2ecurity"
+      ]
+    },
+    "condition": "all of selection_*"
+  }
+}

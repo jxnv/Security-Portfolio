@@ -1,0 +1,11 @@
+// Title: Copy From Or To Admin Share Or Sysvol Folder
+// ID: 855bc8b5-2ae8-402e-a9ed-b889e6df1900
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems), oscd.community, Teymur Kheirkhabarov @HeirhabarovT, Zach Stanford @svch0st, Nasreddine Bencherchali
+// Date: 2019-12-30
+// Tags: attack.lateral-movement, attack.collection, attack.exfiltration, attack.t1039, attack.t1048, attack.t1021.002
+// Description: Detects a copy command or a copy utility execution to or from an Admin share or remote
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((src.process.cmdline containsCIS "\\\\\\\\*\\\\*$" OR src.process.cmdline containsCIS "\\Sysvol\\")) AND ((((src.process.image.path endswithCIS "\\robocopy.exe" OR src.process.image.path endswithCIS "\\xcopy.exe")) OR ((OriginalFileName = "robocopy.exe" OR OriginalFileName = "XCOPY.EXE"))) OR ((src.process.cmdline containsCIS "copy") AND ((src.process.image.path endswithCIS "\\cmd.exe") OR (OriginalFileName = "Cmd.Exe"))) OR (((src.process.cmdline containsCIS "copy-item" OR src.process.cmdline containsCIS "copy " OR src.process.cmdline containsCIS "cpi " OR src.process.cmdline containsCIS " cp " OR src.process.cmdline containsCIS "move " OR src.process.cmdline containsCIS " move-item" OR src.process.cmdline containsCIS " mi " OR src.process.cmdline containsCIS " mv ")) AND (((src.process.image.path containsCIS "\\powershell_ise.exe" OR src.process.image.path containsCIS "\\powershell.exe" OR src.process.image.path containsCIS "\\pwsh.exe")) OR ((OriginalFileName = "powershell_ise.exe" OR OriginalFileName = "PowerShell.EXE" OR OriginalFileName = "pwsh.dll"))))))

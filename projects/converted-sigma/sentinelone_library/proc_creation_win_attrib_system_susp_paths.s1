@@ -1,0 +1,11 @@
+// Title: Set Suspicious Files as System Files Using Attrib.EXE
+// ID: efec536f-72e8-4656-8960-5e85d091345b
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-06-28
+// Tags: attack.stealth, attack.t1564.001
+// Description: Detects the usage of attrib with the "+s" option to set scripts or executables located in suspicious locations as system files to hide them from users and make them unable to be deleted with simple rights. The rule limits the search to specific extensions and directories to avoid FPs
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((src.process.cmdline containsCIS " +s") AND ((src.process.cmdline containsCIS ".bat" OR src.process.cmdline containsCIS ".dll" OR src.process.cmdline containsCIS ".exe" OR src.process.cmdline containsCIS ".hta" OR src.process.cmdline containsCIS ".ps1" OR src.process.cmdline containsCIS ".vbe" OR src.process.cmdline containsCIS ".vbs")) AND ((src.process.image.path endswithCIS "\\attrib.exe") OR (OriginalFileName = "ATTRIB.EXE")) AND ((src.process.cmdline containsCIS " %" OR src.process.cmdline containsCIS "\\Users\\Public\\" OR src.process.cmdline containsCIS "\\AppData\\Local\\" OR src.process.cmdline containsCIS "\\ProgramData\\" OR src.process.cmdline containsCIS "\\Downloads\\" OR src.process.cmdline containsCIS "\\Windows\\Temp\\"))) AND NOT (((src.process.cmdline containsCIS "\\Windows\\TEMP\\" AND src.process.cmdline containsCIS ".exe"))))

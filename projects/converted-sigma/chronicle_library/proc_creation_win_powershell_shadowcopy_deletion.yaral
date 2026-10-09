@@ -1,0 +1,23 @@
+// Title: Deletion of Volume Shadow Copies via WMI with PowerShell
+// ID: 21ff4ca9-f13a-41ad-b828-0077b2af2e40
+// Status: test
+// Level: high
+// Author: Tim Rauch, Elastic (idea)
+// Date: 2022-09-20
+// Tags: attack.impact, attack.t1490
+// Description: Detects deletion of Windows Volume Shadow Copies with PowerShell code and Get-WMIObject. This technique is used by numerous ransomware families such as Sodinokibi/REvil
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 21ff4ca9_f13a_41ad_b828_0077b2af2e40 {
+  meta:
+    title = "Deletion of Volume Shadow Copies via WMI with PowerShell"
+    description = "Detects deletion of Windows Volume Shadow Copies with PowerShell code and Get-WMIObject. This technique is used by numerous ransomware families such as Sodinokibi/REvil"
+    author = "Tim Rauch, Elastic (idea)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*.Delete().*/ nocase or $e.target.process.command_line = /.*Remove-WmiObject.*/ nocase or $e.target.process.command_line = /.*rwmi.*/ nocase or $e.target.process.command_line = /.*Remove-CimInstance.*/ nocase or $e.target.process.command_line = /.*rcim.*/ nocase)) and (($e.target.process.command_line = /.*Get-WmiObject.*/ nocase or $e.target.process.command_line = /.*gwmi.*/ nocase or $e.target.process.command_line = /.*Get-CimInstance.*/ nocase or $e.target.process.command_line = /.*gcim.*/ nocase)) and ($e.target.process.command_line = /.*Win32_ShadowCopy.*/ nocase))
+
+  condition:
+    $e
+}

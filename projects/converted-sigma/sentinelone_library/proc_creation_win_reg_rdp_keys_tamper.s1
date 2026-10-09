@@ -1,0 +1,11 @@
+// Title: Potential Tampering With RDP Related Registry Keys Via Reg.EXE
+// ID: 0d5675be-bc88-4172-86d3-1e96a4476536
+// Status: test
+// Level: high
+// Author: pH-T (Nextron Systems), @Kostastsale, TheDFIRReport
+// Date: 2022-02-12
+// Tags: attack.persistence, attack.lateral-movement, attack.defense-impairment, attack.t1021.001, attack.t1112
+// Description: Detects the execution of "reg.exe" for enabling/disabling the RDP service on the host by tampering with the 'CurrentControlSet\Control\Terminal Server' values
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((src.process.cmdline containsCIS " add " AND src.process.cmdline containsCIS "\\CurrentControlSet\\Control\\Terminal Server" AND src.process.cmdline containsCIS "REG_DWORD" AND src.process.cmdline containsCIS " /f")) AND ((src.process.image.path endswithCIS "\\reg.exe") OR (OriginalFileName = "reg.exe"))) AND (((src.process.cmdline containsCIS "Licensing Core" AND src.process.cmdline containsCIS "EnableConcurrentSessions")) OR ((src.process.cmdline containsCIS "AllowTSConnections" OR src.process.cmdline containsCIS "fDenyTSConnections" OR src.process.cmdline containsCIS "fEnableWinStation" OR src.process.cmdline containsCIS "fSingleSessionPerUser" OR src.process.cmdline containsCIS "IdleWinStationPoolCount" OR src.process.cmdline containsCIS "MaxInstanceCount" OR src.process.cmdline containsCIS "SecurityLayer" OR src.process.cmdline containsCIS "TSAdvertise" OR src.process.cmdline containsCIS "TSAppCompat" OR src.process.cmdline containsCIS "TSEnabled" OR src.process.cmdline containsCIS "TSUserEnabled" OR src.process.cmdline containsCIS "WinStations\\RDP-Tcp"))) AND NOT (((src.process.cmdline containsCIS "SecurityLayer" AND src.process.cmdline containsCIS "02"))))

@@ -1,0 +1,11 @@
+// Title: Service Security Descriptor Tampering Via Sc.EXE
+// ID: 98c5aeef-32d5-492f-b174-64a691896d25
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-02-28
+// Tags: attack.persistence, attack.privilege-escalation, attack.execution, attack.stealth, attack.t1574.011
+// Description: Detection of sc.exe utility adding a new service with special permission which hides that service.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter ((action_process_image_command_line contains "sdset") and ((action_process_image_path endswith "\\sc.exe") or (action_process_image_name = "sc.exe")))

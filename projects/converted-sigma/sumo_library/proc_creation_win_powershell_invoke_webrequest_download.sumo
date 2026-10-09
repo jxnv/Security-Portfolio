@@ -1,0 +1,11 @@
+// Title: Suspicious Invoke-WebRequest Execution
+// ID: 5e3cc4d8-3e68-43db-8656-eaaeefdec9cc
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-02
+// Tags: attack.command-and-control, attack.t1105
+// Description: Detects a suspicious call to Invoke-WebRequest cmdlet where the and output is located in a suspicious location
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where (((CommandLine matches "*curl *" or CommandLine matches "*Invoke-WebRequest*" or CommandLine matches "*iwr *" or CommandLine matches "*wget *")) and ((CommandLine matches "* -ur*" or CommandLine matches "* -o*")) and (((Image matches "*\\powershell_ise.exe" or Image matches "*\\powershell.exe" or Image matches "*\\pwsh.exe")) or ((OriginalFileName = "powershell_ise.EXE" or OriginalFileName = "PowerShell.EXE" or OriginalFileName = "pwsh.dll"))) and ((CommandLine matches "*\\AppData\\*" or CommandLine matches "*\\Desktop\\*" or CommandLine matches "*\\Temp\\*" or CommandLine matches "*\\Users\\Public\\*" or CommandLine matches "*%AppData%*" or CommandLine matches "*%Public%*" or CommandLine matches "*%Temp%*" or CommandLine matches "*%tmp%*" or CommandLine matches "*:\\Windows\\*")))

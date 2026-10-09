@@ -1,0 +1,11 @@
+# Title: Suspicious Child Process Of Manage Engine ServiceDesk
+# ID: cea2b7ea-792b-405f-95a1-b903ea06458f
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems)
+# Date: 2023-01-18
+# Tags: attack.command-and-control, attack.t1102
+# Description: Detects suspicious child processes of the "Manage Engine ServiceDesk Plus" Java web service
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((parent_name:*\\ManageEngine\\ServiceDesk\\* AND parent_name:*\\java.exe*) AND (process_name:*\\AppVLP.exe OR process_name:*\\bash.exe OR process_name:*\\bitsadmin.exe OR process_name:*\\calc.exe OR process_name:*\\certutil.exe OR process_name:*\\cscript.exe OR process_name:*\\curl.exe OR process_name:*\\forfiles.exe OR process_name:*\\mftrace.exe OR process_name:*\\mshta.exe OR process_name:*\\net.exe OR process_name:*\\net1.exe OR process_name:*\\notepad.exe OR process_name:*\\powershell.exe OR process_name:*\\pwsh.exe OR process_name:*\\query.exe OR process_name:*\\reg.exe OR process_name:*\\schtasks.exe OR process_name:*\\scrcons.exe OR process_name:*\\sh.exe OR process_name:*\\systeminfo.exe OR process_name:*\\whoami.exe OR process_name:*\\wmic.exe OR process_name:*\\wscript.exe)) AND -(((process_name:*\\net.exe OR process_name:*\\net1.exe) AND cmdline:* stop*)))

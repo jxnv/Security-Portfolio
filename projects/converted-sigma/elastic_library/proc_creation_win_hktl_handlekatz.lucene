@@ -1,0 +1,11 @@
+# Title: HackTool - HandleKatz LSASS Dumper Execution
+# ID: ca621ba5-54ab-4035-9942-d378e6fcde3c
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems)
+# Date: 2022-08-18
+# Tags: attack.credential-access, attack.t1003.001
+# Description: Detects the use of HandleKatz, a tool that demonstrates the usage of cloned handles to Lsass in order to create an obfuscated memory dump of the same
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((process.command_line:*--pid:* AND process.command_line:*--outfile:*) AND (process.command_line:*.dmp* OR process.command_line:*lsass* OR process.command_line:*.obf* OR process.command_line:*dump*)) OR (process.executable:*\\loader.exe AND process.command_line:*--pid:*) OR ((Hashes:*IMPHASH=38D9E015591BBFD4929E0D0F47FA0055* OR Hashes:*IMPHASH=0E2216679CA6E1094D63322E3412D650*)))

@@ -1,0 +1,23 @@
+// Title: Discovery Using AzureHound
+// ID: 35b781cc-1a08-4a5a-80af-42fd7c315c6b
+// Status: test
+// Level: high
+// Author: Janantha Marasinghe
+// Date: 2022-11-27
+// Tags: attack.discovery, attack.t1087.004, attack.t1526
+// Description: Detects AzureHound (A BloodHound data collector for Microsoft Azure) activity via the default User-Agent that is used during its operation after successful authentication.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 35b781cc_1a08_4a5a_80af_42fd7c315c6b {
+  meta:
+    title = "Discovery Using AzureHound"
+    description = "Detects AzureHound (A BloodHound data collector for Microsoft Azure) activity via the default User-Agent that is used during its operation after successful authentication."
+    author = "Janantha Marasinghe"
+    severity = "HIGH"
+
+  events:
+    ($e.userAgent = /.*azurehound.*/ nocase and $e.ResultType = 0)
+
+  condition:
+    $e
+}

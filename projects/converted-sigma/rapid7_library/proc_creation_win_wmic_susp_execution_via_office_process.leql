@@ -1,0 +1,11 @@
+// Title: Suspicious WMIC Execution Via Office Process
+// ID: e1693bc8-7168-4eab-8718-cdcaa68a1738
+// Status: test
+// Level: high
+// Author: Vadim Khrykov, Cyb3rEng
+// Date: 2021-08-23
+// Tags: attack.stealth, attack.t1204.002, attack.t1047, attack.t1218.010, attack.execution
+// Description: Office application called wmic to proxye execution through a LOLBIN process. This is often used to break suspicious parent-child chain (Office app spawns LOLBin).
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(ParentImage IENDSWITH "\\WINWORD.EXE") OR where(ParentImage IENDSWITH "\\EXCEL.EXE") OR where(ParentImage IENDSWITH "\\POWERPNT.exe") OR where(ParentImage IENDSWITH "\\MSPUB.exe") OR where(ParentImage IENDSWITH "\\VISIO.exe") OR where(ParentImage IENDSWITH "\\MSACCESS.EXE") OR where(ParentImage IENDSWITH "\\EQNEDT32.EXE") OR where(ParentImage IENDSWITH "\\ONENOTE.EXE") OR where(ParentImage IENDSWITH "\\wordpad.exe") OR where(ParentImage IENDSWITH "\\wordview.exe"))) AND ((where(CommandLine ICONTAINS "process") AND where(CommandLine ICONTAINS "create") AND where(CommandLine ICONTAINS "call")) AND (where(CommandLine ICONTAINS "regsvr32") OR where(CommandLine ICONTAINS "rundll32") OR where(CommandLine ICONTAINS "msiexec") OR where(CommandLine ICONTAINS "mshta") OR where(CommandLine ICONTAINS "verclsid") OR where(CommandLine ICONTAINS "wscript") OR where(CommandLine ICONTAINS "cscript"))) AND ((where(Image IENDSWITH "\\wbem\\WMIC.exe")) OR (where(OriginalFileName = "wmic.exe"))))

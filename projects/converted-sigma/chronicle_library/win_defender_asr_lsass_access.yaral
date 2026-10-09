@@ -1,0 +1,23 @@
+// Title: LSASS Access Detected via Attack Surface Reduction
+// ID: a0a278fe-2c0e-4de2-ac3c-c68b08a9ba98
+// Status: test
+// Level: high
+// Author: Markus Neis
+// Date: 2018-08-26
+// Tags: attack.credential-access, attack.t1003.001
+// Description: Detects Access to LSASS Process
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule a0a278fe_2c0e_4de2_ac3c_c68b08a9ba98 {
+  meta:
+    title = "LSASS Access Detected via Attack Surface Reduction"
+    description = "Detects Access to LSASS Process"
+    author = "Markus Neis"
+    severity = "HIGH"
+
+  events:
+    (($e.EventID = 1121 and $e.Path = /.*\\lsass.exe$/ nocase) and not(((($e.ProcessName = /^C:\\Windows\\System32\\DriverStore\\.*/ nocase or $e.ProcessName = /^C:\\WINDOWS\\Installer\\.*/ nocase or $e.ProcessName = /^C:\\Program Files\\.*/ nocase or $e.ProcessName = /^C:\\Program Files (x86)\\.*/ nocase)) or (($e.ProcessName = "C:\\Windows\\System32\\atiesrxx.exe" or $e.ProcessName = "C:\\Windows\\System32\\CompatTelRunner.exe" or $e.ProcessName = "C:\\Windows\\System32\\msiexec.exe" or $e.ProcessName = "C:\\Windows\\System32\\nvwmi64.exe" or $e.ProcessName = "C:\\Windows\\System32\\svchost.exe" or $e.ProcessName = "C:\\Windows\\System32\\Taskmgr.exe" or $e.ProcessName = "C:\\Windows\\System32\\wbem\\WmiPrvSE.exe" or $e.ProcessName = "C:\\Windows\\SysWOW64\\msiexec.exe")) or ($e.ProcessName = /^C:\\Windows\\Temp\\asgard2-agent\\.*/ nocase and ($e.ProcessName = /.*\\thor64.exe$/ nocase or $e.ProcessName = /.*\\thor.exe$/ nocase)))))
+
+  condition:
+    $e
+}

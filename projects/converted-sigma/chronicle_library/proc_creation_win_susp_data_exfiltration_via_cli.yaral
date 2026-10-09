@@ -1,0 +1,23 @@
+// Title: Potential Data Exfiltration Activity Via CommandLine Tools
+// ID: 7d1aaf3d-4304-425c-b7c3-162055e0b3ab
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-02
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects the use of various CLI utilities exfiltrating data via web requests
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 7d1aaf3d_4304_425c_b7c3_162055e0b3ab {
+  meta:
+    title = "Potential Data Exfiltration Activity Via CommandLine Tools"
+    description = "Detects the use of various CLI utilities exfiltrating data via web requests"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (((($e.target.process.file.full_path = /.*\\powershell_ise.exe$/ nocase or $e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase or $e.target.process.file.full_path = /.*\\cmd.exe$/ nocase) and ($e.target.process.command_line = /.*curl .*/ nocase or $e.target.process.command_line = /.*Invoke-RestMethod.*/ nocase or $e.target.process.command_line = /.*Invoke-WebRequest.*/ nocase or $e.target.process.command_line = /.*irm .*/ nocase or $e.target.process.command_line = /.*iwr .*/ nocase or $e.target.process.command_line = /.*wget .*/ nocase) and ($e.target.process.command_line = /.* -ur.*/ nocase and $e.target.process.command_line = /.* -me.*/ nocase and $e.target.process.command_line = /.* -b.*/ nocase and $e.target.process.command_line = /.* POST .*/ nocase)) or (($e.target.process.file.full_path = /.*\\curl.exe$/ nocase and $e.target.process.command_line = /.*--ur.*/ nocase) and (($e.target.process.command_line = /.* -d .*/ nocase or $e.target.process.command_line = /.* --data .*/ nocase))) or ($e.target.process.file.full_path = /.*\\wget.exe$/ nocase and ($e.target.process.command_line = /.*--post-data.*/ nocase or $e.target.process.command_line = /.*--post-file.*/ nocase))) and ((($e.target.process.command_line = /net\s+view/ nocase or $e.target.process.command_line = /sc\s+query/ nocase)) or (($e.target.process.command_line = /.*Get-Content.*/ nocase or $e.target.process.command_line = /.*GetBytes.*/ nocase or $e.target.process.command_line = /.*hostname.*/ nocase or $e.target.process.command_line = /.*ifconfig.*/ nocase or $e.target.process.command_line = /.*ipconfig.*/ nocase or $e.target.process.command_line = /.*netstat.*/ nocase or $e.target.process.command_line = /.*nltest.*/ nocase or $e.target.process.command_line = /.*qprocess.*/ nocase or $e.target.process.command_line = /.*systeminfo.*/ nocase or $e.target.process.command_line = /.*tasklist.*/ nocase or $e.target.process.command_line = /.*ToBase64String.*/ nocase or $e.target.process.command_line = /.*whoami.*/ nocase)) or (($e.target.process.command_line = /.*type .*/ nocase and $e.target.process.command_line = /.* > .*/ nocase and $e.target.process.command_line = /.* C:\\.*/ nocase))))
+
+  condition:
+    $e
+}

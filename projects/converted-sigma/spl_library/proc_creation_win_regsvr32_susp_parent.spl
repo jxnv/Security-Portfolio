@@ -1,0 +1,11 @@
+# Title: Scripting/CommandLine Process Spawned Regsvr32
+# ID: ab37a6ec-6068-432b-a64e-2c7bf95b1d22
+# Status: test
+# Level: medium
+# Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+# Date: 2023-05-26
+# Tags: attack.stealth, attack.t1218.010
+# Description: Detects various command line and scripting engines/processes such as "PowerShell", "Wscript", "Cmd", etc. spawning a "regsvr32" instance.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog (((parent_process_path="*\\cmd.exe" OR parent_process_path="*\\cscript.exe" OR parent_process_path="*\\mshta.exe" OR parent_process_path="*\\powershell_ise.exe" OR parent_process_path="*\\powershell.exe" OR parent_process_path="*\\pwsh.exe" OR parent_process_path="*\\wscript.exe") AND process_path="*\\regsvr32.exe") AND NOT ((parent_process_path="C:\\Windows\\System32\\cmd.exe" AND process_exec="* /s C:\\Windows\\System32\\RpcProxy\\RpcProxy.dll")))

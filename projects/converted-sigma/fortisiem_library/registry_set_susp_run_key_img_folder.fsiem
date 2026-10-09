@@ -1,0 +1,11 @@
+# Title: New RUN Key Pointing to Suspicious Folder
+# ID: 02ee49e2-e294-4d0f-9278-f5b3212fc588
+# Status: experimental
+# Level: high
+# Author: Florian Roth (Nextron Systems), Markus Neis, Sander Wiebing, Swachchhanda Shrawan Poudel (Nextron Systems)
+# Date: 2018-08-25
+# Tags: attack.privilege-escalation, attack.persistence, attack.t1547.001
+# Description: Detects suspicious new RUN key element pointing to an executable in a suspicious folder
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((TargetObject CONTAIN "\\Software\\Microsoft\\Windows\\CurrentVersion\\Run" OR TargetObject CONTAIN "\\Software\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Run" OR TargetObject CONTAIN "\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run")) AND (((Details CONTAIN ":\\Perflogs" OR Details CONTAIN ":\\ProgramData'" OR Details CONTAIN ":\\Windows\\Temp" OR Details CONTAIN ":\\Temp" OR Details CONTAIN "\\AppData\\Local\\Temp" OR Details CONTAIN "\\AppData\\Roaming" OR Details CONTAIN ":\\$Recycle.bin" OR Details CONTAIN ":\\Users\\Default" OR Details CONTAIN ":\\Users\\public" OR Details CONTAIN "%temp%" OR Details CONTAIN "%tmp%" OR Details CONTAIN "%Public%" OR Details CONTAIN "%AppData%")) OR ((Details CONTAIN ":\\Users\\") AND ((Details CONTAIN "\\Favorites" OR Details CONTAIN "\\Favourites" OR Details CONTAIN "\\Contacts" OR Details CONTAIN "\\Music" OR Details CONTAIN "\\Pictures" OR Details CONTAIN "\\Documents" OR Details CONTAIN "\\Photos")))) AND NOT ((TargetObject CONTAIN "\\Microsoft\\Windows\\CurrentVersion\\RunOnce\\" AND Image="C:\\Windows\\SoftwareDistribution\\Download\\*" AND (Details CONTAIN "rundll32.exe " AND Details CONTAIN "C:\\WINDOWS\\system32\\advpack.dll,DelNodeRunDLL32") AND (Details CONTAIN "\\AppData\\Local\\Temp\\" OR Details CONTAIN "C:\\Windows\\Temp\\"))) AND NOT (((Image="*C:\\Program Files\\Spotify\\Spotify.exe" OR Image="*C:\\Program Files (x86)\\Spotify\\Spotify.exe" OR Image="*\\AppData\\Roaming\\Spotify\\Spotify.exe") AND TargetObject="*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\\Spotify" AND Details="*Spotify.exe --autostart --minimized")))

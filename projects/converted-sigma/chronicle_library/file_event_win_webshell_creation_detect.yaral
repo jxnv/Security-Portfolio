@@ -1,0 +1,23 @@
+// Title: Potential Webshell Creation On Static Website
+// ID: 39f1f9f2-9636-45de-98f6-a4046aa8e4b9
+// Status: test
+// Level: medium
+// Author: Beyu Denis, oscd.community, Tim Shelton, Thurein Oo
+// Date: 2019-10-22
+// Tags: attack.persistence, attack.t1505.003
+// Description: Detects the creation of files with certain extensions on a static web site. This can be indicative of potential uploads of a web shell.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 39f1f9f2_9636_45de_98f6_a4046aa8e4b9 {
+  meta:
+    title = "Potential Webshell Creation On Static Website"
+    description = "Detects the creation of files with certain extensions on a static web site. This can be indicative of potential uploads of a web shell."
+    author = "Beyu Denis, oscd.community, Tim Shelton, Thurein Oo"
+    severity = "MEDIUM"
+
+  events:
+    ((((($e.target.file.full_path = /.*.ashx.*/ nocase or $e.target.file.full_path = /.*.asp.*/ nocase or $e.target.file.full_path = /.*.ph.*/ nocase or $e.target.file.full_path = /.*.soap.*/ nocase)) and ($e.target.file.full_path = /.*\\inetpub\\wwwroot\\.*/ nocase)) or (($e.target.file.full_path = /.*.ph.*/ nocase) and (($e.target.file.full_path = /.*\\www\\.*/ nocase or $e.target.file.full_path = /.*\\htdocs\\.*/ nocase or $e.target.file.full_path = /.*\\html\\.*/ nocase)))) and not((($e.target.file.full_path = /.*\\xampp.*/ nocase) or ($e.target.process.file.full_path = "System") or (($e.target.file.full_path = /.*\\AppData\\Local\\Temp\\.*/ nocase or $e.target.file.full_path = /.*\\Windows\\Temp\\.*/ nocase)))))
+
+  condition:
+    $e
+}

@@ -1,0 +1,11 @@
+// Title: Program Executions in Suspicious Folders
+// ID: a39d7fa7-3fbd-4dc2-97e1-d87f546b1bbc
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems)
+// Date: 2018-01-23
+// Tags: attack.t1587, attack.t1584, attack.resource-development
+// Description: Detects program executions in suspicious non-program folders related to malware or hacking activity
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE (type == "SYSCALL" AND (exe LIKE "/tmp/%" OR exe LIKE "/var/www/%" OR exe LIKE "/home/*/public_html/%" OR exe LIKE "/usr/local/apache2/%" OR exe LIKE "/usr/local/httpd/%" OR exe LIKE "/var/apache/%" OR exe LIKE "/srv/www/%" OR exe LIKE "/home/httpd/html/%" OR exe LIKE "/srv/http/%" OR exe LIKE "/usr/share/nginx/html/%" OR exe LIKE "/var/lib/pgsql/data/%" OR exe LIKE "/usr/local/mysql/data/%" OR exe LIKE "/var/lib/mysql/%" OR exe LIKE "/var/vsftpd/%" OR exe LIKE "/etc/bind/%" OR exe LIKE "/var/named/%"))

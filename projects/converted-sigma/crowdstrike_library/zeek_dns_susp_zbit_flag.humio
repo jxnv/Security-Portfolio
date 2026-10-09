@@ -1,0 +1,15 @@
+// Title: Suspicious DNS Z Flag Bit Set
+// ID: ede05abc-2c9e-4624-9944-9ff17fdc0bf5
+// Status: test
+// Level: medium
+// Author: @neu5ron, SOC Prime Team, Corelight
+// Date: 2021-05-04
+// Tags: attack.t1095, attack.t1571, attack.command-and-control
+// Description: The DNS Z flag is bit within the DNS protocol header that is, per the IETF design, meant to be used reserved (unused).
+// Although recently it has been used in DNSSec, the value being set to anything other than 0 should be rare.
+// Otherwise if it is set to non 0 and DNSSec is being used, then excluding the legitimate domains is low effort and high reward.
+// Determine if multiple of these files were accessed in a short period of time to further enhance the possibility of seeing if this was a one off or the possibility of larger sensitive file gathering.
+// This Sigma query is designed to accompany the Corelight Threat Hunting Guide, which can be found here: https://www3.corelight.com/corelights-introductory-guide-to-threat-hunting-with-zeek-bro-logs'
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(not((Z = 0)) and (query = /*.*/i) and not((((query = /.*.arpa/i or query = /.*.local/i or query = /.*.ultradns.net/i or query = /.*.twtrdns.net/i or query = /.*.azuredns-prd.info/i or query = /.*.azure-dns.com/i or query = /.*.azuredns-ff.info/i or query = /.*.azuredns-ff.org/i or query = /.*.azuregov-dns.org/i)) or ((qtype_name = "ns" or qtype_name = "mx")) or (answers = /.*\\\\x00/i) or ((id.resp_p = 137 or id.resp_p = 138 or id.resp_p = 139)))))

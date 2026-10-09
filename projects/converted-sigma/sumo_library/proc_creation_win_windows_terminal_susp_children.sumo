@@ -1,0 +1,11 @@
+// Title: Suspicious WindowsTerminal Child Processes
+// ID: 8de89e52-f6e1-4b5b-afd1-41ecfa300d48
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-07-25
+// Tags: attack.execution, attack.persistence
+// Description: Detects suspicious children spawned via the Windows Terminal application which could be a sign of persistence via WindowsTerminal (see references section)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where ((((ParentImage matches "*\\WindowsTerminal.exe" or ParentImage matches "*\\wt.exe")) and (((Image matches "*\\rundll32.exe" or Image matches "*\\regsvr32.exe" or Image matches "*\\certutil.exe" or Image matches "*\\cscript.exe" or Image matches "*\\wscript.exe" or Image matches "*\\csc.exe")) or ((Image matches "*C:\\Users\\Public\\*" or Image matches "*\\Downloads\\*" or Image matches "*\\Desktop\\*" or Image matches "*\\AppData\\Local\\Temp\\*" or Image matches "*\\Windows\\TEMP\\*")) or ((CommandLine matches "* iex *" or CommandLine matches "* icm*" or CommandLine matches "*Invoke-*" or CommandLine matches "*Import-Module *" or CommandLine matches "*ipmo *" or CommandLine matches "*DownloadString(*" or CommandLine matches "* /c *" or CommandLine matches "* /k *" or CommandLine matches "* /r *")))) and !((((CommandLine matches "*Import-Module*" and CommandLine matches "*Microsoft.VisualStudio.DevShell.dll*" and CommandLine matches "*Enter-VsDevShell*")) or ((CommandLine matches "*\\AppData\\Local\\Packages\\Microsoft.WindowsTerminal_*" and CommandLine matches "*\\LocalState\\settings.json*")) or ((CommandLine matches "*C:\\Program Files\\Microsoft Visual Studio\\*" and CommandLine matches "*\\Common7\\Tools\\VsDevCmd.bat*")))))

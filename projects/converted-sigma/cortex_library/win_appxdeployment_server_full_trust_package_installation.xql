@@ -1,0 +1,11 @@
+// Title: Windows AppX Deployment Full Trust Package Installation
+// ID: e54279c7-4910-4e2c-902c-c56a25b549f6
+// Status: experimental
+// Level: medium
+// Author: Michael Haag, Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-11-03
+// Tags: attack.execution, attack.defense-impairment, attack.t1204.002, attack.t1553.005
+// Description: Detects the installation of MSIX/AppX packages with full trust privileges which run with elevated privileges outside normal AppX container restrictions
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter ((EventID = 400 and HasFullTrust = True) and not ((((CallingProcess startswith "sysprep.exe" or CallingProcess startswith "svchost.exe,AppReadiness")) or ((PackageSourceUri startswith "file:///C:/Program%20Files/" or PackageSourceUri startswith "file:///C:/Program%20Files%20(x86)/")) or ((PackageSourceUri startswith "https://go.microsoft.com/fwlink/?linkid") or ((PackageSourceUri contains ".cdn.microsoft.com" or PackageSourceUri contains ".cdn.office.net/"))))) and not (((PackageFullName startswith "MicrosoftWindows.Client.") or (PackageSourceUri startswith "x-windowsupdate://"))))

@@ -1,0 +1,12 @@
+# Title: Suspicious Invocation of Shell via AWK - Linux
+# ID: 8c1a5675-cb85-452f-a298-b01b22a51856
+# Status: test
+# Level: high
+# Author: Li Ling, Andy Parkidomo, Robert Rakowski, Blake Hartstein (Bloomberg L.P.)
+# Date: 2024-09-02
+# Tags: attack.execution, attack.t1059
+# Description: Detects the execution of "awk" or it's sibling commands, to invoke a shell using the system() function.
+# This behavior is commonly associated with attempts to execute arbitrary commands or escalate privileges, potentially leading to unauthorized access or further exploitation.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* sourcetype="syslog" (((process_exec="*/bin/bash*" OR process_exec="*/bin/dash*" OR process_exec="*/bin/fish*" OR process_exec="*/bin/sh*" OR process_exec="*/bin/zsh*")) AND ((process_path="*/awk" OR process_path="*/gawk" OR process_path="*/mawk" OR process_path="*/nawk") AND process_exec="*BEGIN {system*"))

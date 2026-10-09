@@ -1,0 +1,16 @@
+<!--
+  Title: Suspicious VBoxDrvInst.exe Parameters
+  ID: b7b19cb6-9b32-4fc4-a108-73f19acfe262
+  Status: test
+  Level: medium
+  Author: Konstantin Grishchenko, oscd.community
+  Date: 2020-10-06
+  Description: Detect VBoxDrvInst.exe run with parameters allowing processing INF file. This allows to create values in the registry and install drivers. For example one could use this technique to obtain persistence via modifying one of Run or RunOnce registry keys
+-->
+
+<group name="sigma_converted,">
+  <rule id="100001" level="5">
+    <description>Suspicious VBoxDrvInst.exe Parameters</description>
+    <match>(Image=\"*\\\\VBoxDrvInst.exe\" AND (CommandLine=\"*driver*\" AND CommandLine=\"*executeinf*\"))</match>
+  </rule>
+</group>

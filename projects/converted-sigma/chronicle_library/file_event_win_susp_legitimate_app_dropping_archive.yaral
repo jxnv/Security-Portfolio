@@ -1,0 +1,23 @@
+// Title: Legitimate Application Dropped Archive
+// ID: 654fcc6d-840d-4844-9b07-2c3300e54a26
+// Status: test
+// Level: high
+// Author: frack113, Florian Roth
+// Date: 2022-08-21
+// Tags: attack.stealth, attack.t1218
+// Description: Detects programs on a Windows system that should not write an archive to disk
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 654fcc6d_840d_4844_9b07_2c3300e54a26 {
+  meta:
+    title = "Legitimate Application Dropped Archive"
+    description = "Detects programs on a Windows system that should not write an archive to disk"
+    author = "frack113, Florian Roth"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.file.full_path = /.*\\winword.exe$/ nocase or $e.target.process.file.full_path = /.*\\excel.exe$/ nocase or $e.target.process.file.full_path = /.*\\powerpnt.exe$/ nocase or $e.target.process.file.full_path = /.*\\msaccess.exe$/ nocase or $e.target.process.file.full_path = /.*\\mspub.exe$/ nocase or $e.target.process.file.full_path = /.*\\eqnedt32.exe$/ nocase or $e.target.process.file.full_path = /.*\\visio.exe$/ nocase or $e.target.process.file.full_path = /.*\\wordpad.exe$/ nocase or $e.target.process.file.full_path = /.*\\wordview.exe$/ nocase or $e.target.process.file.full_path = /.*\\certutil.exe$/ nocase or $e.target.process.file.full_path = /.*\\certoc.exe$/ nocase or $e.target.process.file.full_path = /.*\\CertReq.exe$/ nocase or $e.target.process.file.full_path = /.*\\Desktopimgdownldr.exe$/ nocase or $e.target.process.file.full_path = /.*\\esentutl.exe$/ nocase or $e.target.process.file.full_path = /.*\\finger.exe$/ nocase or $e.target.process.file.full_path = /.*\\notepad.exe$/ nocase or $e.target.process.file.full_path = /.*\\AcroRd32.exe$/ nocase or $e.target.process.file.full_path = /.*\\RdrCEF.exe$/ nocase or $e.target.process.file.full_path = /.*\\mshta.exe$/ nocase or $e.target.process.file.full_path = /.*\\hh.exe$/ nocase) and ($e.target.file.full_path = /.*.zip$/ nocase or $e.target.file.full_path = /.*.rar$/ nocase or $e.target.file.full_path = /.*.7z$/ nocase or $e.target.file.full_path = /.*.diagcab$/ nocase or $e.target.file.full_path = /.*.appx$/ nocase))
+
+  condition:
+    $e
+}

@@ -1,0 +1,24 @@
+// Title: Potential Windows Defender AV Bypass Via Dump64.EXE Rename
+// ID: 129966c9-de17-4334-a123-8b58172e664d
+// Status: test
+// Level: high
+// Author: Austin Songer @austinsonger, Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2021-11-26
+// Tags: attack.credential-access, attack.t1003.001
+// Description: Detects when a user is potentially trying to bypass the Windows Defender AV by renaming a tool to dump64.exe and placing it in the Visual Studio folder.
+// Currently the rule is covering only usage of procdump but other utilities can be added in order to increase coverage.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 129966c9_de17_4334_a123_8b58172e664d {
+  meta:
+    title = "Potential Windows Defender AV Bypass Via Dump64.EXE Rename"
+    description = "Detects when a user is potentially trying to bypass the Windows Defender AV by renaming a tool to dump64.exe and placing it in the Visual Studio folder. Currently the rule is covering only usage of procdump but other utilities can be added in order to increase coverage."
+    author = "Austin Songer @austinsonger, Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.file.full_path = /^:\\Program Files.*/ nocase and $e.target.process.file.full_path = /.*\\Microsoft Visual Studio\\.*/ nocase and $e.target.process.file.full_path = /.*\\dump64.exe$/ nocase) and (($e.target.process.file.name = "procdump") or (($e.target.process.command_line = /.* -ma .*/ nocase or $e.target.process.command_line = /.* -mp .*/ nocase))))
+
+  condition:
+    $e
+}

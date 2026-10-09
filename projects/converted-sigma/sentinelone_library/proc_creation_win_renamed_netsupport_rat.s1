@@ -1,0 +1,11 @@
+// Title: Renamed NetSupport RAT Execution
+// ID: 0afbd410-de03-4078-8491-f132303cb67d
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-09-19
+// Tags: attack.stealth
+// Description: Detects the execution of a renamed "client32.exe" (NetSupport RAT) via Imphash, Product and OriginalFileName strings
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((Product containsCIS "NetSupport Remote Control") OR (OriginalFileName containsCIS "client32.exe") OR (Hashes containsCIS "IMPHASH=A9D50692E95B79723F3E76FCF70D023E")) AND NOT ((src.process.image.path endswithCIS "\\client32.exe")))

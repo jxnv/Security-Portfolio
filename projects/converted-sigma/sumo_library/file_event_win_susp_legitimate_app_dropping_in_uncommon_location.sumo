@@ -1,0 +1,12 @@
+// Title: Legitimate Application Writing Files In Uncommon Location
+// ID: 1cf465a1-2609-4c15-9b66-c32dbe4bfd67
+// Status: experimental
+// Level: high
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-12-10
+// Tags: attack.stealth, attack.t1218, attack.command-and-control, attack.t1105
+// Description: Detects legitimate applications writing any type of file to uncommon or suspicious locations that are not typical for application data storage or execution.
+// Adversaries may leverage legitimate applications (Living off the Land Binaries - LOLBins) to drop or download malicious files to uncommon locations on the system to evade detection by security solutions.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where (((Image matches "*\\eqnedt32.exe" or Image matches "*\\wordpad.exe" or Image matches "*\\wordview.exe" or Image matches "*\\cmdl32.exe" or Image matches "*\\certutil.exe" or Image matches "*\\certoc.exe" or Image matches "*\\CertReq.exe" or Image matches "*\\bitsadmin.exe" or Image matches "*\\Desktopimgdownldr.exe" or Image matches "*\\esentutl.exe" or Image matches "*\\expand.exe" or Image matches "*\\extrac32.exe" or Image matches "*\\replace.exe" or Image matches "*\\mshta.exe" or Image matches "*\\ftp.exe" or Image matches "*\\Ldifde.exe" or Image matches "*\\RdrCEF.exe" or Image matches "*\\hh.exe" or Image matches "*\\finger.exe" or Image matches "*\\findstr.exe")) and ((TargetFilename matches "*:\\Perflogs*" or TargetFilename matches "*:\\ProgramData\\*" or TargetFilename matches "*:\\Temp\\*" or TargetFilename matches "*:\\Users\\Public\\*" or TargetFilename matches "*:\\Windows\\*" or TargetFilename matches "*\\$Recycle.Bin\\*" or TargetFilename matches "*\\AppData\\Local\\*" or TargetFilename matches "*\\AppData\\Roaming\\*" or TargetFilename matches "*\\Contacts\\*" or TargetFilename matches "*\\Desktop\\*" or TargetFilename matches "*\\Favorites\\*" or TargetFilename matches "*\\Favourites\\*" or TargetFilename matches "*\\inetpub\\wwwroot\\*" or TargetFilename matches "*\\Music\\*" or TargetFilename matches "*\\Pictures\\*" or TargetFilename matches "*\\Start Menu\\Programs\\Startup\\*" or TargetFilename matches "*\\Users\\Default\\*" or TargetFilename matches "*\\Videos\\*")))

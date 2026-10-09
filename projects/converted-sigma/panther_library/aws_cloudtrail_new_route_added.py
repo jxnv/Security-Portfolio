@@ -1,0 +1,19 @@
+# Title: New Network Route Added
+# ID: c803b2ce-c4a2-4836-beae-b112010390b1
+# Status: test
+# Level: medium
+# Author: jamesc-grafana
+# Date: 2024-07-11
+# Tags: attack.defense-impairment, attack.t1686.001
+# Description: Detects the addition of a new network route to a route table in AWS.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: New Network Route Added
+def rule(event):
+    # Detection Logic:
+    # (eventSource="ec2.amazonaws.com" AND eventName="CreateRoute")
+    return True
+
+def title(event):
+    return "New Network Route Added"
+

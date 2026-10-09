@@ -1,0 +1,11 @@
+// Title: Suspicious Program Names
+// ID: efdd8dd5-cee8-4e59-9390-7d4d5e4dd6f6
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-02-11
+// Tags: attack.execution, attack.t1059
+// Description: Detects suspicious patterns in program names or folders that are often found in malicious samples or hacktools
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE (((process.command_line LIKE "%inject.ps1%" OR process.command_line LIKE "%Invoke-CVE%" OR process.command_line LIKE "%pupy.ps1%" OR process.command_line LIKE "%payload.ps1%" OR process.command_line LIKE "%beacon.ps1%" OR process.command_line LIKE "%PowerView.ps1%" OR process.command_line LIKE "%bypass.ps1%" OR process.command_line LIKE "%obfuscated.ps1%" OR process.command_line LIKE "%obfusc.ps1%" OR process.command_line LIKE "%obfus.ps1%" OR process.command_line LIKE "%obfs.ps1%" OR process.command_line LIKE "%evil.ps1%" OR process.command_line LIKE "%MiniDogz.ps1%" OR process.command_line LIKE "%_enc.ps1%" OR process.command_line LIKE "%\\shell.ps1%" OR process.command_line LIKE "%\\rshell.ps1%" OR process.command_line LIKE "%revshell.ps1%" OR process.command_line LIKE "%\\av.ps1%" OR process.command_line LIKE "%\\av_test.ps1%" OR process.command_line LIKE "%adrecon.ps1%" OR process.command_line LIKE "%mimikatz.ps1%" OR process.command_line LIKE "%\\PowerUp_%" OR process.command_line LIKE "%powerup.ps1%" OR process.command_line LIKE "%\\Temp\\a.ps1%" OR process.command_line LIKE "%\\Temp\\p.ps1%" OR process.command_line LIKE "%\\Temp\\1.ps1%" OR process.command_line LIKE "%Hound.ps1%" OR process.command_line LIKE "%encode.ps1%" OR process.command_line LIKE "%powercat.ps1%")) OR (((process.executable LIKE "%\\CVE-202%" OR process.executable LIKE "%\\CVE202%")) OR ((process.executable LIKE "%\\poc.exe" OR process.executable LIKE "%\\artifact.exe" OR process.executable LIKE "%\\artifact64.exe" OR process.executable LIKE "%\\artifact_protected.exe" OR process.executable LIKE "%\\artifact32.exe" OR process.executable LIKE "%\\artifact32big.exe" OR process.executable LIKE "%obfuscated.exe" OR process.executable LIKE "%obfusc.exe" OR process.executable LIKE "%\\meterpreter"))))

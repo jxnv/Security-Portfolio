@@ -1,0 +1,11 @@
+// Title: 7Zip Compressing Dump Files
+// ID: ec570e53-4c76-45a9-804d-dc3f355ff7a7
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-09-27
+// Tags: attack.collection, attack.t1560.001
+// Description: Detects execution of 7z in order to compress a file with a ".dmp"/".dump" extension, which could be a step in a process of dump file exfiltration.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE (((process.command_line LIKE "%.dmp%" OR process.command_line LIKE "%.dump%" OR process.command_line LIKE "%.hdmp%")) AND ((Description LIKE "%7-Zip%") OR ((process.executable LIKE "%\\7z.exe" OR process.executable LIKE "%\\7zr.exe" OR process.executable LIKE "%\\7za.exe")) OR ((process.pe.original_file_name == "7z.exe" OR process.pe.original_file_name == "7za.exe" OR process.pe.original_file_name == "7zr.exe"))))

@@ -1,0 +1,59 @@
+{
+  "title": "Suspicious Child Process Of Manage Engine ServiceDesk",
+  "id": "cea2b7ea-792b-405f-95a1-b903ea06458f",
+  "status": "test",
+  "description": "Detects suspicious child processes of the \"Manage Engine ServiceDesk Plus\" Java web service",
+  "author": "Florian Roth (Nextron Systems)",
+  "date": "2023-01-18",
+  "tags": [
+    "attack.command-and-control",
+    "attack.t1102"
+  ],
+  "level": "high",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection": {
+      "ParentImage|contains|all": [
+        "\\ManageEngine\\ServiceDesk\\",
+        "\\java.exe"
+      ],
+      "Image|endswith": [
+        "\\AppVLP.exe",
+        "\\bash.exe",
+        "\\bitsadmin.exe",
+        "\\calc.exe",
+        "\\certutil.exe",
+        "\\cscript.exe",
+        "\\curl.exe",
+        "\\forfiles.exe",
+        "\\mftrace.exe",
+        "\\mshta.exe",
+        "\\net.exe",
+        "\\net1.exe",
+        "\\notepad.exe",
+        "\\powershell.exe",
+        "\\pwsh.exe",
+        "\\query.exe",
+        "\\reg.exe",
+        "\\schtasks.exe",
+        "\\scrcons.exe",
+        "\\sh.exe",
+        "\\systeminfo.exe",
+        "\\whoami.exe",
+        "\\wmic.exe",
+        "\\wscript.exe"
+      ]
+    },
+    "filter_main_net": {
+      "Image|endswith": [
+        "\\net.exe",
+        "\\net1.exe"
+      ],
+      "CommandLine|contains": " stop"
+    },
+    "condition": "selection and not 1 of filter_main_*"
+  }
+}

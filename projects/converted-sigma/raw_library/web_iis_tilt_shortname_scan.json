@@ -1,0 +1,31 @@
+{
+  "title": "Successful IIS Shortname Fuzzing Scan",
+  "id": "7cb02516-6d95-4ffc-8eee-162075e111ac",
+  "status": "test",
+  "description": "When IIS uses an old .Net Framework it's possible to enumerate folders with the symbol \"~\"",
+  "author": "frack113",
+  "date": "2021-10-06",
+  "tags": [
+    "attack.initial-access",
+    "attack.t1190"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "webserver"
+  },
+  "detection": {
+    "selection": {
+      "cs-uri-query|contains": "~1",
+      "cs-uri-query|endswith": "a.aspx",
+      "cs-method": [
+        "GET",
+        "OPTIONS"
+      ],
+      "sc-status": [
+        200,
+        301
+      ]
+    },
+    "condition": "selection"
+  }
+}

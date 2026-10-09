@@ -1,0 +1,11 @@
+// Title: ADSI-Cache File Creation By Uncommon Tool
+// ID: 75bf09fa-1dd7-4d18-9af9-dd9e492562eb
+// Status: test
+// Level: medium
+// Author: xknow @xknow_infosec, Tim Shelton
+// Date: 2019-03-24
+// Tags: attack.t1001.003, attack.command-and-control
+// Description: Detects the creation of an "Active Directory Schema Cache File" (.sch) file by an uncommon tool.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((TargetFileName = /*\\Local\\Microsoft\\Windows\\SchCache\\*/i and TargetFileName = /.*.sch/i) and not(((((ImageFileName = /.*:\\Program Files\\Cylance\\Desktop\\CylanceSvc.exe/i or ImageFileName = /.*:\\Windows\\CCM\\CcmExec.exe/i or ImageFileName = /.*:\\windows\\system32\\dllhost.exe/i or ImageFileName = /.*:\\Windows\\system32\\dsac.exe/i or ImageFileName = /.*:\\Windows\\system32\\efsui.exe/i or ImageFileName = /.*:\\windows\\system32\\mmc.exe/i or ImageFileName = /.*:\\windows\\system32\\svchost.exe/i or ImageFileName = /.*:\\Windows\\System32\\wbem\\WmiPrvSE.exe/i or ImageFileName = /.*:\\windows\\system32\\WindowsPowerShell\\v1.0\\powershell.exe/i)) or ((ImageFileName = /*:\\Windows\\ccmsetup\\autoupgrade\\ccmsetup*/i or ImageFileName = /*:\\Program Files\\SentinelOne\\Sentinel Agent*/i))) or ((ImageFileName = /*:\\Program Files\\*/i and ImageFileName = /*\\Microsoft Office*/i) and ImageFileName = /.*\\OUTLOOK.EXE/i))) and not(((ImageFileName = /.*:\\Program Files\\Citrix\\Receiver StoreFront\\Services\\DefaultDomainServices\\Citrix.DeliveryServices.DomainServices.ServiceHost.exe/i) or (ImageFileName = /.*\\LANDesk\\LDCLient\\ldapwhoami.exe/i))))

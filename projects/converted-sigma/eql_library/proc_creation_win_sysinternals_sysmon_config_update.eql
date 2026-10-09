@@ -1,0 +1,11 @@
+// Title: Sysmon Configuration Update
+// ID: 87911521-7098-470b-a459-9a57fc80bdfd
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-03-09
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects updates to Sysmon's configuration. Attackers might update or replace the Sysmon configuration with a bare bone one to avoid monitoring without shutting down the service completely
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where (((process.command_line like "*_-c*" or process.command_line like "*_/c*")) and (((process.executable endswith "\\Sysmon64.exe" or process.executable endswith "\\Sysmon64a.exe" or process.executable endswith "\\Sysmon.exe")) or (Description == "System activity monitor")))

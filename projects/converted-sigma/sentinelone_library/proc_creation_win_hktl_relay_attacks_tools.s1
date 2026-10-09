@@ -1,0 +1,11 @@
+// Title: Potential SMB Relay Attack Tool Execution
+// ID: 5589ab4f-a767-433c-961d-c91f3f704db1
+// Status: test
+// Level: critical
+// Author: Florian Roth (Nextron Systems)
+// Date: 2021-07-24
+// Tags: attack.collection, attack.execution, attack.credential-access, attack.t1557.001
+// Description: Detects different hacktools used for relay attacks on Windows for privilege escalation
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((src.process.cmdline containsCIS ".exe -c \"{" AND src.process.cmdline endswithCIS "}\" -z") OR ((src.process.image.path containsCIS "PetitPotam" OR src.process.image.path containsCIS "RottenPotato" OR src.process.image.path containsCIS "HotPotato" OR src.process.image.path containsCIS "JuicyPotato" OR src.process.image.path containsCIS "\\just_dce_" OR src.process.image.path containsCIS "Juicy Potato" OR src.process.image.path containsCIS "\\temp\\rot.exe" OR src.process.image.path containsCIS "\\Potato.exe" OR src.process.image.path containsCIS "\\SpoolSample.exe" OR src.process.image.path containsCIS "\\Responder.exe" OR src.process.image.path containsCIS "\\smbrelayx" OR src.process.image.path containsCIS "\\ntlmrelayx" OR src.process.image.path containsCIS "\\LocalPotato")) OR ((src.process.cmdline containsCIS "Invoke-Tater" OR src.process.cmdline containsCIS " smbrelay" OR src.process.cmdline containsCIS " ntlmrelay" OR src.process.cmdline containsCIS "cme smb " OR src.process.cmdline containsCIS " /ntlm:NTLMhash " OR src.process.cmdline containsCIS "Invoke-PetitPotam" OR src.process.cmdline containsCIS ".exe -t * -p "))) AND NOT (((src.process.image.path containsCIS "HotPotatoes6" OR src.process.image.path containsCIS "HotPotatoes7" OR src.process.image.path containsCIS "HotPotatoes "))))

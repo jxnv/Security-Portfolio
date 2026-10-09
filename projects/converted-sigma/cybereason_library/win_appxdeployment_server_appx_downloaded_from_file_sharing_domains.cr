@@ -1,0 +1,11 @@
+// Title: Remote AppX Package Downloaded from File Sharing or CDN Domain
+// ID: 8b48ad89-10d8-4382-a546-50588c410f0d
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-01-11
+// Tags: attack.stealth
+// Description: Detects an appx package that was added to the pipeline of the "to be processed" packages which was downloaded from a file sharing or CDN domain.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(EventID == "854" AND (Path contains ".githubusercontent.com" OR Path contains "0x0.st" OR Path contains "anonfiles.com" OR Path contains "bashupload.com" OR Path contains "cdn.discordapp.com" OR Path contains "chunk.io" OR Path contains "ddns.net" OR Path contains "dl.dropboxusercontent.com" OR Path contains "ghostbin.co" OR Path contains "github.com" OR Path contains "glitch.me" OR Path contains "gofile.io" OR Path contains "hastebin.com" OR Path contains "mediafire.com" OR Path contains "mega.nz" OR Path contains "onrender.com" OR Path contains "pages.dev" OR Path contains "paste.ee" OR Path contains "pastebin.com" OR Path contains "pastebin.pl" OR Path contains "pastetext.net" OR Path contains "privatlab.com" OR Path contains "privatlab.net" OR Path contains "send.exploit.in" OR Path contains "sendspace.com" OR Path contains "storage.googleapis.com" OR Path contains "storjshare.io" OR Path contains "supabase.co" OR Path contains "temp.sh" OR Path contains "transfer.sh" OR Path contains "trycloudflare.com" OR Path contains "ufile.io" OR Path contains "w3spaces.com" OR Path contains "workers.dev" OR Path contains "x0.at"))

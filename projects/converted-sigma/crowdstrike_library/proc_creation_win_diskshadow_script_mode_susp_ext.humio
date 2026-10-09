@@ -1,0 +1,12 @@
+// Title: Diskshadow Script Mode - Uncommon Script Extension Execution
+// ID: 1dde5376-a648-492e-9e54-4241dd9b0c7f
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-09-15
+// Tags: attack.stealth, attack.t1218
+// Description: Detects execution of "Diskshadow.exe" in script mode to execute an script with a potentially uncommon extension.
+// Initial baselining of the allowed extension list is required.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((CommandLine = /*-s */i or CommandLine = /*/s */i)) and ((OriginalFilename = "diskshadow.exe") or (ImageFileName = /.*\\diskshadow.exe/i))) and not((CommandLine = /*.txt*/i)))

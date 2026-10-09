@@ -1,0 +1,11 @@
+# Title: Suspicious PowerShell Invocations - Specific - PowerShell Module
+# ID: 8ff28fdd-e2fa-4dfa-aeda-ef3d61c62090
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems), Jonhnathan Ribeiro
+# Date: 2017-03-05
+# Tags: attack.execution, attack.t1059.001
+# Description: Detects suspicious PowerShell invocation command parameters
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((((ContextInfo CONTAIN "-nop" AND ContextInfo CONTAIN " -w " AND ContextInfo CONTAIN "hidden" AND ContextInfo CONTAIN " -c " AND ContextInfo CONTAIN "[Convert]::FromBase64String")) OR ((ContextInfo CONTAIN " -w " AND ContextInfo CONTAIN "hidden" AND ContextInfo CONTAIN "-ep" AND ContextInfo CONTAIN "bypass" AND ContextInfo CONTAIN "-Enc")) OR ((ContextInfo CONTAIN " -w " AND ContextInfo CONTAIN "hidden" AND ContextInfo CONTAIN "-noni" AND ContextInfo CONTAIN "-nop" AND ContextInfo CONTAIN " -c " AND ContextInfo CONTAIN "iex" AND ContextInfo CONTAIN "New-Object")) OR ((ContextInfo CONTAIN "iex" AND ContextInfo CONTAIN "New-Object" AND ContextInfo CONTAIN "Net.WebClient" AND ContextInfo CONTAIN ".Download")) OR ((ContextInfo CONTAIN "powershell" AND ContextInfo CONTAIN "reg" AND ContextInfo CONTAIN "add") AND (ContextInfo CONTAIN "\\software\\microsoft\\windows\\currentversion\\run" OR ContextInfo CONTAIN "\\software\\wow6432node\\microsoft\\windows\\currentversion\\run" OR ContextInfo CONTAIN "\\software\\microsoft\\windows\\currentversion\\policies\\explorer\\run")) OR ((ContextInfo CONTAIN "bypass" AND ContextInfo CONTAIN "-noprofile" AND ContextInfo CONTAIN "-windowstyle" AND ContextInfo CONTAIN "hidden" AND ContextInfo CONTAIN "new-object" AND ContextInfo CONTAIN "system.net.webclient" AND ContextInfo CONTAIN ".download"))) AND NOT (((ContextInfo CONTAIN "(New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1" OR ContextInfo CONTAIN "Write-ChocolateyWarning"))))

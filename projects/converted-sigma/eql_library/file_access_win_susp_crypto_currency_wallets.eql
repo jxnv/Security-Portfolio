@@ -1,0 +1,12 @@
+// Title: Access To Crypto Currency Wallets By Uncommon Applications
+// ID: f41b0311-44f9-44f0-816d-dd45e39d4bc8
+// Status: test
+// Level: medium
+// Author: X__Junior (Nextron Systems)
+// Date: 2024-07-29
+// Tags: attack.t1003, attack.credential-access
+// Description: Detects file access requests to crypto currency files by uncommon processes.
+// Could indicate potential attempt of crypto currency wallet stealing.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+file where ((((FileName like "*_\\AppData\\Roaming\\Ethereum\\keystore\\*" or FileName like "*_\\AppData\\Roaming\\EthereumClassic\\keystore\\*" or FileName like "*_\\AppData\\Roaming\\monero\\wallets\\*")) or ((FileName endswith "\\AppData\\Roaming\\Bitcoin\\wallet.dat" or FileName endswith "\\AppData\\Roaming\\BitcoinABC\\wallet.dat" or FileName endswith "\\AppData\\Roaming\\BitcoinSV\\wallet.dat" or FileName endswith "\\AppData\\Roaming\\DashCore\\wallet.dat" or FileName endswith "\\AppData\\Roaming\\DogeCoin\\wallet.dat" or FileName endswith "\\AppData\\Roaming\\Litecoin\\wallet.dat" or FileName endswith "\\AppData\\Roaming\\Ripple\\wallet.dat" or FileName endswith "\\AppData\\Roaming\\Zcash\\wallet.dat"))) and not ((((process.executable startswith "C:\\Program Files (x86)\\" or process.executable startswith "C:\\Program Files\\" or process.executable startswith "C:\\Windows\\system32\\" or process.executable startswith "C:\\Windows\\SysWOW64\\")) or (process.executable == "System"))) and not ((process.executable startswith "C:\\ProgramData\\Microsoft\\Windows Defender\\" and (process.executable endswith "\\MpCopyAccelerator.exe" or process.executable endswith "\\MsMpEng.exe"))))

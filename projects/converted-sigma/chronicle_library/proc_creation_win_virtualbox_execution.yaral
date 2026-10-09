@@ -1,0 +1,23 @@
+// Title: Virtualbox Driver Installation or Starting of VMs
+// ID: bab049ca-7471-4828-9024-38279a4c04da
+// Status: test
+// Level: low
+// Author: Janantha Marasinghe
+// Date: 2020-09-26
+// Tags: attack.stealth, attack.t1564.006, attack.t1564
+// Description: Adversaries can carry out malicious operations using a virtual instance to avoid detection. This rule is built to detect the registration of the Virtualbox driver or start of a Virtualbox VM.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule bab049ca_7471_4828_9024_38279a4c04da {
+  meta:
+    title = "Virtualbox Driver Installation or Starting of VMs"
+    description = "Adversaries can carry out malicious operations using a virtual instance to avoid detection. This rule is built to detect the registration of the Virtualbox driver or start of a Virtualbox VM."
+    author = "Janantha Marasinghe"
+    severity = "LOW"
+
+  events:
+    ((($e.target.process.command_line = /.*VBoxRT.dll,RTR3Init.*/ nocase or $e.target.process.command_line = /.*VBoxC.dll.*/ nocase or $e.target.process.command_line = /.*VBoxDrv.sys.*/ nocase)) or (($e.target.process.command_line = /.*startvm.*/ nocase or $e.target.process.command_line = /.*controlvm.*/ nocase)))
+
+  condition:
+    $e
+}

@@ -1,0 +1,23 @@
+// Title: File Deleted Via Sysinternals SDelete
+// ID: 6ddab845-b1b8-49c2-bbf7-1a11967f64bc
+// Status: test
+// Level: medium
+// Author: Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research)
+// Date: 2020-05-02
+// Tags: attack.stealth, attack.t1070.004
+// Description: Detects the deletion of files by the Sysinternals SDelete utility. It looks for the common name pattern used to rename files.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 6ddab845_b1b8_49c2_bbf7_1a11967f64bc {
+  meta:
+    title = "File Deleted Via Sysinternals SDelete"
+    description = "Detects the deletion of files by the Sysinternals SDelete utility. It looks for the common name pattern used to rename files."
+    author = "Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.file.full_path = /.*.AAA$/ nocase or $e.target.file.full_path = /.*.ZZZ$/ nocase)) and not(($e.target.file.full_path = /.*\\Wireshark\\radius\\dictionary.alcatel-lucent.aaa$/ nocase)))
+
+  condition:
+    $e
+}

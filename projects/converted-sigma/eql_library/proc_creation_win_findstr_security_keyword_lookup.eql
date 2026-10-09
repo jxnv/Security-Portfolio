@@ -1,0 +1,12 @@
+// Title: Security Tools Keyword Lookup Via Findstr.EXE
+// ID: 4fe074b4-b833-4081-8f24-7dcfeca72b42
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems), frack113
+// Date: 2023-10-20
+// Tags: attack.discovery, attack.t1518.001
+// Description: Detects execution of "findstr" to search for common names of security tools. Attackers often pipe the results of recon commands such as "tasklist" or "whoami" to "findstr" in order to filter out the results.
+// This detection focuses on the keywords that the attacker might use as a filter.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where (((process.command_line endswith " avira" or process.command_line endswith " avira\"" or process.command_line endswith " cb" or process.command_line endswith " cb\"" or process.command_line endswith " cylance" or process.command_line endswith " cylance\"" or process.command_line endswith " defender" or process.command_line endswith " defender\"" or process.command_line endswith " kaspersky" or process.command_line endswith " kaspersky\"" or process.command_line endswith " kes" or process.command_line endswith " kes\"" or process.command_line endswith " mc" or process.command_line endswith " mc\"" or process.command_line endswith " sec" or process.command_line endswith " sec\"" or process.command_line endswith " sentinel" or process.command_line endswith " sentinel\"" or process.command_line endswith " symantec" or process.command_line endswith " symantec\"" or process.command_line endswith " virus" or process.command_line endswith " virus\"")) and (((process.executable endswith "\\find.exe" or process.executable endswith "\\findstr.exe")) or ((process.pe.original_file_name == "FIND.EXE" or process.pe.original_file_name == "FINDSTR.EXE"))))

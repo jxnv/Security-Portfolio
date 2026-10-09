@@ -1,0 +1,11 @@
+// Title: Forfiles.EXE Child Process Masquerading
+// ID: f53714ec-5077-420e-ad20-907ff9bb2958
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems), Anish Bogati
+// Date: 2024-01-05
+// Tags: attack.stealth, attack.t1036
+// Description: Detects the execution of "forfiles" from a non-default location, in order to potentially spawn a custom "cmd.exe" from the current working directory.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where (((process.parent.command_line="*.exe" OR process.parent.command_line="*.exe\"") AND process.executable="*\\cmd.exe" AND process.command_line="/c echo \"*") AND NOT (((process.parent.executable like "%:\\Windows\\System32\\%" OR process.parent.executable like "%:\\Windows\\SysWOW64\\%") AND process.parent.executable="*\\forfiles.exe" AND (process.executable like "%:\\Windows\\System32\\%" OR process.executable like "%:\\Windows\\SysWOW64\\%") AND process.executable="*\\cmd.exe")))

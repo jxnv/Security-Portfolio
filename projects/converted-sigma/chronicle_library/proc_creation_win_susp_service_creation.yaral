@@ -1,0 +1,23 @@
+// Title: Suspicious New Service Creation
+// ID: 17a1be64-8d88-40bf-b5ff-a4f7a50ebcc8
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-07-14
+// Tags: attack.persistence, attack.privilege-escalation, attack.t1543.003
+// Description: Detects creation of a new service via "sc" command or the powershell "new-service" cmdlet with suspicious binary paths
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 17a1be64_8d88_40bf_b5ff_a4f7a50ebcc8 {
+  meta:
+    title = "Suspicious New Service Creation"
+    description = "Detects creation of a new service via "sc" command or the powershell "new-service" cmdlet with suspicious binary paths"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (((($e.target.process.command_line = /.*New-Service.*/ nocase and $e.target.process.command_line = /.*-BinaryPathName.*/ nocase)) or ($e.target.process.file.full_path = /.*\\sc.exe$/ nocase and ($e.target.process.command_line = /.*create.*/ nocase and $e.target.process.command_line = /.*binPath=.*/ nocase))) and (($e.target.process.command_line = /.*powershell.*/ nocase or $e.target.process.command_line = /.*mshta.*/ nocase or $e.target.process.command_line = /.*wscript.*/ nocase or $e.target.process.command_line = /.*cscript.*/ nocase or $e.target.process.command_line = /.*svchost.*/ nocase or $e.target.process.command_line = /.*dllhost.*/ nocase or $e.target.process.command_line = /.*cmd .*/ nocase or $e.target.process.command_line = /.*cmd.exe /c.*/ nocase or $e.target.process.command_line = /.*cmd.exe /k.*/ nocase or $e.target.process.command_line = /.*cmd.exe /r.*/ nocase or $e.target.process.command_line = /.*rundll32.*/ nocase or $e.target.process.command_line = /.*C:\\Users\\Public.*/ nocase or $e.target.process.command_line = /.*\\Downloads\\.*/ nocase or $e.target.process.command_line = /.*\\Desktop\\.*/ nocase or $e.target.process.command_line = /.*\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\.*/ nocase or $e.target.process.command_line = /.*C:\\Windows\\TEMP\\.*/ nocase or $e.target.process.command_line = /.*\\AppData\\Local\\Temp.*/ nocase)))
+
+  condition:
+    $e
+}

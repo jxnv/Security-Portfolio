@@ -1,0 +1,19 @@
+# Title: Remote Access Tool - AnyDesk Incoming Connection
+# ID: d58ba5c6-0ed7-4b9d-a433-6878379efda9
+# Status: experimental
+# Level: medium
+# Author: @d4ns4n_ (Wuerth-Phoenix)
+# Date: 2024-09-02
+# Tags: attack.persistence, attack.command-and-control, attack.t1219.002
+# Description: Detects incoming connections to AnyDesk. This could indicate a potential remote attacker trying to connect to a listening instance of AnyDesk and use it as potential command and control channel.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Remote Access Tool - AnyDesk Incoming Connection
+def rule(event):
+    # Detection Logic:
+    # ((Image="*\\AnyDesk.exe" OR Image="*\\AnyDeskMSI.exe") AND Initiated="false")
+    return True
+
+def title(event):
+    return "Remote Access Tool - AnyDesk Incoming Connection"
+

@@ -1,0 +1,25 @@
+// Title: Windows Defender Disabled Via SystemSettingsAdminFlows.EXE
+// ID: da92713f-ca2d-4fab-8320-098013d3f43a
+// Status: experimental
+// Level: high
+// Author: Chirag Damani (KPMG India), Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2026-07-01
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects the usage of SystemSettingsAdminFlows.exe to disable Windows Defender.
+// SystemSettingsAdminFlows.exe is a legitimate Windows component used for administrative configuration tasks.
+// However, attackers may abuse it to disable Windows Defender as part of their attack chain, especially in the context of ransomware or other malware campaigns.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule da92713f_ca2d_4fab_8320_098013d3f43a {
+  meta:
+    title = "Windows Defender Disabled Via SystemSettingsAdminFlows.EXE"
+    description = "Detects the usage of SystemSettingsAdminFlows.exe to disable Windows Defender. SystemSettingsAdminFlows.exe is a legitimate Windows component used for administrative configuration tasks. However, attackers may abuse it to disable Windows Defender as part of their attack chain, especially in the context of ransomware or other malware campaigns."
+    author = "Chirag Damani (KPMG India), Swachchhanda Shrawan Poudel (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*defender.*/ nocase) and (($e.target.process.file.full_path = /.*\\SystemSettingsAdminFlows.exe$/ nocase) or ($e.target.process.file.name = "SystemSettingsAdminFlows.EXE"))) and (((($e.target.process.command_line = /.*RTP .*/ nocase or $e.target.process.command_line = /.*RealTimeProtection .*/ nocase or $e.target.process.command_line = /.*DisableEnhancedNotifications .*/ nocase)) and ($e.target.process.command_line = /.*1.*/ nocase)) or ((($e.target.process.command_line = /.*SubmitSamplesConsent .*/ nocase or $e.target.process.command_line = /.*SpyNetReporting .*/ nocase or $e.target.process.command_line = /.*DisableCDPUserAuthPolicy .*/ nocase)) and ($e.target.process.command_line = /.*0.*/ nocase))))
+
+  condition:
+    $e
+}

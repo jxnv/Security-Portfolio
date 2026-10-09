@@ -1,0 +1,23 @@
+// Title: New User Created Via Net.EXE With Never Expire Option
+// ID: b9f0e6f5-09b4-4358-bae4-08408705bd5c
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-07-12
+// Tags: attack.persistence, attack.t1136.001
+// Description: Detects creation of local users via the net.exe command with the option "never expire"
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule b9f0e6f5_09b4_4358_bae4_08408705bd5c {
+  meta:
+    title = "New User Created Via Net.EXE With Never Expire Option"
+    description = "Detects creation of local users via the net.exe command with the option "never expire""
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*user.*/ nocase and $e.target.process.command_line = /.*add.*/ nocase and $e.target.process.command_line = /.*expires:never.*/ nocase)) and ((($e.target.process.file.full_path = /.*\\net.exe$/ nocase or $e.target.process.file.full_path = /.*\\net1.exe$/ nocase)) or (($e.target.process.file.name = "net.exe" or $e.target.process.file.name = "net1.exe"))))
+
+  condition:
+    $e
+}

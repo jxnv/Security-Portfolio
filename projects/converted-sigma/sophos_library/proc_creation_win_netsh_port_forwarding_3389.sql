@@ -1,0 +1,11 @@
+-- Title: RDP Port Forwarding Rule Added Via Netsh.EXE
+-- ID: 782d6f3e-4c5d-4b8c-92a3-1d05fed72e63
+-- Status: test
+-- Level: high
+-- Author: Florian Roth (Nextron Systems), oscd.community
+-- Date: 2019-01-29
+-- Tags: attack.lateral-movement, attack.command-and-control, attack.t1090
+-- Description: Detects the execution of netsh to configure a port forwarding of port 3389 (RDP) rule
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE (((CommandLine ILIKE '% i%' AND CommandLine ILIKE '% p%' AND CommandLine ILIKE '%=3389%' AND CommandLine ILIKE '% c%')) AND ((Image ILIKE '%\\netsh.exe') OR (OriginalFileName = 'netsh.exe')))

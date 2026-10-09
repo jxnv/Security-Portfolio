@@ -1,0 +1,22 @@
+# Title: Rundll32 Internet Connection
+# ID: cdc8da7d-c303-42f8-b08c-b4ab47230263
+# Status: test
+# Level: medium
+# Author: Florian Roth (Nextron Systems)
+# Date: 2017-11-04
+# Tags: attack.stealth, attack.t1218.011, attack.execution
+# Description: Detects a rundll32 that communicates with public IP addresses
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# LimaCharlie Detection & Response Rule
+# Name: Rundll32 Internet Connection
+detect:
+  event: network_connection
+  op: and
+  rules:
+    # Filter logic:
+    # ((Image="*\\rundll32.exe" AND Initiated="true") AND NOT (((CommandLine="*\\system32\\PcaSvc.dll,PcaPatchSdbTask") OR (SourceHostname="*.internal.cloudapp.net") OR ((cidrmatch("127.0.0.0/8", DestinationIp) OR cidrmatch("10.0.0.0/8", DestinationIp) OR cidrmatch("172.16.0.0/12", DestinationIp) OR cidrmatch("192.168.0.0/16", DestinationIp) OR cidrmatch("169.254.0.0/16", DestinationIp) OR cidrmatch("::1/128", DestinationIp) OR cidrmatch("fe80::/10", DestinationIp) OR cidrmatch("fc00::/7", DestinationIp))) OR ((cidrmatch("20.0.0.0/8", DestinationIp) OR cidrmatch("51.103.0.0/16", DestinationIp) OR cidrmatch("51.104.0.0/16", DestinationIp) OR cidrmatch("51.105.0.0/16", DestinationIp))) OR (ParentImage="C:\\Windows\\System32\\svchost.exe" AND DestinationPort="443"))))
+respond:
+  - action: report
+    name: Rundll32 Internet Connection
+

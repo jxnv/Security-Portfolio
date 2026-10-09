@@ -1,0 +1,11 @@
+// Title: Unsigned Module Loaded by ClickOnce Application
+// ID: 060d5ad4-3153-47bb-8382-43e5e29eda92
+// Status: test
+// Level: medium
+// Author: @SerkinValery
+// Date: 2023-06-08
+// Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.stealth, attack.t1574.001
+// Description: Detects unsigned module load by ClickOnce application.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((Image: "*\\AppData\\Local\\Apps\\2.0\\*") AND ((Signed: "false") OR (SignatureStatus: "Expired")))

@@ -1,0 +1,19 @@
+# Title: Harvesting Of Wifi Credentials Via Netsh.EXE
+# ID: 42b1a5b8-353f-4f10-b256-39de4467faff
+# Status: test
+# Level: medium
+# Author: Andreas Hunkeler (@Karneades), oscd.community
+# Date: 2020-04-20
+# Tags: attack.discovery, attack.credential-access, attack.t1040
+# Description: Detect the harvesting of wifi credentials using netsh.exe
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Harvesting Of Wifi Credentials Via Netsh.EXE
+def rule(event):
+    # Detection Logic:
+    # (((CommandLine="*wlan*" AND CommandLine="* s*" AND CommandLine="* p*" AND CommandLine="* k*" AND CommandLine="*=clear*")) AND ((Image="*\\netsh.exe") OR (OriginalFileName="netsh.exe")))
+    return True
+
+def title(event):
+    return "Harvesting Of Wifi Credentials Via Netsh.EXE"
+

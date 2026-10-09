@@ -1,0 +1,11 @@
+// Title: Potentially Suspicious Electron Application CommandLine
+// ID: 378a05d8-963c-46c9-bcce-13c7657eac99
+// Status: test
+// Level: medium
+// Author: frack113, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-09-05
+// Tags: attack.execution
+// Description: Detects potentially suspicious CommandLine of electron apps (teams, discord, slack, etc.). This could be a sign of abuse to proxy execution through a signed binary.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(CommandLine ICONTAINS "--browser-subprocess-path") OR where(CommandLine ICONTAINS "--gpu-launcher") OR where(CommandLine ICONTAINS "--renderer-cmd-prefix") OR where(CommandLine ICONTAINS "--utility-cmd-prefix"))) AND (((where(Image IENDSWITH "\\chrome.exe") OR where(Image IENDSWITH "\\code.exe") OR where(Image IENDSWITH "\\discord.exe") OR where(Image IENDSWITH "\\GitHubDesktop.exe") OR where(Image IENDSWITH "\\keybase.exe") OR where(Image IENDSWITH "\\msedge_proxy.exe") OR where(Image IENDSWITH "\\msedge.exe") OR where(Image IENDSWITH "\\msedgewebview2.exe") OR where(Image IENDSWITH "\\msteams.exe") OR where(Image IENDSWITH "\\slack.exe") OR where(Image IENDSWITH "\\Teams.exe"))) OR ((where(OriginalFileName = "chrome.exe") OR where(OriginalFileName = "code.exe") OR where(OriginalFileName = "discord.exe") OR where(OriginalFileName = "GitHubDesktop.exe") OR where(OriginalFileName = "keybase.exe") OR where(OriginalFileName = "msedge_proxy.exe") OR where(OriginalFileName = "msedge.exe") OR where(OriginalFileName = "msedgewebview2.exe") OR where(OriginalFileName = "msteams.exe") OR where(OriginalFileName = "slack.exe") OR where(OriginalFileName = "Teams.exe")))))

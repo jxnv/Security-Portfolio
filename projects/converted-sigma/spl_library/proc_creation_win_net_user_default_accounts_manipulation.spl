@@ -1,0 +1,11 @@
+# Title: Suspicious Manipulation Of Default Accounts Via Net.EXE
+# ID: 5b768e71-86f2-4879-b448-81061cbae951
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-09-01
+# Tags: attack.collection, attack.t1560.001
+# Description: Detects suspicious manipulations of default accounts such as 'administrator' and 'guest'. For example 'enable' or 'disable' accounts or change the password...etc
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog (((((process_path="*\\net.exe" OR process_path="*\\net1.exe")) OR ((process_name="net.exe" OR process_name="net1.exe"))) AND (process_exec="* user *") AND ((process_exec="* Järjestelmänvalvoja *" OR process_exec="* Rendszergazda *" OR process_exec="* Администратор *" OR process_exec="* Administrateur *" OR process_exec="* Administrador *" OR process_exec="* Administratör *" OR process_exec="* Administrator *" OR process_exec="* guest *" OR process_exec="* DefaultAccount *" OR process_exec="* \"Järjestelmänvalvoja\" *" OR process_exec="* \"Rendszergazda\" *" OR process_exec="* \"Администратор\" *" OR process_exec="* \"Administrateur\" *" OR process_exec="* \"Administrador\" *" OR process_exec="* \"Administratör\" *" OR process_exec="* \"Administrator\" *" OR process_exec="* \"guest\" *" OR process_exec="* \"DefaultAccount\" *" OR process_exec="* 'Järjestelmänvalvoja' *" OR process_exec="* 'Rendszergazda' *" OR process_exec="* 'Администратор' *" OR process_exec="* 'Administrateur' *" OR process_exec="* 'Administrador' *" OR process_exec="* 'Administratör' *" OR process_exec="* 'Administrator' *" OR process_exec="* 'guest' *" OR process_exec="* 'DefaultAccount' *"))) AND NOT (((process_exec="*guest*" AND process_exec="*/active no*"))))

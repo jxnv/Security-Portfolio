@@ -1,0 +1,19 @@
+# Title: DNS Query To MEGA Hosting Website - DNS Client
+# ID: 66474410-b883-415f-9f8d-75345a0a66a6
+# Status: test
+# Level: medium
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2023-01-16
+# Tags: attack.exfiltration, attack.t1567.002
+# Description: Detects DNS queries for subdomains related to MEGA sharing website
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: DNS Query To MEGA Hosting Website - DNS Client
+def rule(event):
+    # Detection Logic:
+    # (EventID="3008" AND QueryName="*userstorage.mega.co.nz*")
+    return True
+
+def title(event):
+    return "DNS Query To MEGA Hosting Website - DNS Client"
+

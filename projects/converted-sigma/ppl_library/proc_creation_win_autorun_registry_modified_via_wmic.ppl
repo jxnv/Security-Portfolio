@@ -1,0 +1,11 @@
+// Title: Suspicious Autorun Registry Modified via WMI
+// ID: c80e66d8-1780-48a9-b412-46663fd21ac0
+// Status: experimental
+// Level: high
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-02-17
+// Tags: attack.privilege-escalation, attack.execution, attack.persistence, attack.t1547.001, attack.t1047
+// Description: Detects suspicious activity where the WMIC process is used to create an autorun registry entry via reg.exe, which is often indicative of persistence mechanisms employed by malware.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where ((((process.command_line like "%reg%" AND process.command_line like "% add %") AND (process.command_line like "%\\Software\\Microsoft\\Windows\\CurrentVersion\\Run%" OR process.command_line like "%\\Software\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Run%" OR process.command_line like "%\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run%")) AND ((process.executable="*\\wmic.exe") OR (process.pe.original_file_name = "wmic.exe") OR (process.parent.executable="*\\wmiprvse.exe"))) AND (((process.command_line like "%:\\Perflogs%" OR process.command_line like "%:\\ProgramData'%" OR process.command_line like "%:\\Windows\\Temp%" OR process.command_line like "%:\\Temp%" OR process.command_line like "%\\AppData\\Local\\Temp%" OR process.command_line like "%\\AppData\\Roaming%" OR process.command_line like "%:\\$Recycle.bin%" OR process.command_line like "%:\\Users\\Default%" OR process.command_line like "%:\\Users\\public%" OR process.command_line like "%%temp%%" OR process.command_line like "%%tmp%%" OR process.command_line like "%%Public%%" OR process.command_line like "%%AppData%%")) OR ((process.command_line like "%:\\Users\\%") AND ((process.command_line like "%\\Favorites%" OR process.command_line like "%\\Favourites%" OR process.command_line like "%\\Contacts%" OR process.command_line like "%\\Music%" OR process.command_line like "%\\Pictures%" OR process.command_line like "%\\Documents%" OR process.command_line like "%\\Photos%")))))

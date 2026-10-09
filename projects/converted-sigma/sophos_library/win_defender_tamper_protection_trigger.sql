@@ -1,0 +1,11 @@
+-- Title: Microsoft Defender Tamper Protection Trigger
+-- ID: 49e5bc24-8b86-49f1-b743-535f332c2856
+-- Status: stable
+-- Level: high
+-- Author: Bhabesh Raj, Nasreddine Bencherchali
+-- Date: 2021-07-05
+-- Tags: attack.defense-impairment, attack.t1685
+-- Description: Detects blocked attempts to change any of Defender's settings such as "Real Time Monitoring" and "Behavior Monitoring"
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE (EventID = 5013 AND (Value ILIKE '%\\Windows Defender\\DisableAntiSpyware' OR Value ILIKE '%\\Windows Defender\\DisableAntiVirus' OR Value ILIKE '%\\Windows Defender\\Scan\\DisableArchiveScanning' OR Value ILIKE '%\\Windows Defender\\Scan\\DisableScanningNetworkFiles' OR Value ILIKE '%\\Real-Time Protection\\DisableRealtimeMonitoring' OR Value ILIKE '%\\Real-Time Protection\\DisableBehaviorMonitoring' OR Value ILIKE '%\\Real-Time Protection\\DisableIOAVProtection' OR Value ILIKE '%\\Real-Time Protection\\DisableScriptScanning'))

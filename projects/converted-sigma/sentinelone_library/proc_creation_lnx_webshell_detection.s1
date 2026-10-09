@@ -1,0 +1,11 @@
+// Title: Linux Webshell Indicators
+// ID: 818f7b24-0fba-4c49-a073-8b755573b9c7
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2021-10-15
+// Tags: attack.persistence, attack.t1505.003
+// Description: Detects suspicious sub processes of web server processes
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((src.process.parent.image.path endswithCIS "/httpd" OR src.process.parent.image.path endswithCIS "/lighttpd" OR src.process.parent.image.path endswithCIS "/nginx" OR src.process.parent.image.path endswithCIS "/apache2" OR src.process.parent.image.path endswithCIS "/node" OR src.process.parent.image.path endswithCIS "/caddy")) OR ((src.process.parent.cmdline containsCIS "/bin/java" AND src.process.parent.cmdline containsCIS "tomcat")) OR ((src.process.parent.cmdline containsCIS "/bin/java" AND src.process.parent.cmdline containsCIS "websphere"))) AND ((src.process.image.path endswithCIS "/whoami" OR src.process.image.path endswithCIS "/ifconfig" OR src.process.image.path endswithCIS "/ip" OR src.process.image.path endswithCIS "/bin/uname" OR src.process.image.path endswithCIS "/bin/cat" OR src.process.image.path endswithCIS "/bin/crontab" OR src.process.image.path endswithCIS "/hostname" OR src.process.image.path endswithCIS "/iptables" OR src.process.image.path endswithCIS "/netstat" OR src.process.image.path endswithCIS "/pwd" OR src.process.image.path endswithCIS "/route")) AND NOT ((src.process.parent.image.path endswithCIS "/node" AND src.process.cmdline containsCIS "ip neigh show")))

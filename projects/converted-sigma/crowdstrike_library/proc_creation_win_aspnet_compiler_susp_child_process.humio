@@ -1,0 +1,11 @@
+// Title: Suspicious Child Process of AspNetCompiler
+// ID: 9ccba514-7cb6-4c5c-b377-700758f2f120
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-08-14
+// Tags: attack.execution, attack.stealth, attack.t1127
+// Description: Detects potentially suspicious child processes of "aspnet_compiler.exe".
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((ImageFileName = /.*\\calc.exe/i or ImageFileName = /.*\\notepad.exe/i)) or ((ImageFileName = /*\\Users\\Public\\*/i or ImageFileName = /*\\AppData\\Local\\Temp\\*/i or ImageFileName = /*\\AppData\\Local\\Roaming\\*/i or ImageFileName = /*:\\Temp\\*/i or ImageFileName = /*:\\Windows\\Temp\\*/i or ImageFileName = /*:\\Windows\\System32\\Tasks\\*/i or ImageFileName = /*:\\Windows\\Tasks\\*/i))) and (ParentBaseFileName = /.*\\aspnet_compiler.exe/i))

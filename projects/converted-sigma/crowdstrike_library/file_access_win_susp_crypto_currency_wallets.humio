@@ -1,0 +1,12 @@
+// Title: Access To Crypto Currency Wallets By Uncommon Applications
+// ID: f41b0311-44f9-44f0-816d-dd45e39d4bc8
+// Status: test
+// Level: medium
+// Author: X__Junior (Nextron Systems)
+// Date: 2024-07-29
+// Tags: attack.t1003, attack.credential-access
+// Description: Detects file access requests to crypto currency files by uncommon processes.
+// Could indicate potential attempt of crypto currency wallet stealing.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((FileName = /*\\AppData\\Roaming\\Ethereum\\keystore\\*/i or FileName = /*\\AppData\\Roaming\\EthereumClassic\\keystore\\*/i or FileName = /*\\AppData\\Roaming\\monero\\wallets\\*/i)) or ((FileName = /.*\\AppData\\Roaming\\Bitcoin\\wallet.dat/i or FileName = /.*\\AppData\\Roaming\\BitcoinABC\\wallet.dat/i or FileName = /.*\\AppData\\Roaming\\BitcoinSV\\wallet.dat/i or FileName = /.*\\AppData\\Roaming\\DashCore\\wallet.dat/i or FileName = /.*\\AppData\\Roaming\\DogeCoin\\wallet.dat/i or FileName = /.*\\AppData\\Roaming\\Litecoin\\wallet.dat/i or FileName = /.*\\AppData\\Roaming\\Ripple\\wallet.dat/i or FileName = /.*\\AppData\\Roaming\\Zcash\\wallet.dat/i))) and not((((ImageFileName = /C:\\Program Files (x86)\\.*/i or ImageFileName = /C:\\Program Files\\.*/i or ImageFileName = /C:\\Windows\\system32\\.*/i or ImageFileName = /C:\\Windows\\SysWOW64\\.*/i)) or (ImageFileName = "System"))) and not((ImageFileName = /C:\\ProgramData\\Microsoft\\Windows Defender\\.*/i and (ImageFileName = /.*\\MpCopyAccelerator.exe/i or ImageFileName = /.*\\MsMpEng.exe/i))))

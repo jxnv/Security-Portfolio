@@ -1,0 +1,25 @@
+// Title: EVTX Created In Uncommon Location
+// ID: 65236ec7-ace0-4f0c-82fd-737b04fd4dcb
+// Status: test
+// Level: medium
+// Author: D3F7A5105
+// Date: 2023-01-02
+// Tags: attack.defense-impairment, attack.t1685.001
+// Description: Detects the creation of new files with the ".evtx" extension in non-common or non-standard location.
+// This could indicate tampering with default EVTX locations in order to evade security controls or simply exfiltration of event log to search for sensitive information within.
+// Note that backup software and legitimate administrator might perform similar actions during troubleshooting.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 65236ec7_ace0_4f0c_82fd_737b04fd4dcb {
+  meta:
+    title = "EVTX Created In Uncommon Location"
+    description = "Detects the creation of new files with the ".evtx" extension in non-common or non-standard location. This could indicate tampering with default EVTX locations in order to evade security controls or simply exfiltration of event log to search for sensitive information within. Note that backup software and legitimate administrator might perform similar actions during troubleshooting."
+    author = "D3F7A5105"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.file.full_path = /.*.evtx$/ nocase) and not((($e.target.file.full_path = /^C:\\ProgramData\\Microsoft\\Windows\\Containers\\BaseImages\\.*/ nocase and $e.target.file.full_path = /.*\\Windows\\System32\\winevt\\Logs\\$/ nocase) or ($e.target.file.full_path = /^C:\\Windows\\System32\\winevt\\Logs\\.*/ nocase))))
+
+  condition:
+    $e
+}

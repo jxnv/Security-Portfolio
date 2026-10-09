@@ -1,0 +1,11 @@
+# Title: Execute Code with Pester.bat
+# ID: 59e938ff-0d6d-4dc3-b13f-36cc28734d4e
+# Status: test
+# Level: medium
+# Author: Julia Fomina, oscd.community
+# Date: 2020-10-08
+# Tags: attack.execution, attack.stealth, attack.t1059.001, attack.t1216
+# Description: Detects code execution via Pester.bat (Pester - Powershell Modulte for testing)
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog (((process_path="*\\powershell.exe" OR process_path="*\\pwsh.exe") AND (process_exec="*Pester*" AND process_exec="*Get-Help*")) OR ((process_path="*\\cmd.exe" AND (process_exec="*pester*" AND process_exec="*;*")) AND ((process_exec="*help*" OR process_exec="*\\?*"))))

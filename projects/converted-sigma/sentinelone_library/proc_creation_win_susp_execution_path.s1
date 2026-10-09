@@ -1,0 +1,11 @@
+// Title: Process Execution From A Potentially Suspicious Folder
+// ID: 3dfd06d2-eaf4-4532-9555-68aca59f57c4
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Tim Shelton
+// Date: 2019-01-16
+// Tags: attack.stealth, attack.t1036
+// Description: Detects a potentially suspicious execution from an uncommon folder.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((src.process.image.path containsCIS ":\\Perflogs\\" OR src.process.image.path containsCIS ":\\Users\\All Users\\" OR src.process.image.path containsCIS ":\\Users\\Default\\" OR src.process.image.path containsCIS ":\\Users\\NetworkService\\" OR src.process.image.path containsCIS ":\\Windows\\addins\\" OR src.process.image.path containsCIS ":\\Windows\\debug\\" OR src.process.image.path containsCIS ":\\Windows\\Fonts\\" OR src.process.image.path containsCIS ":\\Windows\\Help\\" OR src.process.image.path containsCIS ":\\Windows\\IME\\" OR src.process.image.path containsCIS ":\\Windows\\Media\\" OR src.process.image.path containsCIS ":\\Windows\\repair\\" OR src.process.image.path containsCIS ":\\Windows\\security\\" OR src.process.image.path containsCIS ":\\Windows\\System32\\Tasks\\" OR src.process.image.path containsCIS ":\\Windows\\Tasks\\" OR src.process.image.path containsCIS "$Recycle.bin" OR src.process.image.path containsCIS "\\config\\systemprofile\\" OR src.process.image.path containsCIS "\\Intel\\Logs\\" OR src.process.image.path containsCIS "\\RSA\\MachineKeys\\")) AND NOT (((src.process.image.path startswithCIS "C:\\Windows\\SysWOW64\\config\\systemprofile\\Citrix\\UpdaterBinaries\\" AND src.process.image.path endswithCIS "\\CitrixReceiverUpdater.exe") OR (src.process.image.path startswithCIS "C:\\Users\\Public\\IBM\\ClientSolutions\\Start_Programs\\"))))

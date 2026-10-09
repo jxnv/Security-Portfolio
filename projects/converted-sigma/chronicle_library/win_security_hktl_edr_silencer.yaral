@@ -1,0 +1,23 @@
+// Title: HackTool - EDRSilencer Execution - Filter Added
+// ID: 98054878-5eab-434c-85d4-72d4e5a3361b
+// Status: test
+// Level: high
+// Author: Thodoris Polyzos (@SmoothDeploy)
+// Date: 2024-01-29
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects execution of EDRSilencer, a tool that abuses the Windows Filtering Platform (WFP) to block the outbound traffic of running EDR agents based on specific hardcoded filter names.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 98054878_5eab_434c_85d4_72d4e5a3361b {
+  meta:
+    title = "HackTool - EDRSilencer Execution - Filter Added"
+    description = "Detects execution of EDRSilencer, a tool that abuses the Windows Filtering Platform (WFP) to block the outbound traffic of running EDR agents based on specific hardcoded filter names."
+    author = "Thodoris Polyzos (@SmoothDeploy)"
+    severity = "HIGH"
+
+  events:
+    (($e.EventID = 5441 or $e.EventID = 5447) and $e.FilterName = /.*Custom Outbound Filter.*/ nocase)
+
+  condition:
+    $e
+}

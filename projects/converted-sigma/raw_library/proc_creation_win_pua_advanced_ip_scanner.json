@@ -1,0 +1,38 @@
+{
+  "title": "PUA - Advanced IP Scanner Execution",
+  "id": "bef37fa2-f205-4a7b-b484-0759bfd5f86f",
+  "status": "test",
+  "description": "Detects the use of Advanced IP Scanner. Seems to be a popular tool for ransomware groups.",
+  "author": "Nasreddine Bencherchali (Nextron Systems), @ROxPinTeddy",
+  "date": "2020-05-12",
+  "tags": [
+    "attack.discovery",
+    "attack.t1046",
+    "attack.t1135"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_img": [
+      {
+        "Image|contains": "\\advanced_ip_scanner"
+      },
+      {
+        "OriginalFileName|contains": "advanced_ip_scanner"
+      },
+      {
+        "Description|contains": "Advanced IP Scanner"
+      }
+    ],
+    "selection_cli": {
+      "CommandLine|contains|all": [
+        "/portable",
+        "/lng"
+      ]
+    },
+    "condition": "1 of selection_*"
+  }
+}

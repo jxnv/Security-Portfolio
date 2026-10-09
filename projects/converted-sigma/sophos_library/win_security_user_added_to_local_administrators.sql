@@ -1,0 +1,11 @@
+-- Title: User Added to Local Administrator Group
+-- ID: c265cf08-3f99-46c1-8d59-328247057d57
+-- Status: stable
+-- Level: medium
+-- Author: Florian Roth (Nextron Systems)
+-- Date: 2017-03-14
+-- Tags: attack.initial-access, attack.privilege-escalation, attack.stealth, attack.t1078, attack.persistence, attack.t1098
+-- Description: Detects the addition of a new member to the local administrator group, which could be legitimate activity or a sign of privilege escalation activity
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE (((EventID = 4732) AND ((TargetUserName ILIKE 'Administr%') OR (TargetSid = 'S-1-5-32-544'))) AND NOT ((SubjectUserName ILIKE '%$')))

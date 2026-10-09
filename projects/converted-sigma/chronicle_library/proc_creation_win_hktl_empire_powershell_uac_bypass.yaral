@@ -1,0 +1,23 @@
+// Title: HackTool - Empire PowerShell UAC Bypass
+// ID: 3268b746-88d8-4cd3-bffc-30077d02c787
+// Status: stable
+// Level: critical
+// Author: Ecco
+// Date: 2019-08-30
+// Tags: attack.privilege-escalation, attack.t1548.002, car.2019-04-001
+// Description: Detects some Empire PowerShell UAC bypass methods
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 3268b746_88d8_4cd3_bffc_30077d02c787 {
+  meta:
+    title = "HackTool - Empire PowerShell UAC Bypass"
+    description = "Detects some Empire PowerShell UAC bypass methods"
+    author = "Ecco"
+    severity = "CRITICAL"
+
+  events:
+    (($e.target.process.command_line = /.* -NoP -NonI -w Hidden -c $x=$((gp HKCU:Software\\Microsoft\\Windows Update).Update).*/ nocase or $e.target.process.command_line = /.* -NoP -NonI -c $x=$((gp HKCU:Software\\Microsoft\\Windows Update).Update);.*/ nocase))
+
+  condition:
+    $e
+}

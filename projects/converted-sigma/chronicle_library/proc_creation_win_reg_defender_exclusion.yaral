@@ -1,0 +1,23 @@
+// Title: Suspicious Windows Defender Folder Exclusion Added Via Reg.EXE
+// ID: 48917adc-a28e-4f5d-b729-11e75da8941f
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-02-13
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects the usage of "reg.exe" to add Defender folder exclusions. Qbot has been seen using this technique to add exclusions for folders within AppData and ProgramData.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 48917adc_a28e_4f5d_b729_11e75da8941f {
+  meta:
+    title = "Suspicious Windows Defender Folder Exclusion Added Via Reg.EXE"
+    description = "Detects the usage of "reg.exe" to add Defender folder exclusions. Qbot has been seen using this technique to add exclusions for folders within AppData and ProgramData."
+    author = "frack113"
+    severity = "MEDIUM"
+
+  events:
+    ($e.target.process.file.full_path = /.*\\reg.exe$/ nocase and ($e.target.process.command_line = /.*SOFTWARE\\Microsoft\\Windows Defender\\Exclusions\\Paths.*/ nocase or $e.target.process.command_line = /.*SOFTWARE\\Microsoft\\Microsoft Antimalware\\Exclusions\\Paths.*/ nocase) and ($e.target.process.command_line = /.*ADD .*/ nocase and $e.target.process.command_line = /.*/t .*/ nocase and $e.target.process.command_line = /.*REG_DWORD .*/ nocase and $e.target.process.command_line = /.*/v .*/ nocase and $e.target.process.command_line = /.*/d .*/ nocase and $e.target.process.command_line = /.*0.*/ nocase))
+
+  condition:
+    $e
+}

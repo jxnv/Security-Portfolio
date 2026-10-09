@@ -1,0 +1,13 @@
+# Title: Potential Browser Data Stealing
+# ID: 47147b5b-9e17-4d76-b8d2-7bac24c5ce1b
+# Status: test
+# Level: medium
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-12-23
+# Tags: attack.credential-access, attack.t1555.003
+# Description: Adversaries may acquire credentials from web browsers by reading files specific to the target browser.
+# Web browsers commonly save credentials such as website usernames and passwords so that they do not need to be entered manually in the future.
+# Web browsers typically store the credentials in an encrypted format within a credential store.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((((CommandLine:*copy-item* OR CommandLine:*copy * OR CommandLine:*cpi * OR CommandLine:* cp * OR CommandLine:*move * OR CommandLine:*move-item* OR CommandLine:* mi * OR CommandLine:* mv *)) OR ((Image:*\\esentutl.exe OR Image:*\\xcopy.exe OR Image:*\\robocopy.exe)) OR ((OriginalFileName:"esentutl.exe" OR OriginalFileName:"XCOPY.EXE" OR OriginalFileName:"robocopy.exe"))) AND ((CommandLine:*\\Amigo\\User Data* OR CommandLine:*\\BraveSoftware\\Brave-Browser\\User Data* OR CommandLine:*\\CentBrowser\\User Data* OR CommandLine:*\\Chromium\\User Data* OR CommandLine:*\\CocCoc\\Browser\\User Data* OR CommandLine:*\\Comodo\\Dragon\\User Data* OR CommandLine:*\\Elements Browser\\User Data* OR CommandLine:*\\Epic Privacy Browser\\User Data* OR CommandLine:*\\Google\\Chrome Beta\\User Data* OR CommandLine:*\\Google\\Chrome SxS\\User Data* OR CommandLine:*\\Google\\Chrome\\User Data\\* OR CommandLine:*\\Kometa\\User Data* OR CommandLine:*\\Maxthon5\\Users* OR CommandLine:*\\Microsoft\\Edge\\User Data* OR CommandLine:*\\Mozilla\\Firefox\\Profiles* OR CommandLine:*\\Nichrome\\User Data* OR CommandLine:*\\Opera Software\\Opera GX Stable\\* OR CommandLine:*\\Opera Software\\Opera Neon\\User Data* OR CommandLine:*\\Opera Software\\Opera Stable\\* OR CommandLine:*\\Orbitum\\User Data* OR CommandLine:*\\QIP Surf\\User Data* OR CommandLine:*\\Sputnik\\User Data* OR CommandLine:*\\Torch\\User Data* OR CommandLine:*\\uCozMedia\\Uran\\User Data* OR CommandLine:*\\Vivaldi\\User Data*)))

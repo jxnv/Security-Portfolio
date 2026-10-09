@@ -1,0 +1,11 @@
+# Title: File With Suspicious Extension Downloaded Via Bitsadmin
+# ID: 5b80a791-ad9b-4b75-bcc1-ad4e1e89c200
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-06-28
+# Tags: attack.persistence, attack.execution, attack.stealth, attack.t1197, attack.s0190, attack.t1036.003, attack.command-and-control, attack.t1105
+# Description: Detects usage of bitsadmin downloading a file with a suspicious extension
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog (((process_exec="*.7z*" OR process_exec="*.asax*" OR process_exec="*.ashx*" OR process_exec="*.asmx*" OR process_exec="*.asp*" OR process_exec="*.aspx*" OR process_exec="*.bat*" OR process_exec="*.cfm*" OR process_exec="*.cgi*" OR process_exec="*.chm*" OR process_exec="*.cmd*" OR process_exec="*.dll*" OR process_exec="*.gif*" OR process_exec="*.jpeg*" OR process_exec="*.jpg*" OR process_exec="*.jsp*" OR process_exec="*.jspx*" OR process_exec="*.log*" OR process_exec="*.png*" OR process_exec="*.ps1*" OR process_exec="*.psm1*" OR process_exec="*.rar*" OR process_exec="*.scf*" OR process_exec="*.sct*" OR process_exec="*.txt*" OR process_exec="*.vbe*" OR process_exec="*.vbs*" OR process_exec="*.war*" OR process_exec="*.wsf*" OR process_exec="*.wsh*" OR process_exec="*.xll*" OR process_exec="*.zip*")) AND ((process_exec="* /transfer *" OR process_exec="* /create *" OR process_exec="* /addfile *")) AND ((process_path="*\\bitsadmin.exe") OR (process_name="bitsadmin.exe")))

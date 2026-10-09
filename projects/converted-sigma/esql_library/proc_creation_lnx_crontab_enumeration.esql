@@ -1,0 +1,11 @@
+// Title: Crontab Enumeration
+// ID: 403ed92c-b7ec-4edd-9947-5b535ee12d46
+// Status: test
+// Level: low
+// Author: Joseliyo Sanchez, @Joseliyo_Jstnk
+// Date: 2023-06-02
+// Tags: attack.discovery, attack.t1007
+// Description: Detects usage of crontab to list the tasks of the user
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE (process.executable LIKE "%/crontab" AND process.command_line LIKE "% -l%")

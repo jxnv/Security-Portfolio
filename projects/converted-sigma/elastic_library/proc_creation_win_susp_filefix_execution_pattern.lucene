@@ -1,0 +1,14 @@
+# Title: Suspicious FileFix Execution Pattern
+# ID: b5b29e4e-31fa-4fdf-b058-296e7a1aa0c2
+# Status: experimental
+# Level: high
+# Author: 0xFustang, Swachchhanda Shrawan Poudel (Nextron Systems)
+# Date: 2025-11-24
+# Tags: attack.execution, attack.t1204.004
+# Description: Detects suspicious FileFix execution patterns where users are tricked into running malicious commands through browser file upload dialog manipulation.
+# This attack typically begins when users visit malicious websites impersonating legitimate services or news platforms,
+# which may display fake CAPTCHA challenges or direct instructions to open file explorer and paste clipboard content.
+# The clipboard content usually contains commands that download and execute malware, such as information stealing tools.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((process.parent.executable:*\\brave.exe OR process.parent.executable:*\\chrome.exe OR process.parent.executable:*\\firefox.exe OR process.parent.executable:*\\msedge.exe) AND process.command_line:*#*) AND (((process.command_line:*account* OR process.command_line:*anti-bot* OR process.command_line:*botcheck* OR process.command_line:*captcha* OR process.command_line:*challenge* OR process.command_line:*confirmation* OR process.command_line:*fraud* OR process.command_line:*human* OR process.command_line:*identification* OR process.command_line:*identificator* OR process.command_line:*identity* OR process.command_line:*robot* OR process.command_line:*validation* OR process.command_line:*verification* OR process.command_line:*verify*)) OR ((process.command_line:*%comspec%* OR process.command_line:*bitsadmin* OR process.command_line:*certutil* OR process.command_line:*cmd* OR process.command_line:*cscript* OR process.command_line:*curl* OR process.command_line:*finger* OR process.command_line:*mshta* OR process.command_line:*powershell* OR process.command_line:*pwsh* OR process.command_line:*regsvr32* OR process.command_line:*rundll32* OR process.command_line:*schtasks* OR process.command_line:*wget* OR process.command_line:*wscript*))))

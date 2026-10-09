@@ -1,0 +1,11 @@
+// Title: System Information Discovery Using sw_vers
+// ID: 5de06a6f-673a-4fc0-8d48-bcfe3837b033
+// Status: test
+// Level: medium
+// Author: Joseliyo Sanchez, @Joseliyo_Jstnk
+// Date: 2023-12-20
+// Tags: attack.discovery, attack.t1082
+// Description: Detects the use of "sw_vers" for system information discovery
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((Image="*/sw_vers") AND ((CommandLine: "*-buildVersion*" OR CommandLine: "*-productName*" OR CommandLine: "*-productVersion*")))

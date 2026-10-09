@@ -1,0 +1,23 @@
+// Title: Suspicious GUP Usage
+// ID: 0a4f6091-223b-41f6-8743-f322ec84930b
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2019-02-06
+// Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.stealth, attack.t1574.001
+// Description: Detects execution of the Notepad++ updater in a suspicious directory, which is often used in DLL side-loading attacks
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 0a4f6091_223b_41f6_8743_f322ec84930b {
+  meta:
+    title = "Suspicious GUP Usage"
+    description = "Detects execution of the Notepad++ updater in a suspicious directory, which is often used in DLL side-loading attacks"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.file.full_path = /.*\\GUP.exe$/ nocase) and not(((($e.target.process.file.full_path = /.*\\Program Files\\Notepad++\\updater\\GUP.exe$/ nocase or $e.target.process.file.full_path = /.*\\Program Files (x86)\\Notepad++\\updater\\GUP.exe$/ nocase)) or ($e.target.process.file.full_path = /.*\\Users\\.*/ nocase and ($e.target.process.file.full_path = /.*\\AppData\\Local\\Notepad++\\updater\\GUP.exe$/ nocase or $e.target.process.file.full_path = /.*\\AppData\\Roaming\\Notepad++\\updater\\GUP.exe$/ nocase)))))
+
+  condition:
+    $e
+}

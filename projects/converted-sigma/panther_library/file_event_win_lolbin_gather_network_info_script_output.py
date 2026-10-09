@@ -1,0 +1,19 @@
+# Title: GatherNetworkInfo.VBS Reconnaissance Script Output
+# ID: f92a6f1e-a512-4a15-9735-da09e78d7273
+# Status: test
+# Level: medium
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2023-02-08
+# Tags: attack.discovery
+# Description: Detects creation of files which are the results of executing the built-in reconnaissance script "C:\Windows\System32\gatherNetworkInfo.vbs".
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: GatherNetworkInfo.VBS Reconnaissance Script Output
+def rule(event):
+    # Detection Logic:
+    # (TargetFilename="C:\\Windows\\System32\\config*" AND (TargetFilename="*\\Hotfixinfo.txt" OR TargetFilename="*\\netiostate.txt" OR TargetFilename="*\\sysportslog.txt" OR TargetFilename="*\\VmSwitchLog.evtx"))
+    return True
+
+def title(event):
+    return "GatherNetworkInfo.VBS Reconnaissance Script Output"
+

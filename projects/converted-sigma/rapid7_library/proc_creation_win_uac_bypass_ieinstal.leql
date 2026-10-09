@@ -1,0 +1,11 @@
+// Title: UAC Bypass Using IEInstal - Process
+// ID: 80fc36aa-945e-4181-89f2-2f907ab6775d
+// Status: test
+// Level: high
+// Author: Christian Burkard (Nextron Systems)
+// Date: 2021-08-30
+// Tags: attack.privilege-escalation, attack.t1548.002
+// Description: Detects the pattern of UAC Bypass using IEInstal.exe (UACMe 64)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((where(IntegrityLevel = "High") OR where(IntegrityLevel = "System") OR where(IntegrityLevel = "S-1-16-16384") OR where(IntegrityLevel = "S-1-16-12288")) AND where(ParentImage IENDSWITH "\\ieinstal.exe") AND where(Image ICONTAINS "\\AppData\\Local\\Temp\\") AND where(Image IENDSWITH "consent.exe"))

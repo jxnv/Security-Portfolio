@@ -1,0 +1,13 @@
+// Title: Load Of RstrtMgr.DLL By An Uncommon Process
+// ID: 3669afd2-9891-4534-a626-e5cf03810a61
+// Status: test
+// Level: low
+// Author: Luc Génaux
+// Date: 2023-11-28
+// Tags: attack.impact, attack.defense-impairment, attack.t1486, attack.t1685
+// Description: Detects the load of RstrtMgr DLL (Restart Manager) by an uncommon process.
+// This library has been used during ransomware campaigns to kill processes that would prevent file encryption by locking them (e.g. Conti ransomware, Cactus ransomware). It has also recently been seen used by the BiBi wiper for Windows.
+// It could also be used for anti-analysis purposes by shut downing specific processes.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+from siem.events where (((ImageLoaded="*\\RstrtMgr.dll") OR (OriginalFileName == "RstrtMgr.dll")) AND NOT (((Image="C:\\Windows\\Temp\\*") OR ((Image="C:\\$WINDOWS.~BT\\*" OR Image="C:\\$WinREAgent\\*" OR Image="C:\\Program Files (x86)\\*" OR Image="C:\\Program Files\\*" OR Image="C:\\ProgramData\\*" OR Image="C:\\Windows\\explorer.exe*" OR Image="C:\\Windows\\SoftwareDistribution\\*" OR Image="C:\\Windows\\SysNative\\*" OR Image="C:\\Windows\\System32\\*" OR Image="C:\\Windows\\SysWOW64\\*" OR Image="C:\\Windows\\WinSxS\\*" OR Image="C:\\WUDownloadCache\\*")) OR (Image="C:\\Users\\*" AND (contains(Image, "\\AppData\\Local\\Temp\\is-") AND contains(Image, ".tmp\\")) AND Image="*.tmp"))) AND NOT (((Image="C:\\Users\\*" AND (Image="*\\AppData\\Local\\Microsoft\\OneDrive\\OneDrive.exe" OR Image="*\\AppData\\Local\\Microsoft\\OneDrive\\OneDriveStandaloneUpdater.exe")) OR (Image="C:\\Users\\*" AND contains(Image, "\\AppData\\Local\\Microsoft\\OneDrive\\") AND Image="*\\OneDrive.Sync.Service.exe"))))

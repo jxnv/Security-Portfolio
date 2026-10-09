@@ -1,0 +1,24 @@
+// Title: Antivirus - APT Malware Signature
+// ID: 101a1877-2cf4-474d-abfd-7f6ac4788d1a
+// Status: experimental
+// Level: critical
+// Author: Arnim Rupp (Nextron Systems)
+// Date: 2026-06-15
+// Tags: attack.execution, attack.t1203, attack.command-and-control, attack.t1219.002
+// Description: Detects a highly relevant Antivirus alert that reports APT malware.
+// This event must not be ignored just because the AV has blocked the malware but investigate, how it came there in the first place.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 101a1877_2cf4_474d_abfd_7f6ac4788d1a {
+  meta:
+    title = "Antivirus - APT Malware Signature"
+    description = "Detects a highly relevant Antivirus alert that reports APT malware. This event must not be ignored just because the AV has blocked the malware but investigate, how it came there in the first place."
+    author = "Arnim Rupp (Nextron Systems)"
+    severity = "CRITICAL"
+
+  events:
+    ((($e.Signature = /APT\d/ nocase or $e.Signature = /ATK\d/ nocase or $e.Signature = /UNC\d/ nocase or $e.Signature = /UAC\d/ nocase)) or (($e.Signature = /.*[APT].*/ nocase or $e.Signature = /.*APT_.*/ nocase or $e.Signature = /.*APT-.*/ nocase or $e.Signature = /.*BackOrder.*/ nocase or $e.Signature = /.*BlindingCan.*/ nocase or $e.Signature = /.*Blizzard.*/ nocase or $e.Signature = /.*Chollima.*/ nocase or $e.Signature = /.*Cleaver.*/ nocase or $e.Signature = /.*Cobra.*/ nocase or $e.Signature = /.*DarkHotel.*/ nocase or $e.Signature = /.*Dragon.*/ nocase or $e.Signature = /.*DTrack.*/ nocase or $e.Signature = /.*Equation.*/ nocase or $e.Signature = /.*GiftedCrook.*/ nocase or $e.Signature = /.*GraphSteel.*/ nocase or $e.Signature = /.*GreyEnergy.*/ nocase or $e.Signature = /.*GEnergy.*/ nocase or $e.Signature = /.*GrimPlant.*/ nocase or $e.Signature = /.*Hydra.*/ nocase or $e.Signature = /.*Jackal.*/ nocase or $e.Signature = /.*Kitten.*/ nocase or $e.Signature = /.*Kimsuky.*/ nocase or $e.Signature = /.*Lazar.*/ nocase or $e.Signature = /.*LightRail.*/ nocase or $e.Signature = /.*Lotus.*/ nocase or $e.Signature = /.*Luminous.*/ nocase or $e.Signature = /.*LumiMoth.*/ nocase or $e.Signature = /.*Nimbus.*/ nocase or $e.Signature = /.*Manticore.*/ nocase or $e.Signature = /.*MiniBike.*/ nocase or $e.Signature = /.*MiniBrowse.*/ nocase or $e.Signature = /.*MiniBus.*/ nocase or $e.Signature = /.*MiniFast.*/ nocase or $e.Signature = /.*MiniJuke.*/ nocase or $e.Signature = /.*MiniUpdate.*/ nocase or $e.Signature = /.*MuddyWater.*/ nocase or $e.Signature = /.*NukeSped.*/ nocase or $e.Signature = /.*OilRig.*/ nocase or $e.Signature = /.*Panda.*/ nocase or $e.Signature = /.*Sandstorm.*/ nocase or $e.Signature = /.*SandWorm.*/ nocase or $e.Signature = /.*Seamonkey.*/ nocase or $e.Signature = /.*Sleet.*/ nocase or $e.Signature = /.*SlugResin.*/ nocase or $e.Signature = /.*SnailResin.*/ nocase or $e.Signature = /.*Snake.*/ nocase or $e.Signature = /.*Tempest.*/ nocase or $e.Signature = /.*Tsunami.*/ nocase or $e.Signature = /.*Turla.*/ nocase or $e.Signature = /.*Typhoon.*/ nocase or $e.Signature = /.*UAC_.*/ nocase or $e.Signature = /.*UAC-.*/ nocase or $e.Signature = /.*UNC_.*/ nocase or $e.Signature = /.*UNC-.*/ nocase or $e.Signature = /.*VinoSiren.*/ nocase or $e.Signature = /.*Winnti.*/ nocase)))
+
+  condition:
+    $e
+}

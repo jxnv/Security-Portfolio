@@ -1,0 +1,11 @@
+# Title: Suspicious MsiExec Embedding Parent
+# ID: 4a2a2c3e-209f-4d01-b513-4155a540b469
+# Status: test
+# Level: medium
+# Author: frack113
+# Date: 2022-04-16
+# Tags: attack.stealth, attack.t1218.007
+# Description: Adversaries may abuse msiexec.exe to proxy the execution of malicious payloads
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog (((process_path="*\\powershell.exe" OR process_path="*\\pwsh.exe" OR process_path="*\\cmd.exe") AND (parent_process_exec="*MsiExec.exe*" AND parent_process_exec="*-Embedding *")) AND NOT (((process_path="*:\\Windows\\System32\\cmd.exe" AND process_exec="*C:\\Program Files\\SplunkUniversalForwarder\\bin\\*") OR ((process_exec="*\\DismFoDInstall.cmd*") OR ((parent_process_exec="*\\MsiExec.exe -Embedding *" AND parent_process_exec="*Global\\MSI0000*"))))))

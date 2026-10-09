@@ -1,0 +1,11 @@
+-- Title: HTML Help HH.EXE Suspicious Child Process
+-- ID: 52cad028-0ff0-4854-8f67-d25dfcbc78b4
+-- Status: test
+-- Level: high
+-- Author: Maxim Pavlunin, Nasreddine Bencherchali (Nextron Systems)
+-- Date: 2020-04-01
+-- Tags: attack.execution, attack.initial-access, attack.stealth, attack.t1047, attack.t1059.001, attack.t1059.003, attack.t1059.005, attack.t1059.007, attack.t1218, attack.t1218.001, attack.t1218.010, attack.t1218.011, attack.t1566, attack.t1566.001
+-- Description: Detects a suspicious child process of a Microsoft HTML Help (HH.exe)
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE (ParentImage ILIKE '%\\hh.exe' AND (Image ILIKE '%\\CertReq.exe' OR Image ILIKE '%\\CertUtil.exe' OR Image ILIKE '%\\cmd.exe' OR Image ILIKE '%\\cscript.exe' OR Image ILIKE '%\\installutil.exe' OR Image ILIKE '%\\MSbuild.exe' OR Image ILIKE '%\\MSHTA.EXE' OR Image ILIKE '%\\msiexec.exe' OR Image ILIKE '%\\powershell.exe' OR Image ILIKE '%\\pwsh.exe' OR Image ILIKE '%\\regsvr32.exe' OR Image ILIKE '%\\rundll32.exe' OR Image ILIKE '%\\schtasks.exe' OR Image ILIKE '%\\wmic.exe' OR Image ILIKE '%\\wscript.exe'))

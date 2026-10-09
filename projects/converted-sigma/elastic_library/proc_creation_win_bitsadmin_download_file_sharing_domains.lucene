@@ -1,0 +1,11 @@
+# Title: Suspicious Download From File-Sharing Website Via Bitsadmin
+# ID: 8518ed3d-f7c9-4601-a26c-f361a4256a0c
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems)
+# Date: 2022-06-28
+# Tags: attack.persistence, attack.execution, attack.stealth, attack.t1197, attack.s0190, attack.t1036.003, attack.command-and-control, attack.t1105
+# Description: Detects usage of bitsadmin downloading a file from a suspicious domain
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((process.command_line:*.githubusercontent.com* OR process.command_line:*0x0.st* OR process.command_line:*anonfiles.com* OR process.command_line:*bashupload.com* OR process.command_line:*cdn.discordapp.com* OR process.command_line:*chunk.io* OR process.command_line:*ddns.net* OR process.command_line:*dl.dropboxusercontent.com* OR process.command_line:*ghostbin.co* OR process.command_line:*github.com* OR process.command_line:*glitch.me* OR process.command_line:*gofile.io* OR process.command_line:*hastebin.com* OR process.command_line:*mediafire.com* OR process.command_line:*mega.nz* OR process.command_line:*onrender.com* OR process.command_line:*pages.dev* OR process.command_line:*paste.ee* OR process.command_line:*pastebin.com* OR process.command_line:*pastebin.pl* OR process.command_line:*pastetext.net* OR process.command_line:*privatlab.com* OR process.command_line:*privatlab.net* OR process.command_line:*send.exploit.in* OR process.command_line:*sendspace.com* OR process.command_line:*storage.googleapis.com* OR process.command_line:*storjshare.io* OR process.command_line:*supabase.co* OR process.command_line:*temp.sh* OR process.command_line:*transfer.sh* OR process.command_line:*trycloudflare.com* OR process.command_line:*ufile.io* OR process.command_line:*w3spaces.com* OR process.command_line:*workers.dev* OR process.command_line:*x0.at*)) AND ((process.command_line:* /transfer * OR process.command_line:* /create * OR process.command_line:* /addfile *)) AND ((process.executable:*\\bitsadmin.exe) OR (process.pe.original_file_name:"bitsadmin.exe")))

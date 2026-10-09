@@ -1,0 +1,23 @@
+// Title: Microsoft Office Protected View Disabled
+// ID: a5c7a43f-6009-4a8c-80c5-32abf1c53ecc
+// Status: test
+// Level: high
+// Author: frack113, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2021-06-08
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects changes to Microsoft Office protected view registry keys with which the attacker disables this feature.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule a5c7a43f_6009_4a8c_80c5_32abf1c53ecc {
+  meta:
+    title = "Microsoft Office Protected View Disabled"
+    description = "Detects changes to Microsoft Office protected view registry keys with which the attacker disables this feature."
+    author = "frack113, Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.TargetObject = /.*\\SOFTWARE\\Microsoft\\Office\\.*/ nocase and $e.TargetObject = /.*\\Security\\ProtectedView\\.*/ nocase)) and (($e.Details = "DWORD (0x00000000)" and ($e.TargetObject = /.*\\enabledatabasefileprotectedview$/ nocase or $e.TargetObject = /.*\\enableforeigntextfileprotectedview$/ nocase)) or ($e.Details = "DWORD (0x00000001)" and ($e.TargetObject = /.*\\DisableAttachementsInPV$/ nocase or $e.TargetObject = /.*\\DisableInternetFilesInPV$/ nocase or $e.TargetObject = /.*\\DisableIntranetCheck$/ nocase or $e.TargetObject = /.*\\DisableUnsafeLocationsInPV$/ nocase))))
+
+  condition:
+    $e
+}

@@ -1,0 +1,23 @@
+// Title: Loading Diagcab Package From Remote Path
+// ID: 50cb47b8-2c33-4b23-a2e9-4600657d9746
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-14
+// Tags: attack.execution
+// Description: Detects loading of diagcab packages from a remote path, as seen in DogWalk vulnerability
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 50cb47b8_2c33_4b23_a2e9_4600657d9746 {
+  meta:
+    title = "Loading Diagcab Package From Remote Path"
+    description = "Detects loading of diagcab packages from a remote path, as seen in DogWalk vulnerability"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ($e.EventID = 101 and $e.PackagePath = /.*\\\\\\\\.*/ nocase)
+
+  condition:
+    $e
+}

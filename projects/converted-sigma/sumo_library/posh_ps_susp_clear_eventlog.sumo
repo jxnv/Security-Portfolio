@@ -1,0 +1,11 @@
+// Title: Suspicious Eventlog Clear
+// ID: 0f017df3-8f5a-414f-ad6b-24aff1128278
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems), Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2022-09-12
+// Tags: attack.defense-impairment, attack.t1685.005
+// Description: Detects usage of known powershell cmdlets such as "Clear-EventLog" to clear the Windows event logs
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where (((ScriptBlockText matches "*Clear-EventLog *" or ScriptBlockText matches "*Remove-EventLog *" or ScriptBlockText matches "*Limit-EventLog *" or ScriptBlockText matches "*Clear-WinEvent *")) or ((ScriptBlockText matches "*Eventing.Reader.EventLogSession*" and ScriptBlockText matches "*ClearLog*")) or ((ScriptBlockText matches "*Diagnostics.EventLog*" and ScriptBlockText matches "*Clear*")))

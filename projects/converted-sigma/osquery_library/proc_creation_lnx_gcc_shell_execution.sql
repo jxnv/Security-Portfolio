@@ -1,0 +1,11 @@
+-- Title: Shell Execution GCC  - Linux
+-- ID: 9b5de532-a757-4d70-946c-1f3e44f48b4d
+-- Status: test
+-- Level: high
+-- Author: Li Ling, Andy Parkidomo, Robert Rakowski, Blake Hartstein (Bloomberg L.P.)
+-- Date: 2024-09-02
+-- Tags: attack.discovery, attack.t1083
+-- Description: Detects the use of the "gcc" utility to execute a shell. Such behavior may be associated with privilege escalation, unauthorized command execution, or to break out from restricted environments.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM processes WHERE (((CommandLine LIKE '%/bin/bash,-s%' OR CommandLine LIKE '%/bin/dash,-s%' OR CommandLine LIKE '%/bin/fish,-s%' OR CommandLine LIKE '%/bin/sh,-s%' OR CommandLine LIKE '%/bin/zsh,-s%')) AND ((Image="*/c89" OR Image="*/c99" OR Image="*/gcc") AND CommandLine LIKE '%-wrapper%'))

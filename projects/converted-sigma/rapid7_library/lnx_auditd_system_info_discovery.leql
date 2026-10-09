@@ -1,0 +1,11 @@
+// Title: System Information Discovery - Auditd
+// ID: f34047d9-20d3-4e8b-8672-0a35cc50dc71
+// Status: test
+// Level: low
+// Author: Pawel Mazur
+// Date: 2021-09-03
+// Tags: attack.discovery, attack.t1082
+// Description: Detects System Information Discovery commands
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((where(type = "PATH") AND (where(name = "/etc/lsb-release") OR where(name = "/etc/redhat-release") OR where(name = "/etc/issue"))) OR (where(type = "EXECVE") AND (where(a0 = "uname") OR where(a0 = "uptime") OR where(a0 = "lsmod") OR where(a0 = "hostname") OR where(a0 = "env"))) OR (where(type = "EXECVE") AND where(a0 = "grep") AND (where(a1 ICONTAINS "vbox") OR where(a1 ICONTAINS "vm") OR where(a1 ICONTAINS "xen") OR where(a1 ICONTAINS "virtio") OR where(a1 ICONTAINS "hv"))) OR (where(type = "EXECVE") AND where(a0 = "kmod") AND where(a1 = "list")))

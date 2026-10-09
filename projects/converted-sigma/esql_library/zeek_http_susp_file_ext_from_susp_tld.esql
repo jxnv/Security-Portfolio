@@ -1,0 +1,11 @@
+// Title: HTTP Request to Low Reputation TLD or Suspicious File Extension
+// ID: 68c2c604-92ad-468b-bf4a-aac49adad08c
+// Status: experimental
+// Level: medium
+// Author: @signalblur, Corelight
+// Date: 2025-02-26
+// Tags: attack.initial-access, attack.command-and-control
+// Description: Detects HTTP requests to low reputation TLDs (e.g. .xyz, .top, .ru) or ending in suspicious file extensions (.exe, .dll, .hta), which may indicate malicious activity.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE (((host LIKE "%.bid" OR host LIKE "%.by" OR host LIKE "%.cf" OR host LIKE "%.click" OR host LIKE "%.cm" OR host LIKE "%.ga" OR host LIKE "%.gq" OR host LIKE "%.ir" OR host LIKE "%.kp" OR host LIKE "%.loan" OR host LIKE "%.ml" OR host LIKE "%.mm" OR host LIKE "%.party" OR host LIKE "%.pw" OR host LIKE "%.ru" OR host LIKE "%.su" OR host LIKE "%.sy" OR host LIKE "%.tk" OR host LIKE "%.top" OR host LIKE "%.tv" OR host LIKE "%.ve" OR host LIKE "%.work" OR host LIKE "%.xyz")) AND (((uri LIKE "%.bat" OR uri LIKE "%.bin" OR uri LIKE "%.cmd" OR uri LIKE "%.cpl" OR uri LIKE "%.dll" OR uri LIKE "%.dylib" OR uri LIKE "%.elf" OR uri LIKE "%.exe" OR uri LIKE "%.hta" OR uri LIKE "%.iso" OR uri LIKE "%.jar" OR uri LIKE "%.js" OR uri LIKE "%.lnk" OR uri LIKE "%.msi" OR uri LIKE "%.pif" OR uri LIKE "%.ps1" OR uri LIKE "%.py" OR uri LIKE "%.reg" OR uri LIKE "%.scr" OR uri LIKE "%.sh" OR uri LIKE "%.so" OR uri LIKE "%.vbs" OR uri LIKE "%.wsf")) OR ((resp_mime_types == "application/vnd.microsoft.portable-executable" OR resp_mime_types == "application/x-bat" OR resp_mime_types == "application/x-dosexec" OR resp_mime_types == "application/x-elf" OR resp_mime_types == "application/x-iso9660-image" OR resp_mime_types == "application/x-java-archive" OR resp_mime_types == "application/x-ms-shortcut" OR resp_mime_types == "application/x-msdos-program" OR resp_mime_types == "application/x-msdownload" OR resp_mime_types == "application/x-python-code" OR resp_mime_types == "application/x-sh"))))

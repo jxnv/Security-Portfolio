@@ -1,0 +1,32 @@
+{
+  "title": "AWS S3 Data Management Tampering",
+  "id": "78b3756a-7804-4ef7-8555-7b9024a02e2d",
+  "status": "test",
+  "description": "Detects when a user tampers with S3 data management in Amazon Web Services.",
+  "author": "Austin Songer @austinsonger",
+  "date": "2021-07-24",
+  "tags": [
+    "attack.exfiltration",
+    "attack.t1537"
+  ],
+  "level": "low",
+  "logsource": {
+    "product": "aws",
+    "service": "cloudtrail"
+  },
+  "detection": {
+    "selection": {
+      "eventSource": "s3.amazonaws.com",
+      "eventName": [
+        "PutBucketLogging",
+        "PutBucketWebsite",
+        "PutEncryptionConfiguration",
+        "PutLifecycleConfiguration",
+        "PutReplicationConfiguration",
+        "ReplicateObject",
+        "RestoreObject"
+      ]
+    },
+    "condition": "selection"
+  }
+}

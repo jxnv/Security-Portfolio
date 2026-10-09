@@ -1,0 +1,11 @@
+# Title: Linux Package Uninstall
+# ID: 95d61234-7f56-465c-6f2d-b562c6fedbc4
+# Status: test
+# Level: low
+# Author: Tuan Le (NCSGroup), Nasreddine Bencherchali (Nextron Systems)
+# Date: 2023-03-09
+# Tags: attack.stealth, attack.t1070
+# Description: Detects linux package removal using builtin tools such as "yum", "apt", "apt-get" or "dpkg".
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* sourcetype="syslog" (((process_path="*/apt" OR process_path="*/apt-get") AND (process_exec="*remove*" OR process_exec="*purge*")) OR (process_path="*/dpkg" AND (process_exec="*--remove *" OR process_exec="* -r *")) OR (process_path="*/rpm" AND process_exec="* -e *") OR (process_path="*/yum" AND (process_exec="*erase*" OR process_exec="*remove*")))

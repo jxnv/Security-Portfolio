@@ -1,0 +1,24 @@
+// Title: Powershell Local Email Collection
+// ID: 2837e152-93c8-43d2-85ba-c3cd3c2ae614
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2021-07-21
+// Tags: attack.collection, attack.t1114.001
+// Description: Adversaries may target user email on local systems to collect sensitive information.
+// Files containing email data can be acquired from a users local system, such as Outlook storage or cache files.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 2837e152_93c8_43d2_85ba_c3cd3c2ae614 {
+  meta:
+    title = "Powershell Local Email Collection"
+    description = "Adversaries may target user email on local systems to collect sensitive information. Files containing email data can be acquired from a users local system, such as Outlook storage or cache files."
+    author = "frack113"
+    severity = "MEDIUM"
+
+  events:
+    (($e.ScriptBlockText = /.*Get-Inbox.ps1.*/ nocase or $e.ScriptBlockText = /.*Microsoft.Office.Interop.Outlook.*/ nocase or $e.ScriptBlockText = /.*Microsoft.Office.Interop.Outlook.olDefaultFolders.*/ nocase or $e.ScriptBlockText = /.*-comobject outlook.application.*/ nocase))
+
+  condition:
+    $e
+}

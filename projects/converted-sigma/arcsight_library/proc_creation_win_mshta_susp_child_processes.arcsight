@@ -1,0 +1,11 @@
+// Title: Suspicious MSHTA Child Process
+// ID: 03cc0c25-389f-4bf8-b48d-11878079f1ca
+// Status: test
+// Level: high
+// Author: Michael Haag
+// Date: 2019-01-16
+// Tags: attack.stealth, attack.t1218.005, car.2013-02-003, car.2013-03-001, car.2014-04-003
+// Description: Detects a suspicious process spawning from an "mshta.exe" process, which could be indicative of a malicious HTA script execution
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((Image ENDSWITH "\\cmd.exe" OR Image ENDSWITH "\\powershell.exe" OR Image ENDSWITH "\\pwsh.exe" OR Image ENDSWITH "\\wscript.exe" OR Image ENDSWITH "\\cscript.exe" OR Image ENDSWITH "\\sh.exe" OR Image ENDSWITH "\\bash.exe" OR Image ENDSWITH "\\reg.exe" OR Image ENDSWITH "\\regsvr32.exe" OR Image ENDSWITH "\\bitsadmin.exe")) OR ((OriginalFileName EQ "Cmd.Exe" OR OriginalFileName EQ "PowerShell.EXE" OR OriginalFileName EQ "pwsh.dll" OR OriginalFileName EQ "wscript.exe" OR OriginalFileName EQ "cscript.exe" OR OriginalFileName EQ "Bash.exe" OR OriginalFileName EQ "reg.exe" OR OriginalFileName EQ "REGSVR32.EXE" OR OriginalFileName EQ "bitsadmin.exe"))) AND (ParentImage ENDSWITH "\\mshta.exe"))

@@ -1,0 +1,39 @@
+{
+  "title": "Renamed Powershell Under Powershell Channel",
+  "id": "30a8cb77-8eb3-4cfb-8e79-ad457c5a4592",
+  "status": "test",
+  "description": "Detects a renamed Powershell execution, which is a common technique used to circumvent security controls and bypass detection logic that's dependent on process names and process paths.\n",
+  "author": "Harish Segar, frack113",
+  "date": "2020-06-29",
+  "tags": [
+    "attack.execution",
+    "attack.stealth",
+    "attack.t1059.001",
+    "attack.t1036.003"
+  ],
+  "level": "low",
+  "logsource": {
+    "product": "windows",
+    "category": "ps_classic_start"
+  },
+  "detection": {
+    "selection": {
+      "Data|contains": "HostName=ConsoleHost"
+    },
+    "filter_main_ps": {
+      "Data|contains": [
+        "HostApplication=powershell",
+        "HostApplication=C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell",
+        "HostApplication=C:\\Windows\\SysWOW64\\WindowsPowerShell\\v1.0\\powershell",
+        "HostApplication=C:/Windows/System32/WindowsPowerShell/v1.0/powershell",
+        "HostApplication=C:/Windows/SysWOW64/WindowsPowerShell/v1.0/powershell",
+        "HostApplication=C:\\\\\\\\WINDOWS\\\\\\\\system32\\\\\\\\WindowsPowerShell\\\\\\\\v1.0\\\\\\\\powershell.exe",
+        "HostApplication=C:\\\\\\\\WINDOWS\\\\\\\\SysWOW64\\\\\\\\WindowsPowerShell\\\\\\\\v1.0\\\\\\\\powershell.exe"
+      ]
+    },
+    "filter_main_host_application_null": {
+      "Data|re": "HostId=[a-zA-Z0-9-]{36}\\s+EngineVersion="
+    },
+    "condition": "selection and not 1 of filter_main_*"
+  }
+}

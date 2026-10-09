@@ -1,0 +1,11 @@
+-- Title: VBA DLL Loaded Via Office Application
+-- ID: e6ce8457-68b1-485b-9bdd-3c2b5d679aa9
+-- Status: test
+-- Level: high
+-- Author: Antonlovesdnb
+-- Date: 2020-02-19
+-- Tags: attack.execution, attack.t1204.002
+-- Description: Detects VB DLL's loaded by an office application. Which could indicate the presence of VBA Macros.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM file WHERE ((Image="*\\excel.exe" OR Image="*\\mspub.exe" OR Image="*\\onenote.exe" OR Image="*\\onenoteim.exe" OR Image="*\\outlook.exe" OR Image="*\\powerpnt.exe" OR Image="*\\winword.exe") AND (ImageLoaded="*\\VBE7.DLL" OR ImageLoaded="*\\VBEUI.DLL" OR ImageLoaded="*\\VBE7INTL.DLL"))

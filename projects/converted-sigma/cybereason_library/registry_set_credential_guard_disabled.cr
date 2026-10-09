@@ -1,0 +1,12 @@
+// Title: Windows Credential Guard Disabled - Registry
+// ID: 73921b9c-cafd-4446-b0c6-fdb0ace42bc0
+// Status: experimental
+// Level: high
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-12-26
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects attempts to disable Windows Credential Guard by setting registry values to 0. Credential Guard uses virtualization-based security to isolate secrets so that only privileged system software can access them.
+// Adversaries may disable Credential Guard to gain access to sensitive credentials stored in the system, such as NTLM hashes and Kerberos tickets, which can be used for lateral movement and privilege escalation.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((TargetObject="*\\DeviceGuard\\EnableVirtualizationBasedSecurity" OR TargetObject="*\\DeviceGuard\\LsaCfgFlags" OR TargetObject="*\\Lsa\\LsaCfgFlags") AND Details == "DWORD (0x00000000)")

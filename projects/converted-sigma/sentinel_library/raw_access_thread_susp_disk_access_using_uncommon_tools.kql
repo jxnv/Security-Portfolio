@@ -1,0 +1,11 @@
+// Title: Potential Defense Evasion Via Raw Disk Access By Uncommon Tools
+// ID: db809f10-56ce-4420-8c86-d6a7d793c79c
+// Status: test
+// Level: low
+// Author: Teymur Kheirkhabarov, oscd.community
+// Date: 2019-10-22
+// Tags: attack.stealth, attack.t1006
+// Description: Detects raw disk access using uncommon tools or tools that are located in suspicious locations (heavy filtering is required), which could indicate possible defense evasion attempts
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+DeviceProcessEvents | where (not(((Device contains "floppy") or ((FolderPath startswith "C:\\$WINDOWS.~BT\\" or FolderPath startswith "C:\\Program Files (x86)\\" or FolderPath startswith "C:\\Program Files\\" or FolderPath startswith "C:\\Windows\\CCM\\" or FolderPath startswith "C:\\Windows\\explorer.exe" or FolderPath startswith "C:\\Windows\\servicing\\" or FolderPath startswith "C:\\Windows\\SoftwareDistribution\\" or FolderPath startswith "C:\\Windows\\System32\\" or FolderPath startswith "C:\\Windows\\SystemApps\\" or FolderPath startswith "C:\\Windows\\SysWOW64\\" or FolderPath startswith "C:\\Windows\\uus\\" or FolderPath startswith "C:\\Windows\\WinSxS\\")) or (FolderPath startswith "C:\\Users\\" and (FolderPath contains "\\AppData\\" and FolderPath contains "\\Microsoft\\")) or ((isempty(FolderPath) or isnull(FolderPath))) or (FolderPath startswith "C:\\Windows\\Temp\\" and (FolderPath endswith "\\Executables\\SSDUpdate.exe" or FolderPath endswith "\\HostMetadata\\NVMEHostmetadata.exe")) or ((FolderPath == "Registry" or FolderPath == "System")) or (FolderPath == "C:\\Windows\\ImmersiveControlPanel\\SystemSettings.exe") or (FolderPath startswith "C:\\$WinREAgent\\Scratch\\") or (FolderPath startswith "C:\\ProgramData\\Microsoft\\Windows Defender\\Platform\\" and (FolderPath endswith "\\MsMpEng.exe" or FolderPath endswith "\\MpDefenderCoreService.exe")))) and not(((FolderPath startswith "C:\\Users\\" and FolderPath contains "\\AppData\\Local\\Keybase\\upd.exe") or (FolderPath startswith "C:\\Users\\" and FolderPath contains "\\AppData\\Local\\GitHubDesktop\\app-" and FolderPath endswith "\\resources\\app\\git\\mingw64\\bin\\git.exe") or (FolderPath startswith "C:\\Windows\\Temp\\asgard2-agent\\" and FolderPath endswith "\\thor.exe"))))

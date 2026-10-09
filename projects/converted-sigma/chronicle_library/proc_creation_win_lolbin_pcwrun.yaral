@@ -1,0 +1,23 @@
+// Title: Indirect Command Execution By Program Compatibility Wizard
+// ID: b97cd4b1-30b8-4a9d-bd72-6293928d52bc
+// Status: test
+// Level: low
+// Author: A. Sungurov , oscd.community
+// Date: 2020-10-12
+// Tags: attack.stealth, attack.t1218, attack.execution
+// Description: Detect indirect command execution via Program Compatibility Assistant pcwrun.exe
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule b97cd4b1_30b8_4a9d_bd72_6293928d52bc {
+  meta:
+    title = "Indirect Command Execution By Program Compatibility Wizard"
+    description = "Detect indirect command execution via Program Compatibility Assistant pcwrun.exe"
+    author = "A. Sungurov , oscd.community"
+    severity = "LOW"
+
+  events:
+    ($e.principal.process.file.full_path = /.*\\pcwrun.exe$/ nocase)
+
+  condition:
+    $e
+}

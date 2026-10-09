@@ -1,0 +1,11 @@
+-- Title: Certificate Private Key Acquired
+-- ID: e2b5163d-7deb-4566-9af3-40afea6858c3
+-- Status: test
+-- Level: medium
+-- Author: Zach Mathis
+-- Date: 2023-05-13
+-- Tags: attack.credential-access, attack.t1649
+-- Description: Detects when an application acquires a certificate private key
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE (EventID = 70)

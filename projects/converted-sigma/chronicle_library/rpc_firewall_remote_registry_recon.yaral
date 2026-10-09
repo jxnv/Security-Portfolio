@@ -1,0 +1,23 @@
+// Title: Remote Registry Recon
+// ID: d8ffe17e-04be-4886-beb9-c1dd1944b9a8
+// Status: test
+// Level: high
+// Author: Sagie Dulce, Dekel Paz
+// Date: 2022-01-01
+// Tags: attack.discovery
+// Description: Detects remote RPC calls to collect information
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule d8ffe17e_04be_4886_beb9_c1dd1944b9a8 {
+  meta:
+    title = "Remote Registry Recon"
+    description = "Detects remote RPC calls to collect information"
+    author = "Sagie Dulce, Dekel Paz"
+    severity = "HIGH"
+
+  events:
+    (($e.EventLog = "RPCFW" and $e.EventID = 3 and $e.InterfaceUuid = "338cd001-2244-31f1-aaaa-900038001003") and not((($e.OpNum = 6 or $e.OpNum = 7 or $e.OpNum = 8 or $e.OpNum = 13 or $e.OpNum = 18 or $e.OpNum = 19 or $e.OpNum = 21 or $e.OpNum = 22 or $e.OpNum = 23 or $e.OpNum = 35))))
+
+  condition:
+    $e
+}

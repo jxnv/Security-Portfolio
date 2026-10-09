@@ -1,0 +1,11 @@
+// Title: User Discovery And Export Via Get-ADUser Cmdlet - PowerShell
+// ID: c2993223-6da8-4b1a-88ee-668b8bf315e9
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-11-17
+// Tags: attack.discovery, attack.t1033
+// Description: Detects usage of the Get-ADUser cmdlet to collect user information and output it to a file
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((ScriptBlockText = /*Get-ADUser */i and ScriptBlockText = /* -Filter \\**/i) and (ScriptBlockText = /* > */i or ScriptBlockText = /* | Select */i or ScriptBlockText = /*Out-File*/i or ScriptBlockText = /*Set-Content*/i or ScriptBlockText = /*Add-Content*/i))

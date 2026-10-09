@@ -1,0 +1,13 @@
+// Title: System Information Discovery Using Ioreg
+// ID: 2d5e7a8b-f484-4a24-945d-7f0efd52eab0
+// Status: test
+// Level: medium
+// Author: Joseliyo Sanchez, @Joseliyo_Jstnk
+// Date: 2023-12-20
+// Tags: attack.discovery, attack.t1082
+// Description: Detects the use of "ioreg" which will show I/O Kit registry information.
+// This process is used for system information discovery.
+// It has been observed in-the-wild by calling this process directly or using bash and grep to look for specific strings.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(CommandLine ICONTAINS "-l") OR where(CommandLine ICONTAINS "-c"))) AND ((where(CommandLine ICONTAINS "AppleAHCIDiskDriver") OR where(CommandLine ICONTAINS "IOPlatformExpertDevice") OR where(CommandLine ICONTAINS "Oracle") OR where(CommandLine ICONTAINS "Parallels") OR where(CommandLine ICONTAINS "USB Vendor Name") OR where(CommandLine ICONTAINS "VirtualBox") OR where(CommandLine ICONTAINS "VMware"))) AND ((where(Image IENDSWITH "/ioreg")) OR (where(CommandLine ICONTAINS "ioreg"))))

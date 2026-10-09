@@ -1,0 +1,23 @@
+// Title: HackTool - SafetyKatz Execution
+// ID: b1876533-4ed5-4a83-90f3-b8645840a413
+// Status: test
+// Level: critical
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-10-20
+// Tags: attack.credential-access, attack.t1003.001
+// Description: Detects the execution of the hacktool SafetyKatz via PE information and default Image name
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule b1876533_4ed5_4a83_90f3_b8645840a413 {
+  meta:
+    title = "HackTool - SafetyKatz Execution"
+    description = "Detects the execution of the hacktool SafetyKatz via PE information and default Image name"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "CRITICAL"
+
+  events:
+    (($e.target.process.file.full_path = /.*\\SafetyKatz.exe$/ nocase) or ($e.target.process.file.name = "SafetyKatz.exe") or ($e.Description = "SafetyKatz"))
+
+  condition:
+    $e
+}

@@ -1,0 +1,11 @@
+// Title: Permission Check Via Accesschk.EXE
+// ID: c625d754-6a3d-4f65-9c9a-536aea960d37
+// Status: test
+// Level: medium
+// Author: Teymur Kheirkhabarov (idea), Mangatas Tondang, oscd.community, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2020-10-13
+// Tags: attack.discovery, attack.t1069.001
+// Description: Detects the usage of the "Accesschk" utility, an access and privilege audit tool developed by SysInternal and often being abused by attacker to verify process privileges
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+from siem.events where (((contains(CommandLine, "uwcqv ") OR contains(CommandLine, "kwsu ") OR contains(CommandLine, "qwsu ") OR contains(CommandLine, "uwdqs "))) AND ((Product="*AccessChk") OR (contains(Description, "Reports effective permissions")) OR ((Image="*\\accesschk.exe" OR Image="*\\accesschk64.exe" OR Image="*\\accesschk64a.exe")) OR (OriginalFileName == "accesschk.exe")))

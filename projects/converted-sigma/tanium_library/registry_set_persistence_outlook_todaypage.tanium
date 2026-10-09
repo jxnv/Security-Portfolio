@@ -1,0 +1,12 @@
+# Title: Potential Persistence Via Outlook Today Page
+# ID: 487bb375-12ef-41f6-baae-c6a1572b4dd1
+# Status: test
+# Level: high
+# Author: Tobias Michalski (Nextron Systems), David Bertho (@dbertho) & Eirik Sveen (@0xSV1), Storebrand
+# Date: 2021-06-10
+# Tags: attack.persistence, attack.defense-impairment, attack.t1112
+# Description: Detects potential persistence activity via outlook today page.
+# An attacker can set a custom page to execute arbitrary code and link to it via the registry values "URL" and "UserDefinedUrl".
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((TargetObject contains "Software\\Microsoft\\Office\\" AND TargetObject contains "\\Outlook\\Today\\")) AND ((TargetObject="*\\Stamp" AND Details equals "DWORD (0x00000001)") OR ((TargetObject="*\\URL" OR TargetObject="*\\UserDefinedUrl"))) AND NOT (((Image="C:\\Program Files\\Common Files\\Microsoft Shared\\ClickToRun\\*" OR Image="C:\\Program Files\\Common Files\\Microsoft Shared\\ClickToRun\\Updates\\*") AND Image="*\\OfficeClickToRun.exe")))

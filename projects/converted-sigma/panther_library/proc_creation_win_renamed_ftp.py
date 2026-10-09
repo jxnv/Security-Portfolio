@@ -1,0 +1,19 @@
+# Title: Renamed FTP.EXE Execution
+# ID: 277a4393-446c-449a-b0ed-7fdc7795244c
+# Status: test
+# Level: medium
+# Author: Victor Sergeev, oscd.community
+# Date: 2020-10-09
+# Tags: attack.execution, attack.stealth, attack.t1059, attack.t1202
+# Description: Detects the execution of a renamed "ftp.exe" binary based on the PE metadata fields
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Renamed FTP.EXE Execution
+def rule(event):
+    # Detection Logic:
+    # ((OriginalFileName="ftp.exe") AND NOT ((Image="*\\ftp.exe")))
+    return True
+
+def title(event):
+    return "Renamed FTP.EXE Execution"
+

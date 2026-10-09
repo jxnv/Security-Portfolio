@@ -1,0 +1,11 @@
+// Title: Potential Data Exfiltration Activity Via CommandLine Tools
+// ID: 7d1aaf3d-4304-425c-b7c3-162055e0b3ab
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-02
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects the use of various CLI utilities exfiltrating data via web requests
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where ((((Image matches "*\\powershell_ise.exe" or Image matches "*\\powershell.exe" or Image matches "*\\pwsh.exe" or Image matches "*\\cmd.exe") and (CommandLine matches "*curl *" or CommandLine matches "*Invoke-RestMethod*" or CommandLine matches "*Invoke-WebRequest*" or CommandLine matches "*irm *" or CommandLine matches "*iwr *" or CommandLine matches "*wget *") and (CommandLine matches "* -ur*" and CommandLine matches "* -me*" and CommandLine matches "* -b*" and CommandLine matches "* POST *")) or ((Image matches "*\\curl.exe" and CommandLine matches "*--ur*") and ((CommandLine matches "* -d *" or CommandLine matches "* --data *"))) or (Image matches "*\\wget.exe" and (CommandLine matches "*--post-data*" or CommandLine matches "*--post-file*"))) and (((CommandLine matches /net\s+view/ or CommandLine matches /sc\s+query/)) or ((CommandLine matches "*Get-Content*" or CommandLine matches "*GetBytes*" or CommandLine matches "*hostname*" or CommandLine matches "*ifconfig*" or CommandLine matches "*ipconfig*" or CommandLine matches "*netstat*" or CommandLine matches "*nltest*" or CommandLine matches "*qprocess*" or CommandLine matches "*systeminfo*" or CommandLine matches "*tasklist*" or CommandLine matches "*ToBase64String*" or CommandLine matches "*whoami*")) or ((CommandLine matches "*type *" and CommandLine matches "* > *" and CommandLine matches "* C:\\*"))))

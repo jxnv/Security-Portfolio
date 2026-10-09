@@ -1,0 +1,23 @@
+// Title: HackTool - UACMe Akagi Execution
+// ID: d38d2fa4-98e6-4a24-aff1-410b0c9ad177
+// Status: test
+// Level: high
+// Author: Christian Burkard (Nextron Systems), Florian Roth (Nextron Systems)
+// Date: 2021-08-30
+// Tags: attack.privilege-escalation, attack.t1548.002
+// Description: Detects the execution of UACMe, a tool used for UAC bypasses, via default PE metadata
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule d38d2fa4_98e6_4a24_aff1_410b0c9ad177 {
+  meta:
+    title = "HackTool - UACMe Akagi Execution"
+    description = "Detects the execution of UACMe, a tool used for UAC bypasses, via default PE metadata"
+    author = "Christian Burkard (Nextron Systems), Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.Hashes = /.*IMPHASH=767637C23BB42CD5D7397CF58B0BE688.*/ nocase or $e.Hashes = /.*IMPHASH=14C4E4C72BA075E9069EE67F39188AD8.*/ nocase or $e.Hashes = /.*IMPHASH=3C782813D4AFCE07BBFC5A9772ACDBDC.*/ nocase or $e.Hashes = /.*IMPHASH=7D010C6BB6A3726F327F7E239166D127.*/ nocase or $e.Hashes = /.*IMPHASH=89159BA4DD04E4CE5559F132A9964EB3.*/ nocase or $e.Hashes = /.*IMPHASH=6F33F4A5FC42B8CEC7314947BD13F30F.*/ nocase or $e.Hashes = /.*IMPHASH=5834ED4291BDEB928270428EBBAF7604.*/ nocase or $e.Hashes = /.*IMPHASH=5A8A8A43F25485E7EE1B201EDCBC7A38.*/ nocase or $e.Hashes = /.*IMPHASH=DC7D30B90B2D8ABF664FBED2B1B59894.*/ nocase or $e.Hashes = /.*IMPHASH=41923EA1F824FE63EA5BEB84DB7A3E74.*/ nocase or $e.Hashes = /.*IMPHASH=3DE09703C8E79ED2CA3F01074719906B.*/ nocase)) or (($e.target.process.file.full_path = /.*\\Akagi64.exe$/ nocase or $e.target.process.file.full_path = /.*\\Akagi.exe$/ nocase)) or (($e.Product = "UACMe") or (($e.Company = "REvol Corp" or $e.Company = "APT 92" or $e.Company = "UG North" or $e.Company = "Hazardous Environments" or $e.Company = "CD Project Rekt")) or (($e.Description = "UACMe main module" or $e.Description = "Pentesting utility")) or (($e.target.process.file.name = "Akagi.exe" or $e.target.process.file.name = "Akagi64.exe"))))
+
+  condition:
+    $e
+}

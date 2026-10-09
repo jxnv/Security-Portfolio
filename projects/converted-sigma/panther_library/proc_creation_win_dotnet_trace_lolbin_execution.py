@@ -1,0 +1,19 @@
+# Title: Binary Proxy Execution Via Dotnet-Trace.EXE
+# ID: 9257c05b-4a4a-48e5-a670-b7b073cf401b
+# Status: test
+# Level: medium
+# Author: Jimmy Bayne (@bohops)
+# Date: 2024-01-02
+# Tags: attack.execution, attack.stealth, attack.t1218
+# Description: Detects commandline arguments for executing a child process via dotnet-trace.exe
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Binary Proxy Execution Via Dotnet-Trace.EXE
+def rule(event):
+    # Detection Logic:
+    # (((CommandLine="*-- *" AND CommandLine="*collect*")) AND ((Image="*\\dotnet-trace.exe") OR (OriginalFileName="dotnet-trace.dll")))
+    return True
+
+def title(event):
+    return "Binary Proxy Execution Via Dotnet-Trace.EXE"
+

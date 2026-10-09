@@ -1,0 +1,11 @@
+# Title: Suspicious PowerShell Parent Process
+# ID: 754ed792-634f-40ae-b3bc-e0448d33f695
+# Status: test
+# Level: high
+# Author: Teymur Kheirkhabarov, Harish Segar
+# Date: 2020-03-20
+# Tags: attack.execution, attack.t1059.001
+# Description: Detects a suspicious or uncommon parent processes of PowerShell
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((parent_name:*tomcat*) OR ((parent_name:*\\amigo.exe OR parent_name:*\\browser.exe OR parent_name:*\\chrome.exe OR parent_name:*\\firefox.exe OR parent_name:*\\httpd.exe OR parent_name:*\\iexplore.exe OR parent_name:*\\jbosssvc.exe OR parent_name:*\\microsoftedge.exe OR parent_name:*\\microsoftedgecp.exe OR parent_name:*\\MicrosoftEdgeSH.exe OR parent_name:*\\mshta.exe OR parent_name:*\\nginx.exe OR parent_name:*\\outlook.exe OR parent_name:*\\php-cgi.exe OR parent_name:*\\regsvr32.exe OR parent_name:*\\rundll32.exe OR parent_name:*\\safari.exe OR parent_name:*\\services.exe OR parent_name:*\\sqlagent.exe OR parent_name:*\\sqlserver.exe OR parent_name:*\\sqlservr.exe OR parent_name:*\\vivaldi.exe OR parent_name:*\\w3wp.exe))) AND (((process_name:*\\powershell.exe OR process_name:*\\pwsh.exe)) OR ((cmdline:*/c powershell* OR cmdline:*/c pwsh*)) OR (Description:"Windows PowerShell") OR (Product:"PowerShell Core 6") OR ((OriginalFileName:"PowerShell.EXE" OR OriginalFileName:"pwsh.dll"))))

@@ -1,0 +1,23 @@
+// Title: Linux Network Service Scanning Tools Execution
+// ID: 3e102cd9-a70d-4a7a-9508-403963092f31
+// Status: test
+// Level: low
+// Author: Alejandro Ortuno, oscd.community, Georg Lauenstein (sure[secure])
+// Date: 2020-10-21
+// Tags: attack.discovery, attack.t1046
+// Description: Detects execution of network scanning and reconnaisance tools. These tools can be used for the enumeration of local or remote network services for example.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 3e102cd9_a70d_4a7a_9508_403963092f31 {
+  meta:
+    title = "Linux Network Service Scanning Tools Execution"
+    description = "Detects execution of network scanning and reconnaisance tools. These tools can be used for the enumeration of local or remote network services for example."
+    author = "Alejandro Ortuno, oscd.community, Georg Lauenstein (sure[secure])"
+    severity = "LOW"
+
+  events:
+    (((($e.target.process.file.full_path = /.*/nc$/ nocase or $e.target.process.file.full_path = /.*/ncat$/ nocase or $e.target.process.file.full_path = /.*/netcat$/ nocase or $e.target.process.file.full_path = /.*/socat$/ nocase)) and not((($e.target.process.command_line = /.* --listen .*/ nocase or $e.target.process.command_line = /.* -l .*/ nocase)))) or (($e.target.process.file.full_path = /.*/autorecon$/ nocase or $e.target.process.file.full_path = /.*/hping$/ nocase or $e.target.process.file.full_path = /.*/hping2$/ nocase or $e.target.process.file.full_path = /.*/hping3$/ nocase or $e.target.process.file.full_path = /.*/naabu$/ nocase or $e.target.process.file.full_path = /.*/nmap$/ nocase or $e.target.process.file.full_path = /.*/nping$/ nocase or $e.target.process.file.full_path = /.*/telnet$/ nocase or $e.target.process.file.full_path = /.*/zenmap$/ nocase)))
+
+  condition:
+    $e
+}

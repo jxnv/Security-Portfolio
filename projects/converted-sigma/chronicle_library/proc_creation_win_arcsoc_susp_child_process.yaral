@@ -1,0 +1,26 @@
+// Title: Suspicious ArcSOC.exe Child Process
+// ID: 8e95e73e-ba02-4a87-b4d7-0929b8053038
+// Status: experimental
+// Level: high
+// Author: Micah Babinski
+// Date: 2025-11-25
+// Tags: attack.execution, attack.t1059, attack.t1203
+// Description: Detects script interpreters, command-line tools, and similar suspicious child processes of ArcSOC.exe.
+// ArcSOC.exe is the process name which hosts ArcGIS Server REST services. If an attacker compromises an ArcGIS
+// Server system and uploads a malicious Server Object Extension (SOE), they can send crafted requests to the corresponding
+// service endpoint and remotely execute code from the ArcSOC.exe process.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 8e95e73e_ba02_4a87_b4d7_0929b8053038 {
+  meta:
+    title = "Suspicious ArcSOC.exe Child Process"
+    description = "Detects script interpreters, command-line tools, and similar suspicious child processes of ArcSOC.exe. ArcSOC.exe is the process name which hosts ArcGIS Server REST services. If an attacker compromises an ArcGIS Server system and uploads a malicious Server Object Extension (SOE), they can send crafted requests to the corresponding service endpoint and remotely execute code from the ArcSOC.exe process."
+    author = "Micah Babinski"
+    severity = "HIGH"
+
+  events:
+    (($e.principal.process.file.full_path = /.*\\ArcSOC.exe$/ nocase and ($e.target.process.file.full_path = /.*\\cmd.exe$/ nocase or $e.target.process.file.full_path = /.*\\cscript.exe$/ nocase or $e.target.process.file.full_path = /.*\\mshta.exe$/ nocase or $e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase or $e.target.process.file.full_path = /.*\\regsvr32.exe$/ nocase or $e.target.process.file.full_path = /.*\\rundll32.exe$/ nocase or $e.target.process.file.full_path = /.*\\wmic.exe$/ nocase or $e.target.process.file.full_path = /.*\\wscript.exe$/ nocase)) and not(($e.target.process.file.full_path = /.*\\cmd.exe$/ nocase and $e.target.process.command_line = "cmd.exe /c \"ver\"")))
+
+  condition:
+    $e
+}

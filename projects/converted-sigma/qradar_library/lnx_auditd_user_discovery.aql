@@ -1,0 +1,12 @@
+-- Title: System Owner or User Discovery - Linux
+-- ID: 9a0d8ca0-2385-4020-b6c6-cb6153ca56f3
+-- Status: test
+-- Level: low
+-- Author: Timur Zinniatullin, oscd.community
+-- Date: 2019-10-21
+-- Tags: attack.discovery, attack.t1033
+-- Description: Detects the execution of host or user discovery utilities such as "whoami", "hostname", "id", etc.
+-- Adversaries may use the information from System Owner/User Discovery during automated discovery to shape follow-on behaviors, including whether or not the adversary fully infects the target and/or attempts specific actions.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM events WHERE (type = 'EXECVE' AND (a0 = 'hostname' OR a0 = 'id' OR a0 = 'last' OR a0 = 'uname' OR a0 = 'users' OR a0 = 'w' OR a0 = 'who' OR a0 = 'whoami'))

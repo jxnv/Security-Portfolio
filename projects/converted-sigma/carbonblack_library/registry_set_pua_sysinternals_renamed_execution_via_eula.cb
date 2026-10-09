@@ -1,0 +1,11 @@
+# Title: Suspicious Execution Of Renamed Sysinternals Tools - Registry
+# ID: f50f3c09-557d-492d-81db-9064a8d4e211
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-08-24
+# Tags: attack.resource-development, attack.t1588.002
+# Description: Detects the creation of the "accepteula" key related to the Sysinternals tools being created from executables with the wrong name (e.g. a renamed Sysinternals tool)
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((TargetObject:*\\Active Directory Explorer* OR TargetObject:*\\Handle* OR TargetObject:*\\LiveKd* OR TargetObject:*\\ProcDump* OR TargetObject:*\\Process Explorer* OR TargetObject:*\\PsExec* OR TargetObject:*\\PsLoggedon* OR TargetObject:*\\PsLoglist* OR TargetObject:*\\PsPasswd* OR TargetObject:*\\PsPing* OR TargetObject:*\\PsService* OR TargetObject:*\\SDelete*) AND TargetObject:*\\EulaAccepted) AND -(((process_name:*\\ADExplorer.exe OR process_name:*\\ADExplorer64.exe OR process_name:*\\ADExplorer64a.exe OR process_name:*\\handle.exe OR process_name:*\\handle64.exe OR process_name:*\\handle64a.exe OR process_name:*\\livekd.exe OR process_name:*\\livekd64.exe OR process_name:*\\procdump.exe OR process_name:*\\procdump64.exe OR process_name:*\\procdump64a.exe OR process_name:*\\procexp.exe OR process_name:*\\procexp64.exe OR process_name:*\\procexp64a.exe OR process_name:*\\PsExec.exe OR process_name:*\\PsExec64.exe OR process_name:*\\PsExec64a.exe OR process_name:*\\PsLoggedon.exe OR process_name:*\\PsLoggedon64.exe OR process_name:*\\psloglist.exe OR process_name:*\\psloglist64.exe OR process_name:*\\psloglist64a.exe OR process_name:*\\pspasswd.exe OR process_name:*\\pspasswd64.exe OR process_name:*\\pspasswd64a.exe OR process_name:*\\PsPing.exe OR process_name:*\\PsPing64.exe OR process_name:*\\PsPing64a.exe OR process_name:*\\PsService.exe OR process_name:*\\PsService64.exe OR process_name:*\\PsService64a.exe OR process_name:*\\sdelete.exe))))

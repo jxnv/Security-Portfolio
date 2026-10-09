@@ -1,0 +1,23 @@
+// Title: Regsvr32 Execution From Highly Suspicious Location
+// ID: 327ff235-94eb-4f06-b9de-aaee571324be
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-05-26
+// Tags: attack.stealth, attack.t1218.010
+// Description: Detects execution of regsvr32 where the DLL is located in a highly suspicious locations
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 327ff235_94eb_4f06_b9de_aaee571324be {
+  meta:
+    title = "Regsvr32 Execution From Highly Suspicious Location"
+    description = "Detects execution of regsvr32 where the DLL is located in a highly suspicious locations"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.file.full_path = /.*\\regsvr32.exe$/ nocase) or ($e.target.process.file.name = "REGSVR32.EXE")) and ((($e.target.process.command_line = /.*:\\PerfLogs\\.*/ nocase or $e.target.process.command_line = /.*:\\Temp\\.*/ nocase or $e.target.process.command_line = /.*\\Windows\\Registration\\CRMLog.*/ nocase or $e.target.process.command_line = /.*\\Windows\\System32\\com\\dmp\\.*/ nocase or $e.target.process.command_line = /.*\\Windows\\System32\\FxsTmp\\.*/ nocase or $e.target.process.command_line = /.*\\Windows\\System32\\Microsoft\\Crypto\\RSA\\MachineKeys\\.*/ nocase or $e.target.process.command_line = /.*\\Windows\\System32\\spool\\drivers\\color\\.*/ nocase or $e.target.process.command_line = /.*\\Windows\\System32\\spool\\PRINTERS\\.*/ nocase or $e.target.process.command_line = /.*\\Windows\\System32\\spool\\SERVERS\\.*/ nocase or $e.target.process.command_line = /.*\\Windows\\System32\\Tasks_Migrated\\.*/ nocase or $e.target.process.command_line = /.*\\Windows\\System32\\Tasks\\Microsoft\\Windows\\SyncCenter\\.*/ nocase or $e.target.process.command_line = /.*\\Windows\\SysWOW64\\com\\dmp\\.*/ nocase or $e.target.process.command_line = /.*\\Windows\\SysWOW64\\FxsTmp\\.*/ nocase or $e.target.process.command_line = /.*\\Windows\\SysWOW64\\Tasks\\Microsoft\\Windows\\PLA\\System\\.*/ nocase or $e.target.process.command_line = /.*\\Windows\\SysWOW64\\Tasks\\Microsoft\\Windows\\SyncCenter\\.*/ nocase or $e.target.process.command_line = /.*\\Windows\\Tasks\\.*/ nocase or $e.target.process.command_line = /.*\\Windows\\Tracing\\.*/ nocase)) or ((($e.target.process.command_line = /.* \"C:\\.*/ nocase or $e.target.process.command_line = /.* C:\\.*/ nocase or $e.target.process.command_line = /.* 'C:\\.*/ nocase or $e.target.process.command_line = /.*D:\\.*/ nocase)) and not((($e.target.process.command_line = /.*C:\\Program Files (x86)\\.*/ nocase or $e.target.process.command_line = /.*C:\\Program Files\\.*/ nocase or $e.target.process.command_line = /.*C:\\ProgramData\\.*/ nocase or $e.target.process.command_line = /.*C:\\Users\\.*/ nocase or $e.target.process.command_line = /.* C:\\Windows\\.*/ nocase or $e.target.process.command_line = /.* \"C:\\Windows\\.*/ nocase or $e.target.process.command_line = /.* 'C:\\Windows\\.*/ nocase))))) and not((($e.target.process.command_line = "") or (not ($e.target.process.command_line = /.*/)))))
+
+  condition:
+    $e
+}

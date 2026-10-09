@@ -1,0 +1,33 @@
+{
+  "title": "Windows Defender Real-Time Protection Failure/Restart",
+  "id": "dd80db93-6ec2-4f4c-a017-ad40da6ffe81",
+  "status": "stable",
+  "description": "Detects issues with Windows Defender Real-Time Protection features",
+  "author": "Nasreddine Bencherchali (Nextron Systems), Christopher Peacock '@securepeacock' (Update)",
+  "date": "2023-03-28",
+  "tags": [
+    "attack.defense-impairment",
+    "attack.t1685"
+  ],
+  "level": "medium",
+  "logsource": {
+    "product": "windows",
+    "service": "windefend"
+  },
+  "detection": {
+    "selection": {
+      "EventID": [
+        3002,
+        3007
+      ]
+    },
+    "filter_optional_network_inspection": {
+      "Feature_Name": "%%886",
+      "Reason": [
+        "%%892",
+        "%%858"
+      ]
+    },
+    "condition": "selection and not 1 of filter_optional_*"
+  }
+}

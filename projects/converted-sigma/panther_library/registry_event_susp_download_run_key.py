@@ -1,0 +1,19 @@
+# Title: Suspicious Run Key from Download
+# ID: 9c5037d1-c568-49b3-88c7-9846a5bdc2be
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems), Swachchhanda Shrawan Poude (Nextron Systems)
+# Date: 2019-10-01
+# Tags: attack.privilege-escalation, attack.persistence, attack.t1547.001
+# Description: Detects the suspicious RUN keys created by software located in Download or temporary Outlook/Internet Explorer directories
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Suspicious Run Key from Download
+def rule(event):
+    # Detection Logic:
+    # ((Image="*\\AppData\\Local\\Packages\\Microsoft.Outlook_*" OR Image="*\\AppData\\Local\\Microsoft\\Olk\\Attachments\\*" OR Image="*\\Downloads\\*" OR Image="*\\Temporary Internet Files\\Content.Outlook\\*" OR Image="*\\Local Settings\\Temporary Internet Files\\*") AND (TargetObject="*\\Software\\Microsoft\\Windows\\CurrentVersion\\Run*" OR TargetObject="*\\Software\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Run*" OR TargetObject="*\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run*"))
+    return True
+
+def title(event):
+    return "Suspicious Run Key from Download"
+

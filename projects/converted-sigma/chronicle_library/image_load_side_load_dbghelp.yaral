@@ -1,0 +1,23 @@
+// Title: Potential DLL Sideloading Of DBGHELP.DLL
+// ID: 6414b5cd-b19d-447e-bb5e-9f03940b5784
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems), Wietze Beukema (project and research)
+// Date: 2022-10-25
+// Tags: attack.persistence, attack.privilege-escalation, attack.execution, attack.stealth, attack.t1574.001
+// Description: Detects potential DLL sideloading of "dbghelp.dll"
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 6414b5cd_b19d_447e_bb5e_9f03940b5784 {
+  meta:
+    title = "Potential DLL Sideloading Of DBGHELP.DLL"
+    description = "Detects potential DLL sideloading of "dbghelp.dll""
+    author = "Nasreddine Bencherchali (Nextron Systems), Wietze Beukema (project and research)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.ImageLoaded = /.*\\dbghelp.dll$/ nocase) and not((($e.ImageLoaded = /^C:\\Program Files (x86)\\.*/ nocase or $e.ImageLoaded = /^C:\\Program Files\\.*/ nocase or $e.ImageLoaded = /^C:\\Windows\\SoftwareDistribution\\.*/ nocase or $e.ImageLoaded = /^C:\\Windows\\System32\\.*/ nocase or $e.ImageLoaded = /^C:\\Windows\\SystemTemp\\.*/ nocase or $e.ImageLoaded = /^C:\\Windows\\SysWOW64\\.*/ nocase or $e.ImageLoaded = /^C:\\Windows\\WinSxS\\.*/ nocase))) and not(((($e.ImageLoaded = /.*\\Anaconda3\\Lib\\site-packages\\vtrace\\platforms\\windll\\amd64\\dbghelp.dll$/ nocase or $e.ImageLoaded = /.*\\Anaconda3\\Lib\\site-packages\\vtrace\\platforms\\windll\\i386\\dbghelp.dll$/ nocase)) or (($e.ImageLoaded = /.*\\Epic Games\\Launcher\\Engine\\Binaries\\ThirdParty\\DbgHelp\\dbghelp.dll$/ nocase or $e.ImageLoaded = /.*\\Epic Games\\MagicLegends\\x86\\dbghelp.dll$/ nocase)) or ($e.ImageLoaded = /.*opera\\Opera Installer Temp\\opera_package.*/ nocase and $e.ImageLoaded = /.*\\assistant\\dbghelp.dll$/ nocase))))
+
+  condition:
+    $e
+}

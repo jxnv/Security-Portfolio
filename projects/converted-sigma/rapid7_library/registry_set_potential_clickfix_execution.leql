@@ -1,0 +1,14 @@
+// Title: Potential ClickFix Execution Pattern - Registry
+// ID: f5fe36cf-f1ec-4c23-903d-09a3110f6bbb
+// Status: experimental
+// Level: high
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-03-25
+// Tags: attack.execution, attack.t1204.001
+// Description: Detects potential ClickFix malware execution patterns by monitoring registry modifications in RunMRU keys containing HTTP/HTTPS links.
+// ClickFix is known to be distributed through phishing campaigns and uses techniques like clipboard hijacking and fake CAPTCHA pages.
+// Through the fakecaptcha pages, the adversary tricks users into opening the Run dialog box and pasting clipboard-hijacked content,
+// such as one-liners that execute remotely hosted malicious files or scripts.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(Details ICONTAINS "http://") OR where(Details ICONTAINS "https://"))) AND (where(TargetObject ICONTAINS "\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\RunMRU\\")) AND (((where(Details ICONTAINS "account") OR where(Details ICONTAINS "anti-bot") OR where(Details ICONTAINS "botcheck") OR where(Details ICONTAINS "captcha") OR where(Details ICONTAINS "challenge") OR where(Details ICONTAINS "confirmation") OR where(Details ICONTAINS "fraud") OR where(Details ICONTAINS "human") OR where(Details ICONTAINS "identification") OR where(Details ICONTAINS "identificator") OR where(Details ICONTAINS "identity") OR where(Details ICONTAINS "robot") OR where(Details ICONTAINS "validation") OR where(Details ICONTAINS "verification") OR where(Details ICONTAINS "verify"))) OR ((where(Details ICONTAINS "%comspec%") OR where(Details ICONTAINS "bitsadmin") OR where(Details ICONTAINS "certutil") OR where(Details ICONTAINS "cmd") OR where(Details ICONTAINS "cscript") OR where(Details ICONTAINS "curl") OR where(Details ICONTAINS "finger") OR where(Details ICONTAINS "mshta") OR where(Details ICONTAINS "powershell") OR where(Details ICONTAINS "pwsh") OR where(Details ICONTAINS "regsvr32") OR where(Details ICONTAINS "rundll32") OR where(Details ICONTAINS "schtasks") OR where(Details ICONTAINS "wget") OR where(Details ICONTAINS "wscript")))))

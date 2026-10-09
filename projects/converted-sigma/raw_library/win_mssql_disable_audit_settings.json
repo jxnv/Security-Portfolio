@@ -1,0 +1,28 @@
+{
+  "title": "MSSQL Disable Audit Settings",
+  "id": "350dfb37-3706-4cdc-9e2e-5e24bc3a46df",
+  "status": "test",
+  "description": "Detects when an attacker calls the \"ALTER SERVER AUDIT\" or \"DROP SERVER AUDIT\" transaction in order to delete or disable audit logs on the server",
+  "author": "Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2022-07-13",
+  "tags": [
+    "attack.defense-impairment"
+  ],
+  "level": "high",
+  "logsource": {
+    "product": "windows",
+    "service": "application",
+    "definition": "Requirements: MSSQL audit policy must be enabled in order to receive this event in the application log"
+  },
+  "detection": {
+    "selection": {
+      "Provider_Name|contains": "MSSQL",
+      "EventID": 33205,
+      "Data|contains": [
+        "statement:ALTER SERVER AUDIT",
+        "statement:DROP SERVER AUDIT"
+      ]
+    },
+    "condition": "selection"
+  }
+}

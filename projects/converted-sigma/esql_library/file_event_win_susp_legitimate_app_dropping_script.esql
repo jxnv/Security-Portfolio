@@ -1,0 +1,12 @@
+// Title: Legitimate Application Dropped Script
+// ID: 7d604714-e071-49ff-8726-edeb95a70679
+// Status: test
+// Level: high
+// Author: frack113, Florian Roth (Nextron Systems)
+// Date: 2022-08-21
+// Tags: attack.stealth, attack.t1218
+// Description: Detects LOLBINs and applications that should not legitimately drop script files to disk.
+// This may indicate malware staging or abuse of a trusted binary for script-based code execution.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE (((process.executable LIKE "%\\eqnedt32.exe" OR process.executable LIKE "%\\wordpad.exe" OR process.executable LIKE "%\\wordview.exe" OR process.executable LIKE "%\\certutil.exe" OR process.executable LIKE "%\\certoc.exe" OR process.executable LIKE "%\\CertReq.exe" OR process.executable LIKE "%\\Desktopimgdownldr.exe" OR process.executable LIKE "%\\esentutl.exe" OR process.executable LIKE "%\\mshta.exe" OR process.executable LIKE "%\\AcroRd32.exe" OR process.executable LIKE "%\\RdrCEF.exe" OR process.executable LIKE "%\\hh.exe" OR process.executable LIKE "%\\finger.exe") AND (file.path LIKE "%.bat" OR file.path LIKE "%.chm" OR file.path LIKE "%.csproj" OR file.path LIKE "%.hta" OR file.path LIKE "%.js" OR file.path LIKE "%.jse" OR file.path LIKE "%.proj" OR file.path LIKE "%.ps1" OR file.path LIKE "%.py" OR file.path LIKE "%.scf" OR file.path LIKE "%.vbe" OR file.path LIKE "%.vbs" OR file.path LIKE "%.wsf" OR file.path LIKE "%.wsh")) AND NOT ((process.executable LIKE "%\\mshta.exe" AND file.path LIKE "%.hta")))

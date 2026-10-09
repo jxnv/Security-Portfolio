@@ -1,0 +1,23 @@
+// Title: Disable Windows Firewall by Registry
+// ID: e78c408a-e2ea-43cd-b5ea-51975cf358c0
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-08-19
+// Tags: attack.defense-impairment, attack.t1686.003
+// Description: Detect set EnableFirewall to 0 to disable the Windows firewall
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule e78c408a_e2ea_43cd_b5ea_51975cf358c0 {
+  meta:
+    title = "Disable Windows Firewall by Registry"
+    description = "Detect set EnableFirewall to 0 to disable the Windows firewall"
+    author = "frack113"
+    severity = "MEDIUM"
+
+  events:
+    (($e.TargetObject = /.*\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\StandardProfile\\EnableFirewall$/ nocase or $e.TargetObject = /.*\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\DomainProfile\\EnableFirewall$/ nocase) and $e.Details = "DWORD (0x00000000)")
+
+  condition:
+    $e
+}

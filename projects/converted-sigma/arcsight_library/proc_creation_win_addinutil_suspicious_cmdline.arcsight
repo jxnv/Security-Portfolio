@@ -1,0 +1,11 @@
+// Title: Suspicious AddinUtil.EXE CommandLine Execution
+// ID: 631b22a4-70f4-4e2f-9ea8-42f84d9df6d8
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems), Michael McKinley (@McKinleyMike), Tony Latteri (@TheLatteri)
+// Date: 2023-09-18
+// Tags: attack.stealth, attack.t1218
+// Description: Detects execution of the Add-In deployment cache updating utility (AddInutil.exe) with suspicious Addinroot or Pipelineroot paths. An adversary may execute AddinUtil.exe with uncommon Addinroot/Pipelineroot paths that point to the adversaries Addins.Store payload.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((Image ENDSWITH "\\addinutil.exe") OR (OriginalFileName EQ "AddInUtil.exe")) AND ((((CommandLine CONTAINS "-AddInRoot:" OR CommandLine CONTAINS "-PipelineRoot:")) AND ((CommandLine CONTAINS "\\AppData\\Local\\Temp\\" OR CommandLine CONTAINS "\\Desktop\\" OR CommandLine CONTAINS "\\Downloads\\" OR CommandLine CONTAINS "\\Users\\Public\\" OR CommandLine CONTAINS "\\Windows\\Temp\\"))) OR ((CommandLine CONTAINS "-AddInRoot:." OR CommandLine CONTAINS "-AddInRoot:\".\"" OR CommandLine CONTAINS "-PipelineRoot:." OR CommandLine CONTAINS "-PipelineRoot:\".\"") AND (CurrentDirectory CONTAINS "\\AppData\\Local\\Temp\\" OR CurrentDirectory CONTAINS "\\Desktop\\" OR CurrentDirectory CONTAINS "\\Downloads\\" OR CurrentDirectory CONTAINS "\\Users\\Public\\" OR CurrentDirectory CONTAINS "\\Windows\\Temp\\"))))

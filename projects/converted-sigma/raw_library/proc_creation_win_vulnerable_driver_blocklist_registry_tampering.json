@@ -1,0 +1,50 @@
+{
+  "title": "Vulnerable Driver Blocklist Registry Tampering Via CommandLine",
+  "id": "22154f0e-5132-4a54-aa78-cc62f6def531",
+  "status": "experimental",
+  "description": "Detects tampering of the Vulnerable Driver Blocklist registry via command line tools such as PowerShell or REG.EXE.\nThe Vulnerable Driver Blocklist is a security feature that helps prevent the loading of known vulnerable drivers.\nDisabling this feature may indicate an attempt to bypass security controls, often targeted by threat actors\nto facilitate the installation of malicious or vulnerable drivers, particularly in scenarios involving Endpoint Detection and Response\n",
+  "author": "Swachchhanda Shrawan Poudel (Nextron Systems)",
+  "date": "2026-01-26",
+  "tags": [
+    "attack.defense-impairment",
+    "attack.t1685"
+  ],
+  "level": "high",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_img": [
+      {
+        "Image|endswith": [
+          "\\powershell.exe",
+          "\\pwsh.exe",
+          "\\reg.exe"
+        ]
+      },
+      {
+        "OriginalFileName": [
+          "PowerShell.EXE",
+          "pwsh.dll",
+          "reg.exe"
+        ]
+      }
+    ],
+    "selection_cli_1": {
+      "CommandLine|contains": [
+        "add ",
+        "New-ItemProperty ",
+        "Set-ItemProperty ",
+        "si "
+      ]
+    },
+    "selection_cli_2": {
+      "CommandLine|contains|all": [
+        "\\Control\\CI\\Config",
+        "VulnerableDriverBlocklistEnable"
+      ]
+    },
+    "condition": "all of selection_*"
+  }
+}

@@ -1,0 +1,12 @@
+// Title: Potentially Suspicious CMD Shell Output Redirect
+// ID: 8e0bb260-d4b2-4fff-bb8d-3f82118e6892
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-07-12
+// Tags: attack.stealth, attack.t1218
+// Description: Detects inline Windows shell commands redirecting output via the ">" symbol to a suspicious location.
+// This technique is sometimes used by malicious actors in order to redirect the output of reconnaissance commands such as "hostname" and "dir" to files for future exfiltration.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+from siem.events where (((Image="*\\cmd.exe") OR (OriginalFileName == "Cmd.Exe")) AND (((contains(CommandLine, ">?%APPDATA%\\") OR contains(CommandLine, ">?%TEMP%\\") OR contains(CommandLine, ">?%TMP%\\") OR contains(CommandLine, ">?%USERPROFILE%\\") OR contains(CommandLine, ">?C:\\ProgramData\\") OR contains(CommandLine, ">?C:\\Temp\\") OR contains(CommandLine, ">?C:\\Users\\Public\\") OR contains(CommandLine, ">?C:\\Windows\\Temp\\"))) OR ((contains(CommandLine, " >") OR contains(CommandLine, "\">") OR contains(CommandLine, "'>")) AND (contains(CommandLine, "C:\\Users\\") AND contains(CommandLine, "\\AppData\\Local\\")))))

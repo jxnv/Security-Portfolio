@@ -1,0 +1,11 @@
+// Title: Suspicious Double Extension Files
+// ID: b4926b47-a9d7-434c-b3a0-adc3fa0bd13e
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems), frack113
+// Date: 2022-06-19
+// Tags: attack.stealth, attack.t1036.007
+// Description: Detects dropped files with double extensions, which is often used by malware as a method to abuse the fact that Windows hide default extensions by default.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+file where ((((file.path endswith ".rar.exe" or file.path endswith ".zip.exe")) or ((file.path endswith ".exe" or file.path endswith ".iso" or file.path endswith ".rar" or file.path endswith ".svg" or file.path endswith ".zip") and (file.path like "*_.doc.*" or file.path like "*_.docx.*" or file.path like "*_.gif.*" or file.path like "*_.jpeg.*" or file.path like "*_.jpg.*" or file.path like "*_.mp3.*" or file.path like "*_.mp4.*" or file.path like "*_.pdf.*" or file.path like "*_.png.*" or file.path like "*_.ppt.*" or file.path like "*_.pptx.*" or file.path like "*_.rtf.*" or file.path like "*_.svg.*" or file.path like "*_.txt.*" or file.path like "*_.xls.*" or file.path like "*_.xlsx.*"))) and not ((file.path startswith "/usr/share/icons/")))

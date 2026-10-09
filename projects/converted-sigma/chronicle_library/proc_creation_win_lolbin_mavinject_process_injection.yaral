@@ -1,0 +1,23 @@
+// Title: Mavinject Inject DLL Into Running Process
+// ID: 4f73421b-5a0b-4bbf-a892-5a7fb99bea66
+// Status: test
+// Level: high
+// Author: frack113, Florian Roth
+// Date: 2021-07-12
+// Tags: attack.privilege-escalation, attack.stealth, attack.t1055.001, attack.t1218.013
+// Description: Detects process injection using the signed Windows tool "Mavinject" via the "INJECTRUNNING" flag
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 4f73421b_5a0b_4bbf_a892_5a7fb99bea66 {
+  meta:
+    title = "Mavinject Inject DLL Into Running Process"
+    description = "Detects process injection using the signed Windows tool "Mavinject" via the "INJECTRUNNING" flag"
+    author = "frack113, Florian Roth"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.command_line = /.* /INJECTRUNNING .*/ nocase) and not(($e.principal.process.file.full_path = "C:\\Windows\\System32\\AppVClient.exe")))
+
+  condition:
+    $e
+}

@@ -1,0 +1,26 @@
+// Title: File Deletion Via Del
+// ID: 379fa130-190e-4c3f-b7bc-6c8e834485f3
+// Status: test
+// Level: low
+// Author: frack113
+// Date: 2022-01-15
+// Tags: attack.stealth, attack.t1070.004
+// Description: Detects execution of the builtin "del"/"erase" commands in order to delete files.
+// Adversaries may delete files left behind by the actions of their intrusion activity.
+// Malware, tools, or other non-native files dropped or created on a system by an adversary may leave traces to indicate to what was done within a network and how.
+// Removal of these files can occur during an intrusion, or as part of a post-intrusion process to minimize the adversary's footprint.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 379fa130_190e_4c3f_b7bc_6c8e834485f3 {
+  meta:
+    title = "File Deletion Via Del"
+    description = "Detects execution of the builtin "del"/"erase" commands in order to delete files. Adversaries may delete files left behind by the actions of their intrusion activity. Malware, tools, or other non-native files dropped or created on a system by an adversary may leave traces to indicate to what was done within a network and how. Removal of these files can occur during an intrusion, or as part of a post-intrusion process to minimize the adversary's footprint."
+    author = "frack113"
+    severity = "LOW"
+
+  events:
+    ((($e.target.process.command_line = /.*del .*/ nocase or $e.target.process.command_line = /.*erase .*/ nocase)) and (($e.target.process.command_line = /.* -f.*/ nocase or $e.target.process.command_line = /.* -s.*/ nocase or $e.target.process.command_line = /.* -q.*/ nocase)) and (($e.target.process.file.full_path = /.*\\cmd.exe$/ nocase) or ($e.target.process.file.name = "Cmd.Exe")))
+
+  condition:
+    $e
+}

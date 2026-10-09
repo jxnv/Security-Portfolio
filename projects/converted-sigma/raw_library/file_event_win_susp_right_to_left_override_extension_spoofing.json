@@ -1,0 +1,51 @@
+{
+  "title": "Potential File Extension Spoofing Using Right-to-Left Override",
+  "id": "979baf41-ca44-4540-9d0c-4fcef3b5a3a4",
+  "status": "test",
+  "description": "Detects suspicious filenames that contain a right-to-left override character and a potentially spoofed file extensions.\n",
+  "author": "Jonathan Peters (Nextron Systems), Florian Roth (Nextron Systems), Swachchhanda Shrawan Poudel (Nextron Systems)",
+  "date": "2024-11-17",
+  "tags": [
+    "attack.execution",
+    "attack.stealth",
+    "attack.t1036.002"
+  ],
+  "level": "high",
+  "logsource": {
+    "category": "file_event",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_rtlo_unicode": {
+      "TargetFilename|contains": [
+        "\\u202e",
+        "[U+202E]",
+        "\u202e"
+      ]
+    },
+    "selection_extensions": {
+      "TargetFilename|contains": [
+        "3pm.",
+        "4pm.",
+        "cod.",
+        "fdp.",
+        "ftr.",
+        "gepj.",
+        "gnp.",
+        "gpj.",
+        "ism.",
+        "lmth.",
+        "nls.",
+        "piz.",
+        "slx.",
+        "tdo.",
+        "vsc.",
+        "vwm.",
+        "xcod.",
+        "xslx.",
+        "xtpp."
+      ]
+    },
+    "condition": "all of selection_*"
+  }
+}

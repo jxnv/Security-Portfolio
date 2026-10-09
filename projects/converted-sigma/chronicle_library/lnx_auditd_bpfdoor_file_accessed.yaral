@@ -1,0 +1,23 @@
+// Title: BPFDoor Abnormal Process ID or Lock File Accessed
+// ID: 808146b2-9332-4d78-9416-d7e47012d83d
+// Status: test
+// Level: high
+// Author: Rafal Piasecki
+// Date: 2022-08-10
+// Tags: attack.execution, attack.t1106, attack.t1059
+// Description: detects BPFDoor .lock and .pid files access in temporary file storage facility
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 808146b2_9332_4d78_9416_d7e47012d83d {
+  meta:
+    title = "BPFDoor Abnormal Process ID or Lock File Accessed"
+    description = "detects BPFDoor .lock and .pid files access in temporary file storage facility"
+    author = "Rafal Piasecki"
+    severity = "HIGH"
+
+  events:
+    ($e.type = "PATH" and ($e.name = "/var/run/aepmonend.pid" or $e.name = "/var/run/auditd.lock" or $e.name = "/var/run/cma.lock" or $e.name = "/var/run/console-kit.pid" or $e.name = "/var/run/consolekit.pid" or $e.name = "/var/run/daemon.pid" or $e.name = "/var/run/hald-addon.pid" or $e.name = "/var/run/hald-smartd.pid" or $e.name = "/var/run/haldrund.pid" or $e.name = "/var/run/hp-health.pid" or $e.name = "/var/run/hpasmlit.lock" or $e.name = "/var/run/hpasmlited.pid" or $e.name = "/var/run/kdevrund.pid" or $e.name = "/var/run/lldpad.lock" or $e.name = "/var/run/mcelog.pid" or $e.name = "/var/run/system.pid" or $e.name = "/var/run/uvp-srv.pid" or $e.name = "/var/run/vmtoolagt.pid" or $e.name = "/var/run/xinetd.lock"))
+
+  condition:
+    $e
+}

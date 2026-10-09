@@ -1,0 +1,35 @@
+{
+  "title": "DLL Load via LSASS",
+  "id": "b3503044-60ce-4bf4-bbcb-e3db98788823",
+  "status": "test",
+  "description": "Detects a method to load DLL via LSASS process using an undocumented Registry key",
+  "author": "Florian Roth (Nextron Systems)",
+  "date": "2019-10-16",
+  "tags": [
+    "attack.privilege-escalation",
+    "attack.execution",
+    "attack.persistence",
+    "attack.t1547.008"
+  ],
+  "level": "high",
+  "logsource": {
+    "category": "registry_event",
+    "product": "windows"
+  },
+  "detection": {
+    "selection": {
+      "TargetObject|contains": [
+        "\\CurrentControlSet\\Services\\NTDS\\DirectoryServiceExtPt",
+        "\\CurrentControlSet\\Services\\NTDS\\LsaDbExtPt"
+      ]
+    },
+    "filter_domain_controller": {
+      "Image": "C:\\Windows\\system32\\lsass.exe",
+      "Details": [
+        "%%systemroot%%\\system32\\ntdsa.dll",
+        "%%systemroot%%\\system32\\lsadb.dll"
+      ]
+    },
+    "condition": "selection and not 1 of filter_*"
+  }
+}

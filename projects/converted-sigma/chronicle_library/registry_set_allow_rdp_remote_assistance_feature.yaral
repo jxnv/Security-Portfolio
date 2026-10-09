@@ -1,0 +1,23 @@
+// Title: Allow RDP Remote Assistance Feature
+// ID: 37b437cf-3fc5-4c8e-9c94-1d7c9aff842b
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-08-19
+// Tags: attack.persistence, attack.defense-impairment, attack.t1112
+// Description: Detect enable rdp feature to allow specific user to rdp connect on the targeted machine
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 37b437cf_3fc5_4c8e_9c94_1d7c9aff842b {
+  meta:
+    title = "Allow RDP Remote Assistance Feature"
+    description = "Detect enable rdp feature to allow specific user to rdp connect on the targeted machine"
+    author = "frack113"
+    severity = "MEDIUM"
+
+  events:
+    ($e.TargetObject = /.*System\\CurrentControlSet\\Control\\Terminal Server\\fAllowToGetHelp$/ nocase and $e.Details = "DWORD (0x00000001)")
+
+  condition:
+    $e
+}

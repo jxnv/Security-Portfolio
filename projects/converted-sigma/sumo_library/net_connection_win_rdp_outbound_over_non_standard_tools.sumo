@@ -1,0 +1,12 @@
+// Title: Outbound RDP Connections Over Non-Standard Tools
+// ID: ed74fe75-7594-4b4b-ae38-e38e3fd2eb23
+// Status: test
+// Level: high
+// Author: Markus Neis
+// Date: 2019-05-15
+// Tags: attack.lateral-movement, attack.t1021.001, car.2013-07-002
+// Description: Detects Non-Standard tools initiating a connection over port 3389 indicating possible lateral movement.
+// An initial baseline is required before using this utility to exclude third party RDP tooling that you might use.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where ((DestinationPort = "3389" and Initiated = "true") and !(((Image = "C:\\Windows\\System32\\mstsc.exe" or Image = "C:\\Windows\\SysWOW64\\mstsc.exe"))) and !((((Image matches "*\\Avast Software\\Avast\\AvastSvc.exe" or Image matches "*\\Avast\\AvastSvc.exe")) or (Image = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe") or (Image = "C:\\Windows\\System32\\dns.exe" and SourcePort = "53" and Protocol = "udp") or (Image = "") or (Image = "C:\\Program Files\\Mozilla Firefox\\firefox.exe") or (isNull(Image)) or (Image matches "*\\Ranger\\SentinelRanger.exe") or (Image matches "C:\\Program Files\\SplunkUniversalForwarder\\bin\\*") or (Image matches "*\\RDCMan.exe") or ((Image matches "*\\FSAssessment.exe" or Image matches "*\\FSDiscovery.exe" or Image matches "*\\MobaRTE.exe" or Image matches "*\\mRemote.exe" or Image matches "*\\mRemoteNG.exe" or Image matches "*\\Passwordstate.exe" or Image matches "*\\RemoteDesktopManager.exe" or Image matches "*\\RemoteDesktopManager64.exe" or Image matches "*\\RemoteDesktopManagerFree.exe" or Image matches "*\\RSSensor.exe" or Image matches "*\\RTS2App.exe" or Image matches "*\\RTSApp.exe" or Image matches "*\\spiceworks-finder.exe" or Image matches "*\\Terminals.exe" or Image matches "*\\ws_TunnelService.exe")) or ((Image matches "*\\thor.exe" or Image matches "*\\thor64.exe")) or ((Image = "C:\\Program Files\\TSplus\\Java\\bin\\HTML5service.exe" or Image = "C:\\Program Files (x86)\\TSplus\\Java\\bin\\HTML5service.exe")) or (Image = "<unknown process>"))))

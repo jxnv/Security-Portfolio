@@ -1,0 +1,19 @@
+# Title: Remote File Copy
+# ID: 7a14080d-a048-4de8-ae58-604ce58a795b
+# Status: stable
+# Level: low
+# Author: Ömer Günal
+# Date: 2020-06-18
+# Tags: attack.command-and-control, attack.lateral-movement, attack.t1105
+# Description: Detects the use of tools that copy files from or to remote systems
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Remote File Copy
+def rule(event):
+    # Detection Logic:
+    # (("scp " OR "rsync " OR "sftp ") AND ("@" OR ":"))
+    return True
+
+def title(event):
+    return "Remote File Copy"
+

@@ -1,0 +1,11 @@
+// Title: Suspicious Scheduled Task Creation via Masqueraded XML File
+// ID: dd2a821e-3b07-4d3b-a9ac-929fe4c6ca0c
+// Status: test
+// Level: medium
+// Author: Swachchhanda Shrawan Poudel, Elastic (idea)
+// Date: 2023-04-20
+// Tags: attack.privilege-escalation, attack.execution, attack.persistence, attack.stealth, attack.t1036.005, attack.t1053.005
+// Description: Detects the creation of a scheduled task using the "-XML" flag with a file without the '.xml' extension. This behavior could be indicative of potential defense evasion attempt during persistence
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((src.process.cmdline containsCIS "/create" OR src.process.cmdline containsCIS "-create")) AND ((src.process.cmdline containsCIS "/xml" OR src.process.cmdline containsCIS "-xml")) AND ((src.process.image.path endswithCIS "\\schtasks.exe") OR (OriginalFileName = "schtasks.exe"))) AND NOT (((src.process.cmdline containsCIS ".xml") OR (src.process.parent.image.path endswithCIS "\\rundll32.exe" AND (src.process.parent.cmdline containsCIS ":\\WINDOWS\\Installer\\MSI" AND src.process.parent.cmdline containsCIS ".tmp,zzzzInvokeManagedCustomActionOutOfProc")) OR ((IntegrityLevel = "System" OR IntegrityLevel = "S-1-16-16384")))) AND NOT (((src.process.parent.image.path endswithCIS ":\\ProgramData\\OEM\\UpgradeTool\\CareCenter_*\\BUnzip\\Setup_msi.exe" OR src.process.parent.image.path endswithCIS ":\\Program Files\\Axis Communications\\AXIS Camera Station\\SetupActions.exe" OR src.process.parent.image.path endswithCIS ":\\Program Files\\Axis Communications\\AXIS Device Manager\\AdmSetupActions.exe" OR src.process.parent.image.path endswithCIS ":\\Program Files (x86)\\Zemana\\AntiMalware\\AntiMalware.exe" OR src.process.parent.image.path endswithCIS ":\\Program Files\\Dell\\SupportAssist\\pcdrcui.exe"))))

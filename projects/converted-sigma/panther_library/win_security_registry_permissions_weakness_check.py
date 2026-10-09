@@ -1,0 +1,21 @@
+# Title: Service Registry Key Read Access Request
+# ID: 11d00fff-5dc3-428c-8184-801f292faec0
+# Status: test
+# Level: low
+# Author: Center for Threat Informed Defense (CTID) Summiting the Pyramid Team
+# Date: 2023-09-28
+# Tags: attack.persistence, attack.privilege-escalation, attack.execution, attack.stealth, attack.t1574.011
+# Description: Detects "read access" requests on the services registry key.
+# Adversaries may execute their own malicious payloads by hijacking the Registry entries used by services.
+# Adversaries may use flaws in the permissions for Registry keys related to services to redirect from the originally specified executable to one that they control, in order to launch their own code when a service starts.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Service Registry Key Read Access Request
+def rule(event):
+    # Detection Logic:
+    # (EventID="4663" AND (ObjectName="*\\SYSTEM\\*" AND ObjectName="*ControlSet\\Services\\*") AND AccessList="*%%1538*")
+    return True
+
+def title(event):
+    return "Service Registry Key Read Access Request"
+

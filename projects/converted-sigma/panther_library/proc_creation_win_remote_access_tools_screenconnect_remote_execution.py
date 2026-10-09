@@ -1,0 +1,19 @@
+# Title: Remote Access Tool - ScreenConnect Remote Command Execution
+# ID: b1f73849-6329-4069-bc8f-78a604bb8b23
+# Status: test
+# Level: low
+# Author: Ali Alwashali
+# Date: 2023-10-10
+# Tags: attack.execution, attack.t1059.003
+# Description: Detects the execution of a system command via the ScreenConnect RMM service.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Remote Access Tool - ScreenConnect Remote Command Execution
+def rule(event):
+    # Detection Logic:
+    # ((CommandLine="*\\TEMP\\ScreenConnect\\*") AND ((Image="*\\cmd.exe") OR (OriginalFileName="Cmd.Exe")) AND (ParentImage="*\\ScreenConnect.ClientService.exe"))
+    return True
+
+def title(event):
+    return "Remote Access Tool - ScreenConnect Remote Command Execution"
+

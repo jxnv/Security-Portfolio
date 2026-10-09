@@ -1,0 +1,11 @@
+// Title: AspNetCompiler Execution
+// ID: a01b8329-5953-4f73-ae2d-aa01e1f35f00
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2021-11-24
+// Tags: attack.execution, attack.stealth, attack.t1127
+// Description: Detects execution of "aspnet_compiler.exe" which can be abused to compile and execute C# code.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter ((action_process_image_path contains ":\\Windows\\Microsoft.NET\\Framework\\" or action_process_image_path contains ":\\Windows\\Microsoft.NET\\Framework64\\" or action_process_image_path contains ":\\Windows\\Microsoft.NET\\FrameworkArm\\" or action_process_image_path contains ":\\Windows\\Microsoft.NET\\FrameworkArm64\\") and action_process_image_path endswith "\\aspnet_compiler.exe")

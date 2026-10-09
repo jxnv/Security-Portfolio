@@ -1,0 +1,19 @@
+# Title: AWS GuardDuty Important Change
+# ID: 6e61ee20-ce00-4f8d-8aee-bedd8216f7e3
+# Status: test
+# Level: high
+# Author: faloker
+# Date: 2020-02-11
+# Tags: attack.defense-impairment, attack.t1685
+# Description: Detects updates of the GuardDuty list of trusted IPs, perhaps to disable security alerts against malicious IPs.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: AWS GuardDuty Important Change
+def rule(event):
+    # Detection Logic:
+    # (eventSource="guardduty.amazonaws.com" AND eventName="CreateIPSet")
+    return True
+
+def title(event):
+    return "AWS GuardDuty Important Change"
+

@@ -1,0 +1,23 @@
+// Title: Suspicious Invoke-Item From Mount-DiskImage
+// ID: 902cedee-0398-4e3a-8183-6f3a89773a96
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-02-01
+// Tags: attack.defense-impairment, attack.t1553.005
+// Description: Adversaries may abuse container files such as disk image (.iso, .vhd) file formats to deliver malicious payloads that may not be tagged with MOTW.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 902cedee_0398_4e3a_8183_6f3a89773a96 {
+  meta:
+    title = "Suspicious Invoke-Item From Mount-DiskImage"
+    description = "Adversaries may abuse container files such as disk image (.iso, .vhd) file formats to deliver malicious payloads that may not be tagged with MOTW."
+    author = "frack113"
+    severity = "MEDIUM"
+
+  events:
+    (($e.ScriptBlockText = /.*Mount-DiskImage .*/ nocase and $e.ScriptBlockText = /.*-ImagePath .*/ nocase and $e.ScriptBlockText = /.*Get-Volume.*/ nocase and $e.ScriptBlockText = /.*.DriveLetter.*/ nocase and $e.ScriptBlockText = /.*invoke-item .*/ nocase and $e.ScriptBlockText = /.*):\\.*/ nocase))
+
+  condition:
+    $e
+}

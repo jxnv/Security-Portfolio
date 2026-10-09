@@ -1,0 +1,23 @@
+// Title: Potential PowerShell Execution Policy Tampering - ProcCreation
+// ID: cf2e938e-9a3e-4fe8-a347-411642b28a9f
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-01-11
+// Tags: attack.defense-impairment
+// Description: Detects changes to the PowerShell execution policy registry key in order to bypass signing requirements for script execution from the CommandLine
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule cf2e938e_9a3e_4fe8_a347_411642b28a9f {
+  meta:
+    title = "Potential PowerShell Execution Policy Tampering - ProcCreation"
+    description = "Detects changes to the PowerShell execution policy registry key in order to bypass signing requirements for script execution from the CommandLine"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*\\ShellIds\\Microsoft.PowerShell\\ExecutionPolicy.*/ nocase or $e.target.process.command_line = /.*\\Policies\\Microsoft\\Windows\\PowerShell\\ExecutionPolicy.*/ nocase)) and (($e.target.process.command_line = /.*Bypass.*/ nocase or $e.target.process.command_line = /.*RemoteSigned.*/ nocase or $e.target.process.command_line = /.*Unrestricted.*/ nocase)))
+
+  condition:
+    $e
+}

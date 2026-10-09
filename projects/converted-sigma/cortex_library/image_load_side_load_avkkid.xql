@@ -1,0 +1,11 @@
+// Title: Potential AVKkid.DLL Sideloading
+// ID: 952ed57c-8f99-453d-aee0-53a49c22f95d
+// Status: test
+// Level: medium
+// Author: X__Junior (Nextron Systems)
+// Date: 2023-08-03
+// Tags: attack.persistence, attack.privilege-escalation, attack.execution, attack.stealth, attack.t1574.001
+// Description: Detects potential DLL sideloading of "AVKkid.dll"
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter ((ImageLoaded endswith "\\AVKkid.dll") and not (((action_process_image_path contains "C:\\Program Files (x86)\\G DATA\\" or action_process_image_path contains "C:\\Program Files\\G DATA\\") and action_process_image_path endswith "\\AVKKid.exe" and (ImageLoaded startswith "C:\\Program Files (x86)\\G DATA\\" or ImageLoaded startswith "C:\\Program Files\\G DATA\\"))))

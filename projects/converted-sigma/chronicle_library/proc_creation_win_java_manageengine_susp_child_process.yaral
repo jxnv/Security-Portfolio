@@ -1,0 +1,23 @@
+// Title: Suspicious Child Process Of Manage Engine ServiceDesk
+// ID: cea2b7ea-792b-405f-95a1-b903ea06458f
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2023-01-18
+// Tags: attack.command-and-control, attack.t1102
+// Description: Detects suspicious child processes of the "Manage Engine ServiceDesk Plus" Java web service
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule cea2b7ea_792b_405f_95a1_b903ea06458f {
+  meta:
+    title = "Suspicious Child Process Of Manage Engine ServiceDesk"
+    description = "Detects suspicious child processes of the "Manage Engine ServiceDesk Plus" Java web service"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.principal.process.file.full_path = /.*\\ManageEngine\\ServiceDesk\\.*/ nocase and $e.principal.process.file.full_path = /.*\\java.exe.*/ nocase) and ($e.target.process.file.full_path = /.*\\AppVLP.exe$/ nocase or $e.target.process.file.full_path = /.*\\bash.exe$/ nocase or $e.target.process.file.full_path = /.*\\bitsadmin.exe$/ nocase or $e.target.process.file.full_path = /.*\\calc.exe$/ nocase or $e.target.process.file.full_path = /.*\\certutil.exe$/ nocase or $e.target.process.file.full_path = /.*\\cscript.exe$/ nocase or $e.target.process.file.full_path = /.*\\curl.exe$/ nocase or $e.target.process.file.full_path = /.*\\forfiles.exe$/ nocase or $e.target.process.file.full_path = /.*\\mftrace.exe$/ nocase or $e.target.process.file.full_path = /.*\\mshta.exe$/ nocase or $e.target.process.file.full_path = /.*\\net.exe$/ nocase or $e.target.process.file.full_path = /.*\\net1.exe$/ nocase or $e.target.process.file.full_path = /.*\\notepad.exe$/ nocase or $e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase or $e.target.process.file.full_path = /.*\\query.exe$/ nocase or $e.target.process.file.full_path = /.*\\reg.exe$/ nocase or $e.target.process.file.full_path = /.*\\schtasks.exe$/ nocase or $e.target.process.file.full_path = /.*\\scrcons.exe$/ nocase or $e.target.process.file.full_path = /.*\\sh.exe$/ nocase or $e.target.process.file.full_path = /.*\\systeminfo.exe$/ nocase or $e.target.process.file.full_path = /.*\\whoami.exe$/ nocase or $e.target.process.file.full_path = /.*\\wmic.exe$/ nocase or $e.target.process.file.full_path = /.*\\wscript.exe$/ nocase)) and not((($e.target.process.file.full_path = /.*\\net.exe$/ nocase or $e.target.process.file.full_path = /.*\\net1.exe$/ nocase) and $e.target.process.command_line = /.* stop.*/ nocase)))
+
+  condition:
+    $e
+}

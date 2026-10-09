@@ -1,0 +1,11 @@
+// Title: Conhost Spawned By Uncommon Parent Process
+// ID: cbb9e3d1-2386-4e59-912e-62f1484f7a89
+// Status: test
+// Level: medium
+// Author: Tim Rauch, Elastic (idea)
+// Date: 2022-09-28
+// Tags: attack.execution, attack.t1059
+// Description: Detects when the Console Window Host (conhost.exe) process is spawned by an uncommon parent process, which could be indicative of potential code injection activity.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((src.process.image.path endswithCIS "\\conhost.exe" AND (src.process.parent.image.path endswithCIS "\\explorer.exe" OR src.process.parent.image.path endswithCIS "\\lsass.exe" OR src.process.parent.image.path endswithCIS "\\regsvr32.exe" OR src.process.parent.image.path endswithCIS "\\rundll32.exe" OR src.process.parent.image.path endswithCIS "\\services.exe" OR src.process.parent.image.path endswithCIS "\\smss.exe" OR src.process.parent.image.path endswithCIS "\\spoolsv.exe" OR src.process.parent.image.path endswithCIS "\\svchost.exe" OR src.process.parent.image.path endswithCIS "\\userinit.exe" OR src.process.parent.image.path endswithCIS "\\wininit.exe" OR src.process.parent.image.path endswithCIS "\\winlogon.exe")) AND NOT (((src.process.parent.cmdline containsCIS "-k apphost -s AppHostSvc" OR src.process.parent.cmdline containsCIS "-k imgsvc" OR src.process.parent.cmdline containsCIS "-k localService -p -s RemoteRegistry" OR src.process.parent.cmdline containsCIS "-k LocalSystemNetworkRestricted -p -s NgcSvc" OR src.process.parent.cmdline containsCIS "-k NetSvcs -p -s NcaSvc" OR src.process.parent.cmdline containsCIS "-k netsvcs -p -s NetSetupSvc" OR src.process.parent.cmdline containsCIS "-k netsvcs -p -s wlidsvc" OR src.process.parent.cmdline containsCIS "-k NetworkService -p -s DoSvc" OR src.process.parent.cmdline containsCIS "-k wsappx -p -s AppXSvc" OR src.process.parent.cmdline containsCIS "-k wsappx -p -s ClipSVC" OR src.process.parent.cmdline containsCIS "-k wusvcs -p -s WaaSMedicSvc"))) AND NOT (((src.process.parent.cmdline containsCIS "C:\\Program Files (x86)\\Dropbox\\Client\\" OR src.process.parent.cmdline containsCIS "C:\\Program Files\\Dropbox\\Client\\"))))

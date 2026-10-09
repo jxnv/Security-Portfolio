@@ -1,0 +1,49 @@
+{
+  "title": "HackTool - Potential Impacket Lateral Movement Activity",
+  "id": "10c14723-61c7-4c75-92ca-9af245723ad2",
+  "status": "stable",
+  "description": "Detects wmiexec/dcomexec/atexec/smbexec from Impacket framework",
+  "author": "Ecco, oscd.community, Jonhnathan Ribeiro, Tim Rauch",
+  "date": "2019-09-03",
+  "tags": [
+    "attack.execution",
+    "attack.t1047",
+    "attack.lateral-movement",
+    "attack.t1021.003"
+  ],
+  "level": "high",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_other": {
+      "ParentImage|endswith": [
+        "\\wmiprvse.exe",
+        "\\mmc.exe",
+        "\\explorer.exe",
+        "\\services.exe"
+      ],
+      "CommandLine|contains|all": [
+        "cmd.exe",
+        "/Q",
+        "/c",
+        "\\\\\\\\127.0.0.1\\\\",
+        "&1"
+      ]
+    },
+    "selection_atexec": {
+      "ParentCommandLine|contains": [
+        "svchost.exe -k netsvcs",
+        "taskeng.exe"
+      ],
+      "CommandLine|contains|all": [
+        "cmd.exe",
+        "/C",
+        "Windows\\Temp\\",
+        "&1"
+      ]
+    },
+    "condition": "1 of selection_*"
+  }
+}

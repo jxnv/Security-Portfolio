@@ -1,0 +1,11 @@
+// Title: File Download From Browser Process Via Inline URL
+// ID: 94771a71-ba41-4b6e-a757-b531372eaab6
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-01-11
+// Tags: attack.command-and-control, attack.t1105
+// Description: Detects execution of a browser process with a URL argument pointing to a file with a potentially interesting extension. This can be abused to download arbitrary files or to hide from the user for example by launching the browser in a minimized state.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where ((((CommandLine matches "*.7z" or CommandLine matches "*.dat" or CommandLine matches "*.dll" or CommandLine matches "*.exe" or CommandLine matches "*.hta" or CommandLine matches "*.ps1" or CommandLine matches "*.psm1" or CommandLine matches "*.txt" or CommandLine matches "*.vbe" or CommandLine matches "*.vbs" or CommandLine matches "*.zip")) or ((CommandLine matches "*.7z\"*" or CommandLine matches "*.dat\"*" or CommandLine matches "*.dll\"*" or CommandLine matches "*.hta\"*" or CommandLine matches "*.ps1\"*" or CommandLine matches "*.psm1\"*" or CommandLine matches "*.txt\"*" or CommandLine matches "*.vbe\"*" or CommandLine matches "*.vbs\"*" or CommandLine matches "*.zip\"*"))) and (CommandLine matches "*http*") and ((Image matches "*\\brave.exe" or Image matches "*\\chrome.exe" or Image matches "*\\msedge.exe" or Image matches "*\\opera.exe" or Image matches "*\\vivaldi.exe")))

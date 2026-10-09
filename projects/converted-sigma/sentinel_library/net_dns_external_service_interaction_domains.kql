@@ -1,0 +1,22 @@
+// Title: DNS Query to External Service Interaction Domains
+// ID: aff715fa-4dd5-497a-8db3-910bea555566
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Matt Kelly (list of domains)
+// Date: 2022-06-07
+// Tags: attack.initial-access, attack.t1190, attack.reconnaissance, attack.t1595.002
+// Description: Detects DNS queries to well-known out-of-band application security testing (OAST) and callback domains.
+// These services (e.g. Burp Collaborator, interactsh, canarytokens, dnslog.cn) are used by security
+// researchers and attackers alike to confirm blind vulnerabilities such as SSRF, XXE, blind RCE, and
+// Log4Shell-style injections, where the exploit payload triggers an external DNS lookup to a controlled domain.
+// 
+// A detection indicates that a host on your network resolved one of these domains, which may mean:
+//     (1) an attacker is actively probing or exploiting a vulnerable service and using the callback to
+//     confirm code execution or data exfiltration,
+//     (2) a security scanner (e.g. Nuclei, Gobies) is running against internal targets.
+// 
+// Investigate the source host, the full DNS query string (the unique subdomain prefix encodes the callback session),
+// and any concurrent outbound connections or process activity to determine intent.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+SecurityEvent | where (((query endswith ".burpcollaborator.net" or query endswith ".canarytokens.com" or query endswith ".ceye.io" or query endswith ".ddns.1433.eu.org" or query endswith ".ddns.bypass.eu.org" or query endswith ".ddns.xn--gg8h.eu.org" or query endswith ".digimg.store" or query endswith ".dns.su18.org" or query endswith ".dnshook.site" or query endswith ".dnslog.cn" or query endswith ".dnslog.ink" or query endswith ".gobygo.net" or query endswith ".instances.httpworkbench.com" or query endswith ".interact.sh" or query endswith ".log.dnslog.pp.ua" or query endswith ".log.dnslog.qzz.io" or query endswith ".log.dnslogs.dpdns.org" or query endswith ".log.javaweb.org" or query endswith ".log.nat.cloudns.ph" or query endswith ".oast.fun" or query endswith ".oast.live" or query endswith ".oast.me" or query endswith ".oast.online" or query endswith ".oast.pro" or query endswith ".oast.site" or query endswith ".oastify.com" or query endswith ".p8.lol" or query endswith ".requestbin.net")) and not((query contains "polling.oastify.com")))

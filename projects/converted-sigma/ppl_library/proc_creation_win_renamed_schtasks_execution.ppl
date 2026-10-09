@@ -1,0 +1,13 @@
+// Title: Renamed Schtasks Execution
+// ID: f91e51c9-f344-4b32-969b-0b6f6b8537d4
+// Status: experimental
+// Level: high
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-11-27
+// Tags: attack.execution, attack.persistence, attack.privilege-escalation, attack.stealth, attack.t1036.003, attack.t1053.005
+// Description: Detects the execution of renamed schtasks.exe binary, which is a legitimate Windows utility used for scheduling tasks.
+// One of the very common persistence techniques is schedule malicious tasks using schtasks.exe.
+// Since, it is heavily abused, it is also heavily monitored by security products. To evade detection, threat actors may rename the schtasks.exe binary to schedule their malicious tasks.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where (((((process.command_line like "% /tn %" OR process.command_line like "% /tr %" OR process.command_line like "% /sc %" OR process.command_line like "% /st %" OR process.command_line like "% /ru %" OR process.command_line like "% /fo %")) AND ((process.command_line like "% /create %" OR process.command_line like "% /delete %" OR process.command_line like "% /query %" OR process.command_line like "% /change %" OR process.command_line like "% /run %" OR process.command_line like "% /end %"))) AND NOT ((process.command_line like "%schtasks%")) AND NOT (((process.command_line like "%openfiles%" AND process.command_line like "% /query %" AND process.command_line like "% /fo%")))) OR ((process.pe.original_file_name = "schtasks.exe") AND NOT ((process.executable="*\\schtasks.exe"))))

@@ -1,0 +1,11 @@
+// Title: Suspicious LNK Double Extension File Created
+// ID: 3215aa19-f060-4332-86d5-5602511f3ca8
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems), frack113
+// Date: 2022-11-07
+// Tags: attack.stealth, attack.t1036.007
+// Description: Detects the creation of files with an "LNK" as a second extension. This is sometimes used by malware as a method to abuse the fact that Windows hides the "LNK" extension by default.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where ((TargetFilename matches "*.lnk" and (TargetFilename matches "*.doc.*" or TargetFilename matches "*.docx.*" or TargetFilename matches "*.jpg.*" or TargetFilename matches "*.pdf.*" or TargetFilename matches "*.ppt.*" or TargetFilename matches "*.pptx.*" or TargetFilename matches "*.xls.*" or TargetFilename matches "*.xlsx.*")) and !((TargetFilename matches "*\\AppData\\Roaming\\Microsoft\\Windows\\Recent\\*")) and !(((Image matches "*\\excel.exe" and TargetFilename matches "*\\AppData\\Roaming\\Microsoft\\Excel*") or (Image matches "*\\powerpnt.exe" and TargetFilename matches "*\\AppData\\Roaming\\Microsoft\\PowerPoint*") or ((Image matches "*\\excel.exe" or Image matches "*\\powerpnt.exe" or Image matches "*\\winword.exe") and TargetFilename matches "*\\AppData\\Roaming\\Microsoft\\Office\\Recent\\*") or (Image matches "*\\winword.exe" and TargetFilename matches "*\\AppData\\Roaming\\Microsoft\\Word*"))))

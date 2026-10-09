@@ -1,0 +1,11 @@
+// Title: Potential Persistence Attempt Via Existing Service Tampering
+// ID: 38879043-7e1e-47a9-8d46-6bec88e201df
+// Status: test
+// Level: medium
+// Author: Sreeman
+// Date: 2020-09-29
+// Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.stealth, attack.t1543.003, attack.t1574.011
+// Description: Detects the modification of an existing service in order to execute an arbitrary payload when the service is started or killed as a potential method for persistence.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((where(CommandLine ICONTAINS "sc ") AND where(CommandLine ICONTAINS "config ") AND where(CommandLine ICONTAINS "binpath="))) OR ((where(CommandLine ICONTAINS "sc ") AND where(CommandLine ICONTAINS "failure") AND where(CommandLine ICONTAINS "command=")))) OR (((where(CommandLine ICONTAINS ".sh") OR where(CommandLine ICONTAINS ".exe") OR where(CommandLine ICONTAINS ".dll") OR where(CommandLine ICONTAINS ".bin$") OR where(CommandLine ICONTAINS ".bat") OR where(CommandLine ICONTAINS ".cmd") OR where(CommandLine ICONTAINS ".js") OR where(CommandLine ICONTAINS ".msh$") OR where(CommandLine ICONTAINS ".reg$") OR where(CommandLine ICONTAINS ".scr") OR where(CommandLine ICONTAINS ".ps") OR where(CommandLine ICONTAINS ".vb") OR where(CommandLine ICONTAINS ".jar") OR where(CommandLine ICONTAINS ".pl"))) AND (((where(CommandLine ICONTAINS "reg ") AND where(CommandLine ICONTAINS "add ") AND where(CommandLine ICONTAINS "FailureCommand"))) OR ((where(CommandLine ICONTAINS "reg ") AND where(CommandLine ICONTAINS "add ") AND where(CommandLine ICONTAINS "ImagePath"))))))

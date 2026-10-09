@@ -1,0 +1,19 @@
+# Title: Successful Account Login Via WMI
+# ID: 5af54681-df95-4c26-854f-2565e13cfab0
+# Status: stable
+# Level: low
+# Author: Thomas Patzke
+# Date: 2019-12-04
+# Tags: attack.execution, attack.t1047
+# Description: Detects successful logon attempts performed with WMI
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Successful Account Login Via WMI
+def rule(event):
+    # Detection Logic:
+    # (EventID="4624" AND ProcessName="*\\WmiPrvSE.exe")
+    return True
+
+def title(event):
+    return "Successful Account Login Via WMI"
+

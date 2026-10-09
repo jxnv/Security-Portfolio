@@ -1,0 +1,11 @@
+// Title: Dump Ntds.dit To Suspicious Location
+// ID: 94dc4390-6b7c-4784-8ffc-335334404650
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-14
+// Tags: attack.execution
+// Description: Detects potential abuse of ntdsutil to dump ntds.dit database to a suspicious location
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+any where (((Data like "*_:\\ntds.dit*" or Data like "*_\\Appdata\\*" or Data like "*_\\Desktop\\*" or Data like "*_\\Downloads\\*" or Data like "*_\\Perflogs\\*" or Data like "*_\\Temp\\*" or Data like "*_\\Users\\Public\\*")) and (winlog.provider_name == "ESENT" and winlog.event_id == 325 and Data like "*_ntds.dit*"))

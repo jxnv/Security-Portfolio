@@ -1,0 +1,11 @@
+# Title: Creation Of a Suspicious ADS File Outside a Browser Download
+# ID: 573df571-a223-43bc-846e-3f98da481eca
+# Status: test
+# Level: medium
+# Author: frack113
+# Date: 2022-10-22
+# Tags: attack.stealth
+# Description: Detects the creation of a suspicious ADS (Alternate Data Stream) file by software other than browsers
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog ((Contents="[ZoneTransfer]  ZoneId=3*" AND file_name="*:Zone.Identifier" AND (file_name="*.exe*" OR file_name="*.scr*" OR file_name="*.bat*" OR file_name="*.cmd*" OR file_name="*.docx*" OR file_name="*.hta*" OR file_name="*.jse*" OR file_name="*.lnk*" OR file_name="*.pptx*" OR file_name="*.ps*" OR file_name="*.reg*" OR file_name="*.sct*" OR file_name="*.vb*" OR file_name="*.wsc*" OR file_name="*.wsf*" OR file_name="*.xlsx*")) AND NOT (((process_path="*\\brave.exe") OR ((process_path="C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe" OR process_path="C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe")) OR ((process_path="C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\*") OR (process_path="*\\WindowsApps\\MicrosoftEdge.exe") OR ((process_path="C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe" OR process_path="C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe"))) OR ((process_path="C:\\Program Files (x86)\\Microsoft\\EdgeCore\\*" OR process_path="C:\\Program Files\\Microsoft\\EdgeCore\\*") AND (process_path="*\\msedge.exe" OR process_path="*\\msedgewebview2.exe")) OR ((process_path="C:\\Program Files\\Mozilla Firefox\\firefox.exe" OR process_path="C:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe")) OR ((process_path="C:\\Program Files (x86)\\Internet Explorer\\iexplore.exe" OR process_path="C:\\Program Files\\Internet Explorer\\iexplore.exe")) OR (process_path="*\\maxthon.exe") OR (process_path="*\\opera.exe") OR (process_path="*\\safari.exe") OR (process_path="*\\seamonkey.exe") OR (process_path="C:\\Program Files\\WindowsApps\\Microsoft.ScreenSketch_*" AND process_path="*\\SnippingTool\\SnippingTool.exe" AND file_name="C:\\Users\\*" AND (file_name="*\\AppData\\Local\\Packages\\Microsoft.ScreenSketch_*" AND file_name="*\\TempState\\Screenshot *") AND file_name="*.png:Zone.Identifier") OR (process_path="*\\vivaldi.exe") OR (process_path="*\\whale.exe"))))

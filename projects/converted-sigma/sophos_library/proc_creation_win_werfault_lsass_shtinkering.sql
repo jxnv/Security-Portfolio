@@ -1,0 +1,11 @@
+-- Title: Potential Credential Dumping Via WER
+-- ID: 9a4ccd1a-3526-4d99-b980-9f9c5d3a6ff3
+-- Status: test
+-- Level: high
+-- Author: @pbssubhash , Nasreddine Bencherchali
+-- Date: 2022-12-08
+-- Tags: attack.credential-access, attack.t1003.001
+-- Description: Detects potential credential dumping via Windows Error Reporting LSASS Shtinkering technique which uses the Windows Error Reporting to dump lsass
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE ((((ParentUser ILIKE '%AUTHORI%' OR ParentUser ILIKE '%AUTORI%') AND (User ILIKE '%AUTHORI%' OR User ILIKE '%AUTORI%') AND (CommandLine ILIKE '% -u -p %' AND CommandLine ILIKE '% -ip %' AND CommandLine ILIKE '% -s %')) AND ((Image ILIKE '%\\Werfault.exe') OR (OriginalFileName = 'WerFault.exe'))) AND NOT ((ParentImage = 'C:\\Windows\\System32\\lsass.exe')))

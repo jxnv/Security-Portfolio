@@ -1,0 +1,11 @@
+-- Title: Access To Potentially Sensitive Sysvol Files By Uncommon Applications
+-- ID: d51694fe-484a-46ac-92d6-969e76d60d10
+-- Status: test
+-- Level: medium
+-- Author: frack113
+-- Date: 2023-12-21
+-- Tags: attack.credential-access, attack.t1552.006
+-- Description: Detects file access requests to potentially sensitive files hosted on the Windows Sysvol share.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE ((FileName ILIKE '\\\\%' AND (FileName ILIKE '%\\sysvol\\%' AND FileName ILIKE '%\\Policies\\%') AND (FileName ILIKE '%audit.csv' OR FileName ILIKE '%Files.xml' OR FileName ILIKE '%GptTmpl.inf' OR FileName ILIKE '%groups.xml' OR FileName ILIKE '%Registry.pol' OR FileName ILIKE '%Registry.xml' OR FileName ILIKE '%scheduledtasks.xml' OR FileName ILIKE '%scripts.ini' OR FileName ILIKE '%services.xml')) AND NOT (((Image = 'C:\\Windows\\explorer.exe') OR ((Image ILIKE 'C:\\Program Files (x86)\\%' OR Image ILIKE 'C:\\Program Files\\%' OR Image ILIKE 'C:\\Windows\\system32\\%' OR Image ILIKE 'C:\\Windows\\SysWOW64\\%')))))

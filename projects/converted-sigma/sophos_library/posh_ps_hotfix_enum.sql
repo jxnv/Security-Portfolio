@@ -1,0 +1,11 @@
+-- Title: PowerShell Hotfix Enumeration
+-- ID: f5d1def8-1de0-4a0e-9794-1f6f27dd605c
+-- Status: test
+-- Level: medium
+-- Author: Nasreddine Bencherchali (Nextron Systems)
+-- Date: 2022-06-21
+-- Tags: attack.discovery
+-- Description: Detects call to "Win32_QuickFixEngineering" in order to enumerate installed hotfixes often used in "enum" scripts by attackers
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE ((ScriptBlockText ILIKE '%Win32_QuickFixEngineering%' AND ScriptBlockText ILIKE '%HotFixID%'))

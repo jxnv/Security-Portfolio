@@ -1,0 +1,11 @@
+// Title: Local Privilege Escalation Indicator TabTip
+// ID: bc2e25ed-b92b-4daa-b074-b502bdd1982b
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-10-07
+// Tags: attack.collection, attack.execution, attack.credential-access, attack.t1557.001
+// Description: Detects the invocation of TabTip via CLSID as seen when JuicyPotatoNG is used on a system in brute force mode
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(Provider_Name == "Microsoft-Windows-DistributedCOM" AND EventID == "10001" AND param1 == "C:\\Program Files\\Common Files\\microsoft shared\\ink\\TabTip.exe" AND param2 == "2147943140" AND param3 == "{054AAE20-4BEA-4347-8A35-64A533254A9D}")

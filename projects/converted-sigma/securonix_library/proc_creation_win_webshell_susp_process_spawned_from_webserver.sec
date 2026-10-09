@@ -1,0 +1,11 @@
+// Title: Suspicious Process By Web Server Process
+// ID: 8202070f-edeb-4d31-a010-a26c72ac5600
+// Status: test
+// Level: high
+// Author: Thomas Patzke, Florian Roth (Nextron Systems), Zach Stanford @svch0st, Tim Shelton, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2019-01-16
+// Tags: attack.persistence, attack.initial-access, attack.t1505.003, attack.t1190
+// Description: Detects potentially suspicious processes being spawned by a web server process which could be the result of a successfully placed web shell or exploitation
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((ParentImage="*\\java.exe" OR ParentImage="*\\javaw.exe") AND (ParentImage CONTAINS "-tomcat-" OR ParentImage CONTAINS "\\tomcat")) OR ((ParentImage="*\\java.exe" OR ParentImage="*\\javaw.exe") AND (ParentCommandLine CONTAINS "CATALINA_HOME" OR ParentCommandLine CONTAINS "catalina.home" OR ParentCommandLine CONTAINS "catalina.jar")) OR ((ParentImage="*\\caddy.exe" OR ParentImage="*\\httpd.exe" OR ParentImage="*\\nginx.exe" OR ParentImage="*\\php-cgi.exe" OR ParentImage="*\\php.exe" OR ParentImage="*\\tomcat.exe" OR ParentImage="*\\UMWorkerProcess.exe" OR ParentImage="*\\w3wp.exe" OR ParentImage="*\\ws_TomcatService.exe"))) AND ((Image="*\\arp.exe" OR Image="*\\at.exe" OR Image="*\\bash.exe" OR Image="*\\bitsadmin.exe" OR Image="*\\certutil.exe" OR Image="*\\cmd.exe" OR Image="*\\cscript.exe" OR Image="*\\dsget.exe" OR Image="*\\hostname.exe" OR Image="*\\nbtstat.exe" OR Image="*\\net.exe" OR Image="*\\net1.exe" OR Image="*\\netdom.exe" OR Image="*\\netsh.exe" OR Image="*\\nltest.exe" OR Image="*\\ntdsutil.exe" OR Image="*\\powershell_ise.exe" OR Image="*\\powershell.exe" OR Image="*\\pwsh.exe" OR Image="*\\qprocess.exe" OR Image="*\\query.exe" OR Image="*\\qwinsta.exe" OR Image="*\\reg.exe" OR Image="*\\rundll32.exe" OR Image="*\\sc.exe" OR Image="*\\sh.exe" OR Image="*\\wmic.exe" OR Image="*\\wscript.exe" OR Image="*\\wusa.exe")) AND NOT (((ParentImage="*\\java.exe" AND CommandLine="*Windows\\system32\\cmd.exe /c C:\\ManageEngine\\ADManager \"Plus\\ES\\bin\\elasticsearch.bat -Enode.name=RMP-NODE1 -pelasticsearch-pid.txt") OR (ParentImage="*\\java.exe" AND (CommandLine CONTAINS "sc query" AND CommandLine CONTAINS "ADManager Plus")))))

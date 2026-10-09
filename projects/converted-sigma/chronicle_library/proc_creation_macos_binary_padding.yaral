@@ -1,0 +1,23 @@
+// Title: Binary Padding - MacOS
+// ID: 95361ce5-c891-4b0a-87ca-e24607884a96
+// Status: test
+// Level: high
+// Author: Igor Fits, Mikhail Larin, oscd.community
+// Date: 2020-10-19
+// Tags: attack.stealth, attack.t1027.001
+// Description: Adversaries may use binary padding to add junk data and change the on-disk representation of malware. This rule detect using dd and truncate to add a junk data to file.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 95361ce5_c891_4b0a_87ca_e24607884a96 {
+  meta:
+    title = "Binary Padding - MacOS"
+    description = "Adversaries may use binary padding to add junk data and change the on-disk representation of malware. This rule detect using dd and truncate to add a junk data to file."
+    author = "Igor Fits, Mikhail Larin, oscd.community"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.file.full_path = /.*/dd$/ nocase and ($e.target.process.command_line = /.*if=/dev/zero.*/ nocase or $e.target.process.command_line = /.*if=/dev/random.*/ nocase or $e.target.process.command_line = /.*if=/dev/urandom.*/ nocase)) or ($e.target.process.file.full_path = /.*/truncate$/ nocase and $e.target.process.command_line = /.*-s +.*/ nocase))
+
+  condition:
+    $e
+}

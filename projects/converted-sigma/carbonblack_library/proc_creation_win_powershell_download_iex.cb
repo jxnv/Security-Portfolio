@@ -1,0 +1,11 @@
+# Title: PowerShell Download and Execution Cradles
+# ID: 85b0b087-eddf-4a2b-b033-d771fa2b9775
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems)
+# Date: 2022-03-24
+# Tags: attack.execution, attack.t1059
+# Description: Detects PowerShell download and execution cradles.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((cmdline:*.DownloadString(* OR cmdline:*.DownloadFile(* OR cmdline:*Invoke-WebRequest * OR cmdline:*iwr * OR cmdline:*Invoke-RestMethod * OR cmdline:*irm *)) AND ((cmdline:*;iex $* OR cmdline:*| IEX* OR cmdline:*|IEX * OR cmdline:*I`E`X* OR cmdline:*I`EX* OR cmdline:*IE`X* OR cmdline:*iex * OR cmdline:*IEX (* OR cmdline:*IEX(* OR cmdline:*Invoke-Expression*)))

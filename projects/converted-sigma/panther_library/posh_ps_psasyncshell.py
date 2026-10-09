@@ -1,0 +1,19 @@
+# Title: PSAsyncShell - Asynchronous TCP Reverse Shell
+# ID: afd3df04-948d-46f6-ae44-25966c44b97f
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-10-04
+# Tags: attack.execution, attack.t1059.001
+# Description: Detects the use of PSAsyncShell an Asynchronous TCP Reverse Shell written in powershell
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: PSAsyncShell - Asynchronous TCP Reverse Shell
+def rule(event):
+    # Detection Logic:
+    # (ScriptBlockText="*PSAsyncShell*")
+    return True
+
+def title(event):
+    return "PSAsyncShell - Asynchronous TCP Reverse Shell"
+

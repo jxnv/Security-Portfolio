@@ -1,0 +1,23 @@
+// Title: Suspicious Processes Spawned by Java.EXE
+// ID: 0d34ed8b-1c12-4ff2-828c-16fc860b766d
+// Status: test
+// Level: high
+// Author: Andreas Hunkeler (@Karneades), Florian Roth
+// Date: 2021-12-17
+// Tags: attack.initial-access, attack.persistence, attack.privilege-escalation
+// Description: Detects suspicious processes spawned from a Java host process which could indicate a sign of exploitation (e.g. log4j)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 0d34ed8b_1c12_4ff2_828c_16fc860b766d {
+  meta:
+    title = "Suspicious Processes Spawned by Java.EXE"
+    description = "Detects suspicious processes spawned from a Java host process which could indicate a sign of exploitation (e.g. log4j)"
+    author = "Andreas Hunkeler (@Karneades), Florian Roth"
+    severity = "HIGH"
+
+  events:
+    ($e.principal.process.file.full_path = /.*\\java.exe$/ nocase and ($e.target.process.file.full_path = /.*\\AppVLP.exe$/ nocase or $e.target.process.file.full_path = /.*\\bitsadmin.exe$/ nocase or $e.target.process.file.full_path = /.*\\certutil.exe$/ nocase or $e.target.process.file.full_path = /.*\\cscript.exe$/ nocase or $e.target.process.file.full_path = /.*\\curl.exe$/ nocase or $e.target.process.file.full_path = /.*\\forfiles.exe$/ nocase or $e.target.process.file.full_path = /.*\\hh.exe$/ nocase or $e.target.process.file.full_path = /.*\\mftrace.exe$/ nocase or $e.target.process.file.full_path = /.*\\mshta.exe$/ nocase or $e.target.process.file.full_path = /.*\\net.exe$/ nocase or $e.target.process.file.full_path = /.*\\net1.exe$/ nocase or $e.target.process.file.full_path = /.*\\query.exe$/ nocase or $e.target.process.file.full_path = /.*\\reg.exe$/ nocase or $e.target.process.file.full_path = /.*\\regsvr32.exe$/ nocase or $e.target.process.file.full_path = /.*\\rundll32.exe$/ nocase or $e.target.process.file.full_path = /.*\\schtasks.exe$/ nocase or $e.target.process.file.full_path = /.*\\scrcons.exe$/ nocase or $e.target.process.file.full_path = /.*\\scriptrunner.exe$/ nocase or $e.target.process.file.full_path = /.*\\sh.exe$/ nocase or $e.target.process.file.full_path = /.*\\systeminfo.exe$/ nocase or $e.target.process.file.full_path = /.*\\whoami.exe$/ nocase or $e.target.process.file.full_path = /.*\\wmic.exe$/ nocase or $e.target.process.file.full_path = /.*\\wscript.exe$/ nocase))
+
+  condition:
+    $e
+}

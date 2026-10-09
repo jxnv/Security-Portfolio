@@ -1,0 +1,11 @@
+// Title: Potentially Suspicious WebDAV LNK Execution
+// ID: 1412aa78-a24c-4abd-83df-767dfb2c5bbe
+// Status: test
+// Level: medium
+// Author: Micah Babinski
+// Date: 2023-08-21
+// Tags: attack.execution, attack.t1059.001, attack.t1204
+// Description: Detects possible execution via LNK file accessed on a WebDAV server.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(where(ParentImage IENDSWITH "\\explorer.exe") AND (where(Image IENDSWITH "\\cmd.exe") OR where(Image IENDSWITH "\\cscript.exe") OR where(Image IENDSWITH "\\mshta.exe") OR where(Image IENDSWITH "\\powershell.exe") OR where(Image IENDSWITH "\\pwsh.exe") OR where(Image IENDSWITH "\\wscript.exe")) AND where(CommandLine ICONTAINS "\\DavWWWRoot\\"))

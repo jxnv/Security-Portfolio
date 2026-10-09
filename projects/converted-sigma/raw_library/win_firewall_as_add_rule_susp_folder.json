@@ -1,0 +1,39 @@
+{
+  "title": "New Firewall Rule Added In Windows Firewall Exception List For Potential Suspicious Application",
+  "id": "9e2575e7-2cb9-4da1-adc8-ed94221dca5e",
+  "status": "test",
+  "description": "Detects the addition of a new rule to the Windows Firewall exception list for an application located in a potentially suspicious location.",
+  "author": "frack113",
+  "date": "2023-02-26",
+  "tags": [
+    "attack.defense-impairment",
+    "attack.t1686.003"
+  ],
+  "level": "high",
+  "logsource": {
+    "product": "windows",
+    "service": "firewall-as"
+  },
+  "detection": {
+    "selection": {
+      "EventID": [
+        2004,
+        2071,
+        2097
+      ],
+      "ApplicationPath|contains": [
+        ":\\PerfLogs\\",
+        ":\\Temp\\",
+        ":\\Tmp\\",
+        ":\\Users\\Public\\",
+        ":\\Windows\\Tasks\\",
+        ":\\Windows\\Temp\\",
+        "\\AppData\\Local\\Temp\\"
+      ]
+    },
+    "filter_main_block": {
+      "Action": 2
+    },
+    "condition": "selection and not 1 of filter_main_*"
+  }
+}

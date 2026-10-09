@@ -1,0 +1,12 @@
+# Title: Suspicious Eventlog Clearing or Configuration Change Activity
+# ID: cc36992a-4671-4f21-a91d-6c2b72a2edf5
+# Status: stable
+# Level: high
+# Author: Ecco, Daniil Yugoslavskiy, oscd.community, D3F7A5105, Swachchhanda Shrawan Poudel (Nextron Systems)
+# Date: 2019-09-26
+# Tags: attack.defense-impairment, attack.t1685.005, attack.t1685.001, car.2016-04-002
+# Description: Detects the clearing or configuration tampering of EventLog using utilities such as "wevtutil", "powershell" and "wmic".
+# This technique were seen used by threat actors and ransomware strains in order to evade defenses.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((((cmdline:*clear-log * OR cmdline:* cl * OR cmdline:*set-log * OR cmdline:* sl * OR cmdline:*lfn:*)) AND ((process_name:*\\wevtutil.exe) OR (OriginalFileName:"wevtutil.exe"))) OR ((((cmdline:*Clear-EventLog * OR cmdline:*Remove-EventLog * OR cmdline:*Limit-EventLog * OR cmdline:*Clear-WinEvent *)) OR ((cmdline:*Eventing.Reader.EventLogSession* AND cmdline:*ClearLog*)) OR ((cmdline:*Diagnostics.EventLog* AND cmdline:*Clear*))) AND ((process_name:*\\powershell.exe OR process_name:*\\powershell_ise.exe OR process_name:*\\pwsh.exe))) OR ((process_name:*\\powershell.exe OR process_name:*\\powershell_ise.exe OR process_name:*\\pwsh.exe OR process_name:*\\wmic.exe) AND cmdline:*ClearEventLog*)) AND -(((parent_name:"C:\\Windows\\SysWOW64\\msiexec.exe" OR parent_name:"C:\\Windows\\System32\\msiexec.exe") AND cmdline:* sl *)))

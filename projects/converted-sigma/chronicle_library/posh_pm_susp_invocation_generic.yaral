@@ -1,0 +1,23 @@
+// Title: Suspicious PowerShell Invocations - Generic - PowerShell Module
+// ID: bbb80e91-5746-4fbe-8898-122e2cafdbf4
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2017-03-12
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects suspicious PowerShell invocation command parameters
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule bbb80e91_5746_4fbe_8898_122e2cafdbf4 {
+  meta:
+    title = "Suspicious PowerShell Invocations - Generic - PowerShell Module"
+    description = "Detects suspicious PowerShell invocation command parameters"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.ContextInfo = /.* -enc .*/ nocase or $e.ContextInfo = /.* -EncodedCommand .*/ nocase or $e.ContextInfo = /.* -ec .*/ nocase)) and (($e.ContextInfo = /.* -w hidden .*/ nocase or $e.ContextInfo = /.* -window hidden .*/ nocase or $e.ContextInfo = /.* -windowstyle hidden .*/ nocase or $e.ContextInfo = /.* -w 1 .*/ nocase)) and (($e.ContextInfo = /.* -noni .*/ nocase or $e.ContextInfo = /.* -noninteractive .*/ nocase)))
+
+  condition:
+    $e
+}

@@ -1,0 +1,22 @@
+# Title: Disable Internal Tools or Feature in Registry
+# ID: e2482f8d-3443-4237-b906-cc145d87a076
+# Status: test
+# Level: medium
+# Author: frack113, Nasreddine Bencherchali (Nextron Systems), CrimpSec
+# Date: 2022-03-18
+# Tags: attack.persistence, attack.defense-impairment, attack.t1112
+# Description: Detects registry modifications that change features of internal Windows tools (malware like Agent Tesla uses this technique)
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# LimaCharlie Detection & Response Rule
+# Name: Disable Internal Tools or Feature in Registry
+detect:
+  event: registry_set
+  op: and
+  rules:
+    # Filter logic:
+    # (((TargetObject="*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\ConsentPromptBehaviorAdmin" OR TargetObject="*Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\InactivityTimeoutSecs" OR TargetObject="*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\shutdownwithoutlogon" OR TargetObject="*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\PushNotifications\\ToastEnabled" OR TargetObject="*SYSTEM\\CurrentControlSet\\Control\\Storage\\Write Protection" OR TargetObject="*SYSTEM\\CurrentControlSet\\Control\\StorageDevicePolicies\\WriteProtect") AND Details="DWORD (0x00000000)") OR ((TargetObject="*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\DisableCMD" OR TargetObject="*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\NoControlPanel" OR TargetObject="*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\NoRun" OR TargetObject="*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\StartMenuLogOff" OR TargetObject="*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\DisableChangePassword" OR TargetObject="*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\DisableLockWorkstation" OR TargetObject="*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\DisableRegistryTools" OR TargetObject="*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\DisableTaskmgr" OR TargetObject="*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\NoDispBackgroundPage" OR TargetObject="*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\NoDispCPL" OR TargetObject="*SOFTWARE\\Policies\\Microsoft\\Windows\\Explorer\\DisableNotificationCenter" OR TargetObject="*SOFTWARE\\Policies\\Microsoft\\Windows\\System\\DisableCMD") AND Details="DWORD (0x00000001)"))
+respond:
+  - action: report
+    name: Disable Internal Tools or Feature in Registry
+

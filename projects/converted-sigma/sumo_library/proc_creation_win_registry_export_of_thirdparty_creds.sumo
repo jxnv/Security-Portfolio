@@ -1,0 +1,12 @@
+// Title: Registry Export of Third-Party Credentials
+// ID: cc1abf27-78a3-4ac5-a51c-f3070b1d8e40
+// Status: experimental
+// Level: high
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-05-22
+// Tags: attack.credential-access, attack.t1552.002
+// Description: Detects the use of reg.exe to export registry paths associated with third-party credentials.
+// Credential stealers have been known to use this technique to extract sensitive information from the registry.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where (((CommandLine matches "*\\Software\\Aerofox\\Foxmail\\V3.1*" or CommandLine matches "*\\Software\\Aerofox\\FoxmailPreview*" or CommandLine matches "*\\Software\\DownloadManager\\Passwords*" or CommandLine matches "*\\Software\\FTPWare\\COREFTP\\Sites*" or CommandLine matches "*\\Software\\IncrediMail\\Identities*" or CommandLine matches "*\\Software\\Martin Prikryl\\WinSCP 2\\Sessions*" or CommandLine matches "*\\Software\\Mobatek\\MobaXterm*" or CommandLine matches "*\\Software\\OpenSSH\\Agent\\Keys*" or CommandLine matches "*\\Software\\OpenVPN-GUI\\configs*" or CommandLine matches "*\\Software\\ORL\\WinVNC3\\Password*" or CommandLine matches "*\\Software\\Qualcomm\\Eudora\\CommandLine*" or CommandLine matches "*\\Software\\RealVNC\\WinVNC4*" or CommandLine matches "*\\Software\\RimArts\\B2\\Settings*" or CommandLine matches "*\\Software\\SimonTatham\\PuTTY\\Sessions*" or CommandLine matches "*\\Software\\SimonTatham\\PuTTY\\SshHostKeys*" or CommandLine matches "*\\Software\\Sota\\FFFTP*" or CommandLine matches "*\\Software\\TightVNC\\Server*" or CommandLine matches "*\\Software\\WOW6432Node\\Radmin\\v3.0\\Server\\Parameters\\Radmin*")) and ((CommandLine matches "*save*" or CommandLine matches "*export*")) and ((Image matches "*\\reg.exe") or (OriginalFileName = "reg.exe")))

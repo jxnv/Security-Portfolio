@@ -1,0 +1,11 @@
+// Title: OpenCanary - HTTP GET Request
+// ID: af6c3078-84cd-4c68-8842-08b76bd81b13
+// Status: test
+// Level: high
+// Author: Security Onion Solutions
+// Date: 2024-03-08
+// Tags: attack.initial-access, attack.t1190
+// Description: Detects instances where an HTTP service on an OpenCanary node has received a GET request.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(logtype == "3000")

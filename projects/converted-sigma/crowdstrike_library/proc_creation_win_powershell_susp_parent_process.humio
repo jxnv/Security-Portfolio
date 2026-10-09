@@ -1,0 +1,11 @@
+// Title: Suspicious PowerShell Parent Process
+// ID: 754ed792-634f-40ae-b3bc-e0448d33f695
+// Status: test
+// Level: high
+// Author: Teymur Kheirkhabarov, Harish Segar
+// Date: 2020-03-20
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects a suspicious or uncommon parent processes of PowerShell
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((ParentBaseFileName = /*tomcat*/i) or ((ParentBaseFileName = /.*\\amigo.exe/i or ParentBaseFileName = /.*\\browser.exe/i or ParentBaseFileName = /.*\\chrome.exe/i or ParentBaseFileName = /.*\\firefox.exe/i or ParentBaseFileName = /.*\\httpd.exe/i or ParentBaseFileName = /.*\\iexplore.exe/i or ParentBaseFileName = /.*\\jbosssvc.exe/i or ParentBaseFileName = /.*\\microsoftedge.exe/i or ParentBaseFileName = /.*\\microsoftedgecp.exe/i or ParentBaseFileName = /.*\\MicrosoftEdgeSH.exe/i or ParentBaseFileName = /.*\\mshta.exe/i or ParentBaseFileName = /.*\\nginx.exe/i or ParentBaseFileName = /.*\\outlook.exe/i or ParentBaseFileName = /.*\\php-cgi.exe/i or ParentBaseFileName = /.*\\regsvr32.exe/i or ParentBaseFileName = /.*\\rundll32.exe/i or ParentBaseFileName = /.*\\safari.exe/i or ParentBaseFileName = /.*\\services.exe/i or ParentBaseFileName = /.*\\sqlagent.exe/i or ParentBaseFileName = /.*\\sqlserver.exe/i or ParentBaseFileName = /.*\\sqlservr.exe/i or ParentBaseFileName = /.*\\vivaldi.exe/i or ParentBaseFileName = /.*\\w3wp.exe/i))) and (((ImageFileName = /.*\\powershell.exe/i or ImageFileName = /.*\\pwsh.exe/i)) or ((CommandLine = /*/c powershell*/i or CommandLine = /*/c pwsh*/i)) or (Description = "Windows PowerShell") or (Product = "PowerShell Core 6") or ((OriginalFilename = "PowerShell.EXE" or OriginalFilename = "pwsh.dll"))))

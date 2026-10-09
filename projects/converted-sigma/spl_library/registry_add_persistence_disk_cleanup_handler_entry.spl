@@ -1,0 +1,16 @@
+# Title: Potential Persistence Via Disk Cleanup Handler - Registry
+# ID: d4f4e0be-cf12-439f-9e25-4e2cdcf7df5a
+# Status: test
+# Level: medium
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-07-21
+# Tags: attack.persistence
+# Description: Detects when an attacker modifies values of the Disk Cleanup Handler in the registry to achieve persistence.
+# The disk cleanup manager is part of the operating system. It displays the dialog box […]
+# The user has the option of enabling or disabling individual handlers by selecting or clearing their check box in the disk cleanup manager's UI.
+# Although Windows comes with a number of disk cleanup handlers, they aren't designed to handle files produced by other applications.
+# Instead, the disk cleanup manager is designed to be flexible and extensible by enabling any developer to implement and register their own disk cleanup handler.
+# Any developer can extend the available disk cleanup services by implementing and registering a disk cleanup handler.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog ((EventType="CreateKey" AND registry_key_name="*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\VolumeCaches\\*") AND NOT (((registry_key_name="*\\Active Setup Temp Folders" OR registry_key_name="*\\BranchCache" OR registry_key_name="*\\Content Indexer Cleaner" OR registry_key_name="*\\D3D Shader Cache" OR registry_key_name="*\\Delivery Optimization Files" OR registry_key_name="*\\Device Driver Packages" OR registry_key_name="*\\Diagnostic Data Viewer database files" OR registry_key_name="*\\Downloaded Program Files" OR registry_key_name="*\\DownloadsFolder" OR registry_key_name="*\\Feedback Hub Archive log files" OR registry_key_name="*\\Internet Cache Files" OR registry_key_name="*\\Language Pack" OR registry_key_name="*\\Microsoft Office Temp Files" OR registry_key_name="*\\Offline Pages Files" OR registry_key_name="*\\Old ChkDsk Files" OR registry_key_name="*\\Previous Installations" OR registry_key_name="*\\Recycle Bin" OR registry_key_name="*\\RetailDemo Offline Content" OR registry_key_name="*\\Setup Log Files" OR registry_key_name="*\\System error memory dump files" OR registry_key_name="*\\System error minidump files" OR registry_key_name="*\\Temporary Files" OR registry_key_name="*\\Temporary Setup Files" OR registry_key_name="*\\Temporary Sync Files" OR registry_key_name="*\\Thumbnail Cache" OR registry_key_name="*\\Update Cleanup" OR registry_key_name="*\\Upgrade Discarded Files" OR registry_key_name="*\\User file versions" OR registry_key_name="*\\Windows Defender" OR registry_key_name="*\\Windows Error Reporting Files" OR registry_key_name="*\\Windows ESD installation files" OR registry_key_name="*\\Windows Upgrade Log Files"))))

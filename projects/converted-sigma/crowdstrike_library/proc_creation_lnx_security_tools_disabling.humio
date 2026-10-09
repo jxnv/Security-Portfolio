@@ -1,0 +1,11 @@
+// Title: Disabling Security Tools
+// ID: e3a8a052-111f-4606-9aee-f28ebeb76776
+// Status: test
+// Level: medium
+// Author: Ömer Günal, Alejandro Ortuno, oscd.community
+// Date: 2020-06-17
+// Tags: attack.defense-impairment, attack.t1686
+// Description: Detects disabling security tools
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((ImageFileName = /.*/service/i and (CommandLine = /*cbdaemon*/i and CommandLine = /*stop*/i)) or (ImageFileName = /.*/chkconfig/i and (CommandLine = /*cbdaemon*/i and CommandLine = /*off*/i)) or (ImageFileName = /.*/systemctl/i and (CommandLine = /*cbdaemon*/i and CommandLine = /*stop*/i)) or (ImageFileName = /.*/systemctl/i and (CommandLine = /*cbdaemon*/i and CommandLine = /*disable*/i)) or (ImageFileName = /.*/systemctl/i and (CommandLine = /*stop*/i and CommandLine = /*falcon-sensor*/i)) or (ImageFileName = /.*/systemctl/i and (CommandLine = /*disable*/i and CommandLine = /*falcon-sensor*/i)) or (ImageFileName = /.*/systemctl/i and (CommandLine = /*firewalld*/i and CommandLine = /*stop*/i)) or (ImageFileName = /.*/systemctl/i and (CommandLine = /*firewalld*/i and CommandLine = /*disable*/i)) or (ImageFileName = /.*/service/i and (CommandLine = /*iptables*/i and CommandLine = /*stop*/i)) or (ImageFileName = /.*/service/i and (CommandLine = /*ip6tables*/i and CommandLine = /*stop*/i)) or (ImageFileName = /.*/chkconfig/i and (CommandLine = /*iptables*/i and CommandLine = /*stop*/i)) or (ImageFileName = /.*/chkconfig/i and (CommandLine = /*ip6tables*/i and CommandLine = /*stop*/i)) or (ImageFileName = /.*/setenforce/i and CommandLine = /*0*/i))

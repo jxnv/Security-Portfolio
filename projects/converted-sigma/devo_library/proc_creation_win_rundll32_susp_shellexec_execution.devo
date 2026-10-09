@@ -1,0 +1,11 @@
+// Title: Suspicious Usage Of ShellExec_RunDLL
+// ID: d87bd452-6da1-456e-8155-7dc988157b7d
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-09-01
+// Tags: attack.stealth
+// Description: Detects suspicious usage of the ShellExec_RunDLL function to launch other commands as seen in the the raspberry-robin attack
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+from siem.events where ((contains(CommandLine, "ShellExec_RunDLL")) AND ((contains(CommandLine, "\\Desktop\\") OR contains(CommandLine, "\\Temp\\") OR contains(CommandLine, "\\Users\\Public\\") OR contains(CommandLine, "comspec") OR contains(CommandLine, "iex") OR contains(CommandLine, "Invoke-") OR contains(CommandLine, "msiexec") OR contains(CommandLine, "odbcconf") OR contains(CommandLine, "regsvr32"))))

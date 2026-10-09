@@ -1,0 +1,11 @@
+-- Title: HackTool - Inveigh Execution Artefacts
+-- ID: bb09dd3e-2b78-4819-8e35-a7c1b874e449
+-- Status: test
+-- Level: critical
+-- Author: Nasreddine Bencherchali (Nextron Systems)
+-- Date: 2022-10-24
+-- Tags: attack.command-and-control, attack.t1219.002
+-- Description: Detects the presence and execution of Inveigh via dropped artefacts
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE ((TargetFilename ILIKE '%\\Inveigh-Log.txt' OR TargetFilename ILIKE '%\\Inveigh-Cleartext.txt' OR TargetFilename ILIKE '%\\Inveigh-NTLMv1Users.txt' OR TargetFilename ILIKE '%\\Inveigh-NTLMv2Users.txt' OR TargetFilename ILIKE '%\\Inveigh-NTLMv1.txt' OR TargetFilename ILIKE '%\\Inveigh-NTLMv2.txt' OR TargetFilename ILIKE '%\\Inveigh-FormInput.txt' OR TargetFilename ILIKE '%\\Inveigh.dll' OR TargetFilename ILIKE '%\\Inveigh.exe' OR TargetFilename ILIKE '%\\Inveigh.ps1' OR TargetFilename ILIKE '%\\Inveigh-Relay.ps1'))

@@ -1,0 +1,11 @@
+-- Title: Suspicious Spool Service Child Process
+-- ID: dcdbc940-0bff-46b2-95f3-2d73f848e33b
+-- Status: test
+-- Level: high
+-- Author: Justin C. (@endisphotic), @dreadphones (detection), Thomas Patzke (Sigma rule)
+-- Date: 2021-07-11
+-- Tags: attack.execution, attack.t1203, attack.privilege-escalation, attack.t1068
+-- Description: Detects suspicious print spool service (spoolsv.exe) child processes.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE ((ParentImage ILIKE '%\\spoolsv.exe' AND (IntegrityLevel = 'System' OR IntegrityLevel = 'S-1-16-16384')) AND (((Image ILIKE '%\\gpupdate.exe' OR Image ILIKE '%\\whoami.exe' OR Image ILIKE '%\\nltest.exe' OR Image ILIKE '%\\taskkill.exe' OR Image ILIKE '%\\wmic.exe' OR Image ILIKE '%\\taskmgr.exe' OR Image ILIKE '%\\sc.exe' OR Image ILIKE '%\\findstr.exe' OR Image ILIKE '%\\curl.exe' OR Image ILIKE '%\\wget.exe' OR Image ILIKE '%\\certutil.exe' OR Image ILIKE '%\\bitsadmin.exe' OR Image ILIKE '%\\accesschk.exe' OR Image ILIKE '%\\wevtutil.exe' OR Image ILIKE '%\\bcdedit.exe' OR Image ILIKE '%\\fsutil.exe' OR Image ILIKE '%\\cipher.exe' OR Image ILIKE '%\\schtasks.exe' OR Image ILIKE '%\\write.exe' OR Image ILIKE '%\\wuauclt.exe' OR Image ILIKE '%\\systeminfo.exe' OR Image ILIKE '%\\reg.exe' OR Image ILIKE '%\\query.exe')) OR (((Image ILIKE '%\\net.exe' OR Image ILIKE '%\\net1.exe')) AND NOT ((CommandLine ILIKE '%start%'))) OR ((Image ILIKE '%\\cmd.exe') AND NOT (((CommandLine ILIKE '%.spl%' OR CommandLine ILIKE '%route add%' OR CommandLine ILIKE '%program files%')))) OR ((Image ILIKE '%\\netsh.exe') AND NOT (((CommandLine ILIKE '%add portopening%' OR CommandLine ILIKE '%rule name%')))) OR (((Image ILIKE '%\\powershell.exe' OR Image ILIKE '%\\pwsh.exe')) AND NOT ((CommandLine ILIKE '%.spl%'))) OR ((CommandLine ILIKE '%rundll32.exe') AND ((Image ILIKE '%\\rundll32.exe') OR (OriginalFileName = 'RUNDLL32.EXE')))))

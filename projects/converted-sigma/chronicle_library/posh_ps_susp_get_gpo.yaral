@@ -1,0 +1,23 @@
+// Title: Suspicious GPO Discovery With Get-GPO
+// ID: eb2fd349-ec67-4caa-9143-d79c7fb34441
+// Status: test
+// Level: low
+// Author: frack113
+// Date: 2022-06-04
+// Tags: attack.discovery, attack.t1615
+// Description: Detect use of Get-GPO to get one GPO or all the GPOs in a domain.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule eb2fd349_ec67_4caa_9143_d79c7fb34441 {
+  meta:
+    title = "Suspicious GPO Discovery With Get-GPO"
+    description = "Detect use of Get-GPO to get one GPO or all the GPOs in a domain."
+    author = "frack113"
+    severity = "LOW"
+
+  events:
+    ($e.ScriptBlockText = /.*Get-GPO.*/ nocase)
+
+  condition:
+    $e
+}

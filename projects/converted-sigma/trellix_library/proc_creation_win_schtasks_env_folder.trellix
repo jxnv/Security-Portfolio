@@ -1,0 +1,11 @@
+# Title: Schedule Task Creation From Env Variable Or Potentially Suspicious Path Via Schtasks.EXE
+# ID: 81325ce1-be01-4250-944f-b4789644556f
+# Status: test
+# Level: medium
+# Author: Florian Roth (Nextron Systems)
+# Date: 2022-02-21
+# Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.t1053.005
+# Description: Detects Schtask creations that point to a suspicious folder or an environment variable often used by malware
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((((CommandLine CONTAINS ":\\Perflogs" OR CommandLine CONTAINS ":\\Users\\All Users\\" OR CommandLine CONTAINS ":\\Users\\Default\\" OR CommandLine CONTAINS ":\\Users\\Public" OR CommandLine CONTAINS ":\\Windows\\Temp" OR CommandLine CONTAINS "\\AppData\\Local\\" OR CommandLine CONTAINS "\\AppData\\Roaming\\" OR CommandLine CONTAINS "%AppData%" OR CommandLine CONTAINS "%Public%")) AND (Image="*\\schtasks.exe" AND CommandLine CONTAINS " /create ")) OR ((ParentCommandLine="*\\svchost.exe -k netsvcs -p -s Schedule") AND ((CommandLine CONTAINS ":\\Perflogs" OR CommandLine CONTAINS ":\\Windows\\Temp" OR CommandLine CONTAINS "\\Users\\Public" OR CommandLine CONTAINS "%Public%")))) AND NOT ((((CommandLine CONTAINS "/Create /Xml " AND CommandLine CONTAINS "\\Temp\\.CR." AND CommandLine CONTAINS "\\Avira_Security_Installation.xml")) OR ((CommandLine CONTAINS "/Create /F /TN" AND CommandLine CONTAINS "/Xml " AND CommandLine CONTAINS "\\Temp\\" AND CommandLine CONTAINS "Avira_") AND (CommandLine CONTAINS ".tmp\\UpdateFallbackTask.xml" OR CommandLine CONTAINS ".tmp\\WatchdogServiceControlManagerTimeout.xml" OR CommandLine CONTAINS ".tmp\\SystrayAutostart.xml" OR CommandLine CONTAINS ".tmp\\MaintenanceTask.xml")) OR ((CommandLine CONTAINS "\\Temp\\" AND CommandLine CONTAINS "/Create /TN \"klcp_update\" /XML " AND CommandLine CONTAINS "\\klcp_update_task.xml")) OR ((ParentCommandLine CONTAINS "unattended.ini") OR (CommandLine CONTAINS "update_task.xml")) OR (CommandLine CONTAINS "/Create /TN TVInstallRestore /TR"))))

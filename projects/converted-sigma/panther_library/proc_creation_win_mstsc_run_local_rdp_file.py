@@ -1,0 +1,19 @@
+# Title: Mstsc.EXE Execution With Local RDP File
+# ID: 5fdce3ac-e7f9-4ecd-a3aa-a4d78ebbf0af
+# Status: test
+# Level: low
+# Author: Nasreddine Bencherchali (Nextron Systems), Christopher Peacock @securepeacock
+# Date: 2023-04-18
+# Tags: attack.command-and-control, attack.t1219.002
+# Description: Detects potential RDP connection via Mstsc using a local ".rdp" file
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Mstsc.EXE Execution With Local RDP File
+def rule(event):
+    # Detection Logic:
+    # ((((CommandLine="*.rdp" OR CommandLine="*.rdp\"")) AND ((Image="*\\mstsc.exe") OR (OriginalFileName="mstsc.exe"))) AND NOT ((ParentImage="C:\\Windows\\System32\\lxss\\wslhost.exe" AND CommandLine="*C:\\ProgramData\\Microsoft\\WSL\\wslg.rdp*")))
+    return True
+
+def title(event):
+    return "Mstsc.EXE Execution With Local RDP File"
+

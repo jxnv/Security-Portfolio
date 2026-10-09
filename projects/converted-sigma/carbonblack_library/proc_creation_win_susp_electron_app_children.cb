@@ -1,0 +1,11 @@
+# Title: Suspicious Electron Application Child Processes
+# ID: f26eb764-fd89-464b-85e2-dc4a8e6e77b8
+# Status: test
+# Level: medium
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-10-21
+# Tags: attack.execution
+# Description: Detects suspicious child processes of electron apps (teams, discord, slack, etc.). This could be a potential sign of ".asar" file tampering (See reference section for more information) or binary execution proxy through specific CLI arguments (see related rule)
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((parent_name:*\\chrome.exe OR parent_name:*\\discord.exe OR parent_name:*\\GitHubDesktop.exe OR parent_name:*\\keybase.exe OR parent_name:*\\msedge.exe OR parent_name:*\\msedgewebview2.exe OR parent_name:*\\msteams.exe OR parent_name:*\\slack.exe OR parent_name:*\\teams.exe)) AND (((process_name:*\\cmd.exe OR process_name:*\\cscript.exe OR process_name:*\\mshta.exe OR process_name:*\\powershell.exe OR process_name:*\\pwsh.exe OR process_name:*\\regsvr32.exe OR process_name:*\\whoami.exe OR process_name:*\\wscript.exe)) OR ((process_name:*:\\ProgramData\\* OR process_name:*:\\Temp\\* OR process_name:*\\AppData\\Local\\Temp\\* OR process_name:*\\Users\\Public\\* OR process_name:*\\Windows\\Temp\\*))) AND -((parent_name:*\\Discord.exe AND process_name:*\\cmd.exe AND cmdline:*\\NVSMI\\nvidia-smi.exe*)))

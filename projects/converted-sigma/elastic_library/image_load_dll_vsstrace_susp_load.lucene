@@ -1,0 +1,11 @@
+# Title: Potentially Suspicious Volume Shadow Copy Vsstrace.dll Load
+# ID: 48bfd177-7cf2-412b-ad77-baf923489e82
+# Status: test
+# Level: medium
+# Author: frack113
+# Date: 2023-02-17
+# Tags: attack.impact, attack.t1490
+# Description: Detects the image load of VSS DLL by uncommon executables
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((ImageLoaded:*\\vsstrace.dll) AND NOT (((NOT _exists_:process.executable) OR ((process.executable:C:\\Program Files\\* OR process.executable:C:\\Program Files (x86)\\*)) OR (((process.executable:"C:\\Windows\\explorer.exe" OR process.executable:"C:\\Windows\\ImmersiveControlPanel\\SystemSettings.exe" OR process.executable:"C:\\Windows\\servicing\\TrustedInstaller.exe")) OR ((process.executable:C:\\Windows\\System32\\* OR process.executable:C:\\Windows\\SysWOW64\\* OR process.executable:C:\\Windows\\Temp\\{* OR process.executable:C:\\Windows\\WinSxS\\* OR process.executable:C:\\ProgramData\\Package Cache\\{*))))) AND NOT ((((process.executable:*\\temp\\is-* AND process.executable:*\\avira_system_speedup.tmp*)) OR (process.executable:C:\\$WinREAgent\\Scratch\\*))))

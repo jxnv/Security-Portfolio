@@ -1,0 +1,23 @@
+// Title: Suspicious Rundll32 Invoking Inline VBScript
+// ID: 1cc50f3f-1fc8-4acf-b2e9-6f172e1fdebd
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2021-03-05
+// Tags: attack.privilege-escalation, attack.stealth, attack.t1055
+// Description: Detects suspicious process related to rundll32 based on command line that invokes inline VBScript as seen being used by UNC2452
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 1cc50f3f_1fc8_4acf_b2e9_6f172e1fdebd {
+  meta:
+    title = "Suspicious Rundll32 Invoking Inline VBScript"
+    description = "Detects suspicious process related to rundll32 based on command line that invokes inline VBScript as seen being used by UNC2452"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.command_line = /.*rundll32.exe.*/ nocase and $e.target.process.command_line = /.*Execute.*/ nocase and $e.target.process.command_line = /.*RegRead.*/ nocase and $e.target.process.command_line = /.*window.close.*/ nocase))
+
+  condition:
+    $e
+}

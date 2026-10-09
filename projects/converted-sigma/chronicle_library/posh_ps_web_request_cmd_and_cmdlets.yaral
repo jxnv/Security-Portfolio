@@ -1,0 +1,23 @@
+// Title: Usage Of Web Request Commands And Cmdlets - ScriptBlock
+// ID: 1139d2e2-84b1-4226-b445-354492eba8ba
+// Status: test
+// Level: medium
+// Author: James Pemberton / @4A616D6573
+// Date: 2019-10-24
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects the use of various web request commands with commandline tools and Windows PowerShell cmdlets (including aliases) via PowerShell scriptblock logs
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 1139d2e2_84b1_4226_b445_354492eba8ba {
+  meta:
+    title = "Usage Of Web Request Commands And Cmdlets - ScriptBlock"
+    description = "Detects the use of various web request commands with commandline tools and Windows PowerShell cmdlets (including aliases) via PowerShell scriptblock logs"
+    author = "James Pemberton / @4A616D6573"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.ScriptBlockText = /.*[System.Net.WebRequest]::create.*/ nocase or $e.ScriptBlockText = /.*curl .*/ nocase or $e.ScriptBlockText = /.*Invoke-RestMethod.*/ nocase or $e.ScriptBlockText = /.*Invoke-WebRequest.*/ nocase or $e.ScriptBlockText = /.* irm .*/ nocase or $e.ScriptBlockText = /.*iwr .*/ nocase or $e.ScriptBlockText = /.*Resume-BitsTransfer.*/ nocase or $e.ScriptBlockText = /.*Start-BitsTransfer.*/ nocase or $e.ScriptBlockText = /.*wget .*/ nocase or $e.ScriptBlockText = /.*WinHttp.WinHttpRequest.*/ nocase)) and not(($e.Path = /^C:\\Packages\\Plugins\\Microsoft.GuestConfiguration.ConfigurationforWindows\\.*/ nocase)))
+
+  condition:
+    $e
+}

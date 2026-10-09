@@ -1,0 +1,67 @@
+{
+  "title": "Potential Tampering With RDP Related Registry Keys Via Reg.EXE",
+  "id": "0d5675be-bc88-4172-86d3-1e96a4476536",
+  "status": "test",
+  "description": "Detects the execution of \"reg.exe\" for enabling/disabling the RDP service on the host by tampering with the 'CurrentControlSet\\Control\\Terminal Server' values",
+  "author": "pH-T (Nextron Systems), @Kostastsale, TheDFIRReport",
+  "date": "2022-02-12",
+  "tags": [
+    "attack.persistence",
+    "attack.lateral-movement",
+    "attack.defense-impairment",
+    "attack.t1021.001",
+    "attack.t1112"
+  ],
+  "level": "high",
+  "logsource": {
+    "product": "windows",
+    "category": "process_creation"
+  },
+  "detection": {
+    "selection_main_img": [
+      {
+        "Image|endswith": "\\reg.exe"
+      },
+      {
+        "OriginalFileName": "reg.exe"
+      }
+    ],
+    "selection_main_cli": {
+      "CommandLine|contains|all": [
+        " add ",
+        "\\CurrentControlSet\\Control\\Terminal Server",
+        "REG_DWORD",
+        " /f"
+      ]
+    },
+    "selection_values_1": {
+      "CommandLine|contains|all": [
+        "Licensing Core",
+        "EnableConcurrentSessions"
+      ]
+    },
+    "selection_values_2": {
+      "CommandLine|contains": [
+        "AllowTSConnections",
+        "fDenyTSConnections",
+        "fEnableWinStation",
+        "fSingleSessionPerUser",
+        "IdleWinStationPoolCount",
+        "MaxInstanceCount",
+        "SecurityLayer",
+        "TSAdvertise",
+        "TSAppCompat",
+        "TSEnabled",
+        "TSUserEnabled",
+        "WinStations\\RDP-Tcp"
+      ]
+    },
+    "filter_main_values_tls": {
+      "CommandLine|contains|all": [
+        "SecurityLayer",
+        "02"
+      ]
+    },
+    "condition": "all of selection_main_* and 1 of selection_values_* and not 1 of filter_main_*"
+  }
+}

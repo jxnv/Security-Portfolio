@@ -1,0 +1,11 @@
+// Title: Suspicious Autorun Registry Modified via WMI
+// ID: c80e66d8-1780-48a9-b412-46663fd21ac0
+// Status: experimental
+// Level: high
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-02-17
+// Tags: attack.privilege-escalation, attack.execution, attack.persistence, attack.t1547.001, attack.t1047
+// Description: Detects suspicious activity where the WMIC process is used to create an autorun registry entry via reg.exe, which is often indicative of persistence mechanisms employed by malware.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((CommandLine contains "reg" AND CommandLine contains " add ") AND (CommandLine contains "\\Software\\Microsoft\\Windows\\CurrentVersion\\Run" OR CommandLine contains "\\Software\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Run" OR CommandLine contains "\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run")) AND ((Image="*\\wmic.exe") OR (OriginalFileName == "wmic.exe") OR (ParentImage="*\\wmiprvse.exe"))) AND (((CommandLine contains ":\\Perflogs" OR CommandLine contains ":\\ProgramData'" OR CommandLine contains ":\\Windows\\Temp" OR CommandLine contains ":\\Temp" OR CommandLine contains "\\AppData\\Local\\Temp" OR CommandLine contains "\\AppData\\Roaming" OR CommandLine contains ":\\$Recycle.bin" OR CommandLine contains ":\\Users\\Default" OR CommandLine contains ":\\Users\\public" OR CommandLine contains "%temp%" OR CommandLine contains "%tmp%" OR CommandLine contains "%Public%" OR CommandLine contains "%AppData%")) OR ((CommandLine contains ":\\Users\\") AND ((CommandLine contains "\\Favorites" OR CommandLine contains "\\Favourites" OR CommandLine contains "\\Contacts" OR CommandLine contains "\\Music" OR CommandLine contains "\\Pictures" OR CommandLine contains "\\Documents" OR CommandLine contains "\\Photos")))))

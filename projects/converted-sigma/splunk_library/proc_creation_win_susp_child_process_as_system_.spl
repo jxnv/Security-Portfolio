@@ -1,0 +1,11 @@
+# Title: Suspicious Child Process Created as System
+# ID: 590a5f4c-6c8c-4f10-8307-89afe9453a9d
+# Status: test
+# Level: high
+# Author: Teymur Kheirkhabarov, Roberto Rodriguez (@Cyb3rWard0g), Open Threat Research (OTR)
+# Date: 2019-10-26
+# Tags: attack.privilege-escalation, attack.stealth, attack.t1134.002
+# Description: Detection of child processes spawned with SYSTEM privileges by parents with LOCAL SERVICE or NETWORK SERVICE accounts
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog (((ParentUser="*AUTHORI*" OR ParentUser="*AUTORI*") AND (ParentUser="*\\NETWORK SERVICE" OR ParentUser="*\\LOCAL SERVICE") AND (user="*AUTHORI*" OR user="*AUTORI*") AND (user="*\\SYSTEM" OR user="*\\Système" OR user="*\\СИСТЕМА") AND (IntegrityLevel="System" OR IntegrityLevel="S-1-16-16384")) AND NOT ((process_path="*\\rundll32.exe" AND process_exec="*DavSetCookie*")))

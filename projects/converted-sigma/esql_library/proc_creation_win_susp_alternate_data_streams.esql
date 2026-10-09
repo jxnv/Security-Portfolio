@@ -1,0 +1,11 @@
+// Title: Execute From Alternate Data Streams
+// ID: 7f43c430-5001-4f8b-aaa9-c3b88f18fa5c
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2021-09-01
+// Tags: attack.stealth, attack.t1564.004
+// Description: Detects execution from an Alternate Data Stream (ADS). Adversaries may use NTFS file attributes to hide their malicious data in order to evade detection
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE ((process.command_line LIKE "%txt:%") AND (((process.command_line LIKE "%esentutl %" AND process.command_line LIKE "% /y %" AND process.command_line LIKE "% /d %" AND process.command_line LIKE "% /o %")) OR ((process.command_line LIKE "%makecab %" AND process.command_line LIKE "%.cab%")) OR ((process.command_line LIKE "%reg %" AND process.command_line LIKE "% export %")) OR ((process.command_line LIKE "%regedit %" AND process.command_line LIKE "% /E %")) OR ((process.command_line LIKE "%type %" AND process.command_line LIKE "% > %"))))

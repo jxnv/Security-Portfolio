@@ -1,0 +1,11 @@
+// Title: LSASS Process Reconnaissance Via Findstr.EXE
+// ID: fe63010f-8823-4864-a96b-a7b4a0f7b929
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-08-12
+// Tags: attack.credential-access, attack.t1552.006
+// Description: Detects findstring commands that include the keyword lsass, which indicates recon actviity for the LSASS process PID
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(CommandLine ICONTAINS "lsass")) AND (((where(Image IENDSWITH "\\find.exe") OR where(Image IENDSWITH "\\findstr.exe"))) OR ((where(OriginalFileName = "FIND.EXE") OR where(OriginalFileName = "FINDSTR.EXE"))))) OR ((where(CommandLine ICONTAINS " /i \"lsass") OR where(CommandLine ICONTAINS " /i lsass.exe") OR where(CommandLine ICONTAINS "findstr \"lsass") OR where(CommandLine ICONTAINS "findstr lsass") OR where(CommandLine ICONTAINS "findstr.exe \"lsass") OR where(CommandLine ICONTAINS "findstr.exe lsass"))))

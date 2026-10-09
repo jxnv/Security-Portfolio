@@ -1,0 +1,11 @@
+// Title: Python Inline Command Execution
+// ID: 899133d5-4d7c-4a7f-94ee-27355c879d90
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-01-02
+// Tags: attack.execution, attack.t1059
+// Description: Detects execution of python using the "-c" flag. This is could be used as a way to launch a reverse shell or execute live python code.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((src.process.cmdline containsCIS " -c") AND ((OriginalFileName = "python.exe") OR ((src.process.image.path endswithCIS "python.exe" OR src.process.image.path endswithCIS "python3.exe" OR src.process.image.path endswithCIS "python2.exe")))) AND NOT ((((src.process.parent.image.path startswithCIS "C:\\Program Files\\Python" OR src.process.parent.image.path startswithCIS "C:\\Program Files (x86)\\Python") AND src.process.parent.image.path endswithCIS "\\python.exe" AND src.process.parent.cmdline containsCIS "-E -s -m ensurepip -U --default-pip") OR ((src.process.parent.image.path startswithCIS "C:\\Program Files\\Python" OR src.process.parent.image.path startswithCIS "C:\\Program Files (x86)\\Python") AND (src.process.cmdline containsCIS "-W ignore::DeprecationWarning" AND src.process.cmdline containsCIS "['install', '--no-cache-dir', '--no-index', '--find-links'," AND src.process.cmdline containsCIS "'--upgrade', 'pip'")))) AND NOT ((((src.process.cmdline containsCIS "<pip-setuptools-caller>" AND src.process.cmdline containsCIS "exec(compile(")) OR ((src.process.parent.image.path endswithCIS "\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe") OR ((src.process.parent.image.path = "C:\\Program Files\\Microsoft VS Code\\Code.exe" OR src.process.parent.image.path = "C:\\Program Files (x86)\\Microsoft VS Code\\Code.exe"))))))

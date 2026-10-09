@@ -1,0 +1,33 @@
+{
+  "title": "Uncommon Process Access Rights For Target Image",
+  "id": "a24e5861-c6ca-4fde-a93c-ba9256feddf0",
+  "status": "test",
+  "description": "Detects process access request to uncommon target images with a \"PROCESS_ALL_ACCESS\" access mask.\n",
+  "author": "Nasreddine Bencherchali (Nextron Systems), frack113",
+  "date": "2024-05-27",
+  "tags": [
+    "attack.privilege-escalation",
+    "attack.stealth",
+    "attack.t1055.011"
+  ],
+  "level": "low",
+  "logsource": {
+    "category": "process_access",
+    "product": "windows"
+  },
+  "detection": {
+    "selection": {
+      "TargetImage|endswith": [
+        "\\calc.exe",
+        "\\calculator.exe",
+        "\\mspaint.exe",
+        "\\notepad.exe",
+        "\\ping.exe",
+        "\\wordpad.exe",
+        "\\write.exe"
+      ],
+      "GrantedAccess": "0x1FFFFF"
+    },
+    "condition": "selection"
+  }
+}

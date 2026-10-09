@@ -1,0 +1,11 @@
+-- Title: Suspicious Reverse Shell Command Line
+-- ID: 738d9bcf-6999-4fdb-b4ac-3033037db8ab
+-- Status: test
+-- Level: high
+-- Author: Florian Roth (Nextron Systems)
+-- Date: 2019-04-02
+-- Tags: attack.execution, attack.t1059.004
+-- Description: Detects suspicious shell commands or program code that may be executed or used in command line to establish a reverse shell
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM events WHERE (TEXT SEARCH 'BEGIN {s = \"/inet/tcp/0/' OR TEXT SEARCH 'bash -i >& /dev/tcp/' OR TEXT SEARCH 'bash -i >& /dev/udp/' OR TEXT SEARCH 'sh -i >$ /dev/udp/' OR TEXT SEARCH 'sh -i >$ /dev/tcp/' OR TEXT SEARCH '&& while read line 0<&5; do' OR TEXT SEARCH '/bin/bash -c exec 5<>/dev/tcp/' OR TEXT SEARCH '/bin/bash -c exec 5<>/dev/udp/' OR TEXT SEARCH 'nc -e /bin/sh ' OR TEXT SEARCH '/bin/sh | nc' OR TEXT SEARCH 'rm -f backpipe; mknod /tmp/backpipe p && nc ' OR TEXT SEARCH ';socket(S,PF_INET,SOCK_STREAM,getprotobyname(\"tcp\"));if(connect(S,sockaddr_in($p,inet_aton($i))))' OR TEXT SEARCH ';STDIN->fdopen($c,r);$~->fdopen($c,w);system$_ while<>;' OR TEXT SEARCH '/bin/sh -i <&3 >&3 2>&3' OR TEXT SEARCH 'uname -a; w; id; /bin/bash -i' OR TEXT SEARCH '$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2); $stream.Write($sendbyte,0,$sendbyte.Length); $stream.Flush()};' OR TEXT SEARCH ';os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);os.putenv('HISTFILE','/dev/null');' OR TEXT SEARCH '.to_i;exec sprintf(\"/bin/sh -i <&%d >&%d 2>&%d\",f,f,f)' OR TEXT SEARCH ';while(cmd=c.gets);IO.popen(cmd,\"r\"){|io|c.print' OR TEXT SEARCH 'socat exec:'bash -li',pty,stderr,setsid,sigint,sane tcp:' OR TEXT SEARCH 'rm -f /tmp/p; mknod /tmp/p p &&' OR TEXT SEARCH ' | /bin/bash | telnet ' OR TEXT SEARCH ',echo=0,raw tcp-listen:' OR TEXT SEARCH 'nc -lvvp ' OR TEXT SEARCH 'xterm -display 1')

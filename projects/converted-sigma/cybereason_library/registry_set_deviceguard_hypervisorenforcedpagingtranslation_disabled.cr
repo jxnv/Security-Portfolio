@@ -1,0 +1,11 @@
+// Title: Hypervisor Enforced Paging Translation Disabled
+// ID: 7f2954d2-99c2-4d42-a065-ca36740f187b
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2024-07-05
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects changes to the "DisableHypervisorEnforcedPagingTranslation" registry value. Where the it is set to "1" in order to disable the Hypervisor Enforced Paging Translation feature.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(TargetObject="*\\DisableHypervisorEnforcedPagingTranslation" AND Details == "DWORD (0x00000001)")

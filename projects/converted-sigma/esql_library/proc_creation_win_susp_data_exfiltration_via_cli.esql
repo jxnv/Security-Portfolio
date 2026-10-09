@@ -1,0 +1,11 @@
+// Title: Potential Data Exfiltration Activity Via CommandLine Tools
+// ID: 7d1aaf3d-4304-425c-b7c3-162055e0b3ab
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-02
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects the use of various CLI utilities exfiltrating data via web requests
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE ((((process.executable LIKE "%\\powershell_ise.exe" OR process.executable LIKE "%\\powershell.exe" OR process.executable LIKE "%\\pwsh.exe" OR process.executable LIKE "%\\cmd.exe") AND (process.command_line LIKE "%curl %" OR process.command_line LIKE "%Invoke-RestMethod%" OR process.command_line LIKE "%Invoke-WebRequest%" OR process.command_line LIKE "%irm %" OR process.command_line LIKE "%iwr %" OR process.command_line LIKE "%wget %") AND (process.command_line LIKE "% -ur%" AND process.command_line LIKE "% -me%" AND process.command_line LIKE "% -b%" AND process.command_line LIKE "% POST %")) OR ((process.executable LIKE "%\\curl.exe" AND process.command_line LIKE "%--ur%") AND ((process.command_line LIKE "% -d %" OR process.command_line LIKE "% --data %"))) OR (process.executable LIKE "%\\wget.exe" AND (process.command_line LIKE "%--post-data%" OR process.command_line LIKE "%--post-file%"))) AND (((process.command_line RLIKE "net\\s+view" OR process.command_line RLIKE "sc\\s+query")) OR ((process.command_line LIKE "%Get-Content%" OR process.command_line LIKE "%GetBytes%" OR process.command_line LIKE "%hostname%" OR process.command_line LIKE "%ifconfig%" OR process.command_line LIKE "%ipconfig%" OR process.command_line LIKE "%netstat%" OR process.command_line LIKE "%nltest%" OR process.command_line LIKE "%qprocess%" OR process.command_line LIKE "%systeminfo%" OR process.command_line LIKE "%tasklist%" OR process.command_line LIKE "%ToBase64String%" OR process.command_line LIKE "%whoami%")) OR ((process.command_line LIKE "%type %" AND process.command_line LIKE "% > %" AND process.command_line LIKE "% C:\\%"))))

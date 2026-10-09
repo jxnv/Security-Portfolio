@@ -1,0 +1,11 @@
+// Title: Standard User In High Privileged Group
+// ID: 7ac407cc-0f48-4328-aede-de1d2e6fef41
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2023-01-13
+// Tags: attack.credential-access, attack.privilege-escalation
+// Description: Detect standard users login that are part of high privileged groups such as the Administrator group
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE ((winlog.event_id == 300 AND TargetUserSid LIKE "S-1-5-21-%" AND (SidList LIKE "%S-1-5-32-544%" OR SidList LIKE "%-500}%" OR SidList LIKE "%-518}%" OR SidList LIKE "%-519}%")) AND NOT (((TargetUserSid LIKE "%-500" OR TargetUserSid LIKE "%-518" OR TargetUserSid LIKE "%-519"))))

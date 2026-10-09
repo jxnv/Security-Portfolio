@@ -1,0 +1,23 @@
+// Title: System Information Discovery via Registry Queries
+// ID: 0022869c-49f7-4ff2-ba03-85ac42ddac58
+// Status: experimental
+// Level: low
+// Author: lazarg
+// Date: 2025-06-12
+// Tags: attack.discovery, attack.t1082
+// Description: Detects attempts to query system information directly from the Windows Registry.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 0022869c_49f7_4ff2_ba03_85ac42ddac58 {
+  meta:
+    title = "System Information Discovery via Registry Queries"
+    description = "Detects attempts to query system information directly from the Windows Registry."
+    author = "lazarg"
+    severity = "LOW"
+
+  events:
+    (((($e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase) and ($e.target.process.command_line = /.*Get-ItemPropertyValue.*/ nocase or $e.target.process.command_line = /.*gpv.*/ nocase)) or ($e.target.process.file.full_path = /.*\\reg.exe$/ nocase and $e.target.process.command_line = /.*query.*/ nocase and ($e.target.process.command_line = /.*-v.*/ nocase or $e.target.process.command_line = /.*/v.*/ nocase))) and (($e.target.process.command_line = /.*\\SOFTWARE\\Microsoft\\Windows Defender.*/ nocase or $e.target.process.command_line = /.*\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion.*/ nocase or $e.target.process.command_line = /.*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall.*/ nocase or $e.target.process.command_line = /.*\\SYSTEM\\CurrentControlSet\\Control\\TimeZoneInformation.*/ nocase or $e.target.process.command_line = /.*\\SYSTEM\\CurrentControlSet\\Services.*/ nocase)))
+
+  condition:
+    $e
+}

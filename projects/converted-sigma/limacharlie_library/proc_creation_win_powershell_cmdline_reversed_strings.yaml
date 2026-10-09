@@ -1,0 +1,22 @@
+# Title: Potential PowerShell Obfuscation Via Reversed Commands
+# ID: b6b49cd1-34d6-4ead-b1bf-176e9edba9a4
+# Status: test
+# Level: high
+# Author: Teymur Kheirkhabarov (idea), Vasiliy Burov (rule), oscd.community, Tim Shelton
+# Date: 2020-10-11
+# Tags: attack.stealth, attack.t1027, attack.execution, attack.t1059.001
+# Description: Detects the presence of reversed PowerShell commands in the CommandLine. This is often used as a method of obfuscation by attackers
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# LimaCharlie Detection & Response Rule
+# Name: Potential PowerShell Obfuscation Via Reversed Commands
+detect:
+  event: process_creation
+  op: and
+  rules:
+    # Filter logic:
+    # ((((CommandLine="*hctac*" OR CommandLine="*kaerb*" OR CommandLine="*dnammoc*" OR CommandLine="*ekovn*" OR CommandLine="*eliFd*" OR CommandLine="*rahc*" OR CommandLine="*etirw*" OR CommandLine="*golon*" OR CommandLine="*tninon*" OR CommandLine="*eddih*" OR CommandLine="*tpircS*" OR CommandLine="*ssecorp*" OR CommandLine="*llehsrewop*" OR CommandLine="*esnopser*" OR CommandLine="*daolnwod*" OR CommandLine="*tneilCbeW*" OR CommandLine="*tneilc*" OR CommandLine="*ptth*" OR CommandLine="*elifotevas*" OR CommandLine="*46esab*" OR CommandLine="*htaPpmeTteG*" OR CommandLine="*tcejbO*" OR CommandLine="*maerts*" OR CommandLine="*hcaerof*" OR CommandLine="*retupmoc*")) AND (((Image="*\\powershell.exe" OR Image="*\\pwsh.exe")) OR ((OriginalFileName="PowerShell.EXE" OR OriginalFileName="pwsh.dll")))) AND NOT (((CommandLine="* -EncodedCommand *" OR CommandLine="* -enc *"))))
+respond:
+  - action: report
+    name: Potential PowerShell Obfuscation Via Reversed Commands
+

@@ -1,0 +1,28 @@
+{
+  "title": "Use Of The SFTP.EXE Binary As A LOLBIN",
+  "id": "a85ffc3a-e8fd-4040-93bf-78aff284d801",
+  "status": "test",
+  "description": "Detects the usage of the \"sftp.exe\" binary as a LOLBIN by abusing the \"-D\" flag",
+  "author": "Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2022-11-10",
+  "tags": [
+    "attack.execution",
+    "attack.stealth",
+    "attack.t1218"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection": {
+      "Image|endswith": "\\sftp.exe",
+      "CommandLine|contains": [
+        " -D ..",
+        " -D C:\\"
+      ]
+    },
+    "condition": "selection"
+  }
+}

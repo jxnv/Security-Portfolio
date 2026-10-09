@@ -1,0 +1,22 @@
+# Title: Suspicious Query of MachineGUID
+# ID: f5240972-3938-4e56-8e4b-e33893176c1f
+# Status: test
+# Level: low
+# Author: frack113
+# Date: 2022-01-01
+# Tags: attack.discovery, attack.t1082
+# Description: Use of reg to get MachineGuid information
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# LimaCharlie Detection & Response Rule
+# Name: Suspicious Query of MachineGUID
+detect:
+  event: process_creation
+  op: and
+  rules:
+    # Filter logic:
+    # (Image="*\\reg.exe" AND (CommandLine="*SOFTWARE\\Microsoft\\Cryptography*" AND CommandLine="*/v *" AND CommandLine="*MachineGuid*"))
+respond:
+  - action: report
+    name: Suspicious Query of MachineGUID
+

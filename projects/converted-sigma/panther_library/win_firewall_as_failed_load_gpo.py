@@ -1,0 +1,19 @@
+# Title: The Windows Defender Firewall Service Failed To Load Group Policy
+# ID: 7ec15688-fd24-4177-ba43-1a950537ee39
+# Status: test
+# Level: low
+# Author: frack113
+# Date: 2022-02-19
+# Tags: attack.defense-impairment, attack.t1686.003
+# Description: Detects activity when The Windows Defender Firewall service failed to load Group Policy
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: The Windows Defender Firewall Service Failed To Load Group Policy
+def rule(event):
+    # Detection Logic:
+    # (EventID="2009")
+    return True
+
+def title(event):
+    return "The Windows Defender Firewall Service Failed To Load Group Policy"
+

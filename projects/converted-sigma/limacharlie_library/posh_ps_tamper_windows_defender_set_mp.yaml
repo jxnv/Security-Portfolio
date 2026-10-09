@@ -1,0 +1,22 @@
+# Title: Tamper Windows Defender - ScriptBlockLogging
+# ID: 14c71865-6cd3-44ae-adaa-1db923fae5f2
+# Status: test
+# Level: high
+# Author: frack113, elhoim, Tim Shelton (fps, alias support), Swachchhanda Shrawan Poudel, Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-01-16
+# Tags: attack.defense-impairment, attack.t1685
+# Description: Detects PowerShell scripts attempting to disable scheduled scanning and other parts of Windows Defender ATP or set default actions to allow.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# LimaCharlie Detection & Response Rule
+# Name: Tamper Windows Defender - ScriptBlockLogging
+detect:
+  event: ps_script
+  op: and
+  rules:
+    # Filter logic:
+    # ((((ScriptBlockText="*-dbaf $true*" OR ScriptBlockText="*-dbaf 1*" OR ScriptBlockText="*-dbm $true*" OR ScriptBlockText="*-dbm 1*" OR ScriptBlockText="*-dips $true*" OR ScriptBlockText="*-dips 1*" OR ScriptBlockText="*-DisableArchiveScanning $true*" OR ScriptBlockText="*-DisableArchiveScanning 1*" OR ScriptBlockText="*-DisableBehaviorMonitoring $true*" OR ScriptBlockText="*-DisableBehaviorMonitoring 1*" OR ScriptBlockText="*-DisableBlockAtFirstSeen $true*" OR ScriptBlockText="*-DisableBlockAtFirstSeen 1*" OR ScriptBlockText="*-DisableCatchupFullScan $true*" OR ScriptBlockText="*-DisableCatchupFullScan 1*" OR ScriptBlockText="*-DisableCatchupQuickScan $true*" OR ScriptBlockText="*-DisableCatchupQuickScan 1*" OR ScriptBlockText="*-DisableIntrusionPreventionSystem $true*" OR ScriptBlockText="*-DisableIntrusionPreventionSystem 1*" OR ScriptBlockText="*-DisableIOAVProtection $true*" OR ScriptBlockText="*-DisableIOAVProtection 1*" OR ScriptBlockText="*-DisableRealtimeMonitoring $true*" OR ScriptBlockText="*-DisableRealtimeMonitoring 1*" OR ScriptBlockText="*-DisableRemovableDriveScanning $true*" OR ScriptBlockText="*-DisableRemovableDriveScanning 1*" OR ScriptBlockText="*-DisableScanningMappedNetworkDrivesForFullScan $true*" OR ScriptBlockText="*-DisableScanningMappedNetworkDrivesForFullScan 1*" OR ScriptBlockText="*-DisableScanningNetworkFiles $true*" OR ScriptBlockText="*-DisableScanningNetworkFiles 1*" OR ScriptBlockText="*-DisableScriptScanning $true*" OR ScriptBlockText="*-DisableScriptScanning 1*" OR ScriptBlockText="*-MAPSReporting $false*" OR ScriptBlockText="*-MAPSReporting 0*" OR ScriptBlockText="*-drdsc $true*" OR ScriptBlockText="*-drdsc 1*" OR ScriptBlockText="*-drtm $true*" OR ScriptBlockText="*-drtm 1*" OR ScriptBlockText="*-dscrptsc $true*" OR ScriptBlockText="*-dscrptsc 1*" OR ScriptBlockText="*-dsmndf $true*" OR ScriptBlockText="*-dsmndf 1*" OR ScriptBlockText="*-dsnf $true*" OR ScriptBlockText="*-dsnf 1*" OR ScriptBlockText="*-dss $true*" OR ScriptBlockText="*-dss 1*")) AND (ScriptBlockText="*Set-MpPreference*")) OR ((ScriptBlockText="*Set-MpPreference*") AND ((ScriptBlockText="*HighThreatDefaultAction Allow*" OR ScriptBlockText="*htdefac Allow*" OR ScriptBlockText="*LowThreatDefaultAction Allow*" OR ScriptBlockText="*ltdefac Allow*" OR ScriptBlockText="*ModerateThreatDefaultAction Allow*" OR ScriptBlockText="*mtdefac Allow*" OR ScriptBlockText="*SevereThreatDefaultAction Allow*" OR ScriptBlockText="*stdefac Allow*"))))
+respond:
+  - action: report
+    name: Tamper Windows Defender - ScriptBlockLogging
+

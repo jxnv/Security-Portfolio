@@ -1,0 +1,23 @@
+// Title: Potential Waveedit.DLL Sideloading
+// ID: 71b31e99-9ad0-47d4-aeb5-c0ca3928eeeb
+// Status: test
+// Level: high
+// Author: X__Junior (Nextron Systems)
+// Date: 2023-06-14
+// Tags: attack.persistence, attack.privilege-escalation, attack.execution, attack.stealth, attack.t1574.001
+// Description: Detects potential DLL sideloading of "waveedit.dll", which is part of the Nero WaveEditor audio editing software.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 71b31e99_9ad0_47d4_aeb5_c0ca3928eeeb {
+  meta:
+    title = "Potential Waveedit.DLL Sideloading"
+    description = "Detects potential DLL sideloading of "waveedit.dll", which is part of the Nero WaveEditor audio editing software."
+    author = "X__Junior (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.ImageLoaded = /.*\\waveedit.dll$/ nocase) and not((($e.target.process.file.full_path = "C:\\Program Files (x86)\\Nero\\Nero Apps\\Nero WaveEditor\\waveedit.exe" or $e.target.process.file.full_path = "C:\\Program Files\\Nero\\Nero Apps\\Nero WaveEditor\\waveedit.exe") and ($e.ImageLoaded = /^C:\\Program Files (x86)\\Nero\\Nero Apps\\Nero WaveEditor\\.*/ nocase or $e.ImageLoaded = /^C:\\Program Files\\Nero\\Nero Apps\\Nero WaveEditor\\.*/ nocase))))
+
+  condition:
+    $e
+}

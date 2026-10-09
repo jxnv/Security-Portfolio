@@ -1,0 +1,11 @@
+// Title: Suspicious Scheduled Task Creation
+// ID: 3a734d25-df5c-4b99-8034-af1ddb5883a4
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-12-05
+// Tags: attack.execution, attack.privilege-escalation, attack.persistence, attack.t1053.005
+// Description: Detects suspicious scheduled task creation events. Based on attributes such as paths, commands line flags, etc.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where (((TaskContent matches "*regsvr32*" or TaskContent matches "*rundll32*" or TaskContent matches "*cmd.exe</Command>*" or TaskContent matches "*cmd</Command>*" or TaskContent matches "*<Arguments>/c *" or TaskContent matches "*<Arguments>/k *" or TaskContent matches "*<Arguments>/r *" or TaskContent matches "*powershell*" or TaskContent matches "*pwsh*" or TaskContent matches "*mshta*" or TaskContent matches "*wscript*" or TaskContent matches "*cscript*" or TaskContent matches "*certutil*" or TaskContent matches "*bitsadmin*" or TaskContent matches "*bash.exe*" or TaskContent matches "*bash *" or TaskContent matches "*scrcons*" or TaskContent matches "*wmic *" or TaskContent matches "*wmic.exe*" or TaskContent matches "*forfiles*" or TaskContent matches "*scriptrunner*" or TaskContent matches "*hh.exe*")) and (EventID = "4698") and ((TaskContent matches "*\\AppData\\Local\\Temp\\*" or TaskContent matches "*\\AppData\\Roaming\\*" or TaskContent matches "*\\Users\\Public\\*" or TaskContent matches "*\\WINDOWS\\Temp\\*" or TaskContent matches "*C:\\Temp\\*" or TaskContent matches "*\\Desktop\\*" or TaskContent matches "*\\Downloads\\*" or TaskContent matches "*\\Temporary Internet*" or TaskContent matches "*C:\\ProgramData\\*" or TaskContent matches "*C:\\Perflogs\\*")))

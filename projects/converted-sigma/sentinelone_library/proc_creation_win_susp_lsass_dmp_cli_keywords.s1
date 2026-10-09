@@ -1,0 +1,11 @@
+// Title: LSASS Dump Keyword In CommandLine
+// ID: ffa6861c-4461-4f59-8a41-578c39f3f23e
+// Status: test
+// Level: high
+// Author: E.M. Anhaus, Tony Lambert, oscd.community, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2019-10-24
+// Tags: attack.credential-access, attack.t1003.001
+// Description: Detects the presence of the keywords "lsass" and ".dmp" in the commandline, which could indicate a potential attempt to dump or create a dump of the lsass process.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((src.process.cmdline containsCIS "lsass.dmp" OR src.process.cmdline containsCIS "lsass.zip" OR src.process.cmdline containsCIS "lsass.rar" OR src.process.cmdline containsCIS "Andrew.dmp" OR src.process.cmdline containsCIS "Coredump.dmp" OR src.process.cmdline containsCIS "NotLSASS.zip" OR src.process.cmdline containsCIS "lsass_2" OR src.process.cmdline containsCIS "lsassdump" OR src.process.cmdline containsCIS "lsassdmp")) OR ((src.process.cmdline containsCIS "lsass" AND src.process.cmdline containsCIS ".dmp")) OR ((src.process.cmdline containsCIS "SQLDmpr" AND src.process.cmdline containsCIS ".mdmp")) OR ((src.process.cmdline containsCIS "nanodump" AND src.process.cmdline containsCIS ".dmp")))

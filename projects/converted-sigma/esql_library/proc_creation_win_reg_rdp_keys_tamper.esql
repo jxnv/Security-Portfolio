@@ -1,0 +1,11 @@
+// Title: Potential Tampering With RDP Related Registry Keys Via Reg.EXE
+// ID: 0d5675be-bc88-4172-86d3-1e96a4476536
+// Status: test
+// Level: high
+// Author: pH-T (Nextron Systems), @Kostastsale, TheDFIRReport
+// Date: 2022-02-12
+// Tags: attack.persistence, attack.lateral-movement, attack.defense-impairment, attack.t1021.001, attack.t1112
+// Description: Detects the execution of "reg.exe" for enabling/disabling the RDP service on the host by tampering with the 'CurrentControlSet\Control\Terminal Server' values
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE ((((process.command_line LIKE "% add %" AND process.command_line LIKE "%\\CurrentControlSet\\Control\\Terminal Server%" AND process.command_line LIKE "%REG_DWORD%" AND process.command_line LIKE "% /f%")) AND ((process.executable LIKE "%\\reg.exe") OR (process.pe.original_file_name == "reg.exe"))) AND (((process.command_line LIKE "%Licensing Core%" AND process.command_line LIKE "%EnableConcurrentSessions%")) OR ((process.command_line LIKE "%AllowTSConnections%" OR process.command_line LIKE "%fDenyTSConnections%" OR process.command_line LIKE "%fEnableWinStation%" OR process.command_line LIKE "%fSingleSessionPerUser%" OR process.command_line LIKE "%IdleWinStationPoolCount%" OR process.command_line LIKE "%MaxInstanceCount%" OR process.command_line LIKE "%SecurityLayer%" OR process.command_line LIKE "%TSAdvertise%" OR process.command_line LIKE "%TSAppCompat%" OR process.command_line LIKE "%TSEnabled%" OR process.command_line LIKE "%TSUserEnabled%" OR process.command_line LIKE "%WinStations\\RDP-Tcp%"))) AND NOT (((process.command_line LIKE "%SecurityLayer%" AND process.command_line LIKE "%02%"))))

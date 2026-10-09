@@ -1,0 +1,23 @@
+// Title: Suspicious PowerShell Invocations - Specific
+// ID: ae7fbf8e-f3cb-49fd-8db4-5f3bed522c71
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Jonhnathan Ribeiro
+// Date: 2017-03-05
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects suspicious PowerShell invocation command parameters
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule ae7fbf8e_f3cb_49fd_8db4_5f3bed522c71 {
+  meta:
+    title = "Suspicious PowerShell Invocations - Specific"
+    description = "Detects suspicious PowerShell invocation command parameters"
+    author = "Florian Roth (Nextron Systems), Jonhnathan Ribeiro"
+    severity = "HIGH"
+
+  events:
+    (((($e.ScriptBlockText = /.*-nop.*/ nocase and $e.ScriptBlockText = /.* -w .*/ nocase and $e.ScriptBlockText = /.*hidden.*/ nocase and $e.ScriptBlockText = /.* -c .*/ nocase and $e.ScriptBlockText = /.*[Convert]::FromBase64String.*/ nocase)) or (($e.ScriptBlockText = /.* -w .*/ nocase and $e.ScriptBlockText = /.*hidden.*/ nocase and $e.ScriptBlockText = /.*-ep.*/ nocase and $e.ScriptBlockText = /.*bypass.*/ nocase and $e.ScriptBlockText = /.*-Enc.*/ nocase)) or (($e.ScriptBlockText = /.* -w .*/ nocase and $e.ScriptBlockText = /.*hidden.*/ nocase and $e.ScriptBlockText = /.*-noni.*/ nocase and $e.ScriptBlockText = /.*-nop.*/ nocase and $e.ScriptBlockText = /.* -c .*/ nocase and $e.ScriptBlockText = /.*iex.*/ nocase and $e.ScriptBlockText = /.*New-Object.*/ nocase)) or (($e.ScriptBlockText = /.*iex.*/ nocase and $e.ScriptBlockText = /.*New-Object.*/ nocase and $e.ScriptBlockText = /.*Net.WebClient.*/ nocase and $e.ScriptBlockText = /.*.Download.*/ nocase)) or (($e.ScriptBlockText = /.*powershell.*/ nocase and $e.ScriptBlockText = /.*reg.*/ nocase and $e.ScriptBlockText = /.*add.*/ nocase) and ($e.ScriptBlockText = /.*\\software\\microsoft\\windows\\currentversion\\run.*/ nocase or $e.ScriptBlockText = /.*\\software\\wow6432node\\microsoft\\windows\\currentversion\\run.*/ nocase or $e.ScriptBlockText = /.*\\software\\microsoft\\windows\\currentversion\\policies\\explorer\\run.*/ nocase)) or (($e.ScriptBlockText = /.*bypass.*/ nocase and $e.ScriptBlockText = /.*-noprofile.*/ nocase and $e.ScriptBlockText = /.*-windowstyle.*/ nocase and $e.ScriptBlockText = /.*hidden.*/ nocase and $e.ScriptBlockText = /.*new-object.*/ nocase and $e.ScriptBlockText = /.*system.net.webclient.*/ nocase and $e.ScriptBlockText = /.*.download.*/ nocase))) and not((($e.ScriptBlockText = /.*(New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1.*/ nocase or $e.ScriptBlockText = /.*(New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1').*/ nocase or $e.ScriptBlockText = /.*Write-ChocolateyWarning.*/ nocase))))
+
+  condition:
+    $e
+}

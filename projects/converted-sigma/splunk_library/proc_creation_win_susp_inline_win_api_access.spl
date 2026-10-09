@@ -1,0 +1,11 @@
+# Title: Potential WinAPI Calls Via CommandLine
+# ID: ba3f5c1b-6272-4119-9dbd-0bc8d21c2702
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-09-06
+# Tags: attack.execution, attack.t1106
+# Description: Detects the use of WinAPI Functions via the commandline. As seen used by threat actors via the tool winapiexec
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog (((process_exec="*AddSecurityPackage*" OR process_exec="*AdjustTokenPrivileges*" OR process_exec="*Advapi32*" OR process_exec="*CloseHandle*" OR process_exec="*CreateProcessWithToken*" OR process_exec="*CreatePseudoConsole*" OR process_exec="*CreateRemoteThread*" OR process_exec="*CreateThread*" OR process_exec="*CreateUserThread*" OR process_exec="*DangerousGetHandle*" OR process_exec="*DuplicateTokenEx*" OR process_exec="*EnumerateSecurityPackages*" OR process_exec="*FreeHGlobal*" OR process_exec="*FreeLibrary*" OR process_exec="*GetDelegateForFunctionPointer*" OR process_exec="*GetLogonSessionData*" OR process_exec="*GetModuleHandle*" OR process_exec="*GetProcAddress*" OR process_exec="*GetProcessHandle*" OR process_exec="*GetTokenInformation*" OR process_exec="*ImpersonateLoggedOnUser*" OR process_exec="*kernel32*" OR process_exec="*LoadLibrary*" OR process_exec="*memcpy*" OR process_exec="*MiniDumpWriteDump*" OR process_exec="*ntdll*" OR process_exec="*OpenDesktop*" OR process_exec="*OpenProcess*" OR process_exec="*OpenProcessToken*" OR process_exec="*OpenThreadToken*" OR process_exec="*OpenWindowStation*" OR process_exec="*PtrToString*" OR process_exec="*QueueUserApc*" OR process_exec="*ReadProcessMemory*" OR process_exec="*RevertToSelf*" OR process_exec="*RtlCreateUserThread*" OR process_exec="*secur32*" OR process_exec="*SetThreadToken*" OR process_exec="*VirtualAlloc*" OR process_exec="*VirtualFree*" OR process_exec="*VirtualProtect*" OR process_exec="*WaitForSingleObject*" OR process_exec="*WriteInt32*" OR process_exec="*WriteProcessMemory*" OR process_exec="*ZeroFreeGlobalAllocUnicode*")) AND NOT (((parent_process_path="*\\CompatTelRunner.exe" AND (process_exec="*FreeHGlobal*" OR process_exec="*PtrToString*" OR process_exec="*kernel32*" OR process_exec="*CloseHandle*")) OR (process_path="*\\MpCmdRun.exe" AND process_exec="*GetLoadLibraryWAddress32*"))))

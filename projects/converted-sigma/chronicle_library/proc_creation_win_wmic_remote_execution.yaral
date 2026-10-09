@@ -1,0 +1,23 @@
+// Title: WMIC Remote Command Execution
+// ID: 7773b877-5abb-4a3e-b9c9-fd0369b59b00
+// Status: test
+// Level: medium
+// Author: frack113, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-02-14
+// Tags: attack.execution, attack.t1047
+// Description: Detects the execution of WMIC to query information on a remote system
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 7773b877_5abb_4a3e_b9c9_fd0369b59b00 {
+  meta:
+    title = "WMIC Remote Command Execution"
+    description = "Detects the execution of WMIC to query information on a remote system"
+    author = "frack113, Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (((($e.target.process.command_line = /.*/node:.*/ nocase or $e.target.process.command_line = /.*-node:.*/ nocase)) and (($e.target.process.file.full_path = /.*\\WMIC.exe$/ nocase) or ($e.target.process.file.name = "wmic.exe"))) and not((($e.target.process.command_line = /.*localhost.*/ nocase or $e.target.process.command_line = /.*127.0.0.1.*/ nocase))))
+
+  condition:
+    $e
+}

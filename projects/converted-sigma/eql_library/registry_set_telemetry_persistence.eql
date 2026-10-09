@@ -1,0 +1,14 @@
+// Title: Potential Registry Persistence Attempt Via Windows Telemetry
+// ID: 73a883d0-0348-4be4-a8d8-51031c2564f8
+// Status: test
+// Level: high
+// Author: Lednyov Alexey, oscd.community, Sreeman
+// Date: 2020-10-16
+// Tags: attack.privilege-escalation, attack.execution, attack.persistence, attack.t1053.005
+// Description: Detects potential persistence behavior using the windows telemetry registry key.
+// Windows telemetry makes use of the binary CompatTelRunner.exe to run a variety of commands and perform the actual telemetry collections.
+// This binary was created to be easily extensible, and to that end, it relies on the registry to instruct on which commands to run.
+// The problem is, it will run any arbitrary command without restriction of location or type.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+registry where ((registry.path like "*_\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\AppCompatFlags\\TelemetryController\\*" and registry.path endswith "\\Command" and (registry.data.strings like "*_.bat*" or registry.data.strings like "*_.bin*" or registry.data.strings like "*_.cmd*" or registry.data.strings like "*_.dat*" or registry.data.strings like "*_.dll*" or registry.data.strings like "*_.exe*" or registry.data.strings like "*_.hta*" or registry.data.strings like "*_.jar*" or registry.data.strings like "*_.js*" or registry.data.strings like "*_.msi*" or registry.data.strings like "*_.ps*" or registry.data.strings like "*_.sh*" or registry.data.strings like "*_.vb*")) and not (((registry.data.strings like "*_\\system32\\CompatTelRunner.exe*" or registry.data.strings like "*_\\system32\\DeviceCensus.exe*"))))

@@ -1,0 +1,23 @@
+// Title: Github Repository/Organization Transferred
+// ID: 04ad83ef-1a37-4c10-b57a-81092164bf33
+// Status: test
+// Level: medium
+// Author: Romain Gaillard (@romain-gaillard)
+// Date: 2024-07-29
+// Tags: attack.persistence, attack.exfiltration, attack.t1020, attack.t1537
+// Description: Detects when a repository or an organization is being transferred to another location.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 04ad83ef_1a37_4c10_b57a_81092164bf33 {
+  meta:
+    title = "Github Repository/Organization Transferred"
+    description = "Detects when a repository or an organization is being transferred to another location."
+    author = "Romain Gaillard (@romain-gaillard)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.action = "migration.create" or $e.action = "org.transfer_outgoing" or $e.action = "org.transfer" or $e.action = "repo.transfer_outgoing"))
+
+  condition:
+    $e
+}

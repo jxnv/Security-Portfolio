@@ -1,0 +1,23 @@
+// Title: Suspicious Msiexec Quiet Install From Remote Location
+// ID: 8150732a-0c9d-4a99-82b9-9efb9b90c40c
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-10-28
+// Tags: attack.stealth, attack.t1218.007
+// Description: Detects usage of Msiexec.exe to install packages hosted remotely quietly
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 8150732a_0c9d_4a99_82b9_9efb9b90c40c {
+  meta:
+    title = "Suspicious Msiexec Quiet Install From Remote Location"
+    description = "Detects usage of Msiexec.exe to install packages hosted remotely quietly"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (((($e.target.process.command_line = /.*-i.*/ nocase or $e.target.process.command_line = /.*/i.*/ nocase or $e.target.process.command_line = /.*-package.*/ nocase or $e.target.process.command_line = /.*/package.*/ nocase or $e.target.process.command_line = /.*-a.*/ nocase or $e.target.process.command_line = /.*/a.*/ nocase or $e.target.process.command_line = /.*-j.*/ nocase or $e.target.process.command_line = /.*/j.*/ nocase)) and (($e.target.process.file.full_path = /.*\\msiexec.exe$/ nocase) or ($e.target.process.file.name = "msiexec.exe")) and (($e.target.process.command_line = /.*-q.*/ nocase or $e.target.process.command_line = /.*/q.*/ nocase)) and (($e.target.process.command_line = /.*http.*/ nocase or $e.target.process.command_line = /.*\\\\\\\\.*/ nocase))) and not((($e.target.process.command_line = /.*\\AppData\\Local\\Temp\\OpenOffice.*/ nocase and $e.target.process.command_line = /.*Installation Files\\openoffice.*/ nocase))))
+
+  condition:
+    $e
+}

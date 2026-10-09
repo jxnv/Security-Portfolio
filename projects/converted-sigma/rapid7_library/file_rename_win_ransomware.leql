@@ -1,0 +1,11 @@
+// Title: Suspicious Appended Extension
+// ID: e3f673b3-65d1-4d80-9146-466f8b63fa99
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-07-16
+// Tags: attack.impact, attack.t1486
+// Description: Detects file renames where the target filename uses an uncommon double extension. Could indicate potential ransomware activity renaming files and adding a custom extension to the encrypted files, such as ".jpg.crypted", ".docx.locky", etc.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(SourceFilename IENDSWITH ".doc") OR where(SourceFilename IENDSWITH ".docx") OR where(SourceFilename IENDSWITH ".jpeg") OR where(SourceFilename IENDSWITH ".jpg") OR where(SourceFilename IENDSWITH ".lnk") OR where(SourceFilename IENDSWITH ".pdf") OR where(SourceFilename IENDSWITH ".png") OR where(SourceFilename IENDSWITH ".pst") OR where(SourceFilename IENDSWITH ".rtf") OR where(SourceFilename IENDSWITH ".xls") OR where(SourceFilename IENDSWITH ".xlsx")) AND (where(TargetFilename ICONTAINS ".doc.") OR where(TargetFilename ICONTAINS ".docx.") OR where(TargetFilename ICONTAINS ".jpeg.") OR where(TargetFilename ICONTAINS ".jpg.") OR where(TargetFilename ICONTAINS ".lnk.") OR where(TargetFilename ICONTAINS ".pdf.") OR where(TargetFilename ICONTAINS ".png.") OR where(TargetFilename ICONTAINS ".pst.") OR where(TargetFilename ICONTAINS ".rtf.") OR where(TargetFilename ICONTAINS ".xls.") OR where(TargetFilename ICONTAINS ".xlsx."))) AND NOT (((where(TargetFilename IENDSWITH ".backup") OR where(TargetFilename IENDSWITH ".bak") OR where(TargetFilename IENDSWITH ".old") OR where(TargetFilename IENDSWITH ".orig") OR where(TargetFilename IENDSWITH ".temp") OR where(TargetFilename IENDSWITH ".tmp")))) AND NOT ((where(TargetFilename ICONTAINS ":\\ProgramData\\Anaconda3\\") AND where(TargetFilename IENDSWITH ".c~"))))

@@ -1,0 +1,20 @@
+# Title: RDP Sensitive Settings Changed to Zero
+# ID: a2863fbc-d5cb-48d5-83fb-d976d4b1743b
+# Status: test
+# Level: medium
+# Author: Samir Bousseaden, David ANDRE, Roberto Rodriguez @Cyb3rWard0g, Nasreddine Bencherchali
+# Date: 2022-09-29
+# Tags: attack.persistence, attack.defense-impairment, attack.t1112
+# Description: Detects tampering of RDP Terminal Service/Server sensitive settings.
+# Such as allowing unauthorized users access to a system via the 'fAllowUnsolicited' or enabling RDP via 'fDenyTSConnections', etc.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: RDP Sensitive Settings Changed to Zero
+def rule(event):
+    # Detection Logic:
+    # ((TargetObject="*\\fDenyTSConnections" OR TargetObject="*\\fSingleSessionPerUser" OR TargetObject="*\\UserAuthentication") AND Details="DWORD (0x00000000)")
+    return True
+
+def title(event):
+    return "RDP Sensitive Settings Changed to Zero"
+

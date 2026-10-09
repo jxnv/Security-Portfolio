@@ -1,0 +1,11 @@
+// Title: Potential Recon Activity Via Nltest.EXE
+// ID: 5cc90652-4cbd-4241-aa3b-4b462fa5a248
+// Status: test
+// Level: medium
+// Author: Craig Young, oscd.community, Georg Lauenstein
+// Date: 2021-07-24
+// Tags: attack.discovery, attack.t1016, attack.t1482
+// Description: Detects nltest commands that can be used for information discovery
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE (((process.executable LIKE "%\\nltest.exe") OR (process.pe.original_file_name == "nltestrk.exe")) AND (((process.command_line LIKE "%server%" AND process.command_line LIKE "%query%")) OR ((process.command_line LIKE "%/user%" OR process.command_line LIKE "%all_trusts%" OR process.command_line LIKE "%dclist:%" OR process.command_line LIKE "%dnsgetdc:%" OR process.command_line LIKE "%domain_trusts%" OR process.command_line LIKE "%dsgetdc:%" OR process.command_line LIKE "%parentdomain%" OR process.command_line LIKE "%trusted_domains%"))))

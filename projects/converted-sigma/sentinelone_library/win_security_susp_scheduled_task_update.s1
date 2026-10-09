@@ -1,0 +1,11 @@
+// Title: Suspicious Scheduled Task Update
+// ID: 614cf376-6651-47c4-9dcc-6b9527f749f4
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-12-05
+// Tags: attack.execution, attack.privilege-escalation, attack.persistence, attack.t1053.005
+// Description: Detects update to a scheduled task event that contain suspicious keywords.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((TaskContentNew containsCIS "regsvr32" OR TaskContentNew containsCIS "rundll32" OR TaskContentNew containsCIS "cmd.exe</Command>" OR TaskContentNew containsCIS "cmd</Command>" OR TaskContentNew containsCIS "<Arguments>/c " OR TaskContentNew containsCIS "<Arguments>/k " OR TaskContentNew containsCIS "<Arguments>/r " OR TaskContentNew containsCIS "powershell" OR TaskContentNew containsCIS "pwsh" OR TaskContentNew containsCIS "mshta" OR TaskContentNew containsCIS "wscript" OR TaskContentNew containsCIS "cscript" OR TaskContentNew containsCIS "certutil" OR TaskContentNew containsCIS "bitsadmin" OR TaskContentNew containsCIS "bash.exe" OR TaskContentNew containsCIS "bash " OR TaskContentNew containsCIS "scrcons" OR TaskContentNew containsCIS "wmic " OR TaskContentNew containsCIS "wmic.exe" OR TaskContentNew containsCIS "forfiles" OR TaskContentNew containsCIS "scriptrunner" OR TaskContentNew containsCIS "hh.exe")) AND (EventID = "4702") AND ((TaskContentNew containsCIS "\\AppData\\Local\\Temp\\" OR TaskContentNew containsCIS "\\AppData\\Roaming\\" OR TaskContentNew containsCIS "\\Users\\Public\\" OR TaskContentNew containsCIS "\\WINDOWS\\Temp\\" OR TaskContentNew containsCIS "C:\\Temp\\" OR TaskContentNew containsCIS "\\Desktop\\" OR TaskContentNew containsCIS "\\Downloads\\" OR TaskContentNew containsCIS "\\Temporary Internet" OR TaskContentNew containsCIS "C:\\ProgramData\\" OR TaskContentNew containsCIS "C:\\Perflogs\\")))

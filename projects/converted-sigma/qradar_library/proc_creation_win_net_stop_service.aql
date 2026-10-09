@@ -1,0 +1,11 @@
+-- Title: Stop Windows Service Via Net.EXE
+-- ID: 88872991-7445-4a22-90b2-a3adadb0e827
+-- Status: test
+-- Level: low
+-- Author: Jakob Weinzettl, oscd.community, Nasreddine Bencherchali (Nextron Systems)
+-- Date: 2023-03-05
+-- Tags: attack.impact, attack.t1489
+-- Description: Detects the stopping of a Windows service via the "net" utility.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM events WHERE ((CommandLine ILIKE '% stop %') AND (((OriginalFileName = 'net.exe' OR OriginalFileName = 'net1.exe')) OR ((Image ILIKE '%\\net.exe' OR Image ILIKE '%\\net1.exe'))))

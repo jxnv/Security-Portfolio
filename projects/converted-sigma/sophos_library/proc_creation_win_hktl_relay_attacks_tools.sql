@@ -1,0 +1,11 @@
+-- Title: Potential SMB Relay Attack Tool Execution
+-- ID: 5589ab4f-a767-433c-961d-c91f3f704db1
+-- Status: test
+-- Level: critical
+-- Author: Florian Roth (Nextron Systems)
+-- Date: 2021-07-24
+-- Tags: attack.collection, attack.execution, attack.credential-access, attack.t1557.001
+-- Description: Detects different hacktools used for relay attacks on Windows for privilege escalation
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE (((CommandLine ILIKE '%.exe -c \"{%' AND CommandLine ILIKE '%}\" -z') OR ((Image ILIKE '%PetitPotam%' OR Image ILIKE '%RottenPotato%' OR Image ILIKE '%HotPotato%' OR Image ILIKE '%JuicyPotato%' OR Image ILIKE '%\\just_dce_%' OR Image ILIKE '%Juicy Potato%' OR Image ILIKE '%\\temp\\rot.exe%' OR Image ILIKE '%\\Potato.exe%' OR Image ILIKE '%\\SpoolSample.exe%' OR Image ILIKE '%\\Responder.exe%' OR Image ILIKE '%\\smbrelayx%' OR Image ILIKE '%\\ntlmrelayx%' OR Image ILIKE '%\\LocalPotato%')) OR ((CommandLine ILIKE '%Invoke-Tater%' OR CommandLine ILIKE '% smbrelay%' OR CommandLine ILIKE '% ntlmrelay%' OR CommandLine ILIKE '%cme smb %' OR CommandLine ILIKE '% /ntlm:NTLMhash %' OR CommandLine ILIKE '%Invoke-PetitPotam%' OR CommandLine ILIKE '%.exe -t * -p %'))) AND NOT (((Image ILIKE '%HotPotatoes6%' OR Image ILIKE '%HotPotatoes7%' OR Image ILIKE '%HotPotatoes %'))))

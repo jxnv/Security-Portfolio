@@ -1,0 +1,23 @@
+// Title: Suspicious Run Key from Download
+// ID: 9c5037d1-c568-49b3-88c7-9846a5bdc2be
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Swachchhanda Shrawan Poude (Nextron Systems)
+// Date: 2019-10-01
+// Tags: attack.privilege-escalation, attack.persistence, attack.t1547.001
+// Description: Detects the suspicious RUN keys created by software located in Download or temporary Outlook/Internet Explorer directories
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 9c5037d1_c568_49b3_88c7_9846a5bdc2be {
+  meta:
+    title = "Suspicious Run Key from Download"
+    description = "Detects the suspicious RUN keys created by software located in Download or temporary Outlook/Internet Explorer directories"
+    author = "Florian Roth (Nextron Systems), Swachchhanda Shrawan Poude (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.file.full_path = /.*\\AppData\\Local\\Packages\\Microsoft.Outlook_.*/ nocase or $e.target.process.file.full_path = /.*\\AppData\\Local\\Microsoft\\Olk\\Attachments\\.*/ nocase or $e.target.process.file.full_path = /.*\\Downloads\\.*/ nocase or $e.target.process.file.full_path = /.*\\Temporary Internet Files\\Content.Outlook\\.*/ nocase or $e.target.process.file.full_path = /.*\\Local Settings\\Temporary Internet Files\\.*/ nocase) and ($e.TargetObject = /.*\\Software\\Microsoft\\Windows\\CurrentVersion\\Run.*/ nocase or $e.TargetObject = /.*\\Software\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Run.*/ nocase or $e.TargetObject = /.*\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run.*/ nocase))
+
+  condition:
+    $e
+}

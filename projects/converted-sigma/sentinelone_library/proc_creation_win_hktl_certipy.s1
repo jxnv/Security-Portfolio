@@ -1,0 +1,11 @@
+// Title: HackTool - Certipy Execution
+// ID: 6938366d-8954-4ddc-baff-c830b3ba8fcd
+// Status: test
+// Level: high
+// Author: pH-T (Nextron Systems), Sittikorn Sangrattanapitak
+// Date: 2023-04-17
+// Tags: attack.discovery, attack.credential-access, attack.t1649
+// Description: Detects Certipy execution, a tool for Active Directory Certificate Services enumeration and abuse based on PE metadata characteristics and common command line arguments.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((src.process.image.path endswithCIS "\\Certipy.exe") OR (OriginalFileName = "Certipy.exe") OR (Description containsCIS "Certipy")) OR (((src.process.cmdline containsCIS " account " OR src.process.cmdline containsCIS " auth " OR src.process.cmdline containsCIS " cert " OR src.process.cmdline containsCIS " find " OR src.process.cmdline containsCIS " forge " OR src.process.cmdline containsCIS " ptt " OR src.process.cmdline containsCIS " relay " OR src.process.cmdline containsCIS " req " OR src.process.cmdline containsCIS " shadow " OR src.process.cmdline containsCIS " template ")) AND ((src.process.cmdline containsCIS " -bloodhound" OR src.process.cmdline containsCIS " -ca-pfx " OR src.process.cmdline containsCIS " -dc-ip " OR src.process.cmdline containsCIS " -kirbi" OR src.process.cmdline containsCIS " -old-bloodhound" OR src.process.cmdline containsCIS " -pfx " OR src.process.cmdline containsCIS " -target" OR src.process.cmdline containsCIS " -template" OR src.process.cmdline containsCIS " -username " OR src.process.cmdline containsCIS " -vulnerable" OR src.process.cmdline containsCIS "auth -pfx" OR src.process.cmdline containsCIS "shadow auto" OR src.process.cmdline containsCIS "shadow list"))))

@@ -1,0 +1,19 @@
+# Title: Csc.EXE Execution Form Potentially Suspicious Parent
+# ID: b730a276-6b63-41b8-bcf8-55930c8fc6ee
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems), X__Junior (Nextron Systems)
+# Date: 2019-02-11
+# Tags: attack.execution, attack.stealth, attack.t1059.005, attack.t1059.007, attack.t1218.005, attack.t1027.004
+# Description: Detects a potentially suspicious parent of "csc.exe", which could be a sign of payload delivery.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Csc.EXE Execution Form Potentially Suspicious Parent
+def rule(event):
+    # Detection Logic:
+    # (((Image="*\\csc.exe") OR (OriginalFileName="csc.exe")) AND (((ParentImage="*\\cscript.exe" OR ParentImage="*\\excel.exe" OR ParentImage="*\\mshta.exe" OR ParentImage="*\\onenote.exe" OR ParentImage="*\\outlook.exe" OR ParentImage="*\\powerpnt.exe" OR ParentImage="*\\winword.exe" OR ParentImage="*\\wscript.exe")) OR ((ParentImage="*\\powershell.exe" OR ParentImage="*\\pwsh.exe") AND (ParentCommandLine="*-Encoded *" OR ParentCommandLine="*FromBase64String*")) OR ((ParentCommandLine=regex("(?:[Pp]rogram[Dd]ata|%(?:[Ll]ocal)?[Aa]pp[Dd]ata%|\\\\[Aa]pp[Dd]ata\\\\(?:[Ll]ocal(?:[Ll]ow)?|[Rr]oaming))\\\\[^\\\\]{1,256}$")) OR ((ParentCommandLine="*:\\PerfLogs\\*" OR ParentCommandLine="*:\\Users\\Public\\*" OR ParentCommandLine="*:\\Windows\\Temp\\*" OR ParentCommandLine="*\\Temporary Internet*")) OR ((ParentCommandLine="*:\\Users\\*" AND ParentCommandLine="*\\Favorites\\*")) OR ((ParentCommandLine="*:\\Users\\*" AND ParentCommandLine="*\\Favourites\\*")) OR ((ParentCommandLine="*:\\Users\\*" AND ParentCommandLine="*\\Contacts\\*")) OR ((ParentCommandLine="*:\\Users\\*" AND ParentCommandLine="*\\Pictures\\*")))) AND NOT ((((ParentImage="C:\\Program Files (x86)\\*" OR ParentImage="C:\\Program Files\\*")) OR (ParentImage="C:\\Windows\\System32\\sdiagnhost.exe") OR (ParentImage="C:\\Windows\\System32\\inetsrv\\w3wp.exe"))) AND NOT ((((ParentCommandLine="*JwB7ACIAZgBhAGkAbABlAGQAIgA6AHQAcgB1AGUALAAiAG0AcwBnACIAOgAiAEEAbgBzAGkAYgBsAGUAIAByAGUAcQB1AGkAcgBlAHMAIABQAG8AdwBlAHIAUwBoAGUAbABsACAAdgAzAC4AMAAgAG8AcgAgAG4AZQB3AGUAcgAiAH0AJw*" OR ParentCommandLine="*cAewAiAGYAYQBpAGwAZQBkACIAOgB0AHIAdQBlACwAIgBtAHMAZwAiADoAIgBBAG4AcwBpAGIAbABlACAAcgBlAHEAdQBpAHIAZQBzACAAUABvAHcAZQByAFMAaABlAGwAbAAgAHYAMwAuADAAIABvAHIAIABuAGUAdwBlAHIAIgB9ACcA*" OR ParentCommandLine="*nAHsAIgBmAGEAaQBsAGUAZAAiADoAdAByAHUAZQAsACIAbQBzAGcAIgA6ACIAQQBuAHMAaQBiAGwAZQAgAHIAZQBxAHUAaQByAGUAcwAgAFAAbwB3AGUAcgBTAGgAZQBsAGwAIAB2ADMALgAwACAAbwByACAAbgBlAHcAZQByACIAfQAnA*")) OR (ParentImage="C:\\ProgramData\\chocolatey\\choco.exe") OR (ParentCommandLine="*\\ProgramData\\Microsoft\\Windows Defender Advanced Threat Protection*"))))
+    return True
+
+def title(event):
+    return "Csc.EXE Execution Form Potentially Suspicious Parent"
+

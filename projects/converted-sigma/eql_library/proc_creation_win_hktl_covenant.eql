@@ -1,0 +1,11 @@
+// Title: HackTool - Covenant PowerShell Launcher
+// ID: c260b6db-48ba-4b4a-a76f-2f67644e99d2
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Jonhnathan Ribeiro, oscd.community
+// Date: 2020-06-04
+// Tags: attack.execution, attack.stealth, attack.t1059.001, attack.t1564.003
+// Description: Detects suspicious command lines used in Covenant luanchers
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where (((process.command_line like "*_-Sta*" and process.command_line like "*_-Nop*" and process.command_line like "*_-Window*" and process.command_line like "*_Hidden*") and (process.command_line like "*_-Command*" or process.command_line like "*_-EncodedCommand*")) or ((process.command_line like "*_sv o (New-Object IO.MemorySteam);sv d *" or process.command_line like "*_mshta file.hta*" or process.command_line like "*_GruntHTTP*" or process.command_line like "*_-EncodedCommand cwB2ACAAbwAgA*")))

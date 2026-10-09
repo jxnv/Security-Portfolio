@@ -1,0 +1,19 @@
+# Title: Copy From VolumeShadowCopy Via Cmd.EXE
+# ID: c73124a7-3e89-44a3-bdc1-25fe4df754b1
+# Status: test
+# Level: high
+# Author: Max Altgelt (Nextron Systems), Tobias Michalski (Nextron Systems)
+# Date: 2021-08-09
+# Tags: attack.impact, attack.t1490
+# Description: Detects the execution of the builtin "copy" command that targets a shadow copy (sometimes used to copy registry hives that are in use)
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Copy From VolumeShadowCopy Via Cmd.EXE
+def rule(event):
+    # Detection Logic:
+    # ((CommandLine="*copy *" AND CommandLine="*\\\\\\\\\\?\\\\GLOBALROOT\\\\Device\\\\HarddiskVolumeShadowCopy*"))
+    return True
+
+def title(event):
+    return "Copy From VolumeShadowCopy Via Cmd.EXE"
+

@@ -1,0 +1,23 @@
+// Title: DiagTrackEoP Default Login Username
+// ID: 2111118f-7e46-4fc8-974a-59fd8ec95196
+// Status: test
+// Level: critical
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-03
+// Tags: attack.privilege-escalation
+// Description: Detects the default "UserName" used by the DiagTrackEoP POC
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 2111118f_7e46_4fc8_974a_59fd8ec95196 {
+  meta:
+    title = "DiagTrackEoP Default Login Username"
+    description = "Detects the default "UserName" used by the DiagTrackEoP POC"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "CRITICAL"
+
+  events:
+    ($e.EventID = 4624 and $e.LogonType = 9 and $e.TargetOutboundUserName = "thisisnotvaliduser")
+
+  condition:
+    $e
+}

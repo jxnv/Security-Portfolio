@@ -1,0 +1,23 @@
+// Title: Unix Shell Configuration Modification
+// ID: a94cdd87-6c54-4678-a6cc-2814ffe5a13d
+// Status: test
+// Level: medium
+// Author: Peter Matkovski, IAI
+// Date: 2023-03-06
+// Tags: attack.privilege-escalation, attack.persistence, attack.t1546.004
+// Description: Detect unix shell configuration modification. Adversaries may establish persistence through executing malicious commands triggered when a new shell is opened.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule a94cdd87_6c54_4678_a6cc_2814ffe5a13d {
+  meta:
+    title = "Unix Shell Configuration Modification"
+    description = "Detect unix shell configuration modification. Adversaries may establish persistence through executing malicious commands triggered when a new shell is opened."
+    author = "Peter Matkovski, IAI"
+    severity = "MEDIUM"
+
+  events:
+    ($e.type = "PATH" and ($e.name = "/etc/shells" or $e.name = "/etc/profile" or $e.name = "/etc/profile.d/*" or $e.name = "/etc/bash.bashrc" or $e.name = "/etc/bashrc" or $e.name = "/etc/zsh/zprofile" or $e.name = "/etc/zsh/zshrc" or $e.name = "/etc/zsh/zlogin" or $e.name = "/etc/zsh/zlogout" or $e.name = "/etc/csh.cshrc" or $e.name = "/etc/csh.login" or $e.name = "/root/.bashrc" or $e.name = "/root/.bash_profile" or $e.name = "/root/.profile" or $e.name = "/root/.zshrc" or $e.name = "/root/.zprofile" or $e.name = "/home/*/.bashrc" or $e.name = "/home/*/.zshrc" or $e.name = "/home/*/.bash_profile" or $e.name = "/home/*/.zprofile" or $e.name = "/home/*/.profile" or $e.name = "/home/*/.bash_login" or $e.name = "/home/*/.bash_logout" or $e.name = "/home/*/.zlogin" or $e.name = "/home/*/.zlogout"))
+
+  condition:
+    $e
+}

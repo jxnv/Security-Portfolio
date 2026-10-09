@@ -1,0 +1,11 @@
+# Title: Local Accounts Discovery
+# ID: 502b42de-4306-40b4-9596-6f590c81f073
+# Status: test
+# Level: low
+# Author: Timur Zinniatullin, Daniil Yugoslavskiy, oscd.community
+# Date: 2019-10-21
+# Tags: attack.discovery, attack.t1033, attack.t1087.001
+# Description: Local accounts, System Owner/User discovery using operating systems utilities
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((process.executable:*\\cmd.exe AND (process.command_line:* /c* AND process.command_line:*dir * AND process.command_line:*\\Users\\*)) AND NOT ((process.command_line:* rmdir *))) OR (((process.executable:*\\net.exe OR process.executable:*\\net1.exe) AND process.command_line:*user*) AND NOT (((process.command_line:*/domain* OR process.command_line:*/add* OR process.command_line:*/delete* OR process.command_line:*/active* OR process.command_line:*/expires* OR process.command_line:*/passwordreq* OR process.command_line:*/scriptpath* OR process.command_line:*/times* OR process.command_line:*/workstations*)))) OR ((process.executable:*\\cmdkey.exe AND process.command_line:* /l*) OR (((process.executable:*\\whoami.exe OR process.executable:*\\quser.exe OR process.executable:*\\qwinsta.exe)) OR ((process.pe.original_file_name:"whoami.exe" OR process.pe.original_file_name:"quser.exe" OR process.pe.original_file_name:"qwinsta.exe"))) OR (process.executable:*\\wmic.exe AND (process.command_line:*useraccount* AND process.command_line:*get*))))

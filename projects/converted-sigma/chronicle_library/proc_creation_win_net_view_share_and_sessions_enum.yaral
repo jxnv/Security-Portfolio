@@ -1,0 +1,23 @@
+// Title: Share And Session Enumeration Using Net.EXE
+// ID: 62510e69-616b-4078-b371-847da438cc03
+// Status: stable
+// Level: low
+// Author: Endgame, JHasenbusch (ported for oscd.community)
+// Date: 2018-10-30
+// Tags: attack.discovery, attack.t1018
+// Description: Detects attempts to enumerate file shares, printer shares and sessions using "net.exe" with the "view" flag.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 62510e69_616b_4078_b371_847da438cc03 {
+  meta:
+    title = "Share And Session Enumeration Using Net.EXE"
+    description = "Detects attempts to enumerate file shares, printer shares and sessions using "net.exe" with the "view" flag."
+    author = "Endgame, JHasenbusch (ported for oscd.community)"
+    severity = "LOW"
+
+  events:
+    ((($e.target.process.command_line = /.*view.*/ nocase) and ((($e.target.process.file.full_path = /.*\\net.exe$/ nocase or $e.target.process.file.full_path = /.*\\net1.exe$/ nocase)) or (($e.target.process.file.name = "net.exe" or $e.target.process.file.name = "net1.exe")))) and not(($e.target.process.command_line = /.*\\\\\\\\.*/ nocase)))
+
+  condition:
+    $e
+}

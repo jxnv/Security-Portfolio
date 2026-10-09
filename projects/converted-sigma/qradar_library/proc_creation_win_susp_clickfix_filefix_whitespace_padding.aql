@@ -1,0 +1,13 @@
+-- Title: Suspicious Explorer Process with Whitespace Padding - ClickFix/FileFix
+-- ID: 3ae9974a-eb09-4044-8e70-8980a50c12c8
+-- Status: experimental
+-- Level: high
+-- Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+-- Date: 2025-11-04
+-- Tags: attack.execution, attack.stealth, attack.t1204.004, attack.t1027.010
+-- Description: Detects process creation with suspicious whitespace padding followed by a '#' character, which may indicate ClickFix or FileFix techniques used to conceal malicious commands from visual inspection.
+-- ClickFix and FileFix are social engineering attack techniques where adversaries distribute phishing documents or malicious links that deceive users into opening the Windows Run dialog box or File Explorer search bar.
+-- The victims are then instructed to paste commands from their clipboard, which contain extensive whitespace padding using various Unicode space characters to push the actual malicious command far to the right, effectively hiding it from immediate view.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM events WHERE ((ParentImage ILIKE '%\\explorer.exe' AND CommandLine ILIKE '%#%') AND ((CommandLine ILIKE '%            %' OR CommandLine ILIKE '%            %' OR CommandLine ILIKE '%            %' OR CommandLine ILIKE '%            %' OR CommandLine ILIKE '%            %' OR CommandLine ILIKE '%            %' OR CommandLine ILIKE '%            %' OR CommandLine ILIKE '%            %' OR CommandLine ILIKE '%            %' OR CommandLine ILIKE '%            %' OR CommandLine ILIKE '%            %' OR CommandLine ILIKE '%            %' OR CommandLine ILIKE '%            %')))

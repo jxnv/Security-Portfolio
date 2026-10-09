@@ -1,0 +1,12 @@
+# Title: Wusa.EXE Executed By Parent Process Located In Suspicious Location
+# ID: ef64fc9c-a45e-43cc-8fd8-7d75d73b4c99
+# Status: test
+# Level: high
+# Author: X__Junior (Nextron Systems)
+# Date: 2023-11-26
+# Tags: attack.execution
+# Description: Detects execution of the "wusa.exe" (Windows Update Standalone Installer) utility by a parent process that is located in a suspicious location.
+# Attackers could instantiate an instance of "wusa.exe" in order to bypass User Account Control (UAC). They can duplicate the access token from "wusa.exe" to gain elevated privileges.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((process_name:*\\wusa.exe) AND (((parent_name:*:\\Perflogs\\* OR parent_name:*:\\Users\\Public\\* OR parent_name:*:\\Windows\\Temp\\* OR parent_name:*\\Appdata\\Local\\Temp\\* OR parent_name:*\\Temporary Internet*)) OR (((parent_name:*:\\Users\\* AND parent_name:*\\Favorites\\*)) OR ((parent_name:*:\\Users\\* AND parent_name:*\\Favourites\\*)) OR ((parent_name:*:\\Users\\* AND parent_name:*\\Contacts\\*)) OR ((parent_name:*:\\Users\\* AND parent_name:*\\Pictures\\*)))) AND -((cmdline:*.msu*)))

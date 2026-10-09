@@ -1,0 +1,11 @@
+# Title: Odbcconf.EXE Suspicious DLL Location
+# ID: 6b65c28e-11f3-46cb-902a-68f2cafaf474
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2023-05-22
+# Tags: attack.stealth, attack.t1218.008
+# Description: Detects execution of "odbcconf" where the path of the DLL being registered is located in a potentially suspicious location.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((@CommandLine:*:\\PerfLogs\\* OR @CommandLine:*:\\ProgramData\\* OR @CommandLine:*:\\Temp\\* OR @CommandLine:*:\\Users\\Public\\* OR @CommandLine:*:\\Windows\\Registration\\CRMLog* OR @CommandLine:*:\\Windows\\System32\\com\\dmp\\* OR @CommandLine:*:\\Windows\\System32\\FxsTmp\\* OR @CommandLine:*:\\Windows\\System32\\Microsoft\\Crypto\\RSA\\MachineKeys\\* OR @CommandLine:*:\\Windows\\System32\\spool\\drivers\\color\\* OR @CommandLine:*:\\Windows\\System32\\spool\\PRINTERS\\* OR @CommandLine:*:\\Windows\\System32\\spool\\SERVERS\\* OR @CommandLine:*:\\Windows\\System32\\Tasks_Migrated\\* OR @CommandLine:*:\\Windows\\System32\\Tasks\\Microsoft\\Windows\\SyncCenter\\* OR @CommandLine:*:\\Windows\\SysWOW64\\com\\dmp\\* OR @CommandLine:*:\\Windows\\SysWOW64\\FxsTmp\\* OR @CommandLine:*:\\Windows\\SysWOW64\\Tasks\\Microsoft\\Windows\\PLA\\System\\* OR @CommandLine:*:\\Windows\\SysWOW64\\Tasks\\Microsoft\\Windows\\SyncCenter\\* OR @CommandLine:*:\\Windows\\Tasks\\* OR @CommandLine:*:\\Windows\\Temp\\* OR @CommandLine:*:\\Windows\\Tracing\\* OR @CommandLine:*\\AppData\\Local\\Temp\\* OR @CommandLine:*\\AppData\\Roaming\\*)) AND ((@Image:*\\odbcconf.exe) OR (@OriginalFileName:"odbcconf.exe")))

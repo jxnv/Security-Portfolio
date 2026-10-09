@@ -1,0 +1,12 @@
+-- Title: Antivirus - Hacktool Signature
+-- ID: fa0c05b6-8ad3-468d-8231-c1cbccb64fba
+-- Status: stable
+-- Level: high
+-- Author: Florian Roth (Nextron Systems), Arnim Rupp
+-- Date: 2021-08-16
+-- Tags: attack.execution, attack.t1204
+-- Description: Detects a highly relevant Antivirus alert that reports a hack tool or other attack tool.
+-- This event must not be ignored just because the AV has blocked the malware but investigate, how it came there in the first place.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE (((Signature ILIKE 'ATK/%' OR Signature ILIKE 'Exploit.Script.CVE%' OR Signature ILIKE 'HKTL%' OR Signature ILIKE 'HTOOL%' OR Signature ILIKE 'PWS.%' OR Signature ILIKE 'PWSX%' OR Signature ILIKE 'SecurityTool%')) OR ((Signature ILIKE '%Adfind%' OR Signature ILIKE '%BloodH%' OR Signature ILIKE '%BloodyAD%' OR Signature ILIKE '%Brutel%' OR Signature ILIKE '%BruteR%' OR Signature ILIKE '%Cobalt%' OR Signature ILIKE '%COBEACON%' OR Signature ILIKE '%Cometer%' OR Signature ILIKE '%DumpCreds%' OR Signature ILIKE '%EDRfreeze%' OR Signature ILIKE '%FastReverseProxy%' OR Signature ILIKE '%Hacktool%' OR Signature ILIKE '%Havoc%' OR Signature ILIKE '%Impacket%' OR Signature ILIKE '%Keylogger%' OR Signature ILIKE '%Koadic%' OR Signature ILIKE '%Mimikatz%' OR Signature ILIKE '%Nighthawk%' OR Signature ILIKE '%PentestPowerShell%' OR Signature ILIKE '%Potato%' OR Signature ILIKE '%PowerSploit%' OR Signature ILIKE '%PowerSSH%' OR Signature ILIKE '%PshlSpy%' OR Signature ILIKE '%PSWTool%' OR Signature ILIKE '%PWCrack%' OR Signature ILIKE '%PWDump%' OR Signature ILIKE '%Responder%' OR Signature ILIKE '%Rozena%' OR Signature ILIKE '%Rusthound%' OR Signature ILIKE '%Sbelt%' OR Signature ILIKE '%Seatbelt%' OR Signature ILIKE '%SecurityTool%' OR Signature ILIKE '%SharpDump%' OR Signature ILIKE '%SharpHound%' OR Signature ILIKE '%Shellcode%' OR Signature ILIKE '%Sliver%' OR Signature ILIKE '%Snaffler%' OR Signature ILIKE '%SOAPHound%' OR Signature ILIKE '%Splinter%' OR Signature ILIKE '%Stowaway%' OR Signature ILIKE '%Swrort%' OR Signature ILIKE '%Trojan.Hound%' OR Signature ILIKE '%TurtleLoader%' OR Signature ILIKE '%Undefend%' OR Signature ILIKE '%Undfnd%')))

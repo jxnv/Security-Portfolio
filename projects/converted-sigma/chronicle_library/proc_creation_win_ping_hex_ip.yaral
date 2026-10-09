@@ -1,0 +1,23 @@
+// Title: Ping Hex IP
+// ID: 1a0d4aba-7668-4365-9ce4-6d79ab088dfd
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2018-03-23
+// Tags: attack.stealth, attack.t1140, attack.t1027
+// Description: Detects a ping command that uses a hex encoded IP address
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 1a0d4aba_7668_4365_9ce4_6d79ab088dfd {
+  meta:
+    title = "Ping Hex IP"
+    description = "Detects a ping command that uses a hex encoded IP address"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ($e.target.process.file.full_path = /.*\\ping.exe$/ nocase and $e.target.process.command_line = /0x[a-fA-F0-9]{8}/ nocase)
+
+  condition:
+    $e
+}

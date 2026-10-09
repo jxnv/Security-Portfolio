@@ -1,0 +1,23 @@
+// Title: Browser Execution In Headless Mode
+// ID: ef9dcfed-690c-4c5d-a9d1-482cd422225c
+// Status: test
+// Level: low
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-09-12
+// Tags: attack.command-and-control, attack.stealth, attack.t1105, attack.t1564.003
+// Description: Detects execution of Chromium based browser in headless mode
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule ef9dcfed_690c_4c5d_a9d1_482cd422225c {
+  meta:
+    title = "Browser Execution In Headless Mode"
+    description = "Detects execution of Chromium based browser in headless mode"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "LOW"
+
+  events:
+    (($e.target.process.file.full_path = /.*\\brave.exe$/ nocase or $e.target.process.file.full_path = /.*\\chrome.exe$/ nocase or $e.target.process.file.full_path = /.*\\msedge.exe$/ nocase or $e.target.process.file.full_path = /.*\\opera.exe$/ nocase or $e.target.process.file.full_path = /.*\\vivaldi.exe$/ nocase) and $e.target.process.command_line = /.*--headless.*/ nocase)
+
+  condition:
+    $e
+}

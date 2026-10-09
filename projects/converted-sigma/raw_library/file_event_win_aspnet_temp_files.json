@@ -1,0 +1,27 @@
+{
+  "title": "Assembly DLL Creation Via AspNetCompiler",
+  "id": "4c7f49ee-2638-43bb-b85b-ce676c30b260",
+  "status": "test",
+  "description": "Detects the creation of new DLL assembly files by \"aspnet_compiler.exe\", which could be a sign of \"aspnet_compiler\" abuse to proxy execution through a build provider.\n",
+  "author": "Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2023-08-14",
+  "tags": [
+    "attack.execution"
+  ],
+  "level": "medium",
+  "logsource": {
+    "product": "windows",
+    "category": "file_event"
+  },
+  "detection": {
+    "selection": {
+      "Image|endswith": "\\aspnet_compiler.exe",
+      "TargetFilename|contains|all": [
+        "\\Temporary ASP.NET Files\\",
+        "\\assembly\\tmp\\",
+        ".dll"
+      ]
+    },
+    "condition": "selection"
+  }
+}

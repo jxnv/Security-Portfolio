@@ -1,0 +1,19 @@
+# Title: Suspicious GPO Discovery With Get-GPO
+# ID: eb2fd349-ec67-4caa-9143-d79c7fb34441
+# Status: test
+# Level: low
+# Author: frack113
+# Date: 2022-06-04
+# Tags: attack.discovery, attack.t1615
+# Description: Detect use of Get-GPO to get one GPO or all the GPOs in a domain.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Suspicious GPO Discovery With Get-GPO
+def rule(event):
+    # Detection Logic:
+    # (ScriptBlockText="*Get-GPO*")
+    return True
+
+def title(event):
+    return "Suspicious GPO Discovery With Get-GPO"
+

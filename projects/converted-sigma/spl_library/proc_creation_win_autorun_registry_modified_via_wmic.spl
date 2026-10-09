@@ -1,0 +1,11 @@
+# Title: Suspicious Autorun Registry Modified via WMI
+# ID: c80e66d8-1780-48a9-b412-46663fd21ac0
+# Status: experimental
+# Level: high
+# Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+# Date: 2025-02-17
+# Tags: attack.privilege-escalation, attack.execution, attack.persistence, attack.t1547.001, attack.t1047
+# Description: Detects suspicious activity where the WMIC process is used to create an autorun registry entry via reg.exe, which is often indicative of persistence mechanisms employed by malware.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog ((((process_exec="*reg*" AND process_exec="* add *") AND (process_exec="*\\Software\\Microsoft\\Windows\\CurrentVersion\\Run*" OR process_exec="*\\Software\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Run*" OR process_exec="*\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run*")) AND ((process_path="*\\wmic.exe") OR (process_name="wmic.exe") OR (parent_process_path="*\\wmiprvse.exe"))) AND (((process_exec="*:\\Perflogs*" OR process_exec="*:\\ProgramData'*" OR process_exec="*:\\Windows\\Temp*" OR process_exec="*:\\Temp*" OR process_exec="*\\AppData\\Local\\Temp*" OR process_exec="*\\AppData\\Roaming*" OR process_exec="*:\\$Recycle.bin*" OR process_exec="*:\\Users\\Default*" OR process_exec="*:\\Users\\public*" OR process_exec="*%temp%*" OR process_exec="*%tmp%*" OR process_exec="*%Public%*" OR process_exec="*%AppData%*")) OR ((process_exec="*:\\Users\\*") AND ((process_exec="*\\Favorites*" OR process_exec="*\\Favourites*" OR process_exec="*\\Contacts*" OR process_exec="*\\Music*" OR process_exec="*\\Pictures*" OR process_exec="*\\Documents*" OR process_exec="*\\Photos*")))))

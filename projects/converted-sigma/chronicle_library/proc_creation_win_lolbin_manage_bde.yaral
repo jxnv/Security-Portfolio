@@ -1,0 +1,23 @@
+// Title: Potential Manage-bde.wsf Abuse To Proxy Execution
+// ID: c363385c-f75d-4753-a108-c1a8e28bdbda
+// Status: test
+// Level: high
+// Author: oscd.community, Natalia Shornikova, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2020-10-13
+// Tags: attack.stealth, attack.t1216
+// Description: Detects potential abuse of the "manage-bde.wsf" script as a LOLBIN to proxy execution
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule c363385c_f75d_4753_a108_c1a8e28bdbda {
+  meta:
+    title = "Potential Manage-bde.wsf Abuse To Proxy Execution"
+    description = "Detects potential abuse of the "manage-bde.wsf" script as a LOLBIN to proxy execution"
+    author = "oscd.community, Natalia Shornikova, Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*manage-bde.wsf.*/ nocase) and (($e.target.process.file.full_path = /.*\\wscript.exe$/ nocase) or ($e.target.process.file.name = "wscript.exe"))) or ((($e.principal.process.file.full_path = /.*\\cscript.exe$/ nocase or $e.principal.process.file.full_path = /.*\\wscript.exe$/ nocase) and $e.principal.process.command_line = /.*manage-bde.wsf.*/ nocase) and not(($e.target.process.file.full_path = /.*\\cmd.exe$/ nocase))))
+
+  condition:
+    $e
+}

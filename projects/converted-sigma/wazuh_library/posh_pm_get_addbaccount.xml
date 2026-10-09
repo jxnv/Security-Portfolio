@@ -1,0 +1,16 @@
+<!--
+  Title: Suspicious Get-ADDBAccount Usage
+  ID: b140afd9-474b-4072-958e-2ebb435abd68
+  Status: test
+  Level: high
+  Author: Florian Roth (Nextron Systems)
+  Date: 2022-03-16
+  Description: Detects suspicious invocation of the Get-ADDBAccount script that reads from a ntds.dit file and may be used to get access to credentials without using any credential dumpers
+-->
+
+<group name="sigma_converted,">
+  <rule id="100001" level="10">
+    <description>Suspicious Get-ADDBAccount Usage</description>
+    <match>((Payload=\"*Get-ADDBAccount*\" AND Payload=\"*BootKey *\" AND Payload=\"*DatabasePath *\"))</match>
+  </rule>
+</group>

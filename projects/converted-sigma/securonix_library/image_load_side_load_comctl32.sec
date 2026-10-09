@@ -1,0 +1,11 @@
+// Title: Potential DLL Sideloading Via comctl32.dll
+// ID: 6360757a-d460-456c-8b13-74cf0e60cceb
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems), Subhash Popuri (@pbssubhash)
+// Date: 2022-12-16
+// Tags: attack.persistence, attack.privilege-escalation, attack.execution, attack.stealth, attack.t1574.001
+// Description: Detects potential DLL sideloading using comctl32.dll to obtain system privileges
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((ImageLoaded="C:\\Windows\\System32\\logonUI.exe.local\\*" OR ImageLoaded="C:\\Windows\\System32\\werFault.exe.local\\*" OR ImageLoaded="C:\\Windows\\System32\\consent.exe.local\\*" OR ImageLoaded="C:\\Windows\\System32\\narrator.exe.local\\*" OR ImageLoaded="C:\\windows\\system32\\wermgr.exe.local\\*") AND ImageLoaded="*\\comctl32.dll")

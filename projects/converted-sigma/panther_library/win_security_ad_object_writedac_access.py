@@ -1,0 +1,19 @@
+# Title: AD Object WriteDAC Access
+# ID: 028c7842-4243-41cd-be6f-12f3cf1a26c7
+# Status: test
+# Level: critical
+# Author: Roberto Rodriguez @Cyb3rWard0g
+# Date: 2019-09-12
+# Tags: attack.defense-impairment, attack.t1222.001
+# Description: Detects WRITE_DAC access to a domain object
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: AD Object WriteDAC Access
+def rule(event):
+    # Detection Logic:
+    # (EventID="4662" AND ObjectServer="DS" AND AccessMask="0x40000" AND (ObjectType="19195a5b-6da0-11d0-afd3-00c04fd930c9" OR ObjectType="domainDNS"))
+    return True
+
+def title(event):
+    return "AD Object WriteDAC Access"
+

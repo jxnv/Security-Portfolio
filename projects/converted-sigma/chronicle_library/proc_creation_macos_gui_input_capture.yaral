@@ -1,0 +1,23 @@
+// Title: GUI Input Capture - macOS
+// ID: 60f1ce20-484e-41bd-85f4-ac4afec2c541
+// Status: test
+// Level: low
+// Author: remotephone, oscd.community
+// Date: 2020-10-13
+// Tags: attack.collection, attack.credential-access, attack.t1056.002
+// Description: Detects attempts to use system dialog prompts to capture user credentials
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 60f1ce20_484e_41bd_85f4_ac4afec2c541 {
+  meta:
+    title = "GUI Input Capture - macOS"
+    description = "Detects attempts to use system dialog prompts to capture user credentials"
+    author = "remotephone, oscd.community"
+    severity = "LOW"
+
+  events:
+    ((($e.target.process.command_line = /.*-e.*/ nocase and $e.target.process.command_line = /.*display.*/ nocase and $e.target.process.command_line = /.*dialog.*/ nocase and $e.target.process.command_line = /.*answer.*/ nocase)) and (($e.target.process.command_line = /.*admin.*/ nocase or $e.target.process.command_line = /.*administrator.*/ nocase or $e.target.process.command_line = /.*authenticate.*/ nocase or $e.target.process.command_line = /.*authentication.*/ nocase or $e.target.process.command_line = /.*credentials.*/ nocase or $e.target.process.command_line = /.*pass.*/ nocase or $e.target.process.command_line = /.*password.*/ nocase or $e.target.process.command_line = /.*unlock.*/ nocase)) and ($e.target.process.file.full_path = /.*/osascript$/ nocase))
+
+  condition:
+    $e
+}

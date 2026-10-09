@@ -1,0 +1,11 @@
+// Title: Process Execution From A Potentially Suspicious Folder
+// ID: 3dfd06d2-eaf4-4532-9555-68aca59f57c4
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Tim Shelton
+// Date: 2019-01-16
+// Tags: attack.stealth, attack.t1036
+// Description: Detects a potentially suspicious execution from an uncommon folder.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where (((process.executable like "*_:\\Perflogs\\*" or process.executable like "*_:\\Users\\All Users\\*" or process.executable like "*_:\\Users\\Default\\*" or process.executable like "*_:\\Users\\NetworkService\\*" or process.executable like "*_:\\Windows\\addins\\*" or process.executable like "*_:\\Windows\\debug\\*" or process.executable like "*_:\\Windows\\Fonts\\*" or process.executable like "*_:\\Windows\\Help\\*" or process.executable like "*_:\\Windows\\IME\\*" or process.executable like "*_:\\Windows\\Media\\*" or process.executable like "*_:\\Windows\\repair\\*" or process.executable like "*_:\\Windows\\security\\*" or process.executable like "*_:\\Windows\\System32\\Tasks\\*" or process.executable like "*_:\\Windows\\Tasks\\*" or process.executable like "*_$Recycle.bin*" or process.executable like "*_\\config\\systemprofile\\*" or process.executable like "*_\\Intel\\Logs\\*" or process.executable like "*_\\RSA\\MachineKeys\\*")) and not (((process.executable startswith "C:\\Windows\\SysWOW64\\config\\systemprofile\\Citrix\\UpdaterBinaries\\" and process.executable endswith "\\CitrixReceiverUpdater.exe") or (process.executable startswith "C:\\Users\\Public\\IBM\\ClientSolutions\\Start_Programs\\"))))

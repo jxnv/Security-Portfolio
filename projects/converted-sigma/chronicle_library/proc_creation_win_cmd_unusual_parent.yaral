@@ -1,0 +1,23 @@
+// Title: Unusual Parent Process For Cmd.EXE
+// ID: 4b991083-3d0e-44ce-8fc4-b254025d8d4b
+// Status: test
+// Level: medium
+// Author: Tim Rauch, Elastic (idea)
+// Date: 2022-09-21
+// Tags: attack.execution, attack.t1059
+// Description: Detects suspicious parent process for cmd.exe
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 4b991083_3d0e_44ce_8fc4_b254025d8d4b {
+  meta:
+    title = "Unusual Parent Process For Cmd.EXE"
+    description = "Detects suspicious parent process for cmd.exe"
+    author = "Tim Rauch, Elastic (idea)"
+    severity = "MEDIUM"
+
+  events:
+    ($e.target.process.file.full_path = /.*\\cmd.exe$/ nocase and ($e.principal.process.file.full_path = /.*\\csrss.exe$/ nocase or $e.principal.process.file.full_path = /.*\\ctfmon.exe$/ nocase or $e.principal.process.file.full_path = /.*\\dllhost.exe$/ nocase or $e.principal.process.file.full_path = /.*\\epad.exe$/ nocase or $e.principal.process.file.full_path = /.*\\FlashPlayerUpdateService.exe$/ nocase or $e.principal.process.file.full_path = /.*\\GoogleUpdate.exe$/ nocase or $e.principal.process.file.full_path = /.*\\jucheck.exe$/ nocase or $e.principal.process.file.full_path = /.*\\jusched.exe$/ nocase or $e.principal.process.file.full_path = /.*\\LogonUI.exe$/ nocase or $e.principal.process.file.full_path = /.*\\lsass.exe$/ nocase or $e.principal.process.file.full_path = /.*\\regsvr32.exe$/ nocase or $e.principal.process.file.full_path = /.*\\SearchIndexer.exe$/ nocase or $e.principal.process.file.full_path = /.*\\SearchProtocolHost.exe$/ nocase or $e.principal.process.file.full_path = /.*\\SIHClient.exe$/ nocase or $e.principal.process.file.full_path = /.*\\sihost.exe$/ nocase or $e.principal.process.file.full_path = /.*\\slui.exe$/ nocase or $e.principal.process.file.full_path = /.*\\spoolsv.exe$/ nocase or $e.principal.process.file.full_path = /.*\\sppsvc.exe$/ nocase or $e.principal.process.file.full_path = /.*\\taskhostw.exe$/ nocase or $e.principal.process.file.full_path = /.*\\unsecapp.exe$/ nocase or $e.principal.process.file.full_path = /.*\\WerFault.exe$/ nocase or $e.principal.process.file.full_path = /.*\\wermgr.exe$/ nocase or $e.principal.process.file.full_path = /.*\\wlanext.exe$/ nocase or $e.principal.process.file.full_path = /.*\\WUDFHost.exe$/ nocase))
+
+  condition:
+    $e
+}

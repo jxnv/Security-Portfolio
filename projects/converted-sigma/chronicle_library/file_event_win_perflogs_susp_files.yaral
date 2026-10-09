@@ -1,0 +1,23 @@
+// Title: Suspicious File Created In PerfLogs
+// ID: bbb7e38c-0b41-4a11-b306-d2a457b7ac2b
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-05-05
+// Tags: attack.execution, attack.t1059
+// Description: Detects suspicious file based on their extension being created in "C:\PerfLogs\". Note that this directory mostly contains ".etl" files
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule bbb7e38c_0b41_4a11_b306_d2a457b7ac2b {
+  meta:
+    title = "Suspicious File Created In PerfLogs"
+    description = "Detects suspicious file based on their extension being created in "C:\PerfLogs\". Note that this directory mostly contains ".etl" files"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ($e.target.file.full_path = /^C:\\PerfLogs\\.*/ nocase and ($e.target.file.full_path = /.*.7z$/ nocase or $e.target.file.full_path = /.*.bat$/ nocase or $e.target.file.full_path = /.*.bin$/ nocase or $e.target.file.full_path = /.*.chm$/ nocase or $e.target.file.full_path = /.*.dll$/ nocase or $e.target.file.full_path = /.*.exe$/ nocase or $e.target.file.full_path = /.*.hta$/ nocase or $e.target.file.full_path = /.*.lnk$/ nocase or $e.target.file.full_path = /.*.ps1$/ nocase or $e.target.file.full_path = /.*.psm1$/ nocase or $e.target.file.full_path = /.*.py$/ nocase or $e.target.file.full_path = /.*.scr$/ nocase or $e.target.file.full_path = /.*.sys$/ nocase or $e.target.file.full_path = /.*.vbe$/ nocase or $e.target.file.full_path = /.*.vbs$/ nocase or $e.target.file.full_path = /.*.zip$/ nocase))
+
+  condition:
+    $e
+}

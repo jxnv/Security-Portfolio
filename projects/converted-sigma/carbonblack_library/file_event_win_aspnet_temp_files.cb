@@ -1,0 +1,11 @@
+# Title: Assembly DLL Creation Via AspNetCompiler
+# ID: 4c7f49ee-2638-43bb-b85b-ce676c30b260
+# Status: test
+# Level: medium
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2023-08-14
+# Tags: attack.execution
+# Description: Detects the creation of new DLL assembly files by "aspnet_compiler.exe", which could be a sign of "aspnet_compiler" abuse to proxy execution through a build provider.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(process_name:*\\aspnet_compiler.exe AND (filemod_name:*\\Temporary ASP.NET Files\\* AND filemod_name:*\\assembly\\tmp\\* AND filemod_name:*.dll*))

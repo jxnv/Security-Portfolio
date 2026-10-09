@@ -1,0 +1,23 @@
+// Title: Suspicious Scheduled Task Name As GUID
+// ID: ff2fff64-4cd6-4a2b-ba7d-e28a30bbe66b
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-10-31
+// Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.t1053.005
+// Description: Detects creation of a scheduled task with a GUID like name
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule ff2fff64_4cd6_4a2b_ba7d_e28a30bbe66b {
+  meta:
+    title = "Suspicious Scheduled Task Name As GUID"
+    description = "Detects creation of a scheduled task with a GUID like name"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.command_line = /.*}\".*/ nocase or $e.target.process.command_line = /.*}'.*/ nocase or $e.target.process.command_line = /.*} .*/ nocase)) and ($e.target.process.file.full_path = /.*\\schtasks.exe$/ nocase and $e.target.process.command_line = /.*/Create .*/ nocase) and (($e.target.process.command_line = /.*/TN \"{.*/ nocase or $e.target.process.command_line = /.*/TN '{.*/ nocase or $e.target.process.command_line = /.*/TN {.*/ nocase)))
+
+  condition:
+    $e
+}

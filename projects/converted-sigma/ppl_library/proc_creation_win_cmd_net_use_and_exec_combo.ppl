@@ -1,0 +1,11 @@
+// Title: Suspicious File Execution From Internet Hosted WebDav Share
+// ID: f0507c0f-a3a2-40f5-acc6-7f543c334993
+// Status: test
+// Level: high
+// Author: pH-T (Nextron Systems)
+// Date: 2022-09-01
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects the execution of the "net use" command to mount a WebDAV server and then immediately execute some content in it. As seen being used in malicious LNK files
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where (((process.command_line like "% net use http%" AND process.command_line like "%& start /b %" AND process.command_line like "%\\DavWWWRoot\\%")) AND ((process.command_line like "%.exe %" OR process.command_line like "%.dll %" OR process.command_line like "%.bat %" OR process.command_line like "%.vbs %" OR process.command_line like "%.ps1 %")) AND ((process.executable like "%\\cmd.exe%") OR (process.pe.original_file_name = "Cmd.EXE")))

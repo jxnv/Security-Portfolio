@@ -1,0 +1,28 @@
+{
+  "title": "Disable Administrative Share Creation at Startup",
+  "id": "c7dcacd0-cc59-4004-b0a4-1d6cdebe6f3e",
+  "status": "test",
+  "description": "Administrative shares are hidden network shares created by Microsoft Windows NT operating systems that grant system administrators remote access to every disk volume on a network-connected system",
+  "author": "frack113",
+  "date": "2022-01-16",
+  "tags": [
+    "attack.stealth",
+    "attack.t1070.005"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "registry_set",
+    "product": "windows"
+  },
+  "detection": {
+    "selection": {
+      "TargetObject|contains": "\\Services\\LanmanServer\\Parameters\\",
+      "TargetObject|endswith": [
+        "\\AutoShareWks",
+        "\\AutoShareServer"
+      ],
+      "Details": "DWORD (0x00000000)"
+    },
+    "condition": "selection"
+  }
+}

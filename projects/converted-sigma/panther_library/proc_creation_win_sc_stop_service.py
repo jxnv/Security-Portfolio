@@ -1,0 +1,19 @@
+# Title: Stop Windows Service Via Sc.EXE
+# ID: 81bcb81b-5b1f-474b-b373-52c871aaa7b1
+# Status: test
+# Level: low
+# Author: Jakob Weinzettl, oscd.community, Nasreddine Bencherchali (Nextron Systems)
+# Date: 2023-03-05
+# Tags: attack.impact, attack.t1489
+# Description: Detects the stopping of a Windows service via the "sc.exe" utility
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Stop Windows Service Via Sc.EXE
+def rule(event):
+    # Detection Logic:
+    # ((CommandLine="* stop *") AND ((OriginalFileName="sc.exe") OR (Image="*\\sc.exe")))
+    return True
+
+def title(event):
+    return "Stop Windows Service Via Sc.EXE"
+

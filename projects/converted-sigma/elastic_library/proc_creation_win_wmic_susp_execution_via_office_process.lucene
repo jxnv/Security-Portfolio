@@ -1,0 +1,11 @@
+# Title: Suspicious WMIC Execution Via Office Process
+# ID: e1693bc8-7168-4eab-8718-cdcaa68a1738
+# Status: test
+# Level: high
+# Author: Vadim Khrykov, Cyb3rEng
+# Date: 2021-08-23
+# Tags: attack.stealth, attack.t1204.002, attack.t1047, attack.t1218.010, attack.execution
+# Description: Office application called wmic to proxye execution through a LOLBIN process. This is often used to break suspicious parent-child chain (Office app spawns LOLBin).
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((process.parent.executable:*\\WINWORD.EXE OR process.parent.executable:*\\EXCEL.EXE OR process.parent.executable:*\\POWERPNT.exe OR process.parent.executable:*\\MSPUB.exe OR process.parent.executable:*\\VISIO.exe OR process.parent.executable:*\\MSACCESS.EXE OR process.parent.executable:*\\EQNEDT32.EXE OR process.parent.executable:*\\ONENOTE.EXE OR process.parent.executable:*\\wordpad.exe OR process.parent.executable:*\\wordview.exe)) AND ((process.command_line:*process* AND process.command_line:*create* AND process.command_line:*call*) AND (process.command_line:*regsvr32* OR process.command_line:*rundll32* OR process.command_line:*msiexec* OR process.command_line:*mshta* OR process.command_line:*verclsid* OR process.command_line:*wscript* OR process.command_line:*cscript*)) AND ((process.executable:*\\wbem\\WMIC.exe) OR (process.pe.original_file_name:"wmic.exe")))

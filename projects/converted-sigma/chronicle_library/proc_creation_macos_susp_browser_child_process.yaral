@@ -1,0 +1,23 @@
+// Title: Suspicious Browser Child Process - MacOS
+// ID: 0250638a-2b28-4541-86fc-ea4c558fa0c6
+// Status: test
+// Level: medium
+// Author: Sohan G (D4rkCiph3r)
+// Date: 2023-04-05
+// Tags: attack.initial-access, attack.execution, attack.t1189, attack.t1203, attack.t1059
+// Description: Detects suspicious child processes spawned from browsers. This could be a result of a potential web browser exploitation.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 0250638a_2b28_4541_86fc_ea4c558fa0c6 {
+  meta:
+    title = "Suspicious Browser Child Process - MacOS"
+    description = "Detects suspicious child processes spawned from browsers. This could be a result of a potential web browser exploitation."
+    author = "Sohan G (D4rkCiph3r)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.principal.process.file.full_path = /.*com.apple.WebKit.WebContent.*/ nocase or $e.principal.process.file.full_path = /.*firefox.*/ nocase or $e.principal.process.file.full_path = /.*Google Chrome Helper.*/ nocase or $e.principal.process.file.full_path = /.*Google Chrome.*/ nocase or $e.principal.process.file.full_path = /.*Microsoft Edge.*/ nocase or $e.principal.process.file.full_path = /.*Opera.*/ nocase or $e.principal.process.file.full_path = /.*Safari.*/ nocase or $e.principal.process.file.full_path = /.*Tor Browser.*/ nocase) and ($e.target.process.file.full_path = /.*/bash$/ nocase or $e.target.process.file.full_path = /.*/curl$/ nocase or $e.target.process.file.full_path = /.*/dash$/ nocase or $e.target.process.file.full_path = /.*/ksh$/ nocase or $e.target.process.file.full_path = /.*/osascript$/ nocase or $e.target.process.file.full_path = /.*/perl$/ nocase or $e.target.process.file.full_path = /.*/php$/ nocase or $e.target.process.file.full_path = /.*/pwsh$/ nocase or $e.target.process.file.full_path = /.*/python$/ nocase or $e.target.process.file.full_path = /.*/sh$/ nocase or $e.target.process.file.full_path = /.*/tcsh$/ nocase or $e.target.process.file.full_path = /.*/wget$/ nocase or $e.target.process.file.full_path = /.*/zsh$/ nocase)) and not(((($e.principal.process.file.full_path = /.*Google Chrome Helper.*/ nocase or $e.principal.process.file.full_path = /.*Google Chrome.*/ nocase) and ($e.target.process.command_line = /.*/Volumes/Google Chrome/Google Chrome.app/Contents/Frameworks/*/Resources/install.sh.*/ nocase or $e.target.process.command_line = /.*/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/*/Resources/keystone_promote_preflight.sh.*/ nocase or $e.target.process.command_line = /.*/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/*/Resources/keystone_promote_postflight.sh.*/ nocase)) or (($e.principal.process.file.full_path = /.*Google Chrome Helper.*/ nocase or $e.principal.process.file.full_path = /.*Google Chrome.*/ nocase) and ($e.target.process.command_line = /.*/Users/.*/ nocase and $e.target.process.command_line = /.*/Library/Application Support/Google/Chrome/recovery/.*/ nocase and $e.target.process.command_line = /.*/ChromeRecovery.*/ nocase)) or ($e.target.process.command_line = /.*--defaults-torrc.*/ nocase) or ($e.target.process.command_line = /.*/Library/Application Support/Microsoft/MAU*/Microsoft AutoUpdate.app/Contents/MacOS/msupdate.*/ nocase) or ($e.principal.process.file.full_path = /.*Microsoft Edge.*/ nocase and ($e.target.process.command_line = /.*IOPlatformExpertDevice.*/ nocase or $e.target.process.command_line = /.*hw.model.*/ nocase)))) and not((($e.target.process.command_line = "") or (not ($e.target.process.command_line = /.*/)))))
+
+  condition:
+    $e
+}

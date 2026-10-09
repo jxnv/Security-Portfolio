@@ -1,0 +1,19 @@
+# Title: Potential Suspicious PowerShell Module File Created
+# ID: e8a52bbd-bced-459f-bd93-64db45ce7657
+# Status: test
+# Level: medium
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2023-05-09
+# Tags: attack.persistence
+# Description: Detects the creation of a new PowerShell module in the first folder of the module directory structure "\WindowsPowerShell\Modules\malware\malware.psm1". This is somewhat an uncommon practice as legitimate modules often includes a version folder.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Potential Suspicious PowerShell Module File Created
+def rule(event):
+    # Detection Logic:
+    # ((TargetFilename="*\\\\WindowsPowerShell\\\\Modules\\\\*\\.ps" OR TargetFilename="*\\\\WindowsPowerShell\\\\Modules\\\\*\\.dll"))
+    return True
+
+def title(event):
+    return "Potential Suspicious PowerShell Module File Created"
+

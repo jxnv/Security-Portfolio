@@ -1,0 +1,23 @@
+// Title: Uncommon Service Installation Image Path
+// ID: 26481afe-db26-4228-b264-25a29fe6efc7
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-03-18
+// Tags: attack.persistence, attack.privilege-escalation, car.2013-09-005, attack.t1543.003
+// Description: Detects uncommon service installation commands by looking at suspicious or uncommon image path values containing references to encoded powershell commands, temporary paths, etc.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 26481afe_db26_4228_b264_25a29fe6efc7 {
+  meta:
+    title = "Uncommon Service Installation Image Path"
+    description = "Detects uncommon service installation commands by looking at suspicious or uncommon image path values containing references to encoded powershell commands, temporary paths, etc."
+    author = "Florian Roth (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.Provider_Name = "Service Control Manager" and $e.EventID = 7045) and ((($e.ImagePath = /.*\\\\\\\\.\\\\pipe.*/ nocase or $e.ImagePath = /.*\\Users\\Public\\.*/ nocase or $e.ImagePath = /.*\\Windows\\Temp\\.*/ nocase)) or (($e.ImagePath = /.* -e.*/ nocase) and (($e.ImagePath = /.* aQBlAHgA.*/ nocase or $e.ImagePath = /.* aWV4I.*/ nocase or $e.ImagePath = /.* IAB.*/ nocase or $e.ImagePath = /.* JAB.*/ nocase or $e.ImagePath = /.* PAA.*/ nocase or $e.ImagePath = /.* SQBFAFgA.*/ nocase or $e.ImagePath = /.* SUVYI.*/ nocase)))) and not(($e.ImagePath = /^C:\\ProgramData\\Microsoft\\Windows Defender\\Definition Updates\\.*/ nocase)) and not(($e.ImagePath = /^C:\\WINDOWS\\TEMP\\thor10-remote\\thor64.exe.*/ nocase)))
+
+  condition:
+    $e
+}

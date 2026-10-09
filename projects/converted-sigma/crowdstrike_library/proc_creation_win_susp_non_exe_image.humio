@@ -1,0 +1,12 @@
+// Title: Execution of Suspicious File Type Extension
+// ID: c09dad97-1c78-4f71-b127-7edb2b8e491a
+// Status: test
+// Level: medium
+// Author: Max Altgelt (Nextron Systems)
+// Date: 2021-12-09
+// Tags: attack.stealth
+// Description: Detects whether the image specified in a process creation event doesn't refer to an ".exe" (or other known executable extension) file. This can be caused by process ghosting or other unorthodox methods to start a process.
+// This rule might require some initial baselining to align with some third party tooling in the user environment.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(not(((ImageFileName = /.*.bin/i or ImageFileName = /.*.cgi/i or ImageFileName = /.*.com/i or ImageFileName = /.*.exe/i or ImageFileName = /.*.scr/i or ImageFileName = /.*.tmp/i))) and not(((ImageFileName = /*:\\$Extend\\$Deleted\\*/i) or (ImageFileName = /*:\\Windows\\System32\\DriverStore\\FileRepository\\*/i) or ((ImageFileName = "-" or ImageFileName = "")) or ((ImageFileName = "System" or ImageFileName = "Registry" or ImageFileName = "MemCompression" or ImageFileName = "vmmem")) or (ImageFileName = /*:\\Windows\\Installer\\MSI*/i) or (ImageFileName = /*:\\Config.Msi\\*/i and (ImageFileName = /.*.rbf/i or ImageFileName = /.*.rbs/i)) or (not(ImageFileName = *)) or ((ParentBaseFileName = /*:\\Windows\\Temp\\*/i) or (ImageFileName = /*:\\Windows\\Temp\\*/i)))) and not(((ParentBaseFileName = /*:\\ProgramData\\Avira\\*/i) or (ParentBaseFileName = "C:\\Windows\\System32\\services.exe" and ImageFileName = /.*com.docker.service/i) or (ImageFileName = /*:\\Program Files\\Mozilla Firefox\\*/i) or (ImageFileName = /.*\\LZMA_EXE/i) or ((ImageFileName = /.*:\\Program Files (x86)\\MyQ\\Server\\pcltool.dll/i or ImageFileName = /.*:\\Program Files\\MyQ\\Server\\pcltool.dll/i)) or (ImageFileName = /*NVIDIA\\NvBackend\\*/i and ImageFileName = /.*.dat/i) or ((ImageFileName = /*:\\Program Files (x86)\\WINPAKPRO\\*/i or ImageFileName = /*:\\Program Files\\WINPAKPRO\\*/i) and ImageFileName = /.*.ngn/i) or ((ImageFileName = /*\\AppData\\Local\\Packages\\*/i and ImageFileName = /*\\LocalState\\rootfs\\*/i)))))

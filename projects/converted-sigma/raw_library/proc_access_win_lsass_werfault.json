@@ -1,0 +1,26 @@
+{
+  "title": "Credential Dumping Attempt Via WerFault",
+  "id": "e5b33f7d-eb93-48b6-9851-09e1e610b6d7",
+  "status": "test",
+  "description": "Detects process LSASS memory dump using Mimikatz, NanoDump, Invoke-Mimikatz, Procdump or Taskmgr based on the CallTrace pointing to ntdll.dll, dbghelp.dll or dbgcore.dll for win10, server2016 and up.",
+  "author": "Florian Roth (Nextron Systems)",
+  "date": "2022-06-27",
+  "tags": [
+    "attack.credential-access",
+    "attack.t1003.001",
+    "attack.s0002"
+  ],
+  "level": "high",
+  "logsource": {
+    "category": "process_access",
+    "product": "windows"
+  },
+  "detection": {
+    "selection": {
+      "SourceImage|endswith": "\\WerFault.exe",
+      "TargetImage|endswith": "\\lsass.exe",
+      "GrantedAccess": "0x1FFFFF"
+    },
+    "condition": "selection"
+  }
+}

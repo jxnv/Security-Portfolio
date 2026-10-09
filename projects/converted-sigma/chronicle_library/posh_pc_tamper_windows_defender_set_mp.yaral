@@ -1,0 +1,23 @@
+// Title: Tamper Windows Defender - PSClassic
+// ID: ec19ebab-72dc-40e1-9728-4c0b805d722c
+// Status: test
+// Level: high
+// Author: frack113, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2021-06-07
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Attempting to disable scheduled scanning and other parts of Windows Defender ATP or set default actions to allow.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule ec19ebab_72dc_40e1_9728_4c0b805d722c {
+  meta:
+    title = "Tamper Windows Defender - PSClassic"
+    description = "Attempting to disable scheduled scanning and other parts of Windows Defender ATP or set default actions to allow."
+    author = "frack113, Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.Data = /.*Set-MpPreference.*/ nocase) and ((($e.Data = /.*HighThreatDefaultAction Allow.*/ nocase or $e.Data = /.*htdefac Allow.*/ nocase or $e.Data = /.*LowThreatDefaultAction Allow.*/ nocase or $e.Data = /.*ltdefac Allow.*/ nocase or $e.Data = /.*ModerateThreatDefaultAction Allow.*/ nocase or $e.Data = /.*mtdefac Allow.*/ nocase or $e.Data = /.*SevereThreatDefaultAction Allow.*/ nocase or $e.Data = /.*stdefac Allow.*/ nocase)) or (($e.Data = /.*-dbaf $true.*/ nocase or $e.Data = /.*-dbaf 1.*/ nocase or $e.Data = /.*-dbm $true.*/ nocase or $e.Data = /.*-dbm 1.*/ nocase or $e.Data = /.*-dips $true.*/ nocase or $e.Data = /.*-dips 1.*/ nocase or $e.Data = /.*-DisableArchiveScanning $true.*/ nocase or $e.Data = /.*-DisableArchiveScanning 1.*/ nocase or $e.Data = /.*-DisableBehaviorMonitoring $true.*/ nocase or $e.Data = /.*-DisableBehaviorMonitoring 1.*/ nocase or $e.Data = /.*-DisableBlockAtFirstSeen $true.*/ nocase or $e.Data = /.*-DisableBlockAtFirstSeen 1.*/ nocase or $e.Data = /.*-DisableCatchupFullScan $true.*/ nocase or $e.Data = /.*-DisableCatchupFullScan 1.*/ nocase or $e.Data = /.*-DisableCatchupQuickScan $true.*/ nocase or $e.Data = /.*-DisableCatchupQuickScan 1.*/ nocase or $e.Data = /.*-DisableIntrusionPreventionSystem $true.*/ nocase or $e.Data = /.*-DisableIntrusionPreventionSystem 1.*/ nocase or $e.Data = /.*-DisableIOAVProtection $true.*/ nocase or $e.Data = /.*-DisableIOAVProtection 1.*/ nocase or $e.Data = /.*-DisableRealtimeMonitoring $true.*/ nocase or $e.Data = /.*-DisableRealtimeMonitoring 1.*/ nocase or $e.Data = /.*-DisableRemovableDriveScanning $true.*/ nocase or $e.Data = /.*-DisableRemovableDriveScanning 1.*/ nocase or $e.Data = /.*-DisableScanningMappedNetworkDrivesForFullScan $true.*/ nocase or $e.Data = /.*-DisableScanningMappedNetworkDrivesForFullScan 1.*/ nocase or $e.Data = /.*-DisableScanningNetworkFiles $true.*/ nocase or $e.Data = /.*-DisableScanningNetworkFiles 1.*/ nocase or $e.Data = /.*-DisableScriptScanning $true.*/ nocase or $e.Data = /.*-DisableScriptScanning 1.*/ nocase or $e.Data = /.*-MAPSReporting $false.*/ nocase or $e.Data = /.*-MAPSReporting 0.*/ nocase or $e.Data = /.*-drdsc $true.*/ nocase or $e.Data = /.*-drdsc 1.*/ nocase or $e.Data = /.*-drtm $true.*/ nocase or $e.Data = /.*-drtm 1.*/ nocase or $e.Data = /.*-dscrptsc $true.*/ nocase or $e.Data = /.*-dscrptsc 1.*/ nocase or $e.Data = /.*-dsmndf $true.*/ nocase or $e.Data = /.*-dsmndf 1.*/ nocase or $e.Data = /.*-dsnf $true.*/ nocase or $e.Data = /.*-dsnf 1.*/ nocase or $e.Data = /.*-dss $true.*/ nocase or $e.Data = /.*-dss 1.*/ nocase))))
+
+  condition:
+    $e
+}

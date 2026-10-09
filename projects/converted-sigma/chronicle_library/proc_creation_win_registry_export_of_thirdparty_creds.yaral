@@ -1,0 +1,24 @@
+// Title: Registry Export of Third-Party Credentials
+// ID: cc1abf27-78a3-4ac5-a51c-f3070b1d8e40
+// Status: experimental
+// Level: high
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-05-22
+// Tags: attack.credential-access, attack.t1552.002
+// Description: Detects the use of reg.exe to export registry paths associated with third-party credentials.
+// Credential stealers have been known to use this technique to extract sensitive information from the registry.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule cc1abf27_78a3_4ac5_a51c_f3070b1d8e40 {
+  meta:
+    title = "Registry Export of Third-Party Credentials"
+    description = "Detects the use of reg.exe to export registry paths associated with third-party credentials. Credential stealers have been known to use this technique to extract sensitive information from the registry."
+    author = "Swachchhanda Shrawan Poudel (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*\\Software\\Aerofox\\Foxmail\\V3.1.*/ nocase or $e.target.process.command_line = /.*\\Software\\Aerofox\\FoxmailPreview.*/ nocase or $e.target.process.command_line = /.*\\Software\\DownloadManager\\Passwords.*/ nocase or $e.target.process.command_line = /.*\\Software\\FTPWare\\COREFTP\\Sites.*/ nocase or $e.target.process.command_line = /.*\\Software\\IncrediMail\\Identities.*/ nocase or $e.target.process.command_line = /.*\\Software\\Martin Prikryl\\WinSCP 2\\Sessions.*/ nocase or $e.target.process.command_line = /.*\\Software\\Mobatek\\MobaXterm.*/ nocase or $e.target.process.command_line = /.*\\Software\\OpenSSH\\Agent\\Keys.*/ nocase or $e.target.process.command_line = /.*\\Software\\OpenVPN-GUI\\configs.*/ nocase or $e.target.process.command_line = /.*\\Software\\ORL\\WinVNC3\\Password.*/ nocase or $e.target.process.command_line = /.*\\Software\\Qualcomm\\Eudora\\CommandLine.*/ nocase or $e.target.process.command_line = /.*\\Software\\RealVNC\\WinVNC4.*/ nocase or $e.target.process.command_line = /.*\\Software\\RimArts\\B2\\Settings.*/ nocase or $e.target.process.command_line = /.*\\Software\\SimonTatham\\PuTTY\\Sessions.*/ nocase or $e.target.process.command_line = /.*\\Software\\SimonTatham\\PuTTY\\SshHostKeys.*/ nocase or $e.target.process.command_line = /.*\\Software\\Sota\\FFFTP.*/ nocase or $e.target.process.command_line = /.*\\Software\\TightVNC\\Server.*/ nocase or $e.target.process.command_line = /.*\\Software\\WOW6432Node\\Radmin\\v3.0\\Server\\Parameters\\Radmin.*/ nocase)) and (($e.target.process.command_line = /.*save.*/ nocase or $e.target.process.command_line = /.*export.*/ nocase)) and (($e.target.process.file.full_path = /.*\\reg.exe$/ nocase) or ($e.target.process.file.name = "reg.exe")))
+
+  condition:
+    $e
+}

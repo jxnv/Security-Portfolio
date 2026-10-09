@@ -1,0 +1,23 @@
+// Title: PUA - Seatbelt Execution
+// ID: 38646daa-e78f-4ace-9de0-55547b2d30da
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-10-18
+// Tags: attack.discovery, attack.t1526, attack.t1087, attack.t1083
+// Description: Detects the execution of the PUA/Recon tool Seatbelt via PE information of command line parameters
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 38646daa_e78f_4ace_9de0_55547b2d30da {
+  meta:
+    title = "PUA - Seatbelt Execution"
+    description = "Detects the execution of the PUA/Recon tool Seatbelt via PE information of command line parameters"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.file.full_path = /.*\\Seatbelt.exe$/ nocase) or ($e.target.process.file.name = "Seatbelt.exe") or ($e.Description = "Seatbelt") or (($e.target.process.command_line = /.* DpapiMasterKeys.*/ nocase or $e.target.process.command_line = /.* InterestingProcesses.*/ nocase or $e.target.process.command_line = /.* InterestingFiles.*/ nocase or $e.target.process.command_line = /.* CertificateThumbprints.*/ nocase or $e.target.process.command_line = /.* ChromiumBookmarks.*/ nocase or $e.target.process.command_line = /.* ChromiumHistory.*/ nocase or $e.target.process.command_line = /.* ChromiumPresence.*/ nocase or $e.target.process.command_line = /.* CloudCredentials.*/ nocase or $e.target.process.command_line = /.* CredEnum.*/ nocase or $e.target.process.command_line = /.* CredGuard.*/ nocase or $e.target.process.command_line = /.* FirefoxHistory.*/ nocase or $e.target.process.command_line = /.* ProcessCreationEvents.*/ nocase))) or ((($e.target.process.command_line = /.* -group=misc.*/ nocase or $e.target.process.command_line = /.* -group=remote.*/ nocase or $e.target.process.command_line = /.* -group=chromium.*/ nocase or $e.target.process.command_line = /.* -group=slack.*/ nocase or $e.target.process.command_line = /.* -group=system.*/ nocase or $e.target.process.command_line = /.* -group=user.*/ nocase or $e.target.process.command_line = /.* -group=all.*/ nocase)) and ($e.target.process.command_line = /.* -outputfile=.*/ nocase)))
+
+  condition:
+    $e
+}

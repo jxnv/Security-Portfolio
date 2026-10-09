@@ -1,0 +1,11 @@
+// Title: CredUI.DLL Loaded By Uncommon Process
+// ID: 9ae01559-cf7e-4f8e-8e14-4c290a1b4784
+// Status: test
+// Level: medium
+// Author: Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research)
+// Date: 2020-10-20
+// Tags: attack.credential-access, attack.collection, attack.t1056.002
+// Description: Detects loading of "credui.dll" and related DLLs by an uncommon process. Attackers might leverage this DLL for potential use of "CredUIPromptForCredentials" or "CredUnPackAuthenticationBufferW".
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((where(ImageLoaded IENDSWITH "\\credui.dll") OR where(ImageLoaded IENDSWITH "\\wincredui.dll"))) OR ((where(OriginalFileName = "credui.dll") OR where(OriginalFileName = "wincredui.dll")))) AND NOT ((((where(Image = "C:\\Windows\\explorer.exe") OR where(Image = "C:\\Windows\\ImmersiveControlPanel\\SystemSettings.exe") OR where(Image = "C:\\Windows\\regedit.exe"))) OR ((where(Image ISTARTSWITH "C:\\Program Files (x86)\\") OR where(Image ISTARTSWITH "C:\\Program Files\\") OR where(Image ISTARTSWITH "C:\\Windows\\System32\\") OR where(Image ISTARTSWITH "C:\\Windows\\SysWOW64\\") OR where(Image ISTARTSWITH "C:\\Windows\\SystemApps\\"))))) AND NOT (((where(Image ISTARTSWITH "C:\\Users\\") AND where(Image ICONTAINS "\\AppData\\Local\\Microsoft\\OneDrive\\")) OR (where(Image IENDSWITH "\\opera_autoupdate.exe")) OR ((where(Image IENDSWITH "\\procexp64.exe") OR where(Image IENDSWITH "\\procexp64a.exe") OR where(Image IENDSWITH "\\procexp.exe"))) OR (where(Image ISTARTSWITH "C:\\Users\\") AND where(Image ICONTAINS "\\AppData\\Local\\Microsoft\\Teams\\") AND where(Image IENDSWITH "\\Teams.exe")))))

@@ -1,0 +1,24 @@
+// Title: Antivirus - Relevant File Paths Alerts Signature
+// ID: c9a88268-0047-4824-ba6e-4d81ce0b907c
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Arnim Rupp
+// Date: 2018-09-09
+// Tags: attack.resource-development, attack.t1588
+// Description: Detects an Antivirus alert in a highly relevant file path or with a relevant file name.
+// This event must not be ignored just because the AV has blocked the malware but investigate, how it came there in the first place.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule c9a88268_0047_4824_ba6e_4d81ce0b907c {
+  meta:
+    title = "Antivirus - Relevant File Paths Alerts Signature"
+    description = "Detects an Antivirus alert in a highly relevant file path or with a relevant file name. This event must not be ignored just because the AV has blocked the malware but investigate, how it came there in the first place."
+    author = "Florian Roth (Nextron Systems), Arnim Rupp"
+    severity = "HIGH"
+
+  events:
+    ((($e.Filename = /.*.asax$/ nocase or $e.Filename = /.*.ashx$/ nocase or $e.Filename = /.*.asmx$/ nocase or $e.Filename = /.*.asp$/ nocase or $e.Filename = /.*.aspx$/ nocase or $e.Filename = /.*.bat$/ nocase or $e.Filename = /.*.cfm$/ nocase or $e.Filename = /.*.cgi$/ nocase or $e.Filename = /.*.chm$/ nocase or $e.Filename = /.*.cmd$/ nocase or $e.Filename = /.*.dat$/ nocase or $e.Filename = /.*.ear$/ nocase or $e.Filename = /.*.gif$/ nocase or $e.Filename = /.*.hta$/ nocase or $e.Filename = /.*.jpeg$/ nocase or $e.Filename = /.*.jpg$/ nocase or $e.Filename = /.*.jsp$/ nocase or $e.Filename = /.*.jspx$/ nocase or $e.Filename = /.*.lnk$/ nocase or $e.Filename = /.*.msc$/ nocase or $e.Filename = /.*.php$/ nocase or $e.Filename = /.*.pl$/ nocase or $e.Filename = /.*.png$/ nocase or $e.Filename = /.*.ps1$/ nocase or $e.Filename = /.*.psm1$/ nocase or $e.Filename = /.*.py$/ nocase or $e.Filename = /.*.pyc$/ nocase or $e.Filename = /.*.rb$/ nocase or $e.Filename = /.*.scf$/ nocase or $e.Filename = /.*.sct$/ nocase or $e.Filename = /.*.sh$/ nocase or $e.Filename = /.*.svg$/ nocase or $e.Filename = /.*.txt$/ nocase or $e.Filename = /.*.vbe$/ nocase or $e.Filename = /.*.vbs$/ nocase or $e.Filename = /.*.war$/ nocase or $e.Filename = /.*.wll$/ nocase or $e.Filename = /.*.wsf$/ nocase or $e.Filename = /.*.wsh$/ nocase or $e.Filename = /.*.xll$/ nocase or $e.Filename = /.*.xml$/ nocase)) or (($e.Filename = /.*:\\PerfLogs\\.*/ nocase or $e.Filename = /.*:\\Temp\\.*/ nocase or $e.Filename = /.*:\\Users\\Default\\.*/ nocase or $e.Filename = /.*:\\Users\\Public\\.*/ nocase or $e.Filename = /.*:\\Windows\\.*/ nocase or $e.Filename = /.*/www/.*/ nocase or $e.Filename = /.*\\inetpub\\.*/ nocase or $e.Filename = /.*\\tsclient\\.*/ nocase or $e.Filename = /.*apache.*/ nocase or $e.Filename = /.*nginx.*/ nocase or $e.Filename = /.*tomcat.*/ nocase or $e.Filename = /.*weblogic.*/ nocase)))
+
+  condition:
+    $e
+}

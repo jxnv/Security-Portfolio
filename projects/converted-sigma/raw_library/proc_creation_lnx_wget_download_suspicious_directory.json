@@ -1,0 +1,34 @@
+{
+  "title": "Download File To Potentially Suspicious Directory Via Wget",
+  "id": "cf610c15-ed71-46e1-bdf8-2bd1a99de6c4",
+  "status": "test",
+  "description": "Detects the use of wget to download content to a suspicious directory",
+  "author": "Joseliyo Sanchez, @Joseliyo_Jstnk",
+  "date": "2023-06-02",
+  "tags": [
+    "attack.command-and-control",
+    "attack.t1105"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "process_creation",
+    "product": "linux"
+  },
+  "detection": {
+    "selection_img": {
+      "Image|endswith": "/wget"
+    },
+    "selection_output": [
+      {
+        "CommandLine|re": "\\s-O\\s"
+      },
+      {
+        "CommandLine|contains": "--output-document"
+      }
+    ],
+    "selection_path": {
+      "CommandLine|contains": "/tmp/"
+    },
+    "condition": "all of selection_*"
+  }
+}

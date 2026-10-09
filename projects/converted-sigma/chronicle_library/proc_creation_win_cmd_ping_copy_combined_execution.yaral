@@ -1,0 +1,23 @@
+// Title: Potentially Suspicious Ping/Copy Command Combination
+// ID: ded2b07a-d12f-4284-9b76-653e37b6c8b0
+// Status: test
+// Level: medium
+// Author: X__Junior (Nextron Systems)
+// Date: 2023-07-18
+// Tags: attack.stealth, attack.t1070.004
+// Description: Detects uncommon and potentially suspicious one-liner command containing both "ping" and "copy" at the same time, which is usually used by malware.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule ded2b07a_d12f_4284_9b76_653e37b6c8b0 {
+  meta:
+    title = "Potentially Suspicious Ping/Copy Command Combination"
+    description = "Detects uncommon and potentially suspicious one-liner command containing both "ping" and "copy" at the same time, which is usually used by malware."
+    author = "X__Junior (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.command_line = /.*ping.*/ nocase and $e.target.process.command_line = /.*copy .*/ nocase)) and ($e.target.process.command_line = /.* -n .*/ nocase) and ($e.target.process.command_line = /.* -y .*/ nocase) and (($e.target.process.file.full_path = /.*\\cmd.exe$/ nocase) or ($e.target.process.file.name = "Cmd.Exe")))
+
+  condition:
+    $e
+}

@@ -1,0 +1,23 @@
+// Title: Base64 MZ Header In CommandLine
+// ID: 22e58743-4ac8-4a9f-bf19-00a0428d8c5f
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-07-12
+// Tags: attack.execution
+// Description: Detects encoded base64 MZ header in the commandline
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 22e58743_4ac8_4a9f_bf19_00a0428d8c5f {
+  meta:
+    title = "Base64 MZ Header In CommandLine"
+    description = "Detects encoded base64 MZ header in the commandline"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.command_line = /.*TVqQAAMAAAAEAAAA.*/ nocase or $e.target.process.command_line = /.*TVpQAAIAAAAEAA8A.*/ nocase or $e.target.process.command_line = /.*TVqAAAEAAAAEABAA.*/ nocase or $e.target.process.command_line = /.*TVoAAAAAAAAAAAAA.*/ nocase or $e.target.process.command_line = /.*TVpTAQEAAAAEAAAA.*/ nocase))
+
+  condition:
+    $e
+}

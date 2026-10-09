@@ -1,0 +1,24 @@
+// Title: Uncommon Child Process Spawned From XBootMgrSleep.EXE
+// ID: 74697c29-1b30-4e1f-a517-33574061821d
+// Status: experimental
+// Level: medium
+// Author: Diablo Research
+// Date: 2026-09-27
+// Tags: attack.stealth, attack.t1202
+// Description: Detects a process other than XBootMgr.exe spawned by XBootMgrSleep.exe.
+// XBootMgrSleep.exe is a Microsoft-signed Windows Performance Toolkit binary that can execute an arbitrary executable after a delay.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 74697c29_1b30_4e1f_a517_33574061821d {
+  meta:
+    title = "Uncommon Child Process Spawned From XBootMgrSleep.EXE"
+    description = "Detects a process other than XBootMgr.exe spawned by XBootMgrSleep.exe. XBootMgrSleep.exe is a Microsoft-signed Windows Performance Toolkit binary that can execute an arbitrary executable after a delay."
+    author = "Diablo Research"
+    severity = "MEDIUM"
+
+  events:
+    (($e.principal.process.file.full_path = /.*\\xbootmgrsleep.exe$/ nocase) and not(($e.target.process.file.full_path = "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\xbootmgr.exe")))
+
+  condition:
+    $e
+}

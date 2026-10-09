@@ -1,0 +1,12 @@
+// Title: Uncommon File Created by Notepad++ Updater Gup.EXE
+// ID: 3b8f4c92-6a51-4d7e-9c3a-8e2d1f5a7b09
+// Status: experimental
+// Level: high
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2026-02-03
+// Tags: attack.collection, attack.credential-access, attack.t1195.002, attack.initial-access, attack.t1557
+// Description: Detects when the Notepad++ updater (gup.exe) creates files in suspicious or uncommon locations.
+// This could indicate potential exploitation of the updater component to deliver unwanted malware or unwarranted files.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((where(Image IENDSWITH "\\gup.exe")) AND NOT ((((where(TargetFilename ISTARTSWITH "C:\\Program Files\\Notepad++\\") OR where(TargetFilename ISTARTSWITH "C:\\Program Files (x86)\\Notepad++\\"))) OR (((where(TargetFilename ICONTAINS "\\plugins\\JsonTools\\testfiles\\") OR where(TargetFilename ICONTAINS "\\Notepad++\\plugins\\ComparePlugin\\"))) OR ((where(TargetFilename ICONTAINS "npp.") AND where(TargetFilename ICONTAINS ".portable.") AND where(TargetFilename ICONTAINS "\\plugins\\")))) OR (where(TargetFilename ISTARTSWITH "C:\\$Recycle.Bin\\S-1-5-21")) OR (where(TargetFilename ISTARTSWITH "C:\\Users\\") AND (where(TargetFilename ICONTAINS "\\AppData\\Local\\Temp\\") AND where(TargetFilename ICONTAINS ".zip"))) OR (where(TargetFilename ISTARTSWITH "C:\\Users\\") AND (where(TargetFilename ICONTAINS "\\AppData\\Local\\Temp\\") AND where(TargetFilename ICONTAINS "npp.") AND where(TargetFilename ICONTAINS ".Installer.") AND where(TargetFilename ICONTAINS ".exe"))))))

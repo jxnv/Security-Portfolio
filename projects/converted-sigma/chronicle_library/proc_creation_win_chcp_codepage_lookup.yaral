@@ -1,0 +1,23 @@
+// Title: Console CodePage Lookup Via CHCP
+// ID: 7090adee-82e2-4269-bd59-80691e7c6338
+// Status: test
+// Level: medium
+// Author: _pete_0, TheDFIRReport
+// Date: 2022-02-21
+// Tags: attack.discovery, attack.t1614.001
+// Description: Detects use of chcp to look up the system locale value as part of host discovery
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 7090adee_82e2_4269_bd59_80691e7c6338 {
+  meta:
+    title = "Console CodePage Lookup Via CHCP"
+    description = "Detects use of chcp to look up the system locale value as part of host discovery"
+    author = "_pete_0, TheDFIRReport"
+    severity = "MEDIUM"
+
+  events:
+    ($e.principal.process.file.full_path = /.*\\cmd.exe$/ nocase and ($e.principal.process.command_line = /.* -c .*/ nocase or $e.principal.process.command_line = /.* -r .*/ nocase or $e.principal.process.command_line = /.* -k .*/ nocase) and $e.target.process.file.full_path = /.*\\chcp.com$/ nocase and ($e.target.process.command_line = /.*chcp$/ nocase or $e.target.process.command_line = /.*chcp $/ nocase or $e.target.process.command_line = /.*chcp  $/ nocase))
+
+  condition:
+    $e
+}

@@ -1,0 +1,12 @@
+// Title: Suspicious Eventlog Clearing or Configuration Change Activity
+// ID: cc36992a-4671-4f21-a91d-6c2b72a2edf5
+// Status: stable
+// Level: high
+// Author: Ecco, Daniil Yugoslavskiy, oscd.community, D3F7A5105, Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2019-09-26
+// Tags: attack.defense-impairment, attack.t1685.005, attack.t1685.001, car.2016-04-002
+// Description: Detects the clearing or configuration tampering of EventLog using utilities such as "wevtutil", "powershell" and "wmic".
+// This technique were seen used by threat actors and ransomware strains in order to evade defenses.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where (((((process.command_line like "*_clear-log *" or process.command_line like "*_ cl *" or process.command_line like "*_set-log *" or process.command_line like "*_ sl *" or process.command_line like "*_lfn:*")) and ((process.executable endswith "\\wevtutil.exe") or (process.pe.original_file_name == "wevtutil.exe"))) or ((((process.command_line like "*_Clear-EventLog *" or process.command_line like "*_Remove-EventLog *" or process.command_line like "*_Limit-EventLog *" or process.command_line like "*_Clear-WinEvent *")) or ((process.command_line like "*_Eventing.Reader.EventLogSession*" and process.command_line like "*_ClearLog*")) or ((process.command_line like "*_Diagnostics.EventLog*" and process.command_line like "*_Clear*"))) and ((process.executable endswith "\\powershell.exe" or process.executable endswith "\\powershell_ise.exe" or process.executable endswith "\\pwsh.exe"))) or ((process.executable endswith "\\powershell.exe" or process.executable endswith "\\powershell_ise.exe" or process.executable endswith "\\pwsh.exe" or process.executable endswith "\\wmic.exe") and process.command_line like "*_ClearEventLog*")) and not (((process.parent.executable == "C:\\Windows\\SysWOW64\\msiexec.exe" or process.parent.executable == "C:\\Windows\\System32\\msiexec.exe") and process.command_line like "*_ sl *")))

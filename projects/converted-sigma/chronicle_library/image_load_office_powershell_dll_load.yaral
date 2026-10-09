@@ -1,0 +1,23 @@
+// Title: PowerShell Core DLL Loaded Via Office Application
+// ID: bb2ba6fb-95d4-4a25-89fc-30bb736c021a
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-06-01
+// Tags: attack.stealth
+// Description: Detects PowerShell core DLL being loaded by an Office Product
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule bb2ba6fb_95d4_4a25_89fc_30bb736c021a {
+  meta:
+    title = "PowerShell Core DLL Loaded Via Office Application"
+    description = "Detects PowerShell core DLL being loaded by an Office Product"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.process.file.full_path = /.*\\excel.exe$/ nocase or $e.target.process.file.full_path = /.*\\mspub.exe$/ nocase or $e.target.process.file.full_path = /.*\\outlook.exe$/ nocase or $e.target.process.file.full_path = /.*\\onenote.exe$/ nocase or $e.target.process.file.full_path = /.*\\onenoteim.exe$/ nocase or $e.target.process.file.full_path = /.*\\powerpnt.exe$/ nocase or $e.target.process.file.full_path = /.*\\winword.exe$/ nocase) and ($e.ImageLoaded = /.*\\System.Management.Automation.Dll.*/ nocase or $e.ImageLoaded = /.*\\System.Management.Automation.ni.Dll.*/ nocase))
+
+  condition:
+    $e
+}

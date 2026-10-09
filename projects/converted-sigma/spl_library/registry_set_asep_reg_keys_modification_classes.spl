@@ -1,0 +1,14 @@
+# Title: Classes Autorun Keys Modification
+# ID: 9df5f547-c86a-433e-b533-f2794357e242
+# Status: test
+# Level: medium
+# Author: Victor Sergeev, Daniil Yugoslavskiy, Gleb Sukhodolskiy, Timur Zinniatullin, oscd.community, Tim Shelton, frack113 (split)
+# Date: 2019-10-25
+# Tags: attack.privilege-escalation, attack.persistence, attack.t1547.001
+# Description: Detects modification of Windows Registry Classes keys used for persistence.
+# Adversaries modify these autostart extensibility points (ASEP) to execute malicious code when file types are opened or actions are performed.
+# Various legitimate software also uses these keys. Currently, this rule only filters out known legitimate software paths,
+# thus it is recommended to review and tune filters for your environment to reduce false positives before deploying to production.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog (((registry_key_name="*\\Software\\Classes*") AND ((registry_key_name="*\\Folder\\ShellEx\\ExtShellFolderViews*" OR registry_key_name="*\\Folder\\ShellEx\\DragDropHandlers*" OR registry_key_name="*\\Folder\\Shellex\\ColumnHandlers*" OR registry_key_name="*\\Filter*" OR registry_key_name="*\\Exefile\\Shell\\Open\\Command\\(Default)*" OR registry_key_name="*\\Directory\\Shellex\\DragDropHandlers*" OR registry_key_name="*\\Directory\\Shellex\\CopyHookHandlers*" OR registry_key_name="*\\CLSID\\{AC757296-3522-4E11-9862-C17BE5A1767E}\\Instance*" OR registry_key_name="*\\CLSID\\{ABE3B9A4-257D-4B97-BD1A-294AF496222E}\\Instance*" OR registry_key_name="*\\CLSID\\{7ED96837-96F0-4812-B211-F13C24117ED3}\\Instance*" OR registry_key_name="*\\CLSID\\{083863F1-70DE-11d0-BD40-00A0C911CE86}\\Instance*" OR registry_key_name="*\\Classes\\AllFileSystemObjects\\ShellEx\\DragDropHandlers*" OR registry_key_name="*\\.exe*" OR registry_key_name="*\\.cmd*" OR registry_key_name="*\\ShellEx\\PropertySheetHandlers*" OR registry_key_name="*\\ShellEx\\ContextMenuHandlers*"))) AND NOT (((process_path="C:\\Windows\\System32\\drvinst.exe") OR (Details="(Empty)") OR (NOT Details=*) OR (process_path="C:\\Windows\\System32\\svchost.exe" AND registry_key_name="*\\lnkfile\\shellex\\ContextMenuHandlers\\*"))) AND NOT ((Details="{807583E5-5146-11D5-A672-00B0D022E945}")))

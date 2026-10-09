@@ -1,0 +1,25 @@
+// Title: PowerShell Dynamic Module Invocation Via ExportedCommands Array Index - PS Script
+// ID: 4ff4ad3e-9fb5-4a70-9962-d6ea58090318
+// Status: experimental
+// Level: medium
+// Author: Norbert Jaśniewicz (AlphaSOC)
+// Date: 2026-10-06
+// Tags: attack.execution, attack.stealth, attack.t1027, attack.t1059.001
+// Description: Detects obfuscated PowerShell scripts that enumerate Microsoft.PowerShell.Utility exported commands
+// and invoke cmdlets indirectly by array index. This can be used to evade detections
+// that look for explicit strings such as Invoke-RestMethod or Invoke-Expression.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 4ff4ad3e_9fb5_4a70_9962_d6ea58090318 {
+  meta:
+    title = "PowerShell Dynamic Module Invocation Via ExportedCommands Array Index - PS Script"
+    description = "Detects obfuscated PowerShell scripts that enumerate Microsoft.PowerShell.Utility exported commands and invoke cmdlets indirectly by array index. This can be used to evade detections that look for explicit strings such as Invoke-RestMethod or Invoke-Expression."
+    author = "Norbert Jaśniewicz (AlphaSOC)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.ScriptBlockText = /.*[*].*/ nocase) and (($e.ScriptBlockText = /.*Get-Module .*/ nocase or $e.ScriptBlockText = /.*gmo .*/ nocase) and ($e.ScriptBlockText = /.*ListAvailable.*/ nocase and $e.ScriptBlockText = /.*Microsoft.PowerShell.Utility.*/ nocase and $e.ScriptBlockText = /.*ExportedCommands.*/ nocase and $e.ScriptBlockText = /.*Values.*/ nocase)))
+
+  condition:
+    $e
+}

@@ -1,0 +1,11 @@
+-- Title: Visual Studio NodejsTools PressAnyKey Renamed Execution
+-- ID: 65c3ca2c-525f-4ced-968e-246a713d164f
+-- Status: test
+-- Level: medium
+-- Author: Nasreddine Bencherchali (Nextron Systems), Florian Roth (Nextron Systems)
+-- Date: 2023-04-11
+-- Tags: attack.execution, attack.stealth, attack.t1218
+-- Description: Detects renamed execution of "Microsoft.NodejsTools.PressAnyKey.exe", which can be abused as a LOLBIN to execute arbitrary binaries
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE ((OriginalFileName = 'Microsoft.NodejsTools.PressAnyKey.exe') AND NOT ((Image ILIKE '%\\Microsoft.NodejsTools.PressAnyKey.exe')))

@@ -1,0 +1,37 @@
+{
+  "title": "Unsigned Binary Loaded From Suspicious Location",
+  "id": "8289bf8c-4aca-4f5a-9db3-dc3d7afe5c10",
+  "status": "test",
+  "description": "Detects Code Integrity (CI) engine blocking processes from loading unsigned DLLs residing in suspicious locations",
+  "author": "Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2022-08-03",
+  "tags": [
+    "attack.privilege-escalation",
+    "attack.persistence",
+    "attack.execution",
+    "attack.stealth",
+    "attack.t1574.001"
+  ],
+  "level": "high",
+  "logsource": {
+    "product": "windows",
+    "service": "security-mitigations"
+  },
+  "detection": {
+    "selection": {
+      "EventID": [
+        11,
+        12
+      ],
+      "ImageName|contains": [
+        "\\Users\\Public\\",
+        "\\PerfLogs\\",
+        "\\Desktop\\",
+        "\\Downloads\\",
+        "\\AppData\\Local\\Temp\\",
+        "C:\\Windows\\TEMP\\"
+      ]
+    },
+    "condition": "selection"
+  }
+}

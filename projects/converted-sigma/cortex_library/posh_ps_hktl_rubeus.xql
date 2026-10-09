@@ -1,0 +1,11 @@
+// Title: HackTool - Rubeus Execution - ScriptBlock
+// ID: 3245cd30-e015-40ff-a31d-5cadd5f377ec
+// Status: test
+// Level: high
+// Author: Christian Burkard (Nextron Systems), Florian Roth (Nextron Systems)
+// Date: 2023-04-27
+// Tags: attack.credential-access, attack.t1003, attack.t1558.003, attack.lateral-movement, attack.t1550.003
+// Description: Detects the execution of the hacktool Rubeus using specific command line flags
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter ((ScriptBlockText contains "asreproast " or ScriptBlockText contains "dump /service:krbtgt " or ScriptBlockText contains "dump /luid:0x" or ScriptBlockText contains "kerberoast " or ScriptBlockText contains "createnetonly /program:" or ScriptBlockText contains "ptt /ticket:" or ScriptBlockText contains "/impersonateuser:" or ScriptBlockText contains "renew /ticket:" or ScriptBlockText contains "asktgt /user:" or ScriptBlockText contains "harvest /interval:" or ScriptBlockText contains "s4u /user:" or ScriptBlockText contains "s4u /ticket:" or ScriptBlockText contains "hash /password:" or ScriptBlockText contains "golden /aes256:" or ScriptBlockText contains "silver /user:"))

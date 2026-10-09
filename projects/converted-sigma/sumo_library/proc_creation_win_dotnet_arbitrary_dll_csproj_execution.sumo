@@ -1,0 +1,11 @@
+// Title: Arbitrary DLL or Csproj Code Execution Via Dotnet.EXE
+// ID: d80d5c81-04ba-45b4-84e4-92eba40e0ad3
+// Status: test
+// Level: medium
+// Author: Beyu Denis, oscd.community
+// Date: 2020-10-18
+// Tags: attack.stealth, attack.t1218
+// Description: Detects execution of arbitrary DLLs or unsigned code via a ".csproj" files via Dotnet.EXE.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where ((((CommandLine matches "*.csproj" or CommandLine matches "*.csproj\"" or CommandLine matches "*.dll" or CommandLine matches "*.dll\"" or CommandLine matches "*.csproj'" or CommandLine matches "*.dll'")) and ((Image matches "*\\dotnet.exe") or (OriginalFileName = ".NET Host"))) and !(((ParentImage = "C:\\Program Files (x86)\\Notepad++\\notepad++.exe" or ParentImage = "C:\\Program Files\\Notepad++\\notepad++.exe") and (CommandLine matches "*C:\\ProgramData\\CSScriptNpp\\*" and CommandLine matches "*-cscs_path:*" and CommandLine matches "*\\cs-script\\cscs.dll*"))))

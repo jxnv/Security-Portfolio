@@ -1,0 +1,11 @@
+# Title: Deletion of Volume Shadow Copies via WMI with PowerShell
+# ID: 21ff4ca9-f13a-41ad-b828-0077b2af2e40
+# Status: test
+# Level: high
+# Author: Tim Rauch, Elastic (idea)
+# Date: 2022-09-20
+# Tags: attack.impact, attack.t1490
+# Description: Detects deletion of Windows Volume Shadow Copies with PowerShell code and Get-WMIObject. This technique is used by numerous ransomware families such as Sodinokibi/REvil
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog (((process_exec="*.Delete()*" OR process_exec="*Remove-WmiObject*" OR process_exec="*rwmi*" OR process_exec="*Remove-CimInstance*" OR process_exec="*rcim*")) AND ((process_exec="*Get-WmiObject*" OR process_exec="*gwmi*" OR process_exec="*Get-CimInstance*" OR process_exec="*gcim*")) AND (process_exec="*Win32_ShadowCopy*"))

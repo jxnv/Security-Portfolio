@@ -1,0 +1,11 @@
+# Title: User Added to Remote Desktop Users Group
+# ID: ffa28e60-bdb1-46e0-9f82-05f7a61cc06e
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems)
+# Date: 2021-12-06
+# Tags: attack.initial-access, attack.persistence, attack.lateral-movement, attack.t1133, attack.t1136.001, attack.t1021.001
+# Description: Detects addition of users to the local Remote Desktop Users group via "Net" or "Add-LocalGroupMember".
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((process.command_line:*Remote Desktop Users* OR process.command_line:*Utilisateurs du Bureau à distance* OR process.command_line:*Usuarios de escritorio remoto*)) AND (((process.command_line:*localgroup * AND process.command_line:* /add*)) OR ((process.command_line:*Add-LocalGroupMember * AND process.command_line:* -Group *))))

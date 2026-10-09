@@ -1,0 +1,11 @@
+-- Title: HackTool - SharPersist Execution
+-- ID: 26488ad0-f9fd-4536-876f-52fea846a2e4
+-- Status: test
+-- Level: high
+-- Author: Florian Roth (Nextron Systems)
+-- Date: 2022-09-15
+-- Tags: attack.privilege-escalation, attack.execution, attack.persistence, attack.t1053
+-- Description: Detects the execution of the hacktool SharPersist - used to deploy various different kinds of persistence mechanisms
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM events WHERE (((CommandLine ILIKE '% -t schtask -c %' OR CommandLine ILIKE '% -t startupfolder -c %')) OR ((CommandLine ILIKE '% -t reg -c %' AND CommandLine ILIKE '% -m add%')) OR ((CommandLine ILIKE '% -t service -c %' AND CommandLine ILIKE '% -m add%')) OR ((CommandLine ILIKE '% -t schtask -c %' AND CommandLine ILIKE '% -m add%')) OR ((Image ILIKE '%\\SharPersist.exe') OR (Product = 'SharPersist')))

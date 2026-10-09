@@ -1,0 +1,13 @@
+-- Title: Potential WinAPI Calls Via PowerShell Scripts
+-- ID: 03d83090-8cba-44a0-b02f-0b756a050306
+-- Status: test
+-- Level: high
+-- Author: Nasreddine Bencherchali (Nextron Systems), Nikita Nazarov, oscd.community
+-- Date: 2020-10-06
+-- Tags: attack.execution, attack.t1059.001, attack.t1106, attack.stealth, attack.t1620
+-- Description: Detects usage of WinAPI functions in PowerShell scripts.
+-- It may indicate attempts to perform actions such as process injection, token stealing, or other malicious activities that leverage Windows API calls.
+-- These techniques are commonly used to evade traditional file-based detections by loading and executing code directly in memory.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM file WHERE (((ScriptBlockText LIKE '%OpenProcessToken%' AND ScriptBlockText LIKE '%DuplicateTokenEx%' AND ScriptBlockText LIKE '%CloseHandle%')) OR ((ScriptBlockText LIKE '%VirtualAlloc%' AND ScriptBlockText LIKE '%OpenProcess%' AND ScriptBlockText LIKE '%WriteProcessMemory%' AND ScriptBlockText LIKE '%CreateRemoteThread%')) OR ((ScriptBlockText LIKE '%VirtualAlloc%' AND ScriptBlockText LIKE '%GetDelegateForFunctionPointer%' AND ScriptBlockText LIKE '%Marshal.Copy%')) OR ((ScriptBlockText LIKE '%WriteProcessMemory%' AND ScriptBlockText LIKE '%VirtualAlloc%' AND ScriptBlockText LIKE '%ReadProcessMemory%' AND ScriptBlockText LIKE '%VirtualFree%')) OR ((ScriptBlockText LIKE '%OpenProcessToken%' AND ScriptBlockText LIKE '%LookupPrivilegeValue%' AND ScriptBlockText LIKE '%AdjustTokenPrivileges%')))

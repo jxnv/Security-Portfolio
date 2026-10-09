@@ -1,0 +1,11 @@
+// Title: Suspicious PowerShell Parent Process
+// ID: 754ed792-634f-40ae-b3bc-e0448d33f695
+// Status: test
+// Level: high
+// Author: Teymur Kheirkhabarov, Harish Segar
+// Date: 2020-03-20
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects a suspicious or uncommon parent processes of PowerShell
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(ParentImage ICONTAINS "tomcat")) OR ((where(ParentImage IENDSWITH "\\amigo.exe") OR where(ParentImage IENDSWITH "\\browser.exe") OR where(ParentImage IENDSWITH "\\chrome.exe") OR where(ParentImage IENDSWITH "\\firefox.exe") OR where(ParentImage IENDSWITH "\\httpd.exe") OR where(ParentImage IENDSWITH "\\iexplore.exe") OR where(ParentImage IENDSWITH "\\jbosssvc.exe") OR where(ParentImage IENDSWITH "\\microsoftedge.exe") OR where(ParentImage IENDSWITH "\\microsoftedgecp.exe") OR where(ParentImage IENDSWITH "\\MicrosoftEdgeSH.exe") OR where(ParentImage IENDSWITH "\\mshta.exe") OR where(ParentImage IENDSWITH "\\nginx.exe") OR where(ParentImage IENDSWITH "\\outlook.exe") OR where(ParentImage IENDSWITH "\\php-cgi.exe") OR where(ParentImage IENDSWITH "\\regsvr32.exe") OR where(ParentImage IENDSWITH "\\rundll32.exe") OR where(ParentImage IENDSWITH "\\safari.exe") OR where(ParentImage IENDSWITH "\\services.exe") OR where(ParentImage IENDSWITH "\\sqlagent.exe") OR where(ParentImage IENDSWITH "\\sqlserver.exe") OR where(ParentImage IENDSWITH "\\sqlservr.exe") OR where(ParentImage IENDSWITH "\\vivaldi.exe") OR where(ParentImage IENDSWITH "\\w3wp.exe")))) AND (((where(Image IENDSWITH "\\powershell.exe") OR where(Image IENDSWITH "\\pwsh.exe"))) OR ((where(CommandLine ICONTAINS "/c powershell") OR where(CommandLine ICONTAINS "/c pwsh"))) OR (where(Description = "Windows PowerShell")) OR (where(Product = "PowerShell Core 6")) OR ((where(OriginalFileName = "PowerShell.EXE") OR where(OriginalFileName = "pwsh.dll")))))

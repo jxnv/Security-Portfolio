@@ -1,0 +1,11 @@
+// Title: MSSQL Server Failed Logon From External Network
+// ID: ebfe73c2-5bc9-4ed9-aaa8-8b54b2b4777d
+// Status: test
+// Level: medium
+// Author: j4son
+// Date: 2023-10-11
+// Tags: attack.credential-access, attack.t1110
+// Description: Detects failed logon attempts from clients with external network IP to an MSSQL server. This can be a sign of a bruteforce attack.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((Provider_Name: "*MSSQL*" AND EventID: "18456") AND NOT (((Data: "*CLIENT: 10.*" OR Data: "*CLIENT: 172.16.*" OR Data: "*CLIENT: 172.17.*" OR Data: "*CLIENT: 172.18.*" OR Data: "*CLIENT: 172.19.*" OR Data: "*CLIENT: 172.20.*" OR Data: "*CLIENT: 172.21.*" OR Data: "*CLIENT: 172.22.*" OR Data: "*CLIENT: 172.23.*" OR Data: "*CLIENT: 172.24.*" OR Data: "*CLIENT: 172.25.*" OR Data: "*CLIENT: 172.26.*" OR Data: "*CLIENT: 172.27.*" OR Data: "*CLIENT: 172.28.*" OR Data: "*CLIENT: 172.29.*" OR Data: "*CLIENT: 172.30.*" OR Data: "*CLIENT: 172.31.*" OR Data: "*CLIENT: 192.168.*" OR Data: "*CLIENT: 127.*" OR Data: "*CLIENT: 169.254.*" OR Data: "*CLIENT: <local machine>*"))))

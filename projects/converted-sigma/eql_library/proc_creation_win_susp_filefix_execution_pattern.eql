@@ -1,0 +1,14 @@
+// Title: Suspicious FileFix Execution Pattern
+// ID: b5b29e4e-31fa-4fdf-b058-296e7a1aa0c2
+// Status: experimental
+// Level: high
+// Author: 0xFustang, Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-11-24
+// Tags: attack.execution, attack.t1204.004
+// Description: Detects suspicious FileFix execution patterns where users are tricked into running malicious commands through browser file upload dialog manipulation.
+// This attack typically begins when users visit malicious websites impersonating legitimate services or news platforms,
+// which may display fake CAPTCHA challenges or direct instructions to open file explorer and paste clipboard content.
+// The clipboard content usually contains commands that download and execute malware, such as information stealing tools.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where (((process.parent.executable endswith "\\brave.exe" or process.parent.executable endswith "\\chrome.exe" or process.parent.executable endswith "\\firefox.exe" or process.parent.executable endswith "\\msedge.exe") and process.command_line like "*_#*") and (((process.command_line like "*_account*" or process.command_line like "*_anti-bot*" or process.command_line like "*_botcheck*" or process.command_line like "*_captcha*" or process.command_line like "*_challenge*" or process.command_line like "*_confirmation*" or process.command_line like "*_fraud*" or process.command_line like "*_human*" or process.command_line like "*_identification*" or process.command_line like "*_identificator*" or process.command_line like "*_identity*" or process.command_line like "*_robot*" or process.command_line like "*_validation*" or process.command_line like "*_verification*" or process.command_line like "*_verify*")) or ((process.command_line like "*_%comspec%*" or process.command_line like "*_bitsadmin*" or process.command_line like "*_certutil*" or process.command_line like "*_cmd*" or process.command_line like "*_cscript*" or process.command_line like "*_curl*" or process.command_line like "*_finger*" or process.command_line like "*_mshta*" or process.command_line like "*_powershell*" or process.command_line like "*_pwsh*" or process.command_line like "*_regsvr32*" or process.command_line like "*_rundll32*" or process.command_line like "*_schtasks*" or process.command_line like "*_wget*" or process.command_line like "*_wscript*"))))

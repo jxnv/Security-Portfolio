@@ -1,0 +1,23 @@
+// Title: Suspicious File Drop by Exchange
+// ID: 6b269392-9eba-40b5-acb6-55c882b20ba6
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-10-04
+// Tags: attack.persistence, attack.t1190, attack.initial-access, attack.t1505.003
+// Description: Detects suspicious file type dropped by an Exchange component in IIS
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 6b269392_9eba_40b5_acb6_55c882b20ba6 {
+  meta:
+    title = "Suspicious File Drop by Exchange"
+    description = "Detects suspicious file type dropped by an Exchange component in IIS"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.process.file.full_path = /.*\\w3wp.exe$/ nocase and $e.target.process.command_line = /.*MSExchange.*/ nocase) and (($e.target.file.full_path = /.*.aspx$/ nocase or $e.target.file.full_path = /.*.asp$/ nocase or $e.target.file.full_path = /.*.ashx$/ nocase or $e.target.file.full_path = /.*.ps1$/ nocase or $e.target.file.full_path = /.*.bat$/ nocase or $e.target.file.full_path = /.*.exe$/ nocase or $e.target.file.full_path = /.*.dll$/ nocase or $e.target.file.full_path = /.*.vbs$/ nocase)))
+
+  condition:
+    $e
+}

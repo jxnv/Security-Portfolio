@@ -1,0 +1,24 @@
+// Title: Suspicious Invocation of Shell via AWK - Linux
+// ID: 8c1a5675-cb85-452f-a298-b01b22a51856
+// Status: test
+// Level: high
+// Author: Li Ling, Andy Parkidomo, Robert Rakowski, Blake Hartstein (Bloomberg L.P.)
+// Date: 2024-09-02
+// Tags: attack.execution, attack.t1059
+// Description: Detects the execution of "awk" or it's sibling commands, to invoke a shell using the system() function.
+// This behavior is commonly associated with attempts to execute arbitrary commands or escalate privileges, potentially leading to unauthorized access or further exploitation.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 8c1a5675_cb85_452f_a298_b01b22a51856 {
+  meta:
+    title = "Suspicious Invocation of Shell via AWK - Linux"
+    description = "Detects the execution of "awk" or it's sibling commands, to invoke a shell using the system() function. This behavior is commonly associated with attempts to execute arbitrary commands or escalate privileges, potentially leading to unauthorized access or further exploitation."
+    author = "Li Ling, Andy Parkidomo, Robert Rakowski, Blake Hartstein (Bloomberg L.P.)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*/bin/bash.*/ nocase or $e.target.process.command_line = /.*/bin/dash.*/ nocase or $e.target.process.command_line = /.*/bin/fish.*/ nocase or $e.target.process.command_line = /.*/bin/sh.*/ nocase or $e.target.process.command_line = /.*/bin/zsh.*/ nocase)) and (($e.target.process.file.full_path = /.*/awk$/ nocase or $e.target.process.file.full_path = /.*/gawk$/ nocase or $e.target.process.file.full_path = /.*/mawk$/ nocase or $e.target.process.file.full_path = /.*/nawk$/ nocase) and $e.target.process.command_line = /.*BEGIN {system.*/ nocase))
+
+  condition:
+    $e
+}

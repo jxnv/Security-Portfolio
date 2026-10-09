@@ -1,0 +1,23 @@
+// Title: Suspicious Manipulation Of Default Accounts Via Net.EXE
+// ID: 5b768e71-86f2-4879-b448-81061cbae951
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-09-01
+// Tags: attack.collection, attack.t1560.001
+// Description: Detects suspicious manipulations of default accounts such as 'administrator' and 'guest'. For example 'enable' or 'disable' accounts or change the password...etc
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 5b768e71_86f2_4879_b448_81061cbae951 {
+  meta:
+    title = "Suspicious Manipulation Of Default Accounts Via Net.EXE"
+    description = "Detects suspicious manipulations of default accounts such as 'administrator' and 'guest'. For example 'enable' or 'disable' accounts or change the password...etc"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((((($e.target.process.file.full_path = /.*\\net.exe$/ nocase or $e.target.process.file.full_path = /.*\\net1.exe$/ nocase)) or (($e.target.process.file.name = "net.exe" or $e.target.process.file.name = "net1.exe"))) and ($e.target.process.command_line = /.* user .*/ nocase) and (($e.target.process.command_line = /.* Järjestelmänvalvoja .*/ nocase or $e.target.process.command_line = /.* Rendszergazda .*/ nocase or $e.target.process.command_line = /.* Администратор .*/ nocase or $e.target.process.command_line = /.* Administrateur .*/ nocase or $e.target.process.command_line = /.* Administrador .*/ nocase or $e.target.process.command_line = /.* Administratör .*/ nocase or $e.target.process.command_line = /.* Administrator .*/ nocase or $e.target.process.command_line = /.* guest .*/ nocase or $e.target.process.command_line = /.* DefaultAccount .*/ nocase or $e.target.process.command_line = /.* \"Järjestelmänvalvoja\" .*/ nocase or $e.target.process.command_line = /.* \"Rendszergazda\" .*/ nocase or $e.target.process.command_line = /.* \"Администратор\" .*/ nocase or $e.target.process.command_line = /.* \"Administrateur\" .*/ nocase or $e.target.process.command_line = /.* \"Administrador\" .*/ nocase or $e.target.process.command_line = /.* \"Administratör\" .*/ nocase or $e.target.process.command_line = /.* \"Administrator\" .*/ nocase or $e.target.process.command_line = /.* \"guest\" .*/ nocase or $e.target.process.command_line = /.* \"DefaultAccount\" .*/ nocase or $e.target.process.command_line = /.* 'Järjestelmänvalvoja' .*/ nocase or $e.target.process.command_line = /.* 'Rendszergazda' .*/ nocase or $e.target.process.command_line = /.* 'Администратор' .*/ nocase or $e.target.process.command_line = /.* 'Administrateur' .*/ nocase or $e.target.process.command_line = /.* 'Administrador' .*/ nocase or $e.target.process.command_line = /.* 'Administratör' .*/ nocase or $e.target.process.command_line = /.* 'Administrator' .*/ nocase or $e.target.process.command_line = /.* 'guest' .*/ nocase or $e.target.process.command_line = /.* 'DefaultAccount' .*/ nocase))) and not((($e.target.process.command_line = /.*guest.*/ nocase and $e.target.process.command_line = /.*/active no.*/ nocase))))
+
+  condition:
+    $e
+}

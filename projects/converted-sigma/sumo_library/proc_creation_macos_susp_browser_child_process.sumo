@@ -1,0 +1,11 @@
+// Title: Suspicious Browser Child Process - MacOS
+// ID: 0250638a-2b28-4541-86fc-ea4c558fa0c6
+// Status: test
+// Level: medium
+// Author: Sohan G (D4rkCiph3r)
+// Date: 2023-04-05
+// Tags: attack.initial-access, attack.execution, attack.t1189, attack.t1203, attack.t1059
+// Description: Detects suspicious child processes spawned from browsers. This could be a result of a potential web browser exploitation.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where (((ParentImage matches "*com.apple.WebKit.WebContent*" or ParentImage matches "*firefox*" or ParentImage matches "*Google Chrome Helper*" or ParentImage matches "*Google Chrome*" or ParentImage matches "*Microsoft Edge*" or ParentImage matches "*Opera*" or ParentImage matches "*Safari*" or ParentImage matches "*Tor Browser*") and (Image matches "*/bash" or Image matches "*/curl" or Image matches "*/dash" or Image matches "*/ksh" or Image matches "*/osascript" or Image matches "*/perl" or Image matches "*/php" or Image matches "*/pwsh" or Image matches "*/python" or Image matches "*/sh" or Image matches "*/tcsh" or Image matches "*/wget" or Image matches "*/zsh")) and !((((ParentImage matches "*Google Chrome Helper*" or ParentImage matches "*Google Chrome*") and (CommandLine matches "*/Volumes/Google Chrome/Google Chrome.app/Contents/Frameworks/*/Resources/install.sh*" or CommandLine matches "*/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/*/Resources/keystone_promote_preflight.sh*" or CommandLine matches "*/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/*/Resources/keystone_promote_postflight.sh*")) or ((ParentImage matches "*Google Chrome Helper*" or ParentImage matches "*Google Chrome*") and (CommandLine matches "*/Users/*" and CommandLine matches "*/Library/Application Support/Google/Chrome/recovery/*" and CommandLine matches "*/ChromeRecovery*")) or (CommandLine matches "*--defaults-torrc*") or (CommandLine matches "*/Library/Application Support/Microsoft/MAU*/Microsoft AutoUpdate.app/Contents/MacOS/msupdate*") or (ParentImage matches "*Microsoft Edge*" and (CommandLine matches "*IOPlatformExpertDevice*" or CommandLine matches "*hw.model*")))) and !(((CommandLine = "") or (isNull(CommandLine)))))

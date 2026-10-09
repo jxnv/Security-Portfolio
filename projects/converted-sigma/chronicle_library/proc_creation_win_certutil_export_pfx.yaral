@@ -1,0 +1,23 @@
+// Title: Certificate Exported Via Certutil.EXE
+// ID: 3ffd6f51-e6c1-47b7-94b4-c1e61d4117c5
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems), Jonhnathan Ribeiro, oscd.community, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-02-15
+// Tags: attack.stealth, attack.t1027
+// Description: Detects the execution of the certutil with the "exportPFX" flag which allows the utility to export certificates.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 3ffd6f51_e6c1_47b7_94b4_c1e61d4117c5 {
+  meta:
+    title = "Certificate Exported Via Certutil.EXE"
+    description = "Detects the execution of the certutil with the "exportPFX" flag which allows the utility to export certificates."
+    author = "Florian Roth (Nextron Systems), Jonhnathan Ribeiro, oscd.community, Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.command_line = /.*-exportPFX .*/ nocase or $e.target.process.command_line = /.*/exportPFX .*/ nocase)) and (($e.target.process.file.full_path = /.*\\certutil.exe$/ nocase) or ($e.target.process.file.name = "CertUtil.exe")))
+
+  condition:
+    $e
+}

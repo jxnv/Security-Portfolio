@@ -1,0 +1,23 @@
+// Title: Systemd Service Creation
+// ID: 1bac86ba-41aa-4f62-9d6b-405eac99b485
+// Status: test
+// Level: medium
+// Author: Pawel Mazur
+// Date: 2022-02-03
+// Tags: attack.privilege-escalation, attack.persistence, attack.t1543.002
+// Description: Detects a creation of systemd services which could be used by adversaries to execute malicious code.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 1bac86ba_41aa_4f62_9d6b_405eac99b485 {
+  meta:
+    title = "Systemd Service Creation"
+    description = "Detects a creation of systemd services which could be used by adversaries to execute malicious code."
+    author = "Pawel Mazur"
+    severity = "MEDIUM"
+
+  events:
+    (($e.type = "PATH" and $e.nametype = "CREATE") and ((($e.name = /^/usr/lib/systemd/system/.*/ nocase or $e.name = /^/etc/systemd/system/.*/ nocase)) or ($e.name = /.*/.config/systemd/user/.*/ nocase)))
+
+  condition:
+    $e
+}

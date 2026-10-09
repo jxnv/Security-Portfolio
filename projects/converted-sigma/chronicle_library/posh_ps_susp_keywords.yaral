@@ -1,0 +1,23 @@
+// Title: Potential Suspicious PowerShell Keywords
+// ID: 1f49f2ab-26bc-48b3-96cc-dcffbc93eadf
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems), Perez Diego (@darkquassar), Tuan Le (NCSGroup)
+// Date: 2019-02-11
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects potentially suspicious keywords that could indicate the use of a PowerShell exploitation framework
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 1f49f2ab_26bc_48b3_96cc_dcffbc93eadf {
+  meta:
+    title = "Potential Suspicious PowerShell Keywords"
+    description = "Detects potentially suspicious keywords that could indicate the use of a PowerShell exploitation framework"
+    author = "Florian Roth (Nextron Systems), Perez Diego (@darkquassar), Tuan Le (NCSGroup)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.ScriptBlockText = /.*System.Reflection.Assembly.Load($.*/ nocase or $e.ScriptBlockText = /.*[System.Reflection.Assembly]::Load($.*/ nocase or $e.ScriptBlockText = /.*[Reflection.Assembly]::Load($.*/ nocase or $e.ScriptBlockText = /.*System.Reflection.AssemblyName.*/ nocase or $e.ScriptBlockText = /.*Reflection.Emit.AssemblyBuilderAccess.*/ nocase or $e.ScriptBlockText = /.*Reflection.Emit.CustomAttributeBuilder.*/ nocase or $e.ScriptBlockText = /.*Runtime.InteropServices.UnmanagedType.*/ nocase or $e.ScriptBlockText = /.*Runtime.InteropServices.DllImportAttribute.*/ nocase or $e.ScriptBlockText = /.*SuspendThread.*/ nocase or $e.ScriptBlockText = /.*rundll32.*/ nocase))
+
+  condition:
+    $e
+}

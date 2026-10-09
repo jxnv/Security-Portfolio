@@ -1,0 +1,13 @@
+// Title: Bad Opsec Defaults Sacrificial Processes With Improper Arguments
+// ID: a7c3d773-caef-227e-a7e7-c2f13c622329
+// Status: test
+// Level: high
+// Author: Oleg Kolesnikov @securonix invrep_de, oscd.community, Florian Roth (Nextron Systems), Christian Burkard (Nextron Systems)
+// Date: 2020-10-23
+// Tags: attack.stealth, attack.t1218.011
+// Description: Detects attackers using tooling with bad opsec defaults.
+// E.g. spawning a sacrificial process to inject a capability into the process without taking into account how the process is normally run.
+// One trivial example of this is using rundll32.exe without arguments as a sacrificial process (default in CS, now highlighted by c2lint), running WerFault without arguments (Kraken - credit am0nsec), and other examples.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((src.process.image.path endswithCIS "\\regasm.exe" AND src.process.cmdline endswithCIS "regasm.exe") OR (src.process.image.path endswithCIS "\\regsvcs.exe" AND src.process.cmdline endswithCIS "regsvcs.exe") OR (src.process.image.path endswithCIS "\\regsvr32.exe" AND src.process.cmdline endswithCIS "regsvr32.exe") OR (src.process.image.path endswithCIS "\\rundll32.exe" AND src.process.cmdline endswithCIS "rundll32.exe") OR (src.process.image.path endswithCIS "\\WerFault.exe" AND src.process.cmdline endswithCIS "WerFault.exe")) AND NOT ((((src.process.parent.image.path containsCIS "\\AppData\\Local\\BraveSoftware\\Brave-Browser\\Application\\" OR src.process.parent.image.path containsCIS "\\AppData\\Local\\Google\\Chrome\\Application\\") AND src.process.parent.image.path endswithCIS "\\Installer\\setup.exe" AND src.process.parent.cmdline containsCIS "--uninstall " AND src.process.image.path endswithCIS "\\rundll32.exe" AND src.process.cmdline endswithCIS "rundll32.exe") OR (src.process.parent.image.path containsCIS "\\AppData\\Local\\Microsoft\\EdgeUpdate\\Install\\{" AND src.process.image.path endswithCIS "\\rundll32.exe" AND src.process.cmdline endswithCIS "rundll32.exe"))))

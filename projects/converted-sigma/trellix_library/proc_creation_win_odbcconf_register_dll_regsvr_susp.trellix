@@ -1,0 +1,11 @@
+# Title: Potentially Suspicious DLL Registered Via Odbcconf.EXE
+# ID: ba4cfc11-d0fa-4d94-bf20-7c332c412e76
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2023-05-22
+# Tags: attack.stealth, attack.t1218.008
+# Description: Detects execution of "odbcconf" with the "REGSVR" action where the DLL in question doesn't contain a ".dll" extension. Which is often used as a method to evade defenses.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((CommandLine CONTAINS "REGSVR ") AND ((Image="*\\odbcconf.exe") OR (OriginalFileName == "odbcconf.exe"))) AND NOT ((CommandLine CONTAINS ".dll")))

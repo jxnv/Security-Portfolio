@@ -1,0 +1,12 @@
+// Title: Indirect Inline Command Execution Via Bash.EXE
+// ID: 5edc2273-c26f-406c-83f3-f4d948e740dd
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2021-11-24
+// Tags: attack.stealth, attack.t1202
+// Description: Detects execution of Microsoft bash launcher with the "-c" flag.
+// This can be used to potentially bypass defenses and execute Linux or Windows-based binaries directly via bash.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter ((action_process_image_command_line contains " -c ") and (((action_process_image_path endswith ":\\Windows\\System32\\bash.exe" or action_process_image_path endswith ":\\Windows\\SysWOW64\\bash.exe")) or (action_process_image_name = "Bash.exe")))

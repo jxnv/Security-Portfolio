@@ -1,0 +1,11 @@
+// Title: Suspicious Activity in Shell Commands
+// ID: 2aa1440c-9ae9-4d92-84a7-a9e5f5e31695
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2017-08-21
+// Tags: attack.execution, attack.t1059.004
+// Description: Detects suspicious shell commands used in various exploit codes (see references)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter ("wget * - http* | perl" or "wget * - http* | sh" or "wget * - http* | bash" or "python -m SimpleHTTPServer" or "-m http.server" or "import pty; pty.spawn*" or "socat exec:*" or "socat -O /tmp/*" or "socat tcp-connect*" or "*echo binary >>*" or "*wget *; chmod +x*" or "*wget *; chmod 777 *" or "*cd /tmp || cd /var/run || cd /mnt*" or "*stop;service iptables stop;*" or "*stop;SuSEfirewall2 stop;*" or "chmod 777 2020*" or "*>>/etc/rc.local" or "*base64 -d /tmp/*" or "* | base64 -d *" or "*/chmod u+s *" or "*chmod +s /tmp/*" or "*chmod u+s /tmp/*" or "* /tmp/haxhax*" or "* /tmp/ns_sploit*" or "nc -l -p *" or "cp /bin/ksh *" or "cp /bin/sh *" or "* /tmp/*.b64 *" or "*/tmp/ysocereal.jar*" or "*/tmp/x *" or "*; chmod +x /tmp/*" or "*;chmod +x /tmp/*")

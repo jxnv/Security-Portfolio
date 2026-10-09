@@ -1,0 +1,23 @@
+// Title: File Download Using ProtocolHandler.exe
+// ID: 104cdb48-a7a8-4ca7-a453-32942c6e5dcb
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2021-07-13
+// Tags: attack.stealth, attack.t1218
+// Description: Detects usage of "ProtocolHandler" to download files. Downloaded files will be located in the cache folder (for example - %LOCALAPPDATA%\Microsoft\Windows\INetCache\IE)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 104cdb48_a7a8_4ca7_a453_32942c6e5dcb {
+  meta:
+    title = "File Download Using ProtocolHandler.exe"
+    description = "Detects usage of "ProtocolHandler" to download files. Downloaded files will be located in the cache folder (for example - %LOCALAPPDATA%\Microsoft\Windows\INetCache\IE)"
+    author = "frack113"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.command_line = /.*ftp://.*/ nocase or $e.target.process.command_line = /.*http://.*/ nocase or $e.target.process.command_line = /.*https://.*/ nocase)) and (($e.target.process.file.full_path = /.*\\protocolhandler.exe$/ nocase) or ($e.target.process.file.name = "ProtocolHandler.exe")))
+
+  condition:
+    $e
+}

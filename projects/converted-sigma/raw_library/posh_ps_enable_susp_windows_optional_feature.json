@@ -1,0 +1,37 @@
+{
+  "title": "Potential Suspicious Windows Feature Enabled",
+  "id": "55c925c1-7195-426b-a136-a9396800e29b",
+  "status": "test",
+  "description": "Detects usage of the built-in PowerShell cmdlet \"Enable-WindowsOptionalFeature\" used as a Deployment Image Servicing and Management tool.\nSimilar to DISM.exe, this cmdlet is used to enumerate, install, uninstall, configure, and update features and packages in Windows images\n",
+  "author": "frack113",
+  "date": "2022-09-10",
+  "tags": [
+    "attack.stealth"
+  ],
+  "level": "medium",
+  "logsource": {
+    "product": "windows",
+    "category": "ps_script",
+    "definition": "Requirements: Script Block Logging must be enabled"
+  },
+  "detection": {
+    "selection_cmd": {
+      "ScriptBlockText|contains|all": [
+        "Enable-WindowsOptionalFeature",
+        "-Online",
+        "-FeatureName"
+      ]
+    },
+    "selection_feature": {
+      "ScriptBlockText|contains": [
+        "TelnetServer",
+        "Internet-Explorer-Optional-amd64",
+        "TFTP",
+        "SMB1Protocol",
+        "Client-ProjFS",
+        "Microsoft-Windows-Subsystem-Linux"
+      ]
+    },
+    "condition": "all of selection_*"
+  }
+}

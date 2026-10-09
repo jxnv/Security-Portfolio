@@ -1,0 +1,23 @@
+// Title: Azure Owner Removed From Application or Service Principal
+// ID: 636e30d5-3736-42ea-96b1-e6e2f8429fd6
+// Status: test
+// Level: medium
+// Author: Austin Songer @austinsonger
+// Date: 2021-09-03
+// Tags: attack.stealth
+// Description: Identifies when a owner is was removed from a application or service principal in Azure.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 636e30d5_3736_42ea_96b1_e6e2f8429fd6 {
+  meta:
+    title = "Azure Owner Removed From Application or Service Principal"
+    description = "Identifies when a owner is was removed from a application or service principal in Azure."
+    author = "Austin Songer @austinsonger"
+    severity = "MEDIUM"
+
+  events:
+    (($e.operationName = "Remove owner from service principal" or $e.operationName = "Remove owner from application"))
+
+  condition:
+    $e
+}

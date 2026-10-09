@@ -1,0 +1,11 @@
+// Title: Suspicious Obfuscated PowerShell Code
+// ID: 8d01b53f-456f-48ee-90f6-bc28e67d4e35
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-07-11
+// Tags: attack.stealth
+// Description: Detects suspicious UTF16 and base64 encoded and often obfuscated PowerShell code often used in command lines
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter ((action_process_image_command_line contains "IAAtAGIAeABvAHIAIAAwAHgA" or action_process_image_command_line contains "AALQBiAHgAbwByACAAMAB4A" or action_process_image_command_line contains "gAC0AYgB4AG8AcgAgADAAeA" or action_process_image_command_line contains "AC4ASQBuAHYAbwBrAGUAKAApACAAfAAg" or action_process_image_command_line contains "AuAEkAbgB2AG8AawBlACgAKQAgAHwAI" or action_process_image_command_line contains "ALgBJAG4AdgBvAGsAZQAoACkAIAB8AC" or action_process_image_command_line contains "AHsAMQB9AHsAMAB9ACIAIAAtAGYAI" or action_process_image_command_line contains "B7ADEAfQB7ADAAfQAiACAALQBmAC" or action_process_image_command_line contains "AewAxAH0AewAwAH0AIgAgAC0AZgAg" or action_process_image_command_line contains "AHsAMAB9AHsAMwB9ACIAIAAtAGYAI" or action_process_image_command_line contains "B7ADAAfQB7ADMAfQAiACAALQBmAC" or action_process_image_command_line contains "AewAwAH0AewAzAH0AIgAgAC0AZgAg" or action_process_image_command_line contains "AHsAMgB9AHsAMAB9ACIAIAAtAGYAI" or action_process_image_command_line contains "B7ADIAfQB7ADAAfQAiACAALQBmAC" or action_process_image_command_line contains "AewAyAH0AewAwAH0AIgAgAC0AZgAg" or action_process_image_command_line contains "AHsAMQB9AHsAMAB9ACcAIAAtAGYAI" or action_process_image_command_line contains "B7ADEAfQB7ADAAfQAnACAALQBmAC" or action_process_image_command_line contains "AewAxAH0AewAwAH0AJwAgAC0AZgAg" or action_process_image_command_line contains "AHsAMAB9AHsAMwB9ACcAIAAtAGYAI" or action_process_image_command_line contains "B7ADAAfQB7ADMAfQAnACAALQBmAC" or action_process_image_command_line contains "AewAwAH0AewAzAH0AJwAgAC0AZgAg" or action_process_image_command_line contains "AHsAMgB9AHsAMAB9ACcAIAAtAGYAI" or action_process_image_command_line contains "B7ADIAfQB7ADAAfQAnACAALQBmAC" or action_process_image_command_line contains "AewAyAH0AewAwAH0AJwAgAC0AZgAg"))

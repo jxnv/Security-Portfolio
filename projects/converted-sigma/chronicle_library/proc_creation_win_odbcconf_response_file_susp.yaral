@@ -1,0 +1,23 @@
+// Title: Suspicious Response File Execution Via Odbcconf.EXE
+// ID: 2d32dd6f-3196-4093-b9eb-1ad8ab088ca5
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-05-22
+// Tags: attack.stealth, attack.t1218.008
+// Description: Detects execution of "odbcconf" with the "-f" flag in order to load a response file with a non-".rsp" extension.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 2d32dd6f_3196_4093_b9eb_1ad8ab088ca5 {
+  meta:
+    title = "Suspicious Response File Execution Via Odbcconf.EXE"
+    description = "Detects execution of "odbcconf" with the "-f" flag in order to load a response file with a non-".rsp" extension."
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.* -f .*/ nocase) and (($e.target.process.file.full_path = /.*\\odbcconf.exe$/ nocase) or ($e.target.process.file.name = "odbcconf.exe"))) and not((($e.target.process.command_line = /.*.rsp.*/ nocase) or ($e.principal.process.file.full_path = "C:\\Windows\\System32\\runonce.exe" and $e.target.process.file.full_path = "C:\\Windows\\System32\\odbcconf.exe" and $e.target.process.command_line = /.*.exe /E /F \"C:\\WINDOWS\\system32\\odbcconf.tmp\".*/ nocase))))
+
+  condition:
+    $e
+}

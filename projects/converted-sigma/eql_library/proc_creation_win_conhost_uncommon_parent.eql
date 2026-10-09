@@ -1,0 +1,11 @@
+// Title: Conhost Spawned By Uncommon Parent Process
+// ID: cbb9e3d1-2386-4e59-912e-62f1484f7a89
+// Status: test
+// Level: medium
+// Author: Tim Rauch, Elastic (idea)
+// Date: 2022-09-28
+// Tags: attack.execution, attack.t1059
+// Description: Detects when the Console Window Host (conhost.exe) process is spawned by an uncommon parent process, which could be indicative of potential code injection activity.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where ((process.executable endswith "\\conhost.exe" and (process.parent.executable endswith "\\explorer.exe" or process.parent.executable endswith "\\lsass.exe" or process.parent.executable endswith "\\regsvr32.exe" or process.parent.executable endswith "\\rundll32.exe" or process.parent.executable endswith "\\services.exe" or process.parent.executable endswith "\\smss.exe" or process.parent.executable endswith "\\spoolsv.exe" or process.parent.executable endswith "\\svchost.exe" or process.parent.executable endswith "\\userinit.exe" or process.parent.executable endswith "\\wininit.exe" or process.parent.executable endswith "\\winlogon.exe")) and not (((process.parent.command_line like "*_-k apphost -s AppHostSvc*" or process.parent.command_line like "*_-k imgsvc*" or process.parent.command_line like "*_-k localService -p -s RemoteRegistry*" or process.parent.command_line like "*_-k LocalSystemNetworkRestricted -p -s NgcSvc*" or process.parent.command_line like "*_-k NetSvcs -p -s NcaSvc*" or process.parent.command_line like "*_-k netsvcs -p -s NetSetupSvc*" or process.parent.command_line like "*_-k netsvcs -p -s wlidsvc*" or process.parent.command_line like "*_-k NetworkService -p -s DoSvc*" or process.parent.command_line like "*_-k wsappx -p -s AppXSvc*" or process.parent.command_line like "*_-k wsappx -p -s ClipSVC*" or process.parent.command_line like "*_-k wusvcs -p -s WaaSMedicSvc*"))) and not (((process.parent.command_line like "*_C:\\Program Files (x86)\\Dropbox\\Client\\*" or process.parent.command_line like "*_C:\\Program Files\\Dropbox\\Client\\*"))))

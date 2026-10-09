@@ -1,0 +1,11 @@
+// Title: Uncommon  Assistive Technology Applications Execution Via AtBroker.EXE
+// ID: f24bcaea-0cd1-11eb-adc1-0242ac120002
+// Status: test
+// Level: medium
+// Author: Mateusz Wydra, oscd.community
+// Date: 2020-10-12
+// Tags: attack.stealth, attack.t1218
+// Description: Detects the start of a non built-in assistive technology applications via "Atbroker.EXE".
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE (((process.command_line LIKE "%start%") AND ((process.executable LIKE "%\\AtBroker.exe") OR (process.pe.original_file_name == "AtBroker.exe"))) AND NOT (((process.command_line LIKE "%animations%" OR process.command_line LIKE "%audiodescription%" OR process.command_line LIKE "%caretbrowsing%" OR process.command_line LIKE "%caretwidth%" OR process.command_line LIKE "%colorfiltering%" OR process.command_line LIKE "%cursorindicator%" OR process.command_line LIKE "%cursorscheme%" OR process.command_line LIKE "%filterkeys%" OR process.command_line LIKE "%focusborderheight%" OR process.command_line LIKE "%focusborderwidth%" OR process.command_line LIKE "%highcontrast%" OR process.command_line LIKE "%keyboardcues%" OR process.command_line LIKE "%keyboardpref%" OR process.command_line LIKE "%livecaptions%" OR process.command_line LIKE "%magnifierpane%" OR process.command_line LIKE "%messageduration%" OR process.command_line LIKE "%minimumhitradius%" OR process.command_line LIKE "%mousekeys%" OR process.command_line LIKE "%Narrator%" OR process.command_line LIKE "%osk%" OR process.command_line LIKE "%overlappedcontent%" OR process.command_line LIKE "%showsounds%" OR process.command_line LIKE "%soundsentry%" OR process.command_line LIKE "%speechreco%" OR process.command_line LIKE "%stickykeys%" OR process.command_line LIKE "%togglekeys%" OR process.command_line LIKE "%voiceaccess%" OR process.command_line LIKE "%windowarranging%" OR process.command_line LIKE "%windowtracking%" OR process.command_line LIKE "%windowtrackingtimeout%" OR process.command_line LIKE "%windowtrackingzorder%"))) AND NOT ((process.command_line LIKE "%Oracle_JavaAccessBridge%")))

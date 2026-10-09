@@ -1,0 +1,23 @@
+// Title: Potential Dropper Script Execution Via WScript/CScript/MSHTA
+// ID: cea72823-df4d-4567-950c-0b579eaf0846
+// Status: test
+// Level: medium
+// Author: Margaritis Dimitrios (idea), Florian Roth (Nextron Systems), oscd.community, Nasreddine Bencherchali (Nextron Systems), Dave Johnson
+// Date: 2019-01-16
+// Tags: attack.execution, attack.t1059.005, attack.t1059.007
+// Description: Detects wscript/cscript/mshta executions of scripts located in user directories
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule cea72823_df4d_4567_950c_0b579eaf0846 {
+  meta:
+    title = "Potential Dropper Script Execution Via WScript/CScript/MSHTA"
+    description = "Detects wscript/cscript/mshta executions of scripts located in user directories"
+    author = "Margaritis Dimitrios (idea), Florian Roth (Nextron Systems), oscd.community, Nasreddine Bencherchali (Nextron Systems), Dave Johnson"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.file.full_path = /.*\\wscript.exe$/ nocase or $e.target.process.file.full_path = /.*\\cscript.exe$/ nocase or $e.target.process.file.full_path = /.*\\mshta.exe$/ nocase)) and (($e.target.process.command_line = /.*.hta.*/ nocase or $e.target.process.command_line = /.*.js.*/ nocase or $e.target.process.command_line = /.*.jse.*/ nocase or $e.target.process.command_line = /.*.vba.*/ nocase or $e.target.process.command_line = /.*.vbe.*/ nocase or $e.target.process.command_line = /.*.vbs.*/ nocase or $e.target.process.command_line = /.*.wsf.*/ nocase or $e.target.process.command_line = /.*.wsh.*/ nocase)) and (($e.target.process.command_line = /.*:\\Perflogs\\.*/ nocase or $e.target.process.command_line = /.*:\\Temp\\.*/ nocase or $e.target.process.command_line = /.*:\\Tmp\\.*/ nocase or $e.target.process.command_line = /.*:\\Users\\Public\\.*/ nocase or $e.target.process.command_line = /.*:\\Windows\\Temp\\.*/ nocase or $e.target.process.command_line = /.*\\AppData\\Local\\Temp\\.*/ nocase or $e.target.process.command_line = /.*\\AppData\\Roaming\\Temp\\.*/ nocase or $e.target.process.command_line = /.*\\Start Menu\\Programs\\Startup\\.*/ nocase or $e.target.process.command_line = /.*\\Temporary Internet.*/ nocase or $e.target.process.command_line = /.*\\Windows\\Temp.*/ nocase or $e.target.process.command_line = /.*%LocalAppData%\\Temp\\.*/ nocase or $e.target.process.command_line = /.*%TEMP%.*/ nocase or $e.target.process.command_line = /.*%TMP%.*/ nocase)))
+
+  condition:
+    $e
+}

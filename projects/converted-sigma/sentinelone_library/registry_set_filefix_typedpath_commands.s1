@@ -1,0 +1,11 @@
+// Title: FileFix - Command Evidence in TypedPaths
+// ID: 4fee3d51-8069-4a4c-a0f7-924fcaff2c70
+// Status: experimental
+// Level: high
+// Author: Alfie Champion (delivr.to), Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-07-05
+// Tags: attack.execution, attack.t1204.004
+// Description: Detects commonly-used chained commands and strings in the most recent 'url' value of the 'TypedPaths' key, which could be indicative of a user being targeted by the FileFix technique.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((TargetObject endswithCIS "\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\TypedPaths\\url1" AND (Details containsCIS "#" AND Details containsCIS "http")) AND (((Details containsCIS "account" OR Details containsCIS "anti-bot" OR Details containsCIS "botcheck" OR Details containsCIS "captcha" OR Details containsCIS "challenge" OR Details containsCIS "confirmation" OR Details containsCIS "fraud" OR Details containsCIS "human" OR Details containsCIS "identification" OR Details containsCIS "identificator" OR Details containsCIS "identity" OR Details containsCIS "robot" OR Details containsCIS "validation" OR Details containsCIS "verification" OR Details containsCIS "verify")) OR ((Details containsCIS "%comspec%" OR Details containsCIS "bitsadmin" OR Details containsCIS "certutil" OR Details containsCIS "cmd" OR Details containsCIS "cscript" OR Details containsCIS "curl" OR Details containsCIS "finger" OR Details containsCIS "mshta" OR Details containsCIS "powershell" OR Details containsCIS "pwsh" OR Details containsCIS "regsvr32" OR Details containsCIS "rundll32" OR Details containsCIS "schtasks" OR Details containsCIS "wget" OR Details containsCIS "wscript"))))

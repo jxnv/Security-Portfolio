@@ -1,0 +1,23 @@
+// Title: Renamed VsCode Code Tunnel Execution - File Indicator
+// ID: d102b8f5-61dc-4e68-bd83-9a3187c67377
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-10-25
+// Tags: attack.command-and-control
+// Description: Detects the creation of a file with the name "code_tunnel.json" which indicate execution and usage of VsCode tunneling utility by an "Image" or "Process" other than VsCode.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule d102b8f5_61dc_4e68_bd83_9a3187c67377 {
+  meta:
+    title = "Renamed VsCode Code Tunnel Execution - File Indicator"
+    description = "Detects the creation of a file with the name "code_tunnel.json" which indicate execution and usage of VsCode tunneling utility by an "Image" or "Process" other than VsCode."
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.target.file.full_path = /.*\\code_tunnel.json$/ nocase) and not((($e.target.process.file.full_path = /.*\\code-tunnel.exe$/ nocase or $e.target.process.file.full_path = /.*\\code.exe$/ nocase))))
+
+  condition:
+    $e
+}

@@ -1,0 +1,23 @@
+// Title: Potential Persistence Via Event Viewer Events.asp
+// ID: a1e11042-a74a-46e6-b07c-c4ce8ecc239b
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-02-17
+// Tags: attack.persistence, attack.defense-impairment, attack.t1112
+// Description: Detects potential registry persistence technique using the Event Viewer "Events.asp" technique
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule a1e11042_a74a_46e6_b07c_c4ce8ecc239b {
+  meta:
+    title = "Potential Persistence Via Event Viewer Events.asp"
+    description = "Detects potential registry persistence technique using the Event Viewer "Events.asp" technique"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.TargetObject = /.*\\Microsoft\\Windows NT\\CurrentVersion\\Event Viewer\\MicrosoftRedirectionProgram.*/ nocase or $e.TargetObject = /.*\\Microsoft\\Windows NT\\CurrentVersion\\Event Viewer\\MicrosoftRedirectionURL.*/ nocase)) and not((($e.Details = "(Empty)") or ($e.target.process.file.full_path = /.*C:\\WINDOWS\\system32\\svchost.exe$/ nocase and $e.TargetObject = /.*\\Microsoft\\Windows NT\\CurrentVersion\\Event Viewer\\MicrosoftRedirectionProgram$/ nocase and $e.Details = "%%SystemRoot%%\\PCHealth\\HelpCtr\\Binaries\\HelpCtr.exe") or ($e.target.process.file.full_path = /.*C:\\WINDOWS\\system32\\svchost.exe$/ nocase and $e.TargetObject = /.*\\Microsoft\\Windows NT\\CurrentVersion\\Event Viewer\\MicrosoftRedirectionProgramCommandLineParameters$/ nocase and $e.Details = "-url hcp://services/centers/support?topic=%%s") or ($e.Details = "http://go.microsoft.com/fwlink/events.asp"))))
+
+  condition:
+    $e
+}

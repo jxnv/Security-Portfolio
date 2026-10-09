@@ -1,0 +1,11 @@
+// Title: WinSock2 Autorun Keys Modification
+// ID: d6c2ce7e-afb5-4337-9ca4-4b5254ed0565
+// Status: test
+// Level: medium
+// Author: Victor Sergeev, Daniil Yugoslavskiy, Gleb Sukhodolskiy, Timur Zinniatullin, oscd.community, Tim Shelton, frack113 (split)
+// Date: 2019-10-25
+// Tags: attack.privilege-escalation, attack.persistence, attack.t1547.001
+// Description: Detects modification of autostart extensibility point (ASEP) in registry.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+registry where ((registry.path like "*_\\System\\CurrentControlSet\\Services\\WinSock2\\Parameters*") and ((registry.path like "*_\\Protocol_Catalog9\\Catalog_Entries*" or registry.path like "*_\\NameSpace_Catalog5\\Catalog_Entries*")) and not (((registry.data.strings == "(Empty)") or (process.executable == "C:\\Windows\\System32\\MsiExec.exe") or (process.executable == "C:\\Windows\\syswow64\\MsiExec.exe"))))

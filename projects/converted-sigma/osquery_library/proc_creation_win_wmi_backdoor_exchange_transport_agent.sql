@@ -1,0 +1,11 @@
+-- Title: WMI Backdoor Exchange Transport Agent
+-- ID: 797011dc-44f4-4e6f-9f10-a8ceefbe566b
+-- Status: test
+-- Level: critical
+-- Author: Florian Roth (Nextron Systems)
+-- Date: 2019-10-11
+-- Tags: attack.privilege-escalation, attack.persistence, attack.t1546.003
+-- Description: Detects a WMI backdoor in Exchange Transport Agents via WMI event filters
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM processes WHERE ((ParentImage="*\\EdgeTransport.exe") AND NOT (((Image = 'C:\\Windows\\System32\\conhost.exe') OR (Image="C:\\Program Files\\Microsoft\\Exchange Server\\*" AND Image="*\\Bin\\OleConverter.exe"))))

@@ -1,0 +1,28 @@
+{
+  "title": "Suspicious MacOS Firmware Activity",
+  "id": "7ed2c9f7-c59d-4c82-a7e2-f859aa676099",
+  "status": "test",
+  "description": "Detects when a user manipulates with Firmward Password on MacOS. NOTE - this command has been disabled on silicon-based apple computers.",
+  "author": "Austin Songer @austinsonger",
+  "date": "2021-09-30",
+  "tags": [
+    "attack.impact"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "process_creation",
+    "product": "macos"
+  },
+  "detection": {
+    "selection1": {
+      "Image": "/usr/sbin/firmwarepasswd",
+      "CommandLine|contains": [
+        "setpasswd",
+        "full",
+        "delete",
+        "check"
+      ]
+    },
+    "condition": "selection1"
+  }
+}

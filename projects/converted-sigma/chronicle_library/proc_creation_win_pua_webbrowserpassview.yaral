@@ -1,0 +1,23 @@
+// Title: PUA - WebBrowserPassView Execution
+// ID: d0dae994-26c6-4d2d-83b5-b3c8b79ae513
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-08-20
+// Tags: attack.credential-access, attack.t1555.003
+// Description: Detects the execution of WebBrowserPassView.exe. A password recovery tool that reveals the passwords stored by the following Web browsers, Internet Explorer (Version 4.0 - 11.0), Mozilla Firefox (All Versions), Google Chrome, Safari, and Opera
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule d0dae994_26c6_4d2d_83b5_b3c8b79ae513 {
+  meta:
+    title = "PUA - WebBrowserPassView Execution"
+    description = "Detects the execution of WebBrowserPassView.exe. A password recovery tool that reveals the passwords stored by the following Web browsers, Internet Explorer (Version 4.0 - 11.0), Mozilla Firefox (All Versions), Google Chrome, Safari, and Opera"
+    author = "frack113"
+    severity = "MEDIUM"
+
+  events:
+    (($e.Description = "Web Browser Password Viewer") or ($e.target.process.file.full_path = /.*\\WebBrowserPassView.exe$/ nocase))
+
+  condition:
+    $e
+}

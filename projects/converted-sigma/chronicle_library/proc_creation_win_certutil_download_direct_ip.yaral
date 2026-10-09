@@ -1,0 +1,23 @@
+// Title: Suspicious File Downloaded From Direct IP Via Certutil.EXE
+// ID: 13e6fe51-d478-4c7e-b0f2-6da9b400a829
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-02-15
+// Tags: attack.stealth, attack.t1027, attack.command-and-control, attack.t1105
+// Description: Detects the execution of certutil with certain flags that allow the utility to download files from direct IPs.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 13e6fe51_d478_4c7e_b0f2_6da9b400a829 {
+  meta:
+    title = "Suspicious File Downloaded From Direct IP Via Certutil.EXE"
+    description = "Detects the execution of certutil with certain flags that allow the utility to download files from direct IPs."
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (((($e.target.process.command_line = /.*urlcache .*/ nocase or $e.target.process.command_line = /.*verifyctl .*/ nocase or $e.target.process.command_line = /.*URL .*/ nocase)) and (($e.target.process.command_line = /.*://1.*/ nocase or $e.target.process.command_line = /.*://2.*/ nocase or $e.target.process.command_line = /.*://3.*/ nocase or $e.target.process.command_line = /.*://4.*/ nocase or $e.target.process.command_line = /.*://5.*/ nocase or $e.target.process.command_line = /.*://6.*/ nocase or $e.target.process.command_line = /.*://7.*/ nocase or $e.target.process.command_line = /.*://8.*/ nocase or $e.target.process.command_line = /.*://9.*/ nocase)) and (($e.target.process.file.full_path = /.*\\certutil.exe$/ nocase) or ($e.target.process.file.name = "CertUtil.exe"))) and not(($e.target.process.command_line = /.*://7-.*/ nocase)))
+
+  condition:
+    $e
+}

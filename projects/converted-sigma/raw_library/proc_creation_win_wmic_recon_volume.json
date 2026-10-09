@@ -1,0 +1,50 @@
+{
+  "title": "System Disk And Volume Reconnaissance Via Wmic.EXE",
+  "id": "c79da740-5030-45ec-a2e0-479e824a562c",
+  "status": "test",
+  "description": "An adversary might use WMI to discover information about the system, such as the volume name, size,\nfree space, and other disk information. This can be done using the 'wmic' command-line utility and has been\nobserved being used by threat actors such as Volt Typhoon.\n",
+  "author": "Stephen Lincoln '@slincoln-aiq' (AttackIQ)",
+  "date": "2024-02-02",
+  "tags": [
+    "attack.execution",
+    "attack.discovery",
+    "attack.t1047",
+    "attack.t1082"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_img": [
+      {
+        "Image|endswith": "\\WMIC.exe"
+      },
+      {
+        "OriginalFileName": "wmic.exe"
+      }
+    ],
+    "selection_cli": [
+      {
+        "CommandLine|contains": [
+          " volumename",
+          " logicaldisk"
+        ]
+      },
+      {
+        "CommandLine|contains|all": [
+          "path",
+          "win32_logicaldisk"
+        ]
+      },
+      {
+        "CommandLine|contains|all": [
+          " volume",
+          " list "
+        ]
+      }
+    ],
+    "condition": "all of selection_*"
+  }
+}

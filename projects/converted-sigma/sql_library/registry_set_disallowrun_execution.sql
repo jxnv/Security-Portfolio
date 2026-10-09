@@ -1,0 +1,11 @@
+-- Title: Add DisallowRun Execution to Registry
+-- ID: 275641a5-a492-45e2-a817-7c81e9d9d3e9
+-- Status: test
+-- Level: medium
+-- Author: frack113
+-- Date: 2022-08-19
+-- Tags: attack.persistence, attack.defense-impairment, attack.t1112
+-- Description: Detect set DisallowRun to 1 to prevent user running specific computer program
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE (TargetObject ILIKE '%Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\DisallowRun' AND Details = 'DWORD (0x00000001)')

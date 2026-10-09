@@ -1,0 +1,64 @@
+{
+  "title": "Potential Python DLL SideLoading",
+  "id": "d36f7c12-14a3-4d48-b6b8-774b9c66f44d",
+  "status": "test",
+  "description": "Detects potential DLL sideloading of Python DLL files.",
+  "author": "Swachchhanda Shrawan Poudel",
+  "date": "2024-10-06",
+  "tags": [
+    "attack.privilege-escalation",
+    "attack.persistence",
+    "attack.execution",
+    "attack.stealth",
+    "attack.t1574.001"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "image_load",
+    "product": "windows"
+  },
+  "detection": {
+    "selection": {
+      "ImageLoaded|endswith": [
+        "\\python39.dll",
+        "\\python310.dll",
+        "\\python311.dll",
+        "\\python312.dll"
+      ]
+    },
+    "filter_main_default_install_paths": [
+      {
+        "ImageLoaded|startswith": [
+          "C:\\Program Files\\Python3",
+          "C:\\Program Files (x86)\\Python3"
+        ]
+      },
+      {
+        "ImageLoaded|contains": "\\AppData\\Local\\Programs\\Python\\Python3"
+      }
+    ],
+    "filter_optional_visual_studio": {
+      "ImageLoaded|startswith": "C:\\Program Files\\Microsoft Visual Studio\\"
+    },
+    "filter_optional_anaconda": {
+      "ImageLoaded|startswith": "C:\\ProgramData\\Anaconda3\\"
+    },
+    "filter_optional_cpython": {
+      "ImageLoaded|contains": [
+        "\\cpython\\externals\\",
+        "\\cpython\\PCbuild\\"
+      ]
+    },
+    "filter_optional_pyinstaller": {
+      "ImageLoaded|startswith": "C:\\Users",
+      "ImageLoaded|contains": "\\AppData\\Local\\Temp\\_MEI"
+    },
+    "filter_main_legit_signature_details": {
+      "Product": "Python",
+      "Signed": "true",
+      "Description": "Python",
+      "Company": "Python Software Foundation"
+    },
+    "condition": "selection and not 1 of filter_main_* and not 1 of filter_optional_*"
+  }
+}

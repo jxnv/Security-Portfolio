@@ -1,0 +1,11 @@
+-- Title: Registry Modification to Hidden File Extension
+-- ID: 5df86130-4e95-4a54-90f7-26541b40aec2
+-- Status: test
+-- Level: medium
+-- Author: frack113
+-- Date: 2022-01-22
+-- Tags: attack.persistence, attack.t1137
+-- Description: Hides the file extension through modification of the registry
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE ((TargetObject ILIKE '%\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\Hidden' AND Details = 'DWORD (0x00000002)') OR (TargetObject ILIKE '%\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\HideFileExt' AND Details = 'DWORD (0x00000001)'))

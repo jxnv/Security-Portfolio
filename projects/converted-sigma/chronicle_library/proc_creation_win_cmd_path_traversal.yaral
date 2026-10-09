@@ -1,0 +1,23 @@
+// Title: Potential CommandLine Path Traversal Via Cmd.EXE
+// ID: 087790e3-3287-436c-bccf-cbd0184a7db1
+// Status: test
+// Level: high
+// Author: xknow @xknow_infosec, Tim Shelton
+// Date: 2020-06-11
+// Tags: attack.execution, attack.t1059.003
+// Description: Detects potential path traversal attempt via cmd.exe. Could indicate possible command/argument confusion/hijacking
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 087790e3_3287_436c_bccf_cbd0184a7db1 {
+  meta:
+    title = "Potential CommandLine Path Traversal Via Cmd.EXE"
+    description = "Detects potential path traversal attempt via cmd.exe. Could indicate possible command/argument confusion/hijacking"
+    author = "xknow @xknow_infosec, Tim Shelton"
+    severity = "HIGH"
+
+  events:
+    ((((($e.principal.process.command_line = /.*/c.*/ nocase or $e.principal.process.command_line = /.*/k.*/ nocase or $e.principal.process.command_line = /.*/r.*/ nocase)) or (($e.target.process.command_line = /.*/c.*/ nocase or $e.target.process.command_line = /.*/k.*/ nocase or $e.target.process.command_line = /.*/r.*/ nocase))) and (($e.principal.process.file.full_path = /.*\\cmd.exe$/ nocase) or ($e.target.process.file.full_path = /.*\\cmd.exe$/ nocase) or ($e.target.process.file.name = "cmd.exe")) and (($e.principal.process.command_line = "/../../") or ($e.target.process.command_line = /.*/../../.*/ nocase))) and not(($e.target.process.command_line = /.*\\Tasktop\\keycloak\\bin\\/../../jre\\bin\\java.*/ nocase)))
+
+  condition:
+    $e
+}

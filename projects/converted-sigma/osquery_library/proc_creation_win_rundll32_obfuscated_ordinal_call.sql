@@ -1,0 +1,11 @@
+-- Title: Potential Obfuscated Ordinal Call Via Rundll32
+-- ID: 43fa5350-db63-4b8f-9a01-789a427074e1
+-- Status: test
+-- Level: medium
+-- Author: Nasreddine Bencherchali (Nextron Systems), Swachchhanda Shrawan Poudel (Nextron Systems)
+-- Date: 2023-05-17
+-- Tags: attack.stealth, attack.t1027.010
+-- Description: Detects execution of "rundll32" with potential obfuscated ordinal calls
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM processes WHERE (((CommandLine LIKE '%#+%' OR CommandLine LIKE '%#-%' OR CommandLine LIKE '%#0%' OR CommandLine LIKE '%#655%' OR CommandLine LIKE '%#656%')) AND ((Image="*\\rundll32.exe") OR (OriginalFileName = 'RUNDLL32.EXE') OR (CommandLine LIKE '%rundll32%')))

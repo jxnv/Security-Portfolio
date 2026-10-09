@@ -1,0 +1,12 @@
+// Title: Suspicious ShellExec_RunDLL Call Via Ordinal
+// ID: 8823e85d-31d8-473e-b7f4-92da070f0fc6
+// Status: test
+// Level: high
+// Author: Swachchhanda Shrawan Poudel
+// Date: 2024-12-01
+// Tags: attack.stealth, attack.t1218.011
+// Description: Detects suspicious call to the "ShellExec_RunDLL" exported function of SHELL32.DLL through the ordinal number to launch other commands.
+// Adversary might only use the ordinal number in order to bypass existing detection that alert on usage of ShellExec_RunDLL on CommandLine.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where (((process.parent.command_line like "*_SHELL32.DLL*") and ((process.parent.command_line like "*_#568*" or process.parent.command_line like "*_#570*" or process.parent.command_line like "*_#572*" or process.parent.command_line like "*_#576*"))) and (((process.executable endswith "\\bash.exe" or process.executable endswith "\\bitsadmin.exe" or process.executable endswith "\\cmd.exe" or process.executable endswith "\\cscript.exe" or process.executable endswith "\\curl.exe" or process.executable endswith "\\mshta.exe" or process.executable endswith "\\msiexec.exe" or process.executable endswith "\\msxsl.exe" or process.executable endswith "\\odbcconf.exe" or process.executable endswith "\\powershell.exe" or process.executable endswith "\\pwsh.exe" or process.executable endswith "\\regsvr32.exe" or process.executable endswith "\\schtasks.exe" or process.executable endswith "\\wmic.exe" or process.executable endswith "\\wscript.exe")) or (((process.parent.command_line like "*_comspec*" or process.parent.command_line like "*_iex*" or process.parent.command_line like "*_Invoke-*" or process.parent.command_line like "*_msiexec*" or process.parent.command_line like "*_odbcconf*" or process.parent.command_line like "*_regsvr32*")) or ((process.parent.command_line like "*_\\Desktop\\*" or process.parent.command_line like "*_\\ProgramData\\*" or process.parent.command_line like "*_\\Temp\\*" or process.parent.command_line like "*_\\Users\\Public\\*")))))

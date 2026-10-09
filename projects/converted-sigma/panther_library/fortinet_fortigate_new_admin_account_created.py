@@ -1,0 +1,19 @@
+# Title: FortiGate - New Administrator Account Created
+# ID: cd0a4943-0edd-42cf-b50c-06f77a10d4c1
+# Status: experimental
+# Level: medium
+# Author: Marco Pedrinazzi (@pedrinazziM) (InTheCyber)
+# Date: 2025-11-01
+# Tags: attack.persistence, attack.t1136.001
+# Description: Detects the creation of an administrator account on a Fortinet FortiGate Firewall.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: FortiGate - New Administrator Account Created
+def rule(event):
+    # Detection Logic:
+    # (action="Add" AND cfgpath="system.admin")
+    return True
+
+def title(event):
+    return "FortiGate - New Administrator Account Created"
+

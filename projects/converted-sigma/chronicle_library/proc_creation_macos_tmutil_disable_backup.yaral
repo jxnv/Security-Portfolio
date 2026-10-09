@@ -1,0 +1,24 @@
+// Title: Time Machine Backup Disabled Via Tmutil - MacOS
+// ID: 2c95fa8a-8b8d-4787-afce-7117ceb8e3da
+// Status: test
+// Level: medium
+// Author: Pratinav Chandra
+// Date: 2024-05-29
+// Tags: attack.impact, attack.t1490
+// Description: Detects disabling of Time Machine (Apple's automated backup utility software) via the native macOS backup utility "tmutil".
+// An attacker can use this to prevent backups from occurring.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 2c95fa8a_8b8d_4787_afce_7117ceb8e3da {
+  meta:
+    title = "Time Machine Backup Disabled Via Tmutil - MacOS"
+    description = "Detects disabling of Time Machine (Apple's automated backup utility software) via the native macOS backup utility "tmutil". An attacker can use this to prevent backups from occurring."
+    author = "Pratinav Chandra"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.process.command_line = /.*disable.*/ nocase) and (($e.target.process.file.full_path = /.*/tmutil$/ nocase) or ($e.target.process.command_line = /.*tmutil.*/ nocase)))
+
+  condition:
+    $e
+}

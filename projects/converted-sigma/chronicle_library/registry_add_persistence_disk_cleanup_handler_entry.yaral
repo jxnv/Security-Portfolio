@@ -1,0 +1,28 @@
+// Title: Potential Persistence Via Disk Cleanup Handler - Registry
+// ID: d4f4e0be-cf12-439f-9e25-4e2cdcf7df5a
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-07-21
+// Tags: attack.persistence
+// Description: Detects when an attacker modifies values of the Disk Cleanup Handler in the registry to achieve persistence.
+// The disk cleanup manager is part of the operating system. It displays the dialog box […]
+// The user has the option of enabling or disabling individual handlers by selecting or clearing their check box in the disk cleanup manager's UI.
+// Although Windows comes with a number of disk cleanup handlers, they aren't designed to handle files produced by other applications.
+// Instead, the disk cleanup manager is designed to be flexible and extensible by enabling any developer to implement and register their own disk cleanup handler.
+// Any developer can extend the available disk cleanup services by implementing and registering a disk cleanup handler.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule d4f4e0be_cf12_439f_9e25_4e2cdcf7df5a {
+  meta:
+    title = "Potential Persistence Via Disk Cleanup Handler - Registry"
+    description = "Detects when an attacker modifies values of the Disk Cleanup Handler in the registry to achieve persistence. The disk cleanup manager is part of the operating system. It displays the dialog box […] The user has the option of enabling or disabling individual handlers by selecting or clearing their check box in the disk cleanup manager's UI. Although Windows comes with a number of disk cleanup handlers, they aren't designed to handle files produced by other applications. Instead, the disk cleanup manager is designed to be flexible and extensible by enabling any developer to implement and register their own disk cleanup handler. Any developer can extend the available disk cleanup services by implementing and registering a disk cleanup handler."
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.EventType = "CreateKey" and $e.TargetObject = /.*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\VolumeCaches\\.*/ nocase) and not((($e.TargetObject = /.*\\Active Setup Temp Folders$/ nocase or $e.TargetObject = /.*\\BranchCache$/ nocase or $e.TargetObject = /.*\\Content Indexer Cleaner$/ nocase or $e.TargetObject = /.*\\D3D Shader Cache$/ nocase or $e.TargetObject = /.*\\Delivery Optimization Files$/ nocase or $e.TargetObject = /.*\\Device Driver Packages$/ nocase or $e.TargetObject = /.*\\Diagnostic Data Viewer database files$/ nocase or $e.TargetObject = /.*\\Downloaded Program Files$/ nocase or $e.TargetObject = /.*\\DownloadsFolder$/ nocase or $e.TargetObject = /.*\\Feedback Hub Archive log files$/ nocase or $e.TargetObject = /.*\\Internet Cache Files$/ nocase or $e.TargetObject = /.*\\Language Pack$/ nocase or $e.TargetObject = /.*\\Microsoft Office Temp Files$/ nocase or $e.TargetObject = /.*\\Offline Pages Files$/ nocase or $e.TargetObject = /.*\\Old ChkDsk Files$/ nocase or $e.TargetObject = /.*\\Previous Installations$/ nocase or $e.TargetObject = /.*\\Recycle Bin$/ nocase or $e.TargetObject = /.*\\RetailDemo Offline Content$/ nocase or $e.TargetObject = /.*\\Setup Log Files$/ nocase or $e.TargetObject = /.*\\System error memory dump files$/ nocase or $e.TargetObject = /.*\\System error minidump files$/ nocase or $e.TargetObject = /.*\\Temporary Files$/ nocase or $e.TargetObject = /.*\\Temporary Setup Files$/ nocase or $e.TargetObject = /.*\\Temporary Sync Files$/ nocase or $e.TargetObject = /.*\\Thumbnail Cache$/ nocase or $e.TargetObject = /.*\\Update Cleanup$/ nocase or $e.TargetObject = /.*\\Upgrade Discarded Files$/ nocase or $e.TargetObject = /.*\\User file versions$/ nocase or $e.TargetObject = /.*\\Windows Defender$/ nocase or $e.TargetObject = /.*\\Windows Error Reporting Files$/ nocase or $e.TargetObject = /.*\\Windows ESD installation files$/ nocase or $e.TargetObject = /.*\\Windows Upgrade Log Files$/ nocase))))
+
+  condition:
+    $e
+}

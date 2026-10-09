@@ -1,0 +1,11 @@
+// Title: PUA - System Informer Execution
+// ID: 5722dff1-4bdd-4949-86ab-fbaf707e767a
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems)
+// Date: 2023-05-08
+// Tags: attack.persistence, attack.privilege-escalation, attack.discovery, attack.stealth, attack.t1082, attack.t1564, attack.t1543
+// Description: Detects the execution of System Informer, a task manager tool to view and manipulate processes, kernel options and other low level operations
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter ((action_process_image_path endswith "\\SystemInformer.exe") or (action_process_image_name = "SystemInformer.exe") or (Description = "System Informer") or (Product = "System Informer") or ((Hashes contains "MD5=19426363A37C03C3ED6FEDF57B6696EC" or Hashes contains "SHA1=8B12C6DA8FAC0D5E8AB999C31E5EA04AF32D53DC" or Hashes contains "SHA256=8EE9D84DE50803545937A63C686822388A3338497CDDB660D5D69CF68B68F287" or Hashes contains "IMPHASH=B68908ADAEB5D662F87F2528AF318F12")))

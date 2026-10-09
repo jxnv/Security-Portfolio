@@ -1,0 +1,12 @@
+// Title: Cmd.EXE Missing Space Characters Execution Anomaly
+// ID: a16980c2-0c56-4de0-9a79-17971979efdd
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-08-23
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects Windows command lines that miss a space before or after the /c flag when running a command using the cmd.exe.
+// This could be a sign of obfuscation of a fat finger problem (typo by the developer).
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where ((((process.command_line like "*_cmd.exe/c*" or process.command_line like "*_\\cmd/c*" or process.command_line like "*_\"cmd/c*" or process.command_line like "*_cmd.exe/k*" or process.command_line like "*_\\cmd/k*" or process.command_line like "*_\"cmd/k*" or process.command_line like "*_cmd.exe/r*" or process.command_line like "*_\\cmd/r*" or process.command_line like "*_\"cmd/r*")) or ((process.command_line like "*_/cwhoami*" or process.command_line like "*_/cpowershell*" or process.command_line like "*_/cschtasks*" or process.command_line like "*_/cbitsadmin*" or process.command_line like "*_/ccertutil*" or process.command_line like "*_/kwhoami*" or process.command_line like "*_/kpowershell*" or process.command_line like "*_/kschtasks*" or process.command_line like "*_/kbitsadmin*" or process.command_line like "*_/kcertutil*")) or ((process.command_line like "*_cmd.exe /c*" or process.command_line like "*_cmd /c*" or process.command_line like "*_cmd.exe /k*" or process.command_line like "*_cmd /k*" or process.command_line like "*_cmd.exe /r*" or process.command_line like "*_cmd /r*"))) and not ((((process.command_line like "*_AppData\\Local\\Programs\\Microsoft VS Code\\resources\\app\\node_modules*") or (process.command_line endswith "cmd.exe/c .") or (process.command_line == "cmd.exe /c") or (process.command_line == "cmd /c")) or ((process.command_line like "*_cmd.exe /c *" or process.command_line like "*_cmd /c *" or process.command_line like "*_cmd.exe /k *" or process.command_line like "*_cmd /k *" or process.command_line like "*_cmd.exe /r *" or process.command_line like "*_cmd /r *")))))

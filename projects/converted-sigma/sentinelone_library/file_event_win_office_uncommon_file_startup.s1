@@ -1,0 +1,11 @@
+// Title: Uncommon File Created In Office Startup Folder
+// ID: a10a2c40-2c4d-49f8-b557-1a946bc55d9d
+// Status: test
+// Level: high
+// Author: frack113, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-06-05
+// Tags: attack.resource-development, attack.t1587.001
+// Description: Detects the creation of a file with an uncommon extension in an Office application startup folder
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((((tgt.file.path containsCIS "\\Microsoft\\Word\\STARTUP") OR ((tgt.file.path containsCIS "\\Office" AND tgt.file.path containsCIS "\\Program Files" AND tgt.file.path containsCIS "\\STARTUP"))) AND NOT (((tgt.file.path endswithCIS ".docb" OR tgt.file.path endswithCIS ".docm" OR tgt.file.path endswithCIS ".docx" OR tgt.file.path endswithCIS ".dotm" OR tgt.file.path endswithCIS ".mdb" OR tgt.file.path endswithCIS ".mdw" OR tgt.file.path endswithCIS ".pdf" OR tgt.file.path endswithCIS ".wll" OR tgt.file.path endswithCIS ".wwl")))) OR (((tgt.file.path containsCIS "\\Microsoft\\Excel\\XLSTART") OR ((tgt.file.path containsCIS "\\Office" AND tgt.file.path containsCIS "\\Program Files" AND tgt.file.path containsCIS "\\XLSTART"))) AND NOT (((tgt.file.path endswithCIS ".xll" OR tgt.file.path endswithCIS ".xls" OR tgt.file.path endswithCIS ".xlsm" OR tgt.file.path endswithCIS ".xlsx" OR tgt.file.path endswithCIS ".xlt" OR tgt.file.path endswithCIS ".xltm" OR tgt.file.path endswithCIS ".xlw"))))) AND NOT ((((src.process.image.path containsCIS ":\\Program Files\\Microsoft Office\\" OR src.process.image.path containsCIS ":\\Program Files (x86)\\Microsoft Office\\") AND (src.process.image.path endswithCIS "\\winword.exe" OR src.process.image.path endswithCIS "\\excel.exe")) OR (src.process.image.path containsCIS ":\\Program Files\\Common Files\\Microsoft Shared\\ClickToRun\\" AND src.process.image.path endswithCIS "\\OfficeClickToRun.exe"))))

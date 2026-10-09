@@ -1,0 +1,11 @@
+# Title: Disabling Security Tools
+# ID: e3a8a052-111f-4606-9aee-f28ebeb76776
+# Status: test
+# Level: medium
+# Author: Ömer Günal, Alejandro Ortuno, oscd.community
+# Date: 2020-06-17
+# Tags: attack.defense-impairment, attack.t1686
+# Description: Detects disabling security tools
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((Image:*/service AND (CommandLine:*cbdaemon* AND CommandLine:*stop*)) OR (Image:*/chkconfig AND (CommandLine:*cbdaemon* AND CommandLine:*off*)) OR (Image:*/systemctl AND (CommandLine:*cbdaemon* AND CommandLine:*stop*)) OR (Image:*/systemctl AND (CommandLine:*cbdaemon* AND CommandLine:*disable*)) OR (Image:*/systemctl AND (CommandLine:*stop* AND CommandLine:*falcon-sensor*)) OR (Image:*/systemctl AND (CommandLine:*disable* AND CommandLine:*falcon-sensor*)) OR (Image:*/systemctl AND (CommandLine:*firewalld* AND CommandLine:*stop*)) OR (Image:*/systemctl AND (CommandLine:*firewalld* AND CommandLine:*disable*)) OR (Image:*/service AND (CommandLine:*iptables* AND CommandLine:*stop*)) OR (Image:*/service AND (CommandLine:*ip6tables* AND CommandLine:*stop*)) OR (Image:*/chkconfig AND (CommandLine:*iptables* AND CommandLine:*stop*)) OR (Image:*/chkconfig AND (CommandLine:*ip6tables* AND CommandLine:*stop*)) OR (Image:*/setenforce AND CommandLine:*0*))

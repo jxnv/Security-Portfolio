@@ -1,0 +1,23 @@
+// Title: Suspicious Non-Browser Network Communication With Google API
+// ID: 7e9cf7b6-e827-11ed-a05b-0242ac120003
+// Status: experimental
+// Level: medium
+// Author: Gavin Knapp
+// Date: 2023-05-01
+// Tags: attack.command-and-control, attack.t1102
+// Description: Detects a non-browser process interacting with the Google API which could indicate the use of a covert C2 such as Google Sheet C2 (GC2-sheet)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 7e9cf7b6_e827_11ed_a05b_0242ac120003 {
+  meta:
+    title = "Suspicious Non-Browser Network Communication With Google API"
+    description = "Detects a non-browser process interacting with the Google API which could indicate the use of a covert C2 such as Google Sheet C2 (GC2-sheet)"
+    author = "Gavin Knapp"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.DestinationHostname = /.*drive.googleapis.com.*/ nocase or $e.DestinationHostname = /.*oauth2.googleapis.com.*/ nocase or $e.DestinationHostname = /.*sheets.googleapis.com.*/ nocase or $e.DestinationHostname = /.*www.googleapis.com.*/ nocase)) and not((($e.target.process.file.full_path = "") or (not ($e.target.process.file.full_path = /.*/)))) and not((($e.target.process.file.full_path = /.*\\brave.exe$/ nocase) or (($e.target.process.file.full_path = /.*:\\Program Files\\Google\\Chrome\\Application\\chrome.exe$/ nocase or $e.target.process.file.full_path = /.*:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe$/ nocase)) or (($e.target.process.file.full_path = /.*:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\.*/ nocase) or (($e.target.process.file.full_path = /.*:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe$/ nocase or $e.target.process.file.full_path = /.*:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe$/ nocase or $e.target.process.file.full_path = /.*\\WindowsApps\\MicrosoftEdge.exe$/ nocase))) or (($e.target.process.file.full_path = /.*:\\Program Files (x86)\\Microsoft\\EdgeCore\\.*/ nocase or $e.target.process.file.full_path = /.*:\\Program Files\\Microsoft\\EdgeCore\\.*/ nocase) and ($e.target.process.file.full_path = /.*\\msedge.exe$/ nocase or $e.target.process.file.full_path = /.*\\msedgewebview2.exe$/ nocase)) or (($e.target.process.file.full_path = /.*:\\Program Files\\Mozilla Firefox\\firefox.exe$/ nocase or $e.target.process.file.full_path = /.*:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe$/ nocase)) or ($e.target.process.file.full_path = /.*:\\Program Files\\Google\\Drive File Stream\\.*/ nocase and $e.target.process.file.full_path = /.*\\GoogleDriveFS.exe$/ nocase) or ($e.target.process.file.full_path = /.*\\GoogleUpdate.exe$/ nocase) or (($e.target.process.file.full_path = /.*:\\Program Files (x86)\\Internet Explorer\\iexplore.exe$/ nocase or $e.target.process.file.full_path = /.*:\\Program Files\\Internet Explorer\\iexplore.exe$/ nocase)) or ($e.target.process.file.full_path = /.*\\maxthon.exe$/ nocase) or ($e.target.process.file.full_path = /.*\\opera.exe$/ nocase) or ($e.target.process.file.full_path = /.*\\outlook.exe$/ nocase) or ($e.target.process.file.full_path = /.*\\safari.exe$/ nocase) or ($e.target.process.file.full_path = /.*\\seamonkey.exe$/ nocase) or ($e.target.process.file.full_path = /.*\\vivaldi.exe$/ nocase) or ($e.target.process.file.full_path = /.*\\whale.exe$/ nocase))))
+
+  condition:
+    $e
+}

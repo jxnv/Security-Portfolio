@@ -1,0 +1,21 @@
+# Title: Potential Homoglyph Attack Using Lookalike Characters in Filename
+# ID: 4f1707b1-b50b-45b4-b5a2-3978b5a5d0d6
+# Status: test
+# Level: medium
+# Author: Micah Babinski, @micahbabinski
+# Date: 2023-05-08
+# Tags: attack.stealth, attack.t1036, attack.t1036.003
+# Description: Detects the presence of unicode characters which are homoglyphs, or identical in appearance, to ASCII letter characters.
+# This is used as an obfuscation and masquerading techniques. Only "perfect" homoglyphs are included; these are characters that
+# are indistinguishable from ASCII characters and thus may make excellent candidates for homoglyph attack characters.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Potential Homoglyph Attack Using Lookalike Characters in Filename
+def rule(event):
+    # Detection Logic:
+    # (((TargetFilename="*а*" OR TargetFilename="*е*" OR TargetFilename="*о*" OR TargetFilename="*р*" OR TargetFilename="*с*" OR TargetFilename="*х*" OR TargetFilename="*ѕ*" OR TargetFilename="*і*" OR TargetFilename="*ӏ*" OR TargetFilename="*ј*" OR TargetFilename="*һ*" OR TargetFilename="*ԁ*" OR TargetFilename="*ԛ*" OR TargetFilename="*ԝ*" OR TargetFilename="*ο*")) OR ((TargetFilename="*А*" OR TargetFilename="*В*" OR TargetFilename="*Е*" OR TargetFilename="*К*" OR TargetFilename="*М*" OR TargetFilename="*Н*" OR TargetFilename="*О*" OR TargetFilename="*Р*" OR TargetFilename="*С*" OR TargetFilename="*Т*" OR TargetFilename="*Х*" OR TargetFilename="*Ѕ*" OR TargetFilename="*І*" OR TargetFilename="*Ј*" OR TargetFilename="*Ү*" OR TargetFilename="*Ӏ*" OR TargetFilename="*Ԍ*" OR TargetFilename="*Ԛ*" OR TargetFilename="*Ԝ*" OR TargetFilename="*Α*" OR TargetFilename="*Β*" OR TargetFilename="*Ε*" OR TargetFilename="*Ζ*" OR TargetFilename="*Η*" OR TargetFilename="*Ι*" OR TargetFilename="*Κ*" OR TargetFilename="*Μ*" OR TargetFilename="*Ν*" OR TargetFilename="*Ο*" OR TargetFilename="*Ρ*" OR TargetFilename="*Τ*" OR TargetFilename="*Υ*" OR TargetFilename="*Χ*")))
+    return True
+
+def title(event):
+    return "Potential Homoglyph Attack Using Lookalike Characters in Filename"
+

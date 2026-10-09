@@ -1,0 +1,11 @@
+-- Title: AADInternals PowerShell Cmdlets Execution - ProccessCreation
+-- ID: c86500e9-a645-4680-98d7-f882c70c1ea3
+-- Status: test
+-- Level: high
+-- Author: Austin Songer (@austinsonger), Nasreddine Bencherchali (Nextron Systems), Swachchhanda Shrawan Poudel (Nextron Systems)
+-- Date: 2022-12-23
+-- Tags: attack.execution, attack.reconnaissance, attack.discovery, attack.credential-access, attack.impact
+-- Description: Detects ADDInternals Cmdlet execution. A tool for administering Azure AD and Office 365. Which can be abused by threat actors to attack Azure AD or Office 365.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE (((CommandLine ILIKE '%Add-AADInt%' OR CommandLine ILIKE '%ConvertTo-AADInt%' OR CommandLine ILIKE '%Disable-AADInt%' OR CommandLine ILIKE '%Enable-AADInt%' OR CommandLine ILIKE '%Export-AADInt%' OR CommandLine ILIKE '%Find-AADInt%' OR CommandLine ILIKE '%Get-AADInt%' OR CommandLine ILIKE '%Grant-AADInt%' OR CommandLine ILIKE '%Initialize-AADInt%' OR CommandLine ILIKE '%Install-AADInt%' OR CommandLine ILIKE '%Invoke-AADInt%' OR CommandLine ILIKE '%Join-AADInt%' OR CommandLine ILIKE '%New-AADInt%' OR CommandLine ILIKE '%Open-AADInt%' OR CommandLine ILIKE '%Read-AADInt%' OR CommandLine ILIKE '%Register-AADInt%' OR CommandLine ILIKE '%Remove-AADInt%' OR CommandLine ILIKE '%Reset-AADInt%' OR CommandLine ILIKE '%Resolve-AADInt%' OR CommandLine ILIKE '%Restore-AADInt%' OR CommandLine ILIKE '%Save-AADInt%' OR CommandLine ILIKE '%Search-AADInt%' OR CommandLine ILIKE '%Send-AADInt%' OR CommandLine ILIKE '%Set-AADInt%' OR CommandLine ILIKE '%Start-AADInt%' OR CommandLine ILIKE '%Unprotect-AADInt%' OR CommandLine ILIKE '%Update-AADInt%')) AND (((Image ILIKE '%\\powershell.exe' OR Image ILIKE '%\\powershell_ise.exe' OR Image ILIKE '%\\pwsh.exe')) OR ((OriginalFileName = 'PowerShell.Exe' OR OriginalFileName = 'pwsh.dll'))))

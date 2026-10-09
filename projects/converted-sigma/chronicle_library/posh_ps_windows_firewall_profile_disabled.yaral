@@ -1,0 +1,23 @@
+// Title: Windows Firewall Profile Disabled
+// ID: 488b44e7-3781-4a71-888d-c95abfacf44d
+// Status: test
+// Level: medium
+// Author: Austin Songer @austinsonger
+// Date: 2021-10-12
+// Tags: attack.defense-impairment, attack.t1686.003
+// Description: Detects when a user disables the Windows Firewall via a Profile to help evade defense.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 488b44e7_3781_4a71_888d_c95abfacf44d {
+  meta:
+    title = "Windows Firewall Profile Disabled"
+    description = "Detects when a user disables the Windows Firewall via a Profile to help evade defense."
+    author = "Austin Songer @austinsonger"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.ScriptBlockText = /.*Set-NetFirewallProfile .*/ nocase and $e.ScriptBlockText = /.* -Enabled .*/ nocase and $e.ScriptBlockText = /.* False.*/ nocase)) and (($e.ScriptBlockText = /.* -All .*/ nocase or $e.ScriptBlockText = /.*Public.*/ nocase or $e.ScriptBlockText = /.*Domain.*/ nocase or $e.ScriptBlockText = /.*Private.*/ nocase)))
+
+  condition:
+    $e
+}

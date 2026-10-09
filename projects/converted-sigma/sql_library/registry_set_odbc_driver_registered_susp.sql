@@ -1,0 +1,11 @@
+-- Title: Potentially Suspicious ODBC Driver Registered
+-- ID: e4d22291-f3d5-4b78-9a0c-a1fbaf32a6a4
+-- Status: test
+-- Level: high
+-- Author: Nasreddine Bencherchali (Nextron Systems)
+-- Date: 2023-05-23
+-- Tags: attack.credential-access, attack.persistence, attack.t1003
+-- Description: Detects the registration of a new ODBC driver where the driver is located in a potentially suspicious location
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE (TargetObject ILIKE '%\\SOFTWARE\\ODBC\\ODBCINST.INI\\%' AND (TargetObject ILIKE '%\\Driver' OR TargetObject ILIKE '%\\Setup') AND (Details ILIKE '%:\\PerfLogs\\%' OR Details ILIKE '%:\\ProgramData\\%' OR Details ILIKE '%:\\Temp\\%' OR Details ILIKE '%:\\Users\\Public\\%' OR Details ILIKE '%:\\Windows\\Registration\\CRMLog%' OR Details ILIKE '%:\\Windows\\System32\\com\\dmp\\%' OR Details ILIKE '%:\\Windows\\System32\\FxsTmp\\%' OR Details ILIKE '%:\\Windows\\System32\\Microsoft\\Crypto\\RSA\\MachineKeys\\%' OR Details ILIKE '%:\\Windows\\System32\\spool\\drivers\\color\\%' OR Details ILIKE '%:\\Windows\\System32\\spool\\PRINTERS\\%' OR Details ILIKE '%:\\Windows\\System32\\spool\\SERVERS\\%' OR Details ILIKE '%:\\Windows\\System32\\Tasks_Migrated\\%' OR Details ILIKE '%:\\Windows\\System32\\Tasks\\Microsoft\\Windows\\SyncCenter\\%' OR Details ILIKE '%:\\Windows\\SysWOW64\\com\\dmp\\%' OR Details ILIKE '%:\\Windows\\SysWOW64\\FxsTmp\\%' OR Details ILIKE '%:\\Windows\\SysWOW64\\Tasks\\Microsoft\\Windows\\PLA\\System\\%' OR Details ILIKE '%:\\Windows\\SysWOW64\\Tasks\\Microsoft\\Windows\\SyncCenter\\%' OR Details ILIKE '%:\\Windows\\Tasks\\%' OR Details ILIKE '%:\\Windows\\Temp\\%' OR Details ILIKE '%:\\Windows\\Tracing\\%' OR Details ILIKE '%\\AppData\\Local\\Temp\\%' OR Details ILIKE '%\\AppData\\Roaming\\%'))

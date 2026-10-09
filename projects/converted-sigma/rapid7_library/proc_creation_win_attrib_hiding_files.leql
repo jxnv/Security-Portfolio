@@ -1,0 +1,11 @@
+// Title: Hiding Files with Attrib.exe
+// ID: 4281cb20-2994-4580-aa63-c8b86d019934
+// Status: test
+// Level: medium
+// Author: Sami Ruohonen
+// Date: 2019-01-16
+// Tags: attack.stealth, attack.t1564.001
+// Description: Detects usage of attrib.exe to hide files from users.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(CommandLine ICONTAINS " +h ")) AND ((where(Image IENDSWITH "\\attrib.exe")) OR (where(OriginalFileName = "ATTRIB.EXE")))) AND NOT ((where(CommandLine ICONTAINS "\\desktop.ini "))) AND NOT ((where(ParentImage IENDSWITH "\\cmd.exe") AND where(CommandLine = "+R +H +S +A \\\\\\*.cui") AND where(ParentCommandLine = "C:\\\\WINDOWS\\\\system32\\\\\\*.bat"))))

@@ -1,0 +1,23 @@
+// Title: Renamed BOINC Client Execution
+// ID: 30d07da2-83ab-45d8-ae75-ec7c0edcaffc
+// Status: test
+// Level: medium
+// Author: Matt Anderson (Huntress)
+// Date: 2024-07-23
+// Tags: attack.defense-impairment, attack.t1553
+// Description: Detects the execution of a renamed BOINC binary.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 30d07da2_83ab_45d8_ae75_ec7c0edcaffc {
+  meta:
+    title = "Renamed BOINC Client Execution"
+    description = "Detects the execution of a renamed BOINC binary."
+    author = "Matt Anderson (Huntress)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.process.file.name = "BOINC.exe") and not(($e.target.process.file.full_path = /.*\\BOINC.exe$/ nocase)))
+
+  condition:
+    $e
+}

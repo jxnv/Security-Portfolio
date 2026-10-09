@@ -1,0 +1,11 @@
+// Title: Code Injection by ld.so Preload
+// ID: 7e3c4651-c347-40c4-b1d4-d48590fdf684
+// Status: test
+// Level: high
+// Author: Christian Burkard (Nextron Systems)
+// Date: 2021-05-05
+// Tags: attack.persistence, attack.privilege-escalation, attack.execution, attack.stealth, attack.t1574.006
+// Description: Detects the ld.so preload persistence file. See `man ld.so` for more information.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter ("/etc/ld.so.preload")

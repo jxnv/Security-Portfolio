@@ -1,0 +1,24 @@
+// Title: Potential Shim Database Persistence via Sdbinst.EXE
+// ID: 517490a7-115a-48c6-8862-1a481504d5a8
+// Status: test
+// Level: medium
+// Author: Markus Neis
+// Date: 2019-01-16
+// Tags: attack.persistence, attack.privilege-escalation, attack.t1546.011
+// Description: Detects installation of a new shim using sdbinst.exe.
+// Adversaries may establish persistence and/or elevate privileges by executing malicious content triggered by application shims
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 517490a7_115a_48c6_8862_1a481504d5a8 {
+  meta:
+    title = "Potential Shim Database Persistence via Sdbinst.EXE"
+    description = "Detects installation of a new shim using sdbinst.exe. Adversaries may establish persistence and/or elevate privileges by executing malicious content triggered by application shims"
+    author = "Markus Neis"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.command_line = /.*.sdb.*/ nocase) and (($e.target.process.file.full_path = /.*\\sdbinst.exe$/ nocase) or ($e.target.process.file.name = "sdbinst.exe"))) and not(($e.principal.process.file.full_path = /.*\\msiexec.exe$/ nocase and ($e.target.process.command_line = /.*:\\Program Files (x86)\\IIS Express\\iisexpressshim.sdb.*/ nocase or $e.target.process.command_line = /.*:\\Program Files\\IIS Express\\iisexpressshim.sdb.*/ nocase))))
+
+  condition:
+    $e
+}

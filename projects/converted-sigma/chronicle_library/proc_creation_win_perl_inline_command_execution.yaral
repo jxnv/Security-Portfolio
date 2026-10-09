@@ -1,0 +1,23 @@
+// Title: Perl Inline Command Execution
+// ID: f426547a-e0f7-441a-b63e-854ac5bdf54d
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-01-02
+// Tags: attack.execution, attack.t1059
+// Description: Detects execution of perl using the "-e"/"-E" flags. This is could be used as a way to launch a reverse shell or execute live perl code.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule f426547a_e0f7_441a_b63e_854ac5bdf54d {
+  meta:
+    title = "Perl Inline Command Execution"
+    description = "Detects execution of perl using the "-e"/"-E" flags. This is could be used as a way to launch a reverse shell or execute live perl code."
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.process.command_line = /.* -e.*/ nocase) and (($e.target.process.file.full_path = /.*\\perl.exe$/ nocase) or ($e.target.process.file.name = "perl.exe")))
+
+  condition:
+    $e
+}

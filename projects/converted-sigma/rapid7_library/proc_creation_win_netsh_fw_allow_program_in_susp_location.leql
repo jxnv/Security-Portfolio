@@ -1,0 +1,11 @@
+// Title: Suspicious Program Location Whitelisted In Firewall Via Netsh.EXE
+// ID: a35f5a72-f347-4e36-8895-9869b0d5fc6d
+// Status: test
+// Level: high
+// Author: Sander Wiebing, Jonhnathan Ribeiro, Daniil Yugoslavskiy, oscd.community
+// Date: 2020-05-25
+// Tags: attack.defense-impairment, attack.t1686.003
+// Description: Detects Netsh command execution that whitelists a program located in a suspicious location in the Windows Firewall
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((where(CommandLine ICONTAINS "firewall") AND where(CommandLine ICONTAINS "add") AND where(CommandLine ICONTAINS "allowedprogram"))) OR ((where(CommandLine ICONTAINS "advfirewall") AND where(CommandLine ICONTAINS "firewall") AND where(CommandLine ICONTAINS "add") AND where(CommandLine ICONTAINS "rule") AND where(CommandLine ICONTAINS "action=allow") AND where(CommandLine ICONTAINS "program=")))) AND ((where(Image IENDSWITH "\\netsh.exe")) OR (where(OriginalFileName = "netsh.exe"))) AND ((where(CommandLine ICONTAINS ":\\$Recycle.bin\\") OR where(CommandLine ICONTAINS ":\\RECYCLER.BIN\\") OR where(CommandLine ICONTAINS ":\\RECYCLERS.BIN\\") OR where(CommandLine ICONTAINS ":\\SystemVolumeInformation\\") OR where(CommandLine ICONTAINS ":\\Temp\\") OR where(CommandLine ICONTAINS ":\\Users\\Default\\") OR where(CommandLine ICONTAINS ":\\Users\\Desktop\\") OR where(CommandLine ICONTAINS ":\\Users\\Public\\") OR where(CommandLine ICONTAINS ":\\Windows\\addins\\") OR where(CommandLine ICONTAINS ":\\Windows\\cursors\\") OR where(CommandLine ICONTAINS ":\\Windows\\debug\\") OR where(CommandLine ICONTAINS ":\\Windows\\drivers\\") OR where(CommandLine ICONTAINS ":\\Windows\\fonts\\") OR where(CommandLine ICONTAINS ":\\Windows\\help\\") OR where(CommandLine ICONTAINS ":\\Windows\\system32\\tasks\\") OR where(CommandLine ICONTAINS ":\\Windows\\Tasks\\") OR where(CommandLine ICONTAINS ":\\Windows\\Temp\\") OR where(CommandLine ICONTAINS "\\Downloads\\") OR where(CommandLine ICONTAINS "\\Local Settings\\Temporary Internet Files\\") OR where(CommandLine ICONTAINS "\\Temporary Internet Files\\Content.Outlook\\") OR where(CommandLine ICONTAINS "%Public%\\") OR where(CommandLine ICONTAINS "%TEMP%") OR where(CommandLine ICONTAINS "%TMP%"))))

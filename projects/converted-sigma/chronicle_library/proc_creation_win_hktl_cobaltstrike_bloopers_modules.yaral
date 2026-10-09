@@ -1,0 +1,23 @@
+// Title: Operator Bloopers Cobalt Strike Modules
+// ID: 4f154fb6-27d1-4813-a759-78b93e0b9c48
+// Status: test
+// Level: high
+// Author: _pete_0, TheDFIRReport
+// Date: 2022-05-06
+// Tags: attack.execution, attack.t1059.003
+// Description: Detects Cobalt Strike module/commands accidentally entered in CMD shell
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 4f154fb6_27d1_4813_a759_78b93e0b9c48 {
+  meta:
+    title = "Operator Bloopers Cobalt Strike Modules"
+    description = "Detects Cobalt Strike module/commands accidentally entered in CMD shell"
+    author = "_pete_0, TheDFIRReport"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*Invoke-UserHunter.*/ nocase or $e.target.process.command_line = /.*Invoke-ShareFinder.*/ nocase or $e.target.process.command_line = /.*Invoke-Kerberoast.*/ nocase or $e.target.process.command_line = /.*Invoke-SMBAutoBrute.*/ nocase or $e.target.process.command_line = /.*Invoke-Nightmare.*/ nocase or $e.target.process.command_line = /.*zerologon.*/ nocase or $e.target.process.command_line = /.*av_query.*/ nocase)) and (($e.target.process.file.name = "Cmd.Exe") or ($e.target.process.file.full_path = /.*\\cmd.exe$/ nocase)))
+
+  condition:
+    $e
+}

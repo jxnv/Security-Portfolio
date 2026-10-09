@@ -1,0 +1,23 @@
+// Title: Potential PowerShell Obfuscation Via Reversed Commands
+// ID: b6b49cd1-34d6-4ead-b1bf-176e9edba9a4
+// Status: test
+// Level: high
+// Author: Teymur Kheirkhabarov (idea), Vasiliy Burov (rule), oscd.community, Tim Shelton
+// Date: 2020-10-11
+// Tags: attack.stealth, attack.t1027, attack.execution, attack.t1059.001
+// Description: Detects the presence of reversed PowerShell commands in the CommandLine. This is often used as a method of obfuscation by attackers
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule b6b49cd1_34d6_4ead_b1bf_176e9edba9a4 {
+  meta:
+    title = "Potential PowerShell Obfuscation Via Reversed Commands"
+    description = "Detects the presence of reversed PowerShell commands in the CommandLine. This is often used as a method of obfuscation by attackers"
+    author = "Teymur Kheirkhabarov (idea), Vasiliy Burov (rule), oscd.community, Tim Shelton"
+    severity = "HIGH"
+
+  events:
+    (((($e.target.process.command_line = /.*hctac.*/ nocase or $e.target.process.command_line = /.*kaerb.*/ nocase or $e.target.process.command_line = /.*dnammoc.*/ nocase or $e.target.process.command_line = /.*ekovn.*/ nocase or $e.target.process.command_line = /.*eliFd.*/ nocase or $e.target.process.command_line = /.*rahc.*/ nocase or $e.target.process.command_line = /.*etirw.*/ nocase or $e.target.process.command_line = /.*golon.*/ nocase or $e.target.process.command_line = /.*tninon.*/ nocase or $e.target.process.command_line = /.*eddih.*/ nocase or $e.target.process.command_line = /.*tpircS.*/ nocase or $e.target.process.command_line = /.*ssecorp.*/ nocase or $e.target.process.command_line = /.*llehsrewop.*/ nocase or $e.target.process.command_line = /.*esnopser.*/ nocase or $e.target.process.command_line = /.*daolnwod.*/ nocase or $e.target.process.command_line = /.*tneilCbeW.*/ nocase or $e.target.process.command_line = /.*tneilc.*/ nocase or $e.target.process.command_line = /.*ptth.*/ nocase or $e.target.process.command_line = /.*elifotevas.*/ nocase or $e.target.process.command_line = /.*46esab.*/ nocase or $e.target.process.command_line = /.*htaPpmeTteG.*/ nocase or $e.target.process.command_line = /.*tcejbO.*/ nocase or $e.target.process.command_line = /.*maerts.*/ nocase or $e.target.process.command_line = /.*hcaerof.*/ nocase or $e.target.process.command_line = /.*retupmoc.*/ nocase)) and ((($e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase)) or (($e.target.process.file.name = "PowerShell.EXE" or $e.target.process.file.name = "pwsh.dll")))) and not((($e.target.process.command_line = /.* -EncodedCommand .*/ nocase or $e.target.process.command_line = /.* -enc .*/ nocase))))
+
+  condition:
+    $e
+}

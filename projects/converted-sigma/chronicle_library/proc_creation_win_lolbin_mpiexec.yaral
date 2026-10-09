@@ -1,0 +1,23 @@
+// Title: MpiExec Lolbin
+// ID: 729ce0ea-5d8f-4769-9762-e35de441586d
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-01-11
+// Tags: attack.execution, attack.stealth, attack.t1218
+// Description: Detects a certain command line flag combination used by mpiexec.exe LOLBIN from HPC pack that can be used to execute any other binary
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 729ce0ea_5d8f_4769_9762_e35de441586d {
+  meta:
+    title = "MpiExec Lolbin"
+    description = "Detects a certain command line flag combination used by mpiexec.exe LOLBIN from HPC pack that can be used to execute any other binary"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.file.full_path = /.*\\mpiexec.exe$/ nocase) or ($e.Hashes = /.*IMPHASH=d8b52ef6aaa3a81501bdfff9dbb96217.*/ nocase)) and (($e.target.process.command_line = /.* /n 1 .*/ nocase or $e.target.process.command_line = /.* -n 1 .*/ nocase)))
+
+  condition:
+    $e
+}

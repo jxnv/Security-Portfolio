@@ -1,0 +1,11 @@
+// Title: Suspicious Obfuscated PowerShell Code
+// ID: 8d01b53f-456f-48ee-90f6-bc28e67d4e35
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-07-11
+// Tags: attack.stealth
+// Description: Detects suspicious UTF16 and base64 encoded and often obfuscated PowerShell code often used in command lines
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((CommandLine: "*IAAtAGIAeABvAHIAIAAwAHgA*" OR CommandLine: "*AALQBiAHgAbwByACAAMAB4A*" OR CommandLine: "*gAC0AYgB4AG8AcgAgADAAeA*" OR CommandLine: "*AC4ASQBuAHYAbwBrAGUAKAApACAAfAAg*" OR CommandLine: "*AuAEkAbgB2AG8AawBlACgAKQAgAHwAI*" OR CommandLine: "*ALgBJAG4AdgBvAGsAZQAoACkAIAB8AC*" OR CommandLine: "*AHsAMQB9AHsAMAB9ACIAIAAtAGYAI*" OR CommandLine: "*B7ADEAfQB7ADAAfQAiACAALQBmAC*" OR CommandLine: "*AewAxAH0AewAwAH0AIgAgAC0AZgAg*" OR CommandLine: "*AHsAMAB9AHsAMwB9ACIAIAAtAGYAI*" OR CommandLine: "*B7ADAAfQB7ADMAfQAiACAALQBmAC*" OR CommandLine: "*AewAwAH0AewAzAH0AIgAgAC0AZgAg*" OR CommandLine: "*AHsAMgB9AHsAMAB9ACIAIAAtAGYAI*" OR CommandLine: "*B7ADIAfQB7ADAAfQAiACAALQBmAC*" OR CommandLine: "*AewAyAH0AewAwAH0AIgAgAC0AZgAg*" OR CommandLine: "*AHsAMQB9AHsAMAB9ACcAIAAtAGYAI*" OR CommandLine: "*B7ADEAfQB7ADAAfQAnACAALQBmAC*" OR CommandLine: "*AewAxAH0AewAwAH0AJwAgAC0AZgAg*" OR CommandLine: "*AHsAMAB9AHsAMwB9ACcAIAAtAGYAI*" OR CommandLine: "*B7ADAAfQB7ADMAfQAnACAALQBmAC*" OR CommandLine: "*AewAwAH0AewAzAH0AJwAgAC0AZgAg*" OR CommandLine: "*AHsAMgB9AHsAMAB9ACcAIAAtAGYAI*" OR CommandLine: "*B7ADIAfQB7ADAAfQAnACAALQBmAC*" OR CommandLine: "*AewAyAH0AewAwAH0AJwAgAC0AZgAg*"))

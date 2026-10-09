@@ -1,0 +1,13 @@
+# Title: Suspicious Modification Of Scheduled Tasks
+# ID: 1c0e41cd-21bb-4433-9acc-4a2cd6367b9b
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-07-28
+# Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.t1053.005
+# Description: Detects when an attacker tries to modify an already existing scheduled tasks to run from a suspicious location
+# Attackers can create a simple looking task in order to avoid detection on creation as it's often the most focused on
+# Instead they modify the task after creation to include their malicious payload
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((process.executable:*\\schtasks.exe AND (process.command_line:* /Change * AND process.command_line:* /TN *)) AND ((process.command_line:*regsvr32* OR process.command_line:*rundll32* OR process.command_line:*cmd /c * OR process.command_line:*cmd /k * OR process.command_line:*cmd /r * OR process.command_line:*cmd.exe /c * OR process.command_line:*cmd.exe /k * OR process.command_line:*cmd.exe /r * OR process.command_line:*powershell* OR process.command_line:*mshta* OR process.command_line:*wscript* OR process.command_line:*cscript* OR process.command_line:*certutil* OR process.command_line:*bitsadmin* OR process.command_line:*bash.exe* OR process.command_line:*bash * OR process.command_line:*scrcons* OR process.command_line:*wmic * OR process.command_line:*wmic.exe* OR process.command_line:*forfiles* OR process.command_line:*scriptrunner* OR process.command_line:*hh.exe* OR process.command_line:*hh *)) AND ((process.command_line:*\\AppData\\Local\\Temp* OR process.command_line:*\\AppData\\Roaming\\* OR process.command_line:*\\Users\\Public\\* OR process.command_line:*\\WINDOWS\\Temp\\* OR process.command_line:*\\Desktop\\* OR process.command_line:*\\Downloads\\* OR process.command_line:*\\Temporary Internet* OR process.command_line:*C:\\ProgramData\\* OR process.command_line:*C:\\Perflogs\\* OR process.command_line:*%ProgramData%* OR process.command_line:*%appdata%* OR process.command_line:*%comspec%* OR process.command_line:*%localappdata%*)))

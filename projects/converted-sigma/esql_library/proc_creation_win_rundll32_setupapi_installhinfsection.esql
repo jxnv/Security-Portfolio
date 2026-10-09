@@ -1,0 +1,11 @@
+// Title: Suspicious Rundll32 Setupapi.dll Activity
+// ID: 285b85b1-a555-4095-8652-a8a4106af63f
+// Status: test
+// Level: medium
+// Author: Konstantin Grishchenko, oscd.community
+// Date: 2020-10-07
+// Tags: attack.stealth, attack.t1218.011
+// Description: setupapi.dll library provide InstallHinfSection function for processing INF files. INF file may contain instructions allowing to create values in the registry, modify files and install drivers. This technique could be used to obtain persistence via modifying one of Run or RunOnce registry keys, run process or use other DLLs chain calls (see references) InstallHinfSection function in setupapi.dll calls runonce.exe executable regardless of actual content of INF file.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE (process.executable LIKE "%\\runonce.exe" AND process.parent.executable LIKE "%\\rundll32.exe" AND (process.parent.command_line LIKE "%setupapi.dll%" AND process.parent.command_line LIKE "%InstallHinfSection%"))

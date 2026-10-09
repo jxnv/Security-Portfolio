@@ -1,0 +1,11 @@
+// Title: Visual Studio Code Tunnel Execution
+// ID: 90d6bd71-dffb-4989-8d86-a827fedd6624
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems), citron_ninja
+// Date: 2023-10-25
+// Tags: attack.command-and-control, attack.t1071.001, attack.t1219
+// Description: Detects Visual Studio Code tunnel execution. Attackers can abuse this functionality to establish a C2 channel
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where ((isNull(OriginalFileName) and CommandLine matches "*.exe tunnel") or (ParentCommandLine matches "* tunnel" and Image matches "*\\cmd.exe" and (CommandLine matches "*/d /c *" and CommandLine matches "*\\servers\\Stable-*" and CommandLine matches "*code-server.cmd*")) or ((CommandLine matches "*.exe tunnel*" and CommandLine matches "*--accept-server-license-terms*")))

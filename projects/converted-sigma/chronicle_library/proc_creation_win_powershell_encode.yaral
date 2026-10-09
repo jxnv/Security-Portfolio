@@ -1,0 +1,23 @@
+// Title: Suspicious Execution of Powershell with Base64
+// ID: fb843269-508c-4b76-8b8d-88679db22ce7
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-01-02
+// Tags: attack.execution, attack.t1059.001
+// Description: Commandline to launch powershell with a base64 payload
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule fb843269_508c_4b76_8b8d_88679db22ce7 {
+  meta:
+    title = "Suspicious Execution of Powershell with Base64"
+    description = "Commandline to launch powershell with a base64 payload"
+    author = "frack113"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase) and ($e.target.process.command_line = /.* -e .*/ nocase or $e.target.process.command_line = /.* -en .*/ nocase or $e.target.process.command_line = /.* -enc .*/ nocase or $e.target.process.command_line = /.* -enco.*/ nocase or $e.target.process.command_line = /.* -ec .*/ nocase)) and not(((($e.principal.process.file.full_path = /.*C:\\Packages\\Plugins\\Microsoft.GuestConfiguration.ConfigurationforWindows\\.*/ nocase or $e.principal.process.file.full_path = /.*\\gc_worker.exe.*/ nocase)) or ($e.target.process.command_line = /.* -Encoding .*/ nocase))))
+
+  condition:
+    $e
+}

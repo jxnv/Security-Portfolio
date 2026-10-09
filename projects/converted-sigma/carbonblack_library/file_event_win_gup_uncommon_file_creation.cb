@@ -1,0 +1,12 @@
+# Title: Uncommon File Created by Notepad++ Updater Gup.EXE
+# ID: 3b8f4c92-6a51-4d7e-9c3a-8e2d1f5a7b09
+# Status: experimental
+# Level: high
+# Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+# Date: 2026-02-03
+# Tags: attack.collection, attack.credential-access, attack.t1195.002, attack.initial-access, attack.t1557
+# Description: Detects when the Notepad++ updater (gup.exe) creates files in suspicious or uncommon locations.
+# This could indicate potential exploitation of the updater component to deliver unwanted malware or unwarranted files.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((process_name:*\\gup.exe) AND -((((filemod_name:C:\\Program Files\\Notepad++\\* OR filemod_name:C:\\Program Files (x86)\\Notepad++\\*)) OR (((filemod_name:*\\plugins\\JsonTools\\testfiles\\* OR filemod_name:*\\Notepad++\\plugins\\ComparePlugin\\*)) OR ((filemod_name:*npp.* AND filemod_name:*.portable.* AND filemod_name:*\\plugins\\*))) OR (filemod_name:C:\\$Recycle.Bin\\S-1-5-21*) OR (filemod_name:C:\\Users\\* AND (filemod_name:*\\AppData\\Local\\Temp\\* AND filemod_name:*.zip*)) OR (filemod_name:C:\\Users\\* AND (filemod_name:*\\AppData\\Local\\Temp\\* AND filemod_name:*npp.* AND filemod_name:*.Installer.* AND filemod_name:*.exe*)))))

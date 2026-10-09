@@ -1,0 +1,12 @@
+# Title: Execution of Suspicious File Type Extension
+# ID: c09dad97-1c78-4f71-b127-7edb2b8e491a
+# Status: test
+# Level: medium
+# Author: Max Altgelt (Nextron Systems)
+# Date: 2021-12-09
+# Tags: attack.stealth
+# Description: Detects whether the image specified in a process creation event doesn't refer to an ".exe" (or other known executable extension) file. This can be caused by process ghosting or other unorthodox methods to start a process.
+# This rule might require some initial baselining to align with some third party tooling in the user environment.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(-(((process_name:*.bin OR process_name:*.cgi OR process_name:*.com OR process_name:*.exe OR process_name:*.scr OR process_name:*.tmp))) AND -(((process_name:*:\\$Extend\\$Deleted\\*) OR (process_name:*:\\Windows\\System32\\DriverStore\\FileRepository\\*) OR ((process_name:"-" OR process_name:"")) OR ((process_name:"System" OR process_name:"Registry" OR process_name:"MemCompression" OR process_name:"vmmem")) OR (process_name:*:\\Windows\\Installer\\MSI*) OR (process_name:*:\\Config.Msi\\* AND (process_name:*.rbf OR process_name:*.rbs)) OR (-process_name:*) OR ((parent_name:*:\\Windows\\Temp\\*) OR (process_name:*:\\Windows\\Temp\\*)))) AND -(((parent_name:*:\\ProgramData\\Avira\\*) OR (parent_name:"C:\\Windows\\System32\\services.exe" AND process_name:*com.docker.service) OR (process_name:*:\\Program Files\\Mozilla Firefox\\*) OR (process_name:*\\LZMA_EXE) OR ((process_name:*:\\Program Files (x86)\\MyQ\\Server\\pcltool.dll OR process_name:*:\\Program Files\\MyQ\\Server\\pcltool.dll)) OR (process_name:*NVIDIA\\NvBackend\\* AND process_name:*.dat) OR ((process_name:*:\\Program Files (x86)\\WINPAKPRO\\* OR process_name:*:\\Program Files\\WINPAKPRO\\*) AND process_name:*.ngn) OR ((process_name:*\\AppData\\Local\\Packages\\* AND process_name:*\\LocalState\\rootfs\\*)))))

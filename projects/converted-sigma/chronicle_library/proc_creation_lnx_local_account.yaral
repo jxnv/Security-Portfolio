@@ -1,0 +1,23 @@
+// Title: Local System Accounts Discovery - Linux
+// ID: b45e3d6f-42c6-47d8-a478-df6bd6cf534c
+// Status: test
+// Level: low
+// Author: Alejandro Ortuno, oscd.community, CheraghiMilad
+// Date: 2020-10-08
+// Tags: attack.discovery, attack.t1087.001
+// Description: Detects enumeration of local system accounts. This information can help adversaries determine which local accounts exist on a system to aid in follow-on behavior.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule b45e3d6f_42c6_47d8_a478_df6bd6cf534c {
+  meta:
+    title = "Local System Accounts Discovery - Linux"
+    description = "Detects enumeration of local system accounts. This information can help adversaries determine which local accounts exist on a system to aid in follow-on behavior."
+    author = "Alejandro Ortuno, oscd.community, CheraghiMilad"
+    severity = "LOW"
+
+  events:
+    (($e.target.process.file.full_path = /.*/lastlog$/ nocase) or ($e.target.process.command_line = /.*'x:0:'.*/ nocase) or (($e.target.process.file.full_path = /.*/cat$/ nocase or $e.target.process.file.full_path = /.*/ed$/ nocase or $e.target.process.file.full_path = /.*/head$/ nocase or $e.target.process.file.full_path = /.*/more$/ nocase or $e.target.process.file.full_path = /.*/nano$/ nocase or $e.target.process.file.full_path = /.*/tail$/ nocase or $e.target.process.file.full_path = /.*/vi$/ nocase or $e.target.process.file.full_path = /.*/vim$/ nocase or $e.target.process.file.full_path = /.*/less$/ nocase or $e.target.process.file.full_path = /.*/emacs$/ nocase or $e.target.process.file.full_path = /.*/sqlite3$/ nocase or $e.target.process.file.full_path = /.*/makemap$/ nocase) and ($e.target.process.command_line = /.*/etc/passwd.*/ nocase or $e.target.process.command_line = /.*/etc/shadow.*/ nocase or $e.target.process.command_line = /.*/etc/sudoers.*/ nocase or $e.target.process.command_line = /.*/etc/spwd.db.*/ nocase or $e.target.process.command_line = /.*/etc/pwd.db.*/ nocase or $e.target.process.command_line = /.*/etc/master.passwd.*/ nocase)) or ($e.target.process.file.full_path = /.*/id$/ nocase) or ($e.target.process.file.full_path = /.*/lsof$/ nocase and $e.target.process.command_line = /.*-u.*/ nocase))
+
+  condition:
+    $e
+}

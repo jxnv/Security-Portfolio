@@ -1,0 +1,11 @@
+-- Title: Suspicious Download From File-Sharing Website Via Bitsadmin
+-- ID: 8518ed3d-f7c9-4601-a26c-f361a4256a0c
+-- Status: test
+-- Level: high
+-- Author: Florian Roth (Nextron Systems)
+-- Date: 2022-06-28
+-- Tags: attack.persistence, attack.execution, attack.stealth, attack.t1197, attack.s0190, attack.t1036.003, attack.command-and-control, attack.t1105
+-- Description: Detects usage of bitsadmin downloading a file from a suspicious domain
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE (((CommandLine ILIKE '%.githubusercontent.com%' OR CommandLine ILIKE '%0x0.st%' OR CommandLine ILIKE '%anonfiles.com%' OR CommandLine ILIKE '%bashupload.com%' OR CommandLine ILIKE '%cdn.discordapp.com%' OR CommandLine ILIKE '%chunk.io%' OR CommandLine ILIKE '%ddns.net%' OR CommandLine ILIKE '%dl.dropboxusercontent.com%' OR CommandLine ILIKE '%ghostbin.co%' OR CommandLine ILIKE '%github.com%' OR CommandLine ILIKE '%glitch.me%' OR CommandLine ILIKE '%gofile.io%' OR CommandLine ILIKE '%hastebin.com%' OR CommandLine ILIKE '%mediafire.com%' OR CommandLine ILIKE '%mega.nz%' OR CommandLine ILIKE '%onrender.com%' OR CommandLine ILIKE '%pages.dev%' OR CommandLine ILIKE '%paste.ee%' OR CommandLine ILIKE '%pastebin.com%' OR CommandLine ILIKE '%pastebin.pl%' OR CommandLine ILIKE '%pastetext.net%' OR CommandLine ILIKE '%privatlab.com%' OR CommandLine ILIKE '%privatlab.net%' OR CommandLine ILIKE '%send.exploit.in%' OR CommandLine ILIKE '%sendspace.com%' OR CommandLine ILIKE '%storage.googleapis.com%' OR CommandLine ILIKE '%storjshare.io%' OR CommandLine ILIKE '%supabase.co%' OR CommandLine ILIKE '%temp.sh%' OR CommandLine ILIKE '%transfer.sh%' OR CommandLine ILIKE '%trycloudflare.com%' OR CommandLine ILIKE '%ufile.io%' OR CommandLine ILIKE '%w3spaces.com%' OR CommandLine ILIKE '%workers.dev%' OR CommandLine ILIKE '%x0.at%')) AND ((CommandLine ILIKE '% /transfer %' OR CommandLine ILIKE '% /create %' OR CommandLine ILIKE '% /addfile %')) AND ((Image ILIKE '%\\bitsadmin.exe') OR (OriginalFileName = 'bitsadmin.exe')))

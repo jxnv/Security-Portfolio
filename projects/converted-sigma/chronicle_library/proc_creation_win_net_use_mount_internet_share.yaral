@@ -1,0 +1,23 @@
+// Title: Windows Internet Hosted WebDav Share Mount Via Net.EXE
+// ID: 7e6237fe-3ddb-438f-9381-9bf9de5af8d0
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-02-21
+// Tags: attack.lateral-movement, attack.t1021.002
+// Description: Detects when an internet hosted webdav share is mounted using the "net.exe" utility
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 7e6237fe_3ddb_438f_9381_9bf9de5af8d0 {
+  meta:
+    title = "Windows Internet Hosted WebDav Share Mount Via Net.EXE"
+    description = "Detects when an internet hosted webdav share is mounted using the "net.exe" utility"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.* use .*/ nocase and $e.target.process.command_line = /.* http.*/ nocase)) and ((($e.target.process.file.full_path = /.*\\net.exe$/ nocase or $e.target.process.file.full_path = /.*\\net1.exe$/ nocase)) or (($e.target.process.file.name = "net.exe" or $e.target.process.file.name = "net1.exe"))))
+
+  condition:
+    $e
+}

@@ -1,0 +1,30 @@
+{
+  "title": "Windows Defender Configuration Changes",
+  "id": "801bd44f-ceed-4eb6-887c-11544633c0aa",
+  "status": "stable",
+  "description": "Detects suspicious changes to the Windows Defender configuration",
+  "author": "Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2022-12-06",
+  "tags": [
+    "attack.defense-impairment",
+    "attack.t1685"
+  ],
+  "level": "high",
+  "logsource": {
+    "product": "windows",
+    "service": "windefend"
+  },
+  "detection": {
+    "selection": {
+      "EventID": 5007,
+      "NewValue|contains": [
+        "\\Windows Defender\\DisableAntiSpyware ",
+        "\\Windows Defender\\Scan\\DisableRemovableDriveScanning ",
+        "\\Windows Defender\\Scan\\DisableScanningMappedNetworkDrivesForFullScan ",
+        "\\Windows Defender\\SpyNet\\DisableBlockAtFirstSeen ",
+        "\\Real-Time Protection\\SpyNetReporting "
+      ]
+    },
+    "condition": "selection"
+  }
+}

@@ -1,0 +1,11 @@
+// Title: LSASS Access From Non System Account
+// ID: 962fe167-e48d-4fd6-9974-11e5b9a5d6d1
+// Status: test
+// Level: medium
+// Author: Roberto Rodriguez @Cyb3rWard0g
+// Date: 2019-06-20
+// Tags: attack.credential-access, attack.t1003.001
+// Description: Detects potential mimikatz-like tools accessing LSASS from non system account
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter (((EventID = 4663 or EventID = 4656) and (AccessMask = "0x100000" or AccessMask = "0x1010" or AccessMask = "0x1400" or AccessMask = "0x1410" or AccessMask = "0x1418" or AccessMask = "0x1438" or AccessMask = "0x143a" or AccessMask = "0x1f0fff" or AccessMask = "0x1f1fff" or AccessMask = "0x1f2fff" or AccessMask = "0x1f3fff" or AccessMask = "0x40" or AccessMask = "143a" or AccessMask = "1f0fff" or AccessMask = "1f1fff" or AccessMask = "1f2fff" or AccessMask = "1f3fff") and ObjectType = "Process" and ObjectName endswith "\\lsass.exe") and not ((((ProcessName contains ":\\Program Files\\" or ProcessName contains ":\\Program Files (x86)\\")) or (SubjectUserName endswith "$") or (ProcessName = "C:\\Windows\\System32\\wbem\\WmiPrvSE.exe" and AccessMask = "0x1410"))) and not ((ProcessName contains "\\SteamLibrary\\steamapps\\")))

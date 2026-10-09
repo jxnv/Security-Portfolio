@@ -1,0 +1,23 @@
+// Title: DLL Execution via Rasautou.exe
+// ID: cd3d1298-eb3b-476c-ac67-12847de55813
+// Status: test
+// Level: medium
+// Author: Julia Fomina, oscd.community
+// Date: 2020-10-09
+// Tags: attack.stealth, attack.t1218
+// Description: Detects using Rasautou.exe for loading arbitrary .DLL specified in -d option and executes the export specified in -p.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule cd3d1298_eb3b_476c_ac67_12847de55813 {
+  meta:
+    title = "DLL Execution via Rasautou.exe"
+    description = "Detects using Rasautou.exe for loading arbitrary .DLL specified in -d option and executes the export specified in -p."
+    author = "Julia Fomina, oscd.community"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.command_line = /.* -d .*/ nocase and $e.target.process.command_line = /.* -p .*/ nocase)) and (($e.target.process.file.full_path = /.*\\rasautou.exe$/ nocase) or ($e.target.process.file.name = "rasdlui.exe")))
+
+  condition:
+    $e
+}

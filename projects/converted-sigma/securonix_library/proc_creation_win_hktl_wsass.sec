@@ -1,0 +1,12 @@
+// Title: HackTool - WSASS Execution
+// ID: 589ac73f-8e12-409c-964e-31a2f5775ae2
+// Status: experimental
+// Level: high
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-11-23
+// Tags: attack.credential-access, attack.t1003.001
+// Description: Detects execution of WSASS, a tool used to dump LSASS memory on Windows systems by leveraging WER's
+// (Windows Error Reporting) WerFaultSecure.EXE to bypass PPL (Protected Process Light) protections.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((CommandLine=regex("(?i)\\.exe[\\\"\\']?\\s+[^\\\"]{0,64}werfaultsecure\\.exe[\\\"\\']?\\s+\\d{2,10}")) OR (Hashes CONTAINS "IMPHASH=32F5095C9BBDCACF28FD4060EB4DFC42") OR (Image="*\\wsass.exe"))

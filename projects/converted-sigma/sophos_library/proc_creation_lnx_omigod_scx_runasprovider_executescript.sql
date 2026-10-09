@@ -1,0 +1,15 @@
+-- Title: OMIGOD SCX RunAsProvider ExecuteScript
+-- ID: 6eea1bf6-f8d2-488a-a742-e6ef6c1b67db
+-- Status: test
+-- Level: high
+-- Author: Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research), MSTIC
+-- Date: 2021-10-15
+-- Tags: attack.privilege-escalation, attack.initial-access, attack.execution, attack.t1068, attack.t1190, attack.t1203
+-- Description: Rule to detect the use of the SCX RunAsProvider ExecuteScript to execute any UNIX/Linux script using the /bin/sh shell.
+-- Script being executed gets created as a temp file in /tmp folder with a scx* prefix.
+-- Then it is invoked from the following directory /etc/opt/microsoft/scx/conf/tmpdir/.
+-- The file in that directory has the same prefix scx*. SCXcore, started as the Microsoft Operations Manager UNIX/Linux Agent, is now used in a host of products including
+-- Microsoft Operations Manager, Microsoft Azure, and Microsoft Operations Management Suite.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE (User = 'root' AND LogonId = 0 AND CurrentDirectory = '/var/opt/microsoft/scx/tmp' AND CommandLine ILIKE '%/etc/opt/microsoft/scx/conf/tmpdir/scx%')

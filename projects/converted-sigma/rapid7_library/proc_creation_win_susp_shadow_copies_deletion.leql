@@ -1,0 +1,11 @@
+// Title: Shadow Copies Deletion Using Operating Systems Utilities
+// ID: c947b146-0abc-4c87-9c64-b17e9d7274a2
+// Status: stable
+// Level: high
+// Author: Florian Roth (Nextron Systems), Michael Haag, Teymur Kheirkhabarov, Daniil Yugoslavskiy, oscd.community, Andreas Hunkeler (@Karneades)
+// Date: 2019-10-22
+// Tags: attack.impact, attack.stealth, attack.t1070, attack.t1490
+// Description: Shadow Copies deletion using operating systems utilities
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((where(CommandLine ICONTAINS "shadow") AND where(CommandLine ICONTAINS "delete"))) AND (((where(Image IENDSWITH "\\powershell.exe") OR where(Image IENDSWITH "\\pwsh.exe") OR where(Image IENDSWITH "\\wmic.exe") OR where(Image IENDSWITH "\\vssadmin.exe") OR where(Image IENDSWITH "\\diskshadow.exe"))) OR ((where(OriginalFileName = "PowerShell.EXE") OR where(OriginalFileName = "pwsh.dll") OR where(OriginalFileName = "wmic.exe") OR where(OriginalFileName = "VSSADMIN.EXE") OR where(OriginalFileName = "diskshadow.exe"))))) OR (((where(CommandLine ICONTAINS "delete") AND where(CommandLine ICONTAINS "catalog") AND where(CommandLine ICONTAINS "quiet"))) AND ((where(Image IENDSWITH "\\wbadmin.exe")) OR (where(OriginalFileName = "WBADMIN.EXE")))) OR (((where(CommandLine ICONTAINS "resize") AND where(CommandLine ICONTAINS "shadowstorage")) AND (where(CommandLine ICONTAINS "unbounded") OR where(CommandLine ICONTAINS "/MaxSize="))) AND ((where(Image IENDSWITH "\\vssadmin.exe")) OR (where(OriginalFileName = "VSSADMIN.EXE")))))

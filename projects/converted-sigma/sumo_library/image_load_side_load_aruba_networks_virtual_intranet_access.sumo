@@ -1,0 +1,11 @@
+// Title: Aruba Network Service Potential DLL Sideloading
+// ID: 90ae0469-0cee-4509-b67f-e5efcef040f7
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-01-22
+// Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.stealth, attack.t1574.001
+// Description: Detects potential DLL sideloading activity via the Aruba Networks Virtual Intranet Access "arubanetsvc.exe" process using DLL Search Order Hijacking
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where ((Image matches "*\\arubanetsvc.exe" and (ImageLoaded matches "*\\wtsapi32.dll" or ImageLoaded matches "*\\msvcr100.dll" or ImageLoaded matches "*\\msvcp100.dll" or ImageLoaded matches "*\\dbghelp.dll" or ImageLoaded matches "*\\dbgcore.dll" or ImageLoaded matches "*\\wininet.dll" or ImageLoaded matches "*\\iphlpapi.dll" or ImageLoaded matches "*\\version.dll" or ImageLoaded matches "*\\cryptsp.dll" or ImageLoaded matches "*\\cryptbase.dll" or ImageLoaded matches "*\\wldp.dll" or ImageLoaded matches "*\\profapi.dll" or ImageLoaded matches "*\\sspicli.dll" or ImageLoaded matches "*\\winsta.dll" or ImageLoaded matches "*\\dpapi.dll")) and !(((ImageLoaded matches "C:\\Windows\\System32\\*" or ImageLoaded matches "C:\\Windows\\SysWOW64\\*" or ImageLoaded matches "C:\\Windows\\WinSxS\\*"))))

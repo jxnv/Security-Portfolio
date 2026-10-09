@@ -1,0 +1,11 @@
+// Title: Conhost Spawned By Uncommon Parent Process
+// ID: cbb9e3d1-2386-4e59-912e-62f1484f7a89
+// Status: test
+// Level: medium
+// Author: Tim Rauch, Elastic (idea)
+// Date: 2022-09-28
+// Tags: attack.execution, attack.t1059
+// Description: Detects when the Console Window Host (conhost.exe) process is spawned by an uncommon parent process, which could be indicative of potential code injection activity.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+from siem.events where ((Image="*\\conhost.exe" AND (ParentImage="*\\explorer.exe" OR ParentImage="*\\lsass.exe" OR ParentImage="*\\regsvr32.exe" OR ParentImage="*\\rundll32.exe" OR ParentImage="*\\services.exe" OR ParentImage="*\\smss.exe" OR ParentImage="*\\spoolsv.exe" OR ParentImage="*\\svchost.exe" OR ParentImage="*\\userinit.exe" OR ParentImage="*\\wininit.exe" OR ParentImage="*\\winlogon.exe")) AND NOT (((contains(ParentCommandLine, "-k apphost -s AppHostSvc") OR contains(ParentCommandLine, "-k imgsvc") OR contains(ParentCommandLine, "-k localService -p -s RemoteRegistry") OR contains(ParentCommandLine, "-k LocalSystemNetworkRestricted -p -s NgcSvc") OR contains(ParentCommandLine, "-k NetSvcs -p -s NcaSvc") OR contains(ParentCommandLine, "-k netsvcs -p -s NetSetupSvc") OR contains(ParentCommandLine, "-k netsvcs -p -s wlidsvc") OR contains(ParentCommandLine, "-k NetworkService -p -s DoSvc") OR contains(ParentCommandLine, "-k wsappx -p -s AppXSvc") OR contains(ParentCommandLine, "-k wsappx -p -s ClipSVC") OR contains(ParentCommandLine, "-k wusvcs -p -s WaaSMedicSvc")))) AND NOT (((contains(ParentCommandLine, "C:\\Program Files (x86)\\Dropbox\\Client\\") OR contains(ParentCommandLine, "C:\\Program Files\\Dropbox\\Client\\")))))

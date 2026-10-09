@@ -1,0 +1,12 @@
+# Title: Suspicious ScreenSave Change by Reg.exe
+# ID: 0fc35fc3-efe6-4898-8a37-0b233339524f
+# Status: test
+# Level: medium
+# Author: frack113
+# Date: 2021-08-19
+# Tags: attack.persistence, attack.privilege-escalation, attack.t1546.002
+# Description: Adversaries may establish persistence by executing malicious content triggered by user inactivity.
+# Screensavers are programs that execute after a configurable time of user inactivity and consist of Portable Executable (PE) files with a .scr file extension
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((process_name:*\\reg.exe AND (cmdline:*HKEY_CURRENT_USER\\Control Panel\\Desktop* OR cmdline:*HKCU\\Control Panel\\Desktop*)) AND (((cmdline:*/v ScreenSaveActive* AND cmdline:*/t REG_SZ* AND cmdline:*/d 1* AND cmdline:*/f*)) OR ((cmdline:*/v ScreenSaveTimeout* AND cmdline:*/t REG_SZ* AND cmdline:*/d * AND cmdline:*/f*)) OR ((cmdline:*/v ScreenSaverIsSecure* AND cmdline:*/t REG_SZ* AND cmdline:*/d 0* AND cmdline:*/f*)) OR ((cmdline:*/v SCRNSAVE.EXE* AND cmdline:*/t REG_SZ* AND cmdline:*/d * AND cmdline:*.scr* AND cmdline:*/f*))))

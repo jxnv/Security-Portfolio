@@ -1,0 +1,11 @@
+// Title: Suspicious Command Patterns In Scheduled Task Creation
+// ID: f2c64357-b1d2-41b7-849f-34d2682c0fad
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-02-23
+// Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.t1053.005
+// Description: Detects scheduled task creation using "schtasks" that contain potentially suspicious or uncommon commands
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((src.process.image.path endswithCIS "\\schtasks.exe" AND src.process.cmdline containsCIS "/Create ") AND ((((src.process.cmdline containsCIS "/sc minute " OR src.process.cmdline containsCIS "/ru system ")) AND ((src.process.cmdline containsCIS "cmd /c" OR src.process.cmdline containsCIS "cmd /k" OR src.process.cmdline containsCIS "cmd /r" OR src.process.cmdline containsCIS "cmd.exe /c " OR src.process.cmdline containsCIS "cmd.exe /k " OR src.process.cmdline containsCIS "cmd.exe /r "))) OR ((src.process.cmdline containsCIS " -decode " OR src.process.cmdline containsCIS " -enc " OR src.process.cmdline containsCIS " -w hidden " OR src.process.cmdline containsCIS " bypass " OR src.process.cmdline containsCIS " IEX" OR src.process.cmdline containsCIS ".DownloadData" OR src.process.cmdline containsCIS ".DownloadFile" OR src.process.cmdline containsCIS ".DownloadString" OR src.process.cmdline containsCIS "/c start /min " OR src.process.cmdline containsCIS "FromBase64String" OR src.process.cmdline containsCIS "mshta http" OR src.process.cmdline containsCIS "mshta.exe http")) OR (((src.process.cmdline containsCIS ":\\ProgramData\\" OR src.process.cmdline containsCIS ":\\Temp\\" OR src.process.cmdline containsCIS ":\\Tmp\\" OR src.process.cmdline containsCIS ":\\Users\\Public\\" OR src.process.cmdline containsCIS ":\\Windows\\Temp\\" OR src.process.cmdline containsCIS "\\AppData\\" OR src.process.cmdline containsCIS "%AppData%" OR src.process.cmdline containsCIS "%Temp%" OR src.process.cmdline containsCIS "%tmp%")) AND ((src.process.cmdline containsCIS "cscript" OR src.process.cmdline containsCIS "curl" OR src.process.cmdline containsCIS "wscript")))))

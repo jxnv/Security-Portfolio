@@ -1,0 +1,11 @@
+// Title: CobaltStrike Named Pipe Patterns
+// ID: 85adeb13-4fc9-4e68-8a4a-c7cb2c336eb7
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Christian Burkard (Nextron Systems)
+// Date: 2021-07-30
+// Tags: attack.privilege-escalation, attack.stealth, attack.t1055, stp.1k
+// Description: Detects the creation of a named pipe with a pattern found in CobaltStrike malleable C2 profiles
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((PipeName STARTSWITH "\\Winsock2\\CatalogChangeListener-" AND PipeName ENDSWITH "-0,") OR (((PipeName STARTSWITH "\\DserNamePipe" OR PipeName STARTSWITH "\\f4c3" OR PipeName STARTSWITH "\\f53f" OR PipeName STARTSWITH "\\fullduplex_" OR PipeName STARTSWITH "\\mojo.5688.8052.183894939787088877" OR PipeName STARTSWITH "\\mojo.5688.8052.35780273329370473" OR PipeName STARTSWITH "\\MsFteWds" OR PipeName STARTSWITH "\\msrpc_" OR PipeName STARTSWITH "\\mypipe-f" OR PipeName STARTSWITH "\\mypipe-h" OR PipeName STARTSWITH "\\ntsvcs" OR PipeName STARTSWITH "\\PGMessagePipe" OR PipeName STARTSWITH "\\rpc_" OR PipeName STARTSWITH "\\scerpc" OR PipeName STARTSWITH "\\SearchTextHarvester" OR PipeName STARTSWITH "\\spoolss" OR PipeName STARTSWITH "\\win_svc" OR PipeName STARTSWITH "\\win\\msrpc_" OR PipeName STARTSWITH "\\windows.update.manager" OR PipeName STARTSWITH "\\wkssvc")) OR ((PipeName EQ "\\demoagent_11" OR PipeName EQ "\\demoagent_22")))) AND NOT (((PipeName EQ "\\wkssvc" OR PipeName EQ "\\spoolss" OR PipeName EQ "\\scerpc" OR PipeName EQ "\\ntsvcs" OR PipeName EQ "\\SearchTextHarvester" OR PipeName EQ "\\PGMessagePipe" OR PipeName EQ "\\MsFteWds"))) AND NOT (((Image CONTAINS ":\\Program Files\\Websense\\" OR Image CONTAINS ":\\Program Files (x86)\\Websense\\") AND (PipeName STARTSWITH "\\DserNamePipeR" OR PipeName STARTSWITH "\\DserNamePipeW"))))

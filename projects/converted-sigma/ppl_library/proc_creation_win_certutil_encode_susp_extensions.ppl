@@ -1,0 +1,11 @@
+// Title: Suspicious File Encoded To Base64 Via Certutil.EXE
+// ID: ea0cdc3e-2239-4f26-a947-4e8f8224e464
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-05-15
+// Tags: attack.stealth, attack.t1027
+// Description: Detects the execution of certutil with the "encode" flag to encode a file to base64 where the extensions of the file is suspicious
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where (((process.command_line like "%-encode%" OR process.command_line like "%/encode%")) AND ((process.command_line like "%.acl%" OR process.command_line like "%.bat%" OR process.command_line like "%.doc%" OR process.command_line like "%.gif%" OR process.command_line like "%.jpeg%" OR process.command_line like "%.jpg%" OR process.command_line like "%.mp3%" OR process.command_line like "%.pdf%" OR process.command_line like "%.png%" OR process.command_line like "%.ppt%" OR process.command_line like "%.tmp%" OR process.command_line like "%.xls%" OR process.command_line like "%.xml%")) AND ((process.executable="*\\certutil.exe") OR (process.pe.original_file_name = "CertUtil.exe")))

@@ -1,0 +1,25 @@
+// Title: Suspicious Startup Folder Persistence
+// ID: 28208707-fe31-437f-9a7f-4b1108b94d2e
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems), Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2022-08-10
+// Tags: attack.privilege-escalation, attack.execution, attack.t1204.002, attack.persistence, attack.t1547.001
+// Description: Detects the creation of potentially malicious script and executable files in Windows startup folders, which is a common persistence technique used by threat actors.
+// These files (.ps1, .vbs, .js, .bat, etc.) are automatically executed when a user logs in, making the Startup folder an attractive target for attackers.
+// This technique is frequently observed in malvertising campaigns and malware distribution where attackers attempt to maintain long-term access to compromised systems.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 28208707_fe31_437f_9a7f_4b1108b94d2e {
+  meta:
+    title = "Suspicious Startup Folder Persistence"
+    description = "Detects the creation of potentially malicious script and executable files in Windows startup folders, which is a common persistence technique used by threat actors. These files (.ps1, .vbs, .js, .bat, etc.) are automatically executed when a user logs in, making the Startup folder an attractive target for attackers. This technique is frequently observed in malvertising campaigns and malware distribution where attackers attempt to maintain long-term access to compromised systems."
+    author = "Nasreddine Bencherchali (Nextron Systems), Swachchhanda Shrawan Poudel (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ($e.target.file.full_path = /.*\\Windows\\Start Menu\\Programs\\Startup\\.*/ nocase and ($e.target.file.full_path = /.*.bat$/ nocase or $e.target.file.full_path = /.*.cmd$/ nocase or $e.target.file.full_path = /.*.dll$/ nocase or $e.target.file.full_path = /.*.hta$/ nocase or $e.target.file.full_path = /.*.jar$/ nocase or $e.target.file.full_path = /.*.js$/ nocase or $e.target.file.full_path = /.*.jse$/ nocase or $e.target.file.full_path = /.*.msi$/ nocase or $e.target.file.full_path = /.*.ps1$/ nocase or $e.target.file.full_path = /.*.psd1$/ nocase or $e.target.file.full_path = /.*.psm1$/ nocase or $e.target.file.full_path = /.*.scr$/ nocase or $e.target.file.full_path = /.*.url$/ nocase or $e.target.file.full_path = /.*.vba$/ nocase or $e.target.file.full_path = /.*.vbe$/ nocase or $e.target.file.full_path = /.*.vbs$/ nocase or $e.target.file.full_path = /.*.wsf$/ nocase))
+
+  condition:
+    $e
+}

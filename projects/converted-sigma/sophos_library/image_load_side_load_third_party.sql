@@ -1,0 +1,11 @@
+-- Title: Third Party Software DLL Sideloading
+-- ID: f9df325d-d7bc-4a32-8a1a-2cc61dcefc63
+-- Status: test
+-- Level: medium
+-- Author: Nasreddine Bencherchali (Nextron Systems), Wietze Beukema (project and research)
+-- Date: 2022-08-17
+-- Tags: attack.persistence, attack.privilege-escalation, attack.execution, attack.stealth, attack.t1574.001
+-- Description: Detects DLL sideloading of DLLs that are part of third party software (zoom, discord....etc)
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE (((ImageLoaded ILIKE '%\\commfunc.dll') AND NOT (((ImageLoaded ILIKE '%\\AppData\\local\\Google\\Chrome\\Application\\%') OR ((ImageLoaded ILIKE 'C:\\Program Files\\Lenovo\\Communications Utility\\%' OR ImageLoaded ILIKE 'C:\\Program Files (x86)\\Lenovo\\Communications Utility\\%'))))) OR ((ImageLoaded ILIKE '%\\tosbtkbd.dll') AND NOT (((ImageLoaded ILIKE 'C:\\Program Files\\Toshiba\\Bluetooth Toshiba Stack\\%' OR ImageLoaded ILIKE 'C:\\Program Files (x86)\\Toshiba\\Bluetooth Toshiba Stack\\%')))))

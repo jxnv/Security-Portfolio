@@ -1,0 +1,11 @@
+-- Title: Potential Amazon SSM Agent Hijacking
+-- ID: d20ee2f4-822c-4827-9e15-41500b1fff10
+-- Status: test
+-- Level: medium
+-- Author: Muhammad Faisal
+-- Date: 2023-08-02
+-- Tags: attack.command-and-control, attack.persistence, attack.t1219.002
+-- Description: Detects potential Amazon SSM agent hijack attempts as outlined in the Mitiga research report.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE (Image ILIKE '%\\amazon-ssm-agent.exe' AND (CommandLine ILIKE '%-register %' AND CommandLine ILIKE '%-code %' AND CommandLine ILIKE '%-id %' AND CommandLine ILIKE '%-region %'))

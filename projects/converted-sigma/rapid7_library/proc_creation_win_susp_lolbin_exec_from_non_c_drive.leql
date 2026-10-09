@@ -1,0 +1,11 @@
+// Title: LOLBIN Execution From Abnormal Drive
+// ID: d4ca7c59-e9e4-42d8-bf57-91a776efcb87
+// Status: test
+// Level: medium
+// Author: Christopher Peacock '@securepeacock', SCYTHE '@scythe_io', Angelo Violetti - SEC Consult '@angelo_violetti', Aaron Herman
+// Date: 2022-01-25
+// Tags: attack.stealth
+// Description: Detects LOLBINs executing from an abnormal or uncommon drive such as a mounted ISO.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((where(Image IENDSWITH "\\calc.exe") OR where(Image IENDSWITH "\\certutil.exe") OR where(Image IENDSWITH "\\cmstp.exe") OR where(Image IENDSWITH "\\cscript.exe") OR where(Image IENDSWITH "\\installutil.exe") OR where(Image IENDSWITH "\\mshta.exe") OR where(Image IENDSWITH "\\regsvr32.exe") OR where(Image IENDSWITH "\\rundll32.exe") OR where(Image IENDSWITH "\\wscript.exe"))) OR ((where(OriginalFileName = "CALC.EXE") OR where(OriginalFileName = "CertUtil.exe") OR where(OriginalFileName = "CMSTP.EXE") OR where(OriginalFileName = "cscript.exe") OR where(OriginalFileName = "installutil.exe") OR where(OriginalFileName = "MSHTA.EXE") OR where(OriginalFileName = "REGSVR32.EXE") OR where(OriginalFileName = "RUNDLL32.EXE") OR where(OriginalFileName = "wscript.exe")))) AND NOT (((where(CurrentDirectory ICONTAINS "C:\\")) OR (where(CurrentDirectory = "")) OR (NOT CurrentDirectory=*))))

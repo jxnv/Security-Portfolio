@@ -1,0 +1,19 @@
+# Title: SysKey Registry Keys Access
+# ID: 9a4ff3b8-6187-4fd2-8e8b-e0eae1129495
+# Status: test
+# Level: high
+# Author: Roberto Rodriguez @Cyb3rWard0g
+# Date: 2019-08-12
+# Tags: attack.discovery, attack.t1012
+# Description: Detects handle requests and access operations to specific registry keys to calculate the SysKey
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: SysKey Registry Keys Access
+def rule(event):
+    # Detection Logic:
+    # ((EventID="4656" OR EventID="4663") AND ObjectType="key" AND (ObjectName="*lsa\\JD" OR ObjectName="*lsa\\GBG" OR ObjectName="*lsa\\Skew1" OR ObjectName="*lsa\\Data"))
+    return True
+
+def title(event):
+    return "SysKey Registry Keys Access"
+

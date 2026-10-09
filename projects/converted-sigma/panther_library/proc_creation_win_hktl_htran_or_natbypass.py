@@ -1,0 +1,19 @@
+# Title: HackTool - Htran/NATBypass Execution
+# ID: f5e3b62f-e577-4e59-931e-0a15b2b94e1e
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems)
+# Date: 2022-12-27
+# Tags: attack.command-and-control, attack.t1090, attack.s0040
+# Description: Detects executable names or flags used by Htran or Htran-like tools (e.g. NATBypass)
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: HackTool - Htran/NATBypass Execution
+def rule(event):
+    # Detection Logic:
+    # (((CommandLine="*.exe -tran *" OR CommandLine="*.exe -slave *")) OR ((Image="*\\htran.exe" OR Image="*\\lcx.exe")))
+    return True
+
+def title(event):
+    return "HackTool - Htran/NATBypass Execution"
+

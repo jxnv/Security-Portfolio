@@ -1,0 +1,26 @@
+// Title: HackTool - NetExec Execution
+// ID: 7638e5fe-600c-4289-a968-f49dd537ec7d
+// Status: experimental
+// Level: high
+// Author: Chirag Damani
+// Date: 2026-03-29
+// Tags: attack.discovery, attack.t1018, attack.lateral-movement, attack.t1021
+// Description: Detects execution of the hacktool NetExec.
+// NetExec (formerly CrackMapExec) is a widely used post-exploitation tool designed for Active Directory penetration testing and network enumeration
+// In enterprise environments, the use of NetExec is considered suspicious or potentially malicious because it enables attackers to enumerate hosts, exploit network services, and move laterally across systems.
+// Threat actors and red teams commonly use NetExec to identify vulnerable systems, harvest credentials, and execute commands remotely.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 7638e5fe_600c_4289_a968_f49dd537ec7d {
+  meta:
+    title = "HackTool - NetExec Execution"
+    description = "Detects execution of the hacktool NetExec. NetExec (formerly CrackMapExec) is a widely used post-exploitation tool designed for Active Directory penetration testing and network enumeration In enterprise environments, the use of NetExec is considered suspicious or potentially malicious because it enables attackers to enumerate hosts, exploit network services, and move laterally across systems. Threat actors and red teams commonly use NetExec to identify vulnerable systems, harvest credentials, and execute commands remotely."
+    author = "Chirag Damani"
+    severity = "HIGH"
+
+  events:
+    ($e.target.process.file.full_path = /.*\\nxc.exe$/ nocase and ($e.target.process.command_line = /.* ftp .*/ nocase or $e.target.process.command_line = /.* ldap .*/ nocase or $e.target.process.command_line = /.* mssql .*/ nocase or $e.target.process.command_line = /.* nfs .*/ nocase or $e.target.process.command_line = /.* rdp .*/ nocase or $e.target.process.command_line = /.* smb .*/ nocase or $e.target.process.command_line = /.* ssh .*/ nocase or $e.target.process.command_line = /.* vnc .*/ nocase or $e.target.process.command_line = /.* winrm .*/ nocase or $e.target.process.command_line = /.* wmi .*/ nocase))
+
+  condition:
+    $e
+}

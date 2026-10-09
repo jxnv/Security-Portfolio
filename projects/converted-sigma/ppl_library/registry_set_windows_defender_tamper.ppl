@@ -1,0 +1,11 @@
+// Title: Disable Windows Defender Functionalities Via Registry Keys
+// ID: 0eb46774-f1ab-4a74-8238-1155855f2263
+// Status: test
+// Level: high
+// Author: AlertIQ, Ján Trenčanský, frack113, Nasreddine Bencherchali, Swachchhanda Shrawan Poudel
+// Date: 2022-08-01
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects when attackers or tools disable Windows Defender functionalities via the Windows registry
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where (((registry.path like "%\\SOFTWARE\\Microsoft\\Windows Defender\\%" OR registry.path like "%\\SOFTWARE\\Policies\\Microsoft\\Windows Defender Security Center\\%" OR registry.path like "%\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\%")) AND (((registry.path="*\\DisallowExploitProtectionOverride" OR registry.path="*\\Features\\TamperProtection" OR registry.path="*\\MpEngine\\MpEnablePus" OR registry.path="*\\PUAProtection" OR registry.path="*\\Signature Update\\ForceUpdateFromMU" OR registry.path="*\\SpyNet\\SpynetReporting" OR registry.path="*\\SpyNet\\SubmitSamplesConsent" OR registry.path="*\\Windows Defender Exploit Guard\\Controlled Folder Access\\EnableControlledFolderAccess") AND registry.data.strings = "DWORD (0x00000000)") OR ((registry.path="*\\DisableAntiSpyware" OR registry.path="*\\DisableAntiVirus" OR registry.path="*\\DisableBehaviorMonitoring" OR registry.path="*\\DisableBlockAtFirstSeen" OR registry.path="*\\DisableEnhancedNotifications" OR registry.path="*\\DisableIntrusionPreventionSystem" OR registry.path="*\\DisableIOAVProtection" OR registry.path="*\\DisableOnAccessProtection" OR registry.path="*\\DisableRealtimeMonitoring" OR registry.path="*\\DisableScanOnRealtimeEnable" OR registry.path="*\\DisableScriptScanning") AND registry.data.strings = "DWORD (0x00000001)")) AND NOT ((process.executable="C:\\Program Files\\Symantec\\Symantec Endpoint Protection\\*" AND process.executable="*\\sepWscSvc64.exe")))

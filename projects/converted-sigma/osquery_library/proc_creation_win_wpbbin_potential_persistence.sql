@@ -1,0 +1,11 @@
+-- Title: UEFI Persistence Via Wpbbin - ProcessCreation
+-- ID: 4abc0ec4-db5a-412f-9632-26659cddf145
+-- Status: test
+-- Level: high
+-- Author: Nasreddine Bencherchali (Nextron Systems)
+-- Date: 2022-07-18
+-- Tags: attack.persistence, attack.stealth, attack.t1542.001
+-- Description: Detects execution of the binary "wpbbin" which is used as part of the UEFI based persistence method described in the reference section
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM processes WHERE (Image = 'C:\\Windows\\System32\\wpbbin.exe')

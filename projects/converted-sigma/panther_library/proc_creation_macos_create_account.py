@@ -1,0 +1,19 @@
+# Title: Creation Of A Local User Account
+# ID: 51719bf5-e4fd-4e44-8ba8-b830e7ac0731
+# Status: test
+# Level: low
+# Author: Alejandro Ortuno, oscd.community
+# Date: 2020-10-06
+# Tags: attack.t1136.001, attack.persistence
+# Description: Detects the creation of a new user account. Such accounts may be used for persistence that do not require persistent remote access tools to be deployed on the system.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Creation Of A Local User Account
+def rule(event):
+    # Detection Logic:
+    # ((Image="*/dscl" AND CommandLine="*create*") OR (Image="*/sysadminctl" AND CommandLine="*addUser*"))
+    return True
+
+def title(event):
+    return "Creation Of A Local User Account"
+

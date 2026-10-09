@@ -1,0 +1,11 @@
+-- Title: BPFtrace Unsafe Option Usage
+-- ID: f8341cb2-ee25-43fa-a975-d8a5a9714b39
+-- Status: test
+-- Level: medium
+-- Author: Andreas Hunkeler (@Karneades)
+-- Date: 2022-02-11
+-- Tags: attack.execution, attack.t1059.004
+-- Description: Detects the usage of the unsafe bpftrace option
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM processes WHERE (Image="*bpftrace" AND CommandLine LIKE '%--unsafe%')

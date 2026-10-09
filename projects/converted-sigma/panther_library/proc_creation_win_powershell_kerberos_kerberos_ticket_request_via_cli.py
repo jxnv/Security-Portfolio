@@ -1,0 +1,23 @@
+# Title: Suspicious Kerberos Ticket Request via CLI
+# ID: caa9a802-8bd8-4b9e-a5cd-4d6221670219
+# Status: experimental
+# Level: high
+# Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+# Date: 2025-11-18
+# Tags: attack.credential-access, attack.t1558.003
+# Description: Detects suspicious Kerberos ticket requests via command line using System.IdentityModel.Tokens.KerberosRequestorSecurityToken class.
+# Threat actors may use command line interfaces to request Kerberos tickets for service accounts in order to
+# perform offline password cracking attacks commonly known as Kerberoasting or other Kerberos ticket abuse
+# techniques like silver ticket attacks. Encoded commands will not surface the class name, so the ps_script
+# rule covers that instead.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Suspicious Kerberos Ticket Request via CLI
+def rule(event):
+    # Detection Logic:
+    # ((CommandLine="*System.IdentityModel.Tokens.KerberosRequestorSecurityToken*") AND (((Image="*\\powershell.exe" OR Image="*\\pwsh.exe")) OR ((OriginalFileName="powershell.exe" OR OriginalFileName="pwsh.dll"))))
+    return True
+
+def title(event):
+    return "Suspicious Kerberos Ticket Request via CLI"
+

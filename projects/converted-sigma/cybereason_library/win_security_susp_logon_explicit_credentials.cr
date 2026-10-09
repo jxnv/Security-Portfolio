@@ -1,0 +1,11 @@
+// Title: Suspicious Remote Logon with Explicit Credentials
+// ID: 941e5c45-cda7-4864-8cea-bbb7458d194a
+// Status: test
+// Level: medium
+// Author: oscd.community, Teymur Kheirkhabarov @HeirhabarovT, Zach Stanford @svch0st, Tim Shelton
+// Date: 2020-10-05
+// Tags: attack.privilege-escalation, attack.persistence, attack.initial-access, attack.stealth, attack.t1078, attack.lateral-movement
+// Description: Detects suspicious processes logging on with explicit credentials
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((EventID == "4648" AND (ProcessName="*\\cmd.exe" OR ProcessName="*\\powershell.exe" OR ProcessName="*\\pwsh.exe" OR ProcessName="*\\winrs.exe" OR ProcessName="*\\wmic.exe" OR ProcessName="*\\net.exe" OR ProcessName="*\\net1.exe" OR ProcessName="*\\reg.exe")) AND NOT (((TargetServerName == "localhost") OR (SubjectUserName="*$" AND TargetUserName="*$"))))

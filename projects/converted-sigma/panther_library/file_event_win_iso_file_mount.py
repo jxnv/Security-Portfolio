@@ -1,0 +1,19 @@
+# Title: ISO File Created Within Temp Folders
+# ID: 2f9356ae-bf43-41b8-b858-4496d83b2acb
+# Status: test
+# Level: high
+# Author: @sam0x90
+# Date: 2022-07-30
+# Tags: attack.initial-access, attack.t1566.001
+# Description: Detects the creation of a ISO file in the Outlook temp folder or in the Appdata temp folder. Typical of Qakbot TTP from end-July 2022.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: ISO File Created Within Temp Folders
+def rule(event):
+    # Detection Logic:
+    # (((TargetFilename="*\\AppData\\Local\\Temp\\*" AND TargetFilename="*.zip\\*") AND TargetFilename="*.iso") OR (TargetFilename="*\\AppData\\Local\\Microsoft\\Windows\\INetCache\\Content.Outlook\\*" AND TargetFilename="*.iso"))
+    return True
+
+def title(event):
+    return "ISO File Created Within Temp Folders"
+

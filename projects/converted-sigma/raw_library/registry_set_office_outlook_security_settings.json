@@ -1,0 +1,33 @@
+{
+  "title": "Outlook Security Settings Updated - Registry",
+  "id": "c3cefdf4-6703-4e1c-bad8-bf422fc5015a",
+  "status": "test",
+  "description": "Detects changes to the registry values related to outlook security settings",
+  "author": "frack113",
+  "date": "2021-12-28",
+  "tags": [
+    "attack.persistence",
+    "attack.t1137"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "registry_set",
+    "product": "windows"
+  },
+  "detection": {
+    "selection": {
+      "TargetObject|contains|all": [
+        "\\SOFTWARE\\Microsoft\\Office\\",
+        "\\Outlook\\Security\\"
+      ]
+    },
+    "filter_main_outlook": {
+      "Image|startswith": [
+        "C:\\Program Files\\Microsoft Office\\",
+        "C:\\Program Files (x86)\\Microsoft Office\\"
+      ],
+      "Image|endswith": "\\OUTLOOK.EXE"
+    },
+    "condition": "selection and not 1 of filter_main_*"
+  }
+}

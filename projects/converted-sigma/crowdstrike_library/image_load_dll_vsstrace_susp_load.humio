@@ -1,0 +1,11 @@
+// Title: Potentially Suspicious Volume Shadow Copy Vsstrace.dll Load
+// ID: 48bfd177-7cf2-412b-ad77-baf923489e82
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2023-02-17
+// Tags: attack.impact, attack.t1490
+// Description: Detects the image load of VSS DLL by uncommon executables
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((ImageLoaded = /.*\\vsstrace.dll/i) and not(((not(ImageFileName = *)) or ((ImageFileName = /C:\\Program Files\\.*/i or ImageFileName = /C:\\Program Files (x86)\\.*/i)) or (((ImageFileName = "C:\\Windows\\explorer.exe" or ImageFileName = "C:\\Windows\\ImmersiveControlPanel\\SystemSettings.exe" or ImageFileName = "C:\\Windows\\servicing\\TrustedInstaller.exe")) or ((ImageFileName = /C:\\Windows\\System32\\.*/i or ImageFileName = /C:\\Windows\\SysWOW64\\.*/i or ImageFileName = /C:\\Windows\\Temp\\{.*/i or ImageFileName = /C:\\Windows\\WinSxS\\.*/i or ImageFileName = /C:\\ProgramData\\Package Cache\\{.*/i))))) and not((((ImageFileName = /*\\temp\\is-*/i and ImageFileName = /*\\avira_system_speedup.tmp*/i)) or (ImageFileName = /C:\\$WinREAgent\\Scratch\\.*/i))))

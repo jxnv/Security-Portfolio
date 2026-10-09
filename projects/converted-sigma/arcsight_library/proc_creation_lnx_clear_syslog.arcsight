@@ -1,0 +1,11 @@
+// Title: Syslog Clearing or Removal Via System Utilities
+// ID: 3fcc9b35-39e4-44c0-a2ad-9e82b6902b31
+// Status: test
+// Level: high
+// Author: Max Altgelt (Nextron Systems), Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research), MSTIC
+// Date: 2021-10-15
+// Tags: attack.defense-impairment, attack.t1685.006
+// Description: Detects specific commands commonly used to remove or empty the syslog. Which is a technique often used by attacker as a method to hide their tracks
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((CommandLine CONTAINS "/var/log/syslog") AND ((Image ENDSWITH "/cp" AND CommandLine CONTAINS "/dev/null") OR (Image ENDSWITH "/ln" AND (CommandLine CONTAINS "/dev/null " AND CommandLine CONTAINS "/var/log/syslog") AND (CommandLine CONTAINS "-sf " OR CommandLine CONTAINS "-sfn " OR CommandLine CONTAINS "-sfT ")) OR (Image ENDSWITH "/mv") OR (Image ENDSWITH "/rm" AND (CommandLine CONTAINS " -r " OR CommandLine CONTAINS " -f " OR CommandLine CONTAINS " -rf " OR CommandLine CONTAINS "/var/log/syslog")) OR (Image ENDSWITH "/shred" AND CommandLine CONTAINS "-u ") OR (Image ENDSWITH "/truncate" AND (CommandLine CONTAINS "0 " AND CommandLine CONTAINS "/var/log/syslog") AND (CommandLine CONTAINS "-s " OR CommandLine CONTAINS "-c " OR CommandLine CONTAINS "--size")) OR (Image ENDSWITH "/unlink"))) OR (((CommandLine CONTAINS "journalctl --vacuum" OR CommandLine CONTAINS "journalctl --rotate")) OR ((CommandLine CONTAINS " > /var/log/syslog" OR CommandLine CONTAINS " >/var/log/syslog" OR CommandLine CONTAINS " >| /var/log/syslog" OR CommandLine CONTAINS ": > /var/log/syslog" OR CommandLine CONTAINS ":> /var/log/syslog" OR CommandLine CONTAINS ":>/var/log/syslog" OR CommandLine CONTAINS ">|/var/log/syslog"))))

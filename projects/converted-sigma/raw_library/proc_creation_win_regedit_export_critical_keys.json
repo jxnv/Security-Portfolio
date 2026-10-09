@@ -1,0 +1,45 @@
+{
+  "title": "Exports Critical Registry Keys To a File",
+  "id": "82880171-b475-4201-b811-e9c826cd5eaa",
+  "status": "test",
+  "description": "Detects the export of a crital Registry key to a file.",
+  "author": "Oddvar Moe, Sander Wiebing, oscd.community",
+  "date": "2020-10-12",
+  "tags": [
+    "attack.exfiltration",
+    "attack.discovery",
+    "attack.t1012"
+  ],
+  "level": "high",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_img": [
+      {
+        "Image|endswith": "\\regedit.exe"
+      },
+      {
+        "OriginalFileName": "REGEDIT.EXE"
+      }
+    ],
+    "selection_cli_1": {
+      "CommandLine|contains|windash": " -E "
+    },
+    "selection_cli_2": {
+      "CommandLine|contains": [
+        "hklm",
+        "hkey_local_machine"
+      ]
+    },
+    "selection_cli_3": {
+      "CommandLine|endswith": [
+        "\\system",
+        "\\sam",
+        "\\security"
+      ]
+    },
+    "condition": "all of selection_*"
+  }
+}

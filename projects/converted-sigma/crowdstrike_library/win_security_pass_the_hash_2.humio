@@ -1,0 +1,11 @@
+// Title: Pass the Hash Activity 2
+// ID: 8eef149c-bd26-49f2-9e5a-9b00e3af499b
+// Status: stable
+// Level: medium
+// Author: Dave Kennedy, Jeff Warren (method) / David Vassallo (rule)
+// Date: 2019-06-14
+// Tags: attack.lateral-movement, attack.t1550.002
+// Description: Detects the attack technique pass the hash which is used to move laterally inside the network
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((EventID = 4624 and SubjectUserSid = "S-1-0-0" and LogonType = 3 and LogonProcessName = "NtLmSsp" and KeyLength = 0) or (EventID = 4624 and LogonType = 9 and LogonProcessName = "seclogo")) and not((TargetUserName = "ANONYMOUS LOGON")))

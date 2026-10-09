@@ -1,0 +1,23 @@
+// Title: Download From Suspicious TLD - Whitelist
+// ID: b5de2919-b74a-4805-91a7-5049accbaefe
+// Status: test
+// Level: low
+// Author: Florian Roth (Nextron Systems)
+// Date: 2017-03-13
+// Tags: attack.initial-access, attack.t1566, attack.execution, attack.t1203, attack.t1204.002
+// Description: Detects executable downloads from suspicious remote systems
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule b5de2919_b74a_4805_91a7_5049accbaefe {
+  meta:
+    title = "Download From Suspicious TLD - Whitelist"
+    description = "Detects executable downloads from suspicious remote systems"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "LOW"
+
+  events:
+    ((($e.c-uri-extension = "exe" or $e.c-uri-extension = "vbs" or $e.c-uri-extension = "bat" or $e.c-uri-extension = "rar" or $e.c-uri-extension = "ps1" or $e.c-uri-extension = "doc" or $e.c-uri-extension = "docm" or $e.c-uri-extension = "xls" or $e.c-uri-extension = "xlsm" or $e.c-uri-extension = "pptm" or $e.c-uri-extension = "rtf" or $e.c-uri-extension = "hta" or $e.c-uri-extension = "dll" or $e.c-uri-extension = "ws" or $e.c-uri-extension = "wsf" or $e.c-uri-extension = "sct" or $e.c-uri-extension = "zip")) and not((($e.cs-host = /.*.com$/ nocase or $e.cs-host = /.*.org$/ nocase or $e.cs-host = /.*.net$/ nocase or $e.cs-host = /.*.edu$/ nocase or $e.cs-host = /.*.gov$/ nocase or $e.cs-host = /.*.uk$/ nocase or $e.cs-host = /.*.ca$/ nocase or $e.cs-host = /.*.de$/ nocase or $e.cs-host = /.*.jp$/ nocase or $e.cs-host = /.*.fr$/ nocase or $e.cs-host = /.*.au$/ nocase or $e.cs-host = /.*.us$/ nocase or $e.cs-host = /.*.ch$/ nocase or $e.cs-host = /.*.it$/ nocase or $e.cs-host = /.*.nl$/ nocase or $e.cs-host = /.*.se$/ nocase or $e.cs-host = /.*.no$/ nocase or $e.cs-host = /.*.es$/ nocase))))
+
+  condition:
+    $e
+}

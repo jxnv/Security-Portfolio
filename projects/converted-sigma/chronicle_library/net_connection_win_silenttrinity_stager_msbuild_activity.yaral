@@ -1,0 +1,23 @@
+// Title: Silenttrinity Stager Msbuild Activity
+// ID: 50e54b8d-ad73-43f8-96a1-5191685b17a4
+// Status: test
+// Level: high
+// Author: Kiran kumar s, oscd.community
+// Date: 2020-10-11
+// Tags: attack.execution, attack.stealth, attack.t1127.001
+// Description: Detects a possible remote connections to Silenttrinity c2
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 50e54b8d_ad73_43f8_96a1_5191685b17a4 {
+  meta:
+    title = "Silenttrinity Stager Msbuild Activity"
+    description = "Detects a possible remote connections to Silenttrinity c2"
+    author = "Kiran kumar s, oscd.community"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.file.full_path = /.*\\msbuild.exe$/ nocase) and (($e.target.port = 80 or $e.target.port = 443) and $e.Initiated = "true"))
+
+  condition:
+    $e
+}

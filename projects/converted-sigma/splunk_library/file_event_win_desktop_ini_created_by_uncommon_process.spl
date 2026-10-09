@@ -1,0 +1,11 @@
+# Title: Desktop.INI Created by Uncommon Process
+# ID: 81315b50-6b60-4d8f-9928-3466e1022515
+# Status: test
+# Level: medium
+# Author: Maxime Thiebaut (@0xThiebaut), Tim Shelton (HAWK.IO)
+# Date: 2020-03-19
+# Tags: attack.privilege-escalation, attack.persistence, attack.t1547.009
+# Description: Detects unusual processes accessing desktop.ini, which can be leveraged to alter how Explorer displays a folder's content (i.e. renaming files) without changing them on disk.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog ((file_name="*\\desktop.ini") AND NOT ((((process_path="C:\\Windows\\*" OR process_path="C:\\Program Files\\*" OR process_path="C:\\Program Files (x86)\\*")) OR (file_name="C:\\$WINDOWS.~BT\\NewOS\\*"))) AND NOT (((process_path="C:\\Users\\*" AND process_path="*\\AppData\\Local\\JetBrains\\Toolbox\\bin\\7z.exe" AND file_name="*\\JetBrains\\apps\\*") OR (process_path="C:\\Users\\*" AND process_path="*\\AppData\\Local\\Microsoft\\OneDrive\\*"))))

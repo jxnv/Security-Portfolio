@@ -1,0 +1,19 @@
+# Title: Suspicious Network Connection to IP Lookup Service APIs
+# ID: edf3485d-dac4-4d50-90e4-b0e5813f7e60
+# Status: test
+# Level: medium
+# Author: Janantha Marasinghe, Nasreddine Bencherchali (Nextron Systems)
+# Date: 2023-04-24
+# Tags: attack.discovery, attack.t1016
+# Description: Detects external IP address lookups by non-browser processes via services such as "api.ipify.org". This could be indicative of potential post compromise internet test activity.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Suspicious Network Connection to IP Lookup Service APIs
+def rule(event):
+    # Detection Logic:
+    # ((((DestinationHostname="www.ip.cn" OR DestinationHostname="l2.io")) OR ((DestinationHostname="*api.2ip.ua*" OR DestinationHostname="*api.bigdatacloud.net*" OR DestinationHostname="*api.ipify.org*" OR DestinationHostname="*bot.whatismyipaddress.com*" OR DestinationHostname="*canireachthe.net*" OR DestinationHostname="*checkip.amazonaws.com*" OR DestinationHostname="*checkip.dyndns.org*" OR DestinationHostname="*curlmyip.com*" OR DestinationHostname="*db-ip.com*" OR DestinationHostname="*edns.ip-api.com*" OR DestinationHostname="*eth0.me*" OR DestinationHostname="*freegeoip.app*" OR DestinationHostname="*geoipy.com*" OR DestinationHostname="*getip.pro*" OR DestinationHostname="*icanhazip.com*" OR DestinationHostname="*ident.me*" OR DestinationHostname="*ifconfig.io*" OR DestinationHostname="*ifconfig.me*" OR DestinationHostname="*ip-api.com*" OR DestinationHostname="*ip.360.cn*" OR DestinationHostname="*ip.anysrc.net*" OR DestinationHostname="*ip.taobao.com*" OR DestinationHostname="*ip.tyk.nu*" OR DestinationHostname="*ipaddressworld.com*" OR DestinationHostname="*ipapi.co*" OR DestinationHostname="*ipconfig.io*" OR DestinationHostname="*ipecho.net*" OR DestinationHostname="*ipinfo.io*" OR DestinationHostname="*ipip.net*" OR DestinationHostname="*ipof.in*" OR DestinationHostname="*ipv4.icanhazip.com*" OR DestinationHostname="*ipv4bot.whatismyipaddress.com*" OR DestinationHostname="*ipv6-test.com*" OR DestinationHostname="*ipwho.is*" OR DestinationHostname="*jsonip.com*" OR DestinationHostname="*myexternalip.com*" OR DestinationHostname="*seeip.org*" OR DestinationHostname="*wgetip.com*" OR DestinationHostname="*whatismyip.akamai.com*" OR DestinationHostname="*whois.pconline.com.cn*" OR DestinationHostname="*wtfismyip.com*"))) AND NOT (((Image="*\\brave.exe") OR ((Image="C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe" OR Image="C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe")) OR ((Image="C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\*") OR (Image="*\\WindowsApps\\MicrosoftEdge.exe") OR ((Image="C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe" OR Image="C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe"))) OR ((Image="C:\\Program Files (x86)\\Microsoft\\EdgeCore\\*" OR Image="C:\\Program Files\\Microsoft\\EdgeCore\\*") AND (Image="*\\msedge.exe" OR Image="*\\msedgewebview2.exe")) OR ((Image="C:\\Program Files\\Mozilla Firefox\\firefox.exe" OR Image="C:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe")) OR ((Image="C:\\Program Files (x86)\\Internet Explorer\\iexplore.exe" OR Image="C:\\Program Files\\Internet Explorer\\iexplore.exe")) OR (Image="*\\maxthon.exe") OR (Image="*\\opera.exe") OR (Image="*\\safari.exe") OR (Image="*\\seamonkey.exe") OR (Image="*\\vivaldi.exe") OR (Image="*\\whale.exe"))))
+    return True
+
+def title(event):
+    return "Suspicious Network Connection to IP Lookup Service APIs"
+

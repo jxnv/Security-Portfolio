@@ -1,0 +1,13 @@
+# Title: Uncommon Extension In Keyboard Layout IME File Registry Value
+# ID: b888e3f2-224d-4435-b00b-9dd66e9ea1f1
+# Status: test
+# Level: high
+# Author: X__Junior (Nextron Systems)
+# Date: 2023-11-21
+# Tags: attack.defense-impairment, attack.t1685
+# Description: Detects usage of Windows Input Method Editor (IME) keyboard layout feature, which allows an attacker to load a DLL into the process after sending the WM_INPUTLANGCHANGEREQUEST message.
+# Before doing this, the client needs to register the DLL in a special registry key that is assumed to implement this keyboard layout. This registry key should store a value named "Ime File" with a DLL path.
+# IMEs are essential for languages that have more characters than can be represented on a standard keyboard, such as Chinese, Japanese, and Korean.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((TargetObject CONTAIN "\\Control\\Keyboard Layouts\\" AND TargetObject CONTAIN "Ime File")) AND NOT ((Details="*.ime")))

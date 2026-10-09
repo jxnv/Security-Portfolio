@@ -1,0 +1,11 @@
+# Title: File Download Via Bitsadmin To A Suspicious Target Folder
+# ID: 2ddef153-167b-4e89-86b6-757a9e65dcac
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-06-28
+# Tags: attack.persistence, attack.execution, attack.stealth, attack.t1197, attack.s0190, attack.t1036.003, attack.command-and-control, attack.t1105
+# Description: Detects usage of bitsadmin downloading a file to a suspicious target folder
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((process.command_line:* /transfer * OR process.command_line:* /create * OR process.command_line:* /addfile *)) AND ((process.command_line:*:\\Perflogs* OR process.command_line:*:\\ProgramData\\* OR process.command_line:*:\\Temp\\* OR process.command_line:*:\\Users\\Public\\* OR process.command_line:*:\\Windows\\* OR process.command_line:*\\$Recycle.Bin\\* OR process.command_line:*\\AppData\\Local\\* OR process.command_line:*\\AppData\\Roaming\\* OR process.command_line:*\\Contacts\\* OR process.command_line:*\\Desktop\\* OR process.command_line:*\\Favorites\\* OR process.command_line:*\\Favourites\\* OR process.command_line:*\\inetpub\\wwwroot\\* OR process.command_line:*\\Music\\* OR process.command_line:*\\Pictures\\* OR process.command_line:*\\Start Menu\\Programs\\Startup\\* OR process.command_line:*\\Users\\Default\\* OR process.command_line:*\\Videos\\* OR process.command_line:*%ProgramData%* OR process.command_line:*%public%* OR process.command_line:*%temp%* OR process.command_line:*%tmp%*)) AND ((process.executable:*\\bitsadmin.exe) OR (process.pe.original_file_name:"bitsadmin.exe")))

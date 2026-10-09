@@ -1,0 +1,19 @@
+# Title: HackTool - Rubeus Execution - ScriptBlock
+# ID: 3245cd30-e015-40ff-a31d-5cadd5f377ec
+# Status: test
+# Level: high
+# Author: Christian Burkard (Nextron Systems), Florian Roth (Nextron Systems)
+# Date: 2023-04-27
+# Tags: attack.credential-access, attack.t1003, attack.t1558.003, attack.lateral-movement, attack.t1550.003
+# Description: Detects the execution of the hacktool Rubeus using specific command line flags
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: HackTool - Rubeus Execution - ScriptBlock
+def rule(event):
+    # Detection Logic:
+    # ((ScriptBlockText="*asreproast *" OR ScriptBlockText="*dump /service:krbtgt *" OR ScriptBlockText="*dump /luid:0x*" OR ScriptBlockText="*kerberoast *" OR ScriptBlockText="*createnetonly /program:*" OR ScriptBlockText="*ptt /ticket:*" OR ScriptBlockText="*/impersonateuser:*" OR ScriptBlockText="*renew /ticket:*" OR ScriptBlockText="*asktgt /user:*" OR ScriptBlockText="*harvest /interval:*" OR ScriptBlockText="*s4u /user:*" OR ScriptBlockText="*s4u /ticket:*" OR ScriptBlockText="*hash /password:*" OR ScriptBlockText="*golden /aes256:*" OR ScriptBlockText="*silver /user:*"))
+    return True
+
+def title(event):
+    return "HackTool - Rubeus Execution - ScriptBlock"
+

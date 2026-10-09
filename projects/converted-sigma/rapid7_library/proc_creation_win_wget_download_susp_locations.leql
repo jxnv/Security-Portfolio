@@ -1,0 +1,11 @@
+// Title: Suspicious File Download From IP Via Wget.EXE - Paths
+// ID: 40aa399c-7b02-4715-8e5f-73572b493f33
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2024-02-23
+// Tags: attack.execution
+// Description: Detects potentially suspicious file downloads directly from IP addresses and stored in suspicious locations using Wget.exe
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(CommandLine /\s-O\s/)) OR (where(CommandLine ICONTAINS "--output-document"))) AND (where(CommandLine ICONTAINS "http")) AND ((where(Image IENDSWITH "\\wget.exe")) OR (where(OriginalFileName = "wget.exe"))) AND (where(CommandLine /://[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/)) AND (((where(CommandLine ICONTAINS ":\\PerfLogs\\") OR where(CommandLine ICONTAINS ":\\Temp\\") OR where(CommandLine ICONTAINS ":\\Users\\Public\\") OR where(CommandLine ICONTAINS ":\\Windows\\Help\\") OR where(CommandLine ICONTAINS ":\\Windows\\Temp\\") OR where(CommandLine ICONTAINS "\\Temporary Internet"))) OR ((where(CommandLine ICONTAINS ":\\Users\\") AND where(CommandLine ICONTAINS "\\Favorites\\"))) OR ((where(CommandLine ICONTAINS ":\\Users\\") AND where(CommandLine ICONTAINS "\\Favourites\\"))) OR ((where(CommandLine ICONTAINS ":\\Users\\") AND where(CommandLine ICONTAINS "\\Contacts\\"))) OR ((where(CommandLine ICONTAINS ":\\Users\\") AND where(CommandLine ICONTAINS "\\Pictures\\")))))

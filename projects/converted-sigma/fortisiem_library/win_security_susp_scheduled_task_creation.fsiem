@@ -1,0 +1,11 @@
+# Title: Suspicious Scheduled Task Creation
+# ID: 3a734d25-df5c-4b99-8034-af1ddb5883a4
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-12-05
+# Tags: attack.execution, attack.privilege-escalation, attack.persistence, attack.t1053.005
+# Description: Detects suspicious scheduled task creation events. Based on attributes such as paths, commands line flags, etc.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((TaskContent CONTAIN "regsvr32" OR TaskContent CONTAIN "rundll32" OR TaskContent CONTAIN "cmd.exe</Command>" OR TaskContent CONTAIN "cmd</Command>" OR TaskContent CONTAIN "<Arguments>/c " OR TaskContent CONTAIN "<Arguments>/k " OR TaskContent CONTAIN "<Arguments>/r " OR TaskContent CONTAIN "powershell" OR TaskContent CONTAIN "pwsh" OR TaskContent CONTAIN "mshta" OR TaskContent CONTAIN "wscript" OR TaskContent CONTAIN "cscript" OR TaskContent CONTAIN "certutil" OR TaskContent CONTAIN "bitsadmin" OR TaskContent CONTAIN "bash.exe" OR TaskContent CONTAIN "bash " OR TaskContent CONTAIN "scrcons" OR TaskContent CONTAIN "wmic " OR TaskContent CONTAIN "wmic.exe" OR TaskContent CONTAIN "forfiles" OR TaskContent CONTAIN "scriptrunner" OR TaskContent CONTAIN "hh.exe")) AND (EventID = "4698") AND ((TaskContent CONTAIN "\\AppData\\Local\\Temp\\" OR TaskContent CONTAIN "\\AppData\\Roaming\\" OR TaskContent CONTAIN "\\Users\\Public\\" OR TaskContent CONTAIN "\\WINDOWS\\Temp\\" OR TaskContent CONTAIN "C:\\Temp\\" OR TaskContent CONTAIN "\\Desktop\\" OR TaskContent CONTAIN "\\Downloads\\" OR TaskContent CONTAIN "\\Temporary Internet" OR TaskContent CONTAIN "C:\\ProgramData\\" OR TaskContent CONTAIN "C:\\Perflogs\\")))

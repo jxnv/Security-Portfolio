@@ -1,0 +1,19 @@
+# Title: Invoke-Obfuscation CLIP+ Launcher
+# ID: b222df08-0e07-11eb-adc1-0242ac120002
+# Status: test
+# Level: high
+# Author: Jonathan Cheong, oscd.community
+# Date: 2020-10-13
+# Tags: attack.stealth, attack.t1027, attack.execution, attack.t1059.001
+# Description: Detects Obfuscated use of Clip.exe to execute PowerShell
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Invoke-Obfuscation CLIP+ Launcher
+def rule(event):
+    # Detection Logic:
+    # ((CommandLine="*cmd*" AND CommandLine="*&&*" AND CommandLine="*clipboard]::*" AND CommandLine="*-f*") AND (CommandLine="*/c*" OR CommandLine="*/r*"))
+    return True
+
+def title(event):
+    return "Invoke-Obfuscation CLIP+ Launcher"
+

@@ -1,0 +1,23 @@
+// Title: LOL-Binary Copied From System Directory
+// ID: f5d19838-41b5-476c-98d8-ba8af4929ee2
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-08-29
+// Tags: attack.stealth, attack.t1036.003
+// Description: Detects a suspicious copy operation that tries to copy a known LOLBIN from system (System32, SysWOW64, WinSxS) directories to another on disk in order to bypass detections based on locations.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule f5d19838_41b5_476c_98d8_ba8af4929ee2 {
+  meta:
+    title = "LOL-Binary Copied From System Directory"
+    description = "Detects a suspicious copy operation that tries to copy a known LOLBIN from system (System32, SysWOW64, WinSxS) directories to another on disk in order to bypass detections based on locations."
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.file.full_path = /.*\\cmd.exe$/ nocase and $e.target.process.command_line = /.*copy .*/ nocase) or ((($e.target.process.file.full_path = /.*\\robocopy.exe$/ nocase or $e.target.process.file.full_path = /.*\\xcopy.exe$/ nocase)) or (($e.target.process.file.name = "robocopy.exe" or $e.target.process.file.name = "XCOPY.EXE"))) or (($e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase) and ($e.target.process.command_line = /.*copy-item.*/ nocase or $e.target.process.command_line = /.* copy .*/ nocase or $e.target.process.command_line = /.*cpi .*/ nocase or $e.target.process.command_line = /.* cp .*/ nocase))) and ((($e.target.process.command_line = /.*\\bitsadmin.exe.*/ nocase or $e.target.process.command_line = /.*\\calc.exe.*/ nocase or $e.target.process.command_line = /.*\\certutil.exe.*/ nocase or $e.target.process.command_line = /.*\\cmdl32.exe.*/ nocase or $e.target.process.command_line = /.*\\cscript.exe.*/ nocase or $e.target.process.command_line = /.*\\mshta.exe.*/ nocase or $e.target.process.command_line = /.*\\rundll32.exe.*/ nocase or $e.target.process.command_line = /.*\\wscript.exe.*/ nocase or $e.target.process.command_line = /.*\\ie4uinit.exe.*/ nocase)) and (($e.target.process.command_line = /.*\\System32.*/ nocase or $e.target.process.command_line = /.*\\SysWOW64.*/ nocase or $e.target.process.command_line = /.*\\WinSxS.*/ nocase))))
+
+  condition:
+    $e
+}

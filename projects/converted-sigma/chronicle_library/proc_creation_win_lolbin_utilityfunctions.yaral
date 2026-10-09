@@ -1,0 +1,23 @@
+// Title: UtilityFunctions.ps1 Proxy Dll
+// ID: 0403d67d-6227-4ea8-8145-4e72db7da120
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-05-28
+// Tags: attack.stealth, attack.t1216
+// Description: Detects the use of a Microsoft signed script executing a managed DLL with PowerShell.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 0403d67d_6227_4ea8_8145_4e72db7da120 {
+  meta:
+    title = "UtilityFunctions.ps1 Proxy Dll"
+    description = "Detects the use of a Microsoft signed script executing a managed DLL with PowerShell."
+    author = "frack113"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.process.command_line = /.*UtilityFunctions.ps1.*/ nocase or $e.target.process.command_line = /.*RegSnapin .*/ nocase))
+
+  condition:
+    $e
+}

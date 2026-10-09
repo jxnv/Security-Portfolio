@@ -1,0 +1,11 @@
+# Title: File With Suspicious Extension Downloaded Via Bitsadmin
+# ID: 5b80a791-ad9b-4b75-bcc1-ad4e1e89c200
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-06-28
+# Tags: attack.persistence, attack.execution, attack.stealth, attack.t1197, attack.s0190, attack.t1036.003, attack.command-and-control, attack.t1105
+# Description: Detects usage of bitsadmin downloading a file with a suspicious extension
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((process.command_line:*.7z* OR process.command_line:*.asax* OR process.command_line:*.ashx* OR process.command_line:*.asmx* OR process.command_line:*.asp* OR process.command_line:*.aspx* OR process.command_line:*.bat* OR process.command_line:*.cfm* OR process.command_line:*.cgi* OR process.command_line:*.chm* OR process.command_line:*.cmd* OR process.command_line:*.dll* OR process.command_line:*.gif* OR process.command_line:*.jpeg* OR process.command_line:*.jpg* OR process.command_line:*.jsp* OR process.command_line:*.jspx* OR process.command_line:*.log* OR process.command_line:*.png* OR process.command_line:*.ps1* OR process.command_line:*.psm1* OR process.command_line:*.rar* OR process.command_line:*.scf* OR process.command_line:*.sct* OR process.command_line:*.txt* OR process.command_line:*.vbe* OR process.command_line:*.vbs* OR process.command_line:*.war* OR process.command_line:*.wsf* OR process.command_line:*.wsh* OR process.command_line:*.xll* OR process.command_line:*.zip*)) AND ((process.command_line:* /transfer * OR process.command_line:* /create * OR process.command_line:* /addfile *)) AND ((process.executable:*\\bitsadmin.exe) OR (process.pe.original_file_name:"bitsadmin.exe")))

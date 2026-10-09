@@ -1,0 +1,23 @@
+// Title: Suspicious Git Clone
+// ID: aef9d1f1-7396-4e92-a927-4567c7a495c1
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-01-03
+// Tags: attack.reconnaissance, attack.t1593.003
+// Description: Detects execution of "git" in order to clone a remote repository that contain suspicious keywords which might be suspicious
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule aef9d1f1_7396_4e92_a927_4567c7a495c1 {
+  meta:
+    title = "Suspicious Git Clone"
+    description = "Detects execution of "git" in order to clone a remote repository that contain suspicious keywords which might be suspicious"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.command_line = /.* clone .*/ nocase or $e.target.process.command_line = /.*git-remote-https .*/ nocase)) and ((($e.target.process.file.full_path = /.*\\git.exe$/ nocase or $e.target.process.file.full_path = /.*\\git-remote-https.exe$/ nocase)) or ($e.target.process.file.name = "git.exe")) and (($e.target.process.command_line = /.*exploit.*/ nocase or $e.target.process.command_line = /.*Vulns.*/ nocase or $e.target.process.command_line = /.*vulnerability.*/ nocase or $e.target.process.command_line = /.*RemoteCodeExecution.*/ nocase or $e.target.process.command_line = /.*Invoke-.*/ nocase or $e.target.process.command_line = /.*CVE-.*/ nocase or $e.target.process.command_line = /.*poc-.*/ nocase or $e.target.process.command_line = /.*ProofOfConcept.*/ nocase or $e.target.process.command_line = /.*proxyshell.*/ nocase or $e.target.process.command_line = /.*log4shell.*/ nocase or $e.target.process.command_line = /.*eternalblue.*/ nocase or $e.target.process.command_line = /.*eternal-blue.*/ nocase or $e.target.process.command_line = /.*MS17-.*/ nocase)))
+
+  condition:
+    $e
+}

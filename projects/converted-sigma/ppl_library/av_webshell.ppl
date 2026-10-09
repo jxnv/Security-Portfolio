@@ -1,0 +1,13 @@
+// Title: Antivirus - Web Shell Detection Signature
+// ID: fdf135a2-9241-4f96-a114-bb404948f736
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Arnim Rupp
+// Date: 2018-09-09
+// Tags: attack.persistence, attack.t1505.003
+// Description: Detects a highly relevant Antivirus alert that reports a web shell.
+// It's highly recommended to tune this rule to the specific strings used by your anti virus solution by downloading a big WebShell repository from e.g. github and checking the matches.
+// This event must not be ignored just because the AV has blocked the malware but investigate, how it came there in the first place.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where (((Signature="ASP.*" OR Signature="IIS/BackDoor*" OR Signature="JAVA/Backdoor*" OR Signature="JSP.*" OR Signature="Perl.*" OR Signature="PHP.*" OR Signature="Troj/ASP*" OR Signature="Troj/JSP*" OR Signature="Troj/PHP*" OR Signature="VBS/Uxor*")) OR ((Signature like "%ASP_%" OR Signature like "%ASP:%" OR Signature like "%ASP.Agent%" OR Signature like "%ASP/%" OR Signature like "%Aspdoor%" OR Signature like "%ASPXSpy%" OR Signature like "%Backdoor.ASP%" OR Signature like "%Backdoor.Java%" OR Signature like "%Backdoor.JSP%" OR Signature like "%Backdoor.PHP%" OR Signature like "%Backdoor.VBS%" OR Signature like "%Backdoor/ASP%" OR Signature like "%Backdoor/Java%" OR Signature like "%Backdoor/JSP%" OR Signature like "%Backdoor/PHP%" OR Signature like "%Backdoor/VBS%" OR Signature like "%C99shell%" OR Signature like "%Chopper%" OR Signature like "%filebrowser%" OR Signature like "%JSP_%" OR Signature like "%JSP:%" OR Signature like "%JSP.Agent%" OR Signature like "%JSP/%" OR Signature like "%Perl:%" OR Signature like "%Perl/%" OR Signature like "%PHP_%" OR Signature like "%PHP:%" OR Signature like "%PHP.Agent%" OR Signature like "%PHP/%" OR Signature like "%PHPShell%" OR Signature like "%PShlSpy%" OR Signature like "%SinoChoper%" OR Signature like "%Trojan.ASP%" OR Signature like "%Trojan.JSP%" OR Signature like "%Trojan.PHP%" OR Signature like "%Trojan.VBS%" OR Signature like "%VBS.Agent%" OR Signature like "%VBS/Agent%" OR Signature like "%Webshell%")))

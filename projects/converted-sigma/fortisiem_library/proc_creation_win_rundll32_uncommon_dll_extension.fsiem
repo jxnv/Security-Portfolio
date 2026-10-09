@@ -1,0 +1,11 @@
+# Title: Rundll32 Execution With Uncommon DLL Extension
+# ID: c3a99af4-35a9-4668-879e-c09aeb4f2bdf
+# Status: test
+# Level: medium
+# Author: Tim Shelton, Florian Roth (Nextron Systems), Yassine Oukessou
+# Date: 2022-01-13
+# Tags: attack.stealth, attack.t1218.011
+# Description: Detects the execution of rundll32 with a command line that doesn't contain a common extension
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((Image="*\\rundll32.exe") OR (OriginalFileName = "RUNDLL32.EXE")) AND NOT (((CommandLine = "") OR (((CommandLine CONTAIN ".cpl " OR CommandLine CONTAIN ".cpl," OR CommandLine CONTAIN ".cpl\"" OR CommandLine CONTAIN ".cpl'" OR CommandLine CONTAIN ".dll " OR CommandLine CONTAIN ".dll," OR CommandLine CONTAIN ".dll\"" OR CommandLine CONTAIN ".dll'" OR CommandLine CONTAIN ".inf " OR CommandLine CONTAIN ".inf," OR CommandLine CONTAIN ".inf\"" OR CommandLine CONTAIN ".inf'")) OR ((CommandLine="*.cpl" OR CommandLine="*.dll" OR CommandLine="*.inf"))) OR (CommandLine CONTAIN " -localserver ") OR (NOT CommandLine=*) OR (ParentImage="*\\msiexec.exe" AND (CommandLine CONTAIN ":\\Windows\\Installer\\" AND CommandLine CONTAIN ".tmp" AND CommandLine CONTAIN "zzzzInvokeManagedCustomActionOutOfProc")))) AND NOT (((ParentCommandLine CONTAIN ":\\Users\\" AND ParentCommandLine CONTAIN "\\AppData\\Local\\Microsoft\\EdgeUpdate\\Install\\{" AND ParentCommandLine CONTAIN "\\EDGEMITMP_" AND ParentCommandLine CONTAIN ".tmp\\setup.exe" AND ParentCommandLine CONTAIN "--install-archive=" AND ParentCommandLine CONTAIN "--previous-version=" AND ParentCommandLine CONTAIN "--msedgewebview --verbose-logging --do-not-launch-msedge --user-level"))))

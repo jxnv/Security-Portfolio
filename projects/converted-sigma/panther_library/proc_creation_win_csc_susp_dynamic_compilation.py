@@ -1,0 +1,19 @@
+# Title: Dynamic .NET Compilation Via Csc.EXE
+# ID: dcaa3f04-70c3-427a-80b4-b870d73c94c4
+# Status: test
+# Level: medium
+# Author: Florian Roth (Nextron Systems), X__Junior (Nextron Systems)
+# Date: 2019-08-24
+# Tags: attack.stealth, attack.t1027.004
+# Description: Detects execution of "csc.exe" to compile .NET code. Attackers often leverage this to compile code on the fly and use it in other stages.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Dynamic .NET Compilation Via Csc.EXE
+def rule(event):
+    # Detection Logic:
+    # ((Image="*\\csc.exe") AND (((CommandLine="*:\\Perflogs\\*" OR CommandLine="*:\\Users\\Public\\*" OR CommandLine="*\\AppData\\Local\\Temp\\*" OR CommandLine="*\\Temporary Internet*" OR CommandLine="*\\Windows\\Temp\\*")) OR (((CommandLine="*:\\Users\\*" AND CommandLine="*\\Favorites\\*")) OR ((CommandLine="*:\\Users\\*" AND CommandLine="*\\Favourites\\*")) OR ((CommandLine="*:\\Users\\*" AND CommandLine="*\\Contacts\\*")) OR ((CommandLine="*:\\Users\\*" AND CommandLine="*\\Pictures\\*"))) OR (CommandLine=regex("(?:[Pp]rogram[Dd]ata|%(?:[Ll]ocal)?[Aa]pp[Dd]ata%|\\\\[Aa]pp[Dd]ata\\\\(?:[Ll]ocal(?:[Ll]ow)?|[Rr]oaming))\\\\[^\\\\]{1,256}$"))) AND NOT ((((ParentImage="C:\\Program Files (x86)\\*" OR ParentImage="C:\\Program Files\\*")) OR (ParentImage="C:\\Windows\\System32\\sdiagnhost.exe") OR (ParentImage="C:\\Windows\\System32\\inetsrv\\w3wp.exe"))) AND NOT ((((ParentCommandLine="*JwB7ACIAZgBhAGkAbABlAGQAIgA6AHQAcgB1AGUALAAiAG0AcwBnACIAOgAiAEEAbgBzAGkAYgBsAGUAIAByAGUAcQB1AGkAcgBlAHMAIABQAG8AdwBlAHIAUwBoAGUAbABsACAAdgAzAC4AMAAgAG8AcgAgAG4AZQB3AGUAcgAiAH0AJw*" OR ParentCommandLine="*cAewAiAGYAYQBpAGwAZQBkACIAOgB0AHIAdQBlACwAIgBtAHMAZwAiADoAIgBBAG4AcwBpAGIAbABlACAAcgBlAHEAdQBpAHIAZQBzACAAUABvAHcAZQByAFMAaABlAGwAbAAgAHYAMwAuADAAIABvAHIAIABuAGUAdwBlAHIAIgB9ACcA*" OR ParentCommandLine="*nAHsAIgBmAGEAaQBsAGUAZAAiADoAdAByAHUAZQAsACIAbQBzAGcAIgA6ACIAQQBuAHMAaQBiAGwAZQAgAHIAZQBxAHUAaQByAGUAcwAgAFAAbwB3AGUAcgBTAGgAZQBsAGwAIAB2ADMALgAwACAAbwByACAAbgBlAHcAZQByACIAfQAnA*")) OR ((ParentImage="C:\\ProgramData\\chocolatey\\choco.exe" OR ParentImage="C:\\ProgramData\\chocolatey\\tools\\shimgen.exe")) OR (ParentCommandLine="*\\ProgramData\\Microsoft\\Windows Defender Advanced Threat Protection*"))))
+    return True
+
+def title(event):
+    return "Dynamic .NET Compilation Via Csc.EXE"
+

@@ -1,0 +1,23 @@
+// Title: Sysmon Configuration Update
+// ID: 87911521-7098-470b-a459-9a57fc80bdfd
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-03-09
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects updates to Sysmon's configuration. Attackers might update or replace the Sysmon configuration with a bare bone one to avoid monitoring without shutting down the service completely
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 87911521_7098_470b_a459_9a57fc80bdfd {
+  meta:
+    title = "Sysmon Configuration Update"
+    description = "Detects updates to Sysmon's configuration. Attackers might update or replace the Sysmon configuration with a bare bone one to avoid monitoring without shutting down the service completely"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.command_line = /.*-c.*/ nocase or $e.target.process.command_line = /.*/c.*/ nocase)) and ((($e.target.process.file.full_path = /.*\\Sysmon64.exe$/ nocase or $e.target.process.file.full_path = /.*\\Sysmon64a.exe$/ nocase or $e.target.process.file.full_path = /.*\\Sysmon.exe$/ nocase)) or ($e.Description = "System activity monitor")))
+
+  condition:
+    $e
+}

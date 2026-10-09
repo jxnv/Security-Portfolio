@@ -1,0 +1,11 @@
+// Title: Suspicious Process Created Via Wmic.EXE
+// ID: 3c89a1e8-0fba-449e-8f1b-8409d6267ec8
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2020-10-12
+// Tags: attack.execution, attack.t1047
+// Description: Detects WMIC executing "process call create" with suspicious calls to processes such as "rundll32", "regsrv32", etc.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((src.process.cmdline containsCIS "process " AND src.process.cmdline containsCIS "call " AND src.process.cmdline containsCIS "create ") AND (src.process.cmdline containsCIS "rundll32" OR src.process.cmdline containsCIS "bitsadmin" OR src.process.cmdline containsCIS "regsvr32" OR src.process.cmdline containsCIS "cmd.exe /c " OR src.process.cmdline containsCIS "cmd.exe /k " OR src.process.cmdline containsCIS "cmd.exe /r " OR src.process.cmdline containsCIS "cmd /c " OR src.process.cmdline containsCIS "cmd /k " OR src.process.cmdline containsCIS "cmd /r " OR src.process.cmdline containsCIS "powershell" OR src.process.cmdline containsCIS "pwsh" OR src.process.cmdline containsCIS "certutil" OR src.process.cmdline containsCIS "cscript" OR src.process.cmdline containsCIS "wscript" OR src.process.cmdline containsCIS "mshta" OR src.process.cmdline containsCIS "\\Users\\Public\\" OR src.process.cmdline containsCIS "\\Windows\\Temp\\" OR src.process.cmdline containsCIS "\\AppData\\Local\\" OR src.process.cmdline containsCIS "%temp%" OR src.process.cmdline containsCIS "%tmp%" OR src.process.cmdline containsCIS "%ProgramData%" OR src.process.cmdline containsCIS "%appdata%" OR src.process.cmdline containsCIS "%comspec%" OR src.process.cmdline containsCIS "%localappdata%"))

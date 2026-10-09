@@ -1,0 +1,13 @@
+// Title: Python WebServer Execution - Linux
+// ID: 3f0f5957-04f8-4792-ad89-192b0303bde6
+// Status: experimental
+// Level: medium
+// Author: Mohamed LAKRI
+// Date: 2025-10-17
+// Tags: attack.exfiltration, attack.t1048.003
+// Description: Detects the execution of Python web servers via command line interface (CLI).
+// After gaining access to target systems, adversaries may use Python's built-in HTTP server modules to quickly establish a web server without requiring additional software.
+// This technique is commonly used in post-exploitation scenarios as it provides a simple method for transferring files between the compromised host and attacker-controlled systems.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where ((((process.executable endswith "/python" or process.executable endswith "/python2" or process.executable endswith "/python3")) or ((process.executable like "*_/python2.*" or process.executable like "*_/python3.*"))) and ((process.command_line like "*_http.server*" or process.command_line like "*_SimpleHTTPServer*")))

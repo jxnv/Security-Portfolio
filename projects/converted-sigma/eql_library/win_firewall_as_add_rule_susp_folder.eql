@@ -1,0 +1,11 @@
+// Title: New Firewall Rule Added In Windows Firewall Exception List For Potential Suspicious Application
+// ID: 9e2575e7-2cb9-4da1-adc8-ed94221dca5e
+// Status: test
+// Level: high
+// Author: frack113
+// Date: 2023-02-26
+// Tags: attack.defense-impairment, attack.t1686.003
+// Description: Detects the addition of a new rule to the Windows Firewall exception list for an application located in a potentially suspicious location.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+any where (((winlog.event_id == 2004 or winlog.event_id == 2071 or winlog.event_id == 2097) and (ApplicationPath like "*_:\\PerfLogs\\*" or ApplicationPath like "*_:\\Temp\\*" or ApplicationPath like "*_:\\Tmp\\*" or ApplicationPath like "*_:\\Users\\Public\\*" or ApplicationPath like "*_:\\Windows\\Tasks\\*" or ApplicationPath like "*_:\\Windows\\Temp\\*" or ApplicationPath like "*_\\AppData\\Local\\Temp\\*")) and not ((Action == 2)))

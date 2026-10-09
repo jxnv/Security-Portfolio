@@ -1,0 +1,19 @@
+# Title: Suspicious Execution of Shutdown
+# ID: 34ebb878-1b15-4895-b352-ca2eeb99b274
+# Status: test
+# Level: medium
+# Author: frack113
+# Date: 2022-01-01
+# Tags: attack.impact, attack.t1529
+# Description: Use of the commandline to shutdown or reboot windows
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Suspicious Execution of Shutdown
+def rule(event):
+    # Detection Logic:
+    # (Image="*\\shutdown.exe" AND (CommandLine="*/r *" OR CommandLine="*/s *"))
+    return True
+
+def title(event):
+    return "Suspicious Execution of Shutdown"
+

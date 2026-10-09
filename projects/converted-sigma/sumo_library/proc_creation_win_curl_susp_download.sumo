@@ -1,0 +1,11 @@
+// Title: Suspicious Curl.EXE Download
+// ID: e218595b-bbe7-4ee5-8a96-f32a24ad3468
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2020-07-03
+// Tags: attack.command-and-control, attack.t1105
+// Description: Detects a suspicious curl process start on Windows and outputs the requested document to a local file
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where (((Image matches "*\\curl.exe") or (Product = "The curl executable")) and (((CommandLine matches "*.dll" or CommandLine matches "*.gif" or CommandLine matches "*.jpeg" or CommandLine matches "*.jpg" or CommandLine matches "*.png" or CommandLine matches "*.temp" or CommandLine matches "*.tmp" or CommandLine matches "*.txt" or CommandLine matches "*.vbe" or CommandLine matches "*.vbs")) or ((CommandLine matches "*%AppData%*" or CommandLine matches "*%Public%*" or CommandLine matches "*%Temp%*" or CommandLine matches "*%tmp%*" or CommandLine matches "*\\AppData\\*" or CommandLine matches "*\\Desktop\\*" or CommandLine matches "*\\Temp\\*" or CommandLine matches "*\\Users\\Public\\*" or CommandLine matches "*C:\\PerfLogs\\*" or CommandLine matches "*C:\\ProgramData\\*" or CommandLine matches "*C:\\Windows\\Temp\\*"))) and !((ParentImage = "C:\\Program Files\\Git\\usr\\bin\\sh.exe" and Image = "C:\\Program Files\\Git\\mingw64\\bin\\curl.exe" and (CommandLine matches "*--silent --show-error --output *" and CommandLine matches "*gfw-httpget-*" and CommandLine matches "*AppData*"))))

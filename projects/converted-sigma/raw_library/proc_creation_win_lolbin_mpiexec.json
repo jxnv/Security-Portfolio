@@ -1,0 +1,35 @@
+{
+  "title": "MpiExec Lolbin",
+  "id": "729ce0ea-5d8f-4769-9762-e35de441586d",
+  "status": "test",
+  "description": "Detects a certain command line flag combination used by mpiexec.exe LOLBIN from HPC pack that can be used to execute any other binary",
+  "author": "Florian Roth (Nextron Systems)",
+  "date": "2022-01-11",
+  "tags": [
+    "attack.execution",
+    "attack.stealth",
+    "attack.t1218"
+  ],
+  "level": "high",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_binary": [
+      {
+        "Image|endswith": "\\mpiexec.exe"
+      },
+      {
+        "Hashes|contains": "IMPHASH=d8b52ef6aaa3a81501bdfff9dbb96217"
+      }
+    ],
+    "selection_flags": {
+      "CommandLine|contains": [
+        " /n 1 ",
+        " -n 1 "
+      ]
+    },
+    "condition": "all of selection*"
+  }
+}

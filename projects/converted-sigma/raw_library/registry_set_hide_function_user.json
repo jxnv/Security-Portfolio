@@ -1,0 +1,38 @@
+{
+  "title": "Registry Hide Function from User",
+  "id": "5a93eb65-dffa-4543-b761-94aa60098fb6",
+  "status": "test",
+  "description": "Detects registry modifications that hide internal tools or functions from the user (malware like Agent Tesla, Hermetic Wiper uses this technique)",
+  "author": "frack113",
+  "date": "2022-03-18",
+  "tags": [
+    "attack.persistence",
+    "attack.defense-impairment",
+    "attack.t1112"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "registry_set",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_set_1": {
+      "TargetObject|endswith": [
+        "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\HideClock",
+        "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\HideSCAHealth",
+        "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\HideSCANetwork",
+        "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\HideSCAPower",
+        "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\HideSCAVolume"
+      ],
+      "Details": "DWORD (0x00000001)"
+    },
+    "selection_set_0": {
+      "TargetObject|endswith": [
+        "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\ShowInfoTip",
+        "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\ShowCompColor"
+      ],
+      "Details": "DWORD (0x00000000)"
+    },
+    "condition": "1 of selection_set_*"
+  }
+}

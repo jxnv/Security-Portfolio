@@ -1,0 +1,24 @@
+// Title: Outbound Network Connection Initiated By Cmstp.EXE
+// ID: efafe0bf-4238-479e-af8f-797bd3490d2d
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-30
+// Tags: attack.stealth, attack.t1218.003
+// Description: Detects a network connection initiated by Cmstp.EXE
+// Its uncommon for "cmstp.exe" to initiate an outbound network connection. Investigate the source of such requests to determine if they are malicious.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule efafe0bf_4238_479e_af8f_797bd3490d2d {
+  meta:
+    title = "Outbound Network Connection Initiated By Cmstp.EXE"
+    description = "Detects a network connection initiated by Cmstp.EXE Its uncommon for "cmstp.exe" to initiate an outbound network connection. Investigate the source of such requests to determine if they are malicious."
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.file.full_path = /.*\\cmstp.exe$/ nocase and $e.Initiated = "true") and not(((net.ip_in_range_cidr($e.target.ip, "127.0.0.0/8") or net.ip_in_range_cidr($e.target.ip, "10.0.0.0/8") or net.ip_in_range_cidr($e.target.ip, "172.16.0.0/12") or net.ip_in_range_cidr($e.target.ip, "192.168.0.0/16") or net.ip_in_range_cidr($e.target.ip, "169.254.0.0/16") or net.ip_in_range_cidr($e.target.ip, "::1/128") or net.ip_in_range_cidr($e.target.ip, "fe80::/10") or net.ip_in_range_cidr($e.target.ip, "fc00::/7")))))
+
+  condition:
+    $e
+}

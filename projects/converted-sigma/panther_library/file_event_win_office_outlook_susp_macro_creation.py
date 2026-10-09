@@ -1,0 +1,19 @@
+# Title: Suspicious Outlook Macro Created
+# ID: 117d3d3a-755c-4a61-b23e-9171146d094c
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2023-02-08
+# Tags: attack.privilege-escalation, attack.persistence, attack.command-and-control, attack.t1137, attack.t1008, attack.t1546
+# Description: Detects the creation of a macro file for Outlook.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Suspicious Outlook Macro Created
+def rule(event):
+    # Detection Logic:
+    # ((TargetFilename="*\\Microsoft\\Outlook\\VbaProject.OTM") AND NOT ((Image="*\\outlook.exe")))
+    return True
+
+def title(event):
+    return "Suspicious Outlook Macro Created"
+

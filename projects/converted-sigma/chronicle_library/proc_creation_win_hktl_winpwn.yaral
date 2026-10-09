@@ -1,0 +1,23 @@
+// Title: HackTool - WinPwn Execution
+// ID: d557dc06-62e8-4468-a8e8-7984124908ce
+// Status: test
+// Level: high
+// Author: Swachchhanda Shrawan Poudel
+// Date: 2023-12-04
+// Tags: attack.credential-access, attack.discovery, attack.execution, attack.privilege-escalation, attack.t1046, attack.t1082, attack.t1106, attack.t1518, attack.t1548.002, attack.t1552.001, attack.t1555, attack.t1555.003
+// Description: Detects commandline keywords indicative of potential usge of the tool WinPwn. A tool for Windows and Active Directory reconnaissance and exploitation.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule d557dc06_62e8_4468_a8e8_7984124908ce {
+  meta:
+    title = "HackTool - WinPwn Execution"
+    description = "Detects commandline keywords indicative of potential usge of the tool WinPwn. A tool for Windows and Active Directory reconnaissance and exploitation."
+    author = "Swachchhanda Shrawan Poudel"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.command_line = /.*Offline_Winpwn.*/ nocase or $e.target.process.command_line = /.*WinPwn .*/ nocase or $e.target.process.command_line = /.*WinPwn.exe.*/ nocase or $e.target.process.command_line = /.*WinPwn.ps1.*/ nocase))
+
+  condition:
+    $e
+}

@@ -1,0 +1,23 @@
+// Title: Persistence and Execution at Scale via GPO Scheduled Task
+// ID: a8f29a7b-b137-4446-80a0-b804272f3da2
+// Status: test
+// Level: high
+// Author: Samir Bousseaden
+// Date: 2019-04-03
+// Tags: attack.privilege-escalation, attack.execution, attack.persistence, attack.lateral-movement, attack.t1053.005
+// Description: Detect lateral movement using GPO scheduled task, usually used to deploy ransomware at scale
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule a8f29a7b_b137_4446_80a0_b804272f3da2 {
+  meta:
+    title = "Persistence and Execution at Scale via GPO Scheduled Task"
+    description = "Detect lateral movement using GPO scheduled task, usually used to deploy ransomware at scale"
+    author = "Samir Bousseaden"
+    severity = "HIGH"
+
+  events:
+    (($e.EventID = 5136 and ($e.AttributeLDAPDisplayName = "gPCMachineExtensionNames" or $e.AttributeLDAPDisplayName = "gPCUserExtensionNames") and ($e.AttributeValue = /.*CAB54552-DEEA-4691-817E-ED4A4D1AFC72.*/ nocase or $e.AttributeValue = /.*AADCED64-746C-4633-A97C-D61349046527.*/ nocase)) or ($e.EventID = 5145 and $e.ShareName = /.*\\SYSVOL$/ nocase and $e.RelativeTargetName = /.*ScheduledTasks.xml$/ nocase and ($e.AccessList = /.*WriteData.*/ nocase or $e.AccessList = /.*%%4417.*/ nocase)))
+
+  condition:
+    $e
+}

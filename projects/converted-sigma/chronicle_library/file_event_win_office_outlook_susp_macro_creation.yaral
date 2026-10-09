@@ -1,0 +1,23 @@
+// Title: Suspicious Outlook Macro Created
+// ID: 117d3d3a-755c-4a61-b23e-9171146d094c
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-02-08
+// Tags: attack.privilege-escalation, attack.persistence, attack.command-and-control, attack.t1137, attack.t1008, attack.t1546
+// Description: Detects the creation of a macro file for Outlook.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 117d3d3a_755c_4a61_b23e_9171146d094c {
+  meta:
+    title = "Suspicious Outlook Macro Created"
+    description = "Detects the creation of a macro file for Outlook."
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.target.file.full_path = /.*\\Microsoft\\Outlook\\VbaProject.OTM$/ nocase) and not(($e.target.process.file.full_path = /.*\\outlook.exe$/ nocase)))
+
+  condition:
+    $e
+}

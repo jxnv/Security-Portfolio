@@ -1,0 +1,23 @@
+// Title: Suspicious Scripting in a WMI Consumer
+// ID: fe21810c-2a8c-478f-8dd3-5a287fb2a0e0
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Jonhnathan Ribeiro
+// Date: 2019-04-15
+// Tags: attack.execution, attack.t1059.005
+// Description: Detects suspicious commands that are related to scripting/powershell in WMI Event Consumers
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule fe21810c_2a8c_478f_8dd3_5a287fb2a0e0 {
+  meta:
+    title = "Suspicious Scripting in a WMI Consumer"
+    description = "Detects suspicious commands that are related to scripting/powershell in WMI Event Consumers"
+    author = "Florian Roth (Nextron Systems), Jonhnathan Ribeiro"
+    severity = "HIGH"
+
+  events:
+    ((($e.Destination = /.*new-object.*/ nocase and $e.Destination = /.*net.webclient.*/ nocase and $e.Destination = /.*.downloadstring.*/ nocase)) or (($e.Destination = /.*new-object.*/ nocase and $e.Destination = /.*net.webclient.*/ nocase and $e.Destination = /.*.downloadfile.*/ nocase)) or (($e.Destination = /.* iex(.*/ nocase or $e.Destination = /.* -nop .*/ nocase or $e.Destination = /.* -noprofile .*/ nocase or $e.Destination = /.* -decode .*/ nocase or $e.Destination = /.* -enc .*/ nocase or $e.Destination = /.*WScript.Shell.*/ nocase or $e.Destination = /.*System.Security.Cryptography.FromBase64Transform.*/ nocase)))
+
+  condition:
+    $e
+}

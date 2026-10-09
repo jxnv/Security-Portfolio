@@ -1,0 +1,11 @@
+# Title: Potential Meterpreter/CobaltStrike Activity
+# ID: 15619216-e993-4721-b590-4c520615a67d
+# Status: test
+# Level: high
+# Author: Teymur Kheirkhabarov, Ecco, Florian Roth
+# Date: 2019-10-26
+# Tags: attack.privilege-escalation, attack.stealth, attack.t1134.001, attack.t1134.002
+# Description: Detects the use of getsystem Meterpreter/Cobalt Strike command by detecting a specific service starting
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((parent_name:*\\services.exe) AND (((cmdline:*/c* AND cmdline:*echo* AND cmdline:*\\pipe\\*) AND (cmdline:*cmd* OR cmdline:*%COMSPEC%*)) OR ((cmdline:*rundll32* AND cmdline:*.dll,a* AND cmdline:*/p:*))) AND -((cmdline:*MpCmdRun*)))

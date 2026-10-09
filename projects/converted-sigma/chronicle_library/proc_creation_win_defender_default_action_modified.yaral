@@ -1,0 +1,25 @@
+// Title: PowerShell Defender Threat Severity Default Action Set to 'Allow' or 'NoAction'
+// ID: 1e8a9b4d-3c2a-4f9b-8d1e-7c6a5b4f3d2e
+// Status: experimental
+// Level: high
+// Author: Matt Anderson (Huntress)
+// Date: 2025-07-11
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects the use of PowerShell to execute the 'Set-MpPreference' cmdlet to configure Windows Defender's threat severity default action to 'Allow' (value '6') or 'NoAction' (value '9').
+// This is a highly suspicious configuration change that effectively disables Defender's ability to automatically mitigate threats of a certain severity level.
+// An attacker might use this technique via the command line to bypass defenses before executing payloads.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 1e8a9b4d_3c2a_4f9b_8d1e_7c6a5b4f3d2e {
+  meta:
+    title = "PowerShell Defender Threat Severity Default Action Set to 'Allow' or 'NoAction'"
+    description = "Detects the use of PowerShell to execute the 'Set-MpPreference' cmdlet to configure Windows Defender's threat severity default action to 'Allow' (value '6') or 'NoAction' (value '9'). This is a highly suspicious configuration change that effectively disables Defender's ability to automatically mitigate threats of a certain severity level. An attacker might use this technique via the command line to bypass defenses before executing payloads."
+    author = "Matt Anderson (Huntress)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*-LowThreatDefaultAction.*/ nocase or $e.target.process.command_line = /.*-ModerateThreatDefaultAction.*/ nocase or $e.target.process.command_line = /.*-HighThreatDefaultAction.*/ nocase or $e.target.process.command_line = /.*-SevereThreatDefaultAction.*/ nocase or $e.target.process.command_line = /.*-ltdefac .*/ nocase or $e.target.process.command_line = /.*-mtdefac .*/ nocase or $e.target.process.command_line = /.*-htdefac .*/ nocase or $e.target.process.command_line = /.*-stdefac .*/ nocase)) and ($e.target.process.command_line = /.*Set-MpPreference.*/ nocase) and (($e.target.process.command_line = /.*Allow.*/ nocase or $e.target.process.command_line = /.*6.*/ nocase or $e.target.process.command_line = /.*NoAction.*/ nocase or $e.target.process.command_line = /.*9.*/ nocase)))
+
+  condition:
+    $e
+}

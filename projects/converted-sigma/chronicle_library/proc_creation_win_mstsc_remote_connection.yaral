@@ -1,0 +1,24 @@
+// Title: New Remote Desktop Connection Initiated Via Mstsc.EXE
+// ID: 954f0af7-62dd-418f-b3df-a84bc2c7a774
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-01-07
+// Tags: attack.lateral-movement, attack.t1021.001
+// Description: Detects the usage of "mstsc.exe" with the "/v" flag to initiate a connection to a remote server.
+// Adversaries may use valid accounts to log into a computer using the Remote Desktop Protocol (RDP). The adversary may then perform actions as the logged-on user.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 954f0af7_62dd_418f_b3df_a84bc2c7a774 {
+  meta:
+    title = "New Remote Desktop Connection Initiated Via Mstsc.EXE"
+    description = "Detects the usage of "mstsc.exe" with the "/v" flag to initiate a connection to a remote server. Adversaries may use valid accounts to log into a computer using the Remote Desktop Protocol (RDP). The adversary may then perform actions as the logged-on user."
+    author = "frack113"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.command_line = /.* /v:.*/ nocase) and (($e.target.process.file.full_path = /.*\\mstsc.exe$/ nocase) or ($e.target.process.file.name = "mstsc.exe"))) and not(($e.principal.process.file.full_path = "C:\\Windows\\System32\\lxss\\wslhost.exe" and $e.target.process.command_line = /.*C:\\ProgramData\\Microsoft\\WSL\\wslg.rdp.*/ nocase)))
+
+  condition:
+    $e
+}

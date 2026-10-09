@@ -1,0 +1,11 @@
+// Title: Suspicious Non-Browser Network Communication With Google API
+// ID: 7e9cf7b6-e827-11ed-a05b-0242ac120003
+// Status: experimental
+// Level: medium
+// Author: Gavin Knapp
+// Date: 2023-05-01
+// Tags: attack.command-and-control, attack.t1102
+// Description: Detects a non-browser process interacting with the Google API which could indicate the use of a covert C2 such as Google Sheet C2 (GC2-sheet)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((DestinationHostname CONTAINS "drive.googleapis.com" OR DestinationHostname CONTAINS "oauth2.googleapis.com" OR DestinationHostname CONTAINS "sheets.googleapis.com" OR DestinationHostname CONTAINS "www.googleapis.com")) AND NOT (((Image EQ "") OR (NOT Image=*))) AND NOT (((Image ENDSWITH "\\brave.exe") OR ((Image ENDSWITH ":\\Program Files\\Google\\Chrome\\Application\\chrome.exe" OR Image ENDSWITH ":\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe")) OR ((Image CONTAINS ":\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\") OR ((Image ENDSWITH ":\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe" OR Image ENDSWITH ":\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe" OR Image ENDSWITH "\\WindowsApps\\MicrosoftEdge.exe"))) OR ((Image CONTAINS ":\\Program Files (x86)\\Microsoft\\EdgeCore\\" OR Image CONTAINS ":\\Program Files\\Microsoft\\EdgeCore\\") AND (Image ENDSWITH "\\msedge.exe" OR Image ENDSWITH "\\msedgewebview2.exe")) OR ((Image ENDSWITH ":\\Program Files\\Mozilla Firefox\\firefox.exe" OR Image ENDSWITH ":\\Program Files (x86)\\Mozilla Firefox\\firefox.exe")) OR (Image CONTAINS ":\\Program Files\\Google\\Drive File Stream\\" AND Image ENDSWITH "\\GoogleDriveFS.exe") OR (Image ENDSWITH "\\GoogleUpdate.exe") OR ((Image ENDSWITH ":\\Program Files (x86)\\Internet Explorer\\iexplore.exe" OR Image ENDSWITH ":\\Program Files\\Internet Explorer\\iexplore.exe")) OR (Image ENDSWITH "\\maxthon.exe") OR (Image ENDSWITH "\\opera.exe") OR (Image ENDSWITH "\\outlook.exe") OR (Image ENDSWITH "\\safari.exe") OR (Image ENDSWITH "\\seamonkey.exe") OR (Image ENDSWITH "\\vivaldi.exe") OR (Image ENDSWITH "\\whale.exe"))))

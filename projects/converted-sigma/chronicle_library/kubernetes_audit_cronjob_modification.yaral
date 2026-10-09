@@ -1,0 +1,25 @@
+// Title: Kubernetes CronJob/Job Modification
+// ID: 0c9b3bda-41a6-4442-9345-356ae86343dc
+// Status: test
+// Level: medium
+// Author: kelnage
+// Date: 2024-07-11
+// Tags: attack.persistence, attack.privilege-escalation, attack.execution
+// Description: Detects when a Kubernetes CronJob or Job is created or modified.
+// A Kubernetes Job creates one or more pods to accomplish a specific task, and a CronJob creates Jobs on a recurring schedule.
+// An adversary can take advantage of this Kubernetes object to schedule Jobs to run containers that execute malicious code within a cluster, allowing them to achieve persistence.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 0c9b3bda_41a6_4442_9345_356ae86343dc {
+  meta:
+    title = "Kubernetes CronJob/Job Modification"
+    description = "Detects when a Kubernetes CronJob or Job is created or modified. A Kubernetes Job creates one or more pods to accomplish a specific task, and a CronJob creates Jobs on a recurring schedule. An adversary can take advantage of this Kubernetes object to schedule Jobs to run containers that execute malicious code within a cluster, allowing them to achieve persistence."
+    author = "kelnage"
+    severity = "MEDIUM"
+
+  events:
+    ($e.objectRef.apiGroup = "batch" and ($e.objectRef.resource = "cronjobs" or $e.objectRef.resource = "jobs") and ($e.verb = "create" or $e.verb = "delete" or $e.verb = "patch" or $e.verb = "replace" or $e.verb = "update"))
+
+  condition:
+    $e
+}

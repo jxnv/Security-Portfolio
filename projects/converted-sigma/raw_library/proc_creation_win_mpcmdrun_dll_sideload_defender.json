@@ -1,0 +1,38 @@
+{
+  "title": "Potential Mpclient.DLL Sideloading Via Defender Binaries",
+  "id": "7002aa10-b8d4-47ae-b5ba-51ab07e228b9",
+  "status": "test",
+  "description": "Detects potential sideloading of \"mpclient.dll\" by Windows Defender processes (\"MpCmdRun\" and \"NisSrv\") from their non-default directory.",
+  "author": "Bhabesh Raj",
+  "date": "2022-08-01",
+  "tags": [
+    "attack.privilege-escalation",
+    "attack.persistence",
+    "attack.execution",
+    "attack.stealth",
+    "attack.t1574.001"
+  ],
+  "level": "high",
+  "logsource": {
+    "product": "windows",
+    "category": "process_creation"
+  },
+  "detection": {
+    "selection": {
+      "Image|endswith": [
+        "\\MpCmdRun.exe",
+        "\\NisSrv.exe"
+      ]
+    },
+    "filter_main_known_locations": {
+      "Image|startswith": [
+        "C:\\Program Files (x86)\\Windows Defender\\",
+        "C:\\Program Files\\Microsoft Security Client\\",
+        "C:\\Program Files\\Windows Defender\\",
+        "C:\\ProgramData\\Microsoft\\Windows Defender\\Platform\\",
+        "C:\\Windows\\WinSxS\\"
+      ]
+    },
+    "condition": "selection and not 1 of filter_main_*"
+  }
+}

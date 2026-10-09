@@ -1,0 +1,11 @@
+// Title: Internet Explorer DisableFirstRunCustomize Enabled
+// ID: ab567429-1dfb-4674-b6d2-979fd2f9d125
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-05-16
+// Tags: attack.defense-impairment
+// Description: Detects changes to the Internet Explorer "DisableFirstRunCustomize" value, which prevents Internet Explorer from running the first run wizard the first time a user starts the browser after installing Internet Explorer or Windows.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where ((registry.path="*\\Microsoft\\Internet Explorer\\Main\\DisableFirstRunCustomize" AND (registry.data.strings = "DWORD (0x00000001)" OR registry.data.strings = "DWORD (0x00000002)")) AND NOT (((process.executable = "C:\\Windows\\explorer.exe" OR process.executable = "C:\\Windows\\System32\\ie4uinit.exe"))) AND NOT ((((process.executable like "%\\Temp\\%" AND process.executable like "%\\.cr\\avira_%") AND registry.data.strings like "%DWORD (0x00000001)%") OR ((process.executable = "C:\\Program Files (x86)\\Foxit Software\\Foxit PDF Reader\\FoxitPDFReader.exe" OR process.executable = "C:\\Program Files\\Foxit Software\\Foxit PDF Reader\\FoxitPDFReader.exe") AND registry.data.strings like "%DWORD (0x00000001)%"))))

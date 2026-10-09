@@ -1,0 +1,11 @@
+-- Title: LSASS Access From Potentially White-Listed Processes
+-- ID: 4be8b654-0c01-4c9d-a10c-6b28467fc651
+-- Status: test
+-- Level: high
+-- Author: Florian Roth (Nextron Systems)
+-- Date: 2022-02-10
+-- Tags: attack.credential-access, attack.t1003.001, attack.s0002
+-- Description: Detects a possible process memory dump that uses a white-listed filename like TrolleyExpress.exe as a way to dump the LSASS process memory without Microsoft Defender interference
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE (TargetImage ILIKE '%\\lsass.exe' AND (SourceImage ILIKE '%\\TrolleyExpress.exe' OR SourceImage ILIKE '%\\ProcessDump.exe' OR SourceImage ILIKE '%\\dump64.exe') AND (GrantedAccess ILIKE '%10' OR GrantedAccess ILIKE '%30' OR GrantedAccess ILIKE '%50' OR GrantedAccess ILIKE '%70' OR GrantedAccess ILIKE '%90' OR GrantedAccess ILIKE '%B0' OR GrantedAccess ILIKE '%D0' OR GrantedAccess ILIKE '%F0' OR GrantedAccess ILIKE '%18' OR GrantedAccess ILIKE '%38' OR GrantedAccess ILIKE '%58' OR GrantedAccess ILIKE '%78' OR GrantedAccess ILIKE '%98' OR GrantedAccess ILIKE '%B8' OR GrantedAccess ILIKE '%D8' OR GrantedAccess ILIKE '%F8' OR GrantedAccess ILIKE '%1A' OR GrantedAccess ILIKE '%3A' OR GrantedAccess ILIKE '%5A' OR GrantedAccess ILIKE '%7A' OR GrantedAccess ILIKE '%9A' OR GrantedAccess ILIKE '%BA' OR GrantedAccess ILIKE '%DA' OR GrantedAccess ILIKE '%FA' OR GrantedAccess ILIKE '%0x14C2' OR GrantedAccess ILIKE '%FF'))

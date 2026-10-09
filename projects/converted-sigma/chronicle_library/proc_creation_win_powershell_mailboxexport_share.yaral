@@ -1,0 +1,23 @@
+// Title: Suspicious PowerShell Mailbox Export to Share
+// ID: 889719ef-dd62-43df-86c3-768fb08dc7c0
+// Status: test
+// Level: critical
+// Author: Florian Roth (Nextron Systems)
+// Date: 2021-08-07
+// Tags: attack.exfiltration
+// Description: Detects usage of the powerShell New-MailboxExportRequest Cmdlet to exports a mailbox to a remote or local share, as used in ProxyShell exploitations
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 889719ef_dd62_43df_86c3_768fb08dc7c0 {
+  meta:
+    title = "Suspicious PowerShell Mailbox Export to Share"
+    description = "Detects usage of the powerShell New-MailboxExportRequest Cmdlet to exports a mailbox to a remote or local share, as used in ProxyShell exploitations"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "CRITICAL"
+
+  events:
+    (($e.target.process.command_line = /.*New-MailboxExportRequest.*/ nocase and $e.target.process.command_line = /.* -Mailbox .*/ nocase and $e.target.process.command_line = /.* -FilePath \\\\\\\\.*/ nocase))
+
+  condition:
+    $e
+}

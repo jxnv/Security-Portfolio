@@ -1,0 +1,23 @@
+// Title: Octopus Scanner Malware
+// ID: 805c55d9-31e6-4846-9878-c34c75054fe9
+// Status: test
+// Level: high
+// Author: NVISO
+// Date: 2020-06-09
+// Tags: attack.initial-access, attack.t1195, attack.t1195.001
+// Description: Detects Octopus Scanner Malware.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 805c55d9_31e6_4846_9878_c34c75054fe9 {
+  meta:
+    title = "Octopus Scanner Malware"
+    description = "Detects Octopus Scanner Malware."
+    author = "NVISO"
+    severity = "HIGH"
+
+  events:
+    (($e.target.file.full_path = /.*\\AppData\\Local\\Microsoft\\Cache134.dat$/ nocase or $e.target.file.full_path = /.*\\AppData\\Local\\Microsoft\\ExplorerSync.db$/ nocase))
+
+  condition:
+    $e
+}

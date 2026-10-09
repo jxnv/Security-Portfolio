@@ -1,0 +1,23 @@
+// Title: GAC DLL Loaded Via Office Applications
+// ID: 90217a70-13fc-48e4-b3db-0d836c5824ac
+// Status: test
+// Level: high
+// Author: Antonlovesdnb
+// Date: 2020-02-19
+// Tags: attack.execution, attack.t1204.002
+// Description: Detects any GAC DLL being loaded by an Office Product
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 90217a70_13fc_48e4_b3db_0d836c5824ac {
+  meta:
+    title = "GAC DLL Loaded Via Office Applications"
+    description = "Detects any GAC DLL being loaded by an Office Product"
+    author = "Antonlovesdnb"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.file.full_path = /.*\\excel.exe$/ nocase or $e.target.process.file.full_path = /.*\\mspub.exe$/ nocase or $e.target.process.file.full_path = /.*\\onenote.exe$/ nocase or $e.target.process.file.full_path = /.*\\onenoteim.exe$/ nocase or $e.target.process.file.full_path = /.*\\outlook.exe$/ nocase or $e.target.process.file.full_path = /.*\\powerpnt.exe$/ nocase or $e.target.process.file.full_path = /.*\\winword.exe$/ nocase) and $e.ImageLoaded = /^C:\\Windows\\Microsoft.NET\\assembly\\GAC_MSIL.*/ nocase)
+
+  condition:
+    $e
+}

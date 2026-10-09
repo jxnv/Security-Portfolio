@@ -1,0 +1,23 @@
+// Title: Potential Persistence Via DLLPathOverride
+// ID: a1b1fd53-9c4a-444c-bae0-34a330fc7aa8
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-07-21
+// Tags: attack.persistence
+// Description: Detects when an attacker adds a new "DLLPathOverride" value to the "Natural Language" key in order to achieve persistence which will get invoked by "SearchIndexer.exe" process
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule a1b1fd53_9c4a_444c_bae0_34a330fc7aa8 {
+  meta:
+    title = "Potential Persistence Via DLLPathOverride"
+    description = "Detects when an attacker adds a new "DLLPathOverride" value to the "Natural Language" key in order to achieve persistence which will get invoked by "SearchIndexer.exe" process"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.TargetObject = /.*\\SYSTEM\\CurrentControlSet\\Control\\ContentIndex\\Language\\.*/ nocase) and (($e.TargetObject = /.*\\StemmerDLLPathOverride.*/ nocase or $e.TargetObject = /.*\\WBDLLPathOverride.*/ nocase or $e.TargetObject = /.*\\StemmerClass.*/ nocase or $e.TargetObject = /.*\\WBreakerClass.*/ nocase)))
+
+  condition:
+    $e
+}

@@ -1,0 +1,23 @@
+// Title: Potentially Suspicious Execution From Parent Process In Public Folder
+// ID: 69bd9b97-2be2-41b6-9816-fb08757a4d1a
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-02-25
+// Tags: attack.execution, attack.stealth, attack.t1564, attack.t1059
+// Description: Detects a potentially suspicious execution of a parent process located in the "\Users\Public" folder executing a child process containing references to shell or scripting binaries and commandlines.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 69bd9b97_2be2_41b6_9816_fb08757a4d1a {
+  meta:
+    title = "Potentially Suspicious Execution From Parent Process In Public Folder"
+    description = "Detects a potentially suspicious execution of a parent process located in the "\Users\Public" folder executing a child process containing references to shell or scripting binaries and commandlines."
+    author = "Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (((($e.target.process.file.full_path = /.*\\bitsadmin.exe$/ nocase or $e.target.process.file.full_path = /.*\\certutil.exe$/ nocase or $e.target.process.file.full_path = /.*\\cmd.exe$/ nocase or $e.target.process.file.full_path = /.*\\cscript.exe$/ nocase or $e.target.process.file.full_path = /.*\\mshta.exe$/ nocase or $e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase or $e.target.process.file.full_path = /.*\\regsvr32.exe$/ nocase or $e.target.process.file.full_path = /.*\\rundll32.exe$/ nocase or $e.target.process.file.full_path = /.*\\wscript.exe$/ nocase)) or (($e.target.process.command_line = /.*bitsadmin.*/ nocase or $e.target.process.command_line = /.*certutil.*/ nocase or $e.target.process.command_line = /.*cscript.*/ nocase or $e.target.process.command_line = /.*mshta.*/ nocase or $e.target.process.command_line = /.*powershell.*/ nocase or $e.target.process.command_line = /.*regsvr32.*/ nocase or $e.target.process.command_line = /.*rundll32.*/ nocase or $e.target.process.command_line = /.*wscript.*/ nocase))) and ($e.principal.process.file.full_path = /.*:\\Users\\Public\\.*/ nocase))
+
+  condition:
+    $e
+}

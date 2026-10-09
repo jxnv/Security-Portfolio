@@ -1,0 +1,23 @@
+// Title: Suspicious Process Patterns NTDS.DIT Exfil
+// ID: 8bc64091-6875-4881-aaf9-7bd25b5dda08
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-03-11
+// Tags: attack.credential-access, attack.t1003.003
+// Description: Detects suspicious process patterns used in NTDS.DIT exfiltration
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 8bc64091_6875_4881_aaf9_7bd25b5dda08 {
+  meta:
+    title = "Suspicious Process Patterns NTDS.DIT Exfil"
+    description = "Detects suspicious process patterns used in NTDS.DIT exfiltration"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (((($e.target.process.command_line = /.*ac i ntds.*/ nocase and $e.target.process.command_line = /.*create full.*/ nocase)) or (($e.target.process.command_line = /.*/c copy .*/ nocase and $e.target.process.command_line = /.*\\windows\\ntds\\ntds.dit.*/ nocase)) or (($e.target.process.command_line = /.*activate instance ntds.*/ nocase and $e.target.process.command_line = /.*create full.*/ nocase)) or (($e.target.process.command_line = /.*powershell.*/ nocase and $e.target.process.command_line = /.*ntds.dit.*/ nocase)) or ((($e.target.process.file.full_path = /.*\\NTDSDump.exe$/ nocase or $e.target.process.file.full_path = /.*\\NTDSDumpEx.exe$/ nocase)) or (($e.target.process.command_line = /.*ntds.dit.*/ nocase and $e.target.process.command_line = /.*system.hiv.*/ nocase)) or ($e.target.process.command_line = /.*NTDSgrab.ps1.*/ nocase))) or (((($e.principal.process.file.full_path = /.*\\apache.*/ nocase or $e.principal.process.file.full_path = /.*\\tomcat.*/ nocase or $e.principal.process.file.full_path = /.*\\AppData\\.*/ nocase or $e.principal.process.file.full_path = /.*\\Temp\\.*/ nocase or $e.principal.process.file.full_path = /.*\\Public\\.*/ nocase or $e.principal.process.file.full_path = /.*\\PerfLogs\\.*/ nocase)) or (($e.target.process.file.full_path = /.*\\apache.*/ nocase or $e.target.process.file.full_path = /.*\\tomcat.*/ nocase or $e.target.process.file.full_path = /.*\\AppData\\.*/ nocase or $e.target.process.file.full_path = /.*\\Temp\\.*/ nocase or $e.target.process.file.full_path = /.*\\Public\\.*/ nocase or $e.target.process.file.full_path = /.*\\PerfLogs\\.*/ nocase))) and ($e.target.process.command_line = /.*ntds.dit.*/ nocase)))
+
+  condition:
+    $e
+}

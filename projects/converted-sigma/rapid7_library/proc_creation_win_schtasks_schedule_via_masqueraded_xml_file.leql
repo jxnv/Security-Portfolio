@@ -1,0 +1,11 @@
+// Title: Suspicious Scheduled Task Creation via Masqueraded XML File
+// ID: dd2a821e-3b07-4d3b-a9ac-929fe4c6ca0c
+// Status: test
+// Level: medium
+// Author: Swachchhanda Shrawan Poudel, Elastic (idea)
+// Date: 2023-04-20
+// Tags: attack.privilege-escalation, attack.execution, attack.persistence, attack.stealth, attack.t1036.005, attack.t1053.005
+// Description: Detects the creation of a scheduled task using the "-XML" flag with a file without the '.xml' extension. This behavior could be indicative of potential defense evasion attempt during persistence
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((where(CommandLine ICONTAINS "/create") OR where(CommandLine ICONTAINS "-create"))) AND ((where(CommandLine ICONTAINS "/xml") OR where(CommandLine ICONTAINS "-xml"))) AND ((where(Image IENDSWITH "\\schtasks.exe")) OR (where(OriginalFileName = "schtasks.exe")))) AND NOT (((where(CommandLine ICONTAINS ".xml")) OR (where(ParentImage IENDSWITH "\\rundll32.exe") AND (where(ParentCommandLine ICONTAINS ":\\WINDOWS\\Installer\\MSI") AND where(ParentCommandLine ICONTAINS ".tmp,zzzzInvokeManagedCustomActionOutOfProc"))) OR ((where(IntegrityLevel = "System") OR where(IntegrityLevel = "S-1-16-16384"))))) AND NOT (((where(ParentImage IENDSWITH ":\\ProgramData\\OEM\\UpgradeTool\\CareCenter_*\\BUnzip\\Setup_msi.exe") OR where(ParentImage IENDSWITH ":\\Program Files\\Axis Communications\\AXIS Camera Station\\SetupActions.exe") OR where(ParentImage IENDSWITH ":\\Program Files\\Axis Communications\\AXIS Device Manager\\AdmSetupActions.exe") OR where(ParentImage IENDSWITH ":\\Program Files (x86)\\Zemana\\AntiMalware\\AntiMalware.exe") OR where(ParentImage IENDSWITH ":\\Program Files\\Dell\\SupportAssist\\pcdrcui.exe")))))

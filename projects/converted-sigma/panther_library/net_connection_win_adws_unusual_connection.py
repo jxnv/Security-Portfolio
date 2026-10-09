@@ -1,0 +1,19 @@
+# Title: Uncommon Connection to Active Directory Web Services
+# ID: b3ad3c0f-c949-47a1-a30e-b0491ccae876
+# Status: test
+# Level: medium
+# Author: @kostastsale
+# Date: 2024-01-26
+# Tags: attack.discovery, attack.t1087
+# Description: Detects uncommon network connections to the Active Directory Web Services (ADWS) from processes not typically associated with ADWS management.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Uncommon Connection to Active Directory Web Services
+def rule(event):
+    # Detection Logic:
+    # ((Initiated="True" AND DestinationPort="9389") AND NOT (((Image="C:\\Windows\\system32\\dsac.exe") OR (Image="C:\\Program Files\\Microsoft Monitoring Agent\\") OR ((Image="C:\\Program Files\\PowerShell\\7\\pwsh.exe*" OR Image="C:\\Program Files\\PowerShell\\7-preview\\pwsh.ex*" OR Image="C:\\Windows\\System32\\WindowsPowerShell\\*" OR Image="C:\\Windows\\SysWOW64\\WindowsPowerShell\\*")))))
+    return True
+
+def title(event):
+    return "Uncommon Connection to Active Directory Web Services"
+

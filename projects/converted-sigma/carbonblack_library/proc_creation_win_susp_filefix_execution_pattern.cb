@@ -1,0 +1,14 @@
+# Title: Suspicious FileFix Execution Pattern
+# ID: b5b29e4e-31fa-4fdf-b058-296e7a1aa0c2
+# Status: experimental
+# Level: high
+# Author: 0xFustang, Swachchhanda Shrawan Poudel (Nextron Systems)
+# Date: 2025-11-24
+# Tags: attack.execution, attack.t1204.004
+# Description: Detects suspicious FileFix execution patterns where users are tricked into running malicious commands through browser file upload dialog manipulation.
+# This attack typically begins when users visit malicious websites impersonating legitimate services or news platforms,
+# which may display fake CAPTCHA challenges or direct instructions to open file explorer and paste clipboard content.
+# The clipboard content usually contains commands that download and execute malware, such as information stealing tools.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((parent_name:*\\brave.exe OR parent_name:*\\chrome.exe OR parent_name:*\\firefox.exe OR parent_name:*\\msedge.exe) AND cmdline:*#*) AND (((cmdline:*account* OR cmdline:*anti-bot* OR cmdline:*botcheck* OR cmdline:*captcha* OR cmdline:*challenge* OR cmdline:*confirmation* OR cmdline:*fraud* OR cmdline:*human* OR cmdline:*identification* OR cmdline:*identificator* OR cmdline:*identity* OR cmdline:*robot* OR cmdline:*validation* OR cmdline:*verification* OR cmdline:*verify*)) OR ((cmdline:*%comspec%* OR cmdline:*bitsadmin* OR cmdline:*certutil* OR cmdline:*cmd* OR cmdline:*cscript* OR cmdline:*curl* OR cmdline:*finger* OR cmdline:*mshta* OR cmdline:*powershell* OR cmdline:*pwsh* OR cmdline:*regsvr32* OR cmdline:*rundll32* OR cmdline:*schtasks* OR cmdline:*wget* OR cmdline:*wscript*))))

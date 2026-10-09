@@ -1,0 +1,11 @@
+// Title: Suspicious Child Process Of Veeam Dabatase
+// ID: d55b793d-f847-4eea-b59a-5ab09908ac90
+// Status: test
+// Level: critical
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-05-04
+// Tags: attack.initial-access, attack.persistence, attack.privilege-escalation
+// Description: Detects suspicious child processes of the Veeam service process. This could indicate potential RCE or SQL Injection.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where ((process.parent.executable endswith "\\sqlservr.exe" and process.parent.command_line like "*_VEEAMSQL*") and (((process.executable endswith "\\cmd.exe" or process.executable endswith "\\powershell.exe" or process.executable endswith "\\pwsh.exe" or process.executable endswith "\\wsl.exe" or process.executable endswith "\\wt.exe") and (process.command_line like "*_-ex *" or process.command_line like "*_bypass*" or process.command_line like "*_cscript*" or process.command_line like "*_DownloadString*" or process.command_line like "*_http://*" or process.command_line like "*_https://*" or process.command_line like "*_mshta*" or process.command_line like "*_regsvr32*" or process.command_line like "*_rundll32*" or process.command_line like "*_wscript*" or process.command_line like "*_copy *")) or ((process.executable endswith "\\net.exe" or process.executable endswith "\\net1.exe" or process.executable endswith "\\netstat.exe" or process.executable endswith "\\nltest.exe" or process.executable endswith "\\ping.exe" or process.executable endswith "\\tasklist.exe" or process.executable endswith "\\whoami.exe"))))

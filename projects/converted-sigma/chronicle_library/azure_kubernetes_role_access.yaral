@@ -1,0 +1,23 @@
+// Title: Azure Kubernetes Sensitive Role Access
+// ID: 818fee0c-e0ec-4e45-824e-83e4817b0887
+// Status: test
+// Level: medium
+// Author: Austin Songer @austinsonger
+// Date: 2021-08-07
+// Tags: attack.impact, attack.t1485, attack.t1496, attack.t1489
+// Description: Identifies when ClusterRoles/Roles are being modified or deleted.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 818fee0c_e0ec_4e45_824e_83e4817b0887 {
+  meta:
+    title = "Azure Kubernetes Sensitive Role Access"
+    description = "Identifies when ClusterRoles/Roles are being modified or deleted."
+    author = "Austin Songer @austinsonger"
+    severity = "MEDIUM"
+
+  events:
+    (($e.operationName = "MICROSOFT.KUBERNETES/CONNECTEDCLUSTERS/RBAC.AUTHORIZATION.K8S.IO/ROLES/WRITE" or $e.operationName = "MICROSOFT.KUBERNETES/CONNECTEDCLUSTERS/RBAC.AUTHORIZATION.K8S.IO/ROLES/DELETE" or $e.operationName = "MICROSOFT.KUBERNETES/CONNECTEDCLUSTERS/RBAC.AUTHORIZATION.K8S.IO/ROLES/BIND/ACTION" or $e.operationName = "MICROSOFT.KUBERNETES/CONNECTEDCLUSTERS/RBAC.AUTHORIZATION.K8S.IO/ROLES/ESCALATE/ACTION" or $e.operationName = "MICROSOFT.KUBERNETES/CONNECTEDCLUSTERS/RBAC.AUTHORIZATION.K8S.IO/CLUSTERROLES/WRITE" or $e.operationName = "MICROSOFT.KUBERNETES/CONNECTEDCLUSTERS/RBAC.AUTHORIZATION.K8S.IO/CLUSTERROLES/DELETE" or $e.operationName = "MICROSOFT.KUBERNETES/CONNECTEDCLUSTERS/RBAC.AUTHORIZATION.K8S.IO/CLUSTERROLES/BIND/ACTION" or $e.operationName = "MICROSOFT.KUBERNETES/CONNECTEDCLUSTERS/RBAC.AUTHORIZATION.K8S.IO/CLUSTERROLES/ESCALATE/ACTION"))
+
+  condition:
+    $e
+}

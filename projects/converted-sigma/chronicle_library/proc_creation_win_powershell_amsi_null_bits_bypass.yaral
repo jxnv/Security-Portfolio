@@ -1,0 +1,23 @@
+// Title: Potential AMSI Bypass Using NULL Bits
+// ID: 92a974db-ab84-457f-9ec0-55db83d7a825
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-01-04
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects usage of special strings/null bits in order to potentially bypass AMSI functionalities
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 92a974db_ab84_457f_9ec0_55db83d7a825 {
+  meta:
+    title = "Potential AMSI Bypass Using NULL Bits"
+    description = "Detects usage of special strings/null bits in order to potentially bypass AMSI functionalities"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.process.command_line = /.*if(0){{{0}}}' -f $(0 -as [char]) +.*/ nocase or $e.target.process.command_line = /.*#<NULL>.*/ nocase))
+
+  condition:
+    $e
+}

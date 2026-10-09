@@ -1,0 +1,13 @@
+// Title: Github Self Hosted Runner Changes Detected
+// ID: f8ed0e8f-7438-4b79-85eb-f358ef2fbebd
+// Status: test
+// Level: low
+// Author: Muhammad Faisal (@faisalusuf)
+// Date: 2023-01-27
+// Tags: attack.impact, attack.discovery, attack.collection, attack.persistence, attack.privilege-escalation, attack.initial-access, attack.stealth, attack.t1526, attack.t1213.003, attack.t1078.004
+// Description: A self-hosted runner is a system that you deploy and manage to execute jobs from GitHub Actions on GitHub.com.
+// This rule detects changes to self-hosted runners configurations in the environment. The self-hosted runner configuration changes once detected,
+// it should be validated from GitHub UI because the log entry may not provide full context.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter ((action = "org.remove_self_hosted_runner" or action = "org.runner_group_created" or action = "org.runner_group_removed" or action = "org.runner_group_runner_removed" or action = "org.runner_group_runners_added" or action = "org.runner_group_runners_updated" or action = "org.runner_group_updated" or action = "repo.register_self_hosted_runner" or action = "repo.remove_self_hosted_runner"))

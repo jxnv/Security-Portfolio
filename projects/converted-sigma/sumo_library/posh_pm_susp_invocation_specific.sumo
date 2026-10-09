@@ -1,0 +1,11 @@
+// Title: Suspicious PowerShell Invocations - Specific - PowerShell Module
+// ID: 8ff28fdd-e2fa-4dfa-aeda-ef3d61c62090
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Jonhnathan Ribeiro
+// Date: 2017-03-05
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects suspicious PowerShell invocation command parameters
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where ((((ContextInfo matches "*-nop*" and ContextInfo matches "* -w *" and ContextInfo matches "*hidden*" and ContextInfo matches "* -c *" and ContextInfo matches "*[Convert]::FromBase64String*")) or ((ContextInfo matches "* -w *" and ContextInfo matches "*hidden*" and ContextInfo matches "*-ep*" and ContextInfo matches "*bypass*" and ContextInfo matches "*-Enc*")) or ((ContextInfo matches "* -w *" and ContextInfo matches "*hidden*" and ContextInfo matches "*-noni*" and ContextInfo matches "*-nop*" and ContextInfo matches "* -c *" and ContextInfo matches "*iex*" and ContextInfo matches "*New-Object*")) or ((ContextInfo matches "*iex*" and ContextInfo matches "*New-Object*" and ContextInfo matches "*Net.WebClient*" and ContextInfo matches "*.Download*")) or ((ContextInfo matches "*powershell*" and ContextInfo matches "*reg*" and ContextInfo matches "*add*") and (ContextInfo matches "*\\software\\microsoft\\windows\\currentversion\\run*" or ContextInfo matches "*\\software\\wow6432node\\microsoft\\windows\\currentversion\\run*" or ContextInfo matches "*\\software\\microsoft\\windows\\currentversion\\policies\\explorer\\run*")) or ((ContextInfo matches "*bypass*" and ContextInfo matches "*-noprofile*" and ContextInfo matches "*-windowstyle*" and ContextInfo matches "*hidden*" and ContextInfo matches "*new-object*" and ContextInfo matches "*system.net.webclient*" and ContextInfo matches "*.download*"))) and !(((ContextInfo matches "*(New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1*" or ContextInfo matches "*Write-ChocolateyWarning*"))))

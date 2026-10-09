@@ -1,0 +1,11 @@
+# Title: Obfuscated IP Via CLI
+# ID: 56d19cb4-6414-4769-9644-1ed35ffbb148
+# Status: test
+# Level: medium
+# Author: Nasreddine Bencherchali (Nextron Systems), X__Junior (Nextron Systems)
+# Date: 2022-08-03
+# Tags: attack.discovery
+# Description: Detects usage of an encoded/obfuscated version of an IP address (hex, octal, etc.) via command line
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog (((process_path="*\\ping.exe" OR process_path="*\\arp.exe")) AND (((process_exec="* 0x*" OR process_exec="*//0x*" OR process_exec="*.0x*" OR process_exec="*.00x*")) OR ((process_exec="*http://%*" AND process_exec="*%2e*")) OR ((regex process_exec="(?i)https?://[0-9]{1,3}\\.[0-9]{1,3}\\.0[0-9]{3,4}") OR (regex process_exec="(?i)https?://[0-9]{1,3}\\.0[0-9]{3,7}") OR (regex process_exec="(?i)https?://0[0-9]{3,11}") OR (regex process_exec="(?i)https?://(?:0[0-9]{1,11}\\.){3}0[0-9]{1,11}") OR (regex process_exec="(?i)https?://0[0-9]{1,11}") OR (regex process_exec="(?i) [0-7]{7,13}"))) AND NOT ((regex process_exec="(?i)https?://(?:(?:25[0-5]|(?:2[0-4]|1\\d|[1-9])?\\d)(?:\\.|\\b)){4}")))

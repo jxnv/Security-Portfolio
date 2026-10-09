@@ -1,0 +1,13 @@
+# Title: Potentially Suspicious Mofcomp Execution
+# ID: 1dd05363-104e-4b4a-b963-196a534b03a1
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-07-12
+# Tags: attack.stealth, attack.t1218
+# Description: Detects execution of the "mofcomp" utility as a child of a suspicious shell or script running utility or by having a suspicious path in the commandline.
+# The "mofcomp" utility parses a file containing MOF statements and adds the classes and class instances defined in the file to the WMI repository.
+# Attackers abuse this utility to install malicious MOF scripts
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((((parent_name:*\\cmd.exe OR parent_name:*\\powershell.exe OR parent_name:*\\pwsh.exe OR parent_name:*\\wsl.exe OR parent_name:*\\wscript.exe OR parent_name:*\\cscript.exe)) OR ((cmdline:*\\AppData\\Local\\Temp* OR cmdline:*\\Contacts\\* OR cmdline:*\\Favorites\\* OR cmdline:*\\Favourites\\* OR cmdline:*\\Music\\* OR cmdline:*\\Pictures\\* OR cmdline:*\\Users\\Public\\* OR cmdline:*\\Videos\\* OR cmdline:*\\WINDOWS\\Temp\\* OR cmdline:*%appdata%* OR cmdline:*%temp%* OR cmdline:*%tmp%*))) AND ((process_name:*\\mofcomp.exe) OR (OriginalFileName:"mofcomp.exe"))) AND -(((ParentCommandLine:*\\InstallUtil.exe /Uninstall C:\\Windows\\CCM\\Microsoft.ConfigurationManager.SVProvider.dll AND parent_name:*\\InstallUtil.exe AND (cmdline:*C:\\Windows\\TEMP* AND cmdline:*.tmp*)) OR (parent_name:"C:\\Windows\\System32\\wbem\\WmiPrvSE.exe" AND cmdline:*C:\\Windows\\TEMP\\* AND cmdline:*.mof))) AND -((-ParentCommandLine:*)))

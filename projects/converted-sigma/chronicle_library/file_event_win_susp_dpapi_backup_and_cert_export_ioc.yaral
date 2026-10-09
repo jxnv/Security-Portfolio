@@ -1,0 +1,23 @@
+// Title: DPAPI Backup Keys And Certificate Export Activity IOC
+// ID: 7892ec59-c5bb-496d-8968-e5d210ca3ac4
+// Status: test
+// Level: high
+// Author: Nounou Mbeiri, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2024-06-26
+// Tags: attack.credential-access, attack.t1555, attack.t1552.004
+// Description: Detects file names with specific patterns seen generated and used by tools such as Mimikatz and DSInternals related to exported or stolen DPAPI backup keys and certificates.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 7892ec59_c5bb_496d_8968_e5d210ca3ac4 {
+  meta:
+    title = "DPAPI Backup Keys And Certificate Export Activity IOC"
+    description = "Detects file names with specific patterns seen generated and used by tools such as Mimikatz and DSInternals related to exported or stolen DPAPI backup keys and certificates."
+    author = "Nounou Mbeiri, Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.target.file.full_path = /.*ntds_capi_.*/ nocase or $e.target.file.full_path = /.*ntds_legacy_.*/ nocase or $e.target.file.full_path = /.*ntds_unknown_.*/ nocase) and ($e.target.file.full_path = /.*.cer$/ nocase or $e.target.file.full_path = /.*.key$/ nocase or $e.target.file.full_path = /.*.pfx$/ nocase or $e.target.file.full_path = /.*.pvk$/ nocase))
+
+  condition:
+    $e
+}

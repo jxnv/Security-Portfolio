@@ -1,0 +1,11 @@
+-- Title: Privileged User Has Been Created
+-- ID: 0ac15ec3-d24f-4246-aa2a-3077bb1cf90e
+-- Status: test
+-- Level: high
+-- Author: Pawel Mazur
+-- Date: 2022-12-21
+-- Tags: attack.privilege-escalation, attack.persistence, attack.t1136.001, attack.t1098
+-- Description: Detects the addition of a new user to a privileged group such as "root" or "sudo"
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE (("new user") AND ("GID=0," OR "UID=0," OR "GID=10," OR "GID=27,"))

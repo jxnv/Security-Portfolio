@@ -1,0 +1,23 @@
+// Title: WmiPrvSE Spawned A Process
+// ID: d21374ff-f574-44a7-9998-4a8c8bf33d7d
+// Status: stable
+// Level: medium
+// Author: Roberto Rodriguez @Cyb3rWard0g
+// Date: 2019-08-15
+// Tags: attack.execution, attack.t1047
+// Description: Detects WmiPrvSE spawning a process
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule d21374ff_f574_44a7_9998_4a8c8bf33d7d {
+  meta:
+    title = "WmiPrvSE Spawned A Process"
+    description = "Detects WmiPrvSE spawning a process"
+    author = "Roberto Rodriguez @Cyb3rWard0g"
+    severity = "MEDIUM"
+
+  events:
+    (($e.principal.process.file.full_path = /.*\\WmiPrvSe.exe$/ nocase) and not(((($e.LogonId = "0x3e7" or $e.LogonId = "null")) or (not ($e.LogonId = /.*/)) or (($e.target.user.userid = /.*AUTHORI.*/ nocase or $e.target.user.userid = /.*AUTORI.*/ nocase)) or ($e.target.process.file.full_path = /.*\\WerFault.exe$/ nocase) or ($e.target.process.file.full_path = /.*\\WmiPrvSE.exe$/ nocase))))
+
+  condition:
+    $e
+}

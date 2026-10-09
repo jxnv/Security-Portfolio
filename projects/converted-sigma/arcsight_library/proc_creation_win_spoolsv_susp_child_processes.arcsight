@@ -1,0 +1,11 @@
+// Title: Suspicious Spool Service Child Process
+// ID: dcdbc940-0bff-46b2-95f3-2d73f848e33b
+// Status: test
+// Level: high
+// Author: Justin C. (@endisphotic), @dreadphones (detection), Thomas Patzke (Sigma rule)
+// Date: 2021-07-11
+// Tags: attack.execution, attack.t1203, attack.privilege-escalation, attack.t1068
+// Description: Detects suspicious print spool service (spoolsv.exe) child processes.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((ParentImage ENDSWITH "\\spoolsv.exe" AND (IntegrityLevel EQ "System" OR IntegrityLevel EQ "S-1-16-16384")) AND (((Image ENDSWITH "\\gpupdate.exe" OR Image ENDSWITH "\\whoami.exe" OR Image ENDSWITH "\\nltest.exe" OR Image ENDSWITH "\\taskkill.exe" OR Image ENDSWITH "\\wmic.exe" OR Image ENDSWITH "\\taskmgr.exe" OR Image ENDSWITH "\\sc.exe" OR Image ENDSWITH "\\findstr.exe" OR Image ENDSWITH "\\curl.exe" OR Image ENDSWITH "\\wget.exe" OR Image ENDSWITH "\\certutil.exe" OR Image ENDSWITH "\\bitsadmin.exe" OR Image ENDSWITH "\\accesschk.exe" OR Image ENDSWITH "\\wevtutil.exe" OR Image ENDSWITH "\\bcdedit.exe" OR Image ENDSWITH "\\fsutil.exe" OR Image ENDSWITH "\\cipher.exe" OR Image ENDSWITH "\\schtasks.exe" OR Image ENDSWITH "\\write.exe" OR Image ENDSWITH "\\wuauclt.exe" OR Image ENDSWITH "\\systeminfo.exe" OR Image ENDSWITH "\\reg.exe" OR Image ENDSWITH "\\query.exe")) OR (((Image ENDSWITH "\\net.exe" OR Image ENDSWITH "\\net1.exe")) AND NOT ((CommandLine CONTAINS "start"))) OR ((Image ENDSWITH "\\cmd.exe") AND NOT (((CommandLine CONTAINS ".spl" OR CommandLine CONTAINS "route add" OR CommandLine CONTAINS "program files")))) OR ((Image ENDSWITH "\\netsh.exe") AND NOT (((CommandLine CONTAINS "add portopening" OR CommandLine CONTAINS "rule name")))) OR (((Image ENDSWITH "\\powershell.exe" OR Image ENDSWITH "\\pwsh.exe")) AND NOT ((CommandLine CONTAINS ".spl"))) OR ((CommandLine ENDSWITH "rundll32.exe") AND ((Image ENDSWITH "\\rundll32.exe") OR (OriginalFileName EQ "RUNDLL32.EXE")))))

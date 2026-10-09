@@ -1,0 +1,11 @@
+// Title: Suspicious Child Process Of SQL Server
+// ID: 869b9ca7-9ea2-4a5a-8325-e80e62f75445
+// Status: test
+// Level: high
+// Author: FPT.EagleEye Team, wagga
+// Date: 2020-12-11
+// Tags: attack.t1505.003, attack.t1190, attack.initial-access, attack.persistence, attack.privilege-escalation
+// Description: Detects suspicious child processes of the SQLServer process. This could indicate potential RCE or SQL Injection.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((src.process.parent.image.path endswithCIS "\\sqlservr.exe" AND (src.process.image.path endswithCIS "\\bash.exe" OR src.process.image.path endswithCIS "\\bitsadmin.exe" OR src.process.image.path endswithCIS "\\cmd.exe" OR src.process.image.path endswithCIS "\\netstat.exe" OR src.process.image.path endswithCIS "\\nltest.exe" OR src.process.image.path endswithCIS "\\ping.exe" OR src.process.image.path endswithCIS "\\powershell.exe" OR src.process.image.path endswithCIS "\\pwsh.exe" OR src.process.image.path endswithCIS "\\regsvr32.exe" OR src.process.image.path endswithCIS "\\rundll32.exe" OR src.process.image.path endswithCIS "\\sh.exe" OR src.process.image.path endswithCIS "\\systeminfo.exe" OR src.process.image.path endswithCIS "\\tasklist.exe" OR src.process.image.path endswithCIS "\\wsl.exe")) AND NOT ((src.process.parent.image.path startswithCIS "C:\\Program Files\\Microsoft SQL Server\\" AND src.process.parent.image.path endswithCIS "DATEV_DBENGINE\\MSSQL\\Binn\\sqlservr.exe" AND src.process.image.path = "C:\\Windows\\System32\\cmd.exe" AND src.process.cmdline startswithCIS "\"C:\\Windows\\system32\\cmd.exe\" ")))

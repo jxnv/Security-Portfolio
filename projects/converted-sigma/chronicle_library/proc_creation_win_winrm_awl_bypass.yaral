@@ -1,0 +1,23 @@
+// Title: AWL Bypass with Winrm.vbs and Malicious WsmPty.xsl/WsmTxt.xsl
+// ID: 074e0ded-6ced-4ebd-8b4d-53f55908119d
+// Status: test
+// Level: medium
+// Author: Julia Fomina, oscd.community
+// Date: 2020-10-06
+// Tags: attack.stealth, attack.t1216
+// Description: Detects execution of attacker-controlled WsmPty.xsl or WsmTxt.xsl via winrm.vbs and copied cscript.exe (can be renamed)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 074e0ded_6ced_4ebd_8b4d_53f55908119d {
+  meta:
+    title = "AWL Bypass with Winrm.vbs and Malicious WsmPty.xsl/WsmTxt.xsl"
+    description = "Detects execution of attacker-controlled WsmPty.xsl or WsmTxt.xsl via winrm.vbs and copied cscript.exe (can be renamed)"
+    author = "Julia Fomina, oscd.community"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.process.command_line = /.*winrm.*/ nocase) and ((($e.target.process.command_line = /.*format:pretty.*/ nocase or $e.target.process.command_line = /.*format:\"pretty\".*/ nocase or $e.target.process.command_line = /.*format:\"text\".*/ nocase or $e.target.process.command_line = /.*format:text.*/ nocase)) and not((($e.target.process.file.full_path = /^C:\\Windows\\System32\\.*/ nocase or $e.target.process.file.full_path = /^C:\\Windows\\SysWOW64\\.*/ nocase)))))
+
+  condition:
+    $e
+}

@@ -1,0 +1,19 @@
+# Title: Modification of ld.so.preload
+# ID: 4b3cb710-5e83-4715-8c45-8b2b5b3e5751
+# Status: test
+# Level: high
+# Author: E.M. Anhaus (originally from Atomic Blue Detections, Tony Lambert), oscd.community
+# Date: 2019-10-24
+# Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.stealth, attack.t1574.006
+# Description: Identifies modification of ld.so.preload for shared object injection. This technique is used by attackers to load arbitrary code into processes.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Modification of ld.so.preload
+def rule(event):
+    # Detection Logic:
+    # (type="PATH" AND name="/etc/ld.so.preload")
+    return True
+
+def title(event):
+    return "Modification of ld.so.preload"
+

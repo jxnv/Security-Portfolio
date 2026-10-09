@@ -1,0 +1,23 @@
+// Title: TeamViewer Remote Session
+// ID: 162ab1e4-6874-4564-853c-53ec3ab8be01
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-01-30
+// Tags: attack.command-and-control, attack.t1219.002
+// Description: Detects the creation of log files during a TeamViewer remote session
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 162ab1e4_6874_4564_853c_53ec3ab8be01 {
+  meta:
+    title = "TeamViewer Remote Session"
+    description = "Detects the creation of log files during a TeamViewer remote session"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.file.full_path = /.*\\TeamViewer\\RemotePrinting\\tvprint.db$/ nocase or $e.target.file.full_path = /.*\\TeamViewer\\TVNetwork.log$/ nocase)) or (($e.target.file.full_path = /.*\\TeamViewer.*/ nocase and $e.target.file.full_path = /.*_Logfile.log.*/ nocase)))
+
+  condition:
+    $e
+}

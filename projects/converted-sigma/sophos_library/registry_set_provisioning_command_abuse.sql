@@ -1,0 +1,11 @@
+-- Title: Potential Provisioning Registry Key Abuse For Binary Proxy Execution - REG
+-- ID: 7021255e-5db3-4946-a8b9-0ba7a4644a69
+-- Status: test
+-- Level: high
+-- Author: Swachchhanda Shrawan Poudel
+-- Date: 2023-08-02
+-- Tags: attack.stealth, attack.t1218
+-- Description: Detects potential abuse of the provisioning registry key for indirect command execution through "Provlaunch.exe".
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE (TargetObject ILIKE '%\\SOFTWARE\\Microsoft\\Provisioning\\Commands\\%')

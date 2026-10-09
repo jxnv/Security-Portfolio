@@ -1,0 +1,23 @@
+// Title: Suspect Svchost Activity
+// ID: 16c37b52-b141-42a5-a3ea-bbe098444397
+// Status: test
+// Level: high
+// Author: David Burkett, @signalblur
+// Date: 2019-12-28
+// Tags: attack.privilege-escalation, attack.stealth, attack.t1055
+// Description: It is extremely abnormal for svchost.exe to spawn without any CLI arguments and is normally observed when a malicious process spawns the process and injects code into the process memory space.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 16c37b52_b141_42a5_a3ea_bbe098444397 {
+  meta:
+    title = "Suspect Svchost Activity"
+    description = "It is extremely abnormal for svchost.exe to spawn without any CLI arguments and is normally observed when a malicious process spawns the process and injects code into the process memory space."
+    author = "David Burkett, @signalblur"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.command_line = /.*svchost.exe$/ nocase and $e.target.process.file.full_path = /.*\\svchost.exe$/ nocase) and not(((($e.principal.process.file.full_path = /.*\\rpcnet.exe$/ nocase or $e.principal.process.file.full_path = /.*\\rpcnetp.exe$/ nocase)) or (not ($e.target.process.command_line = /.*/)))))
+
+  condition:
+    $e
+}

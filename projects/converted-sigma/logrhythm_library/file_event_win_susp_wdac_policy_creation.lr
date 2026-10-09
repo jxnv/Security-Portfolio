@@ -1,0 +1,11 @@
+# Title: Potentially Suspicious WDAC Policy File Creation
+# ID: 1d2de8a6-4803-4fde-b85b-f58f3aa7a705
+# Status: experimental
+# Level: medium
+# Author: X__Junior
+# Date: 2025-02-07
+# Tags: attack.defense-impairment
+# Description: Detects suspicious Windows Defender Application Control (WDAC) policy file creation from abnormal processes that could be abused by attacker to block EDR/AV components while allowing their own malicious code to run on the system.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((TargetFilename="*\\Windows\\System32\\CodeIntegrity\\*") AND NOT (((((CommandLine="*ConvertFrom-CIPolicy -XmlFilePath*" AND CommandLine="*-BinaryFilePath *")) OR (CommandLine="*CiTool --update-policy*") OR ((CommandLine="*Copy-Item -Path*" AND CommandLine="*-Destination*"))) OR ((Image="*\\Microsoft.ConfigurationManagement.exe" OR Image="*\\WDAC Wizard.exe" OR Image="*C:\\Program Files\\PowerShell\\7-preview\\pwsh.exe" OR Image="*C:\\Program Files\\PowerShell\\7\\pwsh.exe" OR Image="*C:\\Windows\\System32\\dllhost.exe" OR Image="*C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell_ise.exe" OR Image="*C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" OR Image="*C:\\Windows\\SysWOW64\\dllhost.exe" OR Image="*C:\\Windows\\SysWOW64\\WindowsPowerShell\\v1.0\\powershell_ise.exe" OR Image="*C:\\Windows\\SysWOW64\\WindowsPowerShell\\v1.0\\powershell.exe")) OR (Image="System") OR (Image="C:\\Windows\\System32\\wuauclt.exe") OR ((Image="C:\\Windows\\UUS\\arm64\\wuaucltcore.exe" OR Image="C:\\Windows\\UUS\\Packages\\Preview\\arm64\\wuaucltcore.exe")))))

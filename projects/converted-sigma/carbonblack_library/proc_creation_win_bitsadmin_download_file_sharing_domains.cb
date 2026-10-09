@@ -1,0 +1,11 @@
+# Title: Suspicious Download From File-Sharing Website Via Bitsadmin
+# ID: 8518ed3d-f7c9-4601-a26c-f361a4256a0c
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems)
+# Date: 2022-06-28
+# Tags: attack.persistence, attack.execution, attack.stealth, attack.t1197, attack.s0190, attack.t1036.003, attack.command-and-control, attack.t1105
+# Description: Detects usage of bitsadmin downloading a file from a suspicious domain
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((cmdline:*.githubusercontent.com* OR cmdline:*0x0.st* OR cmdline:*anonfiles.com* OR cmdline:*bashupload.com* OR cmdline:*cdn.discordapp.com* OR cmdline:*chunk.io* OR cmdline:*ddns.net* OR cmdline:*dl.dropboxusercontent.com* OR cmdline:*ghostbin.co* OR cmdline:*github.com* OR cmdline:*glitch.me* OR cmdline:*gofile.io* OR cmdline:*hastebin.com* OR cmdline:*mediafire.com* OR cmdline:*mega.nz* OR cmdline:*onrender.com* OR cmdline:*pages.dev* OR cmdline:*paste.ee* OR cmdline:*pastebin.com* OR cmdline:*pastebin.pl* OR cmdline:*pastetext.net* OR cmdline:*privatlab.com* OR cmdline:*privatlab.net* OR cmdline:*send.exploit.in* OR cmdline:*sendspace.com* OR cmdline:*storage.googleapis.com* OR cmdline:*storjshare.io* OR cmdline:*supabase.co* OR cmdline:*temp.sh* OR cmdline:*transfer.sh* OR cmdline:*trycloudflare.com* OR cmdline:*ufile.io* OR cmdline:*w3spaces.com* OR cmdline:*workers.dev* OR cmdline:*x0.at*)) AND ((cmdline:* /transfer * OR cmdline:* /create * OR cmdline:* /addfile *)) AND ((process_name:*\\bitsadmin.exe) OR (OriginalFileName:"bitsadmin.exe")))

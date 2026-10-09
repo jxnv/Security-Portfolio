@@ -1,0 +1,11 @@
+# Title: Suspicious File Download From File Sharing Domain Via Curl.EXE
+# ID: 56454143-524f-49fb-b1c6-3fb8b1ad41fb
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2023-05-05
+# Tags: attack.execution
+# Description: Detects potentially suspicious file download from file sharing domains using curl.exe
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((cmdline:*.ps1 OR cmdline:*.ps1' OR cmdline:*.ps1\" OR cmdline:*.dat OR cmdline:*.dat' OR cmdline:*.dat\" OR cmdline:*.msi OR cmdline:*.msi' OR cmdline:*.msi\" OR cmdline:*.bat OR cmdline:*.bat' OR cmdline:*.bat\" OR cmdline:*.exe OR cmdline:*.exe' OR cmdline:*.exe\" OR cmdline:*.vbs OR cmdline:*.vbs' OR cmdline:*.vbs\" OR cmdline:*.vbe OR cmdline:*.vbe' OR cmdline:*.vbe\" OR cmdline:*.hta OR cmdline:*.hta' OR cmdline:*.hta\" OR cmdline:*.dll OR cmdline:*.dll' OR cmdline:*.dll\" OR cmdline:*.psm1 OR cmdline:*.psm1' OR cmdline:*.psm1\")) AND ((cmdline:* -O* OR cmdline:*--remote-name* OR cmdline:*--output*)) AND (cmdline:*http*) AND ((process_name:*\\curl.exe) OR (OriginalFileName:"curl.exe")) AND ((cmdline:*.githubusercontent.com* OR cmdline:*0x0.st* OR cmdline:*anonfiles.com* OR cmdline:*bashupload.com* OR cmdline:*cdn.discordapp.com* OR cmdline:*chunk.io* OR cmdline:*ddns.net* OR cmdline:*dl.dropboxusercontent.com* OR cmdline:*ghostbin.co* OR cmdline:*github.com* OR cmdline:*glitch.me* OR cmdline:*gofile.io* OR cmdline:*hastebin.com* OR cmdline:*mediafire.com* OR cmdline:*mega.nz* OR cmdline:*onrender.com* OR cmdline:*pages.dev* OR cmdline:*paste.ee* OR cmdline:*pastebin.com* OR cmdline:*pastebin.pl* OR cmdline:*pastetext.net* OR cmdline:*pixeldrain.com* OR cmdline:*privatlab.com* OR cmdline:*privatlab.net* OR cmdline:*send.exploit.in* OR cmdline:*sendspace.com* OR cmdline:*storage.googleapis.com* OR cmdline:*storjshare.io* OR cmdline:*supabase.co* OR cmdline:*temp.sh* OR cmdline:*transfer.sh* OR cmdline:*trycloudflare.com* OR cmdline:*ufile.io* OR cmdline:*w3spaces.com* OR cmdline:*workers.dev* OR cmdline:*x0.at*)))

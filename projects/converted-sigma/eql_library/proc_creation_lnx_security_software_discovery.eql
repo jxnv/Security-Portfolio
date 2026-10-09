@@ -1,0 +1,11 @@
+// Title: Security Software Discovery - Linux
+// ID: c9d8b7fd-78e4-44fe-88f6-599135d46d60
+// Status: test
+// Level: low
+// Author: Daniil Yugoslavskiy, oscd.community
+// Date: 2020-10-19
+// Tags: attack.discovery, attack.t1518.001
+// Description: Detects usage of system utilities (only grep and egrep for now) to discover security software discovery
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where ((process.executable endswith "/grep" or process.executable endswith "/egrep") and (process.command_line like "*_nessusd*" or process.command_line like "*_td-agent*" or process.command_line like "*_packetbeat*" or process.command_line like "*_filebeat*" or process.command_line like "*_auditbeat*" or process.command_line like "*_osqueryd*" or process.command_line like "*_cbagentd*" or process.command_line like "*_falcond*"))

@@ -1,0 +1,11 @@
+# Title: Renamed PingCastle Binary Execution
+# ID: 2433a154-bb3d-42e4-86c3-a26bdac91c45
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems), X__Junior (Nextron Systems)
+# Date: 2024-01-11
+# Tags: attack.execution, attack.stealth, attack.t1059, attack.t1202
+# Description: Detects the execution of a renamed "PingCastle" binary based on the PE metadata fields.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((((OriginalFileName:"PingCastleReporting.exe" OR OriginalFileName:"PingCastleCloud.exe" OR OriginalFileName:"PingCastle.exe")) OR ((cmdline:*--scanner aclcheck* OR cmdline:*--scanner antivirus* OR cmdline:*--scanner computerversion* OR cmdline:*--scanner foreignusers* OR cmdline:*--scanner laps_bitlocker* OR cmdline:*--scanner localadmin* OR cmdline:*--scanner nullsession* OR cmdline:*--scanner nullsession-trust* OR cmdline:*--scanner oxidbindings* OR cmdline:*--scanner remote* OR cmdline:*--scanner share* OR cmdline:*--scanner smb* OR cmdline:*--scanner smb3querynetwork* OR cmdline:*--scanner spooler* OR cmdline:*--scanner startup* OR cmdline:*--scanner zerologon*)) OR (cmdline:*--no-enum-limit*) OR ((cmdline:*--healthcheck* AND cmdline:*--level Full*)) OR ((cmdline:*--healthcheck* AND cmdline:*--server *))) AND -(((process_name:*\\PingCastleReporting.exe OR process_name:*\\PingCastleCloud.exe OR process_name:*\\PingCastle.exe))))

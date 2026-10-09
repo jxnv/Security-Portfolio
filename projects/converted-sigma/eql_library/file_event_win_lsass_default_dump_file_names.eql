@@ -1,0 +1,11 @@
+// Title: LSASS Process Memory Dump Files
+// ID: a5a2d357-1ab8-4675-a967-ef9990a59391
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2021-11-15
+// Tags: attack.credential-access, attack.t1003.001
+// Description: Detects creation of files with names used by different memory dumping tools to create a memory dump of the LSASS process memory, which contains user credentials.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+file where (((file.path endswith "\\Andrew.dmp" or file.path endswith "\\Coredump.dmp" or file.path endswith "\\lsass.dmp" or file.path endswith "\\lsass.rar" or file.path endswith "\\lsass.zip" or file.path endswith "\\NotLSASS.zip" or file.path endswith "\\PPLBlade.dmp" or file.path endswith "\\rustive.dmp")) or ((file.path like "*_\\lsass_2*" or file.path like "*_\\lsassdmp*" or file.path like "*_\\lsassdump*")) or ((file.path like "*_\\lsass*" and file.path like "*_.dmp*")) or (file.path like "*_SQLDmpr*" and file.path endswith ".mdmp") or ((file.path like "*_\\nanodump*" or file.path like "*_\\proc_*") and file.path endswith ".dmp"))

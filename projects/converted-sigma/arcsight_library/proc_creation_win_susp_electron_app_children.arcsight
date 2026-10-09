@@ -1,0 +1,11 @@
+// Title: Suspicious Electron Application Child Processes
+// ID: f26eb764-fd89-464b-85e2-dc4a8e6e77b8
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-10-21
+// Tags: attack.execution
+// Description: Detects suspicious child processes of electron apps (teams, discord, slack, etc.). This could be a potential sign of ".asar" file tampering (See reference section for more information) or binary execution proxy through specific CLI arguments (see related rule)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((ParentImage ENDSWITH "\\chrome.exe" OR ParentImage ENDSWITH "\\discord.exe" OR ParentImage ENDSWITH "\\GitHubDesktop.exe" OR ParentImage ENDSWITH "\\keybase.exe" OR ParentImage ENDSWITH "\\msedge.exe" OR ParentImage ENDSWITH "\\msedgewebview2.exe" OR ParentImage ENDSWITH "\\msteams.exe" OR ParentImage ENDSWITH "\\slack.exe" OR ParentImage ENDSWITH "\\teams.exe")) AND (((Image ENDSWITH "\\cmd.exe" OR Image ENDSWITH "\\cscript.exe" OR Image ENDSWITH "\\mshta.exe" OR Image ENDSWITH "\\powershell.exe" OR Image ENDSWITH "\\pwsh.exe" OR Image ENDSWITH "\\regsvr32.exe" OR Image ENDSWITH "\\whoami.exe" OR Image ENDSWITH "\\wscript.exe")) OR ((Image CONTAINS ":\\ProgramData\\" OR Image CONTAINS ":\\Temp\\" OR Image CONTAINS "\\AppData\\Local\\Temp\\" OR Image CONTAINS "\\Users\\Public\\" OR Image CONTAINS "\\Windows\\Temp\\"))) AND NOT ((ParentImage ENDSWITH "\\Discord.exe" AND Image ENDSWITH "\\cmd.exe" AND CommandLine CONTAINS "\\NVSMI\\nvidia-smi.exe")))

@@ -1,0 +1,23 @@
+// Title: Alternate PowerShell Hosts - PowerShell Module
+// ID: 64e8e417-c19a-475a-8d19-98ea705394cc
+// Status: test
+// Level: medium
+// Author: Roberto Rodriguez @Cyb3rWard0g
+// Date: 2019-08-11
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects alternate PowerShell hosts potentially bypassing detections looking for powershell.exe
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 64e8e417_c19a_475a_8d19_98ea705394cc {
+  meta:
+    title = "Alternate PowerShell Hosts - PowerShell Module"
+    description = "Detects alternate PowerShell hosts potentially bypassing detections looking for powershell.exe"
+    author = "Roberto Rodriguez @Cyb3rWard0g"
+    severity = "MEDIUM"
+
+  events:
+    (($e.ContextInfo = /.**.*/ nocase) and not((($e.ContextInfo = /.*C:\\Windows\\system32\\dsac.exe.*/ nocase) or ($e.ContextInfo = /.*ConfigSyncRun.exe.*/ nocase) or (($e.Payload = /.*Update-Help.*/ nocase or $e.Payload = /.*Failed to update Help for the module.*/ nocase)) or (($e.ContextInfo = /.*= powershell.*/ nocase or $e.ContextInfo = /.*= C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.*/ nocase or $e.ContextInfo = /.*= C:\\Windows\\SysWOW64\\WindowsPowerShell\\v1.0\\powershell.*/ nocase or $e.ContextInfo = /.*= C:/Windows/System32/WindowsPowerShell/v1.0/powershell.*/ nocase or $e.ContextInfo = /.*= C:/Windows/SysWOW64/WindowsPowerShell/v1.0/powershell.*/ nocase or $e.ContextInfo = /.*= \\\\\\?\\?\\C:Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.*/ nocase or $e.ContextInfo = /.*= \\\\\\?\\?\\C:Windows\\SysWOW64\\WindowsPowerShell\\v1.0\\powershell.*/ nocase)) or ($e.ContextInfo = /.*= C:\\WINDOWS\\System32\\sdiagnhost.exe -Embedding.*/ nocase) or ($e.ContextInfo = /.*C:\\Windows\\system32\\wsmprovhost.exe -Embedding.*/ nocase))))
+
+  condition:
+    $e
+}

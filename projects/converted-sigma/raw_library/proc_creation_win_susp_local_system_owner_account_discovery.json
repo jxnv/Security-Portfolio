@@ -1,0 +1,79 @@
+{
+  "title": "Local Accounts Discovery",
+  "id": "502b42de-4306-40b4-9596-6f590c81f073",
+  "status": "test",
+  "description": "Local accounts, System Owner/User discovery using operating systems utilities",
+  "author": "Timur Zinniatullin, Daniil Yugoslavskiy, oscd.community",
+  "date": "2019-10-21",
+  "tags": [
+    "attack.discovery",
+    "attack.t1033",
+    "attack.t1087.001"
+  ],
+  "level": "low",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_other_img": [
+      {
+        "Image|endswith": [
+          "\\whoami.exe",
+          "\\quser.exe",
+          "\\qwinsta.exe"
+        ]
+      },
+      {
+        "OriginalFileName": [
+          "whoami.exe",
+          "quser.exe",
+          "qwinsta.exe"
+        ]
+      }
+    ],
+    "selection_other_wmi": {
+      "Image|endswith": "\\wmic.exe",
+      "CommandLine|contains|all": [
+        "useraccount",
+        "get"
+      ]
+    },
+    "selection_other_cmdkey": {
+      "Image|endswith": "\\cmdkey.exe",
+      "CommandLine|contains": " /l"
+    },
+    "selection_cmd": {
+      "Image|endswith": "\\cmd.exe",
+      "CommandLine|contains|all": [
+        " /c",
+        "dir ",
+        "\\Users\\"
+      ]
+    },
+    "filter_cmd": {
+      "CommandLine|contains": " rmdir "
+    },
+    "selection_net": {
+      "Image|endswith": [
+        "\\net.exe",
+        "\\net1.exe"
+      ],
+      "CommandLine|contains": "user"
+    },
+    "filter_net": {
+      "CommandLine|contains": [
+        "/domain",
+        "/add",
+        "/delete",
+        "/active",
+        "/expires",
+        "/passwordreq",
+        "/scriptpath",
+        "/times",
+        "/workstations"
+      ]
+    },
+    "condition": "(selection_cmd and not filter_cmd) or (selection_net and not filter_net) or 1 of selection_other_*"
+  }
+}

@@ -1,0 +1,23 @@
+// Title: Access of Sudoers File Content
+// ID: 0f79c4d2-4e1f-4683-9c36-b5469a665e06
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-06-20
+// Tags: attack.reconnaissance, attack.t1592.004
+// Description: Detects the execution of a text-based file access or inspection utilities to read the content of /etc/sudoers in order to potentially list all users that have sudo rights.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 0f79c4d2_4e1f_4683_9c36_b5469a665e06 {
+  meta:
+    title = "Access of Sudoers File Content"
+    description = "Detects the execution of a text-based file access or inspection utilities to read the content of /etc/sudoers in order to potentially list all users that have sudo rights."
+    author = "Florian Roth (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.process.file.full_path = /.*/cat$/ nocase or $e.target.process.file.full_path = /.*/ed$/ nocase or $e.target.process.file.full_path = /.*/egrep$/ nocase or $e.target.process.file.full_path = /.*/emacs$/ nocase or $e.target.process.file.full_path = /.*/fgrep$/ nocase or $e.target.process.file.full_path = /.*/grep$/ nocase or $e.target.process.file.full_path = /.*/head$/ nocase or $e.target.process.file.full_path = /.*/less$/ nocase or $e.target.process.file.full_path = /.*/more$/ nocase or $e.target.process.file.full_path = /.*/nano$/ nocase or $e.target.process.file.full_path = /.*/tail$/ nocase) and $e.target.process.command_line = /.* /etc/sudoers.*/ nocase)
+
+  condition:
+    $e
+}

@@ -1,0 +1,11 @@
+// Title: PsExec/PAExec Escalation to LOCAL SYSTEM
+// ID: 8834e2f7-6b4b-4f09-8906-d2276470ee23
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2021-11-23
+// Tags: attack.resource-development, attack.t1587.001
+// Description: Detects suspicious commandline flags used by PsExec and PAExec to escalate a command line to LOCAL_SYSTEM rights
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((src.process.cmdline containsCIS "psexec" OR src.process.cmdline containsCIS "paexec" OR src.process.cmdline containsCIS "accepteula")) AND ((src.process.cmdline containsCIS " -s cmd" OR src.process.cmdline containsCIS " -s -i cmd" OR src.process.cmdline containsCIS " -i -s cmd" OR src.process.cmdline containsCIS " -s pwsh" OR src.process.cmdline containsCIS " -s -i pwsh" OR src.process.cmdline containsCIS " -i -s pwsh" OR src.process.cmdline containsCIS " -s powershell" OR src.process.cmdline containsCIS " -s -i powershell" OR src.process.cmdline containsCIS " -i -s powershell")))

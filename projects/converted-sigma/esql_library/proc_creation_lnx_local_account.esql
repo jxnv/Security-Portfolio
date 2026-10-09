@@ -1,0 +1,11 @@
+// Title: Local System Accounts Discovery - Linux
+// ID: b45e3d6f-42c6-47d8-a478-df6bd6cf534c
+// Status: test
+// Level: low
+// Author: Alejandro Ortuno, oscd.community, CheraghiMilad
+// Date: 2020-10-08
+// Tags: attack.discovery, attack.t1087.001
+// Description: Detects enumeration of local system accounts. This information can help adversaries determine which local accounts exist on a system to aid in follow-on behavior.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE ((process.executable LIKE "%/lastlog") OR (process.command_line LIKE "%'x:0:'%") OR ((process.executable LIKE "%/cat" OR process.executable LIKE "%/ed" OR process.executable LIKE "%/head" OR process.executable LIKE "%/more" OR process.executable LIKE "%/nano" OR process.executable LIKE "%/tail" OR process.executable LIKE "%/vi" OR process.executable LIKE "%/vim" OR process.executable LIKE "%/less" OR process.executable LIKE "%/emacs" OR process.executable LIKE "%/sqlite3" OR process.executable LIKE "%/makemap") AND (process.command_line LIKE "%/etc/passwd%" OR process.command_line LIKE "%/etc/shadow%" OR process.command_line LIKE "%/etc/sudoers%" OR process.command_line LIKE "%/etc/spwd.db%" OR process.command_line LIKE "%/etc/pwd.db%" OR process.command_line LIKE "%/etc/master.passwd%")) OR (process.executable LIKE "%/id") OR (process.executable LIKE "%/lsof" AND process.command_line LIKE "%-u%"))

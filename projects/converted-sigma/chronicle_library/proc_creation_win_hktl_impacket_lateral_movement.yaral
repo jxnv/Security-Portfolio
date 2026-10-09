@@ -1,0 +1,23 @@
+// Title: HackTool - Potential Impacket Lateral Movement Activity
+// ID: 10c14723-61c7-4c75-92ca-9af245723ad2
+// Status: stable
+// Level: high
+// Author: Ecco, oscd.community, Jonhnathan Ribeiro, Tim Rauch
+// Date: 2019-09-03
+// Tags: attack.execution, attack.t1047, attack.lateral-movement, attack.t1021.003
+// Description: Detects wmiexec/dcomexec/atexec/smbexec from Impacket framework
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 10c14723_61c7_4c75_92ca_9af245723ad2 {
+  meta:
+    title = "HackTool - Potential Impacket Lateral Movement Activity"
+    description = "Detects wmiexec/dcomexec/atexec/smbexec from Impacket framework"
+    author = "Ecco, oscd.community, Jonhnathan Ribeiro, Tim Rauch"
+    severity = "HIGH"
+
+  events:
+    ((($e.principal.process.command_line = /.*svchost.exe -k netsvcs.*/ nocase or $e.principal.process.command_line = /.*taskeng.exe.*/ nocase) and ($e.target.process.command_line = /.*cmd.exe.*/ nocase and $e.target.process.command_line = /.*/C.*/ nocase and $e.target.process.command_line = /.*Windows\\Temp\\.*/ nocase and $e.target.process.command_line = /.*&1.*/ nocase)) or (($e.principal.process.file.full_path = /.*\\wmiprvse.exe$/ nocase or $e.principal.process.file.full_path = /.*\\mmc.exe$/ nocase or $e.principal.process.file.full_path = /.*\\explorer.exe$/ nocase or $e.principal.process.file.full_path = /.*\\services.exe$/ nocase) and ($e.target.process.command_line = /.*cmd.exe.*/ nocase and $e.target.process.command_line = /.*/Q.*/ nocase and $e.target.process.command_line = /.*/c.*/ nocase and $e.target.process.command_line = /.*\\\\\\\\127.0.0.1\\\\.*/ nocase and $e.target.process.command_line = /.*&1.*/ nocase)))
+
+  condition:
+    $e
+}

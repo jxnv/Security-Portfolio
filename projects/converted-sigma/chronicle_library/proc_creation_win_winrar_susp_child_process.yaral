@@ -1,0 +1,23 @@
+// Title: Potentially Suspicious Child Process Of WinRAR.EXE
+// ID: 146aace8-9bd6-42ba-be7a-0070d8027b76
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-08-31
+// Tags: attack.execution, attack.t1203
+// Description: Detects potentially suspicious child processes of WinRAR.exe.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 146aace8_9bd6_42ba_be7a_0070d8027b76 {
+  meta:
+    title = "Potentially Suspicious Child Process Of WinRAR.EXE"
+    description = "Detects potentially suspicious child processes of WinRAR.exe."
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (((($e.target.process.file.full_path = /.*\\cmd.exe$/ nocase or $e.target.process.file.full_path = /.*\\cscript.exe$/ nocase or $e.target.process.file.full_path = /.*\\mshta.exe$/ nocase or $e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase or $e.target.process.file.full_path = /.*\\regsvr32.exe$/ nocase or $e.target.process.file.full_path = /.*\\rundll32.exe$/ nocase or $e.target.process.file.full_path = /.*\\wscript.exe$/ nocase)) or (($e.target.process.file.name = "Cmd.Exe" or $e.target.process.file.name = "cscript.exe" or $e.target.process.file.name = "mshta.exe" or $e.target.process.file.name = "PowerShell.EXE" or $e.target.process.file.name = "pwsh.dll" or $e.target.process.file.name = "regsvr32.exe" or $e.target.process.file.name = "RUNDLL32.EXE" or $e.target.process.file.name = "wscript.exe"))) and ($e.principal.process.file.full_path = /.*\\WinRAR.exe$/ nocase))
+
+  condition:
+    $e
+}

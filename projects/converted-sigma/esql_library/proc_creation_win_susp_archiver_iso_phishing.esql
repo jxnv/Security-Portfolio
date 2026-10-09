@@ -1,0 +1,11 @@
+// Title: Phishing Pattern ISO in Archive
+// ID: fcdf69e5-a3d3-452a-9724-26f2308bf2b1
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-06-07
+// Tags: attack.initial-access, attack.t1566
+// Description: Detects cases in which an ISO files is opend within an archiver like 7Zip or Winrar, which is a sign of phishing as threat actors put small ISO files in archives as email attachments to bypass certain filters and protective measures (mark of web)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE ((process.parent.executable LIKE "%\\Winrar.exe" OR process.parent.executable LIKE "%\\7zFM.exe" OR process.parent.executable LIKE "%\\peazip.exe") AND (process.executable LIKE "%\\isoburn.exe" OR process.executable LIKE "%\\PowerISO.exe" OR process.executable LIKE "%\\ImgBurn.exe"))

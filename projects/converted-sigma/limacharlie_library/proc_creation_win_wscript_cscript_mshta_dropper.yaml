@@ -1,0 +1,22 @@
+# Title: Potential Dropper Script Execution Via WScript/CScript/MSHTA
+# ID: cea72823-df4d-4567-950c-0b579eaf0846
+# Status: test
+# Level: medium
+# Author: Margaritis Dimitrios (idea), Florian Roth (Nextron Systems), oscd.community, Nasreddine Bencherchali (Nextron Systems), Dave Johnson
+# Date: 2019-01-16
+# Tags: attack.execution, attack.t1059.005, attack.t1059.007
+# Description: Detects wscript/cscript/mshta executions of scripts located in user directories
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# LimaCharlie Detection & Response Rule
+# Name: Potential Dropper Script Execution Via WScript/CScript/MSHTA
+detect:
+  event: process_creation
+  op: and
+  rules:
+    # Filter logic:
+    # (((Image="*\\wscript.exe" OR Image="*\\cscript.exe" OR Image="*\\mshta.exe")) AND ((CommandLine="*.hta*" OR CommandLine="*.js*" OR CommandLine="*.jse*" OR CommandLine="*.vba*" OR CommandLine="*.vbe*" OR CommandLine="*.vbs*" OR CommandLine="*.wsf*" OR CommandLine="*.wsh*")) AND ((CommandLine="*:\\Perflogs\\*" OR CommandLine="*:\\Temp\\*" OR CommandLine="*:\\Tmp\\*" OR CommandLine="*:\\Users\\Public\\*" OR CommandLine="*:\\Windows\\Temp\\*" OR CommandLine="*\\AppData\\Local\\Temp\\*" OR CommandLine="*\\AppData\\Roaming\\Temp\\*" OR CommandLine="*\\Start Menu\\Programs\\Startup\\*" OR CommandLine="*\\Temporary Internet*" OR CommandLine="*\\Windows\\Temp*" OR CommandLine="*%LocalAppData%\\Temp\\*" OR CommandLine="*%TEMP%*" OR CommandLine="*%TMP%*")))
+respond:
+  - action: report
+    name: Potential Dropper Script Execution Via WScript/CScript/MSHTA
+

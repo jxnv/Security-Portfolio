@@ -1,0 +1,23 @@
+// Title: Diagnostic Library Sdiageng.DLL Loaded By Msdt.EXE
+// ID: ec8c4047-fad9-416a-8c81-0f479353d7f6
+// Status: test
+// Level: high
+// Author: Greg (rule)
+// Date: 2022-06-17
+// Tags: attack.stealth, attack.t1202, cve.2022-30190
+// Description: Detects both of CVE-2022-30190 (Follina) and DogWalk vulnerabilities exploiting msdt.exe binary to load the "sdiageng.dll" library
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule ec8c4047_fad9_416a_8c81_0f479353d7f6 {
+  meta:
+    title = "Diagnostic Library Sdiageng.DLL Loaded By Msdt.EXE"
+    description = "Detects both of CVE-2022-30190 (Follina) and DogWalk vulnerabilities exploiting msdt.exe binary to load the "sdiageng.dll" library"
+    author = "Greg (rule)"
+    severity = "HIGH"
+
+  events:
+    ($e.target.process.file.full_path = /.*\\msdt.exe$/ nocase and $e.ImageLoaded = /.*\\sdiageng.dll$/ nocase)
+
+  condition:
+    $e
+}

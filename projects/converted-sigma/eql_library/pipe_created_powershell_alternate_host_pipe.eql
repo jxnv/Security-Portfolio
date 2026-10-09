@@ -1,0 +1,11 @@
+// Title: Alternate PowerShell Hosts Pipe
+// ID: 58cb02d5-78ce-4692-b3e1-dce850aae41a
+// Status: test
+// Level: medium
+// Author: Roberto Rodriguez @Cyb3rWard0g, Tim Shelton
+// Date: 2019-09-12
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects alternate PowerShell hosts potentially bypassing detections looking for powershell.exe
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+any where ((PipeName startswith "\\PSHost") and not (((((process.executable like "*_:\\Program Files\\PowerShell\\7-preview\\pwsh.exe*" or process.executable like "*_:\\Program Files\\PowerShell\\7\\pwsh.exe*" or process.executable like "*_:\\Windows\\system32\\dsac.exe*" or process.executable like "*_:\\Windows\\system32\\inetsrv\\w3wp.exe*" or process.executable like "*_:\\Windows\\System32\\sdiagnhost.exe*" or process.executable like "*_:\\Windows\\system32\\ServerManager.exe*" or process.executable like "*_:\\Windows\\system32\\wbem\\wmiprvse.exe*" or process.executable like "*_:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell_ise.exe*" or process.executable like "*_:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe*" or process.executable like "*_:\\Windows\\System32\\wsmprovhost.exe*" or process.executable like "*_:\\Windows\\SysWOW64\\WindowsPowerShell\\v1.0\\powershell_ise.exe*" or process.executable like "*_:\\Windows\\SysWOW64\\WindowsPowerShell\\v1.0\\powershell.exe*")) or ((process.executable like "*_C:\\Program Files\\WindowsApps\\Microsoft.PowerShellPreview*" and process.executable like "*_\\pwsh.exe*")) or ((process.executable like "*_\\AppData\\Local\\Microsoft\\WindowsApps\\Microsoft.PowerShellPreview*" and process.executable like "*_\\pwsh.exe*"))) or (process.executable == null))) and not (((process.executable startswith "C:\\Program Files\\AzureConnectedMachineAgent\\GCArcService" and process.executable endswith "\\GC\\gc_worker.exe") or (process.executable startswith "C:\\Program Files\\Citrix\\") or (process.executable startswith "C:\\Program Files\\Microsoft\\Exchange Server\\") or ((process.executable startswith "C:\\Program Files (x86)\\" or process.executable startswith "C:\\Program Files\\") and process.executable like "*_\\Microsoft SQL Server\\*" and process.executable endswith "\\Tools\\Binn\\SQLPS.exe"))))

@@ -1,0 +1,11 @@
+// Title: Tamper Windows Defender - PSClassic
+// ID: ec19ebab-72dc-40e1-9728-4c0b805d722c
+// Status: test
+// Level: high
+// Author: frack113, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2021-06-07
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Attempting to disable scheduled scanning and other parts of Windows Defender ATP or set default actions to allow.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((Data: "*Set-MpPreference*") AND (((Data: "*HighThreatDefaultAction Allow*" OR Data: "*htdefac Allow*" OR Data: "*LowThreatDefaultAction Allow*" OR Data: "*ltdefac Allow*" OR Data: "*ModerateThreatDefaultAction Allow*" OR Data: "*mtdefac Allow*" OR Data: "*SevereThreatDefaultAction Allow*" OR Data: "*stdefac Allow*")) OR ((Data: "*-dbaf $true*" OR Data: "*-dbaf 1*" OR Data: "*-dbm $true*" OR Data: "*-dbm 1*" OR Data: "*-dips $true*" OR Data: "*-dips 1*" OR Data: "*-DisableArchiveScanning $true*" OR Data: "*-DisableArchiveScanning 1*" OR Data: "*-DisableBehaviorMonitoring $true*" OR Data: "*-DisableBehaviorMonitoring 1*" OR Data: "*-DisableBlockAtFirstSeen $true*" OR Data: "*-DisableBlockAtFirstSeen 1*" OR Data: "*-DisableCatchupFullScan $true*" OR Data: "*-DisableCatchupFullScan 1*" OR Data: "*-DisableCatchupQuickScan $true*" OR Data: "*-DisableCatchupQuickScan 1*" OR Data: "*-DisableIntrusionPreventionSystem $true*" OR Data: "*-DisableIntrusionPreventionSystem 1*" OR Data: "*-DisableIOAVProtection $true*" OR Data: "*-DisableIOAVProtection 1*" OR Data: "*-DisableRealtimeMonitoring $true*" OR Data: "*-DisableRealtimeMonitoring 1*" OR Data: "*-DisableRemovableDriveScanning $true*" OR Data: "*-DisableRemovableDriveScanning 1*" OR Data: "*-DisableScanningMappedNetworkDrivesForFullScan $true*" OR Data: "*-DisableScanningMappedNetworkDrivesForFullScan 1*" OR Data: "*-DisableScanningNetworkFiles $true*" OR Data: "*-DisableScanningNetworkFiles 1*" OR Data: "*-DisableScriptScanning $true*" OR Data: "*-DisableScriptScanning 1*" OR Data: "*-MAPSReporting $false*" OR Data: "*-MAPSReporting 0*" OR Data: "*-drdsc $true*" OR Data: "*-drdsc 1*" OR Data: "*-drtm $true*" OR Data: "*-drtm 1*" OR Data: "*-dscrptsc $true*" OR Data: "*-dscrptsc 1*" OR Data: "*-dsmndf $true*" OR Data: "*-dsmndf 1*" OR Data: "*-dsnf $true*" OR Data: "*-dsnf 1*" OR Data: "*-dss $true*" OR Data: "*-dss 1*"))))

@@ -1,0 +1,12 @@
+// Title: Potential Azure Browser SSO Abuse
+// ID: 50f852e6-af22-4c78-9ede-42ef36aa3453
+// Status: test
+// Level: low
+// Author: Den Iuzvyk
+// Date: 2020-07-15
+// Tags: attack.persistence, attack.privilege-escalation, attack.execution, attack.stealth, attack.t1574.001
+// Description: Detects abusing Azure Browser SSO by requesting OAuth 2.0 refresh tokens for an Azure-AD-authenticated Windows user (i.e. the machine is joined to Azure AD and a user logs in with their Azure AD account) wanting to perform SSO authentication in the browser.
+// An attacker can use this to authenticate to Azure AD in a browser as that user.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((ImageLoaded = "C:\\Windows\\System32\\MicrosoftAccountTokenProvider.dll") AND NOT (((src.process.image.path startswithCIS "C:\\Windows\\System32\\" OR src.process.image.path startswithCIS "C:\\Windows\\SysWOW64\\") AND src.process.image.path endswithCIS "\\BackgroundTaskHost.exe")) AND NOT ((((src.process.image.path startswithCIS "C:\\Program Files\\Microsoft Visual Studio\\" OR src.process.image.path startswithCIS "C:\\Program Files (x86)\\Microsoft Visual Studio\\") AND src.process.image.path endswithCIS "\\IDE\\devenv.exe") OR ((src.process.image.path startswithCIS "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\") OR (src.process.image.path endswithCIS "\\WindowsApps\\MicrosoftEdge.exe") OR ((src.process.image.path = "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe" OR src.process.image.path = "C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe"))) OR ((src.process.image.path startswithCIS "C:\\Program Files (x86)\\Microsoft\\EdgeCore\\" OR src.process.image.path startswithCIS "C:\\Program Files\\Microsoft\\EdgeCore\\") AND (src.process.image.path endswithCIS "\\msedge.exe" OR src.process.image.path endswithCIS "\\msedgewebview2.exe")) OR ((src.process.image.path = "C:\\Program Files (x86)\\Internet Explorer\\iexplore.exe" OR src.process.image.path = "C:\\Program Files\\Internet Explorer\\iexplore.exe")) OR (src.process.image.path is null) OR (src.process.image.path endswithCIS "\\AppData\\Local\\Microsoft\\OneDrive\\OneDrive.exe"))))

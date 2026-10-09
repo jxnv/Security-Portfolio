@@ -1,0 +1,11 @@
+// Title: Potential Crypto Mining Activity
+// ID: 66c3b204-9f88-4d0a-a7f7-8a57d521ca55
+// Status: stable
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2021-10-26
+// Tags: attack.impact, attack.t1496
+// Description: Detects command line parameters or strings often used by crypto miners
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((src.process.cmdline containsCIS " --cpu-priority=" OR src.process.cmdline containsCIS "--donate-level=0" OR src.process.cmdline containsCIS " -o pool." OR src.process.cmdline containsCIS " --nicehash" OR src.process.cmdline containsCIS " --algo=rx/0 " OR src.process.cmdline containsCIS "stratum+tcp://" OR src.process.cmdline containsCIS "stratum+udp://" OR src.process.cmdline containsCIS "LS1kb25hdGUtbGV2ZWw9" OR src.process.cmdline containsCIS "0tZG9uYXRlLWxldmVsP" OR src.process.cmdline containsCIS "tLWRvbmF0ZS1sZXZlbD" OR src.process.cmdline containsCIS "c3RyYXR1bSt0Y3A6Ly" OR src.process.cmdline containsCIS "N0cmF0dW0rdGNwOi8v" OR src.process.cmdline containsCIS "zdHJhdHVtK3RjcDovL" OR src.process.cmdline containsCIS "c3RyYXR1bSt1ZHA6Ly" OR src.process.cmdline containsCIS "N0cmF0dW0rdWRwOi8v" OR src.process.cmdline containsCIS "zdHJhdHVtK3VkcDovL")) AND NOT (((src.process.cmdline containsCIS " pool.c " OR src.process.cmdline containsCIS " pool.o " OR src.process.cmdline containsCIS "gcc -"))))

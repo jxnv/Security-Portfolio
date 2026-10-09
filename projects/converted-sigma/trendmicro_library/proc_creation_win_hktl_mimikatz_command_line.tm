@@ -1,0 +1,11 @@
+// Title: HackTool - Mimikatz Execution
+// ID: a642964e-bead-4bed-8910-1bb4d63e3b4d
+// Status: test
+// Level: high
+// Author: Teymur Kheirkhabarov, oscd.community, David ANDRE (additional keywords), Tim Shelton
+// Date: 2019-10-22
+// Tags: attack.credential-access, attack.t1003.001, attack.t1003.002, attack.t1003.004, attack.t1003.005, attack.t1003.006
+// Description: Detection well-known mimikatz command line arguments
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((CommandLine: "*::aadcookie*" OR CommandLine: "*::detours*" OR CommandLine: "*::memssp*" OR CommandLine: "*::mflt*" OR CommandLine: "*::ncroutemon*" OR CommandLine: "*::ngcsign*" OR CommandLine: "*::printnightmare*" OR CommandLine: "*::skeleton*" OR CommandLine: "*::preshutdown*" OR CommandLine: "*::mstsc*" OR CommandLine: "*::multirdp*")) OR ((CommandLine: "*rpc::*" OR CommandLine: "*token::*" OR CommandLine: "*crypto::*" OR CommandLine: "*dpapi::*" OR CommandLine: "*sekurlsa::*" OR CommandLine: "*kerberos::*" OR CommandLine: "*lsadump::*" OR CommandLine: "*privilege::*" OR CommandLine: "*process::*" OR CommandLine: "*vault::*")) OR ((CommandLine: "*DumpCreds*" OR CommandLine: "*mimikatz*")))

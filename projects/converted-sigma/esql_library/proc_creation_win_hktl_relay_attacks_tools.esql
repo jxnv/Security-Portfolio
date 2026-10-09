@@ -1,0 +1,11 @@
+// Title: Potential SMB Relay Attack Tool Execution
+// ID: 5589ab4f-a767-433c-961d-c91f3f704db1
+// Status: test
+// Level: critical
+// Author: Florian Roth (Nextron Systems)
+// Date: 2021-07-24
+// Tags: attack.collection, attack.execution, attack.credential-access, attack.t1557.001
+// Description: Detects different hacktools used for relay attacks on Windows for privilege escalation
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE (((process.command_line LIKE "%.exe -c \"{%" AND process.command_line LIKE "%}\" -z") OR ((process.executable LIKE "%PetitPotam%" OR process.executable LIKE "%RottenPotato%" OR process.executable LIKE "%HotPotato%" OR process.executable LIKE "%JuicyPotato%" OR process.executable LIKE "%\\just_dce_%" OR process.executable LIKE "%Juicy Potato%" OR process.executable LIKE "%\\temp\\rot.exe%" OR process.executable LIKE "%\\Potato.exe%" OR process.executable LIKE "%\\SpoolSample.exe%" OR process.executable LIKE "%\\Responder.exe%" OR process.executable LIKE "%\\smbrelayx%" OR process.executable LIKE "%\\ntlmrelayx%" OR process.executable LIKE "%\\LocalPotato%")) OR ((process.command_line LIKE "%Invoke-Tater%" OR process.command_line LIKE "% smbrelay%" OR process.command_line LIKE "% ntlmrelay%" OR process.command_line LIKE "%cme smb %" OR process.command_line LIKE "% /ntlm:NTLMhash %" OR process.command_line LIKE "%Invoke-PetitPotam%" OR process.command_line LIKE "%.exe -t * -p %"))) AND NOT (((process.executable LIKE "%HotPotatoes6%" OR process.executable LIKE "%HotPotatoes7%" OR process.executable LIKE "%HotPotatoes %"))))

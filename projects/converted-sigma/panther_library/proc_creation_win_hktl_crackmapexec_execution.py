@@ -1,0 +1,19 @@
+# Title: HackTool - CrackMapExec Execution
+# ID: 42a993dd-bb3e-48c8-b372-4d6684c4106c
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems)
+# Date: 2022-02-25
+# Tags: attack.execution, attack.persistence, attack.privilege-escalation, attack.credential-access, attack.discovery, attack.t1047, attack.t1053, attack.t1059.003, attack.t1059.001, attack.t1110, attack.t1201
+# Description: This rule detect common flag combinations used by CrackMapExec in order to detect its use even if the binary has been replaced.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: HackTool - CrackMapExec Execution
+def rule(event):
+    # Detection Logic:
+    # (((Image="*\\crackmapexec.exe") OR ((CommandLine="* --local-auth*" AND CommandLine="* -u *" AND CommandLine="* -x *")) OR ((CommandLine="* --local-auth*" AND CommandLine="* -u *" AND CommandLine="* -p *" AND CommandLine="* -H 'NTHASH'*")) OR ((CommandLine="* mssql *" AND CommandLine="* -u *" AND CommandLine="* -p *" AND CommandLine="* -M *" AND CommandLine="* -d *")) OR ((CommandLine="* smb *" AND CommandLine="* -u *" AND CommandLine="* -H *" AND CommandLine="* -M *" AND CommandLine="* -o *")) OR ((CommandLine="* smb *" AND CommandLine="* -u *" AND CommandLine="* -p *" AND CommandLine="* --local-auth*")) OR (CommandLine="* -M pe_inject *")) OR (((CommandLine="* --local-auth*" AND CommandLine="* -u *" AND CommandLine="* -p *")) AND ((CommandLine="* 10.*" AND CommandLine="* 192.168.*" AND CommandLine="*/24 *"))))
+    return True
+
+def title(event):
+    return "HackTool - CrackMapExec Execution"
+

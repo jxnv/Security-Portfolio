@@ -1,0 +1,12 @@
+// Title: Wusa.EXE Executed By Parent Process Located In Suspicious Location
+// ID: ef64fc9c-a45e-43cc-8fd8-7d75d73b4c99
+// Status: test
+// Level: high
+// Author: X__Junior (Nextron Systems)
+// Date: 2023-11-26
+// Tags: attack.execution
+// Description: Detects execution of the "wusa.exe" (Windows Update Standalone Installer) utility by a parent process that is located in a suspicious location.
+// Attackers could instantiate an instance of "wusa.exe" in order to bypass User Account Control (UAC). They can duplicate the access token from "wusa.exe" to gain elevated privileges.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where ((process.executable endswith "\\wusa.exe") and (((process.parent.executable like "*_:\\Perflogs\\*" or process.parent.executable like "*_:\\Users\\Public\\*" or process.parent.executable like "*_:\\Windows\\Temp\\*" or process.parent.executable like "*_\\Appdata\\Local\\Temp\\*" or process.parent.executable like "*_\\Temporary Internet*")) or (((process.parent.executable like "*_:\\Users\\*" and process.parent.executable like "*_\\Favorites\\*")) or ((process.parent.executable like "*_:\\Users\\*" and process.parent.executable like "*_\\Favourites\\*")) or ((process.parent.executable like "*_:\\Users\\*" and process.parent.executable like "*_\\Contacts\\*")) or ((process.parent.executable like "*_:\\Users\\*" and process.parent.executable like "*_\\Pictures\\*")))) and not ((process.command_line like "*_.msu*")))

@@ -1,0 +1,11 @@
+// Title: Uncommon  Assistive Technology Applications Execution Via AtBroker.EXE
+// ID: f24bcaea-0cd1-11eb-adc1-0242ac120002
+// Status: test
+// Level: medium
+// Author: Mateusz Wydra, oscd.community
+// Date: 2020-10-12
+// Tags: attack.stealth, attack.t1218
+// Description: Detects the start of a non built-in assistive technology applications via "Atbroker.EXE".
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((CommandLine contains "start") AND ((Image="*\\AtBroker.exe") OR (OriginalFileName == "AtBroker.exe"))) AND NOT (((CommandLine contains "animations" OR CommandLine contains "audiodescription" OR CommandLine contains "caretbrowsing" OR CommandLine contains "caretwidth" OR CommandLine contains "colorfiltering" OR CommandLine contains "cursorindicator" OR CommandLine contains "cursorscheme" OR CommandLine contains "filterkeys" OR CommandLine contains "focusborderheight" OR CommandLine contains "focusborderwidth" OR CommandLine contains "highcontrast" OR CommandLine contains "keyboardcues" OR CommandLine contains "keyboardpref" OR CommandLine contains "livecaptions" OR CommandLine contains "magnifierpane" OR CommandLine contains "messageduration" OR CommandLine contains "minimumhitradius" OR CommandLine contains "mousekeys" OR CommandLine contains "Narrator" OR CommandLine contains "osk" OR CommandLine contains "overlappedcontent" OR CommandLine contains "showsounds" OR CommandLine contains "soundsentry" OR CommandLine contains "speechreco" OR CommandLine contains "stickykeys" OR CommandLine contains "togglekeys" OR CommandLine contains "voiceaccess" OR CommandLine contains "windowarranging" OR CommandLine contains "windowtracking" OR CommandLine contains "windowtrackingtimeout" OR CommandLine contains "windowtrackingzorder"))) AND NOT ((CommandLine contains "Oracle_JavaAccessBridge")))

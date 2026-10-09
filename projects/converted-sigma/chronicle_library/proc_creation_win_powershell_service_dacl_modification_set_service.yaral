@@ -1,0 +1,23 @@
+// Title: Suspicious Service DACL Modification Via Set-Service Cmdlet
+// ID: a95b9b42-1308-4735-a1af-abb1c5e6f5ac
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-10-18
+// Tags: attack.privilege-escalation, attack.persistence, attack.t1543.003
+// Description: Detects suspicious DACL modifications via the "Set-Service" cmdlet using the "SecurityDescriptorSddl" flag (Only available with PowerShell 7) that can be used to hide services or make them unstopable
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule a95b9b42_1308_4735_a1af_abb1c5e6f5ac {
+  meta:
+    title = "Suspicious Service DACL Modification Via Set-Service Cmdlet"
+    description = "Detects suspicious DACL modifications via the "Set-Service" cmdlet using the "SecurityDescriptorSddl" flag (Only available with PowerShell 7) that can be used to hide services or make them unstopable"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase) or ($e.target.process.file.name = "pwsh.dll")) and (($e.target.process.command_line = /.*-SecurityDescriptorSddl .*/ nocase or $e.target.process.command_line = /.*-sd .*/ nocase)) and (($e.target.process.command_line = /.*Set-Service .*/ nocase and $e.target.process.command_line = /.*D;;.*/ nocase) and ($e.target.process.command_line = /.*;;;IU.*/ nocase or $e.target.process.command_line = /.*;;;SU.*/ nocase or $e.target.process.command_line = /.*;;;BA.*/ nocase or $e.target.process.command_line = /.*;;;SY.*/ nocase or $e.target.process.command_line = /.*;;;WD.*/ nocase)))
+
+  condition:
+    $e
+}

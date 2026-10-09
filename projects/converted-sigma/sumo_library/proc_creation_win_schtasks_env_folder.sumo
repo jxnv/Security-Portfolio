@@ -1,0 +1,11 @@
+// Title: Schedule Task Creation From Env Variable Or Potentially Suspicious Path Via Schtasks.EXE
+// ID: 81325ce1-be01-4250-944f-b4789644556f
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-02-21
+// Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.t1053.005
+// Description: Detects Schtask creations that point to a suspicious folder or an environment variable often used by malware
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where (((((CommandLine matches "*:\\Perflogs*" or CommandLine matches "*:\\Users\\All Users\\*" or CommandLine matches "*:\\Users\\Default\\*" or CommandLine matches "*:\\Users\\Public*" or CommandLine matches "*:\\Windows\\Temp*" or CommandLine matches "*\\AppData\\Local\\*" or CommandLine matches "*\\AppData\\Roaming\\*" or CommandLine matches "*%AppData%*" or CommandLine matches "*%Public%*")) and (Image matches "*\\schtasks.exe" and CommandLine matches "* /create *")) or ((ParentCommandLine matches "*\\svchost.exe -k netsvcs -p -s Schedule") and ((CommandLine matches "*:\\Perflogs*" or CommandLine matches "*:\\Windows\\Temp*" or CommandLine matches "*\\Users\\Public*" or CommandLine matches "*%Public%*")))) and !((((CommandLine matches "*/Create /Xml *" and CommandLine matches "*\\Temp\\.CR.*" and CommandLine matches "*\\Avira_Security_Installation.xml*")) or ((CommandLine matches "*/Create /F /TN*" and CommandLine matches "*/Xml *" and CommandLine matches "*\\Temp\\*" and CommandLine matches "*Avira_*") and (CommandLine matches "*.tmp\\UpdateFallbackTask.xml*" or CommandLine matches "*.tmp\\WatchdogServiceControlManagerTimeout.xml*" or CommandLine matches "*.tmp\\SystrayAutostart.xml*" or CommandLine matches "*.tmp\\MaintenanceTask.xml*")) or ((CommandLine matches "*\\Temp\\*" and CommandLine matches "*/Create /TN \"klcp_update\" /XML *" and CommandLine matches "*\\klcp_update_task.xml*")) or ((ParentCommandLine matches "*unattended.ini*") or (CommandLine matches "*update_task.xml*")) or (CommandLine matches "*/Create /TN TVInstallRestore /TR*"))))

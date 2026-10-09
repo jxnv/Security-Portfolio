@@ -1,0 +1,11 @@
+// Title: CobaltStrike Service Installations - System
+// ID: 5a105d34-05fc-401e-8553-272b45c1522d
+// Status: test
+// Level: critical
+// Author: Florian Roth (Nextron Systems), Wojciech Lesicki
+// Date: 2021-05-26
+// Tags: attack.persistence, attack.execution, attack.privilege-escalation, attack.lateral-movement, attack.t1021.002, attack.t1543.003, attack.t1569.002
+// Description: Detects known malicious service installs that appear in cases in which a Cobalt Strike beacon elevates privileges or lateral movement
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+any where ((winlog.provider_name == "Service Control Manager" and winlog.event_id == 7045) and (((ImagePath like "*_ADMIN$*" and ImagePath like "*_.exe*")) or ((ImagePath like "*_%COMSPEC%*" and ImagePath like "*_start*" and ImagePath like "*_powershell*")) or (ImagePath like "*_powershell -nop -w hidden -encodedcommand*") or ((ImagePath like "*_SUVYIChOZXctT2JqZWN0IE5ldC5XZWJjbGllbnQpLkRvd25sb2FkU3RyaW5nKCdodHRwOi8vMTI3LjAuMC4xO*" or ImagePath like "*_lFWCAoTmV3LU9iamVjdCBOZXQuV2ViY2xpZW50KS5Eb3dubG9hZFN0cmluZygnaHR0cDovLzEyNy4wLjAuMT*" or ImagePath like "*_JRVggKE5ldy1PYmplY3QgTmV0LldlYmNsaWVudCkuRG93bmxvYWRTdHJpbmcoJ2h0dHA6Ly8xMjcuMC4wLjE6*"))))

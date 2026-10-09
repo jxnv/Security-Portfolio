@@ -1,0 +1,11 @@
+// Title: Failed DNS Zone Transfer
+// ID: 6d444368-6da1-43fe-b2fc-44202430480e
+// Status: test
+// Level: medium
+// Author: Zach Mathis
+// Date: 2023-05-24
+// Tags: attack.reconnaissance, attack.t1590.002
+// Description: Detects when a DNS zone transfer failed.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter (EventID = 6004)

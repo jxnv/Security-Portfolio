@@ -1,0 +1,11 @@
+// Title: Potential Arbitrary Code Execution Via Node.EXE
+// ID: 6640f31c-01ad-49b5-beb5-83498a5cd8bd
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-09-09
+// Tags: attack.execution, attack.stealth, attack.t1127
+// Description: Detects the execution node.exe which is shipped with multiple software such as VMware, Adobe...etc. In order to execute arbitrary code. For example to establish reverse shell as seen in Log4j attacks...etc
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where ((process.executable endswith "\\node.exe" and (process.command_line like "*_ -e *" or process.command_line like "*_ --eval *")) and ((process.command_line like "*_.exec(*" and process.command_line like "*_net.socket*" and process.command_line like "*_.connect*" and process.command_line like "*_child_process*")))

@@ -1,0 +1,13 @@
+-- Title: Kerberoasting Activity - Initial Query
+-- ID: d04ae2b8-ad54-4de0-bd87-4bc1da66aa59
+-- Status: test
+-- Level: medium
+-- Author: @kostastsale
+-- Date: 2022-01-21
+-- Tags: attack.credential-access, attack.t1558.003
+-- Description: This rule will collect the data needed to start looking into possible kerberoasting activity.
+-- Further analysis or computation within the query is needed focusing on requests from one specific host/IP towards multiple service names within a time period of 5 seconds.
+-- You can then set a threshold for the number of requests and time between the requests to turn this into an alert.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE ((EventID = 4769 AND Status = '0x0' AND TicketEncryptionType = '0x17') AND NOT ((((ServiceName ILIKE '%krbtgt' OR ServiceName ILIKE '%$')) OR (TargetUserName ILIKE '%$@%'))))

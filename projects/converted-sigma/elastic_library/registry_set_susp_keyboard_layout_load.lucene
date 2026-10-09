@@ -1,0 +1,11 @@
+# Title: Suspicious Keyboard Layout Load
+# ID: 34aa0252-6039-40ff-951f-939fd6ce47d8
+# Status: test
+# Level: medium
+# Author: Florian Roth (Nextron Systems)
+# Date: 2019-10-12
+# Tags: attack.resource-development, attack.t1588.002
+# Description: Detects the keyboard preload installation with a suspicious keyboard layout, e.g. Chinese, Iranian or Vietnamese layout load in user session on systems maintained by US staff only
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((registry.path:*\\Keyboard Layout\\Preload\\* OR registry.path:*\\Keyboard Layout\\Substitutes\\*) AND (registry.data.strings:*00000429* OR registry.data.strings:*00050429* OR registry.data.strings:*0000042a*))

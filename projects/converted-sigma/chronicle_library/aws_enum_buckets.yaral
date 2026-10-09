@@ -1,0 +1,23 @@
+// Title: Potential Bucket Enumeration on AWS
+// ID: f305fd62-beca-47da-ad95-7690a0620084
+// Status: test
+// Level: low
+// Author: Christopher Peacock @securepeacock, SCYTHE @scythe_io
+// Date: 2023-01-06
+// Tags: attack.discovery, attack.t1580, attack.t1619
+// Description: Looks for potential enumeration of AWS buckets via ListBuckets.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule f305fd62_beca_47da_ad95_7690a0620084 {
+  meta:
+    title = "Potential Bucket Enumeration on AWS"
+    description = "Looks for potential enumeration of AWS buckets via ListBuckets."
+    author = "Christopher Peacock @securepeacock, SCYTHE @scythe_io"
+    severity = "LOW"
+
+  events:
+    (($e.eventSource = "s3.amazonaws.com" and $e.eventName = "ListBuckets") and not(($e.userIdentity.type = "AssumedRole")))
+
+  condition:
+    $e
+}

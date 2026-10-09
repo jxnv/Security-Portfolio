@@ -1,0 +1,23 @@
+// Title: Remote Thread Creation By Uncommon Source Image
+// ID: 66d31e5f-52d6-40a4-9615-002d3789a119
+// Status: test
+// Level: medium
+// Author: Perez Diego (@darkquassar), oscd.community
+// Date: 2019-10-27
+// Tags: attack.privilege-escalation, attack.stealth, attack.t1055
+// Description: Detects uncommon processes creating remote threads.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 66d31e5f_52d6_40a4_9615_002d3789a119 {
+  meta:
+    title = "Remote Thread Creation By Uncommon Source Image"
+    description = "Detects uncommon processes creating remote threads."
+    author = "Perez Diego (@darkquassar), oscd.community"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.SourceImage = /.*\\explorer.exe$/ nocase or $e.SourceImage = /.*\\iexplore.exe$/ nocase or $e.SourceImage = /.*\\msiexec.exe$/ nocase or $e.SourceImage = /.*\\powerpnt.exe$/ nocase or $e.SourceImage = /.*\\schtasks.exe$/ nocase or $e.SourceImage = /.*\\winlogon.exe$/ nocase)) and not((($e.TargetImage = "") or ($e.SourceImage = "C:\\Windows\\explorer.exe" and ($e.TargetImage = /^C:\\Program Files (x86)\\.*/ nocase or $e.TargetImage = /^C:\\Program Files\\.*/ nocase or $e.TargetImage = /^C:\\Windows\\System32\\.*/ nocase or $e.TargetImage = /^C:\\Windows\\SysWOW64\\.*/ nocase)) or ($e.SourceImage = "C:\\Program Files\\Internet Explorer\\iexplore.exe" and ($e.TargetImage = "C:\\Program Files (x86)\\Internet Explorer\\iexplore.exe" or $e.TargetImage = "C:\\Windows\\System32\\rundll32.exe")) or ($e.SourceImage = /.*\\msiexec.exe$/ nocase and ($e.TargetImage = /.*\\AppData\\Local\\.*/ nocase or $e.TargetImage = /.*C:\\Program Files (x86)\\.*/ nocase or $e.TargetImage = /.*C:\\Program Files\\.*/ nocase or $e.TargetImage = /.*C:\\Windows\\Microsoft.NET\\Framework64\\.*/ nocase)) or ($e.SourceImage = /.*\\msiexec.exe$/ nocase and ($e.TargetImage = "C:\\Windows\\System32\\msiexec.exe" or $e.TargetImage = "C:\\Windows\\SysWOW64\\msiexec.exe")) or (not ($e.TargetImage = /.*/)) or ($e.SourceImage = /.*\\POWERPNT.EXE$/ nocase and ($e.TargetImage = /.*C:\\Program Files\\Microsoft Office\\.*/ nocase or $e.TargetImage = /.*C:\\Program Files (x86)\\Microsoft Office\\.*/ nocase)) or (($e.SourceImage = "C:\\Windows\\System32\\schtasks.exe" or $e.SourceImage = "C:\\Windows\\SysWOW64\\schtasks.exe") and $e.TargetImage = "C:\\Windows\\System32\\conhost.exe") or ($e.TargetImage = "System") or ($e.SourceImage = "C:\\Windows\\System32\\winlogon.exe" and ($e.TargetImage = "C:\\Windows\\System32\\services.exe" or $e.TargetImage = "C:\\Windows\\System32\\wininit.exe" or $e.TargetImage = "C:\\Windows\\System32\\csrss.exe" or $e.TargetImage = "C:\\Windows\\System32\\LogonUI.exe" or $e.TargetImage = "C:\\Windows\\System32\\wlrmdr.exe" or $e.TargetImage = "C:\\Windows\\System32\\AtBroker.exe" or $e.TargetImage = "C:\\Windows\\System32\\dwm.exe" or $e.TargetImage = "C:\\Windows\\System32\\fontdrvhost.exe" or $e.TargetImage = "C:\\Windows\\System32\\userinit.exe")) or ($e.SourceImage = "C:\\Windows\\System32\\winlogon.exe" and $e.TargetParentProcessId = 4))) and not((($e.SourceImage = "C:\\Windows\\explorer.exe" and $e.TargetImage = /.*\\aurora-dashboard.exe$/ nocase) or ($e.SourceImage = "C:\\Program Files\\internet explorer\\iexplore.exe" and ($e.SourceCommandLine = /.*https://.*/ nocase and $e.SourceCommandLine = /.*.checkpoint.com/documents/.*/ nocase and $e.SourceCommandLine = /.*SmartConsole_OLH/.*/ nocase and $e.SourceCommandLine = /.*default.htm#cshid=.*/ nocase)) or ($e.SourceImage = "C:\\Program Files\\internet explorer\\iexplore.exe" and ($e.SourceParentImage = /^C:\\Program Files\\.*/ nocase or $e.SourceParentImage = /^C:\\Program Files (x86)\\.*/ nocase) and ($e.SourceParentImage = /.*\\CheckPoint\\SmartConsole\\.*/ nocase and $e.SourceParentImage = /.*\\SmartConsole.exe.*/ nocase)) or ($e.SourceImage = "C:\\Windows\\explorer.exe" and $e.TargetImage = /.*\\OfficeSetup.exe$/ nocase) or ($e.SourceImage = "C:\\Windows\\explorer.exe" and $e.TargetImage = /.*\\AppData\\Local\\Microsoft\\OneDrive\\OneDrive.exe$/ nocase) or ($e.SourceImage = /.*\\Microsoft Office\\.*/ nocase and $e.SourceImage = /.*\\POWERPNT.EXE$/ nocase and $e.TargetImage = "C:\\Windows\\System32\\csrss.exe"))))
+
+  condition:
+    $e
+}

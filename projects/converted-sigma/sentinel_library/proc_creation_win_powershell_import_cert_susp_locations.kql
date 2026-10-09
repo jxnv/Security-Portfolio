@@ -1,0 +1,11 @@
+// Title: Root Certificate Installed From Susp Locations
+// ID: 5f6a601c-2ecb-498b-9c33-660362323afa
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-09-09
+// Tags: attack.defense-impairment, attack.t1553.004
+// Description: Adversaries may install a root certificate on a compromised system to avoid warnings when connecting to adversary controlled web servers.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+DeviceProcessEvents | where ((ProcessCommandLine contains "Import-Certificate" and ProcessCommandLine contains " -FilePath " and ProcessCommandLine contains "Cert:\\LocalMachine\\Root") and (ProcessCommandLine contains "\\AppData\\Local\\Temp\\" or ProcessCommandLine contains ":\\Windows\\TEMP\\" or ProcessCommandLine contains "\\Desktop\\" or ProcessCommandLine contains "\\Downloads\\" or ProcessCommandLine contains "\\Perflogs\\" or ProcessCommandLine contains ":\\Users\\Public\\"))

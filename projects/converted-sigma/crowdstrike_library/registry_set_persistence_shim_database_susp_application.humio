@@ -1,0 +1,11 @@
+// Title: Suspicious Shim Database Patching Activity
+// ID: bf344fea-d947-4ef4-9192-34d008315d3a
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-08-01
+// Tags: attack.privilege-escalation, attack.persistence, attack.t1546.011
+// Description: Detects installation of new shim databases that try to patch sections of known processes for potential process injection or persistence.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(TargetObject = /*\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\AppCompatFlags\\Custom\\*/i and (TargetObject = /.*\\csrss.exe/i or TargetObject = /.*\\dllhost.exe/i or TargetObject = /.*\\explorer.exe/i or TargetObject = /.*\\RuntimeBroker.exe/i or TargetObject = /.*\\services.exe/i or TargetObject = /.*\\sihost.exe/i or TargetObject = /.*\\svchost.exe/i or TargetObject = /.*\\taskhostw.exe/i or TargetObject = /.*\\winlogon.exe/i or TargetObject = /.*\\WmiPrvSe.exe/i))

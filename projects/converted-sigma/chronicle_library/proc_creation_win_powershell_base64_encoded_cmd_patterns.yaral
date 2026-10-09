@@ -1,0 +1,23 @@
+// Title: Suspicious PowerShell Encoded Command Patterns
+// ID: b9d9cc83-380b-4ba3-8d8f-60c0e7e2930c
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-05-24
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects PowerShell command line patterns in combincation with encoded commands that often appear in malware infection chains
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule b9d9cc83_380b_4ba3_8d8f_60c0e7e2930c {
+  meta:
+    title = "Suspicious PowerShell Encoded Command Patterns"
+    description = "Detects PowerShell command line patterns in combincation with encoded commands that often appear in malware infection chains"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (((($e.target.process.command_line = /.* JAB.*/ nocase or $e.target.process.command_line = /.* SUVYI.*/ nocase or $e.target.process.command_line = /.* SQBFAFgA.*/ nocase or $e.target.process.command_line = /.* aWV4I.*/ nocase or $e.target.process.command_line = /.* IAB.*/ nocase or $e.target.process.command_line = /.* PAA.*/ nocase or $e.target.process.command_line = /.* aQBlAHgA.*/ nocase)) and (($e.target.process.command_line = /.* -e .*/ nocase or $e.target.process.command_line = /.* -en .*/ nocase or $e.target.process.command_line = /.* -enc .*/ nocase or $e.target.process.command_line = /.* -enco.*/ nocase)) and ((($e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase)) or (($e.target.process.file.name = "PowerShell.Exe" or $e.target.process.file.name = "pwsh.dll")))) and not((($e.principal.process.file.full_path = /.*C:\\Packages\\Plugins\\Microsoft.GuestConfiguration.ConfigurationforWindows\\.*/ nocase or $e.principal.process.file.full_path = /.*\\gc_worker.exe.*/ nocase))))
+
+  condition:
+    $e
+}

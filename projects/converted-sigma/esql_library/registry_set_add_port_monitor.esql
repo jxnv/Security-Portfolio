@@ -1,0 +1,12 @@
+// Title: Add Port Monitor Persistence in Registry
+// ID: 944e8941-f6f6-4ee8-ac05-1c224e923c0e
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2021-12-30
+// Tags: attack.privilege-escalation, attack.persistence, attack.t1547.010
+// Description: Adversaries may use port monitors to run an attacker supplied DLL during system boot for persistence or privilege escalation.
+// A port monitor can be set through the AddMonitor API call to set a DLL to be loaded at startup.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE ((registry.path LIKE "%\\Control\\Print\\Monitors\\%" AND registry.data.strings LIKE "%.dll") AND NOT (((process.executable == "C:\\Windows\\System32\\spoolsv.exe" AND registry.path LIKE "%\\Control\\Print\\Monitors\\CutePDF Writer Monitor v4.0\\Driver%" AND registry.data.strings == "cpwmon64_v40.dll" AND (user.name LIKE "%AUTHORI%" OR user.name LIKE "%AUTORI%")) OR (registry.path LIKE "%\\Control\\Print\\Monitors\\MONVNC\\Driver%") OR ((registry.path LIKE "%Control\\Print\\Environments\\%" AND registry.path LIKE "%\\Drivers\\%" AND registry.path LIKE "%\\VNC Printer%")))))

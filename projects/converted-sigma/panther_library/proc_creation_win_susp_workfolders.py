@@ -1,0 +1,19 @@
+# Title: Execution via WorkFolders.exe
+# ID: 0bbc6369-43e3-453d-9944-cae58821c173
+# Status: test
+# Level: high
+# Author: Maxime Thiebaut (@0xThiebaut)
+# Date: 2021-10-21
+# Tags: attack.stealth, attack.t1218
+# Description: Detects using WorkFolders.exe to execute an arbitrary control.exe
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Execution via WorkFolders.exe
+def rule(event):
+    # Detection Logic:
+    # ((Image="*\\control.exe" AND ParentImage="*\\WorkFolders.exe") AND NOT ((Image="C:\\Windows\\System32\\control.exe")))
+    return True
+
+def title(event):
+    return "Execution via WorkFolders.exe"
+

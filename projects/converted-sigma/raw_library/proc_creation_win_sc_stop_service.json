@@ -1,0 +1,31 @@
+{
+  "title": "Stop Windows Service Via Sc.EXE",
+  "id": "81bcb81b-5b1f-474b-b373-52c871aaa7b1",
+  "status": "test",
+  "description": "Detects the stopping of a Windows service via the \"sc.exe\" utility",
+  "author": "Jakob Weinzettl, oscd.community, Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2023-03-05",
+  "tags": [
+    "attack.impact",
+    "attack.t1489"
+  ],
+  "level": "low",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_img": [
+      {
+        "OriginalFileName": "sc.exe"
+      },
+      {
+        "Image|endswith": "\\sc.exe"
+      }
+    ],
+    "selection_cli": {
+      "CommandLine|contains": " stop "
+    },
+    "condition": "all of selection_*"
+  }
+}

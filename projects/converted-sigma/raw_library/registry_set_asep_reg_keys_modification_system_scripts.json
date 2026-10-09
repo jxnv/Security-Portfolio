@@ -1,0 +1,35 @@
+{
+  "title": "System Scripts Autorun Keys Modification",
+  "id": "e7a2fd40-3ae1-4a85-bf80-15cf624fb1b1",
+  "status": "test",
+  "description": "Detects modification of autostart extensibility point (ASEP) in registry.",
+  "author": "Victor Sergeev, Daniil Yugoslavskiy, Gleb Sukhodolskiy, Timur Zinniatullin, oscd.community, Tim Shelton, frack113 (split)",
+  "date": "2019-10-25",
+  "tags": [
+    "attack.privilege-escalation",
+    "attack.persistence",
+    "attack.t1547.001"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "registry_set",
+    "product": "windows"
+  },
+  "detection": {
+    "scripts_base": {
+      "TargetObject|contains": "\\Software\\Policies\\Microsoft\\Windows\\System\\Scripts"
+    },
+    "scripts": {
+      "TargetObject|contains": [
+        "\\Startup",
+        "\\Shutdown",
+        "\\Logon",
+        "\\Logoff"
+      ]
+    },
+    "filter": {
+      "Details": "(Empty)"
+    },
+    "condition": "scripts_base and scripts and not filter"
+  }
+}

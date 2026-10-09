@@ -1,0 +1,23 @@
+// Title: Potentially Suspicious AccessMask Requested From LSASS
+// ID: 4a1b6da0-d94f-4fc3-98fc-2d9cb9e5ee76
+// Status: test
+// Level: medium
+// Author: Roberto Rodriguez, Teymur Kheirkhabarov, Dimitrios Slamaris, Mark Russinovich, Aleksey Potapov, oscd.community (update)
+// Date: 2019-11-01
+// Tags: attack.credential-access, car.2019-04-004, attack.t1003.001
+// Description: Detects process handle on LSASS process with certain access mask
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 4a1b6da0_d94f_4fc3_98fc_2d9cb9e5ee76 {
+  meta:
+    title = "Potentially Suspicious AccessMask Requested From LSASS"
+    description = "Detects process handle on LSASS process with certain access mask"
+    author = "Roberto Rodriguez, Teymur Kheirkhabarov, Dimitrios Slamaris, Mark Russinovich, Aleksey Potapov, oscd.community (update)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.EventID = 4656 and $e.ObjectName = /.*\\lsass.exe$/ nocase and ($e.AccessMask = /.*0x40.*/ nocase or $e.AccessMask = /.*0x1400.*/ nocase or $e.AccessMask = /.*0x100000.*/ nocase or $e.AccessMask = /.*0x1410.*/ nocase or $e.AccessMask = /.*0x1010.*/ nocase or $e.AccessMask = /.*0x1438.*/ nocase or $e.AccessMask = /.*0x143a.*/ nocase or $e.AccessMask = /.*0x1418.*/ nocase or $e.AccessMask = /.*0x1f0fff.*/ nocase or $e.AccessMask = /.*0x1f1fff.*/ nocase or $e.AccessMask = /.*0x1f2fff.*/ nocase or $e.AccessMask = /.*0x1f3fff.*/ nocase)) or ($e.EventID = 4663 and $e.ObjectName = /.*\\lsass.exe$/ nocase and ($e.AccessList = /.*4484.*/ nocase or $e.AccessList = /.*4416.*/ nocase))) and not((($e.ProcessName = /.*:\\Windows\\Temp\\asgard2-agent-sc\\aurora\\.*/ nocase and $e.ProcessName = /.*\\aurora-agent-64.exe$/ nocase and $e.AccessList = /.*%%4484.*/ nocase) or (($e.ProcessName = /.*:\\Users\\.*/ nocase and $e.ProcessName = /.*\\AppData\\Local\\Temp\\is-.*/ nocase) and $e.ProcessName = /.*\\avira_system_speedup.tmp$/ nocase and $e.AccessList = /.*%%4484.*/ nocase) or ($e.ProcessName = /.*:\\Windows\\Temp\\.*/ nocase and $e.ProcessName = /.*\\avira_speedup_setup_update.tmp$/ nocase and $e.AccessList = /.*%%4484.*/ nocase) or (($e.ProcessName = /.*:\\Windows\\System32\\taskhostw.exe$/ nocase or $e.ProcessName = /.*:\\Windows\\System32\\msiexec.exe$/ nocase or $e.ProcessName = /.*:\\Windows\\CCM\\CcmExec.exe$/ nocase)) or ($e.ProcessName = /.*:\\Program Files.*/ nocase) or ($e.ProcessName = /.*:\\Windows\\SystemTemp\\.*/ nocase and $e.ProcessName = /.*\\GoogleUpdate.exe$/ nocase and $e.AccessList = /.*%%4484.*/ nocase) or ($e.ProcessName = /.*\\x64\\SCENARIOENGINE.EXE$/ nocase and $e.AccessList = /.*%%4484.*/ nocase) or ($e.ProcessName = /.*:\\Windows\\System32\\snmp.exe$/ nocase and $e.AccessList = /.*%%4484.*/ nocase) or (($e.ProcessName = /.*\\csrss.exe$/ nocase or $e.ProcessName = /.*\\GamingServices.exe$/ nocase or $e.ProcessName = /.*\\lsm.exe$/ nocase or $e.ProcessName = /.*\\MicrosoftEdgeUpdate.exe$/ nocase or $e.ProcessName = /.*\\minionhost.exe$/ nocase or $e.ProcessName = /.*\\MRT.exe$/ nocase or $e.ProcessName = /.*\\MsMpEng.exe$/ nocase or $e.ProcessName = /.*\\perfmon.exe$/ nocase or $e.ProcessName = /.*\\procexp.exe$/ nocase or $e.ProcessName = /.*\\procexp64.exe$/ nocase or $e.ProcessName = /.*\\procexp64a.exe$/ nocase or $e.ProcessName = /.*\\svchost.exe$/ nocase or $e.ProcessName = /.*\\taskmgr.exe$/ nocase or $e.ProcessName = /.*\\thor.exe$/ nocase or $e.ProcessName = /.*\\thor64.exe$/ nocase or $e.ProcessName = /.*\\vmtoolsd.exe$/ nocase or $e.ProcessName = /.*\\VsTskMgr.exe$/ nocase or $e.ProcessName = /.*\\wininit.exe$/ nocase or $e.ProcessName = /.*\\wmiprvse.exe$/ nocase or $e.ProcessName = /.*RtkAudUService64$/ nocase) and ($e.ProcessName = /.*:\\Program Files (x86)\\.*/ nocase or $e.ProcessName = /.*:\\Program Files\\.*/ nocase or $e.ProcessName = /.*:\\ProgramData\\Microsoft\\Windows Defender\\Platform\\.*/ nocase or $e.ProcessName = /.*:\\Windows\\SysNative\\.*/ nocase or $e.ProcessName = /.*:\\Windows\\System32\\.*/ nocase or $e.ProcessName = /.*:\\Windows\\SysWow64\\.*/ nocase or $e.ProcessName = /.*:\\Windows\\Temp\\asgard2-agent\\.*/ nocase)) or (($e.ProcessName = /.*:\\Windows\\Sysmon64.exe$/ nocase or $e.ProcessName = /.*:\\Windows\\Sysmon64a.exe$/ nocase) and $e.AccessList = /.*%%4484.*/ nocase))) and not((($e.ProcessName = /.*\\procmon64.exe$/ nocase or $e.ProcessName = /.*\\procmon64a.exe$/ nocase or $e.ProcessName = /.*\\procmon.exe$/ nocase) and $e.AccessList = /.*%%4484.*/ nocase)))
+
+  condition:
+    $e
+}

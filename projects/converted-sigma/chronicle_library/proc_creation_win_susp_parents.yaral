@@ -1,0 +1,23 @@
+// Title: Suspicious Process Parents
+// ID: cbec226f-63d9-4eca-9f52-dfb6652f24df
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-03-21
+// Tags: attack.stealth, attack.t1036
+// Description: Detects suspicious parent processes that should not have any children or should only have a single possible child program
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule cbec226f_63d9_4eca_9f52_dfb6652f24df {
+  meta:
+    title = "Suspicious Process Parents"
+    description = "Detects suspicious parent processes that should not have any children or should only have a single possible child program"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.principal.process.file.full_path = /.*\\minesweeper.exe$/ nocase or $e.principal.process.file.full_path = /.*\\winver.exe$/ nocase or $e.principal.process.file.full_path = /.*\\bitsadmin.exe$/ nocase)) or ((($e.principal.process.file.full_path = /.*\\csrss.exe$/ nocase or $e.principal.process.file.full_path = /.*\\certutil.exe$/ nocase or $e.principal.process.file.full_path = /.*\\eventvwr.exe$/ nocase or $e.principal.process.file.full_path = /.*\\calc.exe$/ nocase or $e.principal.process.file.full_path = /.*\\notepad.exe$/ nocase)) and not(((not ($e.target.process.file.full_path = /.*/)) or (($e.target.process.file.full_path = /.*\\WerFault.exe$/ nocase or $e.target.process.file.full_path = /.*\\wermgr.exe$/ nocase or $e.target.process.file.full_path = /.*\\conhost.exe$/ nocase or $e.target.process.file.full_path = /.*\\mmc.exe$/ nocase or $e.target.process.file.full_path = /.*\\win32calc.exe$/ nocase or $e.target.process.file.full_path = /.*\\notepad.exe$/ nocase))))))
+
+  condition:
+    $e
+}

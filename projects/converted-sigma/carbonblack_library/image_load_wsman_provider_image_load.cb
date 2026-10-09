@@ -1,0 +1,11 @@
+# Title: Suspicious WSMAN Provider Image Loads
+# ID: ad1f4bb9-8dfb-4765-adb6-2a7cfb6c0f94
+# Status: test
+# Level: medium
+# Author: Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research)
+# Date: 2020-06-24
+# Tags: attack.execution, attack.t1059.001, attack.lateral-movement, attack.t1021.003
+# Description: Detects signs of potential use of the WSMAN provider from uncommon processes locally and remote execution.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((((ImageLoaded:*\\WsmSvc.dll OR ImageLoaded:*\\WsmAuto.dll OR ImageLoaded:*\\Microsoft.WSMan.Management.ni.dll)) OR ((OriginalFileName:"WsmSvc.dll" OR OriginalFileName:"WSMANAUTOMATION.DLL" OR OriginalFileName:"Microsoft.WSMan.Management.dll"))) OR (process_name:*\\svchost.exe AND OriginalFileName:"WsmWmiPl.dll")) AND -(((process_name:C:\\Program Files\\Citrix\\*) OR ((process_name:"C:\\Program Files (x86)\\PowerShell\\6\\pwsh.exe" OR process_name:"C:\\Program Files (x86)\\PowerShell\\7\\pwsh.exe" OR process_name:"C:\\Program Files\\PowerShell\\6\\pwsh.exe" OR process_name:"C:\\Program Files\\PowerShell\\7\\pwsh.exe" OR process_name:"C:\\Windows\\System32\\sdiagnhost.exe" OR process_name:"C:\\Windows\\System32\\services.exe" OR process_name:"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell_ise.exe" OR process_name:"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe")) OR (process_name:C:\\Program Files\\WindowsApps\\Microsoft.GetHelp_* AND process_name:*\\GetHelp.exe) OR (process_name:*\\mmc.exe) OR ((process_name:C:\\Windows\\Microsoft.NET\\Framework64\\v* OR process_name:C:\\Windows\\Microsoft.NET\\Framework\\v* OR process_name:C:\\Windows\\Microsoft.NET\\FrameworkArm\\v* OR process_name:C:\\Windows\\Microsoft.NET\\FrameworkArm64\\v*) AND process_name:*\\mscorsvw.exe) OR (process_name:C:\\Windows\\Temp\\asgard2-agent\\*) OR ((cmdline:*svchost.exe -k netsvcs -p -s BITS* OR cmdline:*svchost.exe -k GraphicsPerfSvcGroup -s GraphicsPerfSvc* OR cmdline:*svchost.exe -k NetworkService -p -s Wecsvc* OR cmdline:*svchost.exe -k netsvcs*)) OR ((process_name:"C:\\Windows\\System32\\Configure-SMRemoting.exe" OR process_name:"C:\\Windows\\System32\\ServerManager.exe")) OR (process_name:C:\\$WINDOWS.~BT\\Sources\\*))) AND -(((process_name:*\\svchost.exe) AND (-cmdline:*))))

@@ -1,0 +1,11 @@
+# Title: Remote Access Tool - ScreenConnect Potential Suspicious Remote Command Execution
+# ID: 7b582f1a-b318-4c6a-bf4e-66fe49bf55a5
+# Status: test
+# Level: medium
+# Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems), @Kostastsale
+# Date: 2022-02-25
+# Tags: attack.command-and-control, attack.t1219.002
+# Description: Detects potentially suspicious child processes launched via the ScreenConnect client service.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog ((parent_process_exec="*:\\Windows\\TEMP\\ScreenConnect\\*" AND parent_process_exec="*run.cmd*") AND (process_path="*\\bitsadmin.exe" OR process_path="*\\cmd.exe" OR process_path="*\\curl.exe" OR process_path="*\\dllhost.exe" OR process_path="*\\net.exe" OR process_path="*\\nltest.exe" OR process_path="*\\powershell.exe" OR process_path="*\\pwsh.exe" OR process_path="*\\rundll32.exe" OR process_path="*\\wevtutil.exe"))

@@ -1,0 +1,23 @@
+// Title: Potential Container Discovery Via Inodes Listing
+// ID: 43e26eb5-cd58-48d1-8ce9-a273f5d298d8
+// Status: test
+// Level: low
+// Author: Seth Hanford
+// Date: 2023-08-23
+// Tags: attack.discovery, attack.t1082
+// Description: Detects listing of the inodes of the "/" directory to determine if the we are running inside of a container.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 43e26eb5_cd58_48d1_8ce9_a273f5d298d8 {
+  meta:
+    title = "Potential Container Discovery Via Inodes Listing"
+    description = "Detects listing of the inodes of the "/" directory to determine if the we are running inside of a container."
+    author = "Seth Hanford"
+    severity = "LOW"
+
+  events:
+    ((($e.target.process.command_line = /.* /$/ nocase) or ($e.target.process.command_line = /.* / .*/ nocase)) and ($e.target.process.file.full_path = /.*/ls$/ nocase) and ($e.target.process.command_line = /(?:\s-[^-\s]{0,20}d|\s--directory\s)/ nocase) and ($e.target.process.command_line = /(?:\s-[^-\s]{0,20}i|\s--inode\s)/ nocase))
+
+  condition:
+    $e
+}

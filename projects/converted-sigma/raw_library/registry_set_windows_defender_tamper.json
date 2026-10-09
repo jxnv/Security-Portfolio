@@ -1,0 +1,60 @@
+{
+  "title": "Disable Windows Defender Functionalities Via Registry Keys",
+  "id": "0eb46774-f1ab-4a74-8238-1155855f2263",
+  "status": "test",
+  "description": "Detects when attackers or tools disable Windows Defender functionalities via the Windows registry",
+  "author": "AlertIQ, J\u00e1n Tren\u010dansk\u00fd, frack113, Nasreddine Bencherchali, Swachchhanda Shrawan Poudel",
+  "date": "2022-08-01",
+  "tags": [
+    "attack.defense-impairment",
+    "attack.t1685"
+  ],
+  "level": "high",
+  "logsource": {
+    "product": "windows",
+    "category": "registry_set"
+  },
+  "detection": {
+    "selection_main": {
+      "TargetObject|contains": [
+        "\\SOFTWARE\\Microsoft\\Windows Defender\\",
+        "\\SOFTWARE\\Policies\\Microsoft\\Windows Defender Security Center\\",
+        "\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\"
+      ]
+    },
+    "selection_dword_1": {
+      "TargetObject|endswith": [
+        "\\DisableAntiSpyware",
+        "\\DisableAntiVirus",
+        "\\DisableBehaviorMonitoring",
+        "\\DisableBlockAtFirstSeen",
+        "\\DisableEnhancedNotifications",
+        "\\DisableIntrusionPreventionSystem",
+        "\\DisableIOAVProtection",
+        "\\DisableOnAccessProtection",
+        "\\DisableRealtimeMonitoring",
+        "\\DisableScanOnRealtimeEnable",
+        "\\DisableScriptScanning"
+      ],
+      "Details": "DWORD (0x00000001)"
+    },
+    "selection_dword_0": {
+      "TargetObject|endswith": [
+        "\\DisallowExploitProtectionOverride",
+        "\\Features\\TamperProtection",
+        "\\MpEngine\\MpEnablePus",
+        "\\PUAProtection",
+        "\\Signature Update\\ForceUpdateFromMU",
+        "\\SpyNet\\SpynetReporting",
+        "\\SpyNet\\SubmitSamplesConsent",
+        "\\Windows Defender Exploit Guard\\Controlled Folder Access\\EnableControlledFolderAccess"
+      ],
+      "Details": "DWORD (0x00000000)"
+    },
+    "filter_optional_symantec": {
+      "Image|startswith": "C:\\Program Files\\Symantec\\Symantec Endpoint Protection\\",
+      "Image|endswith": "\\sepWscSvc64.exe"
+    },
+    "condition": "selection_main and 1 of selection_dword_* and not 1 of filter_optional_*"
+  }
+}

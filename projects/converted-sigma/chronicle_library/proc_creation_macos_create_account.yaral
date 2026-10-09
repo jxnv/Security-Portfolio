@@ -1,0 +1,23 @@
+// Title: Creation Of A Local User Account
+// ID: 51719bf5-e4fd-4e44-8ba8-b830e7ac0731
+// Status: test
+// Level: low
+// Author: Alejandro Ortuno, oscd.community
+// Date: 2020-10-06
+// Tags: attack.t1136.001, attack.persistence
+// Description: Detects the creation of a new user account. Such accounts may be used for persistence that do not require persistent remote access tools to be deployed on the system.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 51719bf5_e4fd_4e44_8ba8_b830e7ac0731 {
+  meta:
+    title = "Creation Of A Local User Account"
+    description = "Detects the creation of a new user account. Such accounts may be used for persistence that do not require persistent remote access tools to be deployed on the system."
+    author = "Alejandro Ortuno, oscd.community"
+    severity = "LOW"
+
+  events:
+    (($e.target.process.file.full_path = /.*/dscl$/ nocase and $e.target.process.command_line = /.*create.*/ nocase) or ($e.target.process.file.full_path = /.*/sysadminctl$/ nocase and $e.target.process.command_line = /.*addUser.*/ nocase))
+
+  condition:
+    $e
+}

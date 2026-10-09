@@ -1,0 +1,42 @@
+{
+  "title": "Suspicious PowerShell Invocations - Generic - PowerShell Module",
+  "id": "bbb80e91-5746-4fbe-8898-122e2cafdbf4",
+  "status": "test",
+  "description": "Detects suspicious PowerShell invocation command parameters",
+  "author": "Florian Roth (Nextron Systems)",
+  "date": "2017-03-12",
+  "tags": [
+    "attack.execution",
+    "attack.t1059.001"
+  ],
+  "level": "high",
+  "logsource": {
+    "product": "windows",
+    "category": "ps_module",
+    "definition": "0ad03ef1-f21b-4a79-8ce8-e6900c54b65b"
+  },
+  "detection": {
+    "selection_encoded": {
+      "ContextInfo|contains": [
+        " -enc ",
+        " -EncodedCommand ",
+        " -ec "
+      ]
+    },
+    "selection_hidden": {
+      "ContextInfo|contains": [
+        " -w hidden ",
+        " -window hidden ",
+        " -windowstyle hidden ",
+        " -w 1 "
+      ]
+    },
+    "selection_noninteractive": {
+      "ContextInfo|contains": [
+        " -noni ",
+        " -noninteractive "
+      ]
+    },
+    "condition": "all of selection*"
+  }
+}

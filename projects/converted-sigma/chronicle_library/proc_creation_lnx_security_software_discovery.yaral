@@ -1,0 +1,23 @@
+// Title: Security Software Discovery - Linux
+// ID: c9d8b7fd-78e4-44fe-88f6-599135d46d60
+// Status: test
+// Level: low
+// Author: Daniil Yugoslavskiy, oscd.community
+// Date: 2020-10-19
+// Tags: attack.discovery, attack.t1518.001
+// Description: Detects usage of system utilities (only grep and egrep for now) to discover security software discovery
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule c9d8b7fd_78e4_44fe_88f6_599135d46d60 {
+  meta:
+    title = "Security Software Discovery - Linux"
+    description = "Detects usage of system utilities (only grep and egrep for now) to discover security software discovery"
+    author = "Daniil Yugoslavskiy, oscd.community"
+    severity = "LOW"
+
+  events:
+    (($e.target.process.file.full_path = /.*/grep$/ nocase or $e.target.process.file.full_path = /.*/egrep$/ nocase) and ($e.target.process.command_line = /.*nessusd.*/ nocase or $e.target.process.command_line = /.*td-agent.*/ nocase or $e.target.process.command_line = /.*packetbeat.*/ nocase or $e.target.process.command_line = /.*filebeat.*/ nocase or $e.target.process.command_line = /.*auditbeat.*/ nocase or $e.target.process.command_line = /.*osqueryd.*/ nocase or $e.target.process.command_line = /.*cbagentd.*/ nocase or $e.target.process.command_line = /.*falcond.*/ nocase))
+
+  condition:
+    $e
+}

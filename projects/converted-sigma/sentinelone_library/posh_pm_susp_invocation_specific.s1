@@ -1,0 +1,11 @@
+// Title: Suspicious PowerShell Invocations - Specific - PowerShell Module
+// ID: 8ff28fdd-e2fa-4dfa-aeda-ef3d61c62090
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Jonhnathan Ribeiro
+// Date: 2017-03-05
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects suspicious PowerShell invocation command parameters
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((ContextInfo containsCIS "-nop" AND ContextInfo containsCIS " -w " AND ContextInfo containsCIS "hidden" AND ContextInfo containsCIS " -c " AND ContextInfo containsCIS "[Convert]::FromBase64String")) OR ((ContextInfo containsCIS " -w " AND ContextInfo containsCIS "hidden" AND ContextInfo containsCIS "-ep" AND ContextInfo containsCIS "bypass" AND ContextInfo containsCIS "-Enc")) OR ((ContextInfo containsCIS " -w " AND ContextInfo containsCIS "hidden" AND ContextInfo containsCIS "-noni" AND ContextInfo containsCIS "-nop" AND ContextInfo containsCIS " -c " AND ContextInfo containsCIS "iex" AND ContextInfo containsCIS "New-Object")) OR ((ContextInfo containsCIS "iex" AND ContextInfo containsCIS "New-Object" AND ContextInfo containsCIS "Net.WebClient" AND ContextInfo containsCIS ".Download")) OR ((ContextInfo containsCIS "powershell" AND ContextInfo containsCIS "reg" AND ContextInfo containsCIS "add") AND (ContextInfo containsCIS "\\software\\microsoft\\windows\\currentversion\\run" OR ContextInfo containsCIS "\\software\\wow6432node\\microsoft\\windows\\currentversion\\run" OR ContextInfo containsCIS "\\software\\microsoft\\windows\\currentversion\\policies\\explorer\\run")) OR ((ContextInfo containsCIS "bypass" AND ContextInfo containsCIS "-noprofile" AND ContextInfo containsCIS "-windowstyle" AND ContextInfo containsCIS "hidden" AND ContextInfo containsCIS "new-object" AND ContextInfo containsCIS "system.net.webclient" AND ContextInfo containsCIS ".download"))) AND NOT (((ContextInfo containsCIS "(New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1" OR ContextInfo containsCIS "Write-ChocolateyWarning"))))

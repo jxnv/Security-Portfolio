@@ -1,0 +1,11 @@
+// Title: Active Directory Group Enumeration With Get-AdGroup
+// ID: 8c3a6607-b7dc-4f0d-a646-ef38c00b76ee
+// Status: test
+// Level: low
+// Author: frack113
+// Date: 2022-03-17
+// Tags: attack.discovery, attack.t1069.002
+// Description: Detects usage of the "Get-AdGroup" cmdlet to enumerate Groups within Active Directory
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter ((ScriptBlockText contains "Get-AdGroup " and ScriptBlockText contains "-Filter"))

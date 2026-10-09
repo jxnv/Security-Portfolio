@@ -1,0 +1,23 @@
+// Title: Powershell Inline Execution From A File
+// ID: ee218c12-627a-4d27-9e30-d6fb2fe22ed2
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-12-25
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects inline execution of PowerShell code from a file
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule ee218c12_627a_4d27_9e30_d6fb2fe22ed2 {
+  meta:
+    title = "Powershell Inline Execution From A File"
+    description = "Detects inline execution of PowerShell code from a file"
+    author = "frack113"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.command_line = /.*iex .*/ nocase or $e.target.process.command_line = /.*Invoke-Expression .*/ nocase or $e.target.process.command_line = /.*Invoke-Command .*/ nocase or $e.target.process.command_line = /.*icm .*/ nocase)) and ($e.target.process.command_line = /.* -raw.*/ nocase) and (($e.target.process.command_line = /.*cat .*/ nocase or $e.target.process.command_line = /.*get-content .*/ nocase or $e.target.process.command_line = /.*type .*/ nocase)))
+
+  condition:
+    $e
+}

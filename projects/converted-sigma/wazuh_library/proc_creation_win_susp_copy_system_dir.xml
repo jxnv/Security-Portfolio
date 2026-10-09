@@ -1,0 +1,16 @@
+<!--
+  Title: Suspicious Copy From or To System Directory
+  ID: fff9d2b7-e11c-4a69-93d3-40ef66189767
+  Status: test
+  Level: medium
+  Author: Florian Roth (Nextron Systems), Markus Neis, Tim Shelton (HAWK.IO), Nasreddine Bencherchali (Nextron Systems)
+  Date: 2020-07-03
+  Description: Detects a suspicious copy operation that tries to copy a program from system (System32, SysWOW64, WinSxS) directories to another on disk. Often used to move LOLBINs such as 'certutil' or 'desktopimgdownldr' to a different location with a different name in order to bypass detections based on locations.
+-->
+
+<group name="sigma_converted,">
+  <rule id="100001" level="5">
+    <description>Suspicious Copy From or To System Directory</description>
+    <match>(((Image=\"*\\\\cmd.exe\" AND CommandLine=\"*copy *\") OR (((Image=\"*\\\\robocopy.exe\" OR Image=\"*\\\\xcopy.exe\")) OR ((OriginalFi</match>
+  </rule>
+</group>

@@ -1,0 +1,11 @@
+-- Title: Suspicious Files in Default GPO Folder
+-- ID: 5f87308a-0a5b-4623-ae15-d8fa1809bc60
+-- Status: test
+-- Level: medium
+-- Author: elhoim
+-- Date: 2022-04-28
+-- Tags: attack.stealth, attack.t1036.005
+-- Description: Detects the creation of copy of suspicious files (EXE/DLL) to the default GPO storage folder
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE (TargetFilename ILIKE '%\\Policies\\{31B2F340-016D-11D2-945F-00C04FB984F9}\\%' AND (TargetFilename ILIKE '%.dll' OR TargetFilename ILIKE '%.exe'))

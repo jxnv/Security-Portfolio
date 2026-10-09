@@ -1,0 +1,23 @@
+// Title: Potential Rcdll.DLL Sideloading
+// ID: 6e78b74f-c762-4800-82ad-f66787f10c8a
+// Status: test
+// Level: high
+// Author: X__Junior (Nextron Systems)
+// Date: 2023-03-13
+// Tags: attack.persistence, attack.privilege-escalation, attack.execution, attack.stealth, attack.t1574.001
+// Description: Detects potential DLL sideloading of rcdll.dll
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 6e78b74f_c762_4800_82ad_f66787f10c8a {
+  meta:
+    title = "Potential Rcdll.DLL Sideloading"
+    description = "Detects potential DLL sideloading of rcdll.dll"
+    author = "X__Junior (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.ImageLoaded = /.*\\rcdll.dll$/ nocase) and not((($e.ImageLoaded = /^C:\\Program Files (x86)\\Microsoft Visual Studio\\.*/ nocase or $e.ImageLoaded = /^C:\\Program Files (x86)\\Windows Kits\\.*/ nocase))))
+
+  condition:
+    $e
+}

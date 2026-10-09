@@ -1,0 +1,23 @@
+// Title: Tomcat WebServer Logs Deleted
+// ID: 270185ff-5f50-4d6d-a27f-24c3b8c9fef8
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-02-16
+// Tags: attack.stealth, attack.t1070
+// Description: Detects the deletion of tomcat WebServer logs which may indicate an attempt to destroy forensic evidence
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 270185ff_5f50_4d6d_a27f_24c3b8c9fef8 {
+  meta:
+    title = "Tomcat WebServer Logs Deleted"
+    description = "Detects the deletion of tomcat WebServer logs which may indicate an attempt to destroy forensic evidence"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.file.full_path = /.*\\Tomcat.*/ nocase and $e.target.file.full_path = /.*\\logs\\.*/ nocase) and ($e.target.file.full_path = /.*catalina..*/ nocase or $e.target.file.full_path = /.*_access_log..*/ nocase or $e.target.file.full_path = /.*localhost..*/ nocase))
+
+  condition:
+    $e
+}

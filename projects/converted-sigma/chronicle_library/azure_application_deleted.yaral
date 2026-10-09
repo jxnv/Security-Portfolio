@@ -1,0 +1,23 @@
+// Title: Azure Application Deleted
+// ID: 410d2a41-1e6d-452f-85e5-abdd8257a823
+// Status: test
+// Level: medium
+// Author: Austin Songer @austinsonger
+// Date: 2021-09-03
+// Tags: attack.impact, attack.t1489
+// Description: Identifies when a application is deleted in Azure.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 410d2a41_1e6d_452f_85e5_abdd8257a823 {
+  meta:
+    title = "Azure Application Deleted"
+    description = "Identifies when a application is deleted in Azure."
+    author = "Austin Songer @austinsonger"
+    severity = "MEDIUM"
+
+  events:
+    (($e.operationName = "Delete application" or $e.operationName = "Hard Delete application" or $e.operationName = "Delete administrative unit"))
+
+  condition:
+    $e
+}

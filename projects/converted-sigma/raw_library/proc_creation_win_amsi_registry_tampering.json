@@ -1,0 +1,58 @@
+{
+  "title": "Windows AMSI Related Registry Tampering Via CommandLine",
+  "id": "7dbbcac2-57a0-45ac-b306-ff30a8bd2981",
+  "status": "experimental",
+  "description": "Detects tampering of AMSI (Anti-Malware Scan Interface) related registry values via command line tools such as reg.exe or PowerShell.\nAMSI provides a generic interface for applications and services to integrate with antimalware products.\nAdversaries may disable AMSI to evade detection of malicious scripts and code execution.\n",
+  "author": "Swachchhanda Shrawan Poudel (Nextron Systems)",
+  "date": "2025-12-25",
+  "tags": [
+    "attack.defense-impairment",
+    "attack.t1685"
+  ],
+  "level": "high",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_key": {
+      "CommandLine|contains|all": [
+        "\\Software\\Microsoft\\Windows Script\\Settings",
+        "AmsiEnable"
+      ]
+    },
+    "selection_reg_img": [
+      {
+        "Image|endswith": "\\reg.exe"
+      },
+      {
+        "OriginalFileName": "reg.exe"
+      }
+    ],
+    "selection_reg_cmd": {
+      "CommandLine|contains": "add"
+    },
+    "selection_powershell_img": [
+      {
+        "Image|endswith": [
+          "\\powershell.exe",
+          "\\pwsh.exe"
+        ]
+      },
+      {
+        "OriginalFileName": [
+          "PowerShell.EXE",
+          "pwsh.dll"
+        ]
+      }
+    ],
+    "selection_powershell_cmd": {
+      "CommandLine|contains": [
+        "Set-ItemProperty",
+        "New-ItemProperty",
+        "sp "
+      ]
+    },
+    "condition": "selection_key and (all of selection_powershell_* or all of selection_reg_*)"
+  }
+}

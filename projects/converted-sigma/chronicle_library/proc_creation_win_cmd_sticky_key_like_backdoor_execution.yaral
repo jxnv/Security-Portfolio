@@ -1,0 +1,23 @@
+// Title: Sticky Key Like Backdoor Execution
+// ID: 2fdefcb3-dbda-401e-ae23-f0db027628bc
+// Status: test
+// Level: critical
+// Author: Florian Roth (Nextron Systems), @twjackomo, Jonhnathan Ribeiro, oscd.community
+// Date: 2018-03-15
+// Tags: attack.privilege-escalation, attack.persistence, attack.t1546.008, car.2014-11-003, car.2014-11-008
+// Description: Detects the usage and installation of a backdoor that uses an option to register a malicious debugger for built-in tools that are accessible in the login screen
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 2fdefcb3_dbda_401e_ae23_f0db027628bc {
+  meta:
+    title = "Sticky Key Like Backdoor Execution"
+    description = "Detects the usage and installation of a backdoor that uses an option to register a malicious debugger for built-in tools that are accessible in the login screen"
+    author = "Florian Roth (Nextron Systems), @twjackomo, Jonhnathan Ribeiro, oscd.community"
+    severity = "CRITICAL"
+
+  events:
+    ($e.principal.process.file.full_path = /.*\\winlogon.exe$/ nocase and ($e.target.process.file.full_path = /.*\\cmd.exe$/ nocase or $e.target.process.file.full_path = /.*\\cscript.exe$/ nocase or $e.target.process.file.full_path = /.*\\mshta.exe$/ nocase or $e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase or $e.target.process.file.full_path = /.*\\regsvr32.exe$/ nocase or $e.target.process.file.full_path = /.*\\rundll32.exe$/ nocase or $e.target.process.file.full_path = /.*\\wscript.exe$/ nocase or $e.target.process.file.full_path = /.*\\wt.exe$/ nocase) and ($e.target.process.command_line = /.*sethc.exe.*/ nocase or $e.target.process.command_line = /.*utilman.exe.*/ nocase or $e.target.process.command_line = /.*osk.exe.*/ nocase or $e.target.process.command_line = /.*Magnify.exe.*/ nocase or $e.target.process.command_line = /.*Narrator.exe.*/ nocase or $e.target.process.command_line = /.*DisplaySwitch.exe.*/ nocase))
+
+  condition:
+    $e
+}

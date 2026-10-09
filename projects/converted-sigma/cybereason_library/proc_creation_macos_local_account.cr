@@ -1,0 +1,12 @@
+// Title: Local System Accounts Discovery - MacOs
+// ID: ddf36b67-e872-4507-ab2e-46bda21b842c
+// Status: test
+// Level: low
+// Author: Alejandro Ortuno, oscd.community
+// Date: 2020-10-08
+// Tags: attack.discovery, attack.t1087.001
+// Description: Detects enumeration of local system accounts on MacOS systems.
+// This can be used by attackers to identify accounts for lateral movement or privilege escalation.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((Image="*/dscacheutil" AND (CommandLine contains "-q" AND CommandLine contains "user")) OR (Image="*/dscl" AND (CommandLine contains "list" AND CommandLine contains "/users")) OR (Image="*/ls" AND (CommandLine="*/Users" OR CommandLine="*/Users'" OR CommandLine="*/Users\"")) OR (Image="*/id") OR ((Image="*/who" OR Image="*/w" OR Image="*/users" OR Image="*/last")) OR ((Image="*/defaults" OR Image="*/plutil") AND CommandLine contains "com.apple.loginwindow") OR (Image="*/lsof" AND CommandLine contains "-u") OR ((Image="*/cat" OR Image="*/awk" OR Image="*/grep") AND (CommandLine contains "/etc/passwd" OR CommandLine contains "/etc/sudoers")) OR (CommandLine contains "'*:0:'"))

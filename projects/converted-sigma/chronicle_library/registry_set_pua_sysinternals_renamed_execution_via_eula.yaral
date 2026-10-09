@@ -1,0 +1,23 @@
+// Title: Suspicious Execution Of Renamed Sysinternals Tools - Registry
+// ID: f50f3c09-557d-492d-81db-9064a8d4e211
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-08-24
+// Tags: attack.resource-development, attack.t1588.002
+// Description: Detects the creation of the "accepteula" key related to the Sysinternals tools being created from executables with the wrong name (e.g. a renamed Sysinternals tool)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule f50f3c09_557d_492d_81db_9064a8d4e211 {
+  meta:
+    title = "Suspicious Execution Of Renamed Sysinternals Tools - Registry"
+    description = "Detects the creation of the "accepteula" key related to the Sysinternals tools being created from executables with the wrong name (e.g. a renamed Sysinternals tool)"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.TargetObject = /.*\\Active Directory Explorer.*/ nocase or $e.TargetObject = /.*\\Handle.*/ nocase or $e.TargetObject = /.*\\LiveKd.*/ nocase or $e.TargetObject = /.*\\ProcDump.*/ nocase or $e.TargetObject = /.*\\Process Explorer.*/ nocase or $e.TargetObject = /.*\\PsExec.*/ nocase or $e.TargetObject = /.*\\PsLoggedon.*/ nocase or $e.TargetObject = /.*\\PsLoglist.*/ nocase or $e.TargetObject = /.*\\PsPasswd.*/ nocase or $e.TargetObject = /.*\\PsPing.*/ nocase or $e.TargetObject = /.*\\PsService.*/ nocase or $e.TargetObject = /.*\\SDelete.*/ nocase) and $e.TargetObject = /.*\\EulaAccepted$/ nocase) and not((($e.target.process.file.full_path = /.*\\ADExplorer.exe$/ nocase or $e.target.process.file.full_path = /.*\\ADExplorer64.exe$/ nocase or $e.target.process.file.full_path = /.*\\ADExplorer64a.exe$/ nocase or $e.target.process.file.full_path = /.*\\handle.exe$/ nocase or $e.target.process.file.full_path = /.*\\handle64.exe$/ nocase or $e.target.process.file.full_path = /.*\\handle64a.exe$/ nocase or $e.target.process.file.full_path = /.*\\livekd.exe$/ nocase or $e.target.process.file.full_path = /.*\\livekd64.exe$/ nocase or $e.target.process.file.full_path = /.*\\procdump.exe$/ nocase or $e.target.process.file.full_path = /.*\\procdump64.exe$/ nocase or $e.target.process.file.full_path = /.*\\procdump64a.exe$/ nocase or $e.target.process.file.full_path = /.*\\procexp.exe$/ nocase or $e.target.process.file.full_path = /.*\\procexp64.exe$/ nocase or $e.target.process.file.full_path = /.*\\procexp64a.exe$/ nocase or $e.target.process.file.full_path = /.*\\PsExec.exe$/ nocase or $e.target.process.file.full_path = /.*\\PsExec64.exe$/ nocase or $e.target.process.file.full_path = /.*\\PsExec64a.exe$/ nocase or $e.target.process.file.full_path = /.*\\PsLoggedon.exe$/ nocase or $e.target.process.file.full_path = /.*\\PsLoggedon64.exe$/ nocase or $e.target.process.file.full_path = /.*\\psloglist.exe$/ nocase or $e.target.process.file.full_path = /.*\\psloglist64.exe$/ nocase or $e.target.process.file.full_path = /.*\\psloglist64a.exe$/ nocase or $e.target.process.file.full_path = /.*\\pspasswd.exe$/ nocase or $e.target.process.file.full_path = /.*\\pspasswd64.exe$/ nocase or $e.target.process.file.full_path = /.*\\pspasswd64a.exe$/ nocase or $e.target.process.file.full_path = /.*\\PsPing.exe$/ nocase or $e.target.process.file.full_path = /.*\\PsPing64.exe$/ nocase or $e.target.process.file.full_path = /.*\\PsPing64a.exe$/ nocase or $e.target.process.file.full_path = /.*\\PsService.exe$/ nocase or $e.target.process.file.full_path = /.*\\PsService64.exe$/ nocase or $e.target.process.file.full_path = /.*\\PsService64a.exe$/ nocase or $e.target.process.file.full_path = /.*\\sdelete.exe$/ nocase))))
+
+  condition:
+    $e
+}

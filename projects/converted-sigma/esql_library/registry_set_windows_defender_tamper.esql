@@ -1,0 +1,11 @@
+// Title: Disable Windows Defender Functionalities Via Registry Keys
+// ID: 0eb46774-f1ab-4a74-8238-1155855f2263
+// Status: test
+// Level: high
+// Author: AlertIQ, Ján Trenčanský, frack113, Nasreddine Bencherchali, Swachchhanda Shrawan Poudel
+// Date: 2022-08-01
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects when attackers or tools disable Windows Defender functionalities via the Windows registry
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE (((registry.path LIKE "%\\SOFTWARE\\Microsoft\\Windows Defender\\%" OR registry.path LIKE "%\\SOFTWARE\\Policies\\Microsoft\\Windows Defender Security Center\\%" OR registry.path LIKE "%\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\%")) AND (((registry.path LIKE "%\\DisallowExploitProtectionOverride" OR registry.path LIKE "%\\Features\\TamperProtection" OR registry.path LIKE "%\\MpEngine\\MpEnablePus" OR registry.path LIKE "%\\PUAProtection" OR registry.path LIKE "%\\Signature Update\\ForceUpdateFromMU" OR registry.path LIKE "%\\SpyNet\\SpynetReporting" OR registry.path LIKE "%\\SpyNet\\SubmitSamplesConsent" OR registry.path LIKE "%\\Windows Defender Exploit Guard\\Controlled Folder Access\\EnableControlledFolderAccess") AND registry.data.strings == "DWORD (0x00000000)") OR ((registry.path LIKE "%\\DisableAntiSpyware" OR registry.path LIKE "%\\DisableAntiVirus" OR registry.path LIKE "%\\DisableBehaviorMonitoring" OR registry.path LIKE "%\\DisableBlockAtFirstSeen" OR registry.path LIKE "%\\DisableEnhancedNotifications" OR registry.path LIKE "%\\DisableIntrusionPreventionSystem" OR registry.path LIKE "%\\DisableIOAVProtection" OR registry.path LIKE "%\\DisableOnAccessProtection" OR registry.path LIKE "%\\DisableRealtimeMonitoring" OR registry.path LIKE "%\\DisableScanOnRealtimeEnable" OR registry.path LIKE "%\\DisableScriptScanning") AND registry.data.strings == "DWORD (0x00000001)")) AND NOT ((process.executable LIKE "C:\\Program Files\\Symantec\\Symantec Endpoint Protection\\%" AND process.executable LIKE "%\\sepWscSvc64.exe")))

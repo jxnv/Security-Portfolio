@@ -1,0 +1,23 @@
+// Title: Powershell DNSExfiltration
+// ID: d59d7842-9a21-4bc6-ba98-64bfe0091355
+// Status: test
+// Level: high
+// Author: frack113
+// Date: 2022-01-07
+// Tags: attack.exfiltration, attack.t1048
+// Description: DNSExfiltrator allows for transferring (exfiltrate) a file over a DNS request covert channel
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule d59d7842_9a21_4bc6_ba98_64bfe0091355 {
+  meta:
+    title = "Powershell DNSExfiltration"
+    description = "DNSExfiltrator allows for transferring (exfiltrate) a file over a DNS request covert channel"
+    author = "frack113"
+    severity = "HIGH"
+
+  events:
+    (($e.ScriptBlockText = /.*Invoke-DNSExfiltrator.*/ nocase) or (($e.ScriptBlockText = /.* -i .*/ nocase and $e.ScriptBlockText = /.* -d .*/ nocase and $e.ScriptBlockText = /.* -p .*/ nocase and $e.ScriptBlockText = /.* -doh .*/ nocase and $e.ScriptBlockText = /.* -t .*/ nocase)))
+
+  condition:
+    $e
+}

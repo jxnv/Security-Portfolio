@@ -1,0 +1,11 @@
+// Title: Disabling Security Tools
+// ID: e3a8a052-111f-4606-9aee-f28ebeb76776
+// Status: test
+// Level: medium
+// Author: Ömer Günal, Alejandro Ortuno, oscd.community
+// Date: 2020-06-17
+// Tags: attack.defense-impairment, attack.t1686
+// Description: Detects disabling security tools
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where ((process.executable endswith "/service" and (process.command_line like "*_cbdaemon*" and process.command_line like "*_stop*")) or (process.executable endswith "/chkconfig" and (process.command_line like "*_cbdaemon*" and process.command_line like "*_off*")) or (process.executable endswith "/systemctl" and (process.command_line like "*_cbdaemon*" and process.command_line like "*_stop*")) or (process.executable endswith "/systemctl" and (process.command_line like "*_cbdaemon*" and process.command_line like "*_disable*")) or (process.executable endswith "/systemctl" and (process.command_line like "*_stop*" and process.command_line like "*_falcon-sensor*")) or (process.executable endswith "/systemctl" and (process.command_line like "*_disable*" and process.command_line like "*_falcon-sensor*")) or (process.executable endswith "/systemctl" and (process.command_line like "*_firewalld*" and process.command_line like "*_stop*")) or (process.executable endswith "/systemctl" and (process.command_line like "*_firewalld*" and process.command_line like "*_disable*")) or (process.executable endswith "/service" and (process.command_line like "*_iptables*" and process.command_line like "*_stop*")) or (process.executable endswith "/service" and (process.command_line like "*_ip6tables*" and process.command_line like "*_stop*")) or (process.executable endswith "/chkconfig" and (process.command_line like "*_iptables*" and process.command_line like "*_stop*")) or (process.executable endswith "/chkconfig" and (process.command_line like "*_ip6tables*" and process.command_line like "*_stop*")) or (process.executable endswith "/setenforce" and process.command_line like "*_0*"))

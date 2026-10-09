@@ -1,0 +1,23 @@
+// Title: PowerShell Set-Acl On Windows Folder
+// ID: 0944e002-e3f6-4eb5-bf69-3a3067b53d73
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-10-18
+// Tags: attack.stealth
+// Description: Detects PowerShell scripts to set the ACL to a file in the Windows folder
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 0944e002_e3f6_4eb5_bf69_3a3067b53d73 {
+  meta:
+    title = "PowerShell Set-Acl On Windows Folder"
+    description = "Detects PowerShell scripts to set the ACL to a file in the Windows folder"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*Set-Acl .*/ nocase and $e.target.process.command_line = /.*-AclObject .*/ nocase)) and ((($e.target.process.file.name = "PowerShell.EXE" or $e.target.process.file.name = "pwsh.dll")) or (($e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase))) and (($e.target.process.command_line = /.*-Path \"C:\\Windows.*/ nocase or $e.target.process.command_line = /.*-Path 'C:\\Windows.*/ nocase or $e.target.process.command_line = /.*-Path %windir%.*/ nocase or $e.target.process.command_line = /.*-Path $env:windir.*/ nocase)) and (($e.target.process.command_line = /.*FullControl.*/ nocase or $e.target.process.command_line = /.*Allow.*/ nocase)))
+
+  condition:
+    $e
+}

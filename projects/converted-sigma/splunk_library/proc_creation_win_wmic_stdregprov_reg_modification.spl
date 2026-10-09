@@ -1,0 +1,13 @@
+# Title: Registry Manipulation via WMI Stdregprov
+# ID: c453ab7a-1f5c-4716-a3b4-dea8135fb43a
+# Status: experimental
+# Level: medium
+# Author: Daniel Koifman (KoifSec)
+# Date: 2025-07-30
+# Tags: attack.execution, attack.t1047, attack.persistence, attack.defense-impairment, attack.t1112
+# Description: Detects the usage of wmic.exe to modify Windows registry via the WMI StdRegProv class write methods (CreateKey, DeleteKey, SetStringValue, etc.).
+# This behaviour could be potentially suspicious because it uses an alternative method to modify registry keys instead of legitimate registry tools like reg.exe or regedit.exe.
+# Attackers specifically choose this technique to evade detection and bypass security monitoring focused on traditional registry modification commands.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog (((process_exec="*stdregprov*" AND process_exec="*call*") AND (process_exec="*CreateKey*" OR process_exec="*DeleteKey*" OR process_exec="*DeleteValue*" OR process_exec="*SetBinaryValue*" OR process_exec="*SetDWORDValue*" OR process_exec="*SetExpandedStringValue*" OR process_exec="*SetMultiStringValue*" OR process_exec="*SetQWORDValue*" OR process_exec="*SetSecurityDescriptor*" OR process_exec="*SetStringValue*")) AND ((process_path="*\\wmic.exe") OR (process_name="wmic.exe")))

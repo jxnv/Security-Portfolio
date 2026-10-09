@@ -1,0 +1,25 @@
+// Title: Potential Homoglyph Attack Using Lookalike Characters
+// ID: 32e280f1-8ad4-46ef-9e80-910657611fbc
+// Status: test
+// Level: medium
+// Author: Micah Babinski, @micahbabinski
+// Date: 2023-05-07
+// Tags: attack.stealth, attack.t1036, attack.t1036.003
+// Description: Detects the presence of unicode characters which are homoglyphs, or identical in appearance, to ASCII letter characters.
+// This is used as an obfuscation and masquerading techniques. Only "perfect" homoglyphs are included; these are characters that
+// are indistinguishable from ASCII characters and thus may make excellent candidates for homoglyph attack characters.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 32e280f1_8ad4_46ef_9e80_910657611fbc {
+  meta:
+    title = "Potential Homoglyph Attack Using Lookalike Characters"
+    description = "Detects the presence of unicode characters which are homoglyphs, or identical in appearance, to ASCII letter characters. This is used as an obfuscation and masquerading techniques. Only "perfect" homoglyphs are included; these are characters that are indistinguishable from ASCII characters and thus may make excellent candidates for homoglyph attack characters."
+    author = "Micah Babinski, @micahbabinski"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.command_line = /.*а.*/ nocase or $e.target.process.command_line = /.*е.*/ nocase or $e.target.process.command_line = /.*о.*/ nocase or $e.target.process.command_line = /.*р.*/ nocase or $e.target.process.command_line = /.*с.*/ nocase or $e.target.process.command_line = /.*х.*/ nocase or $e.target.process.command_line = /.*ѕ.*/ nocase or $e.target.process.command_line = /.*і.*/ nocase or $e.target.process.command_line = /.*ӏ.*/ nocase or $e.target.process.command_line = /.*ј.*/ nocase or $e.target.process.command_line = /.*һ.*/ nocase or $e.target.process.command_line = /.*ԁ.*/ nocase or $e.target.process.command_line = /.*ԛ.*/ nocase or $e.target.process.command_line = /.*ԝ.*/ nocase or $e.target.process.command_line = /.*ο.*/ nocase)) or (($e.target.process.command_line = /.*А.*/ nocase or $e.target.process.command_line = /.*В.*/ nocase or $e.target.process.command_line = /.*Е.*/ nocase or $e.target.process.command_line = /.*К.*/ nocase or $e.target.process.command_line = /.*М.*/ nocase or $e.target.process.command_line = /.*Н.*/ nocase or $e.target.process.command_line = /.*О.*/ nocase or $e.target.process.command_line = /.*Р.*/ nocase or $e.target.process.command_line = /.*С.*/ nocase or $e.target.process.command_line = /.*Т.*/ nocase or $e.target.process.command_line = /.*Х.*/ nocase or $e.target.process.command_line = /.*Ѕ.*/ nocase or $e.target.process.command_line = /.*І.*/ nocase or $e.target.process.command_line = /.*Ј.*/ nocase or $e.target.process.command_line = /.*Ү.*/ nocase or $e.target.process.command_line = /.*Ӏ.*/ nocase or $e.target.process.command_line = /.*Ԍ.*/ nocase or $e.target.process.command_line = /.*Ԛ.*/ nocase or $e.target.process.command_line = /.*Ԝ.*/ nocase or $e.target.process.command_line = /.*Α.*/ nocase or $e.target.process.command_line = /.*Β.*/ nocase or $e.target.process.command_line = /.*Ε.*/ nocase or $e.target.process.command_line = /.*Ζ.*/ nocase or $e.target.process.command_line = /.*Η.*/ nocase or $e.target.process.command_line = /.*Ι.*/ nocase or $e.target.process.command_line = /.*Κ.*/ nocase or $e.target.process.command_line = /.*Μ.*/ nocase or $e.target.process.command_line = /.*Ν.*/ nocase or $e.target.process.command_line = /.*Ο.*/ nocase or $e.target.process.command_line = /.*Ρ.*/ nocase or $e.target.process.command_line = /.*Τ.*/ nocase or $e.target.process.command_line = /.*Υ.*/ nocase or $e.target.process.command_line = /.*Χ.*/ nocase)))
+
+  condition:
+    $e
+}

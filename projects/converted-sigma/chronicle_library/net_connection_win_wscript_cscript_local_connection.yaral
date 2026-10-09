@@ -1,0 +1,23 @@
+// Title: Local Network Connection Initiated By Script Interpreter
+// ID: 08249dc0-a28d-4555-8ba5-9255a198e08c
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-08-28
+// Tags: attack.command-and-control, attack.t1105
+// Description: Detects a script interpreter (Wscript/Cscript) initiating a local network connection to download or execute a script hosted on a shared folder.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 08249dc0_a28d_4555_8ba5_9255a198e08c {
+  meta:
+    title = "Local Network Connection Initiated By Script Interpreter"
+    description = "Detects a script interpreter (Wscript/Cscript) initiating a local network connection to download or execute a script hosted on a shared folder."
+    author = "frack113"
+    severity = "MEDIUM"
+
+  events:
+    ($e.Initiated = "true" and ($e.target.process.file.full_path = /.*\\wscript.exe$/ nocase or $e.target.process.file.full_path = /.*\\cscript.exe$/ nocase) and (net.ip_in_range_cidr($e.target.ip, "127.0.0.0/8") or net.ip_in_range_cidr($e.target.ip, "10.0.0.0/8") or net.ip_in_range_cidr($e.target.ip, "172.16.0.0/12") or net.ip_in_range_cidr($e.target.ip, "192.168.0.0/16") or net.ip_in_range_cidr($e.target.ip, "169.254.0.0/16") or net.ip_in_range_cidr($e.target.ip, "::1/128") or net.ip_in_range_cidr($e.target.ip, "fe80::/10") or net.ip_in_range_cidr($e.target.ip, "fc00::/7")))
+
+  condition:
+    $e
+}

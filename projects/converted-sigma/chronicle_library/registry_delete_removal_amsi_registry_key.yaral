@@ -1,0 +1,23 @@
+// Title: Removal Of AMSI Provider Registry Keys
+// ID: 41d1058a-aea7-4952-9293-29eaaf516465
+// Status: test
+// Level: high
+// Author: frack113
+// Date: 2021-06-07
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects the deletion of AMSI provider registry key entries in HKLM\Software\Microsoft\AMSI. This technique could be used by an attacker in order to disable AMSI inspection.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 41d1058a_aea7_4952_9293_29eaaf516465 {
+  meta:
+    title = "Removal Of AMSI Provider Registry Keys"
+    description = "Detects the deletion of AMSI provider registry key entries in HKLM\Software\Microsoft\AMSI. This technique could be used by an attacker in order to disable AMSI inspection."
+    author = "frack113"
+    severity = "HIGH"
+
+  events:
+    ((($e.TargetObject = /.*{2781761E-28E0-4109-99FE-B9D127C57AFE}$/ nocase or $e.TargetObject = /.*{A7C452EF-8E9F-42EB-9F2B-245613CA0DC9}$/ nocase)) and not((($e.target.process.file.full_path = /^C:\\ProgramData\\Microsoft\\Windows Defender\\Platform\\.*/ nocase or $e.target.process.file.full_path = /^C:\\Program Files\\Windows Defender\\.*/ nocase or $e.target.process.file.full_path = /^C:\\Program Files (x86)\\Windows Defender\\.*/ nocase) and $e.target.process.file.full_path = /.*\\MsMpEng.exe$/ nocase)))
+
+  condition:
+    $e
+}

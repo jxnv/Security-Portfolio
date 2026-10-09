@@ -1,0 +1,23 @@
+// Title: PsExec/PAExec Escalation to LOCAL SYSTEM
+// ID: 8834e2f7-6b4b-4f09-8906-d2276470ee23
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2021-11-23
+// Tags: attack.resource-development, attack.t1587.001
+// Description: Detects suspicious commandline flags used by PsExec and PAExec to escalate a command line to LOCAL_SYSTEM rights
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 8834e2f7_6b4b_4f09_8906_d2276470ee23 {
+  meta:
+    title = "PsExec/PAExec Escalation to LOCAL SYSTEM"
+    description = "Detects suspicious commandline flags used by PsExec and PAExec to escalate a command line to LOCAL_SYSTEM rights"
+    author = "Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*psexec.*/ nocase or $e.target.process.command_line = /.*paexec.*/ nocase or $e.target.process.command_line = /.*accepteula.*/ nocase)) and (($e.target.process.command_line = /.* -s cmd.*/ nocase or $e.target.process.command_line = /.* -s -i cmd.*/ nocase or $e.target.process.command_line = /.* -i -s cmd.*/ nocase or $e.target.process.command_line = /.* -s pwsh.*/ nocase or $e.target.process.command_line = /.* -s -i pwsh.*/ nocase or $e.target.process.command_line = /.* -i -s pwsh.*/ nocase or $e.target.process.command_line = /.* -s powershell.*/ nocase or $e.target.process.command_line = /.* -s -i powershell.*/ nocase or $e.target.process.command_line = /.* -i -s powershell.*/ nocase)))
+
+  condition:
+    $e
+}

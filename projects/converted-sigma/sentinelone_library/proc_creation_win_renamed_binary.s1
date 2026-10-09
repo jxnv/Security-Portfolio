@@ -1,0 +1,11 @@
+// Title: Potential Defense Evasion Via Binary Rename
+// ID: 36480ae1-a1cb-4eaa-a0d6-29801d7e9142
+// Status: test
+// Level: medium
+// Author: Matthew Green @mgreen27, Ecco, James Pemberton @4A616D6573, oscd.community, Andreas Hunkeler (@Karneades)
+// Date: 2019-06-15
+// Tags: attack.stealth, attack.t1036.003
+// Description: Detects the execution of a renamed binary often used by attackers or malware leveraging new Sysmon OriginalFileName datapoint.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((OriginalFileName = "Cmd.Exe" OR OriginalFileName = "CONHOST.EXE" OR OriginalFileName = "7z.exe" OR OriginalFileName = "7za.exe" OR OriginalFileName = "7zr.exe" OR OriginalFileName = "WinRAR.exe" OR OriginalFileName = "wevtutil.exe" OR OriginalFileName = "net.exe" OR OriginalFileName = "net1.exe" OR OriginalFileName = "netsh.exe" OR OriginalFileName = "InstallUtil.exe")) AND NOT (((src.process.image.path endswithCIS "\\cmd.exe" OR src.process.image.path endswithCIS "\\conhost.exe" OR src.process.image.path endswithCIS "\\7z.exe" OR src.process.image.path endswithCIS "\\7za.exe" OR src.process.image.path endswithCIS "\\7zr.exe" OR src.process.image.path endswithCIS "\\WinRAR.exe" OR src.process.image.path endswithCIS "\\wevtutil.exe" OR src.process.image.path endswithCIS "\\net.exe" OR src.process.image.path endswithCIS "\\net1.exe" OR src.process.image.path endswithCIS "\\netsh.exe" OR src.process.image.path endswithCIS "\\InstallUtil.exe"))))

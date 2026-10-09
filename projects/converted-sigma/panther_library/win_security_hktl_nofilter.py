@@ -1,0 +1,19 @@
+# Title: HackTool - NoFilter Execution
+# ID: 7b14c76a-c602-4ae6-9717-eff868153fc0
+# Status: test
+# Level: high
+# Author: Stamatis Chatzimangou (st0pp3r)
+# Date: 2024-01-05
+# Tags: attack.privilege-escalation, attack.stealth, attack.t1134, attack.t1134.001
+# Description: Detects execution of NoFilter, a tool for abusing the Windows Filtering Platform for privilege escalation via hardcoded policy name indicators
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: HackTool - NoFilter Execution
+def rule(event):
+    # Detection Logic:
+    # ((EventID="5447" AND FilterName="*RonPolicy*") OR (EventID="5449" AND ProviderContextName="*RonPolicy*"))
+    return True
+
+def title(event):
+    return "HackTool - NoFilter Execution"
+

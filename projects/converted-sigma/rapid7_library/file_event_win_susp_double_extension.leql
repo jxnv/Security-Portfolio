@@ -1,0 +1,11 @@
+// Title: Suspicious Double Extension Files
+// ID: b4926b47-a9d7-434c-b3a0-adc3fa0bd13e
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems), frack113
+// Date: 2022-06-19
+// Tags: attack.stealth, attack.t1036.007
+// Description: Detects dropped files with double extensions, which is often used by malware as a method to abuse the fact that Windows hide default extensions by default.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((where(TargetFilename IENDSWITH ".rar.exe") OR where(TargetFilename IENDSWITH ".zip.exe"))) OR ((where(TargetFilename IENDSWITH ".exe") OR where(TargetFilename IENDSWITH ".iso") OR where(TargetFilename IENDSWITH ".rar") OR where(TargetFilename IENDSWITH ".svg") OR where(TargetFilename IENDSWITH ".zip")) AND (where(TargetFilename ICONTAINS ".doc.") OR where(TargetFilename ICONTAINS ".docx.") OR where(TargetFilename ICONTAINS ".gif.") OR where(TargetFilename ICONTAINS ".jpeg.") OR where(TargetFilename ICONTAINS ".jpg.") OR where(TargetFilename ICONTAINS ".mp3.") OR where(TargetFilename ICONTAINS ".mp4.") OR where(TargetFilename ICONTAINS ".pdf.") OR where(TargetFilename ICONTAINS ".png.") OR where(TargetFilename ICONTAINS ".ppt.") OR where(TargetFilename ICONTAINS ".pptx.") OR where(TargetFilename ICONTAINS ".rtf.") OR where(TargetFilename ICONTAINS ".svg.") OR where(TargetFilename ICONTAINS ".txt.") OR where(TargetFilename ICONTAINS ".xls.") OR where(TargetFilename ICONTAINS ".xlsx.")))) AND NOT ((where(TargetFilename ISTARTSWITH "/usr/share/icons/"))))

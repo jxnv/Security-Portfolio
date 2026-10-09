@@ -1,0 +1,11 @@
+// Title: Usage Of Web Request Commands And Cmdlets - ScriptBlock
+// ID: 1139d2e2-84b1-4226-b445-354492eba8ba
+// Status: test
+// Level: medium
+// Author: James Pemberton / @4A616D6573
+// Date: 2019-10-24
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects the use of various web request commands with commandline tools and Windows PowerShell cmdlets (including aliases) via PowerShell scriptblock logs
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((ScriptBlockText contains "[System.Net.WebRequest]::create" OR ScriptBlockText contains "curl " OR ScriptBlockText contains "Invoke-RestMethod" OR ScriptBlockText contains "Invoke-WebRequest" OR ScriptBlockText contains " irm " OR ScriptBlockText contains "iwr " OR ScriptBlockText contains "Resume-BitsTransfer" OR ScriptBlockText contains "Start-BitsTransfer" OR ScriptBlockText contains "wget " OR ScriptBlockText contains "WinHttp.WinHttpRequest")) AND NOT ((Path="C:\\Packages\\Plugins\\Microsoft.GuestConfiguration.ConfigurationforWindows\\*")))

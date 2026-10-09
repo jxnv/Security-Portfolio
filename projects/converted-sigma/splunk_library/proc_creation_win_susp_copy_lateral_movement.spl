@@ -1,0 +1,11 @@
+# Title: Copy From Or To Admin Share Or Sysvol Folder
+# ID: 855bc8b5-2ae8-402e-a9ed-b889e6df1900
+# Status: test
+# Level: medium
+# Author: Florian Roth (Nextron Systems), oscd.community, Teymur Kheirkhabarov @HeirhabarovT, Zach Stanford @svch0st, Nasreddine Bencherchali
+# Date: 2019-12-30
+# Tags: attack.lateral-movement, attack.collection, attack.exfiltration, attack.t1039, attack.t1048, attack.t1021.002
+# Description: Detects a copy command or a copy utility execution to or from an Admin share or remote
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog (((process_exec="*\\\\\\\\*\\\\*$*" OR process_exec="*\\Sysvol\\*")) AND ((((process_path="*\\robocopy.exe" OR process_path="*\\xcopy.exe")) OR ((process_name="robocopy.exe" OR process_name="XCOPY.EXE"))) OR ((process_exec="*copy*") AND ((process_path="*\\cmd.exe") OR (process_name="Cmd.Exe"))) OR (((process_exec="*copy-item*" OR process_exec="*copy *" OR process_exec="*cpi *" OR process_exec="* cp *" OR process_exec="*move *" OR process_exec="* move-item*" OR process_exec="* mi *" OR process_exec="* mv *")) AND (((process_path="*\\powershell_ise.exe*" OR process_path="*\\powershell.exe*" OR process_path="*\\pwsh.exe*")) OR ((process_name="powershell_ise.exe" OR process_name="PowerShell.EXE" OR process_name="pwsh.dll"))))))

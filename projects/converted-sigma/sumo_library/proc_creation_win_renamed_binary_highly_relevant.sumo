@@ -1,0 +1,11 @@
+// Title: Potential Defense Evasion Via Rename Of Highly Relevant Binaries
+// ID: 0ba1da6d-b6ce-4366-828c-18826c9de23e
+// Status: test
+// Level: high
+// Author: Matthew Green - @mgreen27, Florian Roth (Nextron Systems), frack113
+// Date: 2019-06-15
+// Tags: attack.stealth, attack.t1036.003, car.2013-05-009
+// Description: Detects the execution of a renamed binary often used by attackers or malware leveraging new Sysmon OriginalFileName datapoint.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where (((Description = "Execute processes remotely") or (Product = "Sysinternals PsExec") or ((Description matches "Windows PowerShell*" or Description matches "pwsh*")) or ((OriginalFileName = "certutil.exe" or OriginalFileName = "cmstp.exe" or OriginalFileName = "cscript.exe" or OriginalFileName = "IE4UINIT.EXE" or OriginalFileName = "finger.exe" or OriginalFileName = "mshta.exe" or OriginalFileName = "msiexec.exe" or OriginalFileName = "msxsl.exe" or OriginalFileName = "powershell_ise.exe" or OriginalFileName = "powershell.exe" or OriginalFileName = "psexec.c" or OriginalFileName = "psexec.exe" or OriginalFileName = "psexesvc.exe" or OriginalFileName = "pwsh.dll" or OriginalFileName = "reg.exe" or OriginalFileName = "regsvr32.exe" or OriginalFileName = "rundll32.exe" or OriginalFileName = "WerMgr" or OriginalFileName = "wmic.exe" or OriginalFileName = "wscript.exe"))) and !(((Image matches "*\\certutil.exe" or Image matches "*\\cmstp.exe" or Image matches "*\\cscript.exe" or Image matches "*\\ie4uinit.exe" or Image matches "*\\finger.exe" or Image matches "*\\mshta.exe" or Image matches "*\\msiexec.exe" or Image matches "*\\msxsl.exe" or Image matches "*\\powershell_ise.exe" or Image matches "*\\powershell.exe" or Image matches "*\\psexec.exe" or Image matches "*\\psexec64.exe" or Image matches "*\\psexec64a.exe" or Image matches "*\\PSEXESVC.exe" or Image matches "*\\pwsh.exe" or Image matches "*\\reg.exe" or Image matches "*\\regsvr32.exe" or Image matches "*\\rundll32.exe" or Image matches "*\\wermgr.exe" or Image matches "*\\wmic.exe" or Image matches "*\\wscript.exe"))))

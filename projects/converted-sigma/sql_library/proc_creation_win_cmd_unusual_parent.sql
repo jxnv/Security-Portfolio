@@ -1,0 +1,11 @@
+-- Title: Unusual Parent Process For Cmd.EXE
+-- ID: 4b991083-3d0e-44ce-8fc4-b254025d8d4b
+-- Status: test
+-- Level: medium
+-- Author: Tim Rauch, Elastic (idea)
+-- Date: 2022-09-21
+-- Tags: attack.execution, attack.t1059
+-- Description: Detects suspicious parent process for cmd.exe
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE (Image ILIKE '%\\cmd.exe' AND (ParentImage ILIKE '%\\csrss.exe' OR ParentImage ILIKE '%\\ctfmon.exe' OR ParentImage ILIKE '%\\dllhost.exe' OR ParentImage ILIKE '%\\epad.exe' OR ParentImage ILIKE '%\\FlashPlayerUpdateService.exe' OR ParentImage ILIKE '%\\GoogleUpdate.exe' OR ParentImage ILIKE '%\\jucheck.exe' OR ParentImage ILIKE '%\\jusched.exe' OR ParentImage ILIKE '%\\LogonUI.exe' OR ParentImage ILIKE '%\\lsass.exe' OR ParentImage ILIKE '%\\regsvr32.exe' OR ParentImage ILIKE '%\\SearchIndexer.exe' OR ParentImage ILIKE '%\\SearchProtocolHost.exe' OR ParentImage ILIKE '%\\SIHClient.exe' OR ParentImage ILIKE '%\\sihost.exe' OR ParentImage ILIKE '%\\slui.exe' OR ParentImage ILIKE '%\\spoolsv.exe' OR ParentImage ILIKE '%\\sppsvc.exe' OR ParentImage ILIKE '%\\taskhostw.exe' OR ParentImage ILIKE '%\\unsecapp.exe' OR ParentImage ILIKE '%\\WerFault.exe' OR ParentImage ILIKE '%\\wermgr.exe' OR ParentImage ILIKE '%\\wlanext.exe' OR ParentImage ILIKE '%\\WUDFHost.exe'))

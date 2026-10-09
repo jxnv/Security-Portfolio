@@ -1,0 +1,11 @@
+// Title: File Download From Browser Process Via Inline URL
+// ID: 94771a71-ba41-4b6e-a757-b531372eaab6
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-01-11
+// Tags: attack.command-and-control, attack.t1105
+// Description: Detects execution of a browser process with a URL argument pointing to a file with a potentially interesting extension. This can be abused to download arbitrary files or to hide from the user for example by launching the browser in a minimized state.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where ((((process.command_line endswith ".7z" or process.command_line endswith ".dat" or process.command_line endswith ".dll" or process.command_line endswith ".exe" or process.command_line endswith ".hta" or process.command_line endswith ".ps1" or process.command_line endswith ".psm1" or process.command_line endswith ".txt" or process.command_line endswith ".vbe" or process.command_line endswith ".vbs" or process.command_line endswith ".zip")) or ((process.command_line like "*_.7z\"*" or process.command_line like "*_.dat\"*" or process.command_line like "*_.dll\"*" or process.command_line like "*_.hta\"*" or process.command_line like "*_.ps1\"*" or process.command_line like "*_.psm1\"*" or process.command_line like "*_.txt\"*" or process.command_line like "*_.vbe\"*" or process.command_line like "*_.vbs\"*" or process.command_line like "*_.zip\"*"))) and (process.command_line like "*_http*") and ((process.executable endswith "\\brave.exe" or process.executable endswith "\\chrome.exe" or process.executable endswith "\\msedge.exe" or process.executable endswith "\\opera.exe" or process.executable endswith "\\vivaldi.exe")))

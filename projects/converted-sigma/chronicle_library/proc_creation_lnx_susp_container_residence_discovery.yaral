@@ -1,0 +1,23 @@
+// Title: Container Residence Discovery Via Proc Virtual FS
+// ID: 746c86fb-ccda-4816-8997-01386263acc4
+// Status: test
+// Level: low
+// Author: Seth Hanford
+// Date: 2023-08-23
+// Tags: attack.discovery, attack.t1082
+// Description: Detects potential container discovery via listing of certain kernel features in the "/proc" virtual filesystem
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 746c86fb_ccda_4816_8997_01386263acc4 {
+  meta:
+    title = "Container Residence Discovery Via Proc Virtual FS"
+    description = "Detects potential container discovery via listing of certain kernel features in the "/proc" virtual filesystem"
+    author = "Seth Hanford"
+    severity = "LOW"
+
+  events:
+    ((($e.target.process.file.full_path = /.*awk$/ nocase or $e.target.process.file.full_path = /.*/cat$/ nocase or $e.target.process.file.full_path = /.*grep$/ nocase or $e.target.process.file.full_path = /.*/head$/ nocase or $e.target.process.file.full_path = /.*/less$/ nocase or $e.target.process.file.full_path = /.*/more$/ nocase or $e.target.process.file.full_path = /.*/nl$/ nocase or $e.target.process.file.full_path = /.*/tail$/ nocase)) and (($e.target.process.command_line = /.*/proc/2/.*/ nocase) or ($e.target.process.command_line = /.*/proc/.*/ nocase and ($e.target.process.command_line = /.*/cgroup$/ nocase or $e.target.process.command_line = /.*/sched$/ nocase))))
+
+  condition:
+    $e
+}

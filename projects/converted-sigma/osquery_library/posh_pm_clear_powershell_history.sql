@@ -1,0 +1,11 @@
+-- Title: Clear PowerShell History - PowerShell Module
+-- ID: f99276ad-d122-4989-a09a-d00904a5f9d2
+-- Status: test
+-- Level: medium
+-- Author: Ilyas Ochkov, Jonhnathan Ribeiro, Daniil Yugoslavskiy, oscd.community
+-- Date: 2019-10-25
+-- Tags: attack.stealth, attack.t1070.003
+-- Description: Detects keywords that could indicate clearing PowerShell history
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM file WHERE ((((Payload LIKE '%Set-PSReadlineOption%' AND Payload LIKE '%–HistorySaveStyle%' AND Payload LIKE '%SaveNothing%')) OR ((Payload LIKE '%Set-PSReadlineOption%' AND Payload LIKE '%-HistorySaveStyle%' AND Payload LIKE '%SaveNothing%'))) OR (((Payload LIKE '%del%' OR Payload LIKE '%Remove-Item%' OR Payload LIKE '%rm%')) AND (Payload LIKE '%(Get-PSReadlineOption).HistorySavePath%')))

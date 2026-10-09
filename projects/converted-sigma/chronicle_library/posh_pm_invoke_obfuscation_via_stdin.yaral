@@ -1,0 +1,23 @@
+// Title: Invoke-Obfuscation Via Stdin - PowerShell Module
+// ID: c72aca44-8d52-45ad-8f81-f96c4d3c755e
+// Status: test
+// Level: high
+// Author: Nikita Nazarov, oscd.community
+// Date: 2020-10-12
+// Tags: attack.stealth, attack.t1027, attack.execution, attack.t1059.001
+// Description: Detects Obfuscated Powershell via Stdin in Scripts
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule c72aca44_8d52_45ad_8f81_f96c4d3c755e {
+  meta:
+    title = "Invoke-Obfuscation Via Stdin - PowerShell Module"
+    description = "Detects Obfuscated Powershell via Stdin in Scripts"
+    author = "Nikita Nazarov, oscd.community"
+    severity = "HIGH"
+
+  events:
+    ($e.Payload = /(?i)(set).*&&\s?set.*(environment|invoke|\$?\{?input).*&&.*"/ nocase)
+
+  condition:
+    $e
+}

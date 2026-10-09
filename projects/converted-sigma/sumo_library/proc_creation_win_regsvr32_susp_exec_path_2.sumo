@@ -1,0 +1,11 @@
+// Title: Regsvr32 Execution From Highly Suspicious Location
+// ID: 327ff235-94eb-4f06-b9de-aaee571324be
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-05-26
+// Tags: attack.stealth, attack.t1218.010
+// Description: Detects execution of regsvr32 where the DLL is located in a highly suspicious locations
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where (((Image matches "*\\regsvr32.exe") or (OriginalFileName = "REGSVR32.EXE")) and (((CommandLine matches "*:\\PerfLogs\\*" or CommandLine matches "*:\\Temp\\*" or CommandLine matches "*\\Windows\\Registration\\CRMLog*" or CommandLine matches "*\\Windows\\System32\\com\\dmp\\*" or CommandLine matches "*\\Windows\\System32\\FxsTmp\\*" or CommandLine matches "*\\Windows\\System32\\Microsoft\\Crypto\\RSA\\MachineKeys\\*" or CommandLine matches "*\\Windows\\System32\\spool\\drivers\\color\\*" or CommandLine matches "*\\Windows\\System32\\spool\\PRINTERS\\*" or CommandLine matches "*\\Windows\\System32\\spool\\SERVERS\\*" or CommandLine matches "*\\Windows\\System32\\Tasks_Migrated\\*" or CommandLine matches "*\\Windows\\System32\\Tasks\\Microsoft\\Windows\\SyncCenter\\*" or CommandLine matches "*\\Windows\\SysWOW64\\com\\dmp\\*" or CommandLine matches "*\\Windows\\SysWOW64\\FxsTmp\\*" or CommandLine matches "*\\Windows\\SysWOW64\\Tasks\\Microsoft\\Windows\\PLA\\System\\*" or CommandLine matches "*\\Windows\\SysWOW64\\Tasks\\Microsoft\\Windows\\SyncCenter\\*" or CommandLine matches "*\\Windows\\Tasks\\*" or CommandLine matches "*\\Windows\\Tracing\\*")) or (((CommandLine matches "* \"C:\\*" or CommandLine matches "* C:\\*" or CommandLine matches "* 'C:\\*" or CommandLine matches "*D:\\*")) and !(((CommandLine matches "*C:\\Program Files (x86)\\*" or CommandLine matches "*C:\\Program Files\\*" or CommandLine matches "*C:\\ProgramData\\*" or CommandLine matches "*C:\\Users\\*" or CommandLine matches "* C:\\Windows\\*" or CommandLine matches "* \"C:\\Windows\\*" or CommandLine matches "* 'C:\\Windows\\*"))))) and !(((CommandLine = "") or (isNull(CommandLine)))))

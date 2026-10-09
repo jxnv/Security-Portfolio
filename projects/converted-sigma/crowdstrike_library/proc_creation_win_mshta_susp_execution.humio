@@ -1,0 +1,14 @@
+// Title: MSHTA Execution with Suspicious File Extensions
+// ID: cc7abbd0-762b-41e3-8a26-57ad50d2eea3
+// Status: test
+// Level: high
+// Author: Diego Perez (@darkquassar), Markus Neis, Swisscom (Improve Rule), Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2019-02-22
+// Tags: attack.stealth, attack.t1140, attack.t1218.005, attack.execution, attack.t1059.007, cve.2020-1599
+// Description: Detects execution of mshta.exe with file types that looks like they do not typically represent HTA (HTML Application) content,
+// such as .png, .jpg, .zip, .pdf, and others, which are often polyglots. MSHTA is a legitimate Windows utility for executing HTML Applications
+// containing VBScript or JScript. Threat actors often abuse this lolbin utility to download and
+// execute malicious scripts disguised as benign files or hosted under misleading extensions to evade detection.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((CommandLine = /*.7z*/i or CommandLine = /*.avi*/i or CommandLine = /*.bat*/i or CommandLine = /*.bmp*/i or CommandLine = /*.conf*/i or CommandLine = /*.csv*/i or CommandLine = /*.dll*/i or CommandLine = /*.doc*/i or CommandLine = /*.gif*/i or CommandLine = /*.gz*/i or CommandLine = /*.ini*/i or CommandLine = /*.jpe*/i or CommandLine = /*.jpg*/i or CommandLine = /*.json*/i or CommandLine = /*.lnk*/i or CommandLine = /*.log*/i or CommandLine = /*.mkv*/i or CommandLine = /*.mp3*/i or CommandLine = /*.mp4*/i or CommandLine = /*.pdf*/i or CommandLine = /*.png*/i or CommandLine = /*.ppt*/i or CommandLine = /*.rar*/i or CommandLine = /*.rtf*/i or CommandLine = /*.svg*/i or CommandLine = /*.tar*/i or CommandLine = /*.tmp*/i or CommandLine = /*.txt*/i or CommandLine = /*.xls*/i or CommandLine = /*.xml*/i or CommandLine = /*.yaml*/i or CommandLine = /*.yml*/i or CommandLine = /*.zip*/i or CommandLine = /*vbscript*/i)) and ((ImageFileName = /.*\\mshta.exe/i) or (OriginalFilename = "mshta.exe")))

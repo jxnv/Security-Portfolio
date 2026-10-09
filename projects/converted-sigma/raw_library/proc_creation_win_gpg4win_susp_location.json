@@ -1,0 +1,46 @@
+{
+  "title": "File Encryption/Decryption Via Gpg4win From Suspicious Locations",
+  "id": "e1e0b7d7-e10b-4ee4-ac49-a4bda05d320d",
+  "status": "test",
+  "description": "Detects usage of Gpg4win to encrypt/decrypt files located in potentially suspicious locations.",
+  "author": "Nasreddine Bencherchali (Nextron Systems), X__Junior (Nextron Systems)",
+  "date": "2022-11-30",
+  "tags": [
+    "attack.execution"
+  ],
+  "level": "high",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_metadata": [
+      {
+        "Image|endswith": [
+          "\\gpg.exe",
+          "\\gpg2.exe"
+        ]
+      },
+      {
+        "Product": "GNU Privacy Guard (GnuPG)"
+      },
+      {
+        "Description": "GnuPG\u2019s OpenPGP tool"
+      }
+    ],
+    "selection_cli": {
+      "CommandLine|contains": "-passphrase"
+    },
+    "selection_paths": {
+      "CommandLine|contains": [
+        ":\\PerfLogs\\",
+        ":\\Temp\\",
+        ":\\Users\\Public\\",
+        ":\\Windows\\Temp\\",
+        "\\AppData\\Local\\Temp\\",
+        "\\AppData\\Roaming\\"
+      ]
+    },
+    "condition": "all of selection_*"
+  }
+}

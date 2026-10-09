@@ -1,0 +1,23 @@
+// Title: Suspicious Scheduled Task Creation Involving Temp Folder
+// ID: 39019a4e-317f-4ce3-ae63-309a8c6b53c5
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2021-03-11
+// Tags: attack.privilege-escalation, attack.execution, attack.persistence, attack.t1053.005
+// Description: Detects the creation of scheduled tasks that involves a temporary folder and runs only once
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 39019a4e_317f_4ce3_ae63_309a8c6b53c5 {
+  meta:
+    title = "Suspicious Scheduled Task Creation Involving Temp Folder"
+    description = "Detects the creation of scheduled tasks that involves a temporary folder and runs only once"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ($e.target.process.file.full_path = /.*\\schtasks.exe$/ nocase and ($e.target.process.command_line = /.* /create .*/ nocase and $e.target.process.command_line = /.* /sc once .*/ nocase and $e.target.process.command_line = /.*\\Temp\\.*/ nocase))
+
+  condition:
+    $e
+}

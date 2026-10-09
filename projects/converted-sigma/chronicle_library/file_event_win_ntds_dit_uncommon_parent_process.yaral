@@ -1,0 +1,23 @@
+// Title: NTDS.DIT Creation By Uncommon Parent Process
+// ID: 4e7050dd-e548-483f-b7d6-527ab4fa784d
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-03-11
+// Tags: attack.credential-access, attack.t1003.003
+// Description: Detects creation of a file named "ntds.dit" (Active Directory Database) by an uncommon parent process or directory
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 4e7050dd_e548_483f_b7d6_527ab4fa784d {
+  meta:
+    title = "NTDS.DIT Creation By Uncommon Parent Process"
+    description = "Detects creation of a file named "ntds.dit" (Active Directory Database) by an uncommon parent process or directory"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.target.file.full_path = /.*\\ntds.dit$/ nocase) and ((($e.principal.process.file.full_path = /.*\\cscript.exe$/ nocase or $e.principal.process.file.full_path = /.*\\httpd.exe$/ nocase or $e.principal.process.file.full_path = /.*\\nginx.exe$/ nocase or $e.principal.process.file.full_path = /.*\\php-cgi.exe$/ nocase or $e.principal.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.principal.process.file.full_path = /.*\\pwsh.exe$/ nocase or $e.principal.process.file.full_path = /.*\\w3wp.exe$/ nocase or $e.principal.process.file.full_path = /.*\\wscript.exe$/ nocase)) or (($e.principal.process.file.full_path = /.*\\apache.*/ nocase or $e.principal.process.file.full_path = /.*\\tomcat.*/ nocase or $e.principal.process.file.full_path = /.*\\AppData\\.*/ nocase or $e.principal.process.file.full_path = /.*\\Temp\\.*/ nocase or $e.principal.process.file.full_path = /.*\\Public\\.*/ nocase or $e.principal.process.file.full_path = /.*\\PerfLogs\\.*/ nocase))))
+
+  condition:
+    $e
+}

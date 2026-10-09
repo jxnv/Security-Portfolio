@@ -1,0 +1,23 @@
+// Title: SAM Registry Hive Handle Request
+// ID: f8748f2c-89dc-4d95-afb0-5a2dfdbad332
+// Status: test
+// Level: high
+// Author: Roberto Rodriguez @Cyb3rWard0g
+// Date: 2019-08-12
+// Tags: attack.discovery, attack.t1012, attack.credential-access, attack.t1552.002
+// Description: Detects handles requested to SAM registry hive
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule f8748f2c_89dc_4d95_afb0_5a2dfdbad332 {
+  meta:
+    title = "SAM Registry Hive Handle Request"
+    description = "Detects handles requested to SAM registry hive"
+    author = "Roberto Rodriguez @Cyb3rWard0g"
+    severity = "HIGH"
+
+  events:
+    ($e.EventID = 4656 and $e.ObjectType = "Key" and $e.ObjectName = /.*\\SAM$/ nocase)
+
+  condition:
+    $e
+}

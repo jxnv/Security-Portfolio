@@ -1,0 +1,23 @@
+// Title: Uncommon FileSystem Load Attempt By Format.com
+// ID: 9fb6b26e-7f9e-4517-a48b-8cac4a1b6c60
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-01-04
+// Tags: attack.stealth
+// Description: Detects the execution of format.com with an uncommon filesystem selection that could indicate a defense evasion activity in which "format.com" is used to load malicious DLL files or other programs.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 9fb6b26e_7f9e_4517_a48b_8cac4a1b6c60 {
+  meta:
+    title = "Uncommon FileSystem Load Attempt By Format.com"
+    description = "Detects the execution of format.com with an uncommon filesystem selection that could indicate a defense evasion activity in which "format.com" is used to load malicious DLL files or other programs."
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.file.full_path = /.*\\format.com$/ nocase and $e.target.process.command_line = /.*/fs:.*/ nocase) and not((($e.target.process.command_line = /.*/fs:exFAT.*/ nocase or $e.target.process.command_line = /.*/fs:FAT.*/ nocase or $e.target.process.command_line = /.*/fs:NTFS.*/ nocase or $e.target.process.command_line = /.*/fs:ReFS.*/ nocase or $e.target.process.command_line = /.*/fs:UDF.*/ nocase))))
+
+  condition:
+    $e
+}

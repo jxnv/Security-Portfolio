@@ -1,0 +1,11 @@
+// Title: PowerShell Execution With Potential Decryption Capabilities
+// ID: 434c08ba-8406-4d15-8b24-782cb071a691
+// Status: test
+// Level: high
+// Author: X__Junior (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-06-30
+// Tags: attack.execution
+// Description: Detects PowerShell commands that decrypt an ".LNK" "file to drop the next stage of the malware.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((where(CommandLine ICONTAINS "Get-ChildItem ") OR where(CommandLine ICONTAINS "dir ") OR where(CommandLine ICONTAINS "gci ") OR where(CommandLine ICONTAINS "ls "))) AND ((where(CommandLine ICONTAINS "Get-Content ") OR where(CommandLine ICONTAINS "gc ") OR where(CommandLine ICONTAINS "cat ") OR where(CommandLine ICONTAINS "type ") OR where(CommandLine ICONTAINS "ReadAllBytes"))) AND (((where(CommandLine ICONTAINS " ^| ") AND where(CommandLine ICONTAINS "\\*.lnk") AND where(CommandLine ICONTAINS "-Recurse") AND where(CommandLine ICONTAINS "-Skip "))) OR ((where(CommandLine ICONTAINS " -ExpandProperty ") AND where(CommandLine ICONTAINS "\\*.lnk") AND where(CommandLine ICONTAINS "WriteAllBytes") AND where(CommandLine ICONTAINS " .length ")))) AND ((where(Image IENDSWITH "\\powershell.exe") OR where(Image IENDSWITH "\\pwsh.exe")) AND (where(OriginalFileName = "PowerShell.EXE") OR where(OriginalFileName = "pwsh.dll"))))

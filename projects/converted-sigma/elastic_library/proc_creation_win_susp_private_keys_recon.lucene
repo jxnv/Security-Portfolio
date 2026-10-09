@@ -1,0 +1,11 @@
+# Title: Private Keys Reconnaissance Via CommandLine Tools
+# ID: 213d6a77-3d55-4ce8-ba74-fcfef741974e
+# Status: test
+# Level: medium
+# Author: frack113, Nasreddine Bencherchali (Nextron Systems)
+# Date: 2021-07-20
+# Tags: attack.credential-access, attack.t1552.004
+# Description: Adversaries may search for private key certificate files on compromised systems for insecurely stored credential
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((process.command_line:*.key* OR process.command_line:*.pgp* OR process.command_line:*.gpg* OR process.command_line:*.ppk* OR process.command_line:*.p12* OR process.command_line:*.pem* OR process.command_line:*.pfx* OR process.command_line:*.cer* OR process.command_line:*.p7b* OR process.command_line:*.asc*)) AND (((process.command_line:*dir *) AND ((process.executable:*\\cmd.exe) OR (process.pe.original_file_name:"Cmd.Exe"))) OR ((process.command_line:*Get-ChildItem *) AND (((process.executable:*\\powershell.exe OR process.executable:*\\pwsh.exe)) OR ((process.pe.original_file_name:"PowerShell.EXE" OR process.pe.original_file_name:"pwsh.dll")))) OR ((process.executable:*\\findstr.exe) OR (process.pe.original_file_name:"FINDSTR.EXE"))))

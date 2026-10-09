@@ -1,0 +1,11 @@
+// Title: Potential Direct Syscall of NtOpenProcess
+// ID: 3f3f3506-1895-401b-9cc3-e86b16e630d0
+// Status: test
+// Level: medium
+// Author: Christian Burkard (Nextron Systems), Tim Shelton (FP)
+// Date: 2021-07-28
+// Tags: attack.execution, attack.t1106
+// Description: Detects potential calls to NtOpenProcess directly from NTDLL.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((CallTrace = /UNKNOWN.*/i) and not((((SourceImage = /*:\\Program Files (x86)\\*/i or SourceImage = /*:\\Program Files\\*/i or SourceImage = /*:\\Windows\\System32\\*/i or SourceImage = /*:\\Windows\\SysWOW64\\*/i or SourceImage = /*:\\Windows\\WinSxS\\*/i) and (TargetImage = /*:\\Program Files (x86)\\*/i or TargetImage = /*:\\Program Files\\*/i or TargetImage = /*:\\Windows\\System32\\*/i or TargetImage = /*:\\Windows\\SysWOW64\\*/i or TargetImage = /*:\\Windows\\WinSxS\\*/i)) or (Provider_Name = "Microsoft-Windows-Kernel-Audit-API-Calls") or (TargetImage = /.*vcredist_x64.exe/i and SourceImage = /.*vcredist_x64.exe/i))) and not(((SourceImage = /*:\\Program Files\\Adobe\\Acrobat DC\\Acrobat\\*/i and SourceImage = /.*\\AcroCEF.exe/i and TargetImage = /*:\\Program Files\\Adobe\\Acrobat DC\\Acrobat\\*/i and TargetImage = /.*\\AcroCEF.exe/i) or (SourceImage = /.*AmazonSSMAgentSetup.exe/i and TargetImage = /.*AmazonSSMAgentSetup.exe/i) or (SourceImage = /.*:\\Windows\\Explorer.EXE/i and TargetImage = /.*:\\Program Files\\Cylance\\Desktop\\CylanceUI.exe/i) or (TargetImage = /*\\AppData\\Local\\Discord\\*/i and TargetImage = /.*\\Discord.exe/i) or (TargetImage = /.*\\Evernote\\Evernote.exe/i) or (TargetImage = /.*\\AppData\\Local\\Microsoft\\Teams\\current\\Teams.exe/i and SourceImage = /.*\\AppData\\Local\\Microsoft\\Teams\\current\\Teams.exe/i) or (TargetImage = /.*:\\Windows\\system32\\systeminfo.exe/i and SourceImage = /.*setup64.exe/i) or (SourceImage = /.*\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe/i and TargetImage = /.*\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe/i) or (SourceImage = /*\\AppData\\Local\\yammerdesktop\\app-*/i and SourceImage = /.*\\Yammer.exe/i and TargetImage = /*\\AppData\\Local\\yammerdesktop\\app-*/i and TargetImage = /.*\\Yammer.exe/i and GrantedAccess = "0x1000"))))

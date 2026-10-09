@@ -1,0 +1,23 @@
+// Title: Adwind RAT / JRAT File Artifact
+// ID: 0bcfabcb-7929-47f4-93d6-b33fb67d34d1
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Tom Ueltschi, Jonhnathan Ribeiro, oscd.community
+// Date: 2017-11-10
+// Tags: attack.execution, attack.t1059.005, attack.t1059.007
+// Description: Detects javaw.exe in AppData folder as used by Adwind / JRAT
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 0bcfabcb_7929_47f4_93d6_b33fb67d34d1 {
+  meta:
+    title = "Adwind RAT / JRAT File Artifact"
+    description = "Detects javaw.exe in AppData folder as used by Adwind / JRAT"
+    author = "Florian Roth (Nextron Systems), Tom Ueltschi, Jonhnathan Ribeiro, oscd.community"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.file.full_path = /.*\\AppData\\Roaming\\Oracle\\bin\\java.*/ nocase and $e.target.file.full_path = /.*.exe.*/ nocase)) or (($e.target.file.full_path = /.*\\Retrive.*/ nocase and $e.target.file.full_path = /.*.vbs.*/ nocase)))
+
+  condition:
+    $e
+}

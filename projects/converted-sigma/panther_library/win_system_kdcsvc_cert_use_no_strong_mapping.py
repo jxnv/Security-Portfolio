@@ -1,0 +1,21 @@
+# Title: Certificate Use With No Strong Mapping
+# ID: 993c2665-e6ef-40e3-a62a-e1a97686af79
+# Status: test
+# Level: medium
+# Author: @br4dy5
+# Date: 2023-10-09
+# Tags: attack.privilege-escalation
+# Description: Detects a user certificate that was valid but could not be mapped to a user in a strong way (such as via explicit mapping, key trust mapping, or a SID)
+# This could be a sign of exploitation of the elevation of privilege vulnerabilities (CVE-2022-34691, CVE-2022-26931, CVE-2022-26923) that can occur when the KDC allows certificate spoofing by not requiring a strong mapping.
+# Events where the AccountName and CN of the Subject do not match, or where the CN ends in a dollar sign indicating a machine, may indicate certificate spoofing.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Certificate Use With No Strong Mapping
+def rule(event):
+    # Detection Logic:
+    # ((Provider_Name="Kerberos-Key-Distribution-Center" OR Provider_Name="Microsoft-Windows-Kerberos-Key-Distribution-Center") AND (EventID="39" OR EventID="41"))
+    return True
+
+def title(event):
+    return "Certificate Use With No Strong Mapping"
+

@@ -1,0 +1,23 @@
+// Title: New Process Created Via Taskmgr.EXE
+// ID: 3d7679bd-0c00-440c-97b0-3f204273e6c7
+// Status: test
+// Level: low
+// Author: Florian Roth (Nextron Systems)
+// Date: 2018-03-13
+// Tags: attack.stealth, attack.t1036
+// Description: Detects the creation of a process via the Windows task manager. This might be an attempt to bypass UAC
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 3d7679bd_0c00_440c_97b0_3f204273e6c7 {
+  meta:
+    title = "New Process Created Via Taskmgr.EXE"
+    description = "Detects the creation of a process via the Windows task manager. This might be an attempt to bypass UAC"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "LOW"
+
+  events:
+    (($e.principal.process.file.full_path = /.*\\taskmgr.exe$/ nocase) and not((($e.target.process.file.full_path = /.*:\\Windows\\System32\\mmc.exe$/ nocase or $e.target.process.file.full_path = /.*:\\Windows\\System32\\resmon.exe$/ nocase or $e.target.process.file.full_path = /.*:\\Windows\\System32\\Taskmgr.exe$/ nocase))))
+
+  condition:
+    $e
+}

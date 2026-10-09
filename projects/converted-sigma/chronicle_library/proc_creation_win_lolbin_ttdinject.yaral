@@ -1,0 +1,23 @@
+// Title: Use of TTDInject.exe
+// ID: b27077d6-23e6-45d2-81a0-e2b356eea5fd
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-05-16
+// Tags: attack.execution, attack.stealth, attack.t1127
+// Description: Detects the executiob of TTDInject.exe, which is used by Windows 10 v1809 and newer to debug time travel (underlying call of tttracer.exe)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule b27077d6_23e6_45d2_81a0_e2b356eea5fd {
+  meta:
+    title = "Use of TTDInject.exe"
+    description = "Detects the executiob of TTDInject.exe, which is used by Windows 10 v1809 and newer to debug time travel (underlying call of tttracer.exe)"
+    author = "frack113"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.process.file.full_path = /.*ttdinject.exe$/ nocase) or ($e.target.process.file.name = "TTDInject.EXE"))
+
+  condition:
+    $e
+}

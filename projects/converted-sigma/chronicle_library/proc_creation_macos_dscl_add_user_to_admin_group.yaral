@@ -1,0 +1,23 @@
+// Title: User Added To Admin Group Via Dscl
+// ID: b743623c-2776-40e0-87b1-682b975d0ca5
+// Status: test
+// Level: medium
+// Author: Sohan G (D4rkCiph3r)
+// Date: 2023-03-19
+// Tags: attack.persistence, attack.initial-access, attack.privilege-escalation, attack.stealth, attack.t1078.003
+// Description: Detects attempts to create and add an account to the admin group via "dscl"
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule b743623c_2776_40e0_87b1_682b975d0ca5 {
+  meta:
+    title = "User Added To Admin Group Via Dscl"
+    description = "Detects attempts to create and add an account to the admin group via "dscl""
+    author = "Sohan G (D4rkCiph3r)"
+    severity = "MEDIUM"
+
+  events:
+    ($e.target.process.file.full_path = /.*/dscl$/ nocase and ($e.target.process.command_line = /.* -append .*/ nocase and $e.target.process.command_line = /.* /Groups/admin .*/ nocase and $e.target.process.command_line = /.* GroupMembership .*/ nocase))
+
+  condition:
+    $e
+}

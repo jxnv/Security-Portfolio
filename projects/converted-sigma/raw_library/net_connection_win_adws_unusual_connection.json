@@ -1,0 +1,38 @@
+{
+  "title": "Uncommon Connection to Active Directory Web Services",
+  "id": "b3ad3c0f-c949-47a1-a30e-b0491ccae876",
+  "status": "test",
+  "description": "Detects uncommon network connections to the Active Directory Web Services (ADWS) from processes not typically associated with ADWS management.\n",
+  "author": "@kostastsale",
+  "date": "2024-01-26",
+  "tags": [
+    "attack.discovery",
+    "attack.t1087"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "network_connection",
+    "product": "windows"
+  },
+  "detection": {
+    "selection": {
+      "Initiated": true,
+      "DestinationPort": 9389
+    },
+    "filter_main_dsac": {
+      "Image": "C:\\Windows\\system32\\dsac.exe"
+    },
+    "filter_main_ms_monitoring_agent": {
+      "Image": "C:\\Program Files\\Microsoft Monitoring Agent\\"
+    },
+    "filter_main_powershell": {
+      "Image|startswith": [
+        "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+        "C:\\Program Files\\PowerShell\\7-preview\\pwsh.ex",
+        "C:\\Windows\\System32\\WindowsPowerShell\\",
+        "C:\\Windows\\SysWOW64\\WindowsPowerShell\\"
+      ]
+    },
+    "condition": "selection and not 1 of filter_main_*"
+  }
+}

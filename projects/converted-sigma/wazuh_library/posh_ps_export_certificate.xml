@@ -1,0 +1,16 @@
+<!--
+  Title: Certificate Exported Via PowerShell - ScriptBlock
+  ID: aa7a3fce-bef5-4311-9cc1-5f04bb8c308c
+  Status: test
+  Level: medium
+  Author: Florian Roth (Nextron Systems)
+  Date: 2021-04-23
+  Description: Detects calls to cmdlets inside of PowerShell scripts that are used to export certificates from the local certificate store. Threat actors were seen abusing this to steal private keys from compromised machines.
+-->
+
+<group name="sigma_converted,">
+  <rule id="100001" level="5">
+    <description>Certificate Exported Via PowerShell - ScriptBlock</description>
+    <match>(((ScriptBlockText=\"*Export-PfxCertificate*\" OR ScriptBlockText=\"*Export-Certificate*\")) AND NOT ((ScriptBlockText=\"*Cmd</match>
+  </rule>
+</group>

@@ -1,0 +1,23 @@
+// Title: Suspicious Child Process of AspNetCompiler
+// ID: 9ccba514-7cb6-4c5c-b377-700758f2f120
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-08-14
+// Tags: attack.execution, attack.stealth, attack.t1127
+// Description: Detects potentially suspicious child processes of "aspnet_compiler.exe".
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 9ccba514_7cb6_4c5c_b377_700758f2f120 {
+  meta:
+    title = "Suspicious Child Process of AspNetCompiler"
+    description = "Detects potentially suspicious child processes of "aspnet_compiler.exe"."
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (((($e.target.process.file.full_path = /.*\\calc.exe$/ nocase or $e.target.process.file.full_path = /.*\\notepad.exe$/ nocase)) or (($e.target.process.file.full_path = /.*\\Users\\Public\\.*/ nocase or $e.target.process.file.full_path = /.*\\AppData\\Local\\Temp\\.*/ nocase or $e.target.process.file.full_path = /.*\\AppData\\Local\\Roaming\\.*/ nocase or $e.target.process.file.full_path = /.*:\\Temp\\.*/ nocase or $e.target.process.file.full_path = /.*:\\Windows\\Temp\\.*/ nocase or $e.target.process.file.full_path = /.*:\\Windows\\System32\\Tasks\\.*/ nocase or $e.target.process.file.full_path = /.*:\\Windows\\Tasks\\.*/ nocase))) and ($e.principal.process.file.full_path = /.*\\aspnet_compiler.exe$/ nocase))
+
+  condition:
+    $e
+}

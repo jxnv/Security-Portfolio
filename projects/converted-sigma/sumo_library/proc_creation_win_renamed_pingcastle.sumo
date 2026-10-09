@@ -1,0 +1,11 @@
+// Title: Renamed PingCastle Binary Execution
+// ID: 2433a154-bb3d-42e4-86c3-a26bdac91c45
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems), X__Junior (Nextron Systems)
+// Date: 2024-01-11
+// Tags: attack.execution, attack.stealth, attack.t1059, attack.t1202
+// Description: Detects the execution of a renamed "PingCastle" binary based on the PE metadata fields.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where ((((OriginalFileName = "PingCastleReporting.exe" or OriginalFileName = "PingCastleCloud.exe" or OriginalFileName = "PingCastle.exe")) or ((CommandLine matches "*--scanner aclcheck*" or CommandLine matches "*--scanner antivirus*" or CommandLine matches "*--scanner computerversion*" or CommandLine matches "*--scanner foreignusers*" or CommandLine matches "*--scanner laps_bitlocker*" or CommandLine matches "*--scanner localadmin*" or CommandLine matches "*--scanner nullsession*" or CommandLine matches "*--scanner nullsession-trust*" or CommandLine matches "*--scanner oxidbindings*" or CommandLine matches "*--scanner remote*" or CommandLine matches "*--scanner share*" or CommandLine matches "*--scanner smb*" or CommandLine matches "*--scanner smb3querynetwork*" or CommandLine matches "*--scanner spooler*" or CommandLine matches "*--scanner startup*" or CommandLine matches "*--scanner zerologon*")) or (CommandLine matches "*--no-enum-limit*") or ((CommandLine matches "*--healthcheck*" and CommandLine matches "*--level Full*")) or ((CommandLine matches "*--healthcheck*" and CommandLine matches "*--server *"))) and !(((Image matches "*\\PingCastleReporting.exe" or Image matches "*\\PingCastleCloud.exe" or Image matches "*\\PingCastle.exe"))))

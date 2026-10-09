@@ -1,0 +1,23 @@
+// Title: Potential AD User Enumeration From Non-Machine Account
+// ID: ab6bffca-beff-4baa-af11-6733f296d57a
+// Status: test
+// Level: medium
+// Author: Maxime Thiebaut (@0xThiebaut)
+// Date: 2020-03-30
+// Tags: attack.discovery, attack.t1087.002
+// Description: Detects read access to a domain user from a non-machine account
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule ab6bffca_beff_4baa_af11_6733f296d57a {
+  meta:
+    title = "Potential AD User Enumeration From Non-Machine Account"
+    description = "Detects read access to a domain user from a non-machine account"
+    author = "Maxime Thiebaut (@0xThiebaut)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.EventID = 4662 and $e.ObjectType = /.*bf967aba-0de6-11d0-a285-00aa003049e2.*/ nocase and ($e.AccessMask = /.*1?$/ nocase or $e.AccessMask = /.*3?$/ nocase or $e.AccessMask = /.*4?$/ nocase or $e.AccessMask = /.*7?$/ nocase or $e.AccessMask = /.*9?$/ nocase or $e.AccessMask = /.*B?$/ nocase or $e.AccessMask = /.*D?$/ nocase or $e.AccessMask = /.*F?$/ nocase)) and not((($e.SubjectUserName = /.*$$/ nocase) or ($e.SubjectUserName = /^MSOL_.*/ nocase))))
+
+  condition:
+    $e
+}

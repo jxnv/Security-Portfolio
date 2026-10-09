@@ -1,0 +1,11 @@
+-- Title: Possible DC Shadow Attack
+-- ID: 32e19d25-4aed-4860-a55a-be99cb0bf7ed
+-- Status: test
+-- Level: medium
+-- Author: Ilyas Ochkov, oscd.community, Chakib Gzenayi (@Chak092), Hosni Mribah
+-- Date: 2019-10-25
+-- Tags: attack.credential-access, attack.defense-impairment, attack.t1207
+-- Description: Detects DCShadow via create new SPN
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM events WHERE ((EventID = 4742 AND ServicePrincipalNames ILIKE '%GC/%') OR (EventID = 5136 AND AttributeLDAPDisplayName = 'servicePrincipalName' AND AttributeValue ILIKE 'GC/%'))

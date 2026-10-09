@@ -1,0 +1,23 @@
+// Title: Potentially Suspicious DLL Registered Via Odbcconf.EXE
+// ID: ba4cfc11-d0fa-4d94-bf20-7c332c412e76
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-05-22
+// Tags: attack.stealth, attack.t1218.008
+// Description: Detects execution of "odbcconf" with the "REGSVR" action where the DLL in question doesn't contain a ".dll" extension. Which is often used as a method to evade defenses.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule ba4cfc11_d0fa_4d94_bf20_7c332c412e76 {
+  meta:
+    title = "Potentially Suspicious DLL Registered Via Odbcconf.EXE"
+    description = "Detects execution of "odbcconf" with the "REGSVR" action where the DLL in question doesn't contain a ".dll" extension. Which is often used as a method to evade defenses."
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*REGSVR .*/ nocase) and (($e.target.process.file.full_path = /.*\\odbcconf.exe$/ nocase) or ($e.target.process.file.name = "odbcconf.exe"))) and not(($e.target.process.command_line = /.*.dll.*/ nocase)))
+
+  condition:
+    $e
+}

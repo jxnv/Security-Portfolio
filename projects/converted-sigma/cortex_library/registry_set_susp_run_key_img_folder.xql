@@ -1,0 +1,11 @@
+// Title: New RUN Key Pointing to Suspicious Folder
+// ID: 02ee49e2-e294-4d0f-9278-f5b3212fc588
+// Status: experimental
+// Level: high
+// Author: Florian Roth (Nextron Systems), Markus Neis, Sander Wiebing, Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2018-08-25
+// Tags: attack.privilege-escalation, attack.persistence, attack.t1547.001
+// Description: Detects suspicious new RUN key element pointing to an executable in a suspicious folder
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter (((TargetObject contains "\\Software\\Microsoft\\Windows\\CurrentVersion\\Run" or TargetObject contains "\\Software\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Run" or TargetObject contains "\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run")) and (((Details contains ":\\Perflogs" or Details contains ":\\ProgramData'" or Details contains ":\\Windows\\Temp" or Details contains ":\\Temp" or Details contains "\\AppData\\Local\\Temp" or Details contains "\\AppData\\Roaming" or Details contains ":\\$Recycle.bin" or Details contains ":\\Users\\Default" or Details contains ":\\Users\\public" or Details contains "%temp%" or Details contains "%tmp%" or Details contains "%Public%" or Details contains "%AppData%")) or ((Details contains ":\\Users\\") and ((Details contains "\\Favorites" or Details contains "\\Favourites" or Details contains "\\Contacts" or Details contains "\\Music" or Details contains "\\Pictures" or Details contains "\\Documents" or Details contains "\\Photos")))) and not ((TargetObject contains "\\Microsoft\\Windows\\CurrentVersion\\RunOnce\\" and action_process_image_path startswith "C:\\Windows\\SoftwareDistribution\\Download\\" and (Details contains "rundll32.exe " and Details contains "C:\\WINDOWS\\system32\\advpack.dll,DelNodeRunDLL32") and (Details contains "\\AppData\\Local\\Temp\\" or Details contains "C:\\Windows\\Temp\\"))) and not (((action_process_image_path endswith "C:\\Program Files\\Spotify\\Spotify.exe" or action_process_image_path endswith "C:\\Program Files (x86)\\Spotify\\Spotify.exe" or action_process_image_path endswith "\\AppData\\Roaming\\Spotify\\Spotify.exe") and TargetObject endswith "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\\Spotify" and Details endswith "Spotify.exe --autostart --minimized")))

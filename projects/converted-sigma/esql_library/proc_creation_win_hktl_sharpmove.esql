@@ -1,0 +1,11 @@
+// Title: HackTool - SharpMove Tool Execution
+// ID: 055fb54c-a8f4-4aee-bd44-f74cf30a0d9d
+// Status: test
+// Level: high
+// Author: Luca Di Bartolomeo (CrimpSec)
+// Date: 2024-01-29
+// Tags: attack.lateral-movement, attack.t1021.002
+// Description: Detects the execution of SharpMove, a .NET utility performing multiple tasks such as "Task Creation", "SCM" query, VBScript execution using WMI via its PE metadata and command line options.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE (((process.executable LIKE "%\\SharpMove.exe") OR (process.pe.original_file_name == "SharpMove.exe")) OR (((process.command_line LIKE "%action=create%" OR process.command_line LIKE "%action=dcom%" OR process.command_line LIKE "%action=executevbs%" OR process.command_line LIKE "%action=hijackdcom%" OR process.command_line LIKE "%action=modschtask%" OR process.command_line LIKE "%action=modsvc%" OR process.command_line LIKE "%action=query%" OR process.command_line LIKE "%action=scm%" OR process.command_line LIKE "%action=startservice%" OR process.command_line LIKE "%action=taskscheduler%")) AND (process.command_line LIKE "%computername=%")))

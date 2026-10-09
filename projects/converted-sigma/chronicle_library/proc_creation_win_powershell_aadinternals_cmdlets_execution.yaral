@@ -1,0 +1,23 @@
+// Title: AADInternals PowerShell Cmdlets Execution - ProccessCreation
+// ID: c86500e9-a645-4680-98d7-f882c70c1ea3
+// Status: test
+// Level: high
+// Author: Austin Songer (@austinsonger), Nasreddine Bencherchali (Nextron Systems), Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2022-12-23
+// Tags: attack.execution, attack.reconnaissance, attack.discovery, attack.credential-access, attack.impact
+// Description: Detects ADDInternals Cmdlet execution. A tool for administering Azure AD and Office 365. Which can be abused by threat actors to attack Azure AD or Office 365.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule c86500e9_a645_4680_98d7_f882c70c1ea3 {
+  meta:
+    title = "AADInternals PowerShell Cmdlets Execution - ProccessCreation"
+    description = "Detects ADDInternals Cmdlet execution. A tool for administering Azure AD and Office 365. Which can be abused by threat actors to attack Azure AD or Office 365."
+    author = "Austin Songer (@austinsonger), Nasreddine Bencherchali (Nextron Systems), Swachchhanda Shrawan Poudel (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*Add-AADInt.*/ nocase or $e.target.process.command_line = /.*ConvertTo-AADInt.*/ nocase or $e.target.process.command_line = /.*Disable-AADInt.*/ nocase or $e.target.process.command_line = /.*Enable-AADInt.*/ nocase or $e.target.process.command_line = /.*Export-AADInt.*/ nocase or $e.target.process.command_line = /.*Find-AADInt.*/ nocase or $e.target.process.command_line = /.*Get-AADInt.*/ nocase or $e.target.process.command_line = /.*Grant-AADInt.*/ nocase or $e.target.process.command_line = /.*Initialize-AADInt.*/ nocase or $e.target.process.command_line = /.*Install-AADInt.*/ nocase or $e.target.process.command_line = /.*Invoke-AADInt.*/ nocase or $e.target.process.command_line = /.*Join-AADInt.*/ nocase or $e.target.process.command_line = /.*New-AADInt.*/ nocase or $e.target.process.command_line = /.*Open-AADInt.*/ nocase or $e.target.process.command_line = /.*Read-AADInt.*/ nocase or $e.target.process.command_line = /.*Register-AADInt.*/ nocase or $e.target.process.command_line = /.*Remove-AADInt.*/ nocase or $e.target.process.command_line = /.*Reset-AADInt.*/ nocase or $e.target.process.command_line = /.*Resolve-AADInt.*/ nocase or $e.target.process.command_line = /.*Restore-AADInt.*/ nocase or $e.target.process.command_line = /.*Save-AADInt.*/ nocase or $e.target.process.command_line = /.*Search-AADInt.*/ nocase or $e.target.process.command_line = /.*Send-AADInt.*/ nocase or $e.target.process.command_line = /.*Set-AADInt.*/ nocase or $e.target.process.command_line = /.*Start-AADInt.*/ nocase or $e.target.process.command_line = /.*Unprotect-AADInt.*/ nocase or $e.target.process.command_line = /.*Update-AADInt.*/ nocase)) and ((($e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\powershell_ise.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase)) or (($e.target.process.file.name = "PowerShell.Exe" or $e.target.process.file.name = "pwsh.dll"))))
+
+  condition:
+    $e
+}

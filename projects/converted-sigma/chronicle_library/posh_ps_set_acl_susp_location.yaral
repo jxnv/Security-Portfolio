@@ -1,0 +1,23 @@
+// Title: PowerShell Set-Acl On Windows Folder - PsScript
+// ID: 3bf1d859-3a7e-44cb-8809-a99e066d3478
+// Status: test
+// Level: high
+// Author: frack113, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-07-18
+// Tags: attack.defense-impairment, attack.t1222
+// Description: Detects PowerShell scripts to set the ACL to a file in the Windows folder
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 3bf1d859_3a7e_44cb_8809_a99e066d3478 {
+  meta:
+    title = "PowerShell Set-Acl On Windows Folder - PsScript"
+    description = "Detects PowerShell scripts to set the ACL to a file in the Windows folder"
+    author = "frack113, Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.ScriptBlockText = /.*Set-Acl .*/ nocase and $e.ScriptBlockText = /.*-AclObject .*/ nocase)) and (($e.ScriptBlockText = /.*-Path \"C:\\Windows.*/ nocase or $e.ScriptBlockText = /.*-Path \"C:/Windows.*/ nocase or $e.ScriptBlockText = /.*-Path 'C:\\Windows.*/ nocase or $e.ScriptBlockText = /.*-Path 'C:/Windows.*/ nocase or $e.ScriptBlockText = /.*-Path C:\\\\Windows.*/ nocase or $e.ScriptBlockText = /.*-Path C:/Windows.*/ nocase or $e.ScriptBlockText = /.*-Path $env:windir.*/ nocase or $e.ScriptBlockText = /.*-Path \"$env:windir.*/ nocase or $e.ScriptBlockText = /.*-Path '$env:windir.*/ nocase)) and (($e.ScriptBlockText = /.*FullControl.*/ nocase or $e.ScriptBlockText = /.*Allow.*/ nocase)))
+
+  condition:
+    $e
+}

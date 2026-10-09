@@ -1,0 +1,12 @@
+-- Title: Suspicious Eventlog Clearing or Configuration Change Activity
+-- ID: cc36992a-4671-4f21-a91d-6c2b72a2edf5
+-- Status: stable
+-- Level: high
+-- Author: Ecco, Daniil Yugoslavskiy, oscd.community, D3F7A5105, Swachchhanda Shrawan Poudel (Nextron Systems)
+-- Date: 2019-09-26
+-- Tags: attack.defense-impairment, attack.t1685.005, attack.t1685.001, car.2016-04-002
+-- Description: Detects the clearing or configuration tampering of EventLog using utilities such as "wevtutil", "powershell" and "wmic".
+-- This technique were seen used by threat actors and ransomware strains in order to evade defenses.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE (((((CommandLine ILIKE '%clear-log %' OR CommandLine ILIKE '% cl %' OR CommandLine ILIKE '%set-log %' OR CommandLine ILIKE '% sl %' OR CommandLine ILIKE '%lfn:%')) AND ((Image ILIKE '%\\wevtutil.exe') OR (OriginalFileName = 'wevtutil.exe'))) OR ((((CommandLine ILIKE '%Clear-EventLog %' OR CommandLine ILIKE '%Remove-EventLog %' OR CommandLine ILIKE '%Limit-EventLog %' OR CommandLine ILIKE '%Clear-WinEvent %')) OR ((CommandLine ILIKE '%Eventing.Reader.EventLogSession%' AND CommandLine ILIKE '%ClearLog%')) OR ((CommandLine ILIKE '%Diagnostics.EventLog%' AND CommandLine ILIKE '%Clear%'))) AND ((Image ILIKE '%\\powershell.exe' OR Image ILIKE '%\\powershell_ise.exe' OR Image ILIKE '%\\pwsh.exe'))) OR ((Image ILIKE '%\\powershell.exe' OR Image ILIKE '%\\powershell_ise.exe' OR Image ILIKE '%\\pwsh.exe' OR Image ILIKE '%\\wmic.exe') AND CommandLine ILIKE '%ClearEventLog%')) AND NOT (((ParentImage = 'C:\\Windows\\SysWOW64\\msiexec.exe' OR ParentImage = 'C:\\Windows\\System32\\msiexec.exe') AND CommandLine ILIKE '% sl %')))

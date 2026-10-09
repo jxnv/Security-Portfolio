@@ -1,0 +1,12 @@
+-- Title: Network Connection Initiated To Cloudflared Tunnels Domains
+-- ID: 7cd1dcdc-6edf-4896-86dc-d1f19ad64903
+-- Status: test
+-- Level: medium
+-- Author: Kamran Saifullah, Nasreddine Bencherchali (Nextron Systems)
+-- Date: 2024-05-27
+-- Tags: attack.exfiltration, attack.command-and-control, attack.t1567, attack.t1572
+-- Description: Detects network connections to Cloudflared tunnels domains initiated by a process on the system.
+-- Attackers can abuse that feature to establish a reverse shell or persistence on a machine.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE (Initiated = 'true' AND (DestinationHostname ILIKE '%.v2.argotunnel.com' OR DestinationHostname ILIKE '%protocol-v2.argotunnel.com' OR DestinationHostname ILIKE '%trycloudflare.com' OR DestinationHostname ILIKE '%update.argotunnel.com'))

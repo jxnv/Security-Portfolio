@@ -1,0 +1,11 @@
+# Title: Suspicious Powercfg Execution To Change Lock Screen Timeout
+# ID: f8d6a15e-4bc8-4c27-8e5d-2b10f0b73e5b
+# Status: test
+# Level: medium
+# Author: frack113
+# Date: 2022-11-18
+# Tags: attack.stealth
+# Description: Detects suspicious execution of 'Powercfg.exe' to change lock screen timeout
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog (((process_path="*\\powercfg.exe") OR (process_name="PowerCfg.exe")) AND (((process_exec="*/setacvalueindex *" AND process_exec="*SCHEME_CURRENT*" AND process_exec="*SUB_VIDEO*" AND process_exec="*VIDEOCONLOCK*")) OR ((process_exec="*-change *" AND process_exec="*-standby-timeout-*"))))

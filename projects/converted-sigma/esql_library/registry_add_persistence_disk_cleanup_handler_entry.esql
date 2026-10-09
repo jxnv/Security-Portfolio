@@ -1,0 +1,16 @@
+// Title: Potential Persistence Via Disk Cleanup Handler - Registry
+// ID: d4f4e0be-cf12-439f-9e25-4e2cdcf7df5a
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-07-21
+// Tags: attack.persistence
+// Description: Detects when an attacker modifies values of the Disk Cleanup Handler in the registry to achieve persistence.
+// The disk cleanup manager is part of the operating system. It displays the dialog box […]
+// The user has the option of enabling or disabling individual handlers by selecting or clearing their check box in the disk cleanup manager's UI.
+// Although Windows comes with a number of disk cleanup handlers, they aren't designed to handle files produced by other applications.
+// Instead, the disk cleanup manager is designed to be flexible and extensible by enabling any developer to implement and register their own disk cleanup handler.
+// Any developer can extend the available disk cleanup services by implementing and registering a disk cleanup handler.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE ((EventType == "CreateKey" AND registry.path LIKE "%\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\VolumeCaches\\%") AND NOT (((registry.path LIKE "%\\Active Setup Temp Folders" OR registry.path LIKE "%\\BranchCache" OR registry.path LIKE "%\\Content Indexer Cleaner" OR registry.path LIKE "%\\D3D Shader Cache" OR registry.path LIKE "%\\Delivery Optimization Files" OR registry.path LIKE "%\\Device Driver Packages" OR registry.path LIKE "%\\Diagnostic Data Viewer database files" OR registry.path LIKE "%\\Downloaded Program Files" OR registry.path LIKE "%\\DownloadsFolder" OR registry.path LIKE "%\\Feedback Hub Archive log files" OR registry.path LIKE "%\\Internet Cache Files" OR registry.path LIKE "%\\Language Pack" OR registry.path LIKE "%\\Microsoft Office Temp Files" OR registry.path LIKE "%\\Offline Pages Files" OR registry.path LIKE "%\\Old ChkDsk Files" OR registry.path LIKE "%\\Previous Installations" OR registry.path LIKE "%\\Recycle Bin" OR registry.path LIKE "%\\RetailDemo Offline Content" OR registry.path LIKE "%\\Setup Log Files" OR registry.path LIKE "%\\System error memory dump files" OR registry.path LIKE "%\\System error minidump files" OR registry.path LIKE "%\\Temporary Files" OR registry.path LIKE "%\\Temporary Setup Files" OR registry.path LIKE "%\\Temporary Sync Files" OR registry.path LIKE "%\\Thumbnail Cache" OR registry.path LIKE "%\\Update Cleanup" OR registry.path LIKE "%\\Upgrade Discarded Files" OR registry.path LIKE "%\\User file versions" OR registry.path LIKE "%\\Windows Defender" OR registry.path LIKE "%\\Windows Error Reporting Files" OR registry.path LIKE "%\\Windows ESD installation files" OR registry.path LIKE "%\\Windows Upgrade Log Files"))))

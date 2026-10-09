@@ -1,0 +1,11 @@
+// Title: Suspicious Scheduled Task Creation via Masqueraded XML File
+// ID: dd2a821e-3b07-4d3b-a9ac-929fe4c6ca0c
+// Status: test
+// Level: medium
+// Author: Swachchhanda Shrawan Poudel, Elastic (idea)
+// Date: 2023-04-20
+// Tags: attack.privilege-escalation, attack.execution, attack.persistence, attack.stealth, attack.t1036.005, attack.t1053.005
+// Description: Detects the creation of a scheduled task using the "-XML" flag with a file without the '.xml' extension. This behavior could be indicative of potential defense evasion attempt during persistence
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+DeviceProcessEvents | where ((((ProcessCommandLine contains "/create" or ProcessCommandLine contains "-create")) and ((ProcessCommandLine contains "/xml" or ProcessCommandLine contains "-xml")) and ((FolderPath endswith "\\schtasks.exe") or (ProcessVersionInfoOriginalFileName == "schtasks.exe"))) and not(((ProcessCommandLine contains ".xml") or (InitiatingProcessFolderPath endswith "\\rundll32.exe" and (InitiatingProcessCommandLine contains ":\\WINDOWS\\Installer\\MSI" and InitiatingProcessCommandLine contains ".tmp,zzzzInvokeManagedCustomActionOutOfProc")) or ((IntegrityLevel == "System" or IntegrityLevel == "S-1-16-16384")))) and not(((InitiatingProcessFolderPath endswith ":\\ProgramData\\OEM\\UpgradeTool\\CareCenter_*\\BUnzip\\Setup_msi.exe" or InitiatingProcessFolderPath endswith ":\\Program Files\\Axis Communications\\AXIS Camera Station\\SetupActions.exe" or InitiatingProcessFolderPath endswith ":\\Program Files\\Axis Communications\\AXIS Device Manager\\AdmSetupActions.exe" or InitiatingProcessFolderPath endswith ":\\Program Files (x86)\\Zemana\\AntiMalware\\AntiMalware.exe" or InitiatingProcessFolderPath endswith ":\\Program Files\\Dell\\SupportAssist\\pcdrcui.exe"))))

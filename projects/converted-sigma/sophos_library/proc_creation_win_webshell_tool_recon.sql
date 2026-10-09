@@ -1,0 +1,11 @@
+-- Title: Webshell Tool Reconnaissance Activity
+-- ID: f64e5c19-879c-4bae-b471-6d84c8339677
+-- Status: test
+-- Level: high
+-- Author: Cian Heasley, Florian Roth (Nextron Systems)
+-- Date: 2020-07-22
+-- Tags: attack.persistence, attack.t1505.003
+-- Description: Detects processes spawned from web servers (PHP, Tomcat, IIS, etc.) that perform reconnaissance looking for the existence of popular scripting tools (perl, python, wget) on the system via the help commands
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE ((((ParentImage ILIKE '%\\java.exe' OR ParentImage ILIKE '%\\javaw.exe') AND (ParentImage ILIKE '%-tomcat-%' OR ParentImage ILIKE '%\\tomcat%')) OR ((ParentImage ILIKE '%\\java.exe' OR ParentImage ILIKE '%\\javaw.exe') AND (CommandLine ILIKE '%CATALINA_HOME%' OR CommandLine ILIKE '%catalina.jar%')) OR ((ParentImage ILIKE '%\\caddy.exe' OR ParentImage ILIKE '%\\httpd.exe' OR ParentImage ILIKE '%\\nginx.exe' OR ParentImage ILIKE '%\\php-cgi.exe' OR ParentImage ILIKE '%\\w3wp.exe' OR ParentImage ILIKE '%\\ws_tomcatservice.exe'))) AND ((CommandLine ILIKE '%perl --help%' OR CommandLine ILIKE '%perl -h%' OR CommandLine ILIKE '%python --help%' OR CommandLine ILIKE '%python -h%' OR CommandLine ILIKE '%python3 --help%' OR CommandLine ILIKE '%python3 -h%' OR CommandLine ILIKE '%wget --help%')))

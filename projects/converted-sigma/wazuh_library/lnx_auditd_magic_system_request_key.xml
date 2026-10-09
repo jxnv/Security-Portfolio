@@ -1,0 +1,16 @@
+<!--
+  Title: Potential Abuse of Linux Magic System Request Key
+  ID: ea61bb82-a5e0-42e6-8537-91d29500f1b9
+  Status: experimental
+  Level: medium
+  Author: Milad Cheraghi
+  Date: 2025-05-23
+  Description: Detects the potential abuse of the Linux Magic SysRq (System Request) key by adversaries with root or sufficient privileges to silently manipulate or destabilize a system. By writing to /proc/sysrq-trigger, they can crash the system, kill processes, or disrupt forensic analysis—all while bypassing standard logging. Though intended for recovery and debugging, SysRq can be misused as a stealthy post-exploitation tool. It is controlled via /proc/sys/kernel/sysrq or permanently through /etc/sysctl.conf.
+-->
+
+<group name="sigma_converted,">
+  <rule id="100001" level="5">
+    <description>Potential Abuse of Linux Magic System Request Key</description>
+    <match>(type=\"PATH\" AND (name=\"*/sysrq\" OR name=\"*/sysctl.conf\" OR name=\"*/sysrq-trigger\"))</match>
+  </rule>
+</group>

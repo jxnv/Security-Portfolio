@@ -1,0 +1,16 @@
+<!--
+  Title: Potential DLL Injection Via AccCheckConsole
+  ID: 0f6da907-5854-4be6-859a-e9958747b0aa
+  Status: test
+  Level: medium
+  Author: Florian Roth (Nextron Systems)
+  Date: 2022-01-06
+  Description: Detects the execution "AccCheckConsole" a command-line tool for verifying the accessibility implementation of an application's UI. One of the tests that this checker can run are called "verification routine", which tests for things like Consistency, Navigation, etc. The tool allows a user to provide a DLL that can contain a custom "verification routine". An attacker can build such DLLs and pass it via the CLI, which would then be loaded in the context of the "AccCheckConsole" utility.
+-->
+
+<group name="sigma_converted,">
+  <rule id="100001" level="5">
+    <description>Potential DLL Injection Via AccCheckConsole</description>
+    <match>(((CommandLine=\"* -hwnd*\" OR CommandLine=\"* -process *\" OR CommandLine=\"* -window *\")) AND ((Image=\"*\\\\AccCheckConsole.e</match>
+  </rule>
+</group>

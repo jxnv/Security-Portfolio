@@ -1,0 +1,23 @@
+// Title: HackTool - LocalPotato Execution
+// ID: 6bd75993-9888-4f91-9404-e1e4e4e34b77
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-02-14
+// Tags: attack.privilege-escalation, cve.2023-21746, attack.stealth
+// Description: Detects the execution of the LocalPotato POC based on basic PE metadata information and default CLI examples
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 6bd75993_9888_4f91_9404_e1e4e4e34b77 {
+  meta:
+    title = "HackTool - LocalPotato Execution"
+    description = "Detects the execution of the LocalPotato POC based on basic PE metadata information and default CLI examples"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*.exe -i C:\\.*/ nocase and $e.target.process.command_line = /.*-o Windows\\.*/ nocase)) or (($e.Hashes = /.*IMPHASH=E1742EE971D6549E8D4D81115F88F1FC.*/ nocase or $e.Hashes = /.*IMPHASH=DD82066EFBA94D7556EF582F247C8BB5.*/ nocase)) or ($e.target.process.file.full_path = /.*\\LocalPotato.exe$/ nocase))
+
+  condition:
+    $e
+}

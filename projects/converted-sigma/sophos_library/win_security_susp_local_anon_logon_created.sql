@@ -1,0 +1,11 @@
+-- Title: Suspicious Windows ANONYMOUS LOGON Local Account Created
+-- ID: 1bbf25b9-8038-4154-a50b-118f2a32be27
+-- Status: test
+-- Level: high
+-- Author: James Pemberton / @4A616D6573
+-- Date: 2019-10-31
+-- Tags: attack.persistence, attack.t1136.001, attack.t1136.002
+-- Description: Detects the creation of suspicious accounts similar to ANONYMOUS LOGON, such as using additional spaces. Created as an covering detection for exclusion of Logon Type 3 from ANONYMOUS LOGON accounts.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE (EventID = 4720 AND (SamAccountName ILIKE '%ANONYMOUS%' AND SamAccountName ILIKE '%LOGON%'))

@@ -1,0 +1,16 @@
+<!--
+  Title: Registry Manipulation via WMI Stdregprov
+  ID: c453ab7a-1f5c-4716-a3b4-dea8135fb43a
+  Status: experimental
+  Level: medium
+  Author: Daniel Koifman (KoifSec)
+  Date: 2025-07-30
+  Description: Detects the usage of wmic.exe to modify Windows registry via the WMI StdRegProv class write methods (CreateKey, DeleteKey, SetStringValue, etc.). This behaviour could be potentially suspicious because it uses an alternative method to modify registry keys instead of legitimate registry tools like reg.exe or regedit.exe. Attackers specifically choose this technique to evade detection and bypass security monitoring focused on traditional registry modification commands.
+-->
+
+<group name="sigma_converted,">
+  <rule id="100001" level="5">
+    <description>Registry Manipulation via WMI Stdregprov</description>
+    <match>(((CommandLine=\"*stdregprov*\" AND CommandLine=\"*call*\") AND (CommandLine=\"*CreateKey*\" OR CommandLine=\"*DeleteKey*\" OR C</match>
+  </rule>
+</group>

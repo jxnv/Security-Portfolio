@@ -1,0 +1,11 @@
+// Title: Potentially Suspicious Child Processes Spawned by ConHost
+// ID: dfa03a09-8b92-4d83-8e74-f72839b1c407
+// Status: experimental
+// Level: high
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-02-05
+// Tags: attack.stealth, attack.t1202, attack.t1218
+// Description: Detects suspicious child processes related to Windows Shell utilities spawned by `conhost.exe`, which could indicate malicious activity using trusted system components.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where ((((process.executable endswith "\\cmd.exe" or process.executable endswith "\\cscript.exe" or process.executable endswith "\\mshta.exe" or process.executable endswith "\\powershell_ise.exe" or process.executable endswith "\\powershell.exe" or process.executable endswith "\\pwsh.exe" or process.executable endswith "\\regsvr32.exe" or process.executable endswith "\\wscript.exe")) or ((process.pe.original_file_name == "cmd.exe" or process.pe.original_file_name == "cscript.exe" or process.pe.original_file_name == "mshta.exe" or process.pe.original_file_name == "powershell_ise.exe" or process.pe.original_file_name == "powershell.exe" or process.pe.original_file_name == "pwsh.dll" or process.pe.original_file_name == "regsvr32.exe" or process.pe.original_file_name == "wscript.exe"))) and (process.parent.executable endswith "\\conhost.exe"))

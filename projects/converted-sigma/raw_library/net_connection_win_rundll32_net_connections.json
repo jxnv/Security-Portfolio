@@ -1,0 +1,55 @@
+{
+  "title": "Rundll32 Internet Connection",
+  "id": "cdc8da7d-c303-42f8-b08c-b4ab47230263",
+  "status": "test",
+  "description": "Detects a rundll32 that communicates with public IP addresses",
+  "author": "Florian Roth (Nextron Systems)",
+  "date": "2017-11-04",
+  "tags": [
+    "attack.stealth",
+    "attack.t1218.011",
+    "attack.execution"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "network_connection",
+    "product": "windows"
+  },
+  "detection": {
+    "selection": {
+      "Image|endswith": "\\rundll32.exe",
+      "Initiated": "true"
+    },
+    "filter_main_local_ranges": {
+      "DestinationIp|cidr": [
+        "127.0.0.0/8",
+        "10.0.0.0/8",
+        "172.16.0.0/12",
+        "192.168.0.0/16",
+        "169.254.0.0/16",
+        "::1/128",
+        "fe80::/10",
+        "fc00::/7"
+      ]
+    },
+    "filter_main_ms_ranges": {
+      "DestinationIp|cidr": [
+        "20.0.0.0/8",
+        "51.103.0.0/16",
+        "51.104.0.0/16",
+        "51.105.0.0/16"
+      ]
+    },
+    "filter_main_app_sdb": {
+      "CommandLine|endswith": "\\system32\\PcaSvc.dll,PcaPatchSdbTask"
+    },
+    "filter_main_azure_managed": {
+      "SourceHostname|endswith": ".internal.cloudapp.net"
+    },
+    "filter_main_svchost_update_processes": {
+      "ParentImage": "C:\\Windows\\System32\\svchost.exe",
+      "DestinationPort": 443
+    },
+    "condition": "selection and not 1 of filter_main_*"
+  }
+}

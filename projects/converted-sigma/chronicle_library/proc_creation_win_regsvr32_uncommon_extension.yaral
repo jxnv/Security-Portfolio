@@ -1,0 +1,23 @@
+// Title: Regsvr32 DLL Execution With Uncommon Extension
+// ID: 50919691-7302-437f-8e10-1fe088afa145
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems)
+// Date: 2019-07-17
+// Tags: attack.privilege-escalation, attack.persistence, attack.stealth, attack.t1574, attack.execution
+// Description: Detects a "regsvr32" execution where the DLL doesn't contain a common file extension.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 50919691_7302_437f_8e10_1fe088afa145 {
+  meta:
+    title = "Regsvr32 DLL Execution With Uncommon Extension"
+    description = "Detects a "regsvr32" execution where the DLL doesn't contain a common file extension."
+    author = "Florian Roth (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.file.full_path = /.*\\regsvr32.exe$/ nocase) or ($e.target.process.file.name = "REGSVR32.EXE")) and not((($e.target.process.command_line = "") or (($e.target.process.command_line = /.*.ax.*/ nocase or $e.target.process.command_line = /.*.cpl.*/ nocase or $e.target.process.command_line = /.*.dll.*/ nocase or $e.target.process.command_line = /.*.ocx.*/ nocase)) or (not ($e.target.process.command_line = /.*/)))) and not((($e.target.process.command_line = /.*.bav.*/ nocase) or ($e.target.process.command_line = /.*.ppl.*/ nocase))))
+
+  condition:
+    $e
+}

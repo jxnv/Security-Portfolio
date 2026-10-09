@@ -1,0 +1,25 @@
+// Title: System Disk And Volume Reconnaissance Via Wmic.EXE
+// ID: c79da740-5030-45ec-a2e0-479e824a562c
+// Status: test
+// Level: medium
+// Author: Stephen Lincoln '@slincoln-aiq' (AttackIQ)
+// Date: 2024-02-02
+// Tags: attack.execution, attack.discovery, attack.t1047, attack.t1082
+// Description: An adversary might use WMI to discover information about the system, such as the volume name, size,
+// free space, and other disk information. This can be done using the 'wmic' command-line utility and has been
+// observed being used by threat actors such as Volt Typhoon.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule c79da740_5030_45ec_a2e0_479e824a562c {
+  meta:
+    title = "System Disk And Volume Reconnaissance Via Wmic.EXE"
+    description = "An adversary might use WMI to discover information about the system, such as the volume name, size, free space, and other disk information. This can be done using the 'wmic' command-line utility and has been observed being used by threat actors such as Volt Typhoon."
+    author = "Stephen Lincoln '@slincoln-aiq' (AttackIQ)"
+    severity = "MEDIUM"
+
+  events:
+    (((($e.target.process.command_line = /.* volumename.*/ nocase or $e.target.process.command_line = /.* logicaldisk.*/ nocase)) or (($e.target.process.command_line = /.*path.*/ nocase and $e.target.process.command_line = /.*win32_logicaldisk.*/ nocase)) or (($e.target.process.command_line = /.* volume.*/ nocase and $e.target.process.command_line = /.* list .*/ nocase))) and (($e.target.process.file.full_path = /.*\\WMIC.exe$/ nocase) or ($e.target.process.file.name = "wmic.exe")))
+
+  condition:
+    $e
+}

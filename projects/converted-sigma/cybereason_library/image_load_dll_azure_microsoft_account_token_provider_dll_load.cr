@@ -1,0 +1,12 @@
+// Title: Potential Azure Browser SSO Abuse
+// ID: 50f852e6-af22-4c78-9ede-42ef36aa3453
+// Status: test
+// Level: low
+// Author: Den Iuzvyk
+// Date: 2020-07-15
+// Tags: attack.persistence, attack.privilege-escalation, attack.execution, attack.stealth, attack.t1574.001
+// Description: Detects abusing Azure Browser SSO by requesting OAuth 2.0 refresh tokens for an Azure-AD-authenticated Windows user (i.e. the machine is joined to Azure AD and a user logs in with their Azure AD account) wanting to perform SSO authentication in the browser.
+// An attacker can use this to authenticate to Azure AD in a browser as that user.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((ImageLoaded == "C:\\Windows\\System32\\MicrosoftAccountTokenProvider.dll") AND NOT (((Image="C:\\Windows\\System32\\*" OR Image="C:\\Windows\\SysWOW64\\*") AND Image="*\\BackgroundTaskHost.exe")) AND NOT ((((Image="C:\\Program Files\\Microsoft Visual Studio\\*" OR Image="C:\\Program Files (x86)\\Microsoft Visual Studio\\*") AND Image="*\\IDE\\devenv.exe") OR ((Image="C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\*") OR (Image="*\\WindowsApps\\MicrosoftEdge.exe") OR ((Image == "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe" OR Image == "C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe"))) OR ((Image="C:\\Program Files (x86)\\Microsoft\\EdgeCore\\*" OR Image="C:\\Program Files\\Microsoft\\EdgeCore\\*") AND (Image="*\\msedge.exe" OR Image="*\\msedgewebview2.exe")) OR ((Image == "C:\\Program Files (x86)\\Internet Explorer\\iexplore.exe" OR Image == "C:\\Program Files\\Internet Explorer\\iexplore.exe")) OR (NOT Image=*) OR (Image="*\\AppData\\Local\\Microsoft\\OneDrive\\OneDrive.exe"))))

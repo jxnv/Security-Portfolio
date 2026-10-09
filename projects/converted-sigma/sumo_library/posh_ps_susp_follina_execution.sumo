@@ -1,0 +1,11 @@
+// Title: Troubleshooting Pack Cmdlet Execution
+// ID: 03409c93-a7c7-49ba-9a4c-a00badf2a153
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-06-21
+// Tags: attack.stealth, attack.t1202
+// Description: Detects execution of "TroubleshootingPack" cmdlets to leverage CVE-2022-30190 or action similar to "msdt" lolbin (as described in LOLBAS)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where ((ScriptBlockText matches "*Invoke-TroubleshootingPack*" and ScriptBlockText matches "*C:\\Windows\\Diagnostics\\System\\PCW*" and ScriptBlockText matches "*-AnswerFile*" and ScriptBlockText matches "*-Unattended*"))

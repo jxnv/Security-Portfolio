@@ -1,0 +1,22 @@
+# Title: Delete Volume Shadow Copies Via WMI With PowerShell
+# ID: 87df9ee1-5416-453a-8a08-e8d4a51e9ce1
+# Status: stable
+# Level: high
+# Author: frack113
+# Date: 2021-06-03
+# Tags: attack.impact, attack.t1490
+# Description: Shadow Copies deletion using operating systems utilities via PowerShell
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# LimaCharlie Detection & Response Rule
+# Name: Delete Volume Shadow Copies Via WMI With PowerShell
+detect:
+  event: ps_classic_start
+  op: and
+  rules:
+    # Filter logic:
+    # ((Data="*Get-WmiObject*" AND Data="*Win32_ShadowCopy*") AND (Data="*Delete()*" OR Data="*Remove-WmiObject*"))
+respond:
+  - action: report
+    name: Delete Volume Shadow Copies Via WMI With PowerShell
+

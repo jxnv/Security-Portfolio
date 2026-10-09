@@ -1,0 +1,23 @@
+// Title: Potential SmadHook.DLL Sideloading
+// ID: 24b6cf51-6122-469e-861a-22974e9c1e5b
+// Status: test
+// Level: high
+// Author: X__Junior (Nextron Systems)
+// Date: 2023-06-01
+// Tags: attack.persistence, attack.privilege-escalation, attack.execution, attack.stealth, attack.t1574.001
+// Description: Detects potential DLL sideloading of "SmadHook.dll", a DLL used by SmadAV antivirus
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 24b6cf51_6122_469e_861a_22974e9c1e5b {
+  meta:
+    title = "Potential SmadHook.DLL Sideloading"
+    description = "Detects potential DLL sideloading of "SmadHook.dll", a DLL used by SmadAV antivirus"
+    author = "X__Junior (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.ImageLoaded = /.*\\SmadHook32c.dll$/ nocase or $e.ImageLoaded = /.*\\SmadHook64c.dll$/ nocase)) and not((($e.target.process.file.full_path = "C:\\Program Files (x86)\\SMADAV\\SmadavProtect32.exe" or $e.target.process.file.full_path = "C:\\Program Files (x86)\\SMADAV\\SmadavProtect64.exe" or $e.target.process.file.full_path = "C:\\Program Files\\SMADAV\\SmadavProtect32.exe" or $e.target.process.file.full_path = "C:\\Program Files\\SMADAV\\SmadavProtect64.exe") and ($e.ImageLoaded = /^C:\\Program Files (x86)\\SMADAV\\.*/ nocase or $e.ImageLoaded = /^C:\\Program Files\\SMADAV\\.*/ nocase))))
+
+  condition:
+    $e
+}

@@ -1,0 +1,11 @@
+// Title: Potential Netcat Reverse Shell Execution
+// ID: 7f734ed0-4f47-46c0-837f-6ee62505abd9
+// Status: test
+// Level: high
+// Author: @d4ns4n_, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-04-07
+// Tags: attack.execution, attack.t1059
+// Description: Detects execution of netcat with the "-e" or "-c" flags followed by common shells, which are commonly used to spawn reverse shells.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((src.process.cmdline containsCIS " -c " OR src.process.cmdline containsCIS " -e ")) AND ((src.process.image.path endswithCIS "/nc.openbsd" OR src.process.image.path endswithCIS "/nc.traditional" OR src.process.image.path endswithCIS "/nc" OR src.process.image.path endswithCIS "/ncat" OR src.process.image.path endswithCIS "/netcat.openbsd" OR src.process.image.path endswithCIS "/netcat.traditional" OR src.process.image.path endswithCIS "/netcat")) AND ((src.process.cmdline containsCIS " ash" OR src.process.cmdline containsCIS " bash" OR src.process.cmdline containsCIS " bsh" OR src.process.cmdline containsCIS " csh" OR src.process.cmdline containsCIS " ksh" OR src.process.cmdline containsCIS " pdksh" OR src.process.cmdline containsCIS " sh" OR src.process.cmdline containsCIS " tcsh" OR src.process.cmdline containsCIS "/bin/ash" OR src.process.cmdline containsCIS "/bin/bash" OR src.process.cmdline containsCIS "/bin/bsh" OR src.process.cmdline containsCIS "/bin/csh" OR src.process.cmdline containsCIS "/bin/ksh" OR src.process.cmdline containsCIS "/bin/pdksh" OR src.process.cmdline containsCIS "/bin/sh" OR src.process.cmdline containsCIS "/bin/tcsh" OR src.process.cmdline containsCIS "/bin/zsh" OR src.process.cmdline containsCIS "$IFSash" OR src.process.cmdline containsCIS "$IFSbash" OR src.process.cmdline containsCIS "$IFSbsh" OR src.process.cmdline containsCIS "$IFScsh" OR src.process.cmdline containsCIS "$IFSksh" OR src.process.cmdline containsCIS "$IFSpdksh" OR src.process.cmdline containsCIS "$IFSsh" OR src.process.cmdline containsCIS "$IFStcsh" OR src.process.cmdline containsCIS "$IFSzsh")))

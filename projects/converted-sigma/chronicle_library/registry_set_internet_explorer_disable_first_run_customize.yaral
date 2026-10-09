@@ -1,0 +1,23 @@
+// Title: Internet Explorer DisableFirstRunCustomize Enabled
+// ID: ab567429-1dfb-4674-b6d2-979fd2f9d125
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-05-16
+// Tags: attack.defense-impairment
+// Description: Detects changes to the Internet Explorer "DisableFirstRunCustomize" value, which prevents Internet Explorer from running the first run wizard the first time a user starts the browser after installing Internet Explorer or Windows.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule ab567429_1dfb_4674_b6d2_979fd2f9d125 {
+  meta:
+    title = "Internet Explorer DisableFirstRunCustomize Enabled"
+    description = "Detects changes to the Internet Explorer "DisableFirstRunCustomize" value, which prevents Internet Explorer from running the first run wizard the first time a user starts the browser after installing Internet Explorer or Windows."
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.TargetObject = /.*\\Microsoft\\Internet Explorer\\Main\\DisableFirstRunCustomize$/ nocase and ($e.Details = "DWORD (0x00000001)" or $e.Details = "DWORD (0x00000002)")) and not((($e.target.process.file.full_path = "C:\\Windows\\explorer.exe" or $e.target.process.file.full_path = "C:\\Windows\\System32\\ie4uinit.exe"))) and not(((($e.target.process.file.full_path = /.*\\Temp\\.*/ nocase and $e.target.process.file.full_path = /.*\\.cr\\avira_.*/ nocase) and $e.Details = /.*DWORD (0x00000001).*/ nocase) or (($e.target.process.file.full_path = "C:\\Program Files (x86)\\Foxit Software\\Foxit PDF Reader\\FoxitPDFReader.exe" or $e.target.process.file.full_path = "C:\\Program Files\\Foxit Software\\Foxit PDF Reader\\FoxitPDFReader.exe") and $e.Details = /.*DWORD (0x00000001).*/ nocase))))
+
+  condition:
+    $e
+}

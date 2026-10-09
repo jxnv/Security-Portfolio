@@ -1,0 +1,23 @@
+// Title: Potential Winnti Dropper Activity
+// ID: 130c9e58-28ac-4f83-8574-0a4cc913b97e
+// Status: test
+// Level: high
+// Author: Alexander Rausch
+// Date: 2020-06-24
+// Tags: attack.stealth, attack.t1027
+// Description: Detects files dropped by Winnti as described in RedMimicry Winnti playbook
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 130c9e58_28ac_4f83_8574_0a4cc913b97e {
+  meta:
+    title = "Potential Winnti Dropper Activity"
+    description = "Detects files dropped by Winnti as described in RedMimicry Winnti playbook"
+    author = "Alexander Rausch"
+    severity = "HIGH"
+
+  events:
+    (($e.target.file.full_path = /.*\\gthread-3.6.dll$/ nocase or $e.target.file.full_path = /.*\\sigcmm-2.4.dll$/ nocase or $e.target.file.full_path = /.*\\Windows\\Temp\\tmp.bat$/ nocase))
+
+  condition:
+    $e
+}

@@ -1,0 +1,23 @@
+// Title: Regsvr32 DLL Execution With Suspicious File Extension
+// ID: 089fc3d2-71e8-4763-a8a5-c97fbb0a403e
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), frack113
+// Date: 2021-11-29
+// Tags: attack.stealth, attack.t1218.010
+// Description: Detects the execution of REGSVR32.exe with DLL files masquerading as other files
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 089fc3d2_71e8_4763_a8a5_c97fbb0a403e {
+  meta:
+    title = "Regsvr32 DLL Execution With Suspicious File Extension"
+    description = "Detects the execution of REGSVR32.exe with DLL files masquerading as other files"
+    author = "Florian Roth (Nextron Systems), frack113"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*.bin$/ nocase or $e.target.process.command_line = /.*.bmp$/ nocase or $e.target.process.command_line = /.*.cr2$/ nocase or $e.target.process.command_line = /.*.dat$/ nocase or $e.target.process.command_line = /.*.eps$/ nocase or $e.target.process.command_line = /.*.gif$/ nocase or $e.target.process.command_line = /.*.ico$/ nocase or $e.target.process.command_line = /.*.jpeg$/ nocase or $e.target.process.command_line = /.*.jpg$/ nocase or $e.target.process.command_line = /.*.log$/ nocase or $e.target.process.command_line = /.*.nef$/ nocase or $e.target.process.command_line = /.*.orf$/ nocase or $e.target.process.command_line = /.*.png$/ nocase or $e.target.process.command_line = /.*.raw$/ nocase or $e.target.process.command_line = /.*.rtf$/ nocase or $e.target.process.command_line = /.*.sr2$/ nocase or $e.target.process.command_line = /.*.temp$/ nocase or $e.target.process.command_line = /.*.tif$/ nocase or $e.target.process.command_line = /.*.tiff$/ nocase or $e.target.process.command_line = /.*.tmp$/ nocase or $e.target.process.command_line = /.*.txt$/ nocase)) and (($e.target.process.file.full_path = /.*\\regsvr32.exe$/ nocase) or ($e.target.process.file.name = "REGSVR32.EXE")))
+
+  condition:
+    $e
+}

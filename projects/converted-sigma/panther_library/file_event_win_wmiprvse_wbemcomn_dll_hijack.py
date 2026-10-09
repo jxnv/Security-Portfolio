@@ -1,0 +1,19 @@
+# Title: Wmiprvse Wbemcomn DLL Hijack - File
+# ID: 614a7e17-5643-4d89-b6fe-f9df1a79641c
+# Status: test
+# Level: critical
+# Author: Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research)
+# Date: 2020-10-12
+# Tags: attack.execution, attack.t1047, attack.lateral-movement, attack.t1021.002
+# Description: Detects a threat actor creating a file named `wbemcomn.dll` in the `C:\Windows\System32\wbem\` directory over the network and loading it for a WMI DLL Hijack scenario.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Wmiprvse Wbemcomn DLL Hijack - File
+def rule(event):
+    # Detection Logic:
+    # (Image="System" AND TargetFilename="*\\wbem\\wbemcomn.dll")
+    return True
+
+def title(event):
+    return "Wmiprvse Wbemcomn DLL Hijack - File"
+

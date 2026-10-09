@@ -1,0 +1,20 @@
+# Title: Remote Access Tool - Team Viewer Session Started On Linux Host
+# ID: 1f6b8cd4-3e60-47cc-b282-5aa1cbc9182d
+# Status: test
+# Level: low
+# Author: Josh Nickels, Qi Nan
+# Date: 2024-03-11
+# Tags: attack.persistence, attack.initial-access, attack.t1133
+# Description: Detects the command line executed when TeamViewer starts a session started by a remote host.
+# Once a connection has been started, an investigator can verify the connection details by viewing the "incoming_connections.txt" log file in the TeamViewer folder.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Remote Access Tool - Team Viewer Session Started On Linux Host
+def rule(event):
+    # Detection Logic:
+    # (ParentImage="*/TeamViewer_Service" AND Image="*/TeamViewer_Desktop" AND CommandLine="*/TeamViewer_Desktop --IPCport 5939 --Module 1")
+    return True
+
+def title(event):
+    return "Remote Access Tool - Team Viewer Session Started On Linux Host"
+

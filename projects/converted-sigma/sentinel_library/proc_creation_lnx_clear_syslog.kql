@@ -1,0 +1,11 @@
+// Title: Syslog Clearing or Removal Via System Utilities
+// ID: 3fcc9b35-39e4-44c0-a2ad-9e82b6902b31
+// Status: test
+// Level: high
+// Author: Max Altgelt (Nextron Systems), Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research), MSTIC
+// Date: 2021-10-15
+// Tags: attack.defense-impairment, attack.t1685.006
+// Description: Detects specific commands commonly used to remove or empty the syslog. Which is a technique often used by attacker as a method to hide their tracks
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+DeviceProcessEvents | where (((ProcessCommandLine contains "/var/log/syslog") and ((FolderPath endswith "/cp" and ProcessCommandLine contains "/dev/null") or (FolderPath endswith "/ln" and (ProcessCommandLine contains "/dev/null " and ProcessCommandLine contains "/var/log/syslog") and (ProcessCommandLine contains "-sf " or ProcessCommandLine contains "-sfn " or ProcessCommandLine contains "-sfT ")) or (FolderPath endswith "/mv") or (FolderPath endswith "/rm" and (ProcessCommandLine contains " -r " or ProcessCommandLine contains " -f " or ProcessCommandLine contains " -rf " or ProcessCommandLine contains "/var/log/syslog")) or (FolderPath endswith "/shred" and ProcessCommandLine contains "-u ") or (FolderPath endswith "/truncate" and (ProcessCommandLine contains "0 " and ProcessCommandLine contains "/var/log/syslog") and (ProcessCommandLine contains "-s " or ProcessCommandLine contains "-c " or ProcessCommandLine contains "--size")) or (FolderPath endswith "/unlink"))) or (((ProcessCommandLine contains "journalctl --vacuum" or ProcessCommandLine contains "journalctl --rotate")) or ((ProcessCommandLine contains " > /var/log/syslog" or ProcessCommandLine contains " >/var/log/syslog" or ProcessCommandLine contains " >| /var/log/syslog" or ProcessCommandLine contains ": > /var/log/syslog" or ProcessCommandLine contains ":> /var/log/syslog" or ProcessCommandLine contains ":>/var/log/syslog" or ProcessCommandLine contains ">|/var/log/syslog"))))

@@ -1,0 +1,11 @@
+// Title: Suspicious Chromium Browser Instance Executed With Custom Extension
+// ID: 27ba3207-dd30-4812-abbf-5d20c57d474e
+// Status: test
+// Level: high
+// Author: Aedan Russell, frack113, X__Junior (Nextron Systems)
+// Date: 2022-06-19
+// Tags: attack.persistence, attack.t1176.001
+// Description: Detects a suspicious process spawning a Chromium based browser process with the 'load-extension' flag to start an instance with a custom extension
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((ParentBaseFileName = /.*\\cmd.exe/i or ParentBaseFileName = /.*\\cscript.exe/i or ParentBaseFileName = /.*\\mshta.exe/i or ParentBaseFileName = /.*\\powershell.exe/i or ParentBaseFileName = /.*\\pwsh.exe/i or ParentBaseFileName = /.*\\regsvr32.exe/i or ParentBaseFileName = /.*\\rundll32.exe/i or ParentBaseFileName = /.*\\wscript.exe/i) and (ImageFileName = /.*\\brave.exe/i or ImageFileName = /.*\\chrome.exe/i or ImageFileName = /.*\\msedge.exe/i or ImageFileName = /.*\\opera.exe/i or ImageFileName = /.*\\vivaldi.exe/i) and CommandLine = /*--load-extension=*/i)

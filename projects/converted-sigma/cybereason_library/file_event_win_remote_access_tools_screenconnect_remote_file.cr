@@ -1,0 +1,12 @@
+// Title: Remote Access Tool - ScreenConnect Temporary File
+// ID: 0afecb6e-6223-4a82-99fb-bf5b981e92a5
+// Status: test
+// Level: low
+// Author: Ali Alwashali
+// Date: 2023-10-10
+// Tags: attack.execution, attack.t1059.003
+// Description: Detects the creation of files in a specific location by ScreenConnect RMM.
+// ScreenConnect has feature to remotely execute binaries on a target machine. These binaries will be dropped to ":\Users\<username>\Documents\ConnectWiseControl\Temp\" before execution.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(Image="*\\ScreenConnect.WindowsClient.exe" AND TargetFilename contains "\\Documents\\ConnectWiseControl\\Temp\\")

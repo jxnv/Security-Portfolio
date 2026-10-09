@@ -1,0 +1,23 @@
+// Title: Potentially Suspicious Execution Of Regasm/Regsvcs With Uncommon Extension
+// ID: e9f8f8cc-07cc-4e81-b724-f387db9175e4
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-02-13
+// Tags: attack.stealth, attack.t1218.009
+// Description: Detects potentially suspicious execution of the Regasm/Regsvcs utilities with an uncommon extension.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule e9f8f8cc_07cc_4e81_b724_f387db9175e4 {
+  meta:
+    title = "Potentially Suspicious Execution Of Regasm/Regsvcs With Uncommon Extension"
+    description = "Detects potentially suspicious execution of the Regasm/Regsvcs utilities with an uncommon extension."
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.command_line = /.*.dat.*/ nocase or $e.target.process.command_line = /.*.gif.*/ nocase or $e.target.process.command_line = /.*.jpeg.*/ nocase or $e.target.process.command_line = /.*.jpg.*/ nocase or $e.target.process.command_line = /.*.png.*/ nocase or $e.target.process.command_line = /.*.txt.*/ nocase)) and ((($e.target.process.file.full_path = /.*\\Regsvcs.exe$/ nocase or $e.target.process.file.full_path = /.*\\Regasm.exe$/ nocase)) or (($e.target.process.file.name = "RegSvcs.exe" or $e.target.process.file.name = "RegAsm.exe"))))
+
+  condition:
+    $e
+}

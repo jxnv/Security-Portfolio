@@ -1,0 +1,16 @@
+<!--
+  Title: Suspicious LNK Command-Line Padding with Whitespace Characters
+  ID: dd8756e7-a3a0-4768-b47e-8f545d1a751c
+  Status: experimental
+  Level: high
+  Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+  Date: 2025-03-19
+  Description: Detects exploitation of LNK file command-line length discrepancy, where attackers hide malicious commands beyond the 260-character UI limit while the actual command-line argument field supports 4096 characters using whitespace padding (e.g., 0x20, 0x09-0x0D). Adversaries insert non-printable whitespace characters (e.g., Line Feed \x0A, Carriage Return \x0D) to pad the visible section of the LNK file, pushing malicious commands past the UI-visible boundary. The hidden payload, executed at runtime but invisible in Windows Explorer properties, enables stealthy execution and evasion—commonly used for social engineering attacks. This rule flags suspicious use of such padding observed in real-world attacks.
+-->
+
+<group name="sigma_converted,">
+  <rule id="100001" level="10">
+    <description>Suspicious LNK Command-Line Padding with Whitespace Characters</description>
+    <match>((((CommandLine=\"*                 *\" OR CommandLine=\"*\\\\u0009*\" OR CommandLine=\"*\\\\u000A*\" OR CommandLine=\"*\\\\u0011*\" O</match>
+  </rule>
+</group>

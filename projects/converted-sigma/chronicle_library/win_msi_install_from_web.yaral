@@ -1,0 +1,23 @@
+// Title: MSI Installation From Web
+// ID: 5594e67a-7f92-4a04-b65d-1a42fd824a60
+// Status: test
+// Level: medium
+// Author: Stamatis Chatzimangou
+// Date: 2022-10-23
+// Tags: attack.stealth, attack.t1218, attack.t1218.007
+// Description: Detects installation of a remote msi file from web.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 5594e67a_7f92_4a04_b65d_1a42fd824a60 {
+  meta:
+    title = "MSI Installation From Web"
+    description = "Detects installation of a remote msi file from web."
+    author = "Stamatis Chatzimangou"
+    severity = "MEDIUM"
+
+  events:
+    ($e.Provider_Name = "MsiInstaller" and ($e.EventID = 1040 or $e.EventID = 1042) and $e.Data = /.*://.*/ nocase)
+
+  condition:
+    $e
+}

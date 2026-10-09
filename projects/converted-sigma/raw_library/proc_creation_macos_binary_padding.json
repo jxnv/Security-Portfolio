@@ -1,0 +1,32 @@
+{
+  "title": "Binary Padding - MacOS",
+  "id": "95361ce5-c891-4b0a-87ca-e24607884a96",
+  "status": "test",
+  "description": "Adversaries may use binary padding to add junk data and change the on-disk representation of malware. This rule detect using dd and truncate to add a junk data to file.",
+  "author": "Igor Fits, Mikhail Larin, oscd.community",
+  "date": "2020-10-19",
+  "tags": [
+    "attack.stealth",
+    "attack.t1027.001"
+  ],
+  "level": "high",
+  "logsource": {
+    "product": "macos",
+    "category": "process_creation"
+  },
+  "detection": {
+    "selection_truncate": {
+      "Image|endswith": "/truncate",
+      "CommandLine|contains": "-s +"
+    },
+    "selection_dd": {
+      "Image|endswith": "/dd",
+      "CommandLine|contains": [
+        "if=/dev/zero",
+        "if=/dev/random",
+        "if=/dev/urandom"
+      ]
+    },
+    "condition": "1 of selection_*"
+  }
+}

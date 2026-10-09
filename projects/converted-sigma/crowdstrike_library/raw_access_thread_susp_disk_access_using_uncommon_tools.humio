@@ -1,0 +1,11 @@
+// Title: Potential Defense Evasion Via Raw Disk Access By Uncommon Tools
+// ID: db809f10-56ce-4420-8c86-d6a7d793c79c
+// Status: test
+// Level: low
+// Author: Teymur Kheirkhabarov, oscd.community
+// Date: 2019-10-22
+// Tags: attack.stealth, attack.t1006
+// Description: Detects raw disk access using uncommon tools or tools that are located in suspicious locations (heavy filtering is required), which could indicate possible defense evasion attempts
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(not(((Device = /*floppy*/i) or ((ImageFileName = /C:\\$WINDOWS.~BT\\.*/i or ImageFileName = /C:\\Program Files (x86)\\.*/i or ImageFileName = /C:\\Program Files\\.*/i or ImageFileName = /C:\\Windows\\CCM\\.*/i or ImageFileName = /C:\\Windows\\explorer.exe.*/i or ImageFileName = /C:\\Windows\\servicing\\.*/i or ImageFileName = /C:\\Windows\\SoftwareDistribution\\.*/i or ImageFileName = /C:\\Windows\\System32\\.*/i or ImageFileName = /C:\\Windows\\SystemApps\\.*/i or ImageFileName = /C:\\Windows\\SysWOW64\\.*/i or ImageFileName = /C:\\Windows\\uus\\.*/i or ImageFileName = /C:\\Windows\\WinSxS\\.*/i)) or (ImageFileName = /C:\\Users\\.*/i and (ImageFileName = /*\\AppData\\*/i and ImageFileName = /*\\Microsoft\\*/i)) or (not(ImageFileName = *)) or (ImageFileName = /C:\\Windows\\Temp\\.*/i and (ImageFileName = /.*\\Executables\\SSDUpdate.exe/i or ImageFileName = /.*\\HostMetadata\\NVMEHostmetadata.exe/i)) or ((ImageFileName = "Registry" or ImageFileName = "System")) or (ImageFileName = "C:\\Windows\\ImmersiveControlPanel\\SystemSettings.exe") or (ImageFileName = /C:\\$WinREAgent\\Scratch\\.*/i) or (ImageFileName = /C:\\ProgramData\\Microsoft\\Windows Defender\\Platform\\.*/i and (ImageFileName = /.*\\MsMpEng.exe/i or ImageFileName = /.*\\MpDefenderCoreService.exe/i)))) and not(((ImageFileName = /C:\\Users\\.*/i and ImageFileName = /*\\AppData\\Local\\Keybase\\upd.exe*/i) or (ImageFileName = /C:\\Users\\.*/i and ImageFileName = /*\\AppData\\Local\\GitHubDesktop\\app-*/i and ImageFileName = /.*\\resources\\app\\git\\mingw64\\bin\\git.exe/i) or (ImageFileName = /C:\\Windows\\Temp\\asgard2-agent\\.*/i and ImageFileName = /.*\\thor.exe/i))))

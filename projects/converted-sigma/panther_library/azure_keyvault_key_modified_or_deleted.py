@@ -1,0 +1,19 @@
+# Title: Azure Keyvault Key Modified or Deleted
+# ID: 80eeab92-0979-4152-942d-96749e11df40
+# Status: test
+# Level: medium
+# Author: Austin Songer @austinsonger
+# Date: 2021-08-16
+# Tags: attack.impact, attack.credential-access, attack.t1552, attack.t1552.001
+# Description: Identifies when a Keyvault Key is modified or deleted in Azure.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Azure Keyvault Key Modified or Deleted
+def rule(event):
+    # Detection Logic:
+    # ((operationName="MICROSOFT.KEYVAULT/VAULTS/KEYS/UPDATE/ACTION" OR operationName="MICROSOFT.KEYVAULT/VAULTS/KEYS/CREATE" OR operationName="MICROSOFT.KEYVAULT/VAULTS/KEYS/CREATE/ACTION" OR operationName="MICROSOFT.KEYVAULT/VAULTS/KEYS/IMPORT/ACTION" OR operationName="MICROSOFT.KEYVAULT/VAULTS/KEYS/RECOVER/ACTION" OR operationName="MICROSOFT.KEYVAULT/VAULTS/KEYS/RESTORE/ACTION" OR operationName="MICROSOFT.KEYVAULT/VAULTS/KEYS/DELETE" OR operationName="MICROSOFT.KEYVAULT/VAULTS/KEYS/BACKUP/ACTION" OR operationName="MICROSOFT.KEYVAULT/VAULTS/KEYS/PURGE/ACTION"))
+    return True
+
+def title(event):
+    return "Azure Keyvault Key Modified or Deleted"
+

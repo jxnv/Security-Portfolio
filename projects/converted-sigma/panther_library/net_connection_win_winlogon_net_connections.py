@@ -1,0 +1,19 @@
+# Title: Outbound Network Connection To Public IP Via Winlogon
+# ID: 7610a4ea-c06d-495f-a2ac-0a696abcfd3b
+# Status: test
+# Level: medium
+# Author: Christopher Peacock @securepeacock, SCYTHE @scythe_io
+# Date: 2023-04-28
+# Tags: attack.execution, attack.command-and-control, attack.stealth, attack.t1218.011
+# Description: Detects a "winlogon.exe" process that initiate network communications with public IP addresses
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Outbound Network Connection To Public IP Via Winlogon
+def rule(event):
+    # Detection Logic:
+    # ((Image="*\\winlogon.exe" AND Initiated="true") AND NOT (((cidrmatch("127.0.0.0/8", DestinationIp) OR cidrmatch("10.0.0.0/8", DestinationIp) OR cidrmatch("172.16.0.0/12", DestinationIp) OR cidrmatch("192.168.0.0/16", DestinationIp) OR cidrmatch("169.254.0.0/16", DestinationIp) OR cidrmatch("::1/128", DestinationIp) OR cidrmatch("fe80::/10", DestinationIp) OR cidrmatch("fc00::/7", DestinationIp)))))
+    return True
+
+def title(event):
+    return "Outbound Network Connection To Public IP Via Winlogon"
+

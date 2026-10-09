@@ -1,0 +1,23 @@
+// Title: Uncommon Child Processes Of SndVol.exe
+// ID: ba42babc-0666-4393-a4f7-ceaf5a69191e
+// Status: test
+// Level: medium
+// Author: X__Junior (Nextron Systems)
+// Date: 2023-06-09
+// Tags: attack.execution
+// Description: Detects potentially uncommon child processes of SndVol.exe (the Windows volume mixer)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule ba42babc_0666_4393_a4f7_ceaf5a69191e {
+  meta:
+    title = "Uncommon Child Processes Of SndVol.exe"
+    description = "Detects potentially uncommon child processes of SndVol.exe (the Windows volume mixer)"
+    author = "X__Junior (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.principal.process.file.full_path = /.*\\SndVol.exe$/ nocase) and not(($e.target.process.file.full_path = /.*\\rundll32.exe$/ nocase and $e.target.process.command_line = /.* shell32.dll,Control_RunDLL .*/ nocase)))
+
+  condition:
+    $e
+}

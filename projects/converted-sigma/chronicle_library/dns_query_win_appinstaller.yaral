@@ -1,0 +1,23 @@
+// Title: AppX Package Installation Attempts Via AppInstaller.EXE
+// ID: 7cff77e1-9663-46a3-8260-17f2e1aa9d0a
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2021-11-24
+// Tags: attack.command-and-control, attack.t1105
+// Description: Detects DNS queries made by "AppInstaller.EXE". The AppInstaller is the default handler for the "ms-appinstaller" URI. It attempts to load/install a package from the referenced URL
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 7cff77e1_9663_46a3_8260_17f2e1aa9d0a {
+  meta:
+    title = "AppX Package Installation Attempts Via AppInstaller.EXE"
+    description = "Detects DNS queries made by "AppInstaller.EXE". The AppInstaller is the default handler for the "ms-appinstaller" URI. It attempts to load/install a package from the referenced URL"
+    author = "frack113"
+    severity = "MEDIUM"
+
+  events:
+    ($e.target.process.file.full_path = /^C:\\Program Files\\WindowsApps\\Microsoft.DesktopAppInstaller_.*/ nocase and $e.target.process.file.full_path = /.*\\AppInstaller.exe$/ nocase)
+
+  condition:
+    $e
+}

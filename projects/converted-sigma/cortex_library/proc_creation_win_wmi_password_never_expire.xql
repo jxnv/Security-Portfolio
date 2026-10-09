@@ -1,0 +1,11 @@
+// Title: Password Set to Never Expire via WMI
+// ID: 7864a175-3654-4824-9f0d-f0da18ab27c0
+// Status: experimental
+// Level: medium
+// Author: Daniel Koifman (KoifSec)
+// Date: 2025-07-30
+// Tags: attack.privilege-escalation, attack.execution, attack.persistence, attack.t1047, attack.t1098
+// Description: Detects the use of wmic.exe to modify user account settings and explicitly disable password expiration.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter (((action_process_image_command_line contains "useraccount" and action_process_image_command_line contains " set " and action_process_image_command_line contains "passwordexpires" and action_process_image_command_line contains "false")) and ((action_process_image_path endswith "\\wmic.exe") or (action_process_image_name = "wmic.exe")))

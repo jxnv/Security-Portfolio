@@ -1,0 +1,24 @@
+// Title: Uncommon File Created by Notepad++ Updater Gup.EXE
+// ID: 3b8f4c92-6a51-4d7e-9c3a-8e2d1f5a7b09
+// Status: experimental
+// Level: high
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2026-02-03
+// Tags: attack.collection, attack.credential-access, attack.t1195.002, attack.initial-access, attack.t1557
+// Description: Detects when the Notepad++ updater (gup.exe) creates files in suspicious or uncommon locations.
+// This could indicate potential exploitation of the updater component to deliver unwanted malware or unwarranted files.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 3b8f4c92_6a51_4d7e_9c3a_8e2d1f5a7b09 {
+  meta:
+    title = "Uncommon File Created by Notepad++ Updater Gup.EXE"
+    description = "Detects when the Notepad++ updater (gup.exe) creates files in suspicious or uncommon locations. This could indicate potential exploitation of the updater component to deliver unwanted malware or unwarranted files."
+    author = "Swachchhanda Shrawan Poudel (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.file.full_path = /.*\\gup.exe$/ nocase) and not(((($e.target.file.full_path = /^C:\\Program Files\\Notepad++\\.*/ nocase or $e.target.file.full_path = /^C:\\Program Files (x86)\\Notepad++\\.*/ nocase)) or ((($e.target.file.full_path = /.*\\plugins\\JsonTools\\testfiles\\.*/ nocase or $e.target.file.full_path = /.*\\Notepad++\\plugins\\ComparePlugin\\.*/ nocase)) or (($e.target.file.full_path = /.*npp..*/ nocase and $e.target.file.full_path = /.*.portable..*/ nocase and $e.target.file.full_path = /.*\\plugins\\.*/ nocase))) or ($e.target.file.full_path = /^C:\\$Recycle.Bin\\S-1-5-21.*/ nocase) or ($e.target.file.full_path = /^C:\\Users\\.*/ nocase and ($e.target.file.full_path = /.*\\AppData\\Local\\Temp\\.*/ nocase and $e.target.file.full_path = /.*.zip.*/ nocase)) or ($e.target.file.full_path = /^C:\\Users\\.*/ nocase and ($e.target.file.full_path = /.*\\AppData\\Local\\Temp\\.*/ nocase and $e.target.file.full_path = /.*npp..*/ nocase and $e.target.file.full_path = /.*.Installer..*/ nocase and $e.target.file.full_path = /.*.exe.*/ nocase)))))
+
+  condition:
+    $e
+}

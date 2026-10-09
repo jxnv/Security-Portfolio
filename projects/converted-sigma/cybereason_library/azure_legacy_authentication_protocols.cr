@@ -1,0 +1,11 @@
+// Title: Use of Legacy Authentication Protocols
+// ID: 60f6535a-760f-42a9-be3f-c9a0a025906e
+// Status: test
+// Level: high
+// Author: Yochana Henderson, '@Yochana-H'
+// Date: 2022-06-17
+// Tags: attack.privilege-escalation, attack.persistence, attack.initial-access, attack.credential-access, attack.stealth, attack.t1078.004, attack.t1110
+// Description: Alert on when legacy authentication has been used on an account
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(ActivityDetails == "Sign-ins" AND (ClientApp == "Other client" OR ClientApp == "IMAP" OR ClientApp == "POP3" OR ClientApp == "MAPI" OR ClientApp == "SMTP" OR ClientApp == "Exchange ActiveSync" OR ClientApp == "Exchange Web Services") AND Username == "UPN")

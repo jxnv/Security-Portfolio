@@ -1,0 +1,23 @@
+// Title: New Root or CA or AuthRoot Certificate to Store
+// ID: d223b46b-5621-4037-88fe-fda32eead684
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-04-04
+// Tags: attack.impact, attack.t1490
+// Description: Detects the addition of new root, CA or AuthRoot certificates to the Windows registry
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule d223b46b_5621_4037_88fe_fda32eead684 {
+  meta:
+    title = "New Root or CA or AuthRoot Certificate to Store"
+    description = "Detects the addition of new root, CA or AuthRoot certificates to the Windows registry"
+    author = "frack113"
+    severity = "MEDIUM"
+
+  events:
+    (($e.TargetObject = /.*\\SOFTWARE\\Microsoft\\SystemCertificates\\Root\\Certificates\\.*/ nocase or $e.TargetObject = /.*\\SOFTWARE\\Policies\\Microsoft\\SystemCertificates\\Root\\Certificates\\.*/ nocase or $e.TargetObject = /.*\\SOFTWARE\\Microsoft\\EnterpriseCertificates\\Root\\Certificates\\.*/ nocase or $e.TargetObject = /.*\\SOFTWARE\\Microsoft\\SystemCertificates\\CA\\Certificates\\.*/ nocase or $e.TargetObject = /.*\\SOFTWARE\\Policies\\Microsoft\\SystemCertificates\\CA\\Certificates\\.*/ nocase or $e.TargetObject = /.*\\SOFTWARE\\Microsoft\\EnterpriseCertificates\\CA\\Certificates\\.*/ nocase or $e.TargetObject = /.*\\SOFTWARE\\Microsoft\\SystemCertificates\\AuthRoot\\Certificates\\.*/ nocase or $e.TargetObject = /.*\\SOFTWARE\\Policies\\Microsoft\\SystemCertificates\\AuthRoot\\Certificates\\.*/ nocase or $e.TargetObject = /.*\\SOFTWARE\\Microsoft\\EnterpriseCertificates\\AuthRoot\\Certificates\\.*/ nocase) and $e.TargetObject = /.*\\Blob$/ nocase and $e.Details = "Binary Data")
+
+  condition:
+    $e
+}

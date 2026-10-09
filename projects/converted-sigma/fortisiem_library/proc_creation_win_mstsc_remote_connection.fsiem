@@ -1,0 +1,12 @@
+# Title: New Remote Desktop Connection Initiated Via Mstsc.EXE
+# ID: 954f0af7-62dd-418f-b3df-a84bc2c7a774
+# Status: test
+# Level: medium
+# Author: frack113
+# Date: 2022-01-07
+# Tags: attack.lateral-movement, attack.t1021.001
+# Description: Detects the usage of "mstsc.exe" with the "/v" flag to initiate a connection to a remote server.
+# Adversaries may use valid accounts to log into a computer using the Remote Desktop Protocol (RDP). The adversary may then perform actions as the logged-on user.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((CommandLine CONTAIN " /v:") AND ((Image="*\\mstsc.exe") OR (OriginalFileName = "mstsc.exe"))) AND NOT ((ParentImage = "C:\\Windows\\System32\\lxss\\wslhost.exe" AND CommandLine CONTAIN "C:\\ProgramData\\Microsoft\\WSL\\wslg.rdp")))

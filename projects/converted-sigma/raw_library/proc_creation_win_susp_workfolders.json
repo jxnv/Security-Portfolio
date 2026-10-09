@@ -1,0 +1,27 @@
+{
+  "title": "Execution via WorkFolders.exe",
+  "id": "0bbc6369-43e3-453d-9944-cae58821c173",
+  "status": "test",
+  "description": "Detects using WorkFolders.exe to execute an arbitrary control.exe",
+  "author": "Maxime Thiebaut (@0xThiebaut)",
+  "date": "2021-10-21",
+  "tags": [
+    "attack.stealth",
+    "attack.t1218"
+  ],
+  "level": "high",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection": {
+      "Image|endswith": "\\control.exe",
+      "ParentImage|endswith": "\\WorkFolders.exe"
+    },
+    "filter": {
+      "Image": "C:\\Windows\\System32\\control.exe"
+    },
+    "condition": "selection and not filter"
+  }
+}

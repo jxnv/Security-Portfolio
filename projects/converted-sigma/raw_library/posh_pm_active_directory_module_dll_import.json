@@ -1,0 +1,31 @@
+{
+  "title": "Potential Active Directory Enumeration Using AD Module - PsModule",
+  "id": "74176142-4684-4d8a-8b0a-713257e7df8e",
+  "status": "test",
+  "description": "Detects usage of the \"Import-Module\" cmdlet to load the \"Microsoft.ActiveDirectory.Management.dl\" DLL. Which is often used by attackers to perform AD enumeration.",
+  "author": "Nasreddine Bencherchali (Nextron Systems), frack113",
+  "date": "2023-01-22",
+  "tags": [
+    "attack.reconnaissance",
+    "attack.discovery",
+    "attack.impact"
+  ],
+  "level": "medium",
+  "logsource": {
+    "product": "windows",
+    "category": "ps_module",
+    "definition": "0ad03ef1-f21b-4a79-8ce8-e6900c54b65b"
+  },
+  "detection": {
+    "selection_cmdlet": {
+      "Payload|contains": [
+        "Import-Module ",
+        "ipmo "
+      ]
+    },
+    "selection_dll": {
+      "Payload|contains": "Microsoft.ActiveDirectory.Management.dll"
+    },
+    "condition": "all of selection_*"
+  }
+}

@@ -1,0 +1,23 @@
+// Title: HackTool - Evil-WinRm Execution - PowerShell Module
+// ID: 9fe55ea2-4cd6-4491-8a54-dd6871651b51
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2024-02-25
+// Tags: attack.lateral-movement
+// Description: Detects the execution of Evil-WinRM via PowerShell Module logs by leveraging the hardcoded strings inside the utility.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 9fe55ea2_4cd6_4491_8a54_dd6871651b51 {
+  meta:
+    title = "HackTool - Evil-WinRm Execution - PowerShell Module"
+    description = "Detects the execution of Evil-WinRM via PowerShell Module logs by leveraging the hardcoded strings inside the utility."
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.ContextInfo = /.*:\\Windows\\System32\\wsmprovhost.exe.*/ nocase or $e.ContextInfo = /.*:\\Windows\\SysWOW64\\wsmprovhost.exe.*/ nocase)) and ((($e.Payload = /.*value=\"(get-location).path.*/ nocase or $e.Payload = /.*value=\"(get-item*).length.*/ nocase or $e.Payload = /.*Invoke-Binary .*/ nocase or $e.Payload = /.*Donut-Loader -process_id*-donutfile.*/ nocase or $e.Payload = /.*Bypass-4MSI.*/ nocase or $e.Payload = /.*IEX ([System.Text.Encoding]::ASCII.GetString([System.Convert]::FromBase64String($a))).replace('???','').*/ nocase)) or (($e.Payload = /.*$servicios = Get-ItemProperty \"registry::HKLM\\System\\CurrentControlSet\\Services\\\".*/ nocase and $e.Payload = /.*Where-Object {$_.imagepath -notmatch \"system\" -and $_.imagepath -ne $null } | Select-Object pschildname,imagepath.*/ nocase)) or (($e.Payload = /.*$a +=  \\\"$($_.FullName.Replace('\\\\','/'))/\\\"}else{  $a += \\\"$($_.FullName.Replace('\\\\', '/'))\\\" }.*/ nocase and $e.Payload = /.*$a=@();$.*/ nocase))))
+
+  condition:
+    $e
+}

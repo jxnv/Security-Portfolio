@@ -1,0 +1,11 @@
+// Title: New DLL Registered Via Odbcconf.EXE
+// ID: 9f0a8bf3-a65b-440a-8c1e-5cb1547c8e70
+// Status: test
+// Level: medium
+// Author: Kirill Kiryanov, Beyu Denis, Daniil Yugoslavskiy, oscd.community, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-05-22
+// Tags: attack.stealth, attack.t1218.008
+// Description: Detects execution of "odbcconf" with "REGSVR" in order to register a new DLL (equivalent to running regsvr32). Attackers abuse this to install and run malicious DLLs.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+DeviceProcessEvents | where (((ProcessCommandLine contains "REGSVR " and ProcessCommandLine contains ".dll")) and ((FolderPath endswith "\\odbcconf.exe") or (ProcessVersionInfoOriginalFileName == "odbcconf.exe")))

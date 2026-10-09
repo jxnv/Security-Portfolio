@@ -1,0 +1,23 @@
+// Title: HackTool - Certipy Execution
+// ID: 6938366d-8954-4ddc-baff-c830b3ba8fcd
+// Status: test
+// Level: high
+// Author: pH-T (Nextron Systems), Sittikorn Sangrattanapitak
+// Date: 2023-04-17
+// Tags: attack.discovery, attack.credential-access, attack.t1649
+// Description: Detects Certipy execution, a tool for Active Directory Certificate Services enumeration and abuse based on PE metadata characteristics and common command line arguments.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 6938366d_8954_4ddc_baff_c830b3ba8fcd {
+  meta:
+    title = "HackTool - Certipy Execution"
+    description = "Detects Certipy execution, a tool for Active Directory Certificate Services enumeration and abuse based on PE metadata characteristics and common command line arguments."
+    author = "pH-T (Nextron Systems), Sittikorn Sangrattanapitak"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.file.full_path = /.*\\Certipy.exe$/ nocase) or ($e.target.process.file.name = "Certipy.exe") or ($e.Description = /.*Certipy.*/ nocase)) or ((($e.target.process.command_line = /.* account .*/ nocase or $e.target.process.command_line = /.* auth .*/ nocase or $e.target.process.command_line = /.* cert .*/ nocase or $e.target.process.command_line = /.* find .*/ nocase or $e.target.process.command_line = /.* forge .*/ nocase or $e.target.process.command_line = /.* ptt .*/ nocase or $e.target.process.command_line = /.* relay .*/ nocase or $e.target.process.command_line = /.* req .*/ nocase or $e.target.process.command_line = /.* shadow .*/ nocase or $e.target.process.command_line = /.* template .*/ nocase)) and (($e.target.process.command_line = /.* -bloodhound.*/ nocase or $e.target.process.command_line = /.* -ca-pfx .*/ nocase or $e.target.process.command_line = /.* -dc-ip .*/ nocase or $e.target.process.command_line = /.* -kirbi.*/ nocase or $e.target.process.command_line = /.* -old-bloodhound.*/ nocase or $e.target.process.command_line = /.* -pfx .*/ nocase or $e.target.process.command_line = /.* -target.*/ nocase or $e.target.process.command_line = /.* -template.*/ nocase or $e.target.process.command_line = /.* -username .*/ nocase or $e.target.process.command_line = /.* -vulnerable.*/ nocase or $e.target.process.command_line = /.*auth -pfx.*/ nocase or $e.target.process.command_line = /.*shadow auto.*/ nocase or $e.target.process.command_line = /.*shadow list.*/ nocase))))
+
+  condition:
+    $e
+}

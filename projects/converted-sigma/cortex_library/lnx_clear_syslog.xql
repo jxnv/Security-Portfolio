@@ -1,0 +1,11 @@
+// Title: Commands to Clear or Remove the Syslog - Builtin
+// ID: e09eb557-96d2-4de9-ba2d-30f712a5afd3
+// Status: test
+// Level: high
+// Author: Max Altgelt (Nextron Systems)
+// Date: 2021-09-10
+// Tags: attack.impact, attack.t1565.001
+// Description: Detects specific commands commonly used to remove or empty the syslog
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter (("rm /var/log/syslog" or "rm -r /var/log/syslog" or "rm -f /var/log/syslog" or "rm -rf /var/log/syslog" or "mv /var/log/syslog" or " >/var/log/syslog" or " > /var/log/syslog") and not (("/syslog.")))

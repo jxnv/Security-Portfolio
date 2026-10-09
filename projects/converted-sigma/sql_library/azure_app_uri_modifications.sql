@@ -1,0 +1,12 @@
+-- Title: Application URI Configuration Changes
+-- ID: 0055ad1f-be85-4798-83cf-a6da17c993b3
+-- Status: test
+-- Level: high
+-- Author: Mark Morowczynski '@markmorow', Bailey Bercik '@baileybercik'
+-- Date: 2022-06-02
+-- Tags: attack.initial-access, attack.stealth, attack.t1528, attack.t1078.004, attack.persistence, attack.credential-access, attack.privilege-escalation
+-- Description: Detects when a configuration change is made to an applications URI.
+-- URIs for domain names that no longer exist (dangling URIs), not using HTTPS, wildcards at the end of the domain, URIs that are no unique to that app, or URIs that point to domains you do not control should be investigated.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE (properties.message = 'Update Application Sucess- Property Name AppAddress')

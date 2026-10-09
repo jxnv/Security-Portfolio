@@ -1,0 +1,23 @@
+// Title: Insecure Transfer Via Curl.EXE
+// ID: cb9cc1d1-e84e-4bdc-b7ad-c31b1b7908ec
+// Status: test
+// Level: medium
+// Author: X__Junior (Nextron Systems)
+// Date: 2023-06-30
+// Tags: attack.execution
+// Description: Detects execution of "curl.exe" with the "--insecure" flag.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule cb9cc1d1_e84e_4bdc_b7ad_c31b1b7908ec {
+  meta:
+    title = "Insecure Transfer Via Curl.EXE"
+    description = "Detects execution of "curl.exe" with the "--insecure" flag."
+    author = "X__Junior (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.command_line = /\s-k\s/ nocase) or ($e.target.process.command_line = /.*--insecure.*/ nocase)) and (($e.target.process.file.full_path = /.*\\curl.exe$/ nocase) or ($e.target.process.file.name = "curl.exe")))
+
+  condition:
+    $e
+}

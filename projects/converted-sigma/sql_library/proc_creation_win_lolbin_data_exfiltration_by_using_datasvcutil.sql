@@ -1,0 +1,11 @@
+-- Title: LOLBAS Data Exfiltration by DataSvcUtil.exe
+-- ID: e290b10b-1023-4452-a4a9-eb31a9013b3a
+-- Status: test
+-- Level: medium
+-- Author: Ialle Teixeira @teixeira0xfffff, Austin Songer @austinsonger
+-- Date: 2021-09-30
+-- Tags: attack.exfiltration, attack.t1567
+-- Description: Detects when a user performs data exfiltration by using DataSvcUtil.exe
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE (((CommandLine ILIKE '%/in:%' OR CommandLine ILIKE '%/out:%' OR CommandLine ILIKE '%/uri:%')) AND ((Image ILIKE '%\\DataSvcUtil.exe') OR (OriginalFileName = 'DataSvcUtil.exe')))

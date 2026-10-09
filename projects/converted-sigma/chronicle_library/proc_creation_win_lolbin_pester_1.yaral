@@ -1,0 +1,23 @@
+// Title: Execute Code with Pester.bat
+// ID: 59e938ff-0d6d-4dc3-b13f-36cc28734d4e
+// Status: test
+// Level: medium
+// Author: Julia Fomina, oscd.community
+// Date: 2020-10-08
+// Tags: attack.execution, attack.stealth, attack.t1059.001, attack.t1216
+// Description: Detects code execution via Pester.bat (Pester - Powershell Modulte for testing)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 59e938ff_0d6d_4dc3_b13f_36cc28734d4e {
+  meta:
+    title = "Execute Code with Pester.bat"
+    description = "Detects code execution via Pester.bat (Pester - Powershell Modulte for testing)"
+    author = "Julia Fomina, oscd.community"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase) and ($e.target.process.command_line = /.*Pester.*/ nocase and $e.target.process.command_line = /.*Get-Help.*/ nocase)) or (($e.target.process.file.full_path = /.*\\cmd.exe$/ nocase and ($e.target.process.command_line = /.*pester.*/ nocase and $e.target.process.command_line = /.*;.*/ nocase)) and (($e.target.process.command_line = /.*help.*/ nocase or $e.target.process.command_line = /.*\\?.*/ nocase))))
+
+  condition:
+    $e
+}

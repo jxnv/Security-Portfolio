@@ -1,0 +1,11 @@
+// Title: Suspicious Environment Variable Has Been Registered
+// ID: 966315ef-c5e1-4767-ba25-fce9c8de3660
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-12-20
+// Tags: attack.persistence, attack.stealth
+// Description: Detects the creation of user-specific or system-wide environment variables via the registry. Which contains suspicious commands and strings
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((where(Details = "powershell") OR where(Details = "pwsh"))) OR ((where(Details ICONTAINS "\\AppData\\Local\\Temp\\") OR where(Details ICONTAINS "C:\\Users\\Public\\") OR where(Details ICONTAINS "TVqQAAMAAAAEAAAA") OR where(Details ICONTAINS "TVpQAAIAAAAEAA8A") OR where(Details ICONTAINS "TVqAAAEAAAAEABAA") OR where(Details ICONTAINS "TVoAAAAAAAAAAAAA") OR where(Details ICONTAINS "TVpTAQEAAAAEAAAA") OR where(Details ICONTAINS "SW52b2tlL") OR where(Details ICONTAINS "ludm9rZS") OR where(Details ICONTAINS "JbnZva2Ut") OR where(Details ICONTAINS "SQBuAHYAbwBrAGUALQ") OR where(Details ICONTAINS "kAbgB2AG8AawBlAC0A") OR where(Details ICONTAINS "JAG4AdgBvAGsAZQAtA"))) OR ((where(Details ISTARTSWITH "SUVY") OR where(Details ISTARTSWITH "SQBFAF") OR where(Details ISTARTSWITH "SQBuAH") OR where(Details ISTARTSWITH "cwBhA") OR where(Details ISTARTSWITH "aWV4") OR where(Details ISTARTSWITH "aQBlA") OR where(Details ISTARTSWITH "R2V0") OR where(Details ISTARTSWITH "dmFy") OR where(Details ISTARTSWITH "dgBhA") OR where(Details ISTARTSWITH "dXNpbm") OR where(Details ISTARTSWITH "H4sIA") OR where(Details ISTARTSWITH "Y21k") OR where(Details ISTARTSWITH "cABhAH") OR where(Details ISTARTSWITH "Qzpc") OR where(Details ISTARTSWITH "Yzpc")))) AND (where(TargetObject ICONTAINS "\\Environment\\")))

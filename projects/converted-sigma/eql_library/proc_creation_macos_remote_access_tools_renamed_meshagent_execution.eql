@@ -1,0 +1,13 @@
+// Title: Remote Access Tool - Renamed MeshAgent Execution - MacOS
+// ID: bd3b5eaa-439d-4a42-8f35-a49f5c8a2582
+// Status: experimental
+// Level: high
+// Author: Norbert Jaśniewicz (AlphaSOC)
+// Date: 2025-05-19
+// Tags: attack.command-and-control, attack.stealth, attack.t1219.002, attack.t1036.003
+// Description: Detects the execution of a renamed instance of the Remote Monitoring and Management (RMM) tool, MeshAgent.
+// RMM tools such as MeshAgent are commonly utilized by IT administrators for legitimate remote support and system management.
+// However, malicious actors may exploit these tools by renaming them to bypass detection mechanisms, enabling unauthorized access and control over compromised systems.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where (((process.command_line like "*_--meshServiceName*") or (process.pe.original_file_name like "*_meshagent*")) and not (((process.executable endswith "/meshagent" or process.executable endswith "/meshagent_osx64"))))

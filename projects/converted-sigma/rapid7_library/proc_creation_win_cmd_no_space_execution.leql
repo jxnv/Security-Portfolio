@@ -1,0 +1,12 @@
+// Title: Cmd.EXE Missing Space Characters Execution Anomaly
+// ID: a16980c2-0c56-4de0-9a79-17971979efdd
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-08-23
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects Windows command lines that miss a space before or after the /c flag when running a command using the cmd.exe.
+// This could be a sign of obfuscation of a fat finger problem (typo by the developer).
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((where(CommandLine ICONTAINS "cmd.exe/c") OR where(CommandLine ICONTAINS "\\cmd/c") OR where(CommandLine ICONTAINS "\"cmd/c") OR where(CommandLine ICONTAINS "cmd.exe/k") OR where(CommandLine ICONTAINS "\\cmd/k") OR where(CommandLine ICONTAINS "\"cmd/k") OR where(CommandLine ICONTAINS "cmd.exe/r") OR where(CommandLine ICONTAINS "\\cmd/r") OR where(CommandLine ICONTAINS "\"cmd/r"))) OR ((where(CommandLine ICONTAINS "/cwhoami") OR where(CommandLine ICONTAINS "/cpowershell") OR where(CommandLine ICONTAINS "/cschtasks") OR where(CommandLine ICONTAINS "/cbitsadmin") OR where(CommandLine ICONTAINS "/ccertutil") OR where(CommandLine ICONTAINS "/kwhoami") OR where(CommandLine ICONTAINS "/kpowershell") OR where(CommandLine ICONTAINS "/kschtasks") OR where(CommandLine ICONTAINS "/kbitsadmin") OR where(CommandLine ICONTAINS "/kcertutil"))) OR ((where(CommandLine ICONTAINS "cmd.exe /c") OR where(CommandLine ICONTAINS "cmd /c") OR where(CommandLine ICONTAINS "cmd.exe /k") OR where(CommandLine ICONTAINS "cmd /k") OR where(CommandLine ICONTAINS "cmd.exe /r") OR where(CommandLine ICONTAINS "cmd /r")))) AND NOT ((((where(CommandLine ICONTAINS "AppData\\Local\\Programs\\Microsoft VS Code\\resources\\app\\node_modules")) OR (where(CommandLine IENDSWITH "cmd.exe/c .")) OR (where(CommandLine = "cmd.exe /c")) OR (where(CommandLine = "cmd /c"))) OR ((where(CommandLine ICONTAINS "cmd.exe /c ") OR where(CommandLine ICONTAINS "cmd /c ") OR where(CommandLine ICONTAINS "cmd.exe /k ") OR where(CommandLine ICONTAINS "cmd /k ") OR where(CommandLine ICONTAINS "cmd.exe /r ") OR where(CommandLine ICONTAINS "cmd /r "))))))

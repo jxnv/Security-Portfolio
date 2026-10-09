@@ -1,0 +1,23 @@
+// Title: All Rules Have Been Deleted From The Windows Firewall Configuration
+// ID: 79609c82-a488-426e-abcf-9f341a39365d
+// Status: test
+// Level: high
+// Author: frack113, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-01-17
+// Tags: attack.defense-impairment, attack.t1686.003
+// Description: Detects when a all the rules have been deleted from the Windows Defender Firewall configuration
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 79609c82_a488_426e_abcf_9f341a39365d {
+  meta:
+    title = "All Rules Have Been Deleted From The Windows Firewall Configuration"
+    description = "Detects when a all the rules have been deleted from the Windows Defender Firewall configuration"
+    author = "frack113, Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.EventID = 2033 or $e.EventID = 2059)) and not(($e.ModifyingApplication = /.*:\\Windows\\System32\\svchost.exe$/ nocase)) and not((($e.ModifyingApplication = /.*:\\ProgramData\\Microsoft\\Windows Defender\\Platform\\.*/ nocase and $e.ModifyingApplication = /.*\\MsMpEng.exe.*/ nocase))))
+
+  condition:
+    $e
+}

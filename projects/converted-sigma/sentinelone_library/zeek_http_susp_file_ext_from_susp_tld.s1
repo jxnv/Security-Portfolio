@@ -1,0 +1,11 @@
+// Title: HTTP Request to Low Reputation TLD or Suspicious File Extension
+// ID: 68c2c604-92ad-468b-bf4a-aac49adad08c
+// Status: experimental
+// Level: medium
+// Author: @signalblur, Corelight
+// Date: 2025-02-26
+// Tags: attack.initial-access, attack.command-and-control
+// Description: Detects HTTP requests to low reputation TLDs (e.g. .xyz, .top, .ru) or ending in suspicious file extensions (.exe, .dll, .hta), which may indicate malicious activity.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((host endswithCIS ".bid" OR host endswithCIS ".by" OR host endswithCIS ".cf" OR host endswithCIS ".click" OR host endswithCIS ".cm" OR host endswithCIS ".ga" OR host endswithCIS ".gq" OR host endswithCIS ".ir" OR host endswithCIS ".kp" OR host endswithCIS ".loan" OR host endswithCIS ".ml" OR host endswithCIS ".mm" OR host endswithCIS ".party" OR host endswithCIS ".pw" OR host endswithCIS ".ru" OR host endswithCIS ".su" OR host endswithCIS ".sy" OR host endswithCIS ".tk" OR host endswithCIS ".top" OR host endswithCIS ".tv" OR host endswithCIS ".ve" OR host endswithCIS ".work" OR host endswithCIS ".xyz")) AND (((uri endswithCIS ".bat" OR uri endswithCIS ".bin" OR uri endswithCIS ".cmd" OR uri endswithCIS ".cpl" OR uri endswithCIS ".dll" OR uri endswithCIS ".dylib" OR uri endswithCIS ".elf" OR uri endswithCIS ".exe" OR uri endswithCIS ".hta" OR uri endswithCIS ".iso" OR uri endswithCIS ".jar" OR uri endswithCIS ".js" OR uri endswithCIS ".lnk" OR uri endswithCIS ".msi" OR uri endswithCIS ".pif" OR uri endswithCIS ".ps1" OR uri endswithCIS ".py" OR uri endswithCIS ".reg" OR uri endswithCIS ".scr" OR uri endswithCIS ".sh" OR uri endswithCIS ".so" OR uri endswithCIS ".vbs" OR uri endswithCIS ".wsf")) OR ((resp_mime_types = "application/vnd.microsoft.portable-executable" OR resp_mime_types = "application/x-bat" OR resp_mime_types = "application/x-dosexec" OR resp_mime_types = "application/x-elf" OR resp_mime_types = "application/x-iso9660-image" OR resp_mime_types = "application/x-java-archive" OR resp_mime_types = "application/x-ms-shortcut" OR resp_mime_types = "application/x-msdos-program" OR resp_mime_types = "application/x-msdownload" OR resp_mime_types = "application/x-python-code" OR resp_mime_types = "application/x-sh"))))

@@ -1,0 +1,11 @@
+// Title: Potential Suspicious Winget Package Installation
+// ID: a3f5c081-e75b-43a0-9f5b-51f26fe5dba2
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-04-18
+// Tags: attack.persistence, attack.stealth
+// Description: Detects potential suspicious winget package installation from a suspicious source.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter (Contents startswith "[ZoneTransfer]  ZoneId=3" and (Contents contains "://1" or Contents contains "://2" or Contents contains "://3" or Contents contains "://4" or Contents contains "://5" or Contents contains "://6" or Contents contains "://7" or Contents contains "://8" or Contents contains "://9") and action_file_path endswith ":Zone.Identifier" and action_file_path contains "\\AppData\\Local\\Temp\\WinGet\\")

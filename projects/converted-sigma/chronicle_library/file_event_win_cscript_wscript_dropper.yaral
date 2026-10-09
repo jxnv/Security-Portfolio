@@ -1,0 +1,23 @@
+// Title: WScript or CScript Dropper - File
+// ID: 002bdb95-0cf1-46a6-9e08-d38c128a6127
+// Status: test
+// Level: high
+// Author: Tim Shelton
+// Date: 2022-01-10
+// Tags: attack.execution, attack.t1059.005, attack.t1059.007
+// Description: Detects a file ending in jse, vbe, js, vba, vbs, wsf, wsh written by cscript.exe or wscript.exe
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 002bdb95_0cf1_46a6_9e08_d38c128a6127 {
+  meta:
+    title = "WScript or CScript Dropper - File"
+    description = "Detects a file ending in jse, vbe, js, vba, vbs, wsf, wsh written by cscript.exe or wscript.exe"
+    author = "Tim Shelton"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.file.full_path = /.*\\wscript.exe$/ nocase or $e.target.process.file.full_path = /.*\\cscript.exe$/ nocase) and ($e.target.file.full_path = /.*:\\Perflogs\\.*/ nocase or $e.target.file.full_path = /.*:\\ProgramData\\.*/ nocase or $e.target.file.full_path = /.*:\\Temp\\.*/ nocase or $e.target.file.full_path = /.*:\\Tmp\\.*/ nocase or $e.target.file.full_path = /.*:\\Users\\.*/ nocase or $e.target.file.full_path = /.*:\\Windows\\Temp\\.*/ nocase or $e.target.file.full_path = /.*\\AppData\\Local\\Temp.*/ nocase or $e.target.file.full_path = /.*\\AppData\\Roaming\\Temp.*/ nocase or $e.target.file.full_path = /.*\\Start Menu\\Programs\\Startup\\.*/ nocase or $e.target.file.full_path = /.*\\Temporary Internet.*/ nocase) and ($e.target.file.full_path = /.*.js$/ nocase or $e.target.file.full_path = /.*.jse$/ nocase or $e.target.file.full_path = /.*.vba$/ nocase or $e.target.file.full_path = /.*.vbe$/ nocase or $e.target.file.full_path = /.*.vbs$/ nocase or $e.target.file.full_path = /.*.wsf$/ nocase or $e.target.file.full_path = /.*.wsh$/ nocase))
+
+  condition:
+    $e
+}

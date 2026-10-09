@@ -1,0 +1,24 @@
+// Title: Suspicious Child Process of Notepad++ Updater - GUP.Exe
+// ID: bb0e87ce-c89f-4857-84fa-095e4483e9cb
+// Status: experimental
+// Level: high
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2026-02-03
+// Tags: attack.collection, attack.credential-access, attack.t1195.002, attack.initial-access, attack.t1557
+// Description: Detects suspicious child process creation by the Notepad++ updater process (gup.exe).
+// This could indicate potential exploitation of the updater component to deliver unwanted malware.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule bb0e87ce_c89f_4857_84fa_095e4483e9cb {
+  meta:
+    title = "Suspicious Child Process of Notepad++ Updater - GUP.Exe"
+    description = "Detects suspicious child process creation by the Notepad++ updater process (gup.exe). This could indicate potential exploitation of the updater component to deliver unwanted malware."
+    author = "Swachchhanda Shrawan Poudel (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.principal.process.file.full_path = /.*\\gup.exe$/ nocase) and ((($e.target.process.command_line = /.*bitsadmin.*/ nocase or $e.target.process.command_line = /.*certutil.*/ nocase or $e.target.process.command_line = /.*curl.*/ nocase or $e.target.process.command_line = /.*finger.*/ nocase or $e.target.process.command_line = /.*forfiles.*/ nocase or $e.target.process.command_line = /.*regsvr32.*/ nocase or $e.target.process.command_line = /.*rundll32.*/ nocase or $e.target.process.command_line = /.*wget.*/ nocase)) or (($e.target.process.file.full_path = /.*\\cmd.exe$/ nocase or $e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase or $e.target.process.file.full_path = /.*\\cscript.exe$/ nocase or $e.target.process.file.full_path = /.*\\wscript.exe$/ nocase or $e.target.process.file.full_path = /.*\\mshta.exe$/ nocase))))
+
+  condition:
+    $e
+}

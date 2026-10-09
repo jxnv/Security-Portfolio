@@ -1,0 +1,23 @@
+// Title: Sysmon Channel Reference Deletion
+// ID: 18beca67-ab3e-4ee3-ba7a-a46ca8d7d0cc
+// Status: test
+// Level: high
+// Author: Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research)
+// Date: 2020-07-14
+// Tags: attack.persistence, attack.defense-impairment, attack.t1112
+// Description: Potential threat actor tampering with Sysmon manifest and eventually disabling it
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 18beca67_ab3e_4ee3_ba7a_a46ca8d7d0cc {
+  meta:
+    title = "Sysmon Channel Reference Deletion"
+    description = "Potential threat actor tampering with Sysmon manifest and eventually disabling it"
+    author = "Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research)"
+    severity = "HIGH"
+
+  events:
+    (($e.EventID = 4657 and ($e.ObjectName = /.*WINEVT\\Publishers\\{5770385f-c22a-43e0-bf4c-06f5698ffbd9}.*/ nocase or $e.ObjectName = /.*WINEVT\\Channels\\Microsoft-Windows-Sysmon/Operational.*/ nocase) and $e.ObjectValueName = "Enabled" and $e.NewValue = 0) or ($e.EventID = 4663 and ($e.ObjectName = /.*WINEVT\\Publishers\\{5770385f-c22a-43e0-bf4c-06f5698ffbd9}.*/ nocase or $e.ObjectName = /.*WINEVT\\Channels\\Microsoft-Windows-Sysmon/Operational.*/ nocase) and $e.AccessMask = "0x10000"))
+
+  condition:
+    $e
+}

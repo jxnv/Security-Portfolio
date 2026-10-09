@@ -1,0 +1,23 @@
+// Title: Suspicious WindowsTerminal Child Processes
+// ID: 8de89e52-f6e1-4b5b-afd1-41ecfa300d48
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-07-25
+// Tags: attack.execution, attack.persistence
+// Description: Detects suspicious children spawned via the Windows Terminal application which could be a sign of persistence via WindowsTerminal (see references section)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 8de89e52_f6e1_4b5b_afd1_41ecfa300d48 {
+  meta:
+    title = "Suspicious WindowsTerminal Child Processes"
+    description = "Detects suspicious children spawned via the Windows Terminal application which could be a sign of persistence via WindowsTerminal (see references section)"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (((($e.principal.process.file.full_path = /.*\\WindowsTerminal.exe$/ nocase or $e.principal.process.file.full_path = /.*\\wt.exe$/ nocase)) and ((($e.target.process.file.full_path = /.*\\rundll32.exe$/ nocase or $e.target.process.file.full_path = /.*\\regsvr32.exe$/ nocase or $e.target.process.file.full_path = /.*\\certutil.exe$/ nocase or $e.target.process.file.full_path = /.*\\cscript.exe$/ nocase or $e.target.process.file.full_path = /.*\\wscript.exe$/ nocase or $e.target.process.file.full_path = /.*\\csc.exe$/ nocase)) or (($e.target.process.file.full_path = /.*C:\\Users\\Public\\.*/ nocase or $e.target.process.file.full_path = /.*\\Downloads\\.*/ nocase or $e.target.process.file.full_path = /.*\\Desktop\\.*/ nocase or $e.target.process.file.full_path = /.*\\AppData\\Local\\Temp\\.*/ nocase or $e.target.process.file.full_path = /.*\\Windows\\TEMP\\.*/ nocase)) or (($e.target.process.command_line = /.* iex .*/ nocase or $e.target.process.command_line = /.* icm.*/ nocase or $e.target.process.command_line = /.*Invoke-.*/ nocase or $e.target.process.command_line = /.*Import-Module .*/ nocase or $e.target.process.command_line = /.*ipmo .*/ nocase or $e.target.process.command_line = /.*DownloadString(.*/ nocase or $e.target.process.command_line = /.* /c .*/ nocase or $e.target.process.command_line = /.* /k .*/ nocase or $e.target.process.command_line = /.* /r .*/ nocase)))) and not(((($e.target.process.command_line = /.*Import-Module.*/ nocase and $e.target.process.command_line = /.*Microsoft.VisualStudio.DevShell.dll.*/ nocase and $e.target.process.command_line = /.*Enter-VsDevShell.*/ nocase)) or (($e.target.process.command_line = /.*\\AppData\\Local\\Packages\\Microsoft.WindowsTerminal_.*/ nocase and $e.target.process.command_line = /.*\\LocalState\\settings.json.*/ nocase)) or (($e.target.process.command_line = /.*C:\\Program Files\\Microsoft Visual Studio\\.*/ nocase and $e.target.process.command_line = /.*\\Common7\\Tools\\VsDevCmd.bat.*/ nocase)))))
+
+  condition:
+    $e
+}

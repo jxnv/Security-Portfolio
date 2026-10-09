@@ -1,0 +1,63 @@
+{
+  "title": "XSL Script Execution Via WMIC.EXE",
+  "id": "05c36dd6-79d6-4a9a-97da-3db20298ab2d",
+  "status": "test",
+  "description": "Detects the execution of WMIC with the \"format\" flag to potentially load local XSL files.\nAdversaries abuse this functionality to execute arbitrary files while potentially bypassing application whitelisting defenses.\nExtensible Stylesheet Language (XSL) files are commonly used to describe the processing and rendering of data within XML files.\n",
+  "author": "Timur Zinniatullin, oscd.community, Swachchhanda Shrawan Poudel",
+  "date": "2019-10-21",
+  "tags": [
+    "attack.stealth",
+    "attack.t1047",
+    "attack.t1220",
+    "attack.execution",
+    "attack.t1059.005",
+    "attack.t1059.007"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_img": [
+      {
+        "Image|endswith": "\\wmic.exe"
+      },
+      {
+        "OriginalFileName": "wmic.exe"
+      },
+      {
+        "Hashes|contains": [
+          "IMPHASH=1B1A3F43BF37B5BFE60751F2EE2F326E",
+          "IMPHASH=37777A96245A3C74EB217308F3546F4C",
+          "IMPHASH=9D87C9D67CE724033C0B40CC4CA1B206",
+          "IMPHASH=B12619881D79C3ACADF45E752A58554A",
+          "IMPHASH=16A48C3CABF98A9DC1BF02C07FE1EA00"
+        ]
+      }
+    ],
+    "selection_cmd": {
+      "CommandLine|contains|windash": "-format:"
+    },
+    "filter_main_known_format": {
+      "CommandLine|contains": [
+        "Format:List",
+        "Format:htable",
+        "Format:hform",
+        "Format:table",
+        "Format:mof",
+        "Format:value",
+        "Format:rawxml",
+        "Format:xml",
+        "Format:csv"
+      ]
+    },
+    "filter_main_remote_operation": {
+      "CommandLine|contains": [
+        "://",
+        "\\\\\\\\"
+      ]
+    },
+    "condition": "all of selection_* and not 1 of filter_main_*"
+  }
+}

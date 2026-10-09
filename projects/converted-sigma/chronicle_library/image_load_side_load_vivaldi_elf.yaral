@@ -1,0 +1,23 @@
+// Title: Potential Vivaldi_elf.DLL Sideloading
+// ID: 2092cacb-d77b-4f98-ab0d-32b32f99a054
+// Status: test
+// Level: medium
+// Author: X__Junior (Nextron Systems)
+// Date: 2023-08-03
+// Tags: attack.persistence, attack.privilege-escalation, attack.execution, attack.stealth, attack.t1574.001
+// Description: Detects potential DLL sideloading of "vivaldi_elf.dll"
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 2092cacb_d77b_4f98_ab0d_32b32f99a054 {
+  meta:
+    title = "Potential Vivaldi_elf.DLL Sideloading"
+    description = "Detects potential DLL sideloading of "vivaldi_elf.dll""
+    author = "X__Junior (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.ImageLoaded = /.*\\vivaldi_elf.dll$/ nocase) and not(($e.target.process.file.full_path = /.*\\Vivaldi\\Application\\vivaldi.exe$/ nocase and $e.ImageLoaded = /.*\\Vivaldi\\Application\\.*/ nocase)))
+
+  condition:
+    $e
+}

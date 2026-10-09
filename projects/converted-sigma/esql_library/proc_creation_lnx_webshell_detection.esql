@@ -1,0 +1,11 @@
+// Title: Linux Webshell Indicators
+// ID: 818f7b24-0fba-4c49-a073-8b755573b9c7
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2021-10-15
+// Tags: attack.persistence, attack.t1505.003
+// Description: Detects suspicious sub processes of web server processes
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE ((((process.parent.executable LIKE "%/httpd" OR process.parent.executable LIKE "%/lighttpd" OR process.parent.executable LIKE "%/nginx" OR process.parent.executable LIKE "%/apache2" OR process.parent.executable LIKE "%/node" OR process.parent.executable LIKE "%/caddy")) OR ((process.parent.command_line LIKE "%/bin/java%" AND process.parent.command_line LIKE "%tomcat%")) OR ((process.parent.command_line LIKE "%/bin/java%" AND process.parent.command_line LIKE "%websphere%"))) AND ((process.executable LIKE "%/whoami" OR process.executable LIKE "%/ifconfig" OR process.executable LIKE "%/ip" OR process.executable LIKE "%/bin/uname" OR process.executable LIKE "%/bin/cat" OR process.executable LIKE "%/bin/crontab" OR process.executable LIKE "%/hostname" OR process.executable LIKE "%/iptables" OR process.executable LIKE "%/netstat" OR process.executable LIKE "%/pwd" OR process.executable LIKE "%/route")) AND NOT ((process.parent.executable LIKE "%/node" AND process.command_line LIKE "%ip neigh show%")))

@@ -1,0 +1,16 @@
+<!--
+  Title: Suspicious CustomShellHost Execution
+  ID: 84b14121-9d14-416e-800b-f3b829c5a14d
+  Status: test
+  Level: high
+  Author: Nasreddine Bencherchali (Nextron Systems)
+  Date: 2022-08-19
+  Description: Detects the execution of CustomShellHost.exe where the child isn't located in 'C:\Windows\explorer.exe'. CustomShellHost is a known LOLBin that can be abused by attackers for defense evasion techniques.
+-->
+
+<group name="sigma_converted,">
+  <rule id="100001" level="10">
+    <description>Suspicious CustomShellHost Execution</description>
+    <match>((ParentImage=\"*\\\\CustomShellHost.exe\") AND NOT ((Image=\"C:\\\\Windows\\\\explorer.exe\")))</match>
+  </rule>
+</group>

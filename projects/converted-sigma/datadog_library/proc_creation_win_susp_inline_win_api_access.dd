@@ -1,0 +1,11 @@
+# Title: Potential WinAPI Calls Via CommandLine
+# ID: ba3f5c1b-6272-4119-9dbd-0bc8d21c2702
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-09-06
+# Tags: attack.execution, attack.t1106
+# Description: Detects the use of WinAPI Functions via the commandline. As seen used by threat actors via the tool winapiexec
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((@CommandLine:*AddSecurityPackage* OR @CommandLine:*AdjustTokenPrivileges* OR @CommandLine:*Advapi32* OR @CommandLine:*CloseHandle* OR @CommandLine:*CreateProcessWithToken* OR @CommandLine:*CreatePseudoConsole* OR @CommandLine:*CreateRemoteThread* OR @CommandLine:*CreateThread* OR @CommandLine:*CreateUserThread* OR @CommandLine:*DangerousGetHandle* OR @CommandLine:*DuplicateTokenEx* OR @CommandLine:*EnumerateSecurityPackages* OR @CommandLine:*FreeHGlobal* OR @CommandLine:*FreeLibrary* OR @CommandLine:*GetDelegateForFunctionPointer* OR @CommandLine:*GetLogonSessionData* OR @CommandLine:*GetModuleHandle* OR @CommandLine:*GetProcAddress* OR @CommandLine:*GetProcessHandle* OR @CommandLine:*GetTokenInformation* OR @CommandLine:*ImpersonateLoggedOnUser* OR @CommandLine:*kernel32* OR @CommandLine:*LoadLibrary* OR @CommandLine:*memcpy* OR @CommandLine:*MiniDumpWriteDump* OR @CommandLine:*ntdll* OR @CommandLine:*OpenDesktop* OR @CommandLine:*OpenProcess* OR @CommandLine:*OpenProcessToken* OR @CommandLine:*OpenThreadToken* OR @CommandLine:*OpenWindowStation* OR @CommandLine:*PtrToString* OR @CommandLine:*QueueUserApc* OR @CommandLine:*ReadProcessMemory* OR @CommandLine:*RevertToSelf* OR @CommandLine:*RtlCreateUserThread* OR @CommandLine:*secur32* OR @CommandLine:*SetThreadToken* OR @CommandLine:*VirtualAlloc* OR @CommandLine:*VirtualFree* OR @CommandLine:*VirtualProtect* OR @CommandLine:*WaitForSingleObject* OR @CommandLine:*WriteInt32* OR @CommandLine:*WriteProcessMemory* OR @CommandLine:*ZeroFreeGlobalAllocUnicode*)) AND -(((@ParentImage:*\\CompatTelRunner.exe AND (@CommandLine:*FreeHGlobal* OR @CommandLine:*PtrToString* OR @CommandLine:*kernel32* OR @CommandLine:*CloseHandle*)) OR (@Image:*\\MpCmdRun.exe AND @CommandLine:*GetLoadLibraryWAddress32*))))

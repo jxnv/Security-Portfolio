@@ -1,0 +1,23 @@
+// Title: Schtasks Creation Or Modification With SYSTEM Privileges
+// ID: 89ca78fd-b37c-4310-b3d3-81a023f83936
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-07-28
+// Tags: attack.privilege-escalation, attack.execution, attack.persistence, attack.t1053.005
+// Description: Detects the creation or update of a scheduled task to run with "NT AUTHORITY\SYSTEM" privileges
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 89ca78fd_b37c_4310_b3d3_81a023f83936 {
+  meta:
+    title = "Schtasks Creation Or Modification With SYSTEM Privileges"
+    description = "Detects the creation or update of a scheduled task to run with "NT AUTHORITY\SYSTEM" privileges"
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.file.full_path = /.*\\schtasks.exe$/ nocase and ($e.target.process.command_line = /.* /change .*/ nocase or $e.target.process.command_line = /.* /create .*/ nocase)) and ($e.target.process.command_line = /.*/ru .*/ nocase) and (($e.target.process.command_line = /.*NT AUT.*/ nocase or $e.target.process.command_line = /.* SYSTEM .*/ nocase))) and not(((($e.target.process.command_line = /.*/Create /F /RU System /SC WEEKLY /TN AviraSystemSpeedupVerify /TR .*/ nocase or $e.target.process.command_line = /.*:\\Program Files (x86)\\Avira\\System Speedup\\setup\\avira_speedup_setup.exe.*/ nocase or $e.target.process.command_line = /.*/VERIFY /VERYSILENT /NOSTART /NODOTNET /NORESTART\" /RL HIGHEST.*/ nocase)) or (($e.target.process.command_line = /.*Subscription Heartbeat.*/ nocase and $e.target.process.command_line = /.*\\HeartbeatConfig.xml.*/ nocase and $e.target.process.command_line = /.*\\Microsoft Shared\\OFFICE.*/ nocase)) or ($e.target.process.file.full_path = /.*\\schtasks.exe$/ nocase and ($e.target.process.command_line = /.*/TN TVInstallRestore.*/ nocase and $e.target.process.command_line = /.*\\TeamViewer_.exe.*/ nocase)))))
+
+  condition:
+    $e
+}

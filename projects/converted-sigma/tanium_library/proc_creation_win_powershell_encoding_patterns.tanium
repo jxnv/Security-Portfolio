@@ -1,0 +1,11 @@
+# Title: Potential Encoded PowerShell Patterns In CommandLine
+# ID: cdf05894-89e7-4ead-b2b0-0a5f97a90f2f
+# Status: test
+# Level: low
+# Author: Teymur Kheirkhabarov (idea), Vasiliy Burov (rule), oscd.community, Tim Shelton
+# Date: 2020-10-11
+# Tags: attack.stealth, attack.t1027, attack.execution, attack.t1059.001
+# Description: Detects specific combinations of encoding methods in PowerShell via the commandline
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((((Image="*\\powershell.exe" OR Image="*\\pwsh.exe")) OR ((OriginalFileName equals "PowerShell.EXE" OR OriginalFileName equals "pwsh.dll"))) AND ((((CommandLine contains "ToInt" OR CommandLine contains "ToDecimal" OR CommandLine contains "ToByte" OR CommandLine contains "ToUint" OR CommandLine contains "ToSingle" OR CommandLine contains "ToSByte")) AND ((CommandLine contains "ToChar" OR CommandLine contains "ToString" OR CommandLine contains "String"))) OR (((CommandLine contains "char" AND CommandLine contains "join")) OR ((CommandLine contains "split" AND CommandLine contains "join")))))

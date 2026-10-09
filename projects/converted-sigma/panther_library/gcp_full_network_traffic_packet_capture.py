@@ -1,0 +1,19 @@
+# Title: Google Full Network Traffic Packet Capture
+# ID: 980a7598-1e7f-4962-9372-2d754c930d0e
+# Status: test
+# Level: medium
+# Author: Austin Songer @austinsonger
+# Date: 2021-08-13
+# Tags: attack.collection, attack.t1074
+# Description: Identifies potential full network packet capture in gcp. This feature can potentially be abused to read sensitive data from unencrypted internal traffic.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Google Full Network Traffic Packet Capture
+def rule(event):
+    # Detection Logic:
+    # ((gcp.audit.method_name="v*.Compute.PacketMirrorings.Get" OR gcp.audit.method_name="v*.Compute.PacketMirrorings.Delete" OR gcp.audit.method_name="v*.Compute.PacketMirrorings.Insert" OR gcp.audit.method_name="v*.Compute.PacketMirrorings.Patch" OR gcp.audit.method_name="v*.Compute.PacketMirrorings.List" OR gcp.audit.method_name="v*.Compute.PacketMirrorings.aggregatedList"))
+    return True
+
+def title(event):
+    return "Google Full Network Traffic Packet Capture"
+

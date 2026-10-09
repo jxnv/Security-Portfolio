@@ -1,0 +1,11 @@
+-- Title: Suspicious Teams Application Related ObjectAcess Event
+-- ID: 25cde13e-8e20-4c29-b949-4e795b76f16f
+-- Status: test
+-- Level: high
+-- Author: @SerkinValery
+-- Date: 2022-09-16
+-- Tags: attack.credential-access, attack.t1528
+-- Description: Detects an access to authentication tokens and accounts of Microsoft Teams desktop application.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE ((EventID = 4663 AND (ObjectName ILIKE '%\\Microsoft\\Teams\\Cookies%' OR ObjectName ILIKE '%\\Microsoft\\Teams\\Local Storage\\leveldb%')) AND NOT ((ProcessName ILIKE '%\\Microsoft\\Teams\\current\\Teams.exe%')))

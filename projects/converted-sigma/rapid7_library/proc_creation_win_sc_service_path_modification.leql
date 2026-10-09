@@ -1,0 +1,11 @@
+// Title: Suspicious Service Path Modification
+// ID: 138d3531-8793-4f50-a2cd-f291b2863d78
+// Status: test
+// Level: high
+// Author: Victor Sergeev, oscd.community, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2019-10-21
+// Tags: attack.persistence, attack.privilege-escalation, attack.t1543.003
+// Description: Detects service path modification via the "sc" binary to a suspicious command or path
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(where(Image IENDSWITH "\\sc.exe") AND (where(CommandLine ICONTAINS "config") AND where(CommandLine ICONTAINS "binPath")) AND (where(CommandLine ICONTAINS "powershell") OR where(CommandLine ICONTAINS "cmd ") OR where(CommandLine ICONTAINS "mshta") OR where(CommandLine ICONTAINS "wscript") OR where(CommandLine ICONTAINS "cscript") OR where(CommandLine ICONTAINS "rundll32") OR where(CommandLine ICONTAINS "svchost") OR where(CommandLine ICONTAINS "dllhost") OR where(CommandLine ICONTAINS "cmd.exe /c") OR where(CommandLine ICONTAINS "cmd.exe /k") OR where(CommandLine ICONTAINS "cmd.exe /r") OR where(CommandLine ICONTAINS "cmd /c") OR where(CommandLine ICONTAINS "cmd /k") OR where(CommandLine ICONTAINS "cmd /r") OR where(CommandLine ICONTAINS "C:\\Users\\Public") OR where(CommandLine ICONTAINS "\\Downloads\\") OR where(CommandLine ICONTAINS "\\Desktop\\") OR where(CommandLine ICONTAINS "\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\") OR where(CommandLine ICONTAINS "C:\\Windows\\TEMP\\") OR where(CommandLine ICONTAINS "\\AppData\\Local\\Temp")))

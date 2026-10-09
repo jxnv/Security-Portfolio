@@ -1,0 +1,11 @@
+-- Title: Microsoft 365 - Impossible Travel Activity
+-- ID: d7eab125-5f94-43df-8710-795b80fa1189
+-- Status: test
+-- Level: medium
+-- Author: Austin Songer @austinsonger
+-- Date: 2020-07-06
+-- Tags: attack.privilege-escalation, attack.persistence, attack.initial-access, attack.stealth, attack.t1078
+-- Description: Detects when a Microsoft Cloud App Security reported a risky sign-in attempt due to a login associated with an impossible travel.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE (eventSource = 'SecurityComplianceCenter' AND eventName = 'Impossible travel activity' AND status = 'success')

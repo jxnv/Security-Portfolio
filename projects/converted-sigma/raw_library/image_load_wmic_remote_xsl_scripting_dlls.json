@@ -1,0 +1,27 @@
+{
+  "title": "WMIC Loading Scripting Libraries",
+  "id": "06ce37c2-61ab-4f05-9ff5-b1a96d18ae32",
+  "status": "test",
+  "description": "Detects threat actors proxy executing code and bypassing application controls by leveraging wmic and the `/FORMAT` argument switch to download and execute an XSL file (i.e js, vbs, etc).\nIt could be an indicator of SquiblyTwo technique, which uses Windows Management Instrumentation (WMI) to execute malicious code.\n",
+  "author": "Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research)",
+  "date": "2020-10-17",
+  "tags": [
+    "attack.stealth",
+    "attack.t1220"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "image_load",
+    "product": "windows"
+  },
+  "detection": {
+    "selection": {
+      "Image|endswith": "\\wmic.exe",
+      "ImageLoaded|endswith": [
+        "\\jscript.dll",
+        "\\vbscript.dll"
+      ]
+    },
+    "condition": "selection"
+  }
+}

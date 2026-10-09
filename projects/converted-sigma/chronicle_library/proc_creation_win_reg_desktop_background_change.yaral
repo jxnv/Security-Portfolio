@@ -1,0 +1,24 @@
+// Title: Potentially Suspicious Desktop Background Change Using Reg.EXE
+// ID: 8cbc9475-8d05-4e27-9c32-df960716c701
+// Status: test
+// Level: medium
+// Author: Stephen Lincoln @slincoln-aiq (AttackIQ)
+// Date: 2023-12-21
+// Tags: attack.persistence, attack.impact, attack.defense-impairment, attack.t1112, attack.t1491.001
+// Description: Detects the execution of "reg.exe" to alter registry keys that would replace the user's desktop background.
+// This is a common technique used by malware to change the desktop background to a ransom note or other image.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 8cbc9475_8d05_4e27_9c32_df960716c701 {
+  meta:
+    title = "Potentially Suspicious Desktop Background Change Using Reg.EXE"
+    description = "Detects the execution of "reg.exe" to alter registry keys that would replace the user's desktop background. This is a common technique used by malware to change the desktop background to a ransom note or other image."
+    author = "Stephen Lincoln @slincoln-aiq (AttackIQ)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.command_line = /.*add.*/ nocase) and (($e.target.process.file.full_path = /.*\\reg.exe$/ nocase) or ($e.target.process.file.name = "reg.exe"))) and (($e.target.process.command_line = /.*Control Panel\\Desktop.*/ nocase or $e.target.process.command_line = /.*CurrentVersion\\Policies\\ActiveDesktop.*/ nocase or $e.target.process.command_line = /.*CurrentVersion\\Policies\\System.*/ nocase)) and ((($e.target.process.command_line = /.*/v NoChangingWallpaper.*/ nocase and $e.target.process.command_line = /.*/d 1.*/ nocase)) or (($e.target.process.command_line = /.*/v Wallpaper.*/ nocase and $e.target.process.command_line = /.*/t REG_SZ.*/ nocase)) or (($e.target.process.command_line = /.*/v WallpaperStyle.*/ nocase and $e.target.process.command_line = /.*/d 2.*/ nocase))))
+
+  condition:
+    $e
+}

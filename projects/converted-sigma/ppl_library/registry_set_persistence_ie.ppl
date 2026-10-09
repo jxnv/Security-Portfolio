@@ -1,0 +1,11 @@
+// Title: Modification of IE Registry Settings
+// ID: d88d0ab2-e696-4d40-a2ed-9790064e66b3
+// Status: test
+// Level: low
+// Author: frack113
+// Date: 2022-01-22
+// Tags: attack.persistence, attack.defense-impairment, attack.t1112
+// Description: Detects modification of the registry settings used for Internet Explorer and other Windows components that use these settings. An attacker can abuse this registry key to add a domain to the trusted sites Zone or insert JavaScript for persistence
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where ((registry.path like "%\\Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings%") AND NOT (((registry.data.strings = "Binary Data") OR (registry.data.strings="DWORD*") OR (NOT registry.data.strings=*) OR ((registry.data.strings = "Cookie:" OR registry.data.strings = "Visited:" OR registry.data.strings = "(Empty)")) OR ((registry.path like "%\\Cache%" OR registry.path like "%\\ZoneMap%" OR registry.path like "%\\WpadDecision%")))) AND NOT ((registry.path like "%\\Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\Accepted Documents%")))

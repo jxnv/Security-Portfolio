@@ -1,0 +1,11 @@
+# Title: Kubernetes Admission Controller Modification
+# ID: eed82177-38f5-4299-8a76-098d50d225ab
+# Status: test
+# Level: medium
+# Author: kelnage
+# Date: 2024-07-11
+# Tags: attack.privilege-escalation, attack.initial-access, attack.persistence, attack.stealth, attack.t1078, attack.credential-access, attack.t1552, attack.t1552.007
+# Description: Detects when a modification (create, update or replace) action is taken that affects mutating or validating webhook configurations, as they can be used by an adversary to achieve persistence or exfiltrate access credentials.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(objectRef.apiGroup equals "admissionregistration.k8s.io" AND (objectRef.resource equals "mutatingwebhookconfigurations" OR objectRef.resource equals "validatingwebhookconfigurations") AND (verb equals "create" OR verb equals "delete" OR verb equals "patch" OR verb equals "replace" OR verb equals "update"))

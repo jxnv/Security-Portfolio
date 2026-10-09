@@ -1,0 +1,11 @@
+// Title: HackTool - WinPwn Execution - ScriptBlock
+// ID: 851fd622-b675-4d26-b803-14bc7baa517a
+// Status: test
+// Level: high
+// Author: Swachchhanda Shrawan Poudel
+// Date: 2023-12-04
+// Tags: attack.credential-access, attack.discovery, attack.execution, attack.privilege-escalation, attack.t1046, attack.t1082, attack.t1106, attack.t1518, attack.t1548.002, attack.t1552.001, attack.t1555, attack.t1555.003
+// Description: Detects scriptblock text keywords indicative of potential usge of the tool WinPwn. A tool for Windows and Active Directory reconnaissance and exploitation.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((ScriptBlockText contains "Offline_Winpwn" OR ScriptBlockText contains "WinPwn " OR ScriptBlockText contains "WinPwn.exe" OR ScriptBlockText contains "WinPwn.ps1"))

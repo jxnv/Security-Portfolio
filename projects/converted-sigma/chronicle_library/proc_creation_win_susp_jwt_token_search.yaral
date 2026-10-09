@@ -1,0 +1,25 @@
+// Title: Potentially Suspicious JWT Token Search Via CLI
+// ID: 6d3a3952-6530-44a3-8554-cf17c116c615
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems), kagebunsher
+// Date: 2022-10-25
+// Tags: attack.credential-access, attack.t1528, attack.t1552.001
+// Description: Detects potentially suspicious search for JWT tokens via CLI by looking for the string "eyJ0eX" or "eyJhbG".
+// JWT tokens are often used for access-tokens across various applications and services like Microsoft 365, Azure, AWS, Google Cloud, and others.
+// Threat actors may search for these tokens to steal them for lateral movement or privilege escalation.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 6d3a3952_6530_44a3_8554_cf17c116c615 {
+  meta:
+    title = "Potentially Suspicious JWT Token Search Via CLI"
+    description = "Detects potentially suspicious search for JWT tokens via CLI by looking for the string "eyJ0eX" or "eyJhbG". JWT tokens are often used for access-tokens across various applications and services like Microsoft 365, Azure, AWS, Google Cloud, and others. Threat actors may search for these tokens to steal them for lateral movement or privilege escalation."
+    author = "Nasreddine Bencherchali (Nextron Systems), kagebunsher"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.command_line = /.*eyJ0eXAiOi.*/ nocase or $e.target.process.command_line = /.*eyJhbGciOi.*/ nocase or $e.target.process.command_line = /.* eyJ0eX.*/ nocase or $e.target.process.command_line = /.* \"eyJ0eX\".*/ nocase or $e.target.process.command_line = /.* 'eyJ0eX'.*/ nocase or $e.target.process.command_line = /.* eyJhbG.*/ nocase or $e.target.process.command_line = /.* \"eyJhbG\".*/ nocase or $e.target.process.command_line = /.* 'eyJhbG'.*/ nocase)) and (($e.target.process.command_line = /.*find .*/ nocase or $e.target.process.command_line = /.*find.exe.*/ nocase or $e.target.process.command_line = /.*findstr.*/ nocase or $e.target.process.command_line = /.*select-string .*/ nocase or $e.target.process.command_line = /.*strings.*/ nocase)))
+
+  condition:
+    $e
+}

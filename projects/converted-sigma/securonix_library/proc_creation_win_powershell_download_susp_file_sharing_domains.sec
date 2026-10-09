@@ -1,0 +1,11 @@
+// Title: Potentially Suspicious File Download From File Sharing Domain Via PowerShell.EXE
+// ID: b6e04788-29e1-4557-bb14-77f761848ab8
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2024-02-23
+// Tags: attack.execution
+// Description: Detects potentially suspicious file downloads from file sharing domains using PowerShell.exe
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((CommandLine CONTAINS ".DownloadString(" OR CommandLine CONTAINS ".DownloadFile(" OR CommandLine CONTAINS "Invoke-WebRequest " OR CommandLine CONTAINS "iwr " OR CommandLine CONTAINS "wget ")) AND (((Image="*\\powershell.exe" OR Image="*\\pwsh.exe")) OR ((OriginalFileName EQUALS "PowerShell.EXE" OR OriginalFileName EQUALS "pwsh.dll"))) AND ((CommandLine CONTAINS "0x0.st" OR CommandLine CONTAINS "anonfiles.com" OR CommandLine CONTAINS "bashupload.com" OR CommandLine CONTAINS "cdn.discordapp.com" OR CommandLine CONTAINS "chunk.io" OR CommandLine CONTAINS "ddns.net" OR CommandLine CONTAINS "dl.dropboxusercontent.com" OR CommandLine CONTAINS "ghostbin.co" OR CommandLine CONTAINS "glitch.me" OR CommandLine CONTAINS "gofile.io" OR CommandLine CONTAINS "hastebin.com" OR CommandLine CONTAINS "mediafire.com" OR CommandLine CONTAINS "mega.nz" OR CommandLine CONTAINS "onrender.com" OR CommandLine CONTAINS "pages.dev" OR CommandLine CONTAINS "paste.ee" OR CommandLine CONTAINS "pastebin.com" OR CommandLine CONTAINS "pastebin.pl" OR CommandLine CONTAINS "pastetext.net" OR CommandLine CONTAINS "pixeldrain.com" OR CommandLine CONTAINS "privatlab.com" OR CommandLine CONTAINS "privatlab.net" OR CommandLine CONTAINS "send.exploit.in" OR CommandLine CONTAINS "sendspace.com" OR CommandLine CONTAINS "storage.googleapis.com" OR CommandLine CONTAINS "storjshare.io" OR CommandLine CONTAINS "supabase.co" OR CommandLine CONTAINS "temp.sh" OR CommandLine CONTAINS "transfer.sh" OR CommandLine CONTAINS "trycloudflare.com" OR CommandLine CONTAINS "ufile.io" OR CommandLine CONTAINS "w3spaces.com" OR CommandLine CONTAINS "workers.dev" OR CommandLine CONTAINS "x0.at")))

@@ -1,0 +1,12 @@
+# Title: Suspicious File Write to SharePoint Layouts Directory
+# ID: 1f0489be-b496-4ddf-b3a9-5900f2044e9c
+# Status: experimental
+# Level: high
+# Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+# Date: 2025-07-24
+# Tags: attack.initial-access, attack.t1190, attack.persistence, attack.t1505.003
+# Description: Detects suspicious file writes to SharePoint layouts directory which could indicate webshell activity or post-exploitation.
+# This behavior has been observed in the exploitation of SharePoint vulnerabilities such as CVE-2025-49704, CVE-2025-49706 or CVE-2025-53770.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((process_name:*\\cmd.exe OR process_name:*\\powershell_ise.exe OR process_name:*\\powershell.exe OR process_name:*\\pwsh.exe OR process_name:*\\w3wp.exe) AND (filemod_name:C:\\Program Files\\Common Files\\Microsoft Shared\\Web Server Extensions\\* OR filemod_name:C:\\Program Files (x86)\\Common Files\\Microsoft Shared\\Web Server Extensions\\*) AND (filemod_name:*\\15\\TEMPLATE\\LAYOUTS\\* OR filemod_name:*\\16\\TEMPLATE\\LAYOUTS\\*) AND (filemod_name:*.asax OR filemod_name:*.ascx OR filemod_name:*.ashx OR filemod_name:*.asmx OR filemod_name:*.asp OR filemod_name:*.aspx OR filemod_name:*.bat OR filemod_name:*.cmd OR filemod_name:*.cer OR filemod_name:*.config OR filemod_name:*.hta OR filemod_name:*.js OR filemod_name:*.jsp OR filemod_name:*.jspx OR filemod_name:*.php OR filemod_name:*.ps1 OR filemod_name:*.vbs))

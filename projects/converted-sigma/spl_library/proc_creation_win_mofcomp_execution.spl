@@ -1,0 +1,13 @@
+# Title: Potentially Suspicious Mofcomp Execution
+# ID: 1dd05363-104e-4b4a-b963-196a534b03a1
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-07-12
+# Tags: attack.stealth, attack.t1218
+# Description: Detects execution of the "mofcomp" utility as a child of a suspicious shell or script running utility or by having a suspicious path in the commandline.
+# The "mofcomp" utility parses a file containing MOF statements and adds the classes and class instances defined in the file to the WMI repository.
+# Attackers abuse this utility to install malicious MOF scripts
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog (((((parent_process_path="*\\cmd.exe" OR parent_process_path="*\\powershell.exe" OR parent_process_path="*\\pwsh.exe" OR parent_process_path="*\\wsl.exe" OR parent_process_path="*\\wscript.exe" OR parent_process_path="*\\cscript.exe")) OR ((process_exec="*\\AppData\\Local\\Temp*" OR process_exec="*\\Contacts\\*" OR process_exec="*\\Favorites\\*" OR process_exec="*\\Favourites\\*" OR process_exec="*\\Music\\*" OR process_exec="*\\Pictures\\*" OR process_exec="*\\Users\\Public\\*" OR process_exec="*\\Videos\\*" OR process_exec="*\\WINDOWS\\Temp\\*" OR process_exec="*%appdata%*" OR process_exec="*%temp%*" OR process_exec="*%tmp%*"))) AND ((process_path="*\\mofcomp.exe") OR (process_name="mofcomp.exe"))) AND NOT (((parent_process_exec="*\\InstallUtil.exe /Uninstall C:\\Windows\\CCM\\Microsoft.ConfigurationManager.SVProvider.dll" AND parent_process_path="*\\InstallUtil.exe" AND (process_exec="*C:\\Windows\\TEMP*" AND process_exec="*.tmp*")) OR (parent_process_path="C:\\Windows\\System32\\wbem\\WmiPrvSE.exe" AND process_exec="*C:\\Windows\\TEMP\\*" AND process_exec="*.mof"))) AND NOT ((NOT parent_process_exec=*)))

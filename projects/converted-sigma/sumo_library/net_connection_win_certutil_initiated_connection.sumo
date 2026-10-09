@@ -1,0 +1,12 @@
+// Title: Uncommon Network Connection Initiated By Certutil.EXE
+// ID: 0dba975d-a193-4ed1-a067-424df57570d1
+// Status: test
+// Level: high
+// Author: frack113, Florian Roth (Nextron Systems)
+// Date: 2022-09-02
+// Tags: attack.command-and-control, attack.t1105
+// Description: Detects a network connection initiated by the certutil.exe utility.
+// Attackers can abuse the utility in order to download malware or additional payloads.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where (Image matches "*\\certutil.exe" and Initiated = "true" and (DestinationPort = "80" or DestinationPort = "135" or DestinationPort = "443" or DestinationPort = "445"))

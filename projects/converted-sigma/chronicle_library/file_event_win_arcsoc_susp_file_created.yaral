@@ -1,0 +1,25 @@
+// Title: Suspicious File Created by ArcSOC.exe
+// ID: e890acee-d488-420e-8f20-d9b19b3c3d43
+// Status: experimental
+// Level: high
+// Author: Micah Babinski
+// Date: 2025-11-25
+// Tags: attack.command-and-control, attack.persistence, attack.initial-access, attack.execution, attack.stealth, attack.t1127, attack.t1105, attack.t1133
+// Description: Detects instances where the ArcGIS Server process ArcSOC.exe, which hosts REST services running on an ArcGIS
+// server, creates a file with suspicious file type, indicating that it may be an executable, script file,
+// or otherwise unusual.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule e890acee_d488_420e_8f20_d9b19b3c3d43 {
+  meta:
+    title = "Suspicious File Created by ArcSOC.exe"
+    description = "Detects instances where the ArcGIS Server process ArcSOC.exe, which hosts REST services running on an ArcGIS server, creates a file with suspicious file type, indicating that it may be an executable, script file, or otherwise unusual."
+    author = "Micah Babinski"
+    severity = "HIGH"
+
+  events:
+    ($e.target.process.file.full_path = /.*\\ArcSOC.exe$/ nocase and ($e.target.file.full_path = /.*.ahk$/ nocase or $e.target.file.full_path = /.*.aspx$/ nocase or $e.target.file.full_path = /.*.au3$/ nocase or $e.target.file.full_path = /.*.bat$/ nocase or $e.target.file.full_path = /.*.cmd$/ nocase or $e.target.file.full_path = /.*.dll$/ nocase or $e.target.file.full_path = /.*.exe$/ nocase or $e.target.file.full_path = /.*.hta$/ nocase or $e.target.file.full_path = /.*.js$/ nocase or $e.target.file.full_path = /.*.ps1$/ nocase or $e.target.file.full_path = /.*.py$/ nocase or $e.target.file.full_path = /.*.vbe$/ nocase or $e.target.file.full_path = /.*.vbs$/ nocase or $e.target.file.full_path = /.*.wsf$/ nocase))
+
+  condition:
+    $e
+}

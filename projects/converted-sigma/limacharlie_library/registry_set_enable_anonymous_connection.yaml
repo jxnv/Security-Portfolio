@@ -1,0 +1,22 @@
+# Title: Enable Remote Connection Between Anonymous Computer - AllowAnonymousCallback
+# ID: 4d431012-2ab5-4db7-a84e-b29809da2172
+# Status: test
+# Level: medium
+# Author: X__Junior (Nextron Systems)
+# Date: 2023-11-03
+# Tags: attack.defense-impairment, attack.t1685
+# Description: Detects enabling of the "AllowAnonymousCallback" registry value, which allows a remote connection between computers that do not have a trust relationship.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# LimaCharlie Detection & Response Rule
+# Name: Enable Remote Connection Between Anonymous Computer - AllowAnonymousCallback
+detect:
+  event: registry_set
+  op: and
+  rules:
+    # Filter logic:
+    # (TargetObject="*\\Microsoft\\WBEM\\CIMOM\\AllowAnonymousCallback*" AND Details="DWORD (0x00000001)")
+respond:
+  - action: report
+    name: Enable Remote Connection Between Anonymous Computer - AllowAnonymousCallback
+

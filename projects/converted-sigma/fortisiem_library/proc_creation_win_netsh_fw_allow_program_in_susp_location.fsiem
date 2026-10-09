@@ -1,0 +1,11 @@
+# Title: Suspicious Program Location Whitelisted In Firewall Via Netsh.EXE
+# ID: a35f5a72-f347-4e36-8895-9869b0d5fc6d
+# Status: test
+# Level: high
+# Author: Sander Wiebing, Jonhnathan Ribeiro, Daniil Yugoslavskiy, oscd.community
+# Date: 2020-05-25
+# Tags: attack.defense-impairment, attack.t1686.003
+# Description: Detects Netsh command execution that whitelists a program located in a suspicious location in the Windows Firewall
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((((CommandLine CONTAIN "firewall" AND CommandLine CONTAIN "add" AND CommandLine CONTAIN "allowedprogram")) OR ((CommandLine CONTAIN "advfirewall" AND CommandLine CONTAIN "firewall" AND CommandLine CONTAIN "add" AND CommandLine CONTAIN "rule" AND CommandLine CONTAIN "action=allow" AND CommandLine CONTAIN "program="))) AND ((Image="*\\netsh.exe") OR (OriginalFileName = "netsh.exe")) AND ((CommandLine CONTAIN ":\\$Recycle.bin\\" OR CommandLine CONTAIN ":\\RECYCLER.BIN\\" OR CommandLine CONTAIN ":\\RECYCLERS.BIN\\" OR CommandLine CONTAIN ":\\SystemVolumeInformation\\" OR CommandLine CONTAIN ":\\Temp\\" OR CommandLine CONTAIN ":\\Users\\Default\\" OR CommandLine CONTAIN ":\\Users\\Desktop\\" OR CommandLine CONTAIN ":\\Users\\Public\\" OR CommandLine CONTAIN ":\\Windows\\addins\\" OR CommandLine CONTAIN ":\\Windows\\cursors\\" OR CommandLine CONTAIN ":\\Windows\\debug\\" OR CommandLine CONTAIN ":\\Windows\\drivers\\" OR CommandLine CONTAIN ":\\Windows\\fonts\\" OR CommandLine CONTAIN ":\\Windows\\help\\" OR CommandLine CONTAIN ":\\Windows\\system32\\tasks\\" OR CommandLine CONTAIN ":\\Windows\\Tasks\\" OR CommandLine CONTAIN ":\\Windows\\Temp\\" OR CommandLine CONTAIN "\\Downloads\\" OR CommandLine CONTAIN "\\Local Settings\\Temporary Internet Files\\" OR CommandLine CONTAIN "\\Temporary Internet Files\\Content.Outlook\\" OR CommandLine CONTAIN "%Public%\\" OR CommandLine CONTAIN "%TEMP%" OR CommandLine CONTAIN "%TMP%")))

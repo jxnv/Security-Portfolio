@@ -1,0 +1,29 @@
+{
+  "title": "Potential DLL Sideloading Via ClassicExplorer32.dll",
+  "id": "caa02837-f659-466f-bca6-48bde2826ab4",
+  "status": "test",
+  "description": "Detects potential DLL sideloading using ClassicExplorer32.dll from the Classic Shell software",
+  "author": "frack113",
+  "date": "2022-12-13",
+  "tags": [
+    "attack.persistence",
+    "attack.privilege-escalation",
+    "attack.execution",
+    "attack.stealth",
+    "attack.t1574.001"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "image_load",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_classicexplorer": {
+      "ImageLoaded|endswith": "\\ClassicExplorer32.dll"
+    },
+    "filter_classicexplorer": {
+      "ImageLoaded|startswith": "C:\\Program Files\\Classic Shell\\"
+    },
+    "condition": "selection_classicexplorer and not filter_classicexplorer"
+  }
+}

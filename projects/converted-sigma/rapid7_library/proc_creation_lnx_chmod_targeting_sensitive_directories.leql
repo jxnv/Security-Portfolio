@@ -1,0 +1,12 @@
+// Title: Chmod Targeting Sensitive Directories
+// ID: 6419afd1-3742-47a5-a7e6-b50386cd15f8
+// Status: test
+// Level: medium
+// Author: Christopher Peacock @SecurePeacock, SCYTHE @scythe_io
+// Date: 2022-06-03
+// Tags: attack.defense-impairment, attack.t1222.002
+// Description: Detects chmod targeting files in sensitive directory paths on Linux systems.
+// Attackers may use chmod to change permissions of files in these directories to maintain persistence, escalate privileges, or disrupt system operations.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((where(Image IENDSWITH "/chmod") AND (where(CommandLine ICONTAINS "/tmp/") OR where(CommandLine ICONTAINS "/.Library/") OR where(CommandLine ICONTAINS "/etc/") OR where(CommandLine ICONTAINS "/opt/"))) AND NOT (((where(CommandLine ISTARTSWITH "chmod 700 /tmp/apt-key-gpghome.")) OR (where(CommandLine = "chmod 0775 /etc/landscape/")) OR (where(CommandLine ISTARTSWITH "chmod 755 /var/tmp/mkinitramfs")) OR (where(CommandLine ICONTAINS "/etc/") AND (where(ParentCommandLine ICONTAINS "/var/lib/dpkg/info/") AND where(ParentCommandLine ICONTAINS ".postinst configure"))) OR (where(CommandLine = "chmod 644 /etc/apparmor.d/tunables/home.d/ubuntu")) OR (where(CommandLine ICONTAINS "chmod --reference=/etc/shells") AND where(ParentCommandLine IENDSWITH "/update-shells")))))

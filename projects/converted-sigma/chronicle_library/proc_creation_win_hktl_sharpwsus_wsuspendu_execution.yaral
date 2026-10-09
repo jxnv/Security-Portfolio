@@ -1,0 +1,24 @@
+// Title: HackTool - SharpWSUS/WSUSpendu Execution
+// ID: b0ce780f-10bd-496d-9067-066d23dc3aa5
+// Status: test
+// Level: high
+// Author: @Kostastsale, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-10-07
+// Tags: attack.execution, attack.lateral-movement, attack.t1210
+// Description: Detects the execution of SharpWSUS or WSUSpendu, utilities that allow for lateral movement through WSUS.
+// Windows Server Update Services (WSUS) is a critical component of Windows systems and is frequently configured in a way that allows an attacker to circumvent internal networking limitations.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule b0ce780f_10bd_496d_9067_066d23dc3aa5 {
+  meta:
+    title = "HackTool - SharpWSUS/WSUSpendu Execution"
+    description = "Detects the execution of SharpWSUS or WSUSpendu, utilities that allow for lateral movement through WSUS. Windows Server Update Services (WSUS) is a critical component of Windows systems and is frequently configured in a way that allows an attacker to circumvent internal networking limitations."
+    author = "@Kostastsale, Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.* -Inject .*/ nocase) and (($e.target.process.command_line = /.* -PayloadArgs .*/ nocase or $e.target.process.command_line = /.* -PayloadFile .*/ nocase))) or ((($e.target.process.command_line = /.* approve .*/ nocase or $e.target.process.command_line = /.* create .*/ nocase or $e.target.process.command_line = /.* check .*/ nocase or $e.target.process.command_line = /.* delete .*/ nocase)) and (($e.target.process.command_line = /.* /payload:.*/ nocase or $e.target.process.command_line = /.* /payload=.*/ nocase or $e.target.process.command_line = /.* /updateid:.*/ nocase or $e.target.process.command_line = /.* /updateid=.*/ nocase))))
+
+  condition:
+    $e
+}

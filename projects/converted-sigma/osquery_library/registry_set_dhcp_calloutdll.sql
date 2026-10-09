@@ -1,0 +1,11 @@
+-- Title: DHCP Callout DLL Installation
+-- ID: 9d3436ef-9476-4c43-acca-90ce06bdf33a
+-- Status: test
+-- Level: high
+-- Author: Dimitrios Slamaris
+-- Date: 2017-05-15
+-- Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.stealth, attack.defense-impairment, attack.t1574.001, attack.t1112
+-- Description: Detects the installation of a Callout DLL via CalloutDlls and CalloutEnabled parameter in Registry, which can be used to execute code in context of the DHCP server (restart required)
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM file WHERE ((TargetObject="*\\Services\\DHCPServer\\Parameters\\CalloutDlls" OR TargetObject="*\\Services\\DHCPServer\\Parameters\\CalloutEnabled"))

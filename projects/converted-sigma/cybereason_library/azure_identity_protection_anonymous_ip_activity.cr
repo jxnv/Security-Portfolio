@@ -1,0 +1,11 @@
+// Title: Activity From Anonymous IP Address
+// ID: be4d9c86-d702-4030-b52e-c7859110e5e8
+// Status: test
+// Level: high
+// Author: Mark Morowczynski '@markmorow', Gloria Lee, '@gleeiamglo'
+// Date: 2023-09-03
+// Tags: attack.stealth, attack.t1078, attack.persistence, attack.privilege-escalation, attack.initial-access
+// Description: Identifies that users were active from an IP address that has been identified as an anonymous proxy IP address.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(riskEventType == "riskyIPAddress")

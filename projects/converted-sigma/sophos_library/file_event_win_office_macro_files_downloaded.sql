@@ -1,0 +1,12 @@
+-- Title: Office Macro File Download
+-- ID: 0e29e3a7-1ad8-40aa-b691-9f82ecd33d66
+-- Status: test
+-- Level: low
+-- Author: Nasreddine Bencherchali (Nextron Systems)
+-- Date: 2022-01-23
+-- Tags: attack.initial-access, attack.t1566.001
+-- Description: Detects the creation of a new office macro files on the system via an application (browser, mail client).
+-- This can help identify potential malicious activity, such as the download of macro-enabled documents that could be used for exploitation.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE ((((TargetFilename ILIKE '%.docm' OR TargetFilename ILIKE '%.dotm' OR TargetFilename ILIKE '%.xlsm' OR TargetFilename ILIKE '%.xltm' OR TargetFilename ILIKE '%.potm' OR TargetFilename ILIKE '%.pptm')) OR ((TargetFilename ILIKE '%.docm:Zone%' OR TargetFilename ILIKE '%.dotm:Zone%' OR TargetFilename ILIKE '%.xlsm:Zone%' OR TargetFilename ILIKE '%.xltm:Zone%' OR TargetFilename ILIKE '%.potm:Zone%' OR TargetFilename ILIKE '%.pptm:Zone%'))) AND ((Image ILIKE '%\\RuntimeBroker.exe' OR Image ILIKE '%\\outlook.exe' OR Image ILIKE '%\\thunderbird.exe' OR Image ILIKE '%\\brave.exe' OR Image ILIKE '%\\chrome.exe' OR Image ILIKE '%\\firefox.exe' OR Image ILIKE '%\\iexplore.exe' OR Image ILIKE '%\\maxthon.exe' OR Image ILIKE '%\\MicrosoftEdge.exe' OR Image ILIKE '%\\msedge.exe' OR Image ILIKE '%\\msedgewebview2.exe' OR Image ILIKE '%\\opera.exe' OR Image ILIKE '%\\safari.exe' OR Image ILIKE '%\\seamonkey.exe' OR Image ILIKE '%\\vivaldi.exe' OR Image ILIKE '%\\whale.exe')))

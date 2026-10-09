@@ -1,0 +1,24 @@
+// Title: Installation of WSL Kali-Linux
+// ID: eca8ae39-5c3c-4321-b538-9e64fe25822e
+// Status: experimental
+// Level: high
+// Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-10-10
+// Tags: attack.execution, attack.t1059
+// Description: Detects installation of Kali Linux distribution through Windows Subsystem for Linux (WSL).
+// Attackers may use Kali Linux WSL to leverage its penetration testing tools and capabilities for malicious purposes.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule eca8ae39_5c3c_4321_b538_9e64fe25822e {
+  meta:
+    title = "Installation of WSL Kali-Linux"
+    description = "Detects installation of Kali Linux distribution through Windows Subsystem for Linux (WSL). Attackers may use Kali Linux WSL to leverage its penetration testing tools and capabilities for malicious purposes."
+    author = "Swachchhanda Shrawan Poudel (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.file.full_path = /.*\\wsl.exe$/ nocase) or ($e.target.process.file.name = "wsl")) and (($e.target.process.command_line = /.* --install .*/ nocase or $e.target.process.command_line = /.* -i .*/ nocase)) and ($e.target.process.command_line = /.*kali.*/ nocase))
+
+  condition:
+    $e
+}

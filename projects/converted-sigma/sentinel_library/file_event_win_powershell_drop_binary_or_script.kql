@@ -1,0 +1,11 @@
+// Title: Potential Binary Or Script Dropper Via PowerShell
+// ID: 7047d730-036f-4f40-b9d8-1c63e36d5e62
+// Status: test
+// Level: medium
+// Author: frack113, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-03-17
+// Tags: attack.persistence
+// Description: Detects PowerShell creating a binary executable or a script file.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+DeviceProcessEvents | where (((FolderPath endswith "\\powershell.exe" or FolderPath endswith "\\powershell_ise.exe" or FolderPath endswith "\\pwsh.exe") and (FileName endswith ".bat" or FileName endswith ".chm" or FileName endswith ".cmd" or FileName endswith ".com" or FileName endswith ".dll" or FileName endswith ".exe" or FileName endswith ".hta" or FileName endswith ".jar" or FileName endswith ".js" or FileName endswith ".ocx" or FileName endswith ".scr" or FileName endswith ".sys" or FileName endswith ".vbe" or FileName endswith ".vbs" or FileName endswith ".wsf")) and not(((FileName startswith "C:\\Program Files\\PackageManagement\\ProviderAssemblies\\nuget\\" and FileName endswith "\\Microsoft.PackageManagement.NuGetProvider.dll") or ((FileName startswith "C:\\Windows\\Temp\\" or FileName startswith "C:\\Windows\\SystemTemp\\") and (FileName endswith ".dll" or FileName endswith ".exe")) or (FileName startswith "C:\\Users\\" and FileName contains "\\WindowsPowerShell\\Modules\\" and FileName endswith ".dll") or (FileName startswith "C:\\Users\\" and FileName contains "\\AppData\\Local\\Temp\\" and (FileName endswith ".dll" or FileName endswith ".exe")))))

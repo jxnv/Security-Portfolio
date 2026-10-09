@@ -1,0 +1,11 @@
+# Title: Dumping of Sensitive Hives Via Reg.EXE
+# ID: fd877b94-9bb5-4191-bb25-d79cbd93c167
+# Status: test
+# Level: high
+# Author: Teymur Kheirkhabarov, Endgame, JHasenbusch, Daniil Yugoslavskiy, oscd.community, frack113
+# Date: 2019-10-22
+# Tags: attack.credential-access, attack.t1003.002, attack.t1003.004, attack.t1003.005, car.2013-07-001
+# Description: Detects the usage of "reg.exe" in order to dump sensitive registry hives. This includes SAM, SYSTEM and SECURITY hives.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((process.command_line:* save * OR process.command_line:* export * OR process.command_line:* ˢave * OR process.command_line:* eˣport *)) AND ((process.command_line:*\\system* OR process.command_line:*\\sam* OR process.command_line:*\\security* OR process.command_line:*\\ˢystem* OR process.command_line:*\\syˢtem* OR process.command_line:*\\ˢyˢtem* OR process.command_line:*\\ˢam* OR process.command_line:*\\ˢecurity*)) AND ((process.command_line:*hklm* OR process.command_line:*hk˪m* OR process.command_line:*hkey_local_machine* OR process.command_line:*hkey_˪ocal_machine* OR process.command_line:*hkey_loca˪_machine* OR process.command_line:*hkey_˪oca˪_machine*)) AND ((process.executable:*\\reg.exe) OR (process.pe.original_file_name:"reg.exe")))

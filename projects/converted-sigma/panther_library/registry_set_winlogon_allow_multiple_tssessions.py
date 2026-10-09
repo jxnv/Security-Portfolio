@@ -1,0 +1,21 @@
+# Title: Winlogon AllowMultipleTSSessions Enable
+# ID: f7997770-92c3-4ec9-b112-774c4ef96f96
+# Status: test
+# Level: medium
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-09-09
+# Tags: attack.persistence, attack.defense-impairment, attack.t1112
+# Description: Detects when the 'AllowMultipleTSSessions' value is enabled.
+# Which allows for multiple Remote Desktop connection sessions to be opened at once.
+# This is often used by attacker as a way to connect to an RDP session without disconnecting the other users
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Winlogon AllowMultipleTSSessions Enable
+def rule(event):
+    # Detection Logic:
+    # (TargetObject="*\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\AllowMultipleTSSessions" AND Details="*DWORD (0x00000001)")
+    return True
+
+def title(event):
+    return "Winlogon AllowMultipleTSSessions Enable"
+

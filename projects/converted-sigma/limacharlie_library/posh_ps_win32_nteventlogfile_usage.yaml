@@ -1,0 +1,22 @@
+# Title: Potentially Suspicious Call To Win32_NTEventlogFile Class - PSScript
+# ID: e2812b49-bae0-4b21-b366-7c142eafcde2
+# Status: test
+# Level: medium
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2023-07-13
+# Tags: attack.defense-impairment
+# Description: Detects usage of the WMI class "Win32_NTEventlogFile" in a potentially suspicious way (delete, backup, change permissions, etc.) from a PowerShell script
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# LimaCharlie Detection & Response Rule
+# Name: Potentially Suspicious Call To Win32_NTEventlogFile Class - PSScript
+detect:
+  event: ps_script
+  op: and
+  rules:
+    # Filter logic:
+    # ((ScriptBlockText="*Win32_NTEventlogFile*") AND ((ScriptBlockText="*.BackupEventlog(*" OR ScriptBlockText="*.ChangeSecurityPermissions(*" OR ScriptBlockText="*.ChangeSecurityPermissionsEx(*" OR ScriptBlockText="*.ClearEventLog(*" OR ScriptBlockText="*.Delete(*" OR ScriptBlockText="*.DeleteEx(*" OR ScriptBlockText="*.Rename(*" OR ScriptBlockText="*.TakeOwnerShip(*" OR ScriptBlockText="*.TakeOwnerShipEx(*")))
+respond:
+  - action: report
+    name: Potentially Suspicious Call To Win32_NTEventlogFile Class - PSScript
+

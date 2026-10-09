@@ -1,0 +1,19 @@
+# Title: SMB Spoolss Name Piped Usage
+# ID: bae2865c-5565-470d-b505-9496c87d0c30
+# Status: test
+# Level: medium
+# Author: OTR (Open Threat Research), @neu5ron
+# Date: 2018-11-28
+# Tags: attack.lateral-movement, attack.t1021.002
+# Description: Detects the use of the spoolss named pipe over SMB. This can be used to trigger the authentication via NTLM of any machine that has the spoolservice enabled.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: SMB Spoolss Name Piped Usage
+def rule(event):
+    # Detection Logic:
+    # (path="*IPC$" AND name="spoolss")
+    return True
+
+def title(event):
+    return "SMB Spoolss Name Piped Usage"
+

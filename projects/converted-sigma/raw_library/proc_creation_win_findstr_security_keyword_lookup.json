@@ -1,0 +1,60 @@
+{
+  "title": "Security Tools Keyword Lookup Via Findstr.EXE",
+  "id": "4fe074b4-b833-4081-8f24-7dcfeca72b42",
+  "status": "test",
+  "description": "Detects execution of \"findstr\" to search for common names of security tools. Attackers often pipe the results of recon commands such as \"tasklist\" or \"whoami\" to \"findstr\" in order to filter out the results.\nThis detection focuses on the keywords that the attacker might use as a filter.\n",
+  "author": "Nasreddine Bencherchali (Nextron Systems), frack113",
+  "date": "2023-10-20",
+  "tags": [
+    "attack.discovery",
+    "attack.t1518.001"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_img": [
+      {
+        "Image|endswith": [
+          "\\find.exe",
+          "\\findstr.exe"
+        ]
+      },
+      {
+        "OriginalFileName": [
+          "FIND.EXE",
+          "FINDSTR.EXE"
+        ]
+      }
+    ],
+    "selection_cli": {
+      "CommandLine|endswith": [
+        " avira",
+        " avira\"",
+        " cb",
+        " cb\"",
+        " cylance",
+        " cylance\"",
+        " defender",
+        " defender\"",
+        " kaspersky",
+        " kaspersky\"",
+        " kes",
+        " kes\"",
+        " mc",
+        " mc\"",
+        " sec",
+        " sec\"",
+        " sentinel",
+        " sentinel\"",
+        " symantec",
+        " symantec\"",
+        " virus",
+        " virus\""
+      ]
+    },
+    "condition": "all of selection_*"
+  }
+}

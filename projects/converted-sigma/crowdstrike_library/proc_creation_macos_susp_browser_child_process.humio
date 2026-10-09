@@ -1,0 +1,11 @@
+// Title: Suspicious Browser Child Process - MacOS
+// ID: 0250638a-2b28-4541-86fc-ea4c558fa0c6
+// Status: test
+// Level: medium
+// Author: Sohan G (D4rkCiph3r)
+// Date: 2023-04-05
+// Tags: attack.initial-access, attack.execution, attack.t1189, attack.t1203, attack.t1059
+// Description: Detects suspicious child processes spawned from browsers. This could be a result of a potential web browser exploitation.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((ParentBaseFileName = /*com.apple.WebKit.WebContent*/i or ParentBaseFileName = /*firefox*/i or ParentBaseFileName = /*Google Chrome Helper*/i or ParentBaseFileName = /*Google Chrome*/i or ParentBaseFileName = /*Microsoft Edge*/i or ParentBaseFileName = /*Opera*/i or ParentBaseFileName = /*Safari*/i or ParentBaseFileName = /*Tor Browser*/i) and (ImageFileName = /.*/bash/i or ImageFileName = /.*/curl/i or ImageFileName = /.*/dash/i or ImageFileName = /.*/ksh/i or ImageFileName = /.*/osascript/i or ImageFileName = /.*/perl/i or ImageFileName = /.*/php/i or ImageFileName = /.*/pwsh/i or ImageFileName = /.*/python/i or ImageFileName = /.*/sh/i or ImageFileName = /.*/tcsh/i or ImageFileName = /.*/wget/i or ImageFileName = /.*/zsh/i)) and not((((ParentBaseFileName = /*Google Chrome Helper*/i or ParentBaseFileName = /*Google Chrome*/i) and (CommandLine = /*/Volumes/Google Chrome/Google Chrome.app/Contents/Frameworks/*/Resources/install.sh*/i or CommandLine = /*/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/*/Resources/keystone_promote_preflight.sh*/i or CommandLine = /*/Applications/Google Chrome.app/Contents/Frameworks/Google Chrome Framework.framework/*/Resources/keystone_promote_postflight.sh*/i)) or ((ParentBaseFileName = /*Google Chrome Helper*/i or ParentBaseFileName = /*Google Chrome*/i) and (CommandLine = /*/Users/*/i and CommandLine = /*/Library/Application Support/Google/Chrome/recovery/*/i and CommandLine = /*/ChromeRecovery*/i)) or (CommandLine = /*--defaults-torrc*/i) or (CommandLine = /*/Library/Application Support/Microsoft/MAU*/Microsoft AutoUpdate.app/Contents/MacOS/msupdate*/i) or (ParentBaseFileName = /*Microsoft Edge*/i and (CommandLine = /*IOPlatformExpertDevice*/i or CommandLine = /*hw.model*/i)))) and not(((CommandLine = "") or (not(CommandLine = *)))))

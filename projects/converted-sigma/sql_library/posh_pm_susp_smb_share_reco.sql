@@ -1,0 +1,13 @@
+-- Title: Suspicious Get Information for SMB Share - PowerShell Module
+-- ID: 6942bd25-5970-40ab-af49-944247103358
+-- Status: test
+-- Level: low
+-- Author: frack113
+-- Date: 2021-12-15
+-- Tags: attack.discovery, attack.t1069.001
+-- Description: Adversaries may look for folders and drives shared on remote systems as a means of identifying sources of information to gather as a precursor for Collection and
+-- to identify potential systems of interest for Lateral Movement.
+-- Networks often contain shared network drives and folders that enable users to access file directories on various systems across a network.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE ((Payload ILIKE '%get-smbshare%') OR (ContextInfo ILIKE '%get-smbshare%'))

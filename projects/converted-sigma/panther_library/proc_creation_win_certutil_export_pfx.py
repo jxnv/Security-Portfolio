@@ -1,0 +1,19 @@
+# Title: Certificate Exported Via Certutil.EXE
+# ID: 3ffd6f51-e6c1-47b7-94b4-c1e61d4117c5
+# Status: test
+# Level: medium
+# Author: Florian Roth (Nextron Systems), Jonhnathan Ribeiro, oscd.community, Nasreddine Bencherchali (Nextron Systems)
+# Date: 2023-02-15
+# Tags: attack.stealth, attack.t1027
+# Description: Detects the execution of the certutil with the "exportPFX" flag which allows the utility to export certificates.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Certificate Exported Via Certutil.EXE
+def rule(event):
+    # Detection Logic:
+    # (((CommandLine="*-exportPFX *" OR CommandLine="*/exportPFX *")) AND ((Image="*\\certutil.exe") OR (OriginalFileName="CertUtil.exe")))
+    return True
+
+def title(event):
+    return "Certificate Exported Via Certutil.EXE"
+

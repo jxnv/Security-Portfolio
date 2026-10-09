@@ -1,0 +1,13 @@
+// Title: Kubernetes Potential Enumeration Activity
+// ID: 597a7e84-187d-458b-9e4f-2f5a0e676711
+// Status: experimental
+// Level: medium
+// Author: uniqu3-us3r
+// Date: 2026-04-28
+// Tags: attack.execution, attack.discovery, attack.t1609, attack.t1613
+// Description: Detects potential Kubernetes enumeration or attack activity via the audit log.
+// This includes the execution of common shells, utilities, or specialized tools like 'Rakkess' (access_matrix) and 'TruffleHog' via Kubernetes API requests.
+// Attackers use these methods to perform reconnaissance (enumeration), secret harvesting, or execute code (exec) within a cluster.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((where(responseStatus.code = "ALLOW")) AND (((where(requestURI ICONTAINS "%2fbin%2fash") OR where(requestURI ICONTAINS "%2fbin%2fbash") OR where(requestURI ICONTAINS "%2fbin%2fbusybox") OR where(requestURI ICONTAINS "%2fbin%2fdash") OR where(requestURI ICONTAINS "%2fbin%2fsh") OR where(requestURI ICONTAINS "%2fbin%2fzsh") OR where(requestURI ICONTAINS "/bin/ash") OR where(requestURI ICONTAINS "/bin/bash") OR where(requestURI ICONTAINS "/bin/busybox") OR where(requestURI ICONTAINS "/bin/dash") OR where(requestURI ICONTAINS "/bin/sh") OR where(requestURI ICONTAINS "/bin/zsh") OR where(requestURI ICONTAINS "%2fusr%2fbin%2fcurl") OR where(requestURI ICONTAINS "%2fusr%2fbin%2fkubectl") OR where(requestURI ICONTAINS "%2fusr%2fbin%2fperl") OR where(requestURI ICONTAINS "%2fusr%2fbin%2fpython") OR where(requestURI ICONTAINS "%2fusr%2fbin%2fwget") OR where(requestURI ICONTAINS "/usr/bin/curl") OR where(requestURI ICONTAINS "/usr/bin/kubectl") OR where(requestURI ICONTAINS "/usr/bin/perl") OR where(requestURI ICONTAINS "/usr/bin/python") OR where(requestURI ICONTAINS "/usr/bin/wget"))) OR ((where(userAgent ICONTAINS "access_matrix") OR where(userAgent ICONTAINS "trufflehog") OR where(userAgent ICONTAINS "azurehound") OR where(userAgent ICONTAINS "micro-scanner")))))

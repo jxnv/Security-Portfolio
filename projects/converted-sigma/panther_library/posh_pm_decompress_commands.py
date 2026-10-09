@@ -1,0 +1,19 @@
+# Title: PowerShell Decompress Commands
+# ID: 1ddc1472-8e52-4f7d-9f11-eab14fc171f5
+# Status: test
+# Level: informational
+# Author: Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research)
+# Date: 2020-05-02
+# Tags: attack.stealth, attack.t1140
+# Description: A General detection for specific decompress commands in PowerShell logs. This could be an adversary decompressing files.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: PowerShell Decompress Commands
+def rule(event):
+    # Detection Logic:
+    # (Payload="*Expand-Archive*")
+    return True
+
+def title(event):
+    return "PowerShell Decompress Commands"
+

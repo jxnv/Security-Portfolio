@@ -1,0 +1,23 @@
+// Title: Renamed MegaSync Execution
+// ID: 643bdcac-8b82-49f4-9fd9-25a90b929f3b
+// Status: test
+// Level: high
+// Author: Sittikorn S
+// Date: 2021-06-22
+// Tags: attack.stealth, attack.t1218
+// Description: Detects the execution of a renamed MegaSync.exe as seen used by ransomware families like Nefilim, Sodinokibi, Pysa, and Conti.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 643bdcac_8b82_49f4_9fd9_25a90b929f3b {
+  meta:
+    title = "Renamed MegaSync Execution"
+    description = "Detects the execution of a renamed MegaSync.exe as seen used by ransomware families like Nefilim, Sodinokibi, Pysa, and Conti."
+    author = "Sittikorn S"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.file.name = "megasync.exe") and not(($e.target.process.file.full_path = /.*\\megasync.exe$/ nocase)))
+
+  condition:
+    $e
+}

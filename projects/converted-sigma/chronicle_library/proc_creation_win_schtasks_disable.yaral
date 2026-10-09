@@ -1,0 +1,23 @@
+// Title: Disable Important Scheduled Task
+// ID: 9ac94dc8-9042-493c-ba45-3b5e7c86b980
+// Status: test
+// Level: high
+// Author: frack113, Nasreddine Bencherchali (Nextron Systems), X__Junior
+// Date: 2021-12-26
+// Tags: attack.impact, attack.t1489
+// Description: Detects when adversaries stop services or processes by disabling their respective scheduled tasks in order to conduct data destructive activities
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 9ac94dc8_9042_493c_ba45_3b5e7c86b980 {
+  meta:
+    title = "Disable Important Scheduled Task"
+    description = "Detects when adversaries stop services or processes by disabling their respective scheduled tasks in order to conduct data destructive activities"
+    author = "frack113, Nasreddine Bencherchali (Nextron Systems), X__Junior"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*/disable.*/ nocase or $e.target.process.command_line = /.*-disable.*/ nocase)) and (($e.target.process.command_line = /.*\\Windows\\BitLocker.*/ nocase or $e.target.process.command_line = /.*\\Windows\\ExploitGuard.*/ nocase or $e.target.process.command_line = /.*\\Windows\\ExploitGuard\\ExploitGuard MDM policy Refresh.*/ nocase or $e.target.process.command_line = /.*\\Windows\\SystemRestore\\SR.*/ nocase or $e.target.process.command_line = /.*\\Windows\\UpdateOrchestrator\\.*/ nocase or $e.target.process.command_line = /.*\\Windows\\Windows Defender\\.*/ nocase or $e.target.process.command_line = /.*\\Windows\\WindowsBackup\\.*/ nocase or $e.target.process.command_line = /.*\\Windows\\WindowsUpdate\\.*/ nocase)) and (($e.target.process.file.full_path = /.*\\schtasks.exe$/ nocase) or ($e.target.process.file.name = "schtasks.exe")))
+
+  condition:
+    $e
+}

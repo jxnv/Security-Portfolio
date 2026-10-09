@@ -1,0 +1,11 @@
+// Title: HackTool - Inveigh Execution
+// ID: b99a1518-1ad5-4f65-bc95-1ffff97a8fd0
+// Status: test
+// Level: critical
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-10-24
+// Tags: attack.credential-access, attack.t1003.001
+// Description: Detects the use of Inveigh a cross-platform .NET IPv4/IPv6 machine-in-the-middle tool
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where ((process.executable endswith "\\Inveigh.exe") or ((process.pe.original_file_name == "\\Inveigh.exe" or process.pe.original_file_name == "\\Inveigh.dll")) or (Description == "Inveigh") or ((process.command_line like "*_ -SpooferIP*" or process.command_line like "*_ -ReplyToIPs *" or process.command_line like "*_ -ReplyToDomains *" or process.command_line like "*_ -ReplyToMACs *" or process.command_line like "*_ -SnifferIP*")))

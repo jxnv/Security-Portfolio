@@ -1,0 +1,23 @@
+// Title: Potential Recon Activity Via Nltest.EXE
+// ID: 5cc90652-4cbd-4241-aa3b-4b462fa5a248
+// Status: test
+// Level: medium
+// Author: Craig Young, oscd.community, Georg Lauenstein
+// Date: 2021-07-24
+// Tags: attack.discovery, attack.t1016, attack.t1482
+// Description: Detects nltest commands that can be used for information discovery
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 5cc90652_4cbd_4241_aa3b_4b462fa5a248 {
+  meta:
+    title = "Potential Recon Activity Via Nltest.EXE"
+    description = "Detects nltest commands that can be used for information discovery"
+    author = "Craig Young, oscd.community, Georg Lauenstein"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.file.full_path = /.*\\nltest.exe$/ nocase) or ($e.target.process.file.name = "nltestrk.exe")) and ((($e.target.process.command_line = /.*server.*/ nocase and $e.target.process.command_line = /.*query.*/ nocase)) or (($e.target.process.command_line = /.*/user.*/ nocase or $e.target.process.command_line = /.*all_trusts.*/ nocase or $e.target.process.command_line = /.*dclist:.*/ nocase or $e.target.process.command_line = /.*dnsgetdc:.*/ nocase or $e.target.process.command_line = /.*domain_trusts.*/ nocase or $e.target.process.command_line = /.*dsgetdc:.*/ nocase or $e.target.process.command_line = /.*parentdomain.*/ nocase or $e.target.process.command_line = /.*trusted_domains.*/ nocase))))
+
+  condition:
+    $e
+}

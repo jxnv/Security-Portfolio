@@ -1,0 +1,12 @@
+// Title: Vim GTFOBin Abuse - Linux
+// ID: 7ab8f73a-fcff-428b-84aa-6a5ff7877dea
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems), Luc Génaux
+// Date: 2022-12-28
+// Tags: attack.execution, attack.discovery, attack.t1059, attack.t1083
+// Description: Detects the use of "vim" and it's siblings commands to execute a shell or proxy commands.
+// Such behavior may be associated with privilege escalation, unauthorized command execution, or to break out from restricted environments.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((src.process.cmdline containsCIS ":!/" OR src.process.cmdline containsCIS ":!$" OR src.process.cmdline containsCIS ":!.." OR src.process.cmdline containsCIS ":lua " OR src.process.cmdline containsCIS ":py " OR src.process.cmdline containsCIS ":shell" OR src.process.cmdline containsCIS "/bin/bash" OR src.process.cmdline containsCIS "/bin/dash" OR src.process.cmdline containsCIS "/bin/fish" OR src.process.cmdline containsCIS "/bin/sh" OR src.process.cmdline containsCIS "/bin/csh" OR src.process.cmdline containsCIS "/bin/ksh" OR src.process.cmdline containsCIS "/bin/zsh" OR src.process.cmdline containsCIS "/bin/tmux")) AND ((src.process.image.path endswithCIS "/rvim" OR src.process.image.path endswithCIS "/vi" OR src.process.image.path endswithCIS "/vim" OR src.process.image.path endswithCIS "/vimdiff") AND (src.process.cmdline containsCIS " --cmd " OR src.process.cmdline containsCIS " -c")))

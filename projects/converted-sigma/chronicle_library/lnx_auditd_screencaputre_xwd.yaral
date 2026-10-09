@@ -1,0 +1,23 @@
+// Title: Screen Capture with Xwd
+// ID: e2f17c5d-b02a-442b-9052-6eb89c9fec9c
+// Status: test
+// Level: low
+// Author: Pawel Mazur
+// Date: 2021-09-13
+// Tags: attack.collection, attack.t1113
+// Description: Detects adversary creating screen capture of a full with xwd. Highly recommended using rule on servers, due high usage of screenshot utilities on user workstations
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule e2f17c5d_b02a_442b_9052_6eb89c9fec9c {
+  meta:
+    title = "Screen Capture with Xwd"
+    description = "Detects adversary creating screen capture of a full with xwd. Highly recommended using rule on servers, due high usage of screenshot utilities on user workstations"
+    author = "Pawel Mazur"
+    severity = "LOW"
+
+  events:
+    (($e.type = "EXECVE" and $e.a0 = "xwd") and (($e.a1 = "-out" and $e.a2 = /.*.xwd$/ nocase) or ($e.a1 = "-root" and $e.a2 = "-out" and $e.a3 = /.*.xwd$/ nocase)))
+
+  condition:
+    $e
+}

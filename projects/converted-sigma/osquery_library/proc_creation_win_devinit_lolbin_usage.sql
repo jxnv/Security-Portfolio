@@ -1,0 +1,11 @@
+-- Title: Arbitrary MSI Download Via Devinit.EXE
+-- ID: 90d50722-0483-4065-8e35-57efaadd354d
+-- Status: test
+-- Level: medium
+-- Author: Florian Roth (Nextron Systems)
+-- Date: 2022-01-11
+-- Tags: attack.execution, attack.stealth, attack.t1218
+-- Description: Detects a certain command line flag combination used by "devinit.exe", which can be abused as a LOLBIN to download arbitrary MSI packages on a Windows system
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM processes WHERE ((CommandLine LIKE '% -t msi-install %' AND CommandLine LIKE '% -i http%'))

@@ -1,0 +1,11 @@
+# Title: HackTool - Rubeus Execution
+# ID: 7ec2c172-dceb-4c10-92c9-87c1881b7e18
+# Status: stable
+# Level: critical
+# Author: Florian Roth (Nextron Systems)
+# Date: 2018-12-19
+# Tags: attack.credential-access, attack.t1003, attack.t1558.003, attack.lateral-movement, attack.t1550.003
+# Description: Detects the execution of the hacktool Rubeus via PE information of command line parameters
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((process_name:*\\Rubeus.exe) OR (OriginalFileName:"Rubeus.exe") OR (Description:"Rubeus") OR ((cmdline:*asreproast * OR cmdline:*dump /service:krbtgt * OR cmdline:*dump /luid:0x* OR cmdline:*kerberoast * OR cmdline:*createnetonly /program:* OR cmdline:*ptt /ticket:* OR cmdline:*/impersonateuser:* OR cmdline:*renew /ticket:* OR cmdline:*asktgt /user:* OR cmdline:*harvest /interval:* OR cmdline:*s4u /user:* OR cmdline:*s4u /ticket:* OR cmdline:*hash /password:* OR cmdline:*golden /aes256:* OR cmdline:*silver /user:*)))

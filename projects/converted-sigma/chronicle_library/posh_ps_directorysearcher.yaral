@@ -1,0 +1,23 @@
+// Title: DirectorySearcher Powershell Exploitation
+// ID: 1f6399cf-2c80-4924-ace1-6fcff3393480
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-02-12
+// Tags: attack.discovery, attack.t1018
+// Description: Enumerates Active Directory to determine computers that are joined to the domain
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 1f6399cf_2c80_4924_ace1_6fcff3393480 {
+  meta:
+    title = "DirectorySearcher Powershell Exploitation"
+    description = "Enumerates Active Directory to determine computers that are joined to the domain"
+    author = "frack113"
+    severity = "MEDIUM"
+
+  events:
+    (($e.ScriptBlockText = /.*New-Object .*/ nocase and $e.ScriptBlockText = /.*System.DirectoryServices.DirectorySearcher.*/ nocase and $e.ScriptBlockText = /.*.PropertiesToLoad.Add.*/ nocase and $e.ScriptBlockText = /.*.findall().*/ nocase and $e.ScriptBlockText = /.*Properties.name.*/ nocase))
+
+  condition:
+    $e
+}

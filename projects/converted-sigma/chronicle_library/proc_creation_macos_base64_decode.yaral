@@ -1,0 +1,23 @@
+// Title: Decode Base64 Encoded Text -MacOs
+// ID: 719c22d7-c11a-4f2c-93a6-2cfdd5412f68
+// Status: test
+// Level: low
+// Author: Daniil Yugoslavskiy, oscd.community
+// Date: 2020-10-19
+// Tags: attack.stealth, attack.t1027
+// Description: Detects usage of base64 utility to decode arbitrary base64-encoded text
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 719c22d7_c11a_4f2c_93a6_2cfdd5412f68 {
+  meta:
+    title = "Decode Base64 Encoded Text -MacOs"
+    description = "Detects usage of base64 utility to decode arbitrary base64-encoded text"
+    author = "Daniil Yugoslavskiy, oscd.community"
+    severity = "LOW"
+
+  events:
+    ($e.target.process.file.full_path = "/usr/bin/base64" and $e.target.process.command_line = /.*-d.*/ nocase)
+
+  condition:
+    $e
+}

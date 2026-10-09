@@ -1,0 +1,23 @@
+// Title: Remote Thread Created In KeePass.EXE
+// ID: 77564cc2-7382-438b-a7f6-395c2ae53b9a
+// Status: test
+// Level: high
+// Author: Timon Hackenjos
+// Date: 2022-04-22
+// Tags: attack.credential-access, attack.t1555.005
+// Description: Detects remote thread creation in "KeePass.exe" which could indicates potential password dumping activity
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 77564cc2_7382_438b_a7f6_395c2ae53b9a {
+  meta:
+    title = "Remote Thread Created In KeePass.EXE"
+    description = "Detects remote thread creation in "KeePass.exe" which could indicates potential password dumping activity"
+    author = "Timon Hackenjos"
+    severity = "HIGH"
+
+  events:
+    ($e.TargetImage = /.*\\KeePass.exe$/ nocase)
+
+  condition:
+    $e
+}

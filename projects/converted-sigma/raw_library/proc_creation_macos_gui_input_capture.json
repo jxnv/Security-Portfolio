@@ -1,0 +1,44 @@
+{
+  "title": "GUI Input Capture - macOS",
+  "id": "60f1ce20-484e-41bd-85f4-ac4afec2c541",
+  "status": "test",
+  "description": "Detects attempts to use system dialog prompts to capture user credentials",
+  "author": "remotephone, oscd.community",
+  "date": "2020-10-13",
+  "tags": [
+    "attack.collection",
+    "attack.credential-access",
+    "attack.t1056.002"
+  ],
+  "level": "low",
+  "logsource": {
+    "product": "macos",
+    "category": "process_creation"
+  },
+  "detection": {
+    "selection_img": {
+      "Image|endswith": "/osascript"
+    },
+    "selection_cli_1": {
+      "CommandLine|contains|all": [
+        "-e",
+        "display",
+        "dialog",
+        "answer"
+      ]
+    },
+    "selection_cli_2": {
+      "CommandLine|contains": [
+        "admin",
+        "administrator",
+        "authenticate",
+        "authentication",
+        "credentials",
+        "pass",
+        "password",
+        "unlock"
+      ]
+    },
+    "condition": "all of selection_*"
+  }
+}

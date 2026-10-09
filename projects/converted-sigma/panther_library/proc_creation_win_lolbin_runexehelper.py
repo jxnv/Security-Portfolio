@@ -1,0 +1,19 @@
+# Title: Lolbin Runexehelper Use As Proxy
+# ID: cd71385d-fd9b-4691-9b98-2b1f7e508714
+# Status: test
+# Level: medium
+# Author: frack113
+# Date: 2022-12-29
+# Tags: attack.stealth, attack.t1218
+# Description: Detect usage of the "runexehelper.exe" binary as a proxy to launch other programs
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Lolbin Runexehelper Use As Proxy
+def rule(event):
+    # Detection Logic:
+    # (ParentImage="*\\runexehelper.exe")
+    return True
+
+def title(event):
+    return "Lolbin Runexehelper Use As Proxy"
+

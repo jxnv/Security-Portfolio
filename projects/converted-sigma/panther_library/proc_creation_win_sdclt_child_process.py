@@ -1,0 +1,19 @@
+# Title: Sdclt Child Processes
+# ID: da2738f2-fadb-4394-afa7-0a0674885afa
+# Status: test
+# Level: medium
+# Author: Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research)
+# Date: 2020-05-02
+# Tags: attack.privilege-escalation, attack.t1548.002
+# Description: A General detection for sdclt spawning new processes. This could be an indicator of sdclt being used for bypass UAC techniques.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Sdclt Child Processes
+def rule(event):
+    # Detection Logic:
+    # (ParentImage="*\\sdclt.exe")
+    return True
+
+def title(event):
+    return "Sdclt Child Processes"
+

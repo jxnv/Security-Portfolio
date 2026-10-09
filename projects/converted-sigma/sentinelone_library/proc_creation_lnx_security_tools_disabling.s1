@@ -1,0 +1,11 @@
+// Title: Disabling Security Tools
+// ID: e3a8a052-111f-4606-9aee-f28ebeb76776
+// Status: test
+// Level: medium
+// Author: Ömer Günal, Alejandro Ortuno, oscd.community
+// Date: 2020-06-17
+// Tags: attack.defense-impairment, attack.t1686
+// Description: Detects disabling security tools
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((src.process.image.path endswithCIS "/service" AND (src.process.cmdline containsCIS "cbdaemon" AND src.process.cmdline containsCIS "stop")) OR (src.process.image.path endswithCIS "/chkconfig" AND (src.process.cmdline containsCIS "cbdaemon" AND src.process.cmdline containsCIS "off")) OR (src.process.image.path endswithCIS "/systemctl" AND (src.process.cmdline containsCIS "cbdaemon" AND src.process.cmdline containsCIS "stop")) OR (src.process.image.path endswithCIS "/systemctl" AND (src.process.cmdline containsCIS "cbdaemon" AND src.process.cmdline containsCIS "disable")) OR (src.process.image.path endswithCIS "/systemctl" AND (src.process.cmdline containsCIS "stop" AND src.process.cmdline containsCIS "falcon-sensor")) OR (src.process.image.path endswithCIS "/systemctl" AND (src.process.cmdline containsCIS "disable" AND src.process.cmdline containsCIS "falcon-sensor")) OR (src.process.image.path endswithCIS "/systemctl" AND (src.process.cmdline containsCIS "firewalld" AND src.process.cmdline containsCIS "stop")) OR (src.process.image.path endswithCIS "/systemctl" AND (src.process.cmdline containsCIS "firewalld" AND src.process.cmdline containsCIS "disable")) OR (src.process.image.path endswithCIS "/service" AND (src.process.cmdline containsCIS "iptables" AND src.process.cmdline containsCIS "stop")) OR (src.process.image.path endswithCIS "/service" AND (src.process.cmdline containsCIS "ip6tables" AND src.process.cmdline containsCIS "stop")) OR (src.process.image.path endswithCIS "/chkconfig" AND (src.process.cmdline containsCIS "iptables" AND src.process.cmdline containsCIS "stop")) OR (src.process.image.path endswithCIS "/chkconfig" AND (src.process.cmdline containsCIS "ip6tables" AND src.process.cmdline containsCIS "stop")) OR (src.process.image.path endswithCIS "/setenforce" AND src.process.cmdline containsCIS "0"))

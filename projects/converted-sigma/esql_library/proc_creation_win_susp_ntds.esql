@@ -1,0 +1,11 @@
+// Title: Suspicious Process Patterns NTDS.DIT Exfil
+// ID: 8bc64091-6875-4881-aaf9-7bd25b5dda08
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-03-11
+// Tags: attack.credential-access, attack.t1003.003
+// Description: Detects suspicious process patterns used in NTDS.DIT exfiltration
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+FROM logs-* | WHERE ((((process.command_line LIKE "%ac i ntds%" AND process.command_line LIKE "%create full%")) OR ((process.command_line LIKE "%/c copy %" AND process.command_line LIKE "%\\windows\\ntds\\ntds.dit%")) OR ((process.command_line LIKE "%activate instance ntds%" AND process.command_line LIKE "%create full%")) OR ((process.command_line LIKE "%powershell%" AND process.command_line LIKE "%ntds.dit%")) OR (((process.executable LIKE "%\\NTDSDump.exe" OR process.executable LIKE "%\\NTDSDumpEx.exe")) OR ((process.command_line LIKE "%ntds.dit%" AND process.command_line LIKE "%system.hiv%")) OR (process.command_line LIKE "%NTDSgrab.ps1%"))) OR ((((process.parent.executable LIKE "%\\apache%" OR process.parent.executable LIKE "%\\tomcat%" OR process.parent.executable LIKE "%\\AppData\\%" OR process.parent.executable LIKE "%\\Temp\\%" OR process.parent.executable LIKE "%\\Public\\%" OR process.parent.executable LIKE "%\\PerfLogs\\%")) OR ((process.executable LIKE "%\\apache%" OR process.executable LIKE "%\\tomcat%" OR process.executable LIKE "%\\AppData\\%" OR process.executable LIKE "%\\Temp\\%" OR process.executable LIKE "%\\Public\\%" OR process.executable LIKE "%\\PerfLogs\\%"))) AND (process.command_line LIKE "%ntds.dit%")))

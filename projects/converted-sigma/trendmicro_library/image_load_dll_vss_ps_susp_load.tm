@@ -1,0 +1,13 @@
+// Title: Suspicious Volume Shadow Copy VSS_PS.dll Load
+// ID: 333cdbe8-27bb-4246-bf82-b41a0dca4b70
+// Status: test
+// Level: high
+// Author: Markus Neis, @markus_neis
+// Date: 2021-07-07
+// Tags: attack.impact, attack.t1490
+// Description: Detects the image load of vss_ps.dll by uncommon executables. This DLL is used by the Volume Shadow Copy Service (VSS) to manage shadow copies of files and volumes.
+// It is often abused by attackers to delete or manipulate shadow copies, which can hinder forensic investigations and data recovery efforts.
+// The fact that it is loaded by processes that are not typically associated with VSS operations can indicate suspicious activity.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((ImageLoaded="*\\vss_ps.dll") AND NOT (((NOT Image=*) OR (Image="C:\\Windows\\*" AND (Image="*\\clussvc.exe" OR Image="*\\dismhost.exe" OR Image="*\\dllhost.exe" OR Image="*\\inetsrv\\appcmd.exe" OR Image="*\\inetsrv\\iissetup.exe" OR Image="*\\msiexec.exe" OR Image="*\\rundll32.exe" OR Image="*\\searchindexer.exe" OR Image="*\\srtasks.exe" OR Image="*\\svchost.exe" OR Image="*\\System32\\SystemPropertiesAdvanced.exe" OR Image="*\\taskhostw.exe" OR Image="*\\thor.exe" OR Image="*\\thor64.exe" OR Image="*\\tiworker.exe" OR Image="*\\vssvc.exe" OR Image="*\\vssadmin.exe" OR Image="*\\WmiPrvSE.exe" OR Image="*\\wsmprovhost.exe")) OR (CommandLine="C:\\$WinREAgent\\Scratch\\*" AND CommandLine: "*\\dismhost.exe {*"))) AND NOT (((Image="C:\\Program Files\\*" OR Image="C:\\Program Files (x86)\\*"))))

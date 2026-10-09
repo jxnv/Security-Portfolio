@@ -1,0 +1,33 @@
+{
+  "title": "Active Directory Structure Export Via Ldifde.EXE",
+  "id": "4f7a6757-ff79-46db-9687-66501a02d9ec",
+  "status": "test",
+  "description": "Detects the execution of \"ldifde.exe\" in order to export organizational Active Directory structure.",
+  "author": "Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2023-03-14",
+  "tags": [
+    "attack.exfiltration"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_ldif": [
+      {
+        "Image|endswith": "\\ldifde.exe"
+      },
+      {
+        "OriginalFileName": "ldifde.exe"
+      }
+    ],
+    "selection_cmd": {
+      "CommandLine|contains": "-f"
+    },
+    "filter_import": {
+      "CommandLine|contains": " -i"
+    },
+    "condition": "all of selection_* and not 1 of filter_*"
+  }
+}

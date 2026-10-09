@@ -1,0 +1,19 @@
+# Title: Linux Base64 Encoded Pipe to Shell
+# ID: ba592c6d-6888-43c3-b8c6-689b8fe47337
+# Status: test
+# Level: medium
+# Author: pH-T (Nextron Systems)
+# Date: 2022-07-26
+# Tags: attack.stealth, attack.t1140
+# Description: Detects suspicious process command line that uses base64 encoded input for execution with a shell
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Linux Base64 Encoded Pipe to Shell
+def rule(event):
+    # Detection Logic:
+    # ((CommandLine="*base64 *") AND (((CommandLine="*| bash *" OR CommandLine="*| sh *" OR CommandLine="*|bash *" OR CommandLine="*|sh *")) OR ((CommandLine="* |sh" OR CommandLine="*| bash" OR CommandLine="*| sh" OR CommandLine="*|bash"))))
+    return True
+
+def title(event):
+    return "Linux Base64 Encoded Pipe to Shell"
+

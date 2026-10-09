@@ -1,0 +1,23 @@
+// Title: Potential SolidPDFCreator.DLL Sideloading
+// ID: a2edbce1-95c8-4291-8676-0d45146862b3
+// Status: test
+// Level: medium
+// Author: X__Junior (Nextron Systems)
+// Date: 2023-05-07
+// Tags: attack.persistence, attack.privilege-escalation, attack.execution, attack.stealth, attack.t1574.001
+// Description: Detects potential DLL sideloading of "SolidPDFCreator.dll"
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule a2edbce1_95c8_4291_8676_0d45146862b3 {
+  meta:
+    title = "Potential SolidPDFCreator.DLL Sideloading"
+    description = "Detects potential DLL sideloading of "SolidPDFCreator.dll""
+    author = "X__Junior (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.ImageLoaded = /.*\\SolidPDFCreator.dll$/ nocase) and not(($e.target.process.file.full_path = /.*\\SolidPDFCreator.exe$/ nocase and ($e.ImageLoaded = /^C:\\Program Files (x86)\\SolidDocuments\\SolidPDFCreator\\.*/ nocase or $e.ImageLoaded = /^C:\\Program Files\\SolidDocuments\\SolidPDFCreator\\.*/ nocase))))
+
+  condition:
+    $e
+}

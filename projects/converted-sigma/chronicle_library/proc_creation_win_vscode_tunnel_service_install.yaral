@@ -1,0 +1,23 @@
+// Title: Visual Studio Code Tunnel Service Installation
+// ID: 30bf1789-379d-4fdc-900f-55cd0a90a801
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-10-25
+// Tags: attack.command-and-control, attack.t1071.001
+// Description: Detects the installation of VsCode tunnel (code-tunnel) as a service.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 30bf1789_379d_4fdc_900f_55cd0a90a801 {
+  meta:
+    title = "Visual Studio Code Tunnel Service Installation"
+    description = "Detects the installation of VsCode tunnel (code-tunnel) as a service."
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.process.command_line = /.*tunnel .*/ nocase and $e.target.process.command_line = /.*service.*/ nocase and $e.target.process.command_line = /.*internal-run.*/ nocase and $e.target.process.command_line = /.*tunnel-service.log.*/ nocase))
+
+  condition:
+    $e
+}

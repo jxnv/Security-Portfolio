@@ -1,0 +1,11 @@
+// Title: Disable Microsoft Defender Firewall via Registry
+// ID: 974515da-6cc5-4c95-ae65-f97f9150ec7f
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-01-09
+// Tags: attack.defense-impairment, attack.t1686.003
+// Description: Adversaries may disable or modify system firewalls in order to bypass controls limiting network usage
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(TargetObject: "*\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\*" AND TargetObject="*\\EnableFirewall" AND Details: "DWORD (0x00000000)")

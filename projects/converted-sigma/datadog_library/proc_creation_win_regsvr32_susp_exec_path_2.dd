@@ -1,0 +1,11 @@
+# Title: Regsvr32 Execution From Highly Suspicious Location
+# ID: 327ff235-94eb-4f06-b9de-aaee571324be
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2023-05-26
+# Tags: attack.stealth, attack.t1218.010
+# Description: Detects execution of regsvr32 where the DLL is located in a highly suspicious locations
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((@Image:*\\regsvr32.exe) OR (@OriginalFileName:"REGSVR32.EXE")) AND (((@CommandLine:*:\\PerfLogs\\* OR @CommandLine:*:\\Temp\\* OR @CommandLine:*\\Windows\\Registration\\CRMLog* OR @CommandLine:*\\Windows\\System32\\com\\dmp\\* OR @CommandLine:*\\Windows\\System32\\FxsTmp\\* OR @CommandLine:*\\Windows\\System32\\Microsoft\\Crypto\\RSA\\MachineKeys\\* OR @CommandLine:*\\Windows\\System32\\spool\\drivers\\color\\* OR @CommandLine:*\\Windows\\System32\\spool\\PRINTERS\\* OR @CommandLine:*\\Windows\\System32\\spool\\SERVERS\\* OR @CommandLine:*\\Windows\\System32\\Tasks_Migrated\\* OR @CommandLine:*\\Windows\\System32\\Tasks\\Microsoft\\Windows\\SyncCenter\\* OR @CommandLine:*\\Windows\\SysWOW64\\com\\dmp\\* OR @CommandLine:*\\Windows\\SysWOW64\\FxsTmp\\* OR @CommandLine:*\\Windows\\SysWOW64\\Tasks\\Microsoft\\Windows\\PLA\\System\\* OR @CommandLine:*\\Windows\\SysWOW64\\Tasks\\Microsoft\\Windows\\SyncCenter\\* OR @CommandLine:*\\Windows\\Tasks\\* OR @CommandLine:*\\Windows\\Tracing\\*)) OR (((@CommandLine:* \"C:\\* OR @CommandLine:* C:\\* OR @CommandLine:* 'C:\\* OR @CommandLine:*D:\\*)) AND -(((@CommandLine:*C:\\Program Files (x86)\\* OR @CommandLine:*C:\\Program Files\\* OR @CommandLine:*C:\\ProgramData\\* OR @CommandLine:*C:\\Users\\* OR @CommandLine:* C:\\Windows\\* OR @CommandLine:* \"C:\\Windows\\* OR @CommandLine:* 'C:\\Windows\\*))))) AND -(((@CommandLine:"") OR (-@CommandLine:*))))

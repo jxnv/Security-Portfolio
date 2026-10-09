@@ -1,0 +1,11 @@
+// Title: Whoami.EXE Execution With Output Option
+// ID: c30fb093-1109-4dc8-88a8-b30d11c95a5d
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-02-28
+// Tags: attack.discovery, attack.t1033, car.2016-03-001
+// Description: Detects the execution of "whoami.exe" with the "/FO" flag to choose CSV as output format or with redirection options to export the results to a file for later use.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((((where(CommandLine ICONTAINS " /FO CSV") OR where(CommandLine ICONTAINS " -FO CSV"))) AND ((where(Image IENDSWITH "\\whoami.exe")) OR (where(OriginalFileName = "whoami.exe")))) OR (where(CommandLine ICONTAINS "whoami*>")))

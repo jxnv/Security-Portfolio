@@ -1,0 +1,52 @@
+{
+  "title": "Copying Sensitive Files with Credential Data",
+  "id": "e7be6119-fc37-43f0-ad4f-1f3f99be2f9f",
+  "status": "test",
+  "description": "Files with well-known filenames (sensitive files with credential data) copying",
+  "author": "Teymur Kheirkhabarov, Daniil Yugoslavskiy, oscd.community",
+  "date": "2019-10-22",
+  "tags": [
+    "attack.credential-access",
+    "attack.t1003.002",
+    "attack.t1003.003",
+    "car.2013-07-001",
+    "attack.s0404"
+  ],
+  "level": "high",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection_esent_img": [
+      {
+        "Image|endswith": "\\esentutl.exe"
+      },
+      {
+        "OriginalFileName": "\\esentutl.exe"
+      }
+    ],
+    "selection_esent_cli": {
+      "CommandLine|contains|windash": [
+        "vss",
+        " /m ",
+        " /y "
+      ]
+    },
+    "selection_susp_paths": {
+      "CommandLine|contains": [
+        "\\config\\RegBack\\sam",
+        "\\config\\RegBack\\security",
+        "\\config\\RegBack\\system",
+        "\\config\\sam",
+        "\\config\\security",
+        "\\config\\system ",
+        "\\repair\\sam",
+        "\\repair\\security",
+        "\\repair\\system",
+        "\\windows\\ntds\\ntds.dit"
+      ]
+    },
+    "condition": "all of selection_esent_* or selection_susp_paths"
+  }
+}

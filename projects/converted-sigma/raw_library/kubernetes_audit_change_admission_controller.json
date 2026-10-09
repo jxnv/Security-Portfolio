@@ -1,0 +1,40 @@
+{
+  "title": "Kubernetes Admission Controller Modification",
+  "id": "eed82177-38f5-4299-8a76-098d50d225ab",
+  "status": "test",
+  "description": "Detects when a modification (create, update or replace) action is taken that affects mutating or validating webhook configurations, as they can be used by an adversary to achieve persistence or exfiltrate access credentials.\n",
+  "author": "kelnage",
+  "date": "2024-07-11",
+  "tags": [
+    "attack.privilege-escalation",
+    "attack.initial-access",
+    "attack.persistence",
+    "attack.stealth",
+    "attack.t1078",
+    "attack.credential-access",
+    "attack.t1552",
+    "attack.t1552.007"
+  ],
+  "level": "medium",
+  "logsource": {
+    "product": "kubernetes",
+    "service": "audit"
+  },
+  "detection": {
+    "selection": {
+      "objectRef.apiGroup": "admissionregistration.k8s.io",
+      "objectRef.resource": [
+        "mutatingwebhookconfigurations",
+        "validatingwebhookconfigurations"
+      ],
+      "verb": [
+        "create",
+        "delete",
+        "patch",
+        "replace",
+        "update"
+      ]
+    },
+    "condition": "selection"
+  }
+}

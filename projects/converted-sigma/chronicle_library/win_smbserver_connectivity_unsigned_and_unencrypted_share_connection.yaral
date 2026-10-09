@@ -1,0 +1,24 @@
+// Title: Unsigned or Unencrypted SMB Connection to Share Established
+// ID: 8d91f6e4-9f3b-4c21-ae41-2c5b7d9f7a12
+// Status: experimental
+// Level: medium
+// Author: Mohamed Abdelghani
+// Date: 2025-10-19
+// Tags: attack.lateral-movement, attack.t1021.002
+// Description: Detects SMB server connections to shares without signing or encryption enabled.
+// This could indicate potential lateral movement activity using unsecured SMB shares.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 8d91f6e4_9f3b_4c21_ae41_2c5b7d9f7a12 {
+  meta:
+    title = "Unsigned or Unencrypted SMB Connection to Share Established"
+    description = "Detects SMB server connections to shares without signing or encryption enabled. This could indicate potential lateral movement activity using unsecured SMB shares."
+    author = "Mohamed Abdelghani"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.EventID = 4000 and ($e.ShareName = /.*IPC$.*/ nocase or $e.ShareName = /.*ADMIN$.*/ nocase or $e.ShareName = /.*C$.*/ nocase)) and (($e.SigningUsed = "false") or ($e.EncyptionUsed = "false"))) and not((((net.ip_in_range_cidr($e.ClientAddress, "127.0.0.0/8") or net.ip_in_range_cidr($e.ClientAddress, "169.254.0.0/16") or net.ip_in_range_cidr($e.ClientAddress, "::1/128") or net.ip_in_range_cidr($e.ClientAddress, "fe80::/10") or net.ip_in_range_cidr($e.ClientAddress, "fc00::/7"))) or (($e.ClientAddress = /.*00000000000000000000000000000001.*/ nocase or $e.ClientAddress = /.*FE80000000000000.*/ nocase or $e.ClientAddress = /.*FC00000000000000.*/ nocase or $e.ClientAddress = /.*0200????7F.*/ nocase or $e.ClientAddress = /.*0200????A9FE.*/ nocase)))))
+
+  condition:
+    $e
+}

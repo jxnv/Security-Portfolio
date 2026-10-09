@@ -1,0 +1,19 @@
+# Title: WMI Event Consumer Created Named Pipe
+# ID: 493fb4ab-cdcc-4c4f-818c-0e363bd1e4bb
+# Status: test
+# Level: medium
+# Author: Florian Roth (Nextron Systems)
+# Date: 2021-09-01
+# Tags: attack.t1047, attack.execution
+# Description: Detects the WMI Event Consumer service scrcons.exe creating a named pipe
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: WMI Event Consumer Created Named Pipe
+def rule(event):
+    # Detection Logic:
+    # (Image="*\\scrcons.exe")
+    return True
+
+def title(event):
+    return "WMI Event Consumer Created Named Pipe"
+

@@ -1,0 +1,12 @@
+// Title: Potential Remote PowerShell Session Initiated
+// ID: c539afac-c12a-46ed-b1bd-5a5567c9f045
+// Status: test
+// Level: high
+// Author: Roberto Rodriguez @Cyb3rWard0g
+// Date: 2019-09-12
+// Tags: attack.execution, attack.t1059.001, attack.lateral-movement, attack.t1021.006
+// Description: Detects a process that initiated a network connection over ports 5985 or 5986 from a non-network service account.
+// This could potentially indicates a remote PowerShell connection.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((DestinationPort = 5985 or DestinationPort = 5986) and Initiated = "true" and SourceIsIpv6 = "false") and not((((SourceIp = "::1" or SourceIp = "127.0.0.1") and (DestinationIp = "::1" or DestinationIp = "127.0.0.1")) or (((UserName = /*NETWORK SERVICE*/i or UserName = /*NETZWERKDIENST*/i or UserName = /*SERVICIO DE RED*/i or UserName = /*SERVIZIO DI RETE*/i)) or ((UserName = /*SERVICE R*/i and UserName = /*SEAU*/i))))) and not(((ImageFileName = "C:\\Program Files\\Avast Software\\Avast\\AvastSvc.exe" or ImageFileName = "C:\\Program Files (x86)\\Avast Software\\Avast\\AvastSvc.exe"))))

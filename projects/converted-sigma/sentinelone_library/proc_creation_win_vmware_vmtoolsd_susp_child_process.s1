@@ -1,0 +1,11 @@
+// Title: VMToolsd Suspicious Child Process
+// ID: 5687f942-867b-4578-ade7-1e341c46e99a
+// Status: test
+// Level: high
+// Author: bohops, Bhabesh Raj
+// Date: 2021-10-08
+// Tags: attack.execution, attack.persistence, attack.t1059
+// Description: Detects suspicious child process creations of VMware Tools process which may indicate persistence setup
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((((src.process.image.path endswithCIS "\\cmd.exe" OR src.process.image.path endswithCIS "\\cscript.exe" OR src.process.image.path endswithCIS "\\mshta.exe" OR src.process.image.path endswithCIS "\\powershell.exe" OR src.process.image.path endswithCIS "\\pwsh.exe" OR src.process.image.path endswithCIS "\\regsvr32.exe" OR src.process.image.path endswithCIS "\\rundll32.exe" OR src.process.image.path endswithCIS "\\wscript.exe")) OR ((OriginalFileName = "Cmd.Exe" OR OriginalFileName = "cscript.exe" OR OriginalFileName = "MSHTA.EXE" OR OriginalFileName = "PowerShell.EXE" OR OriginalFileName = "pwsh.dll" OR OriginalFileName = "REGSVR32.EXE" OR OriginalFileName = "RUNDLL32.EXE" OR OriginalFileName = "wscript.exe"))) AND (src.process.parent.image.path endswithCIS "\\vmtoolsd.exe")) AND NOT (((src.process.image.path endswithCIS "\\cmd.exe" AND src.process.cmdline = "") OR (src.process.image.path endswithCIS "\\cmd.exe" AND src.process.cmdline is null) OR (src.process.image.path endswithCIS "\\cmd.exe" AND (src.process.cmdline containsCIS "\\VMware\\VMware Tools\\poweron-vm-default.bat" OR src.process.cmdline containsCIS "\\VMware\\VMware Tools\\poweroff-vm-default.bat" OR src.process.cmdline containsCIS "\\VMware\\VMware Tools\\resume-vm-default.bat" OR src.process.cmdline containsCIS "\\VMware\\VMware Tools\\suspend-vm-default.bat")))))

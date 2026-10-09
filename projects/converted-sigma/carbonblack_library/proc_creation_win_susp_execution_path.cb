@@ -1,0 +1,11 @@
+# Title: Process Execution From A Potentially Suspicious Folder
+# ID: 3dfd06d2-eaf4-4532-9555-68aca59f57c4
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems), Tim Shelton
+# Date: 2019-01-16
+# Tags: attack.stealth, attack.t1036
+# Description: Detects a potentially suspicious execution from an uncommon folder.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((process_name:*:\\Perflogs\\* OR process_name:*:\\Users\\All Users\\* OR process_name:*:\\Users\\Default\\* OR process_name:*:\\Users\\NetworkService\\* OR process_name:*:\\Windows\\addins\\* OR process_name:*:\\Windows\\debug\\* OR process_name:*:\\Windows\\Fonts\\* OR process_name:*:\\Windows\\Help\\* OR process_name:*:\\Windows\\IME\\* OR process_name:*:\\Windows\\Media\\* OR process_name:*:\\Windows\\repair\\* OR process_name:*:\\Windows\\security\\* OR process_name:*:\\Windows\\System32\\Tasks\\* OR process_name:*:\\Windows\\Tasks\\* OR process_name:*$Recycle.bin* OR process_name:*\\config\\systemprofile\\* OR process_name:*\\Intel\\Logs\\* OR process_name:*\\RSA\\MachineKeys\\*)) AND -(((process_name:C:\\Windows\\SysWOW64\\config\\systemprofile\\Citrix\\UpdaterBinaries\\* AND process_name:*\\CitrixReceiverUpdater.exe) OR (process_name:C:\\Users\\Public\\IBM\\ClientSolutions\\Start_Programs\\*))))

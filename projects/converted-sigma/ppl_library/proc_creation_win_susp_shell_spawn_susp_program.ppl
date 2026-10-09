@@ -1,0 +1,11 @@
+// Title: Windows Shell/Scripting Processes Spawning Suspicious Programs
+// ID: 3a6586ad-127a-4d3b-a677-1e6eacdf8fde
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Tim Shelton
+// Date: 2018-04-06
+// Tags: attack.execution, attack.stealth, attack.t1059.005, attack.t1059.001, attack.t1218
+// Description: Detects suspicious child processes of a Windows shell and scripting processes such as wscript, rundll32, powershell, mshta...etc.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where (((process.parent.executable="*\\mshta.exe" OR process.parent.executable="*\\powershell.exe" OR process.parent.executable="*\\pwsh.exe" OR process.parent.executable="*\\rundll32.exe" OR process.parent.executable="*\\cscript.exe" OR process.parent.executable="*\\wscript.exe" OR process.parent.executable="*\\wmiprvse.exe" OR process.parent.executable="*\\regsvr32.exe") AND (process.executable="*\\schtasks.exe" OR process.executable="*\\nslookup.exe" OR process.executable="*\\certutil.exe" OR process.executable="*\\bitsadmin.exe" OR process.executable="*\\mshta.exe")) AND NOT ((((process.parent.command_line like "%\\Program Files\\Amazon\\WorkSpacesConfig\\Scripts\\setup-scheduledtask.ps1%" OR process.parent.command_line like "%\\Program Files\\Amazon\\WorkSpacesConfig\\Scripts\\set-selfhealing.ps1%" OR process.parent.command_line like "%\\Program Files\\Amazon\\WorkSpacesConfig\\Scripts\\check-workspacehealth.ps1%" OR process.parent.command_line like "%\\nessus_%")) OR (CurrentDirectory like "%\\ccmcache\\%") OR (process.command_line like "%\\nessus_%") OR (process.parent.executable="*\\mshta.exe" AND process.executable="*\\mshta.exe" AND (process.parent.command_line like "%C:\\MEM_Configmgr_%" AND process.parent.command_line like "%\\splash.hta%" AND process.parent.command_line like "%{1E460BD7-F1C3-4B2E-88BF-4E770A288AF5}%") AND (process.command_line like "%C:\\MEM_Configmgr_%" AND process.command_line like "%\\SMSSETUP\\BIN\\%" AND process.command_line like "%\\autorun.hta%" AND process.command_line like "%{1E460BD7-F1C3-4B2E-88BF-4E770A288AF5}%")))))

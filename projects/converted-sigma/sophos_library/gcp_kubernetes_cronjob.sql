@@ -1,0 +1,13 @@
+-- Title: Google Cloud Kubernetes CronJob
+-- ID: cd3a808c-c7b7-4c50-a2f3-f4cfcd436435
+-- Status: test
+-- Level: medium
+-- Author: Austin Songer @austinsonger
+-- Date: 2021-11-22
+-- Tags: attack.persistence, attack.privilege-escalation, attack.execution
+-- Description: Identifies when a Google Cloud Kubernetes CronJob runs in Azure Cloud. Kubernetes Job is a controller that creates one or more pods and ensures that a specified number of them successfully terminate.
+-- Kubernetes Job can be used to run containers that perform finite tasks for batch jobs. Kubernetes CronJob is used to schedule Jobs.
+-- An Adversary may use Kubernetes CronJob for scheduling execution of malicious code that would run as a container in the cluster.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE ((gcp.audit.method_name = 'io.k8s.api.batch.v*.Job' OR gcp.audit.method_name = 'io.k8s.api.batch.v*.CronJob'))

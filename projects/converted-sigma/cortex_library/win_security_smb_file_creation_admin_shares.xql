@@ -1,0 +1,11 @@
+// Title: SMB Create Remote File Admin Share
+// ID: b210394c-ba12-4f89-9117-44a2464b9511
+// Status: test
+// Level: high
+// Author: Jose Rodriguez (@Cyb3rPandaH), OTR (Open Threat Research)
+// Date: 2020-08-06
+// Tags: attack.lateral-movement, attack.t1021.002
+// Description: Look for non-system accounts SMB accessing a file with write (0x2) access mask via administrative share (i.e C$).
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter ((EventID = 5145 and ShareName endswith "C$" and AccessMask = "0x2") and not ((SubjectUserName endswith "$")) and not ((IpAddress = "::1")))

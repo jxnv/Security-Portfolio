@@ -1,0 +1,19 @@
+# Title: Use of TTDInject.exe
+# ID: b27077d6-23e6-45d2-81a0-e2b356eea5fd
+# Status: test
+# Level: medium
+# Author: frack113
+# Date: 2022-05-16
+# Tags: attack.execution, attack.stealth, attack.t1127
+# Description: Detects the executiob of TTDInject.exe, which is used by Windows 10 v1809 and newer to debug time travel (underlying call of tttracer.exe)
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Use of TTDInject.exe
+def rule(event):
+    # Detection Logic:
+    # ((Image="*ttdinject.exe") OR (OriginalFileName="TTDInject.EXE"))
+    return True
+
+def title(event):
+    return "Use of TTDInject.exe"
+

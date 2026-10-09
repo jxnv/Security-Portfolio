@@ -1,0 +1,14 @@
+-- Title: Potential AutoLogger Sessions Tampering
+-- ID: f37b4bce-49d0-4087-9f5b-58bffda77316
+-- Status: test
+-- Level: high
+-- Author: Nasreddine Bencherchali (Nextron Systems)
+-- Date: 2022-08-01
+-- Tags: attack.defense-impairment, attack.t1685.001
+-- Description: Detects tampering with autologger trace sessions which is a technique used by attackers to disable logging.
+-- The AutoLogger event tracing session records events up that occur early in the operating system boot process.
+-- Applications and device drivers can use the AutoLogger session to capture traces before the user logs in, and also used by security solutions as telemetry source.
+-- Adversaries may disable these sessions to evade detection and prevent security monitoring of early boot activities and system events.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM file WHERE (((TargetObject LIKE '%\\Control\\WMI\\Autologger\\%') AND ((TargetObject LIKE '%\\EventLog-%' OR TargetObject LIKE '%\\Defender%') AND (TargetObject="*\\Enabled" OR TargetObject="*\\Start") AND Details = 'DWORD (0x00000000)')) AND NOT ((((Image="C:\\ProgramData\\Microsoft\\Windows Defender\\Platform\\*" OR Image="C:\\Program Files\\Windows Defender\\*" OR Image="C:\\Program Files (x86)\\Windows Defender\\*") AND Image="*\\MsMpEng.exe" AND (TargetObject LIKE '%\\DefenderApiLogger\\%' OR TargetObject LIKE '%\\DefenderAuditLogger\\%')) OR (Image = 'C:\\Windows\\system32\\wevtutil.exe'))))

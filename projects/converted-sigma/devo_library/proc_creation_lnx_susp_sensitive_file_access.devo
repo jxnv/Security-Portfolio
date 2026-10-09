@@ -1,0 +1,13 @@
+// Title: Potential Suspicious Change To Sensitive/Critical Files
+// ID: 86157017-c2b1-4d4a-8c33-93b8e67e4af4
+// Status: test
+// Level: medium
+// Author: @d4ns4n_ (Wuerth-Phoenix)
+// Date: 2023-05-30
+// Tags: attack.impact, attack.t1565.001
+// Description: Detects changes of sensitive and critical files. Monitors files that you don't expect to change without planning on Linux system.
+// These files include, but are not limited to, system configuration files, authentication files, and critical application files.
+// Attackers often target these files to maintain persistence, escalate privileges, or disrupt system operations.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+from siem.events where ((((Image="*/cat" OR Image="*/echo" OR Image="*/grep" OR Image="*/head" OR Image="*/more" OR Image="*/tail") AND contains(CommandLine, ">")) OR ((Image="*/emacs" OR Image="*/nano" OR Image="*/sed" OR Image="*/vi" OR Image="*/vim"))) AND ((contains(CommandLine, "/bin/login") OR contains(CommandLine, "/bin/passwd") OR contains(CommandLine, "/boot/") OR contains(CommandLine, "/etc/*.conf") OR contains(CommandLine, "/etc/cron.") OR contains(CommandLine, "/etc/crontab") OR contains(CommandLine, "/etc/hosts") OR contains(CommandLine, "/etc/init.d") OR contains(CommandLine, "/etc/sudoers") OR contains(CommandLine, "/opt/bin/") OR contains(CommandLine, "/sbin") OR contains(CommandLine, "/usr/bin/") OR contains(CommandLine, "/usr/local/bin/"))) AND NOT (1=1))

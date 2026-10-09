@@ -1,0 +1,23 @@
+// Title: Suspicious History File Operations - Linux
+// ID: eae8ce9f-bde9-47a6-8e79-f20d18419910
+// Status: test
+// Level: medium
+// Author: Mikhail Larin, oscd.community
+// Date: 2020-10-17
+// Tags: attack.credential-access, attack.t1552.003
+// Description: Detects commandline operations on shell history files
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule eae8ce9f_bde9_47a6_8e79_f20d18419910 {
+  meta:
+    title = "Suspicious History File Operations - Linux"
+    description = "Detects commandline operations on shell history files"
+    author = "Mikhail Larin, oscd.community"
+    severity = "MEDIUM"
+
+  events:
+    (($e.type = "EXECVE") and (".bash_history" or ".zsh_history" or ".zhistory" or ".history" or ".sh_history" or "fish_history"))
+
+  condition:
+    $e
+}

@@ -1,0 +1,23 @@
+// Title: Shell Invocation via Env Command - Linux
+// ID: bed978f8-7f3a-432b-82c5-9286a9b3031a
+// Status: test
+// Level: high
+// Author: Li Ling, Andy Parkidomo, Robert Rakowski, Blake Hartstein (Bloomberg L.P.)
+// Date: 2024-09-02
+// Tags: attack.execution, attack.t1059.004
+// Description: Detects the use of the env command to invoke a shell. This may indicate an attempt to bypass restricted environments, escalate privileges, or execute arbitrary commands.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule bed978f8_7f3a_432b_82c5_9286a9b3031a {
+  meta:
+    title = "Shell Invocation via Env Command - Linux"
+    description = "Detects the use of the env command to invoke a shell. This may indicate an attempt to bypass restricted environments, escalate privileges, or execute arbitrary commands."
+    author = "Li Ling, Andy Parkidomo, Robert Rakowski, Blake Hartstein (Bloomberg L.P.)"
+    severity = "HIGH"
+
+  events:
+    ($e.target.process.file.full_path = /.*/env$/ nocase and ($e.target.process.command_line = /.*/bin/bash.*/ nocase or $e.target.process.command_line = /.*/bin/dash.*/ nocase or $e.target.process.command_line = /.*/bin/fish.*/ nocase or $e.target.process.command_line = /.*/bin/sh.*/ nocase or $e.target.process.command_line = /.*/bin/zsh.*/ nocase))
+
+  condition:
+    $e
+}

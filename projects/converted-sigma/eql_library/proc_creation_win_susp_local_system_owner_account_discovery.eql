@@ -1,0 +1,11 @@
+// Title: Local Accounts Discovery
+// ID: 502b42de-4306-40b4-9596-6f590c81f073
+// Status: test
+// Level: low
+// Author: Timur Zinniatullin, Daniil Yugoslavskiy, oscd.community
+// Date: 2019-10-21
+// Tags: attack.discovery, attack.t1033, attack.t1087.001
+// Description: Local accounts, System Owner/User discovery using operating systems utilities
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where (((process.executable endswith "\\cmd.exe" and (process.command_line like "*_ /c*" and process.command_line like "*_dir *" and process.command_line like "*_\\Users\\*")) and not ((process.command_line like "*_ rmdir *"))) or (((process.executable endswith "\\net.exe" or process.executable endswith "\\net1.exe") and process.command_line like "*_user*") and not (((process.command_line like "*_/domain*" or process.command_line like "*_/add*" or process.command_line like "*_/delete*" or process.command_line like "*_/active*" or process.command_line like "*_/expires*" or process.command_line like "*_/passwordreq*" or process.command_line like "*_/scriptpath*" or process.command_line like "*_/times*" or process.command_line like "*_/workstations*")))) or ((process.executable endswith "\\cmdkey.exe" and process.command_line like "*_ /l*") or (((process.executable endswith "\\whoami.exe" or process.executable endswith "\\quser.exe" or process.executable endswith "\\qwinsta.exe")) or ((process.pe.original_file_name == "whoami.exe" or process.pe.original_file_name == "quser.exe" or process.pe.original_file_name == "qwinsta.exe"))) or (process.executable endswith "\\wmic.exe" and (process.command_line like "*_useraccount*" and process.command_line like "*_get*"))))

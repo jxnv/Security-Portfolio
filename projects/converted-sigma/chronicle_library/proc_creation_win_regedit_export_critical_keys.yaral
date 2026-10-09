@@ -1,0 +1,23 @@
+// Title: Exports Critical Registry Keys To a File
+// ID: 82880171-b475-4201-b811-e9c826cd5eaa
+// Status: test
+// Level: high
+// Author: Oddvar Moe, Sander Wiebing, oscd.community
+// Date: 2020-10-12
+// Tags: attack.exfiltration, attack.discovery, attack.t1012
+// Description: Detects the export of a crital Registry key to a file.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 82880171_b475_4201_b811_e9c826cd5eaa {
+  meta:
+    title = "Exports Critical Registry Keys To a File"
+    description = "Detects the export of a crital Registry key to a file."
+    author = "Oddvar Moe, Sander Wiebing, oscd.community"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.command_line = /.* -E .*/ nocase) and (($e.target.process.command_line = /.*hklm.*/ nocase or $e.target.process.command_line = /.*hkey_local_machine.*/ nocase)) and (($e.target.process.command_line = /.*\\system$/ nocase or $e.target.process.command_line = /.*\\sam$/ nocase or $e.target.process.command_line = /.*\\security$/ nocase)) and (($e.target.process.file.full_path = /.*\\regedit.exe$/ nocase) or ($e.target.process.file.name = "REGEDIT.EXE")))
+
+  condition:
+    $e
+}

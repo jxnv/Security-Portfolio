@@ -1,0 +1,11 @@
+// Title: HackTool - Certify Execution
+// ID: 762f2482-ff21-4970-8939-0aa317a886bb
+// Status: test
+// Level: high
+// Author: pH-T (Nextron Systems)
+// Date: 2023-04-17
+// Tags: attack.discovery, attack.credential-access, attack.t1649
+// Description: Detects Certify a tool for Active Directory certificate abuse based on PE metadata characteristics and common command line arguments.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where (((process.executable="*\\Certify.exe") OR (process.pe.original_file_name = "Certify.exe") OR (Description like "%Certify%")) OR (((process.command_line like "%.exe cas %" OR process.command_line like "%.exe find %" OR process.command_line like "%.exe pkiobjects %" OR process.command_line like "%.exe request %" OR process.command_line like "%.exe download %")) AND ((process.command_line like "% /vulnerable%" OR process.command_line like "% /template:%" OR process.command_line like "% /altname:%" OR process.command_line like "% /domain:%" OR process.command_line like "% /path:%" OR process.command_line like "% /ca:%"))))

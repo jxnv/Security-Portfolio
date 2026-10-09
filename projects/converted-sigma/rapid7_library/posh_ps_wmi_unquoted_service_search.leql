@@ -1,0 +1,11 @@
+// Title: WMIC Unquoted Services Path Lookup - PowerShell
+// ID: 09658312-bc27-4a3b-91c5-e49ab9046d1b
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-06-20
+// Tags: attack.execution, attack.t1047
+// Description: Detects known WMI recon method to look for unquoted service paths, often used by pentest inside of powershell scripts attackers enum scripts
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((where(ScriptBlockText ICONTAINS "Get-WmiObject ") OR where(ScriptBlockText ICONTAINS "gwmi ")) AND (where(ScriptBlockText ICONTAINS " Win32_Service ") AND where(ScriptBlockText ICONTAINS "Name") AND where(ScriptBlockText ICONTAINS "DisplayName") AND where(ScriptBlockText ICONTAINS "PathName") AND where(ScriptBlockText ICONTAINS "StartMode")))

@@ -1,0 +1,11 @@
+# Title: Suspicious Child Process Of Manage Engine ServiceDesk
+# ID: cea2b7ea-792b-405f-95a1-b903ea06458f
+# Status: test
+# Level: high
+# Author: Florian Roth (Nextron Systems)
+# Date: 2023-01-18
+# Tags: attack.command-and-control, attack.t1102
+# Description: Detects suspicious child processes of the "Manage Engine ServiceDesk Plus" Java web service
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((process.parent.executable:*\\ManageEngine\\ServiceDesk\\* AND process.parent.executable:*\\java.exe*) AND (process.executable:*\\AppVLP.exe OR process.executable:*\\bash.exe OR process.executable:*\\bitsadmin.exe OR process.executable:*\\calc.exe OR process.executable:*\\certutil.exe OR process.executable:*\\cscript.exe OR process.executable:*\\curl.exe OR process.executable:*\\forfiles.exe OR process.executable:*\\mftrace.exe OR process.executable:*\\mshta.exe OR process.executable:*\\net.exe OR process.executable:*\\net1.exe OR process.executable:*\\notepad.exe OR process.executable:*\\powershell.exe OR process.executable:*\\pwsh.exe OR process.executable:*\\query.exe OR process.executable:*\\reg.exe OR process.executable:*\\schtasks.exe OR process.executable:*\\scrcons.exe OR process.executable:*\\sh.exe OR process.executable:*\\systeminfo.exe OR process.executable:*\\whoami.exe OR process.executable:*\\wmic.exe OR process.executable:*\\wscript.exe)) AND NOT (((process.executable:*\\net.exe OR process.executable:*\\net1.exe) AND process.command_line:* stop*)))

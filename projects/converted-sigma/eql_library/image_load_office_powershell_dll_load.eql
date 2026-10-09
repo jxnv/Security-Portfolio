@@ -1,0 +1,11 @@
+// Title: PowerShell Core DLL Loaded Via Office Application
+// ID: bb2ba6fb-95d4-4a25-89fc-30bb736c021a
+// Status: test
+// Level: medium
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-06-01
+// Tags: attack.stealth
+// Description: Detects PowerShell core DLL being loaded by an Office Product
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+any where ((process.executable endswith "\\excel.exe" or process.executable endswith "\\mspub.exe" or process.executable endswith "\\outlook.exe" or process.executable endswith "\\onenote.exe" or process.executable endswith "\\onenoteim.exe" or process.executable endswith "\\powerpnt.exe" or process.executable endswith "\\winword.exe") and (ImageLoaded like "*_\\System.Management.Automation.Dll*" or ImageLoaded like "*_\\System.Management.Automation.ni.Dll*"))

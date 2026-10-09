@@ -1,0 +1,33 @@
+{
+  "title": "ScreenSaver Registry Key Set",
+  "id": "40b6e656-4e11-4c0c-8772-c1cc6dae34ce",
+  "status": "test",
+  "description": "Detects registry key established after masqueraded .scr file execution using Rundll32 through desk.cpl",
+  "author": "Jose Luis Sanchez Martinez (@Joseliyo_Jstnk)",
+  "date": "2022-05-04",
+  "tags": [
+    "attack.stealth",
+    "attack.t1218.011"
+  ],
+  "level": "medium",
+  "logsource": {
+    "product": "windows",
+    "category": "registry_set"
+  },
+  "detection": {
+    "selection": {
+      "Image|endswith": "\\rundll32.exe"
+    },
+    "registry": {
+      "TargetObject|contains": "\\Control Panel\\Desktop\\SCRNSAVE.EXE",
+      "Details|endswith": ".scr"
+    },
+    "filter": {
+      "Details|contains": [
+        "C:\\Windows\\System32\\",
+        "C:\\Windows\\SysWOW64\\"
+      ]
+    },
+    "condition": "selection and registry and not filter"
+  }
+}

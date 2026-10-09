@@ -1,0 +1,12 @@
+// Title: New File Exclusion Added To Time Machine Via Tmutil - MacOS
+// ID: 9acf45ed-3a26-4062-bf08-56857613eb52
+// Status: test
+// Level: medium
+// Author: Pratinav Chandra
+// Date: 2024-05-29
+// Tags: attack.impact, attack.t1490
+// Description: Detects the addition of a new file or path exclusion to MacOS Time Machine via the "tmutil" utility.
+// An adversary could exclude a path from Time Machine backups to prevent certain files from being backed up.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((CommandLine: "*addexclusion*") AND ((Image="*/tmutil") OR (CommandLine: "*tmutil*")))

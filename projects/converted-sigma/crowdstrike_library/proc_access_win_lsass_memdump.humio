@@ -1,0 +1,12 @@
+// Title: Potential Credential Dumping Activity Via LSASS
+// ID: 5ef9853e-4d0e-4a70-846f-a9ca37d876da
+// Status: test
+// Level: medium
+// Author: Samir Bousseaden, Michael Haag
+// Date: 2019-04-03
+// Tags: attack.credential-access, attack.t1003.001, attack.s0002
+// Description: Detects process access requests to the LSASS process with specific call trace calls and access masks.
+// This behaviour is expressed by many credential dumping tools such as Mimikatz, NanoDump, Invoke-Mimikatz, Procdump and even the Taskmgr dumping feature.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((TargetImage = /.*\\lsass.exe/i and (GrantedAccess = /*0x1038*/i or GrantedAccess = /*0x1438*/i or GrantedAccess = /*0x143a*/i or GrantedAccess = /*0x1fffff*/i) and (CallTrace = /*dbgcore.dll*/i or CallTrace = /*dbghelp.dll*/i or CallTrace = /*kernel32.dll*/i or CallTrace = /*kernelbase.dll*/i or CallTrace = /*ntdll.dll*/i)) and not(((SourceUser = /*AUTHORI*/i or SourceUser = /*AUTORI*/i))) and not((((SourceImage = /.*:\\Windows\\Sysmon64.exe/i or SourceImage = /.*:\\Windows\\Sysmon64a.exe/i)) or ((CallTrace = /*:\\Windows\\Temp\\asgard2-agent\\*/i and CallTrace = /*\\thor\\thor64.exe+*/i and CallTrace = /*|UNKNOWN(*/i) and GrantedAccess = "0x103800"))))

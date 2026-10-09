@@ -1,0 +1,19 @@
+# Title: Suspicious File Download From IP Via Wget.EXE
+# ID: 17f0c0a8-8bd5-4ee0-8c5f-a342c0199f35
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2023-07-27
+# Tags: attack.execution
+# Description: Detects potentially suspicious file downloads directly from IP addresses using Wget.exe
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Suspicious File Download From IP Via Wget.EXE
+def rule(event):
+    # Detection Logic:
+    # (((CommandLine="*.ps1" OR CommandLine="*.ps1'" OR CommandLine="*.ps1\"" OR CommandLine="*.dat" OR CommandLine="*.dat'" OR CommandLine="*.dat\"" OR CommandLine="*.msi" OR CommandLine="*.msi'" OR CommandLine="*.msi\"" OR CommandLine="*.bat" OR CommandLine="*.bat'" OR CommandLine="*.bat\"" OR CommandLine="*.exe" OR CommandLine="*.exe'" OR CommandLine="*.exe\"" OR CommandLine="*.vbs" OR CommandLine="*.vbs'" OR CommandLine="*.vbs\"" OR CommandLine="*.vbe" OR CommandLine="*.vbe'" OR CommandLine="*.vbe\"" OR CommandLine="*.hta" OR CommandLine="*.hta'" OR CommandLine="*.hta\"" OR CommandLine="*.dll" OR CommandLine="*.dll'" OR CommandLine="*.dll\"" OR CommandLine="*.psm1" OR CommandLine="*.psm1'" OR CommandLine="*.psm1\"")) AND ((CommandLine=regex("\\s-O\\s")) OR (CommandLine="*--output-document*")) AND (CommandLine="*http*") AND ((Image="*\\wget.exe") OR (OriginalFileName="wget.exe")) AND (CommandLine=regex("://[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}")))
+    return True
+
+def title(event):
+    return "Suspicious File Download From IP Via Wget.EXE"
+

@@ -1,0 +1,23 @@
+// Title: File Download Via Bitsadmin To A Suspicious Target Folder
+// ID: 2ddef153-167b-4e89-86b6-757a9e65dcac
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-06-28
+// Tags: attack.persistence, attack.execution, attack.stealth, attack.t1197, attack.s0190, attack.t1036.003, attack.command-and-control, attack.t1105
+// Description: Detects usage of bitsadmin downloading a file to a suspicious target folder
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 2ddef153_167b_4e89_86b6_757a9e65dcac {
+  meta:
+    title = "File Download Via Bitsadmin To A Suspicious Target Folder"
+    description = "Detects usage of bitsadmin downloading a file to a suspicious target folder"
+    author = "Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.* /transfer .*/ nocase or $e.target.process.command_line = /.* /create .*/ nocase or $e.target.process.command_line = /.* /addfile .*/ nocase)) and (($e.target.process.command_line = /.*:\\Perflogs.*/ nocase or $e.target.process.command_line = /.*:\\ProgramData\\.*/ nocase or $e.target.process.command_line = /.*:\\Temp\\.*/ nocase or $e.target.process.command_line = /.*:\\Users\\Public\\.*/ nocase or $e.target.process.command_line = /.*:\\Windows\\.*/ nocase or $e.target.process.command_line = /.*\\$Recycle.Bin\\.*/ nocase or $e.target.process.command_line = /.*\\AppData\\Local\\.*/ nocase or $e.target.process.command_line = /.*\\AppData\\Roaming\\.*/ nocase or $e.target.process.command_line = /.*\\Contacts\\.*/ nocase or $e.target.process.command_line = /.*\\Desktop\\.*/ nocase or $e.target.process.command_line = /.*\\Favorites\\.*/ nocase or $e.target.process.command_line = /.*\\Favourites\\.*/ nocase or $e.target.process.command_line = /.*\\inetpub\\wwwroot\\.*/ nocase or $e.target.process.command_line = /.*\\Music\\.*/ nocase or $e.target.process.command_line = /.*\\Pictures\\.*/ nocase or $e.target.process.command_line = /.*\\Start Menu\\Programs\\Startup\\.*/ nocase or $e.target.process.command_line = /.*\\Users\\Default\\.*/ nocase or $e.target.process.command_line = /.*\\Videos\\.*/ nocase or $e.target.process.command_line = /.*%ProgramData%.*/ nocase or $e.target.process.command_line = /.*%public%.*/ nocase or $e.target.process.command_line = /.*%temp%.*/ nocase or $e.target.process.command_line = /.*%tmp%.*/ nocase)) and (($e.target.process.file.full_path = /.*\\bitsadmin.exe$/ nocase) or ($e.target.process.file.name = "bitsadmin.exe")))
+
+  condition:
+    $e
+}

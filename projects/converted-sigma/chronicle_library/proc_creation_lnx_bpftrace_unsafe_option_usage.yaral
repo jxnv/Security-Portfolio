@@ -1,0 +1,23 @@
+// Title: BPFtrace Unsafe Option Usage
+// ID: f8341cb2-ee25-43fa-a975-d8a5a9714b39
+// Status: test
+// Level: medium
+// Author: Andreas Hunkeler (@Karneades)
+// Date: 2022-02-11
+// Tags: attack.execution, attack.t1059.004
+// Description: Detects the usage of the unsafe bpftrace option
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule f8341cb2_ee25_43fa_a975_d8a5a9714b39 {
+  meta:
+    title = "BPFtrace Unsafe Option Usage"
+    description = "Detects the usage of the unsafe bpftrace option"
+    author = "Andreas Hunkeler (@Karneades)"
+    severity = "MEDIUM"
+
+  events:
+    ($e.target.process.file.full_path = /.*bpftrace$/ nocase and $e.target.process.command_line = /.*--unsafe.*/ nocase)
+
+  condition:
+    $e
+}

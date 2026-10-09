@@ -1,0 +1,11 @@
+// Title: HackTool - Certipy Execution
+// ID: 6938366d-8954-4ddc-baff-c830b3ba8fcd
+// Status: test
+// Level: high
+// Author: pH-T (Nextron Systems), Sittikorn Sangrattanapitak
+// Date: 2023-04-17
+// Tags: attack.discovery, attack.credential-access, attack.t1649
+// Description: Detects Certipy execution, a tool for Active Directory Certificate Services enumeration and abuse based on PE metadata characteristics and common command line arguments.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where (((process.executable endswith "\\Certipy.exe") or (process.pe.original_file_name == "Certipy.exe") or (Description like "*_Certipy*")) or (((process.command_line like "*_ account *" or process.command_line like "*_ auth *" or process.command_line like "*_ cert *" or process.command_line like "*_ find *" or process.command_line like "*_ forge *" or process.command_line like "*_ ptt *" or process.command_line like "*_ relay *" or process.command_line like "*_ req *" or process.command_line like "*_ shadow *" or process.command_line like "*_ template *")) and ((process.command_line like "*_ -bloodhound*" or process.command_line like "*_ -ca-pfx *" or process.command_line like "*_ -dc-ip *" or process.command_line like "*_ -kirbi*" or process.command_line like "*_ -old-bloodhound*" or process.command_line like "*_ -pfx *" or process.command_line like "*_ -target*" or process.command_line like "*_ -template*" or process.command_line like "*_ -username *" or process.command_line like "*_ -vulnerable*" or process.command_line like "*_auth -pfx*" or process.command_line like "*_shadow auto*" or process.command_line like "*_shadow list*"))))

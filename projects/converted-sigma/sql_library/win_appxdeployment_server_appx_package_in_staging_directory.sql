@@ -1,0 +1,11 @@
+-- Title: AppX Located in Known Staging Directory Added to Deployment Pipeline
+-- ID: 5cdeaf3d-1489-477c-95ab-c318559fc051
+-- Status: test
+-- Level: high
+-- Author: Nasreddine Bencherchali (Nextron Systems)
+-- Date: 2023-01-11
+-- Tags: attack.stealth
+-- Description: Detects an appx package that was added to the pipeline of the "to be processed" packages that is located in a known folder often used as a staging directory.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM security_logs WHERE ((EventID = 854) AND (((Path ILIKE '%:\\PerfLogs\\%' OR Path ILIKE '%:\\Users\\Public\\%' OR Path ILIKE '%:\\Windows\\Temp\\%' OR Path ILIKE '%\\AppdData\\Local\\Temp\\%' OR Path ILIKE '%\\Desktop\\%' OR Path ILIKE '%\\Downloads\\%')) OR ((Path ILIKE '%:/Perflogs/%' OR Path ILIKE '%:/Users/Public/%' OR Path ILIKE '%:/Windows/Temp/%' OR Path ILIKE '%/AppdData/Local/Temp/%' OR Path ILIKE '%/Desktop/%' OR Path ILIKE '%/Downloads/%'))))

@@ -1,0 +1,19 @@
+# Title: CobaltStrike Load by Rundll32
+# ID: ae9c6a7c-9521-42a6-915e-5aaa8689d529
+# Status: test
+# Level: high
+# Author: Wojciech Lesicki
+# Date: 2021-06-01
+# Tags: attack.stealth, attack.t1218.011
+# Description: Rundll32 can be use by Cobalt Strike with StartW function to load DLLs from the command line.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: CobaltStrike Load by Rundll32
+def rule(event):
+    # Detection Logic:
+    # ((CommandLine="*.dll*" AND (CommandLine="* StartW" OR CommandLine="*,StartW")) AND ((Image="*\\rundll32.exe") OR (OriginalFileName="RUNDLL32.EXE") OR ((CommandLine="*rundll32.exe*" OR CommandLine="*rundll32 *"))))
+    return True
+
+def title(event):
+    return "CobaltStrike Load by Rundll32"
+

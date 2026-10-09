@@ -1,0 +1,11 @@
+// Title: Account Created And Deleted Within A Close Time Frame
+// ID: 6f583da0-3a90-4566-a4ed-83c09fe18bbf
+// Status: test
+// Level: high
+// Author: Mark Morowczynski '@markmorow', MikeDuddington, '@dudders1', Tim Shelton
+// Date: 2022-08-11
+// Tags: attack.privilege-escalation, attack.persistence, attack.initial-access, attack.stealth, attack.t1078
+// Description: Detects when an account was created and deleted in a short period of time.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((properties.message == "Add user" OR properties.message == "Delete user") AND Status == "Success")

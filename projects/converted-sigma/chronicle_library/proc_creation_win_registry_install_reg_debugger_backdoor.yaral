@@ -1,0 +1,23 @@
+// Title: Suspicious Debugger Registration Cmdline
+// ID: ae215552-081e-44c7-805f-be16f975c8a2
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), oscd.community, Jonhnathan Ribeiro
+// Date: 2019-09-06
+// Tags: attack.persistence, attack.privilege-escalation, attack.t1546.008
+// Description: Detects the registration of a debugger for a program that is available in the logon screen (sticky key backdoor).
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule ae215552_081e_44c7_805f_be16f975c8a2 {
+  meta:
+    title = "Suspicious Debugger Registration Cmdline"
+    description = "Detects the registration of a debugger for a program that is available in the logon screen (sticky key backdoor)."
+    author = "Florian Roth (Nextron Systems), oscd.community, Jonhnathan Ribeiro"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.command_line = /.*\\CurrentVersion\\Image File Execution Options\\.*/ nocase) and (($e.target.process.command_line = /.*sethc.exe.*/ nocase or $e.target.process.command_line = /.*utilman.exe.*/ nocase or $e.target.process.command_line = /.*osk.exe.*/ nocase or $e.target.process.command_line = /.*magnify.exe.*/ nocase or $e.target.process.command_line = /.*narrator.exe.*/ nocase or $e.target.process.command_line = /.*displayswitch.exe.*/ nocase or $e.target.process.command_line = /.*atbroker.exe.*/ nocase or $e.target.process.command_line = /.*HelpPane.exe.*/ nocase)))
+
+  condition:
+    $e
+}

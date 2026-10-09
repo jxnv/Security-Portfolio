@@ -1,0 +1,23 @@
+// Title: Windows Defender Definition Files Removed
+// ID: 9719a8aa-401c-41af-8108-ced7ec9cd75c
+// Status: test
+// Level: high
+// Author: frack113
+// Date: 2021-07-07
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Adversaries may disable security tools to avoid possible detection of their tools and activities by removing Windows Defender Definition Files
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 9719a8aa_401c_41af_8108_ced7ec9cd75c {
+  meta:
+    title = "Windows Defender Definition Files Removed"
+    description = "Adversaries may disable security tools to avoid possible detection of their tools and activities by removing Windows Defender Definition Files"
+    author = "frack113"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.* -RemoveDefinitions.*/ nocase and $e.target.process.command_line = /.* -All.*/ nocase)) and (($e.target.process.file.full_path = /.*\\MpCmdRun.exe$/ nocase) or ($e.target.process.file.name = "MpCmdRun.exe")))
+
+  condition:
+    $e
+}

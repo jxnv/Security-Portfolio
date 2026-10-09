@@ -1,0 +1,12 @@
+// Title: Cmd.EXE Missing Space Characters Execution Anomaly
+// ID: a16980c2-0c56-4de0-9a79-17971979efdd
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-08-23
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects Windows command lines that miss a space before or after the /c flag when running a command using the cmd.exe.
+// This could be a sign of obfuscation of a fat finger problem (typo by the developer).
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+from siem.events where ((((contains(CommandLine, "cmd.exe/c") OR contains(CommandLine, "\\cmd/c") OR contains(CommandLine, "\"cmd/c") OR contains(CommandLine, "cmd.exe/k") OR contains(CommandLine, "\\cmd/k") OR contains(CommandLine, "\"cmd/k") OR contains(CommandLine, "cmd.exe/r") OR contains(CommandLine, "\\cmd/r") OR contains(CommandLine, "\"cmd/r"))) OR ((contains(CommandLine, "/cwhoami") OR contains(CommandLine, "/cpowershell") OR contains(CommandLine, "/cschtasks") OR contains(CommandLine, "/cbitsadmin") OR contains(CommandLine, "/ccertutil") OR contains(CommandLine, "/kwhoami") OR contains(CommandLine, "/kpowershell") OR contains(CommandLine, "/kschtasks") OR contains(CommandLine, "/kbitsadmin") OR contains(CommandLine, "/kcertutil"))) OR ((contains(CommandLine, "cmd.exe /c") OR contains(CommandLine, "cmd /c") OR contains(CommandLine, "cmd.exe /k") OR contains(CommandLine, "cmd /k") OR contains(CommandLine, "cmd.exe /r") OR contains(CommandLine, "cmd /r")))) AND NOT ((((contains(CommandLine, "AppData\\Local\\Programs\\Microsoft VS Code\\resources\\app\\node_modules")) OR (CommandLine="*cmd.exe/c .") OR (CommandLine == "cmd.exe /c") OR (CommandLine == "cmd /c")) OR ((contains(CommandLine, "cmd.exe /c ") OR contains(CommandLine, "cmd /c ") OR contains(CommandLine, "cmd.exe /k ") OR contains(CommandLine, "cmd /k ") OR contains(CommandLine, "cmd.exe /r ") OR contains(CommandLine, "cmd /r "))))))

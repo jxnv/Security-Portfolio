@@ -1,0 +1,11 @@
+# Title: Cscript/Wscript Uncommon Script Extension Execution
+# ID: 99b7460d-c9f1-40d7-a316-1f36f61d52ee
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2023-05-15
+# Tags: attack.execution, attack.t1059.005, attack.t1059.007
+# Description: Detects Wscript/Cscript executing a file with an uncommon (i.e. non-script) extension
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((process.command_line:*.csv* OR process.command_line:*.dat* OR process.command_line:*.doc* OR process.command_line:*.gif* OR process.command_line:*.jpeg* OR process.command_line:*.jpg* OR process.command_line:*.png* OR process.command_line:*.ppt* OR process.command_line:*.txt* OR process.command_line:*.xls* OR process.command_line:*.xml*)) AND (((process.pe.original_file_name:"wscript.exe" OR process.pe.original_file_name:"cscript.exe")) OR ((process.executable:*\\wscript.exe OR process.executable:*\\cscript.exe))))

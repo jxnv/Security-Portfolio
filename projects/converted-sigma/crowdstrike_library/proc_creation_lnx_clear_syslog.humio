@@ -1,0 +1,11 @@
+// Title: Syslog Clearing or Removal Via System Utilities
+// ID: 3fcc9b35-39e4-44c0-a2ad-9e82b6902b31
+// Status: test
+// Level: high
+// Author: Max Altgelt (Nextron Systems), Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research), MSTIC
+// Date: 2021-10-15
+// Tags: attack.defense-impairment, attack.t1685.006
+// Description: Detects specific commands commonly used to remove or empty the syslog. Which is a technique often used by attacker as a method to hide their tracks
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((CommandLine = /*/var/log/syslog*/i) and ((ImageFileName = /.*/cp/i and CommandLine = /*/dev/null*/i) or (ImageFileName = /.*/ln/i and (CommandLine = /*/dev/null */i and CommandLine = /*/var/log/syslog*/i) and (CommandLine = /*-sf */i or CommandLine = /*-sfn */i or CommandLine = /*-sfT */i)) or (ImageFileName = /.*/mv/i) or (ImageFileName = /.*/rm/i and (CommandLine = /* -r */i or CommandLine = /* -f */i or CommandLine = /* -rf */i or CommandLine = /*/var/log/syslog*/i)) or (ImageFileName = /.*/shred/i and CommandLine = /*-u */i) or (ImageFileName = /.*/truncate/i and (CommandLine = /*0 */i and CommandLine = /*/var/log/syslog*/i) and (CommandLine = /*-s */i or CommandLine = /*-c */i or CommandLine = /*--size*/i)) or (ImageFileName = /.*/unlink/i))) or (((CommandLine = /*journalctl --vacuum*/i or CommandLine = /*journalctl --rotate*/i)) or ((CommandLine = /* > /var/log/syslog*/i or CommandLine = /* >/var/log/syslog*/i or CommandLine = /* >| /var/log/syslog*/i or CommandLine = /*: > /var/log/syslog*/i or CommandLine = /*:> /var/log/syslog*/i or CommandLine = /*:>/var/log/syslog*/i or CommandLine = /*>|/var/log/syslog*/i))))

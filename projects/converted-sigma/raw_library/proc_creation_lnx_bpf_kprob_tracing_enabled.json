@@ -1,0 +1,30 @@
+{
+  "title": "Enable BPF Kprobes Tracing",
+  "id": "7692f583-bd30-4008-8615-75dab3f08a99",
+  "status": "test",
+  "description": "Detects common command used to enable bpf kprobes tracing",
+  "author": "Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2023-01-25",
+  "tags": [
+    "attack.execution",
+    "attack.stealth"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "process_creation",
+    "product": "linux"
+  },
+  "detection": {
+    "selection": {
+      "CommandLine|contains|all": [
+        "echo 1 >",
+        "/sys/kernel/debug/tracing/events/kprobes/"
+      ],
+      "CommandLine|contains": [
+        "/myprobe/enable",
+        "/myretprobe/enable"
+      ]
+    },
+    "condition": "selection"
+  }
+}

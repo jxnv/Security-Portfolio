@@ -1,0 +1,31 @@
+{
+  "title": "Privileged User Has Been Created",
+  "id": "0ac15ec3-d24f-4246-aa2a-3077bb1cf90e",
+  "status": "test",
+  "description": "Detects the addition of a new user to a privileged group such as \"root\" or \"sudo\"",
+  "author": "Pawel Mazur",
+  "date": "2022-12-21",
+  "tags": [
+    "attack.privilege-escalation",
+    "attack.persistence",
+    "attack.t1136.001",
+    "attack.t1098"
+  ],
+  "level": "high",
+  "logsource": {
+    "product": "linux",
+    "definition": "/var/log/secure on REHL systems or /var/log/auth.log on debian like Systems needs to be collected in order for this detection to work"
+  },
+  "detection": {
+    "selection_new_user": [
+      "new user"
+    ],
+    "selection_uids_gids": [
+      "GID=0,",
+      "UID=0,",
+      "GID=10,",
+      "GID=27,"
+    ],
+    "condition": "all of selection_*"
+  }
+}

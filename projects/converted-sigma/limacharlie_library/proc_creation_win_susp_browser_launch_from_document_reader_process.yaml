@@ -1,0 +1,22 @@
+# Title: Potential Suspicious Browser Launch From Document Reader Process
+# ID: 1193d960-2369-499f-a158-7b50a31df682
+# Status: test
+# Level: medium
+# Author: Joseph Kamau
+# Date: 2024-05-27
+# Tags: attack.execution, attack.t1204.002
+# Description: Detects when a browser process or browser tab is launched from an application that handles document files such as Adobe, Microsoft Office, etc. And connects to a web application over http(s), this could indicate a possible phishing attempt.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# LimaCharlie Detection & Response Rule
+# Name: Potential Suspicious Browser Launch From Document Reader Process
+detect:
+  event: process_creation
+  op: and
+  rules:
+    # Filter logic:
+    # (((ParentImage="*Acrobat Reader*" OR ParentImage="*Microsoft Office*" OR ParentImage="*PDF Reader*") AND (Image="*\\brave.exe" OR Image="*\\chrome.exe" OR Image="*\\firefox.exe" OR Image="*\\msedge.exe" OR Image="*\\opera.exe" OR Image="*\\maxthon.exe" OR Image="*\\seamonkey.exe" OR Image="*\\vivaldi.exe") AND CommandLine="*http*") AND NOT ((CommandLine="*https://go.microsoft.com/fwlink/*")) AND NOT (((CommandLine="*http://ad.foxitsoftware.com/adlog.php?*" OR CommandLine="*https://globe-map.foxitservice.com/go.php?do=redirect*"))))
+respond:
+  - action: report
+    name: Potential Suspicious Browser Launch From Document Reader Process
+

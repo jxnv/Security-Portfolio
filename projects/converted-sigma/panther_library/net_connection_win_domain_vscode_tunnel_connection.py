@@ -1,0 +1,19 @@
+# Title: Network Connection Initiated To Visual Studio Code Tunnels Domain
+# ID: 4b657234-038e-4ad5-997c-4be42340bce4
+# Status: test
+# Level: medium
+# Author: Kamran Saifullah
+# Date: 2023-11-20
+# Tags: attack.exfiltration, attack.command-and-control, attack.t1567, attack.t1572
+# Description: Detects network connections to Visual Studio Code tunnel domains initiated by a process on a system. Attackers can abuse that feature to establish a reverse shell or persistence on a machine.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Network Connection Initiated To Visual Studio Code Tunnels Domain
+def rule(event):
+    # Detection Logic:
+    # (Initiated="true" AND DestinationHostname="*.tunnels.api.visualstudio.com")
+    return True
+
+def title(event):
+    return "Network Connection Initiated To Visual Studio Code Tunnels Domain"
+

@@ -1,0 +1,19 @@
+# Title: AWS RDS Master Password Change
+# ID: 8a63cdd4-6207-414a-85bc-7e032bd3c1a2
+# Status: test
+# Level: medium
+# Author: faloker
+# Date: 2020-02-12
+# Tags: attack.exfiltration, attack.t1020
+# Description: Detects the change of database master password. It may be a part of data exfiltration.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: AWS RDS Master Password Change
+def rule(event):
+    # Detection Logic:
+    # (eventSource="rds.amazonaws.com" AND responseElements.pendingModifiedValues.masterUserPassword="***" AND eventName="ModifyDBInstance")
+    return True
+
+def title(event):
+    return "AWS RDS Master Password Change"
+

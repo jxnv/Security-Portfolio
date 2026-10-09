@@ -1,0 +1,11 @@
+// Title: Service Binary in Suspicious Folder
+// ID: a07f0359-4c90-4dc4-a681-8ffea40b4f47
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), frack113
+// Date: 2022-05-02
+// Tags: attack.persistence, attack.defense-impairment, attack.t1112
+// Description: Detect the creation of a service with a service binary located in a suspicious directory
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((TargetObject = /HKLM\\System\\CurrentControlSet\\Services\\.*/i and TargetObject = /.*\\ImagePath/i and (Details = /*\\Users\\Public\\*/i or Details = /*\\Perflogs\\*/i or Details = /*\\ADMIN$\\*/i or Details = /*\\Temp\\*/i)) or (TargetObject = /HKLM\\System\\CurrentControlSet\\Services\\.*/i and TargetObject = /.*\\Start/i and (ImageFileName = /*\\Users\\Public\\*/i or ImageFileName = /*\\Perflogs\\*/i or ImageFileName = /*\\ADMIN$\\*/i or ImageFileName = /*\\Temp\\*/i) and (Details = "DWORD (0x00000000)" or Details = "DWORD (0x00000001)" or Details = "DWORD (0x00000002)"))) and not((((ImageFileName = /*\\Common Files\\*/i and ImageFileName = /*\\Temp\\*/i)) or (TargetObject = /.*\\CurrentControlSet\\Services\\MBAMInstallerService\\ImagePath/i and Details = /.*\\AppData\\Local\\Temp\\MBAMInstallerService.exe\"/i and ImageFileName = "C:\\Windows\\system32\\services.exe"))))

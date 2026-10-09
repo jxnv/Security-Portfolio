@@ -1,0 +1,11 @@
+// Title: Suspicious PowerShell Invocations - Specific
+// ID: ae7fbf8e-f3cb-49fd-8db4-5f3bed522c71
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Jonhnathan Ribeiro
+// Date: 2017-03-05
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects suspicious PowerShell invocation command parameters
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where ((((ScriptBlockText matches "*-nop*" and ScriptBlockText matches "* -w *" and ScriptBlockText matches "*hidden*" and ScriptBlockText matches "* -c *" and ScriptBlockText matches "*[Convert]::FromBase64String*")) or ((ScriptBlockText matches "* -w *" and ScriptBlockText matches "*hidden*" and ScriptBlockText matches "*-ep*" and ScriptBlockText matches "*bypass*" and ScriptBlockText matches "*-Enc*")) or ((ScriptBlockText matches "* -w *" and ScriptBlockText matches "*hidden*" and ScriptBlockText matches "*-noni*" and ScriptBlockText matches "*-nop*" and ScriptBlockText matches "* -c *" and ScriptBlockText matches "*iex*" and ScriptBlockText matches "*New-Object*")) or ((ScriptBlockText matches "*iex*" and ScriptBlockText matches "*New-Object*" and ScriptBlockText matches "*Net.WebClient*" and ScriptBlockText matches "*.Download*")) or ((ScriptBlockText matches "*powershell*" and ScriptBlockText matches "*reg*" and ScriptBlockText matches "*add*") and (ScriptBlockText matches "*\\software\\microsoft\\windows\\currentversion\\run*" or ScriptBlockText matches "*\\software\\wow6432node\\microsoft\\windows\\currentversion\\run*" or ScriptBlockText matches "*\\software\\microsoft\\windows\\currentversion\\policies\\explorer\\run*")) or ((ScriptBlockText matches "*bypass*" and ScriptBlockText matches "*-noprofile*" and ScriptBlockText matches "*-windowstyle*" and ScriptBlockText matches "*hidden*" and ScriptBlockText matches "*new-object*" and ScriptBlockText matches "*system.net.webclient*" and ScriptBlockText matches "*.download*"))) and !(((ScriptBlockText matches "*(New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1*" or ScriptBlockText matches "*(New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1')*" or ScriptBlockText matches "*Write-ChocolateyWarning*"))))

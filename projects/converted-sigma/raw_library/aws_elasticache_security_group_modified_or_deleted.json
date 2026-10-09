@@ -1,0 +1,30 @@
+{
+  "title": "AWS ElastiCache Security Group Modified or Deleted",
+  "id": "7c797da2-9cf2-4523-ba64-33b06339f0cc",
+  "status": "test",
+  "description": "Identifies when an ElastiCache security group has been modified or deleted.",
+  "author": "Austin Songer @austinsonger",
+  "date": "2021-07-24",
+  "tags": [
+    "attack.impact",
+    "attack.t1531"
+  ],
+  "level": "low",
+  "logsource": {
+    "product": "aws",
+    "service": "cloudtrail"
+  },
+  "detection": {
+    "selection": {
+      "eventSource": "elasticache.amazonaws.com",
+      "eventName": [
+        "DeleteCacheSecurityGroup",
+        "AuthorizeCacheSecurityGroupIngress",
+        "RevokeCacheSecurityGroupIngress",
+        "AuthorizeCacheSecurityGroupEgress",
+        "RevokeCacheSecurityGroupEgress"
+      ]
+    },
+    "condition": "selection"
+  }
+}

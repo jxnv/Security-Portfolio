@@ -1,0 +1,11 @@
+// Title: Add or Remove Computer from DC
+// ID: 20d96d95-5a20-4cf1-a483-f3bda8a7c037
+// Status: test
+// Level: low
+// Author: frack113
+// Date: 2022-10-14
+// Tags: attack.defense-impairment, attack.t1207
+// Description: Detects the creation or removal of a computer. Can be used to detect attacks such as DCShadow via the creation of a new SPN.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((EventID == "4741" OR EventID == "4743"))

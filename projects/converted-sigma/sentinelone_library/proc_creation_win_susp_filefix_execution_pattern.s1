@@ -1,0 +1,14 @@
+// Title: Suspicious FileFix Execution Pattern
+// ID: b5b29e4e-31fa-4fdf-b058-296e7a1aa0c2
+// Status: experimental
+// Level: high
+// Author: 0xFustang, Swachchhanda Shrawan Poudel (Nextron Systems)
+// Date: 2025-11-24
+// Tags: attack.execution, attack.t1204.004
+// Description: Detects suspicious FileFix execution patterns where users are tricked into running malicious commands through browser file upload dialog manipulation.
+// This attack typically begins when users visit malicious websites impersonating legitimate services or news platforms,
+// which may display fake CAPTCHA challenges or direct instructions to open file explorer and paste clipboard content.
+// The clipboard content usually contains commands that download and execute malware, such as information stealing tools.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((src.process.parent.image.path endswithCIS "\\brave.exe" OR src.process.parent.image.path endswithCIS "\\chrome.exe" OR src.process.parent.image.path endswithCIS "\\firefox.exe" OR src.process.parent.image.path endswithCIS "\\msedge.exe") AND src.process.cmdline containsCIS "#") AND (((src.process.cmdline containsCIS "account" OR src.process.cmdline containsCIS "anti-bot" OR src.process.cmdline containsCIS "botcheck" OR src.process.cmdline containsCIS "captcha" OR src.process.cmdline containsCIS "challenge" OR src.process.cmdline containsCIS "confirmation" OR src.process.cmdline containsCIS "fraud" OR src.process.cmdline containsCIS "human" OR src.process.cmdline containsCIS "identification" OR src.process.cmdline containsCIS "identificator" OR src.process.cmdline containsCIS "identity" OR src.process.cmdline containsCIS "robot" OR src.process.cmdline containsCIS "validation" OR src.process.cmdline containsCIS "verification" OR src.process.cmdline containsCIS "verify")) OR ((src.process.cmdline containsCIS "%comspec%" OR src.process.cmdline containsCIS "bitsadmin" OR src.process.cmdline containsCIS "certutil" OR src.process.cmdline containsCIS "cmd" OR src.process.cmdline containsCIS "cscript" OR src.process.cmdline containsCIS "curl" OR src.process.cmdline containsCIS "finger" OR src.process.cmdline containsCIS "mshta" OR src.process.cmdline containsCIS "powershell" OR src.process.cmdline containsCIS "pwsh" OR src.process.cmdline containsCIS "regsvr32" OR src.process.cmdline containsCIS "rundll32" OR src.process.cmdline containsCIS "schtasks" OR src.process.cmdline containsCIS "wget" OR src.process.cmdline containsCIS "wscript"))))

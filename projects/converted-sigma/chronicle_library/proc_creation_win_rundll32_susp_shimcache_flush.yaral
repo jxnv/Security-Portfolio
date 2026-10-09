@@ -1,0 +1,23 @@
+// Title: ShimCache Flush
+// ID: b0524451-19af-4efa-a46f-562a977f792e
+// Status: stable
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2021-02-01
+// Tags: attack.persistence, attack.defense-impairment, attack.t1112
+// Description: Detects actions that clear the local ShimCache and remove forensic evidence
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule b0524451_19af_4efa_a46f_562a977f792e {
+  meta:
+    title = "ShimCache Flush"
+    description = "Detects actions that clear the local ShimCache and remove forensic evidence"
+    author = "Florian Roth (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (((($e.target.process.command_line = /.*rundll32.*/ nocase and $e.target.process.command_line = /.*apphelp.dll.*/ nocase)) and (($e.target.process.command_line = /.*ShimFlushCache.*/ nocase or $e.target.process.command_line = /.*#250.*/ nocase))) or ((($e.target.process.command_line = /.*rundll32.*/ nocase and $e.target.process.command_line = /.*kernel32.dll.*/ nocase)) and (($e.target.process.command_line = /.*BaseFlushAppcompatCache.*/ nocase or $e.target.process.command_line = /.*#46.*/ nocase))))
+
+  condition:
+    $e
+}

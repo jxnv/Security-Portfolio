@@ -1,0 +1,43 @@
+{
+  "title": "Suspicious File Created Via OneNote Application",
+  "id": "fcc6d700-68d9-4241-9a1a-06874d621b06",
+  "status": "test",
+  "description": "Detects suspicious files created via the OneNote application. This could indicate a potential malicious \".one\"/\".onepkg\" file was executed as seen being used in malware activity in the wild",
+  "author": "Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2023-02-09",
+  "tags": [
+    "attack.stealth"
+  ],
+  "level": "high",
+  "logsource": {
+    "category": "file_event",
+    "product": "windows"
+  },
+  "detection": {
+    "selection": {
+      "Image|endswith": [
+        "\\onenote.exe",
+        "\\onenotem.exe",
+        "\\onenoteim.exe"
+      ],
+      "TargetFilename|contains": "\\AppData\\Local\\Temp\\OneNote\\",
+      "TargetFilename|endswith": [
+        ".bat",
+        ".chm",
+        ".cmd",
+        ".dll",
+        ".exe",
+        ".hta",
+        ".htm",
+        ".html",
+        ".js",
+        ".lnk",
+        ".ps1",
+        ".vbe",
+        ".vbs",
+        ".wsf"
+      ]
+    },
+    "condition": "selection"
+  }
+}

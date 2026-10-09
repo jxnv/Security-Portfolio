@@ -1,0 +1,12 @@
+# Title: Legitimate Application Writing Files In Uncommon Location
+# ID: 1cf465a1-2609-4c15-9b66-c32dbe4bfd67
+# Status: experimental
+# Level: high
+# Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+# Date: 2025-12-10
+# Tags: attack.stealth, attack.t1218, attack.command-and-control, attack.t1105
+# Description: Detects legitimate applications writing any type of file to uncommon or suspicious locations that are not typical for application data storage or execution.
+# Adversaries may leverage legitimate applications (Living off the Land Binaries - LOLBins) to drop or download malicious files to uncommon locations on the system to evade detection by security solutions.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+(((process.executable:*\\eqnedt32.exe OR process.executable:*\\wordpad.exe OR process.executable:*\\wordview.exe OR process.executable:*\\cmdl32.exe OR process.executable:*\\certutil.exe OR process.executable:*\\certoc.exe OR process.executable:*\\CertReq.exe OR process.executable:*\\bitsadmin.exe OR process.executable:*\\Desktopimgdownldr.exe OR process.executable:*\\esentutl.exe OR process.executable:*\\expand.exe OR process.executable:*\\extrac32.exe OR process.executable:*\\replace.exe OR process.executable:*\\mshta.exe OR process.executable:*\\ftp.exe OR process.executable:*\\Ldifde.exe OR process.executable:*\\RdrCEF.exe OR process.executable:*\\hh.exe OR process.executable:*\\finger.exe OR process.executable:*\\findstr.exe)) AND ((file.path:*:\\Perflogs* OR file.path:*:\\ProgramData\\* OR file.path:*:\\Temp\\* OR file.path:*:\\Users\\Public\\* OR file.path:*:\\Windows\\* OR file.path:*\\$Recycle.Bin\\* OR file.path:*\\AppData\\Local\\* OR file.path:*\\AppData\\Roaming\\* OR file.path:*\\Contacts\\* OR file.path:*\\Desktop\\* OR file.path:*\\Favorites\\* OR file.path:*\\Favourites\\* OR file.path:*\\inetpub\\wwwroot\\* OR file.path:*\\Music\\* OR file.path:*\\Pictures\\* OR file.path:*\\Start Menu\\Programs\\Startup\\* OR file.path:*\\Users\\Default\\* OR file.path:*\\Videos\\*)))

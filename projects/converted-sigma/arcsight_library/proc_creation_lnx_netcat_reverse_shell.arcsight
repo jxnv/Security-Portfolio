@@ -1,0 +1,11 @@
+// Title: Potential Netcat Reverse Shell Execution
+// ID: 7f734ed0-4f47-46c0-837f-6ee62505abd9
+// Status: test
+// Level: high
+// Author: @d4ns4n_, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-04-07
+// Tags: attack.execution, attack.t1059
+// Description: Detects execution of netcat with the "-e" or "-c" flags followed by common shells, which are commonly used to spawn reverse shells.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+(((CommandLine CONTAINS " -c " OR CommandLine CONTAINS " -e ")) AND ((Image ENDSWITH "/nc.openbsd" OR Image ENDSWITH "/nc.traditional" OR Image ENDSWITH "/nc" OR Image ENDSWITH "/ncat" OR Image ENDSWITH "/netcat.openbsd" OR Image ENDSWITH "/netcat.traditional" OR Image ENDSWITH "/netcat")) AND ((CommandLine CONTAINS " ash" OR CommandLine CONTAINS " bash" OR CommandLine CONTAINS " bsh" OR CommandLine CONTAINS " csh" OR CommandLine CONTAINS " ksh" OR CommandLine CONTAINS " pdksh" OR CommandLine CONTAINS " sh" OR CommandLine CONTAINS " tcsh" OR CommandLine CONTAINS "/bin/ash" OR CommandLine CONTAINS "/bin/bash" OR CommandLine CONTAINS "/bin/bsh" OR CommandLine CONTAINS "/bin/csh" OR CommandLine CONTAINS "/bin/ksh" OR CommandLine CONTAINS "/bin/pdksh" OR CommandLine CONTAINS "/bin/sh" OR CommandLine CONTAINS "/bin/tcsh" OR CommandLine CONTAINS "/bin/zsh" OR CommandLine CONTAINS "$IFSash" OR CommandLine CONTAINS "$IFSbash" OR CommandLine CONTAINS "$IFSbsh" OR CommandLine CONTAINS "$IFScsh" OR CommandLine CONTAINS "$IFSksh" OR CommandLine CONTAINS "$IFSpdksh" OR CommandLine CONTAINS "$IFSsh" OR CommandLine CONTAINS "$IFStcsh" OR CommandLine CONTAINS "$IFSzsh")))

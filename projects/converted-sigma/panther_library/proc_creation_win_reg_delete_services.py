@@ -1,0 +1,19 @@
+# Title: Service Registry Key Deleted Via Reg.EXE
+# ID: 05b2aa93-1210-42c8-8d9a-2fcc13b284f5
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-08-01
+# Tags: attack.defense-impairment, attack.t1685
+# Description: Detects execution of "reg.exe" commands with the "delete" flag on services registry key. Often used by attacker to remove AV software services
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: Service Registry Key Deleted Via Reg.EXE
+def rule(event):
+    # Detection Logic:
+    # ((CommandLine="* delete *") AND ((Image="*reg.exe") OR (OriginalFileName="reg.exe")) AND (CommandLine="*\\SYSTEM\\CurrentControlSet\\services\\*"))
+    return True
+
+def title(event):
+    return "Service Registry Key Deleted Via Reg.EXE"
+

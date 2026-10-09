@@ -1,0 +1,23 @@
+// Title: Account Tampering - Suspicious Failed Logon Reasons
+// ID: 9eb99343-d336-4020-a3cd-67f3819e68ee
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems)
+// Date: 2017-02-19
+// Tags: attack.persistence, attack.privilege-escalation, attack.initial-access, attack.stealth, attack.t1078
+// Description: This method uses uncommon error codes on failed logons to determine suspicious activity and tampering with accounts that have been disabled or somehow restricted.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 9eb99343_d336_4020_a3cd_67f3819e68ee {
+  meta:
+    title = "Account Tampering - Suspicious Failed Logon Reasons"
+    description = "This method uses uncommon error codes on failed logons to determine suspicious activity and tampering with accounts that have been disabled or somehow restricted."
+    author = "Florian Roth (Nextron Systems)"
+    severity = "MEDIUM"
+
+  events:
+    (((($e.EventID = 4625 or $e.EventID = 4776)) and ((($e.Status = "0xC0000072" or $e.Status = "0xC000006F" or $e.Status = "0xC0000070" or $e.Status = "0xC0000413" or $e.Status = "0xC000018C" or $e.Status = "0xC000015B")) or (($e.SubStatus = "0xC0000072" or $e.SubStatus = "0xC000006F" or $e.SubStatus = "0xC0000070" or $e.SubStatus = "0xC0000413" or $e.SubStatus = "0xC000018C" or $e.SubStatus = "0xC000015B")))) and not(($e.SubjectUserSid = "S-1-0-0")))
+
+  condition:
+    $e
+}

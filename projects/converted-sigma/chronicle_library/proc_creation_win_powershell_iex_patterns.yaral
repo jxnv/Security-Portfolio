@@ -1,0 +1,23 @@
+// Title: Suspicious PowerShell IEX Execution Patterns
+// ID: 09576804-7a05-458e-a817-eb718ca91f54
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-03-24
+// Tags: attack.execution, attack.t1059.001
+// Description: Detects suspicious ways to run Invoke-Execution using IEX alias
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 09576804_7a05_458e_a817_eb718ca91f54 {
+  meta:
+    title = "Suspicious PowerShell IEX Execution Patterns"
+    description = "Detects suspicious ways to run Invoke-Execution using IEX alias"
+    author = "Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (((($e.target.process.file.full_path = /.*\\powershell.exe$/ nocase or $e.target.process.file.full_path = /.*\\pwsh.exe$/ nocase) and ($e.target.process.command_line = /.* | iex;.*/ nocase or $e.target.process.command_line = /.* | iex .*/ nocase or $e.target.process.command_line = /.* | iex}.*/ nocase or $e.target.process.command_line = /.* | IEX ;.*/ nocase or $e.target.process.command_line = /.* | IEX -Error.*/ nocase or $e.target.process.command_line = /.* | IEX (new.*/ nocase or $e.target.process.command_line = /.*);IEX .*/ nocase)) and (($e.target.process.command_line = /.*::FromBase64String.*/ nocase or $e.target.process.command_line = /.*.GetString([System.Convert]::.*/ nocase))) or (($e.target.process.command_line = /.*)|iex;$.*/ nocase or $e.target.process.command_line = /.*);iex($.*/ nocase or $e.target.process.command_line = /.*);iex $.*/ nocase or $e.target.process.command_line = /.* | IEX | .*/ nocase or $e.target.process.command_line = /.* | iex\\\".*/ nocase)))
+
+  condition:
+    $e
+}

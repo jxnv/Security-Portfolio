@@ -1,0 +1,23 @@
+// Title: AWL Bypass with Winrm.vbs and Malicious WsmPty.xsl/WsmTxt.xsl - File
+// ID: d353dac0-1b41-46c2-820c-d7d2561fc6ed
+// Status: test
+// Level: medium
+// Author: Julia Fomina, oscd.community
+// Date: 2020-10-06
+// Tags: attack.stealth, attack.t1216
+// Description: Detects execution of attacker-controlled WsmPty.xsl or WsmTxt.xsl via winrm.vbs and copied cscript.exe (can be renamed)
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule d353dac0_1b41_46c2_820c_d7d2561fc6ed {
+  meta:
+    title = "AWL Bypass with Winrm.vbs and Malicious WsmPty.xsl/WsmTxt.xsl - File"
+    description = "Detects execution of attacker-controlled WsmPty.xsl or WsmTxt.xsl via winrm.vbs and copied cscript.exe (can be renamed)"
+    author = "Julia Fomina, oscd.community"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.file.full_path = /.*WsmPty.xsl$/ nocase or $e.target.file.full_path = /.*WsmTxt.xsl$/ nocase)) and not((($e.target.file.full_path = /^C:\\Windows\\System32\\.*/ nocase or $e.target.file.full_path = /^C:\\Windows\\SysWOW64\\.*/ nocase))))
+
+  condition:
+    $e
+}

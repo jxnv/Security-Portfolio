@@ -1,0 +1,19 @@
+# Title: DNS Query Request By Regsvr32.EXE
+# ID: 36e037c4-c228-4866-b6a3-48eb292b9955
+# Status: test
+# Level: medium
+# Author: Dmitriy Lifanov, oscd.community
+# Date: 2019-10-25
+# Tags: attack.execution, attack.stealth, attack.t1559.001, attack.t1218.010
+# Description: Detects DNS queries initiated by "Regsvr32.exe"
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# Panther Detection Rule: DNS Query Request By Regsvr32.EXE
+def rule(event):
+    # Detection Logic:
+    # (Image="*\\regsvr32.exe")
+    return True
+
+def title(event):
+    return "DNS Query Request By Regsvr32.EXE"
+

@@ -1,0 +1,32 @@
+{
+  "title": "Renamed Remote Utilities RAT (RURAT) Execution",
+  "id": "9ef27c24-4903-4192-881a-3adde7ff92a5",
+  "status": "test",
+  "description": "Detects execution of renamed Remote Utilities (RURAT) via Product PE header field",
+  "author": "Nasreddine Bencherchali (Nextron Systems)",
+  "date": "2022-09-19",
+  "tags": [
+    "attack.collection",
+    "attack.command-and-control",
+    "attack.discovery",
+    "attack.stealth",
+    "attack.s0592"
+  ],
+  "level": "medium",
+  "logsource": {
+    "category": "process_creation",
+    "product": "windows"
+  },
+  "detection": {
+    "selection": {
+      "Product": "Remote Utilities"
+    },
+    "filter": {
+      "Image|endswith": [
+        "\\rutserv.exe",
+        "\\rfusclient.exe"
+      ]
+    },
+    "condition": "selection and not filter"
+  }
+}

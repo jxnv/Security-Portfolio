@@ -1,0 +1,11 @@
+// Title: Odbcconf.EXE Suspicious DLL Location
+// ID: 6b65c28e-11f3-46cb-902a-68f2cafaf474
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2023-05-22
+// Tags: attack.stealth, attack.t1218.008
+// Description: Detects execution of "odbcconf" where the path of the DLL being registered is located in a potentially suspicious location.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter (((action_process_image_command_line contains ":\\PerfLogs\\" or action_process_image_command_line contains ":\\ProgramData\\" or action_process_image_command_line contains ":\\Temp\\" or action_process_image_command_line contains ":\\Users\\Public\\" or action_process_image_command_line contains ":\\Windows\\Registration\\CRMLog" or action_process_image_command_line contains ":\\Windows\\System32\\com\\dmp\\" or action_process_image_command_line contains ":\\Windows\\System32\\FxsTmp\\" or action_process_image_command_line contains ":\\Windows\\System32\\Microsoft\\Crypto\\RSA\\MachineKeys\\" or action_process_image_command_line contains ":\\Windows\\System32\\spool\\drivers\\color\\" or action_process_image_command_line contains ":\\Windows\\System32\\spool\\PRINTERS\\" or action_process_image_command_line contains ":\\Windows\\System32\\spool\\SERVERS\\" or action_process_image_command_line contains ":\\Windows\\System32\\Tasks_Migrated\\" or action_process_image_command_line contains ":\\Windows\\System32\\Tasks\\Microsoft\\Windows\\SyncCenter\\" or action_process_image_command_line contains ":\\Windows\\SysWOW64\\com\\dmp\\" or action_process_image_command_line contains ":\\Windows\\SysWOW64\\FxsTmp\\" or action_process_image_command_line contains ":\\Windows\\SysWOW64\\Tasks\\Microsoft\\Windows\\PLA\\System\\" or action_process_image_command_line contains ":\\Windows\\SysWOW64\\Tasks\\Microsoft\\Windows\\SyncCenter\\" or action_process_image_command_line contains ":\\Windows\\Tasks\\" or action_process_image_command_line contains ":\\Windows\\Temp\\" or action_process_image_command_line contains ":\\Windows\\Tracing\\" or action_process_image_command_line contains "\\AppData\\Local\\Temp\\" or action_process_image_command_line contains "\\AppData\\Roaming\\")) and ((action_process_image_path endswith "\\odbcconf.exe") or (action_process_image_name = "odbcconf.exe")))

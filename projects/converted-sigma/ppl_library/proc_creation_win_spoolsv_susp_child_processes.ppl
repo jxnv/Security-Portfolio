@@ -1,0 +1,11 @@
+// Title: Suspicious Spool Service Child Process
+// ID: dcdbc940-0bff-46b2-95f3-2d73f848e33b
+// Status: test
+// Level: high
+// Author: Justin C. (@endisphotic), @dreadphones (detection), Thomas Patzke (Sigma rule)
+// Date: 2021-07-11
+// Tags: attack.execution, attack.t1203, attack.privilege-escalation, attack.t1068
+// Description: Detects suspicious print spool service (spoolsv.exe) child processes.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+source = logs-* | where ((process.parent.executable="*\\spoolsv.exe" AND (IntegrityLevel = "System" OR IntegrityLevel = "S-1-16-16384")) AND (((process.executable="*\\gpupdate.exe" OR process.executable="*\\whoami.exe" OR process.executable="*\\nltest.exe" OR process.executable="*\\taskkill.exe" OR process.executable="*\\wmic.exe" OR process.executable="*\\taskmgr.exe" OR process.executable="*\\sc.exe" OR process.executable="*\\findstr.exe" OR process.executable="*\\curl.exe" OR process.executable="*\\wget.exe" OR process.executable="*\\certutil.exe" OR process.executable="*\\bitsadmin.exe" OR process.executable="*\\accesschk.exe" OR process.executable="*\\wevtutil.exe" OR process.executable="*\\bcdedit.exe" OR process.executable="*\\fsutil.exe" OR process.executable="*\\cipher.exe" OR process.executable="*\\schtasks.exe" OR process.executable="*\\write.exe" OR process.executable="*\\wuauclt.exe" OR process.executable="*\\systeminfo.exe" OR process.executable="*\\reg.exe" OR process.executable="*\\query.exe")) OR (((process.executable="*\\net.exe" OR process.executable="*\\net1.exe")) AND NOT ((process.command_line like "%start%"))) OR ((process.executable="*\\cmd.exe") AND NOT (((process.command_line like "%.spl%" OR process.command_line like "%route add%" OR process.command_line like "%program files%")))) OR ((process.executable="*\\netsh.exe") AND NOT (((process.command_line like "%add portopening%" OR process.command_line like "%rule name%")))) OR (((process.executable="*\\powershell.exe" OR process.executable="*\\pwsh.exe")) AND NOT ((process.command_line like "%.spl%"))) OR ((process.command_line="*rundll32.exe") AND ((process.executable="*\\rundll32.exe") OR (process.pe.original_file_name = "RUNDLL32.EXE")))))

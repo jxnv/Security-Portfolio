@@ -1,0 +1,12 @@
+-- Title: AWS SAML Provider Deletion Activity
+-- ID: ccd6a6c8-bb4e-4a91-9d2a-07e632819374
+-- Status: experimental
+-- Level: medium
+-- Author: Ivan Saakov
+-- Date: 2024-12-19
+-- Tags: attack.stealth, attack.t1078.004, attack.privilege-escalation, attack.initial-access, attack.persistence, attack.t1531, attack.impact
+-- Description: Detects the deletion of an AWS SAML provider, potentially indicating malicious intent to disrupt administrative or security team access.
+-- An attacker can remove the SAML provider for the information security team or a team of system administrators, to make it difficult for them to work and investigate at the time of the attack and after it.
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM process_journal WHERE (eventSource = 'iam.amazonaws.com' AND eventName = 'DeleteSAMLProvider' AND status = 'success')

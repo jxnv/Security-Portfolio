@@ -1,0 +1,23 @@
+// Title: PUA - CleanWipe Execution
+// ID: f44800ac-38ec-471f-936e-3fa7d9c53100
+// Status: test
+// Level: high
+// Author: Nasreddine Bencherchali (Nextron Systems)
+// Date: 2021-12-18
+// Tags: attack.defense-impairment, attack.t1685
+// Description: Detects the use of CleanWipe a tool usually used to delete Symantec antivirus.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule f44800ac_38ec_471f_936e_3fa7d9c53100 {
+  meta:
+    title = "PUA - CleanWipe Execution"
+    description = "Detects the use of CleanWipe a tool usually used to delete Symantec antivirus."
+    author = "Nasreddine Bencherchali (Nextron Systems)"
+    severity = "HIGH"
+
+  events:
+    (($e.target.process.file.full_path = /.*\\SepRemovalToolNative_x64.exe$/ nocase) or ($e.target.process.file.full_path = /.*\\CATClean.exe$/ nocase and $e.target.process.command_line = /.*--uninstall.*/ nocase) or ($e.target.process.file.full_path = /.*\\NetInstaller.exe$/ nocase and $e.target.process.command_line = /.*-r.*/ nocase) or ($e.target.process.file.full_path = /.*\\WFPUnins.exe$/ nocase and ($e.target.process.command_line = /.*/uninstall.*/ nocase and $e.target.process.command_line = /.*/enterprise.*/ nocase)))
+
+  condition:
+    $e
+}

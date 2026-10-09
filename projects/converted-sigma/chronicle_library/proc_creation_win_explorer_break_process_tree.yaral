@@ -1,0 +1,24 @@
+// Title: Explorer Process Tree Break
+// ID: 949f1ffb-6e85-4f00-ae1e-c3c5b190d605
+// Status: test
+// Level: medium
+// Author: Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems), @gott_cyber
+// Date: 2019-06-29
+// Tags: attack.stealth, attack.t1036
+// Description: Detects a command line process that uses explorer.exe to launch arbitrary commands or binaries,
+// which is similar to cmd.exe /c, only it breaks the process tree and makes its parent a new instance of explorer spawning from "svchost"
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 949f1ffb_6e85_4f00_ae1e_c3c5b190d605 {
+  meta:
+    title = "Explorer Process Tree Break"
+    description = "Detects a command line process that uses explorer.exe to launch arbitrary commands or binaries, which is similar to cmd.exe /c, only it breaks the process tree and makes its parent a new instance of explorer spawning from "svchost""
+    author = "Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems), @gott_cyber"
+    severity = "MEDIUM"
+
+  events:
+    (($e.target.process.command_line = /.*/factory,{75dff2b7-6936-4c06-a8bb-676a7b00b24b}.*/ nocase) or ($e.target.process.command_line = /.*explorer.exe.*/ nocase and $e.target.process.command_line = /.* /root,.*/ nocase))
+
+  condition:
+    $e
+}

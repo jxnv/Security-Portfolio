@@ -1,0 +1,16 @@
+<!--
+  Title: New User Account Creation Attempt Via ADSI in CommandLine
+  ID: 7c9fed65-039a-4055-8c23-fa763d94aff6
+  Status: experimental
+  Level: medium
+  Author: William Gokah (idea), Raylee Hawkins, Swachchhanda Shrawan Poudel (Nextron Systems)
+  Date: 2026-08-13
+  Description: Detects PowerShell command line arguments containing ADSI (Active Directory Service Interfaces) patterns trying to create a new user account via the WinNT or LDAP provider. This is an uncommon method to create user accounts and may indicate an attempt to evade detection by avoiding more commonly monitored commands such as "net user", "New-LocalUser" or "New-ADUser".
+-->
+
+<group name="sigma_converted,">
+  <rule id="100001" level="5">
+    <description>New User Account Creation Attempt Via ADSI in CommandLine</description>
+    <match>((CommandLine=\"*[ADSI]*\") AND ((CommandLine=\"*WinNT://*\" OR CommandLine=\"*LDAP://*\")) AND ((CommandLine=\"*.Create(\\\"user</match>
+  </rule>
+</group>

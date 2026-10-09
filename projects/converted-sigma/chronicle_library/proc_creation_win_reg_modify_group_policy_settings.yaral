@@ -1,0 +1,23 @@
+// Title: Modify Group Policy Settings
+// ID: ada4b0c4-758b-46ac-9033-9004613a150d
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-08-19
+// Tags: attack.privilege-escalation, attack.defense-impairment, attack.t1484.001
+// Description: Detect malicious GPO modifications can be used to implement many other malicious behaviors.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule ada4b0c4_758b_46ac_9033_9004613a150d {
+  meta:
+    title = "Modify Group Policy Settings"
+    description = "Detect malicious GPO modifications can be used to implement many other malicious behaviors."
+    author = "frack113"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.command_line = /.*GroupPolicyRefreshTimeDC.*/ nocase or $e.target.process.command_line = /.*GroupPolicyRefreshTimeOffsetDC.*/ nocase or $e.target.process.command_line = /.*GroupPolicyRefreshTime.*/ nocase or $e.target.process.command_line = /.*GroupPolicyRefreshTimeOffset.*/ nocase or $e.target.process.command_line = /.*EnableSmartScreen.*/ nocase or $e.target.process.command_line = /.*ShellSmartScreenLevel.*/ nocase)) and ($e.target.process.command_line = /.*\\SOFTWARE\\Policies\\Microsoft\\Windows\\System.*/ nocase) and (($e.target.process.file.full_path = /.*\\reg.exe$/ nocase) or ($e.target.process.file.name = "reg.exe")))
+
+  condition:
+    $e
+}

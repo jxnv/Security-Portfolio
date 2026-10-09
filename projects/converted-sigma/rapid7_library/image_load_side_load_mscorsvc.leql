@@ -1,0 +1,11 @@
+// Title: Potential DLL Sideloading Of MsCorSvc.DLL
+// ID: cdb15e19-c2d0-432a-928e-e49c8c60dcf2
+// Status: test
+// Level: medium
+// Author: Wietze Beukema
+// Date: 2024-07-11
+// Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.stealth, attack.t1574.001
+// Description: Detects potential DLL sideloading of "mscorsvc.dll".
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((where(ImageLoaded IENDSWITH "\\mscorsvc.dll")) AND NOT (((where(ImageLoaded ISTARTSWITH "C:\\Windows\\Microsoft.NET\\Framework\\") OR where(ImageLoaded ISTARTSWITH "C:\\Windows\\Microsoft.NET\\Framework64\\") OR where(ImageLoaded ISTARTSWITH "C:\\Windows\\Microsoft.NET\\FrameworkArm\\") OR where(ImageLoaded ISTARTSWITH "C:\\Windows\\Microsoft.NET\\FrameworkArm64\\") OR where(ImageLoaded ISTARTSWITH "C:\\Windows\\WinSxS\\")))))

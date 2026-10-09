@@ -1,0 +1,23 @@
+// Title: Potential Persistence Attempt Via Existing Service Tampering
+// ID: 38879043-7e1e-47a9-8d46-6bec88e201df
+// Status: test
+// Level: medium
+// Author: Sreeman
+// Date: 2020-09-29
+// Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.stealth, attack.t1543.003, attack.t1574.011
+// Description: Detects the modification of an existing service in order to execute an arbitrary payload when the service is started or killed as a potential method for persistence.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 38879043_7e1e_47a9_8d46_6bec88e201df {
+  meta:
+    title = "Potential Persistence Attempt Via Existing Service Tampering"
+    description = "Detects the modification of an existing service in order to execute an arbitrary payload when the service is started or killed as a potential method for persistence."
+    author = "Sreeman"
+    severity = "MEDIUM"
+
+  events:
+    (((($e.target.process.command_line = /.*sc .*/ nocase and $e.target.process.command_line = /.*config .*/ nocase and $e.target.process.command_line = /.*binpath=.*/ nocase)) or (($e.target.process.command_line = /.*sc .*/ nocase and $e.target.process.command_line = /.*failure.*/ nocase and $e.target.process.command_line = /.*command=.*/ nocase))) or ((($e.target.process.command_line = /.*.sh.*/ nocase or $e.target.process.command_line = /.*.exe.*/ nocase or $e.target.process.command_line = /.*.dll.*/ nocase or $e.target.process.command_line = /.*.bin$.*/ nocase or $e.target.process.command_line = /.*.bat.*/ nocase or $e.target.process.command_line = /.*.cmd.*/ nocase or $e.target.process.command_line = /.*.js.*/ nocase or $e.target.process.command_line = /.*.msh$.*/ nocase or $e.target.process.command_line = /.*.reg$.*/ nocase or $e.target.process.command_line = /.*.scr.*/ nocase or $e.target.process.command_line = /.*.ps.*/ nocase or $e.target.process.command_line = /.*.vb.*/ nocase or $e.target.process.command_line = /.*.jar.*/ nocase or $e.target.process.command_line = /.*.pl.*/ nocase)) and ((($e.target.process.command_line = /.*reg .*/ nocase and $e.target.process.command_line = /.*add .*/ nocase and $e.target.process.command_line = /.*FailureCommand.*/ nocase)) or (($e.target.process.command_line = /.*reg .*/ nocase and $e.target.process.command_line = /.*add .*/ nocase and $e.target.process.command_line = /.*ImagePath.*/ nocase)))))
+
+  condition:
+    $e
+}

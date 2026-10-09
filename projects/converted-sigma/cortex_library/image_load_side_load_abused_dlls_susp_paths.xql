@@ -1,0 +1,11 @@
+// Title: Abusable DLL Potential Sideloading From Suspicious Location
+// ID: 799a5f48-0ac1-4e0f-9152-71d137d48c2a
+// Status: test
+// Level: high
+// Author: X__Junior (Nextron Systems)
+// Date: 2023-07-11
+// Tags: attack.execution, attack.t1059
+// Description: Detects potential DLL sideloading of DLLs that are known to be abused from suspicious locations
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+dataset = xdr_data | filter (((ImageLoaded endswith "\\coreclr.dll" or ImageLoaded endswith "\\facesdk.dll" or ImageLoaded endswith "\\HPCustPartUI.dll" or ImageLoaded endswith "\\libcef.dll" or ImageLoaded endswith "\\ZIPDLL.dll")) and (((ImageLoaded contains ":\\Perflogs\\" or ImageLoaded contains ":\\Users\\Public\\" or ImageLoaded contains "\\Temporary Internet" or ImageLoaded contains "\\Windows\\Temp\\")) or (((ImageLoaded contains ":\\Users\\" and ImageLoaded contains "\\Favorites\\")) or ((ImageLoaded contains ":\\Users\\" and ImageLoaded contains "\\Favourites\\")) or ((ImageLoaded contains ":\\Users\\" and ImageLoaded contains "\\Contacts\\")) or ((ImageLoaded contains ":\\Users\\" and ImageLoaded contains "\\Pictures\\")))))

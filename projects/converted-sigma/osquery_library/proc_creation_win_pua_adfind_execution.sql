@@ -1,0 +1,11 @@
+-- Title: PUA - AdFind.EXE Execution
+-- ID: 514e7e3e-b3b4-4a67-af60-be20f139198b
+-- Status: experimental
+-- Level: medium
+-- Author: Swachchhanda Shrawan Poudel (Nextron Systems)
+-- Date: 2025-02-26
+-- Tags: attack.discovery, attack.t1087.002
+-- Description: Detects execution of Adfind.exe utility, which can be used for reconnaissance in an Active Directory environment
+-- Converted by: Sigma Universal SIEM/EDR CLI
+
+SELECT * FROM processes WHERE ((Image="*\\AdFind.exe") OR (OriginalFileName = 'AdFind.exe') OR ((Hashes LIKE '%IMPHASH=d144de8117df2beceaba2201ad304764%' OR Hashes LIKE '%IMPHASH=12ce1c0f3f5837ecc18a3782408fa975%' OR Hashes LIKE '%IMPHASH=bca5675746d13a1f246e2da3c2217492%' OR Hashes LIKE '%IMPHASH=4fbf3f084fbbb2470b80b2013134df35%' OR Hashes LIKE '%IMPHASH=49b639b4acbecc49d72a01f357aa4930%' OR Hashes LIKE '%IMPHASH=53e117a96057eaf19c41380d0e87f1c2%' OR Hashes LIKE '%IMPHASH=680dad9e300346e05a85023965867201%' OR Hashes LIKE '%IMPHASH=21aa085d54992511b9f115355e468782%')))

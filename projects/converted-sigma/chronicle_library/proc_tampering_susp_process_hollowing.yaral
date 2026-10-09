@@ -1,0 +1,23 @@
+// Title: Potential Process Hollowing Activity
+// ID: c4b890e5-8d8c-4496-8c66-c805753817cd
+// Status: test
+// Level: medium
+// Author: Christopher Peacock '@securepeacock', SCYTHE '@scythe_io', Sittikorn S
+// Date: 2022-01-25
+// Tags: attack.privilege-escalation, attack.stealth, attack.t1055.012
+// Description: Detects when a memory process image does not match the disk image, indicative of process hollowing.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule c4b890e5_8d8c_4496_8c66_c805753817cd {
+  meta:
+    title = "Potential Process Hollowing Activity"
+    description = "Detects when a memory process image does not match the disk image, indicative of process hollowing."
+    author = "Christopher Peacock '@securepeacock', SCYTHE '@scythe_io', Sittikorn S"
+    severity = "MEDIUM"
+
+  events:
+    (($e.Type = "Image is replaced") and not((($e.target.process.file.full_path = /.*:\\Program Files (x86).*/ nocase or $e.target.process.file.full_path = /.*:\\Program Files\\.*/ nocase or $e.target.process.file.full_path = /.*:\\Windows\\System32\\wbem\\WMIADAP.exe.*/ nocase or $e.target.process.file.full_path = /.*:\\Windows\\SysWOW64\\wbem\\WMIADAP.exe.*/ nocase))) and not((($e.target.process.file.full_path = /.*\\WindowsApps\\MicrosoftEdge.exe$/ nocase) or ($e.target.process.file.full_path = /.*\\AppData\\Local\\Programs\\Opera\\.*/ nocase and $e.target.process.file.full_path = /.*\\opera.exe$/ nocase))))
+
+  condition:
+    $e
+}

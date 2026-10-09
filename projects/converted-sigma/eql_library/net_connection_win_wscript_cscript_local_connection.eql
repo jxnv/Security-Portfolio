@@ -1,0 +1,11 @@
+// Title: Local Network Connection Initiated By Script Interpreter
+// ID: 08249dc0-a28d-4555-8ba5-9255a198e08c
+// Status: test
+// Level: medium
+// Author: frack113
+// Date: 2022-08-28
+// Tags: attack.command-and-control, attack.t1105
+// Description: Detects a script interpreter (Wscript/Cscript) initiating a local network connection to download or execute a script hosted on a shared folder.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+network where (Initiated == "true" and (process.executable endswith "\\wscript.exe" or process.executable endswith "\\cscript.exe") and (cidrmatch("127.0.0.0/8", destination.ip) or cidrmatch("10.0.0.0/8", destination.ip) or cidrmatch("172.16.0.0/12", destination.ip) or cidrmatch("192.168.0.0/16", destination.ip) or cidrmatch("169.254.0.0/16", destination.ip) or cidrmatch("::1/128", destination.ip) or cidrmatch("fe80::/10", destination.ip) or cidrmatch("fc00::/7", destination.ip)))

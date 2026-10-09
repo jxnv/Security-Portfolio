@@ -1,0 +1,23 @@
+// Title: Copy Passwd Or Shadow From TMP Path
+// ID: fa4aaed5-4fe0-498d-bbc0-08e3346387ba
+// Status: test
+// Level: high
+// Author: Joseliyo Sanchez, @Joseliyo_Jstnk
+// Date: 2023-01-31
+// Tags: attack.credential-access, attack.t1552.001
+// Description: Detects when the file "passwd" or "shadow" is copied from tmp path
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule fa4aaed5_4fe0_498d_bbc0_08e3346387ba {
+  meta:
+    title = "Copy Passwd Or Shadow From TMP Path"
+    description = "Detects when the file "passwd" or "shadow" is copied from tmp path"
+    author = "Joseliyo Sanchez, @Joseliyo_Jstnk"
+    severity = "HIGH"
+
+  events:
+    ((($e.target.process.command_line = /.*passwd.*/ nocase or $e.target.process.command_line = /.*shadow.*/ nocase)) and ($e.target.process.file.full_path = /.*/cp$/ nocase) and ($e.target.process.command_line = /.*/tmp/.*/ nocase))
+
+  condition:
+    $e
+}

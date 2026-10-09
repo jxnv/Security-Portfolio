@@ -1,0 +1,11 @@
+// Title: Suspicious Process Patterns NTDS.DIT Exfil
+// ID: 8bc64091-6875-4881-aaf9-7bd25b5dda08
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-03-11
+// Tags: attack.credential-access, attack.t1003.003
+// Description: Detects suspicious process patterns used in NTDS.DIT exfiltration
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+process where ((((process.command_line like "*_ac i ntds*" and process.command_line like "*_create full*")) or ((process.command_line like "*_/c copy *" and process.command_line like "*_\\windows\\ntds\\ntds.dit*")) or ((process.command_line like "*_activate instance ntds*" and process.command_line like "*_create full*")) or ((process.command_line like "*_powershell*" and process.command_line like "*_ntds.dit*")) or (((process.executable endswith "\\NTDSDump.exe" or process.executable endswith "\\NTDSDumpEx.exe")) or ((process.command_line like "*_ntds.dit*" and process.command_line like "*_system.hiv*")) or (process.command_line like "*_NTDSgrab.ps1*"))) or ((((process.parent.executable like "*_\\apache*" or process.parent.executable like "*_\\tomcat*" or process.parent.executable like "*_\\AppData\\*" or process.parent.executable like "*_\\Temp\\*" or process.parent.executable like "*_\\Public\\*" or process.parent.executable like "*_\\PerfLogs\\*")) or ((process.executable like "*_\\apache*" or process.executable like "*_\\tomcat*" or process.executable like "*_\\AppData\\*" or process.executable like "*_\\Temp\\*" or process.executable like "*_\\Public\\*" or process.executable like "*_\\PerfLogs\\*"))) and (process.command_line like "*_ntds.dit*")))

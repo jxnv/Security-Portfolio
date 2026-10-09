@@ -1,0 +1,22 @@
+# Title: Server Side Template Injection Strings
+# ID: ada3bc4f-f0fd-42b9-ba91-e105e8af7342
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2022-06-14
+# Tags: attack.stealth, attack.t1221
+# Description: Detects SSTI attempts sent via GET requests in access logs
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+# LimaCharlie Detection & Response Rule
+# Name: Server Side Template Injection Strings
+detect:
+  event: webserver
+  op: and
+  rules:
+    # Filter logic:
+    # ((cs-method="GET") AND ("={{" OR "=%7B%7B" OR "=${" OR "=$%7B" OR "=<%=" OR "=%3C%25=" OR "=@(" OR "freemarker.template.utility.Execute" OR ".getClass().forName('javax.script.ScriptEngineManager')" OR "T(org.apache.commons.io.IOUtils)") AND NOT ((sc-status="404")))
+respond:
+  - action: report
+    name: Server Side Template Injection Strings
+

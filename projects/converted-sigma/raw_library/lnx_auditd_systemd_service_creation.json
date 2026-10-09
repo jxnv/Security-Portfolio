@@ -1,0 +1,34 @@
+{
+  "title": "Systemd Service Creation",
+  "id": "1bac86ba-41aa-4f62-9d6b-405eac99b485",
+  "status": "test",
+  "description": "Detects a creation of systemd services which could be used by adversaries to execute malicious code.",
+  "author": "Pawel Mazur",
+  "date": "2022-02-03",
+  "tags": [
+    "attack.privilege-escalation",
+    "attack.persistence",
+    "attack.t1543.002"
+  ],
+  "level": "medium",
+  "logsource": {
+    "product": "linux",
+    "service": "auditd"
+  },
+  "detection": {
+    "path": {
+      "type": "PATH",
+      "nametype": "CREATE"
+    },
+    "name_1": {
+      "name|startswith": [
+        "/usr/lib/systemd/system/",
+        "/etc/systemd/system/"
+      ]
+    },
+    "name_2": {
+      "name|contains": "/.config/systemd/user/"
+    },
+    "condition": "path and 1 of name_*"
+  }
+}

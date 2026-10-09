@@ -1,0 +1,11 @@
+// Title: Suspicious Command Patterns In Scheduled Task Creation
+// ID: f2c64357-b1d2-41b7-849f-34d2682c0fad
+// Status: test
+// Level: high
+// Author: Florian Roth (Nextron Systems)
+// Date: 2022-02-23
+// Tags: attack.privilege-escalation, attack.persistence, attack.execution, attack.t1053.005
+// Description: Detects scheduled task creation using "schtasks" that contain potentially suspicious or uncommon commands
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+from siem.events where ((Image="*\\schtasks.exe" AND contains(CommandLine, "/Create ")) AND ((((contains(CommandLine, "/sc minute ") OR contains(CommandLine, "/ru system "))) AND ((contains(CommandLine, "cmd /c") OR contains(CommandLine, "cmd /k") OR contains(CommandLine, "cmd /r") OR contains(CommandLine, "cmd.exe /c ") OR contains(CommandLine, "cmd.exe /k ") OR contains(CommandLine, "cmd.exe /r ")))) OR ((contains(CommandLine, " -decode ") OR contains(CommandLine, " -enc ") OR contains(CommandLine, " -w hidden ") OR contains(CommandLine, " bypass ") OR contains(CommandLine, " IEX") OR contains(CommandLine, ".DownloadData") OR contains(CommandLine, ".DownloadFile") OR contains(CommandLine, ".DownloadString") OR contains(CommandLine, "/c start /min ") OR contains(CommandLine, "FromBase64String") OR contains(CommandLine, "mshta http") OR contains(CommandLine, "mshta.exe http"))) OR (((contains(CommandLine, ":\\ProgramData\\") OR contains(CommandLine, ":\\Temp\\") OR contains(CommandLine, ":\\Tmp\\") OR contains(CommandLine, ":\\Users\\Public\\") OR contains(CommandLine, ":\\Windows\\Temp\\") OR contains(CommandLine, "\\AppData\\") OR contains(CommandLine, "%AppData%") OR contains(CommandLine, "%Temp%") OR contains(CommandLine, "%tmp%"))) AND ((contains(CommandLine, "cscript") OR contains(CommandLine, "curl") OR contains(CommandLine, "wscript"))))))

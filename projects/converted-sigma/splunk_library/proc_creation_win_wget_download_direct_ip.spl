@@ -1,0 +1,11 @@
+# Title: Suspicious File Download From IP Via Wget.EXE
+# ID: 17f0c0a8-8bd5-4ee0-8c5f-a342c0199f35
+# Status: test
+# Level: high
+# Author: Nasreddine Bencherchali (Nextron Systems)
+# Date: 2023-07-27
+# Tags: attack.execution
+# Description: Detects potentially suspicious file downloads directly from IP addresses using Wget.exe
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* eventtype=wineventlog (((process_exec="*.ps1" OR process_exec="*.ps1'" OR process_exec="*.ps1\"" OR process_exec="*.dat" OR process_exec="*.dat'" OR process_exec="*.dat\"" OR process_exec="*.msi" OR process_exec="*.msi'" OR process_exec="*.msi\"" OR process_exec="*.bat" OR process_exec="*.bat'" OR process_exec="*.bat\"" OR process_exec="*.exe" OR process_exec="*.exe'" OR process_exec="*.exe\"" OR process_exec="*.vbs" OR process_exec="*.vbs'" OR process_exec="*.vbs\"" OR process_exec="*.vbe" OR process_exec="*.vbe'" OR process_exec="*.vbe\"" OR process_exec="*.hta" OR process_exec="*.hta'" OR process_exec="*.hta\"" OR process_exec="*.dll" OR process_exec="*.dll'" OR process_exec="*.dll\"" OR process_exec="*.psm1" OR process_exec="*.psm1'" OR process_exec="*.psm1\"")) AND ((regex process_exec="(?i)\\s-O\\s") OR (process_exec="*--output-document*")) AND (process_exec="*http*") AND ((process_path="*\\wget.exe") OR (process_name="wget.exe")) AND (regex process_exec="(?i)://[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}"))

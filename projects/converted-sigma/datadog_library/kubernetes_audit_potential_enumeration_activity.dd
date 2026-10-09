@@ -1,0 +1,13 @@
+# Title: Kubernetes Potential Enumeration Activity
+# ID: 597a7e84-187d-458b-9e4f-2f5a0e676711
+# Status: experimental
+# Level: medium
+# Author: uniqu3-us3r
+# Date: 2026-04-28
+# Tags: attack.execution, attack.discovery, attack.t1609, attack.t1613
+# Description: Detects potential Kubernetes enumeration or attack activity via the audit log.
+# This includes the execution of common shells, utilities, or specialized tools like 'Rakkess' (access_matrix) and 'TruffleHog' via Kubernetes API requests.
+# Attackers use these methods to perform reconnaissance (enumeration), secret harvesting, or execute code (exec) within a cluster.
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+((@responseStatus.code:"ALLOW") AND (((@requestURI:*%2fbin%2fash* OR @requestURI:*%2fbin%2fbash* OR @requestURI:*%2fbin%2fbusybox* OR @requestURI:*%2fbin%2fdash* OR @requestURI:*%2fbin%2fsh* OR @requestURI:*%2fbin%2fzsh* OR @requestURI:*/bin/ash* OR @requestURI:*/bin/bash* OR @requestURI:*/bin/busybox* OR @requestURI:*/bin/dash* OR @requestURI:*/bin/sh* OR @requestURI:*/bin/zsh* OR @requestURI:*%2fusr%2fbin%2fcurl* OR @requestURI:*%2fusr%2fbin%2fkubectl* OR @requestURI:*%2fusr%2fbin%2fperl* OR @requestURI:*%2fusr%2fbin%2fpython* OR @requestURI:*%2fusr%2fbin%2fwget* OR @requestURI:*/usr/bin/curl* OR @requestURI:*/usr/bin/kubectl* OR @requestURI:*/usr/bin/perl* OR @requestURI:*/usr/bin/python* OR @requestURI:*/usr/bin/wget*)) OR ((@userAgent:*access_matrix* OR @userAgent:*trufflehog* OR @userAgent:*azurehound* OR @userAgent:*micro-scanner*))))

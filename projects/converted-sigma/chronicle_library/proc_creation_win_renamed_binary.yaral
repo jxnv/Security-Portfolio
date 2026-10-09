@@ -1,0 +1,23 @@
+// Title: Potential Defense Evasion Via Binary Rename
+// ID: 36480ae1-a1cb-4eaa-a0d6-29801d7e9142
+// Status: test
+// Level: medium
+// Author: Matthew Green @mgreen27, Ecco, James Pemberton @4A616D6573, oscd.community, Andreas Hunkeler (@Karneades)
+// Date: 2019-06-15
+// Tags: attack.stealth, attack.t1036.003
+// Description: Detects the execution of a renamed binary often used by attackers or malware leveraging new Sysmon OriginalFileName datapoint.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+rule 36480ae1_a1cb_4eaa_a0d6_29801d7e9142 {
+  meta:
+    title = "Potential Defense Evasion Via Binary Rename"
+    description = "Detects the execution of a renamed binary often used by attackers or malware leveraging new Sysmon OriginalFileName datapoint."
+    author = "Matthew Green @mgreen27, Ecco, James Pemberton @4A616D6573, oscd.community, Andreas Hunkeler (@Karneades)"
+    severity = "MEDIUM"
+
+  events:
+    ((($e.target.process.file.name = "Cmd.Exe" or $e.target.process.file.name = "CONHOST.EXE" or $e.target.process.file.name = "7z.exe" or $e.target.process.file.name = "7za.exe" or $e.target.process.file.name = "7zr.exe" or $e.target.process.file.name = "WinRAR.exe" or $e.target.process.file.name = "wevtutil.exe" or $e.target.process.file.name = "net.exe" or $e.target.process.file.name = "net1.exe" or $e.target.process.file.name = "netsh.exe" or $e.target.process.file.name = "InstallUtil.exe")) and not((($e.target.process.file.full_path = /.*\\cmd.exe$/ nocase or $e.target.process.file.full_path = /.*\\conhost.exe$/ nocase or $e.target.process.file.full_path = /.*\\7z.exe$/ nocase or $e.target.process.file.full_path = /.*\\7za.exe$/ nocase or $e.target.process.file.full_path = /.*\\7zr.exe$/ nocase or $e.target.process.file.full_path = /.*\\WinRAR.exe$/ nocase or $e.target.process.file.full_path = /.*\\wevtutil.exe$/ nocase or $e.target.process.file.full_path = /.*\\net.exe$/ nocase or $e.target.process.file.full_path = /.*\\net1.exe$/ nocase or $e.target.process.file.full_path = /.*\\netsh.exe$/ nocase or $e.target.process.file.full_path = /.*\\InstallUtil.exe$/ nocase))))
+
+  condition:
+    $e
+}

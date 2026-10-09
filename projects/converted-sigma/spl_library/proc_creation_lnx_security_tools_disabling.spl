@@ -1,0 +1,11 @@
+# Title: Disabling Security Tools
+# ID: e3a8a052-111f-4606-9aee-f28ebeb76776
+# Status: test
+# Level: medium
+# Author: Ömer Günal, Alejandro Ortuno, oscd.community
+# Date: 2020-06-17
+# Tags: attack.defense-impairment, attack.t1686
+# Description: Detects disabling security tools
+# Converted by: Sigma Universal SIEM/EDR CLI
+
+index=* sourcetype="syslog" ((process_path="*/service" AND (process_exec="*cbdaemon*" AND process_exec="*stop*")) OR (process_path="*/chkconfig" AND (process_exec="*cbdaemon*" AND process_exec="*off*")) OR (process_path="*/systemctl" AND (process_exec="*cbdaemon*" AND process_exec="*stop*")) OR (process_path="*/systemctl" AND (process_exec="*cbdaemon*" AND process_exec="*disable*")) OR (process_path="*/systemctl" AND (process_exec="*stop*" AND process_exec="*falcon-sensor*")) OR (process_path="*/systemctl" AND (process_exec="*disable*" AND process_exec="*falcon-sensor*")) OR (process_path="*/systemctl" AND (process_exec="*firewalld*" AND process_exec="*stop*")) OR (process_path="*/systemctl" AND (process_exec="*firewalld*" AND process_exec="*disable*")) OR (process_path="*/service" AND (process_exec="*iptables*" AND process_exec="*stop*")) OR (process_path="*/service" AND (process_exec="*ip6tables*" AND process_exec="*stop*")) OR (process_path="*/chkconfig" AND (process_exec="*iptables*" AND process_exec="*stop*")) OR (process_path="*/chkconfig" AND (process_exec="*ip6tables*" AND process_exec="*stop*")) OR (process_path="*/setenforce" AND process_exec="*0*"))

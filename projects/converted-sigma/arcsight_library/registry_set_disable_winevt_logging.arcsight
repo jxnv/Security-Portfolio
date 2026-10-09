@@ -1,0 +1,11 @@
+// Title: Disable Windows Event Logging Via Registry
+// ID: 2f78da12-f7c7-430b-8b19-a28f269b77a3
+// Status: test
+// Level: high
+// Author: frack113, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-07-04
+// Tags: attack.defense-impairment, attack.t1685.001
+// Description: Detects tampering with the "Enabled" registry key in order to disable Windows logging of a Windows event channel
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+((TargetObject CONTAINS "\\Microsoft\\Windows\\CurrentVersion\\WINEVT\\Channels\\" AND TargetObject ENDSWITH "\\Enabled" AND Details EQ "DWORD (0x00000000)") AND NOT (((Image STARTSWITH "C:\\Windows\\winsxs\\" AND Image ENDSWITH "\\TiWorker.exe") OR (Image EQ "C:\\Windows\\System32\\svchost.exe" AND (TargetObject CONTAINS "\\Microsoft\\Windows\\CurrentVersion\\WINEVT\\Channels\\Microsoft-Windows-FileInfoMinifilter" OR TargetObject CONTAINS "\\Microsoft\\Windows\\CurrentVersion\\WINEVT\\Channels\\Microsoft-Windows-ASN1\\" OR TargetObject CONTAINS "\\Microsoft\\Windows\\CurrentVersion\\WINEVT\\Channels\\Microsoft-Windows-Kernel-AppCompat\\" OR TargetObject CONTAINS "\\Microsoft\\Windows\\CurrentVersion\\WINEVT\\Channels\\Microsoft-Windows-Runtime\\Error\\" OR TargetObject CONTAINS "\\Microsoft\\Windows\\CurrentVersion\\WINEVT\\Channels\\Microsoft-Windows-CAPI2/Operational\\")) OR (Image EQ "C:\\Windows\\servicing\\TrustedInstaller.exe" AND TargetObject CONTAINS "\\Microsoft\\Windows\\CurrentVersion\\WINEVT\\Channels\\Microsoft-Windows-Compat-Appraiser") OR (Image EQ "C:\\Windows\\system32\\wevtutil.exe"))) AND NOT (((Image EQ "") OR (NOT Image=*))))

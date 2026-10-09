@@ -1,0 +1,11 @@
+// Title: Uncommon File Created In Office Startup Folder
+// ID: a10a2c40-2c4d-49f8-b557-1a946bc55d9d
+// Status: test
+// Level: high
+// Author: frack113, Nasreddine Bencherchali (Nextron Systems)
+// Date: 2022-06-05
+// Tags: attack.resource-development, attack.t1587.001
+// Description: Detects the creation of a file with an uncommon extension in an Office application startup folder
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+_sourceCategory=* | where (((((TargetFilename matches "*\\Microsoft\\Word\\STARTUP*") or ((TargetFilename matches "*\\Office*" and TargetFilename matches "*\\Program Files*" and TargetFilename matches "*\\STARTUP*"))) and !(((TargetFilename matches "*.docb" or TargetFilename matches "*.docm" or TargetFilename matches "*.docx" or TargetFilename matches "*.dotm" or TargetFilename matches "*.mdb" or TargetFilename matches "*.mdw" or TargetFilename matches "*.pdf" or TargetFilename matches "*.wll" or TargetFilename matches "*.wwl")))) or (((TargetFilename matches "*\\Microsoft\\Excel\\XLSTART*") or ((TargetFilename matches "*\\Office*" and TargetFilename matches "*\\Program Files*" and TargetFilename matches "*\\XLSTART*"))) and !(((TargetFilename matches "*.xll" or TargetFilename matches "*.xls" or TargetFilename matches "*.xlsm" or TargetFilename matches "*.xlsx" or TargetFilename matches "*.xlt" or TargetFilename matches "*.xltm" or TargetFilename matches "*.xlw"))))) and !((((Image matches "*:\\Program Files\\Microsoft Office\\*" or Image matches "*:\\Program Files (x86)\\Microsoft Office\\*") and (Image matches "*\\winword.exe" or Image matches "*\\excel.exe")) or (Image matches "*:\\Program Files\\Common Files\\Microsoft Shared\\ClickToRun\\*" and Image matches "*\\OfficeClickToRun.exe"))))

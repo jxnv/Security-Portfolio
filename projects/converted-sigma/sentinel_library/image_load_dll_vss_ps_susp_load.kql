@@ -1,0 +1,13 @@
+// Title: Suspicious Volume Shadow Copy VSS_PS.dll Load
+// ID: 333cdbe8-27bb-4246-bf82-b41a0dca4b70
+// Status: test
+// Level: high
+// Author: Markus Neis, @markus_neis
+// Date: 2021-07-07
+// Tags: attack.impact, attack.t1490
+// Description: Detects the image load of vss_ps.dll by uncommon executables. This DLL is used by the Volume Shadow Copy Service (VSS) to manage shadow copies of files and volumes.
+// It is often abused by attackers to delete or manipulate shadow copies, which can hinder forensic investigations and data recovery efforts.
+// The fact that it is loaded by processes that are not typically associated with VSS operations can indicate suspicious activity.
+// Converted by: Sigma Universal SIEM/EDR CLI
+
+DeviceProcessEvents | where ((ImageLoaded endswith "\\vss_ps.dll") and not((((isempty(FolderPath) or isnull(FolderPath))) or (FolderPath startswith "C:\\Windows\\" and (FolderPath endswith "\\clussvc.exe" or FolderPath endswith "\\dismhost.exe" or FolderPath endswith "\\dllhost.exe" or FolderPath endswith "\\inetsrv\\appcmd.exe" or FolderPath endswith "\\inetsrv\\iissetup.exe" or FolderPath endswith "\\msiexec.exe" or FolderPath endswith "\\rundll32.exe" or FolderPath endswith "\\searchindexer.exe" or FolderPath endswith "\\srtasks.exe" or FolderPath endswith "\\svchost.exe" or FolderPath endswith "\\System32\\SystemPropertiesAdvanced.exe" or FolderPath endswith "\\taskhostw.exe" or FolderPath endswith "\\thor.exe" or FolderPath endswith "\\thor64.exe" or FolderPath endswith "\\tiworker.exe" or FolderPath endswith "\\vssvc.exe" or FolderPath endswith "\\vssadmin.exe" or FolderPath endswith "\\WmiPrvSE.exe" or FolderPath endswith "\\wsmprovhost.exe")) or (ProcessCommandLine startswith "C:\\$WinREAgent\\Scratch\\" and ProcessCommandLine contains "\\dismhost.exe {"))) and not(((FolderPath startswith "C:\\Program Files\\" or FolderPath startswith "C:\\Program Files (x86)\\"))))
